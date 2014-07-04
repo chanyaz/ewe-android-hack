@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">搜尋目的地或地標</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">搜尋目的地…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">搜尋出發地…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">很抱歉，目前沒有酒店\n可供預訂。</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">很抱歉，目前沒有航班\n可供預訂。</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">已移除機票。</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">已移除酒店。</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">個項目在行程中</item>
+        <item quantity="one">個項目在行程中</item>
+        <item quantity="two">個項目在行程中</item>
+        <item quantity="few">個項目在行程中</item>
+        <item quantity="many">個項目在行程中</item>
+        <item quantity="other">個項目在行程中</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">低至 %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">2 歲以下 (出發時計) 手抱幼童</string>
+    <string name="infants_in_laps">手抱</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">2 歲以下 (出發時計) 佔位幼童</string>
+    <string name="infants_in_seats">佔位</string>
     <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">2 歲以下幼童</string>
+    <string name="infants_under_two">2 歲以下嬰幼兒</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">每位成人 (13 歲以上) 最多手抱一位幼童</string>
+    <string name="max_one_infant_per_lap">成人 (年滿 12 歲) 數目不足以安排手抱嬰幼兒。有關嬰幼兒需佔有自己的座位。</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">手抱</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">佔位</string>
     <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">2 歲以下幼童座位喜好</string>
+    <string name="infant_seating_preference">2 歲以下嬰幼兒座位喜好</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">2 歲以下 (起飛時計) 嬰幼兒是手抱還是佔有自己的座位？</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">所有 2 歲以下 (出發時計) 幼童均會有自己的座位。我們現在會按正確機票數目再次搜尋。</string>
+    <string name="infants_in_seats_prompt">佔位嬰幼兒需要購票。請加入嬰幼兒的機票再搜尋。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">所有 2 歲以下 (出發時計) 幼童必須由年滿 12 歲人士手抱。我們現在會按正確機票數目再次搜尋。</string>
+    <string name="infants_in_laps_prompt">手抱嬰幼兒無需購票。我們將減去嬰幼兒的機票再搜尋。</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/每晚</string>
+    <string name="room_rate_per_night_template">%s/每晚</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">這間酒店收取附加費 &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">您的行程</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">探索</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -1051,7 +1065,7 @@
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">選擇抵達機場</string>
     <!-- Prompt when user selects more infant travelers than available laps -->
-    <string name="not_enough_laps_for_infants">如幼童需為手抱，每位幼童均須有一位成年乘客同行。</string>
+    <string name="not_enough_laps_for_infants">如嬰幼兒需為手抱，每位嬰幼兒均須有一位成年乘客同行。</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1298,9 +1312,9 @@
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">%1$s 歲小童資料</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰兒 %1$s 資料</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 資料</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">佔用座位嬰兒 %1$s 資料</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 資料</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能被拒絕登機。</string>
 

@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">ค้นหาจากเมืองปลายทางหรือสถานที่สำคัญ</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">ค้นหาจุดหมายปลายทาง…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">ค้นหาเมืองต้นทาง…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">ขออภัย ไม่มีโรงแรมว่าง\nในขณะนี้</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">ขออภัย ไม่มีเที่ยวบินว่าง\nในขณะนี้</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">นำเที่ยวบินออก</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">นำโรงแรมออก</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">รายการในการเดินทาง</item>
+        <item quantity="one">รายการในการเดินทาง</item>
+        <item quantity="two">รายการในการเดินทาง</item>
+        <item quantity="few">รายการในการเดินทาง</item>
+        <item quantity="many">รายการในการเดินทาง</item>
+        <item quantity="other">รายการในการเดินทาง</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,27 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">เริ่มที่ %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">ทารกอายุต่ำกว่า 2 ปี (ณ เวลาเดินทาง) นั่งตัก</string>
+    <string name="infants_in_laps">นั่งตัก</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">ทารกอายุต่ำกว่า 2 ปี (ณ เวลาเดินทาง) นั่งในที่นั่ง</string>
+    <string name="infants_in_seats">ที่นั่ง</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">ทารกอายุต่ำกว่า 2 ปี</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">ทารกนั่งตักได้สูงสุด 1 คนต่อผู้ใหญ่ (13 ปีขึ้นไป) 1 คน</string>
+    <string name="max_one_infant_per_lap">มีผู้ใหญ่ (อายุ 12 ปีขึ้นไป) ไม่พอให้ทารกนั่งตัก ทารกต้องนั่งในที่นั่งของตัวเอง</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">นั่งตัก</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">นั่งในที่นั่ง</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">เลือกที่นั่งสำหรับทารกอายุต่ำกว่า 2 ปี</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">ทารกอายุต่ำกว่า 2 ปี (ณ เวลาออกเดินทาง) จะนั่งตักหรือนั่งในที่นั่งของตนเอง</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">ทารกอายุต่ำกว่า 2 ปีทุกคน (ณ เวลาเดินทาง) จะมีที่นั่งของตัวเอง เราจะทำการค้นหาอีกครั้งสำหรับจำนวนตั๋วที่ถูกต้อง</string>
+    <string name="infants_in_seats_prompt">ต้องจองตั๋วสำหรับทารกในที่นั่งของตนเอง ลองค้นหาอีกครั้งเพื่อจองตั๋วให้ทารก
+</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">ทารกอายุต่ำกว่า 2 ปีทุกคน (ณ เวลาเดินทาง) ต้องนั่งตักผู้โดยสารที่มีอายุอย่างน้อย 12 ปี เราจะทำการค้นหาอีกครั้งสำหรับจำนวนตั๋วที่ถูกต้อง</string>
+    <string name="infants_in_laps_prompt">ไม่เป็นต้องจองตั๋วสำหรับทารกนั่งตัก
+เราจะทำการค้นหาใหม่เพื่อดูตั๋วน้อยลง</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +229,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/คืน</string>
+    <string name="room_rate_per_night_template">%s/คืน</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">โรงแรมนี้คิดค่าธรรมเนียมเพิ่มเติม &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +368,8 @@
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">การเดินทาง</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">การเดินทางของคุณ</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">ค้นหา</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

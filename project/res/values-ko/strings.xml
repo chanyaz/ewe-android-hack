@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">목적지 및 랜드마크 검색</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">목적지 검색…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">출발지 검색…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">죄송합니다. \n현재 이용 가능한 호텔이 없습니다.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">죄송합니다. \n현재 이용 가능한 항공편이 없습니다.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">항공편이 삭제되었습니다.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">호텔이 삭제되었습니다.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">개 여행 항목</item>
+        <item quantity="one">개 여행 항목</item>
+        <item quantity="two">개 여행 항목</item>
+        <item quantity="few">개 여행 항목</item>
+        <item quantity="many">개 여행 항목</item>
+        <item quantity="other">개 여행 항목</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s~</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">어른과 동석하는 만 2세(여행 시점) 미만의 영유아</string>
+    <string name="infants_in_laps">무릎에</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">좌석에 앉는 만 2세(여행 시점) 미만의 영유아</string>
+    <string name="infants_in_seats">좌석에</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">만 2세 미만 영유아</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">어른(만 13세 넘음) 한 명당 영유아 한 명 동석 가능</string>
+    <string name="max_one_infant_per_lap">영유아를 무릎에 앉힐 수 있는 어른(만 12세 이상)이 없습니다. 영유아에 개별 좌석이 필요합니다.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">무릎에 앉힘</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">좌석에 앉음</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">만 2세 미만 영유아 좌석 선호 사항</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">항공편 이용 시 만 2세 미만 영유아와 동석하시나요? 아니면 개별 좌석으로 가시나요?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">만 2세(여행 시점) 미만의 모든 영유아는 고유 좌석을 갖게 됩니다. 변경된 티켓의 수를 위해 다시 검색하겠습니다.</string>
+    <string name="infants_in_seats_prompt">개별 좌석을 이용하는 영유아의 경우 따로 항공권이 필요합니다. 영유아 티켓을 다시 검색해 보세요.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">만 2세(여행 시점) 미만의 모든 영유아는 최소 만 12세 이상의 승객과 동석해야 합니다. 변경된 티켓의 수를 위해 다시 검색하겠습니다.</string>
+    <string name="infants_in_laps_prompt">어른과 동석하여 무릎에 앉힌 영유아의 경우 따로 항공권이 필요 없습니다. 티켓 수를 줄여 새로 검색하겠습니다.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/1박</string>
+    <string name="room_rate_per_night_template">%s/1박</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">이 호텔에서는 &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;의 추가 요금을 부과합니다.</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">여행</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">내 여행</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">둘러보기</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

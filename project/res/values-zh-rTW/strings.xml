@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">搜尋目的地或地標</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">搜尋目的地…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">搜尋出發地…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -19,9 +17,9 @@
     <!-- Shown when no search dates are selected -->
     <string name="dates_status_none">請輸入旅行日期。</string>
     <!-- Shown when a single date is selected for searching -->
-    <string name="dates_status_one">單程航班和 1 晚住宿。</string>
+    <string name="dates_status_one">單程班機和 1 晚住宿。</string>
     <!-- Shown when round trip dates are selected for searching -->
-    <string name="dates_status_multi_TEMPLATE">來回航班和 %s 晚住宿。</string>
+    <string name="dates_status_multi_TEMPLATE">來回班機和 %s 晚住宿。</string>
     <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
     <string name="start_date_TEMPLATE">開始日期：%s</string>
     <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
@@ -101,12 +99,12 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s 個航班</item>
-        <item quantity="one">%s 個航班</item>
-        <item quantity="two">%s 個航班</item>
-        <item quantity="few">%s 個航班</item>
-        <item quantity="many">%s 個航班</item>
-        <item quantity="other">%s 個航班</item>
+        <item quantity="zero">%s 個班機</item>
+        <item quantity="one">%s 個班機</item>
+        <item quantity="two">%s 個班機</item>
+        <item quantity="few">%s 個班機</item>
+        <item quantity="many">%s 個班機</item>
+        <item quantity="other">%s 個班機</item>
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s，%2$s</string>
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">很抱歉，目前沒有飯店\n可供預訂。</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">很抱歉，目前沒有班機\n可供預訂。</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">班機已移除。</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">飯店已移除。</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">個項目在行程中</item>
+        <item quantity="one">個項目在行程中</item>
+        <item quantity="two">個項目在行程中</item>
+        <item quantity="few">個項目在行程中</item>
+        <item quantity="many">個項目在行程中</item>
+        <item quantity="other">個項目在行程中</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">最低價 %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">2 歲以下嬰兒 (旅行時) 不佔位</string>
+    <string name="infants_in_laps">不佔位</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">2 歲以下嬰兒 (旅行時) 佔位</string>
+    <string name="infants_in_seats">佔位</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">2 歲以下嬰兒</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">每位成人 (13 歲以上) 最多可抱一名不佔位嬰兒</string>
+    <string name="max_one_infant_per_lap">成人 (12 歲以上) 人數不夠讓嬰兒不佔位。嬰兒必須要有自己的座位。</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">不佔位</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">佔位</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">2 歲以下嬰兒座位喜好</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">2 歲以下嬰兒 (搭機時) 將佔位還是不佔位？</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">所有 2 歲以下嬰兒 (旅行時) 都會有自己的座位。現在我們將重新搜尋正確的機票數。</string>
+    <string name="infants_in_seats_prompt">佔位的嬰兒必須購買機票。現在我們來重新搜尋包括嬰兒的機票。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">所有 2 歲以下嬰兒 (旅行時) 都需要由 12 歲以上人士抱住。現在我們將重新搜尋正確的機票數。</string>
+    <string name="infants_in_laps_prompt">不佔位的嬰兒不需要購買機票。現在我們會重新搜尋比較少張的機票。</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/晚</string>
+    <string name="room_rate_per_night_template">%s/每晚</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">這家飯店會收取額外費用 &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">很抱歉，我們無法建立連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">您的行程</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">探索</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -959,11 +973,11 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">抵達機場</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">正在載入航班…</string>
+    <string name="loading_flights">正在載入班機…</string>
     <!-- Label for screen that is doing searches -->
     <string name="searching">正在搜尋…</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">找不到航班</string>
+    <string name="error_no_flights_found">找不到班機</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
     <string name="error_invalid_departure_airport">出發機場無效。</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
@@ -975,9 +989,9 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">選擇</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">前往%s的航班</string>
+    <string name="outbound_TEMPLATE">前往%s的班機</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">抵達%s的航班</string>
+    <string name="inbound_TEMPLATE">抵達%s的班機</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">很抱歉，我們無法連線到 Expedia 的伺服器。請稍後再試一次。</string>
     <!-- Sort by departure timelabel -->
@@ -1000,11 +1014,11 @@
     <!-- Title of a message shown to user explaining functionality that is not yet implemented but will be shortly -->
     <string name="india_domestic_flights_not_available_title">即將推出，敬請期待…</string>
     <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
-    <string name="india_domestic_flights_not_available_body">我們正在努力將本地航班加入新一版的 App 中。</string>
+    <string name="india_domestic_flights_not_available_body">我們正在努力將本地班機加入新一版的 App 中。</string>
     <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">選擇前往%1$s的航班</string>
+    <string name="select_a_flight_to_TEMPLATE">選擇前往%1$s的班機</string>
     <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">選擇返回%1$s的航班</string>
+    <string name="select_a_flight_back_to_TEMPLATE">選擇返回%1$s的班機</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">載入頁面錯誤！錯誤訊息：%1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
@@ -1024,7 +1038,7 @@
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;到&lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
-    <string name="sort_flights">排序航班</string>
+    <string name="sort_flights">排序班機</string>
     <!-- Edit search title -->
     <string name="edit_search">修改搜尋</string>
     <!-- Action mode asking users to select dates -->
@@ -1112,7 +1126,7 @@
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">頭等艙</string>
     <!-- Button label for selecting flight -->
-    <string name="select_flight">選擇航班</string>
+    <string name="select_flight">選擇班機</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">出發：%s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -1500,7 +1514,7 @@
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">新增到行事曆</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
-    <string name="add_to_flighttrack">使用 FlightTrack 追蹤航班</string>
+    <string name="add_to_flighttrack">使用 FlightTrack 追蹤班機</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">聯絡 Expedia 客戶支援</string>
     <!-- Button label for VSC support webpage link -->
@@ -1564,7 +1578,7 @@
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">航空公司剛剛將票價上漲了 %1$s。您願意支付新的總價 %2$s 嗎？</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">我們剛剛發現您要求的航班降價了 %1$s。您願意支付新的總價 %2$s 嗎？</string>
+    <string name="error_flight_price_decreased">我們剛剛發現您要求的班機降價了 %1$s。您願意支付新的總價 %2$s 嗎？</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">航空公司將收取付款處理費 %1$s。您願意支付新的總價 %2$s 嗎？</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
@@ -1582,13 +1596,13 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">很抱歉，我們目前無法處理您的訂單。請再試一次，或聯絡 Expedia 客戶服務並告知您的行程編號：%s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available">非常抱歉，您的航班已經訂滿。</string>
+    <string name="error_flight_no_longer_available">非常抱歉，您的班機已經訂滿。</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available">非常抱歉，您的航班之一已經訂滿。</string>
+    <string name="error_flights_no_longer_available">非常抱歉，您的班機之一已經訂滿。</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">選擇新航班</string>
+    <string name="pick_new_flight">選擇新班機</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">選擇新航班</string>
+    <string name="pick_new_flights">選擇新班機</string>
 
     <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->

@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Tìm điểm đến và địa danh</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Tìm điểm đến…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Tìm điểm khởi đầu…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Rất tiếc, hiện không có \nkhách sạn.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Rất tiếc, hiện không có \nchuyến bay.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Đã xóa Chuyến bay.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Đã xóa Khách sạn.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">mục trong Chuyến đi</item>
+        <item quantity="one">mục trong Chuyến đi</item>
+        <item quantity="two">mục trong Chuyến đi</item>
+        <item quantity="few">mục trong Chuyến đi</item>
+        <item quantity="many">mục trong Chuyến đi</item>
+        <item quantity="other">mục trong Chuyến đi</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Từ %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) ngồi trong lòng</string>
+    <string name="infants_in_laps">Trong lòng</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) ngồi chỗ riêng</string>
+    <string name="infants_in_seats">Chỗ riêng</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Trẻ sơ sinh dưới 2 tuổi</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Tối đa 1 trẻ sơ sinh ngồi trong lòng 1 người lớn (&gt;13)</string>
+    <string name="max_one_infant_per_lap">Không đủ số người lớn (12 tuổi trở lên) để trẻ sơ sinh ngồi trong lòng. Trẻ sẽ cần chỗ ngồi riêng.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Ngồi trong lòng</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Chỗ ngồi riêng</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Chọn chỗ cho trẻ sơ sinh dưới 2 tuổi</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Trẻ sơ sinh dưới 2 tuổi (tại thời điểm thực hiện chuyến đi) sẽ ngồi trong lòng hay có chỗ ngồi riêng?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Tất cả trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) sẽ có chỗ riêng. Quý vị cần tìm lại để có số lượng vé chính xác.</string>
+    <string name="infants_in_seats_prompt">Cần vé riêng cho trẻ sơ sinh với chỗ ngồi riêng. Cùng tìm thêm vé cho trẻ sơ sinh.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) phải ngồi trong lòng 1 khách tối thiểu 12 tuổi. Quý vị cần tìm lại để có số lượng vé chính xác.</string>
+    <string name="infants_in_laps_prompt">Không cần vé riêng cho trẻ sơ sinh ngồi trong lòng. Cùng tìm lại với số lượng vé ít hơn.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/1 đêm</string>
+    <string name="room_rate_per_night_template">%s/đêm</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Khách sạn này thu phụ phí &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Chuyến đi</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Chuyến đi của quý vị</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Tìm hiểu</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -1737,11 +1751,11 @@
     <!-- Button label for upgrading the app -->
     <string name="upgrade">Nâng cấp</string>
     <!-- Button label for searching with newly selected parameters -->
-    <string name="SEARCH">TÌM KIẾM</string>
+    <string name="SEARCH">TÌM</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">HOÀN TẤT</string>
     <!-- Button label for searching the visible map area -->
-    <string name="map_search_button">Tìm trên bản đồ̀</string>
+    <string name="map_search_button">Tìm trên bản đồ</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SẮP XẾP</string>
     <!-- Label for sort hotels in hotel list -->
@@ -1881,7 +1895,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">Đặt phòng ngay</string>
+    <string name="book_now">Đặt ngay</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Đặt qua điện thoại</string>
 

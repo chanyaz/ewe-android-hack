@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Rechercher des destinations et des points d\&apos;intérêt</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Recherche de destinations…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Recherche d\&apos;origines…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Désolé, aucun hôtel n\&apos;est \n disponible en ce moment.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Désolé, aucun vol n\&apos;est \n disponible en ce moment.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Vol retiré.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hôtel retiré.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">Éléments du voyage</item>
+        <item quantity="one">Élément du voyage</item>
+        <item quantity="two">Éléments du voyage</item>
+        <item quantity="few">Éléments du voyage</item>
+        <item quantity="many">Éléments du voyage</item>
+        <item quantity="other">Éléments du voyage</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">À partir de %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Bébés de moins de 2 ans (au moment du voyage) sur les genoux</string>
+    <string name="infants_in_laps">Genoux</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Bébés de moins de 2 ans (au moment du voyage) dans un siège</string>
+    <string name="infants_in_seats">Sièges</string>
     <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">Bébés de moins de 2 ans</string>
+    <string name="infants_under_two">Bébés 2 ans et -</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Maximum d\&apos;un bébé sur les genoux d\&apos;un adulte (&gt;13)</string>
+    <string name="max_one_infant_per_lap">Il n\&apos;y a pas assez d\&apos;adultes (+ de 12 ans) pour le nombre d\&apos;enfants sur les genoux d\&apos;un adulte. Ils doivent avoir leur propre siège.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Sur les genoux</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Dans un siège</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Préférence de siège pour bébés de moins de 2 ans</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Les enfants de moins de 2 ans (au moment du vol) seront-ils assis sur les genoux d\&apos;un adulte ou dans leur propre siège?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Tous les bébés de moins de 2 ans (au moment du voyage) auront leur propre siège. Nous allons faire une autre recherche selon le nombre de billets approprié.</string>
+    <string name="infants_in_seats_prompt">Les enfants assis dans leur siège doivent avoir leur propre billet. Effectuons une autre recherche de billets pour les enfants.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Tous les bébés de moins de 2 ans (au moment du voyage) doivent être sur les genoux d\&apos;une personne qui a au moins 12 ans. Nous allons faire une autre recherche selon le nombre de billets approprié.</string>
+    <string name="infants_in_laps_prompt">Les enfants assis sur les genoux d\&apos;un adulte n\&apos;ont pas besoin de billet à leur nom. Nous allons reprendre la recherche avec moins de billets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nuit</string>
+    <string name="room_rate_per_night_template">%s/nuit</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Cet hôtel exige des frais additionnels de &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Il nous est impossible d\&apos;établir la connexion.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Voyages</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Vos voyages</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Explorer</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -837,7 +851,7 @@
     <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
     <string name="share_msg_template_short_hotel">Je vais séjourner ici: %1$s, le %2$s!\n%3$s</string>
     <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
-    <string name="share_msg_template_short_hotel_reshare">%1$s va séjourner ici: %2$s, le %3$s!\n%4$s</string>
+    <string name="share_msg_template_short_hotel_reshare">%1$s va séjourner au %2$s le %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Bonjour,\n\nJe reste au %1$s pendant %2$s.</string>
     <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
@@ -2386,7 +2400,7 @@
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
-    <string name="Settings">Paramètres</string>
+    <string name="Settings">Réglages</string>
     <!-- Label for "info about this app" menu item. -->
     <string name="Info">Info</string>
 
@@ -2542,7 +2556,7 @@
     <string name="country_in">Inde</string>
     <string name="country_id">Indonésie</string>
     <string name="country_ir">Iran, République islamique d\&apos;</string>
-    <string name="country_iq">Iraq</string>
+    <string name="country_iq">Irak</string>
     <string name="country_ie">Irlande</string>
     <string name="country_im">Île de Man</string>
     <string name="country_il">Israël</string>

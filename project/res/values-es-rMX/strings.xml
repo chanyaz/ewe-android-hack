@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Buscar destinos y puntos de referencia</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Buscar destinos…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Buscar puntos de partida…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Lo sentimos, no hay hoteles \n disponibles en este momento.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Lo sentimos, no hay vuelos \n disponibles en este momento.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Vuelo eliminado.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hotel eliminado.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">Elementos en el viaje</item>
+        <item quantity="one">Elemento en el viaje</item>
+        <item quantity="two">Elementos en el viaje</item>
+        <item quantity="few">Elementos en el viaje</item>
+        <item quantity="many">Elementos en el viaje</item>
+        <item quantity="other">Elementos en el viaje</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">De %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Niños de menos de 2 años (al momento del viaje), en el regazo</string>
+    <string name="infants_in_laps">Regazo</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Niños de menos de 2 años (al momento del viaje), en su asiento</string>
+    <string name="infants_in_seats">Asientos</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Niños de menos de 2 años</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Máximo de un niño por adulto (&gt;13) en el regazo</string>
+    <string name="max_one_infant_per_lap">No hay adultos suficientes (+ de 12 años) para tener a los niños en el regazo. Deben tener su propio asiento.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">En el regazo</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">En su asiento</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Preferencias de asiento para niños de menos de 2 años</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">¿Los niños de menos de 2 años (al momento del vuelo) se sientan en el regazo o tienen su propio asiento?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Todos los niños de menos de 2 años (al momento del viaje) tendrán su propio asiento. Realizaremos una nueva búsqueda con el número correcto de boletos.</string>
+    <string name="infants_in_seats_prompt">Los niños que ocupen un asiento deben tener su propio pasaje. Busquemos nuevamente para encontrar pasajes para los niños.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Todos los niños de menos de 2 años (al momento del viaje) deben sentarse en el regazo de una persona de, como mínimo, 12 años. Realizaremos una nueva búsqueda con el número correcto de boletos.</string>
+    <string name="infants_in_laps_prompt">Los niños en el regazo no deben tener su propio pasaje. Comenzaremos una nueva búsqueda con menos pasajes.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/noche</string>
+    <string name="room_rate_per_night_template">%s/noche</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Este hotel cobra un cargo adicional de &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Desafortunadamente, no podemos conectarnos.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viajes</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Tus viajes</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Buscar</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

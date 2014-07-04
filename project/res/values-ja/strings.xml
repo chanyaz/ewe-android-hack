@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">目的地と観光スポットを検索</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">目的地で検索…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">出発地で検索…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">申し訳ございませんが、\n現在ご利用いただけるホテルはありません。</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">申し訳ございませんが、\n現在ご利用いただけるフライトはありません。</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">フライトが削除されました。</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">ホテルが削除されました。</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">つのアイテムが予約されています</item>
+        <item quantity="one">つのアイテムが予約されています</item>
+        <item quantity="two">つのアイテムが予約されています</item>
+        <item quantity="few">つのアイテムが予約されています</item>
+        <item quantity="many">つのアイテムが予約されています</item>
+        <item quantity="other">つのアイテムが予約されています</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s ～</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">膝抱きの 2 才未満 (旅行時) のお子様</string>
+    <string name="infants_in_laps">膝抱き</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">座席が必要な 2 才未満 (旅行時) のお子様</string>
+    <string name="infants_in_seats">座席</string>
     <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">2 才未満のお子様</string>
+    <string name="infants_under_two">2 才未満の乳幼児</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">大人 (13 歳以上) 同伴で膝抱きのお子様の最大人数</string>
+    <string name="max_one_infant_per_lap">乳幼児を膝抱きできる大人 (12 歳以上) が規定人数に達していません。それぞれの座席が必要です。</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">膝抱き</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">座席利用</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">2 才未満のお子様の座席のご希望</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">2 歳未満 (搭乗時) のお子様は膝抱き、または座席が必要ですか ?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">2 才未満 (旅行時) のすべてのお子様は座席の購入が必要です。正しいチケット枚数で再検索します。</string>
+    <string name="infants_in_seats_prompt">座席が必要な乳幼児はチケットが必要です。乳幼児を含めてもう一度検索してください。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">2 才未満 (旅行時) のすべてのお子様は、12 才以上の方の膝に抱きかかえていただく必要があります。正しいチケット枚数で再検索します。</string>
+    <string name="infants_in_laps_prompt">膝抱きの乳幼児のチケットは不要です。人数を減らしてもう一度検索してください。</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/ 泊</string>
+    <string name="room_rate_per_night_template">%s/ 泊</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">ホテルから追加料金として &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt; が請求されます。</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">接続できません。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">予約確認</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">お客様のご予約</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">検索</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Suchen Sie nach Reisezielen und Sehenswürdigkeiten</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Nach Reiseziel suchen…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Nach Abflugort suchen…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Zurzeit sind in der App leider \n keine Hotels verfügbar</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Zurzeit sind in der App leider \n keine Flüge verfügbar</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Flug wurde entfernt.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hotel wurde entfernt.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">Produkte im Reiseplan</item>
+        <item quantity="one">Produkt im Reiseplan</item>
+        <item quantity="two">Produkte im Reiseplan</item>
+        <item quantity="few">Produkte im Reiseplan</item>
+        <item quantity="many">Produkte im Reiseplan</item>
+        <item quantity="other">Produkte im Reiseplan</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Ab %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Kleinkinder unter 2 (zum Zeitpunkt der Reise) auf dem Schoß</string>
+    <string name="infants_in_laps">Auf dem Schoß</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Kleinkinder unter 2 (zum Zeitpunkt der Reise) mit eigenem Sitzplatz</string>
+    <string name="infants_in_seats">Eigener Sitzplatz</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Kleinkinder unter 2</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Je Erwachsenem (&gt;13) max. 1 Kleinkind auf dem Schoß</string>
+    <string name="max_one_infant_per_lap">Es gibt nicht genügend Erwachsene (ab 12 J.) für Kleinkinder auf dem Schoß. Sie benötigen einen eigenen Sitzplatz.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Auf dem Schoß</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Mit eigenem Sitzplatz</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Sitzplatzpräferenz für Kleinkinder unter 2</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Sitzen Kleinkinder (zum Reisezeitpunkt unter 2 J.) auf dem Schoß oder auf einem eigenen Sitzplatz?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Alle Kleinkinder unter 2 (zum Zeitpunkt der Reise) haben einen eigenen Sitzplatz. Wir suchen jetzt nach der richtigen Anzahl an Tickets.</string>
+    <string name="infants_in_seats_prompt">Kleinkinder mit eigenem Sitzplatz brauchen ein eigenes Flugticket. Wir starten am besten eine neue Suche für die Flugtickets der Kinder.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Alle Kleinkinder unter 2 (zum Zeitpunkt der Reise) müssen auf dem Schoß einer Person sitzen, die mindestens 12 Jahre alt ist. Wir suchen jetzt nach der richtigen Anzahl an Tickets.</string>
+    <string name="infants_in_laps_prompt">Kleinkinder, die auf dem Schoß mitreisen, brauchen kein eigenes Flugticket. Wir starten am besten eine neue Suche mit weniger Flugtickets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/Nacht</string>
+    <string name="room_rate_per_night_template">%s/Nacht</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Dieses Hotel berechnet zusätzliche Gebühren in Höhe von &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Leider können wir keine Verbindung aufbauen.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reisen</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Ihre Reisen</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Erkunden</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

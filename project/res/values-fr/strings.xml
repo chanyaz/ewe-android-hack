@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Recherche des destinations et des lieux d\&apos;intérêts</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Recherche des destinations…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Recherche des origines…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -74,7 +72,7 @@
     <string name="Done">Terminé</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
     <plurals name="x_Hotels_TEMPLATE">
-        <item quantity="zero">%s hôtels</item>
+        <item quantity="zero">%s hôtel</item>
         <item quantity="one">%s hôtel</item>
         <item quantity="two">%s hôtels</item>
         <item quantity="few">%s hôtels</item>
@@ -83,7 +81,7 @@
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
     <plurals name="x_of_y_Hotels_TEMPLATE">
-        <item quantity="zero">%1$s de %2$s hôtels</item>
+        <item quantity="zero">%1$s de %2$s hôtel</item>
         <item quantity="one">%1$s de %2$s hôtel</item>
         <item quantity="two">%1$s de %2$s hôtels</item>
         <item quantity="few">%1$s de %2$s hôtels</item>
@@ -92,7 +90,7 @@
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
     <plurals name="of_y_hotels_TEMPLATE">
-        <item quantity="zero">de %s hôtels</item>
+        <item quantity="zero">de %s hôtel</item>
         <item quantity="one">de %s hôtel</item>
         <item quantity="two">de %s hôtels</item>
         <item quantity="few">de %s hôtels</item>
@@ -101,7 +99,7 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s vols</item>
+        <item quantity="zero">%s vol</item>
         <item quantity="one">%s vol</item>
         <item quantity="two">%s vols</item>
         <item quantity="few">%s vols</item>
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Désolé, aucun hôtel n\&apos;est \n actuellement disponible sur notre site.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Désolé, aucun vol n\&apos;est \n actuellement disponible sur notre site.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Vol supprimé.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hôtel supprimé.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">article dans le voyage</item>
+        <item quantity="one">article dans le voyage</item>
+        <item quantity="two">articles dans le voyage</item>
+        <item quantity="few">articles dans le voyage</item>
+        <item quantity="many">articles dans le voyage</item>
+        <item quantity="other">articles dans le voyage</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">À partir de %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Enfants -2 ans (au moment du voyage) sur genoux</string>
+    <string name="infants_in_laps">Genoux</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Enfants -2 ans (au moment du voyage) sur sièges</string>
+    <string name="infants_in_seats">Sièges</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Enfants -2 ans</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Maximum d\&apos;un enfant sur les genoux d\&apos;un adulte (&gt;13 ans)</string>
+    <string name="max_one_infant_per_lap">Il n\&apos;y a pas assez d\&apos;adultes (de + de 12 ans) pour que les enfants s\&apos;assoient sur des genoux. Ces derniers ont besoin de leur propre siège.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Sur genoux</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Avec sièges réservés</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Préférence de siège pour les enfants de -2 ans</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Les enfants de moins de 2 ans (lors du voyage) seront-ils assis sur les genoux d\&apos;une personne ou à leur propre siège ?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Tout enfant de -2 ans (au moment du voyage) aura son propre siège. Nous allons maintenant effectuer une nouvelle recherche pour le nombre exact de billets.</string>
+    <string name="infants_in_seats_prompt">Les enfants assis à un siège ont besoin de leur propre billet. Faisons une nouvelle recherche en incluant les billets des enfants.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Tout enfant de -2 ans (au moment du voyage) devra être assis sur les genoux d\&apos;une personne d\&apos;au moins 12 ans. Nous allons maintenant effectuer une nouvelle recherche pour le nombre exact de billets.</string>
+    <string name="infants_in_laps_prompt">Les enfants assis sur les genoux d\&apos;une personne n\&apos;ont pas besoin de leur propre billet. Nous allons entamer une nouvelle recherche avec un plus petit nombre de billets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nuit</string>
+    <string name="room_rate_per_night_template">%s/nuit</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Cet hôtel applique des frais supplémentaires de &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -234,7 +246,7 @@
     <string name="photos_for_TEMPLATE">Photos pour %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
-        <item quantity="zero">chambres sur notre app</item>
+        <item quantity="zero">chambre sur notre app</item>
         <item quantity="one">chambre sur notre app</item>
         <item quantity="two">chambres sur notre app</item>
         <item quantity="few">chambres sur notre app</item>
@@ -243,12 +255,12 @@
     </plurals>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">%schambres sur notre app</item>
-        <item quantity="one">%schambre sur notre app</item>
-        <item quantity="two">%schambres sur notre app</item>
-        <item quantity="few">%schambres sur notre app</item>
-        <item quantity="many">%schambres sur notre app</item>
-        <item quantity="other">%schambres sur notre app</item>
+        <item quantity="zero">%s chambre sur notre app</item>
+        <item quantity="one">%s chambre sur notre app</item>
+        <item quantity="two">%s chambres sur notre app</item>
+        <item quantity="few">%s chambres sur notre app</item>
+        <item quantity="many">%s chambres sur notre app</item>
+        <item quantity="other">%s chambres sur notre app</item>
     </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">sur 5</string>
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Voyages</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Vos voyages</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Explorer</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -418,7 +432,7 @@
     <string name="yesterday">Hier</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s minutes</item>
+        <item quantity="zero">%s minute</item>
         <item quantity="one">%s minute</item>
         <item quantity="two">%s minutes</item>
         <item quantity="few">%s minutes</item>
@@ -427,7 +441,7 @@
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s heures</item>
+        <item quantity="zero">%s heure</item>
         <item quantity="one">%s heure</item>
         <item quantity="two">%s heures</item>
         <item quantity="few">%s heures</item>
@@ -436,7 +450,7 @@
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s jours</item>
+        <item quantity="zero">%s jour</item>
         <item quantity="one">%s jour</item>
         <item quantity="two">%s jours</item>
         <item quantity="few">%s jours</item>
@@ -933,7 +947,7 @@
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Choisir le type de message</string>
     <!-- Button label for a button that shares a long message suitable for an email -->
-    <string name="Long_message">Long (email)</string>
+    <string name="Long_message">Long (e-mail)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Court (SMS, réseaux sociaux)</string>
     <!-- Button label for a button that shares a short message to only Facebook -->
@@ -988,7 +1002,7 @@
     <string name="sort_description_duration">Durée</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s jours</item>
+        <item quantity="zero">%s jour</item>
         <item quantity="one">%s jour</item>
         <item quantity="two">%s jours</item>
         <item quantity="few">%s jours</item>
@@ -1031,7 +1045,7 @@
     <string name="select_dates">Choisir les dates</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d adultes</item>
+        <item quantity="zero">%1$d adulte</item>
         <item quantity="one">%1$d adulte</item>
         <item quantity="two">%1$d adultes</item>
         <item quantity="few">%1$d adultes</item>
@@ -1176,7 +1190,7 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d voyageurs</item>
+        <item quantity="zero">%1$d voyageur</item>
         <item quantity="one">%1$d voyageur</item>
         <item quantity="two">%1$d voyageurs</item>
         <item quantity="few">%1$d voyageurs</item>
@@ -1246,7 +1260,7 @@
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Veuillez utiliser l\&apos;alphabet latin</string>
     <!-- Label to show user when they use unsupported characters in their email -->
-    <string name="please_enter_a_valid_email_address">Veuillez saisir une adresse email valide</string>
+    <string name="please_enter_a_valid_email_address">Veuillez saisir une adresse e-mail valide</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1319,13 +1333,13 @@
     <!-- name on card hint -->
     <string name="name_on_card_hint">Nom sur la carte</string>
     <!-- email hint -->
-    <string name="email_address_hint">Adresse email</string>
+    <string name="email_address_hint">Adresse e-mail</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Numéro de téléphone</string>
     <!-- Cardholder -->
     <string name="cardholder">Titulaire de la carte</string>
     <!-- email disclaimer -->
-    <string name="email_disclaimer">Votre email de confirmation sera envoyé à cette adresse</string>
+    <string name="email_disclaimer">Votre e-mail de confirmation sera envoyé à cette adresse</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expire fin &lt;/font&gt;%1$s</string>
 
@@ -1496,7 +1510,7 @@
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
     <string name="actions">Actions</string>
     <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Partager par email</string>
+    <string name="share_trip">Partager par e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Ajouter au calendrier</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
@@ -2114,7 +2128,7 @@
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">Votre chambre d\&apos;hôtel a bien été réservée. Cependant, nous avons relevé les erreurs suivantes : %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
-    <string name="error_unable_to_send_email">Nous ne sommes pas en mesure de vous envoyer la confirmation par email.</string>
+    <string name="error_unable_to_send_email">Nous ne sommes pas en mesure de vous envoyer la confirmation par e-mail.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
     <string name="enter_booking_info">Saisir les informations</string>
     <!-- Title for action bar when the user is on the booking info screen -->
@@ -2126,7 +2140,7 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">N° de voyage</string>
     <!-- Confirmation email label -->
-    <string name="confirmation_email">Adresse email</string>
+    <string name="confirmation_email">Adresse e-mail</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Si vous avez des questions au sujet de votre réservation, veuillez contacter Expedia au %s.</string>
     <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
@@ -2260,7 +2274,7 @@
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Téléphone</string>
     <!-- Contact Expedia via email -->
-    <string name="contact_expedia_email">Email</string>
+    <string name="contact_expedia_email">E-mail</string>
     <!-- Contact Expedia via email subject -->
     <string name="contact_expedia_email_subject">Assistance réservations Expedia</string>
     <!-- Contact Expedia via website -->
@@ -2310,7 +2324,7 @@
 
     <!-- App Feedback Activity -->
     <!-- Hint to type in email address -->
-    <string name="email_address">Adresse email</string>
+    <string name="email_address">Adresse e-mail</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
@@ -2323,7 +2337,7 @@
     <string name="app_not_available">Votre téléphone ne possède pas de fonctionnalité capable de supporter cette action ou votre accès à cette fonctionnalité est limité.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d adultes</item>
+        <item quantity="zero">%d adulte</item>
         <item quantity="one">%d adulte</item>
         <item quantity="two">%d adultes</item>
         <item quantity="many">%d adultes</item>
@@ -2331,7 +2345,7 @@
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">%d enfants</item>
+        <item quantity="zero">%d enfant</item>
         <item quantity="one">%d enfant</item>
         <item quantity="two">%d enfants</item>
         <item quantity="many">%d enfants</item>
@@ -2339,7 +2353,7 @@
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d personnes</item>
+        <item quantity="zero">%d personne</item>
         <item quantity="one">%d personne</item>
         <item quantity="two">%d personnes</item>
         <item quantity="many">%d personnes</item>
@@ -2355,7 +2369,7 @@
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d nuits</item>
+        <item quantity="zero">%d nuit</item>
         <item quantity="one">%d nuit</item>
         <item quantity="two">%d nuits</item>
         <item quantity="many">%d nuits</item>
@@ -2363,7 +2377,7 @@
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
-        <item quantity="zero">Jours</item>
+        <item quantity="zero">Jour</item>
         <item quantity="one">Jour</item>
         <item quantity="two">Jours</item>
         <item quantity="many">Jours</item>
@@ -2994,7 +3008,7 @@
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Appuyez pour sélectionner le mode de paiement pour cette réservation</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Appuyez pour entrer un code promotionnel</string>
+    <string name="cd_checkout_enter_coupon">Appuyez pour saisir un code promotionnel</string>
     <!-- Content description for action: Enter coupon or promotional code into text field -->
     <string name="cd_checkout_coupon_code_entry_field">Entrez le code promotionnel dans le champ indiqué</string>
     <!-- Content description for action: Press to apply coupon -->

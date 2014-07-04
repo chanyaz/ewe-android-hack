@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Bestemmingen en bezienswaardigheden zoeken</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Zoek naar bestemmingen …</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Zoek naar vertrekplaatsen …</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Sorry, er zijn momenteel \n geen hotels beschikbaar.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Sorry, er zijn momenteel \n geen vluchten beschikbaar.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Vlucht verwijderd.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hotel verwijderd.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">items in reis</item>
+        <item quantity="one">item in reis</item>
+        <item quantity="two">items in reis</item>
+        <item quantity="few">items in reis</item>
+        <item quantity="many">items in reis</item>
+        <item quantity="other">items in reis</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Vanaf %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Kinderen &lt; 2 jaar (op het moment van de reis) op schoot</string>
+    <string name="infants_in_laps">Schoot</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Kinderen &lt; 2 jaar (op het moment van de reis) op een stoel</string>
+    <string name="infants_in_seats">Stoel</string>
     <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">Kinderen &lt; 2 jaar</string>
+    <string name="infants_under_two">Baby\&apos;s &lt; 2 jaar</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Max. 1 kind per volwassene (&gt; 13 jaar) op schoot</string>
+    <string name="max_one_infant_per_lap">Er zijn niet genoeg volwassenen (12+ jaar oud) om baby\&apos;s op schoot te laten plaatsnemen. Ze hebben hun eigen ticket nodig.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Op schoot</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Op stoel</string>
     <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Stoelkeuze voor kinderen &lt; 2 jaar</string>
+    <string name="infant_seating_preference">Stoelkeuze voor baby\&apos;s &lt; 2 jaar</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Zitten baby\&apos;s (&lt; 2 jaar op het moment van de vlucht) op schoot of op een eigen stoel?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Alle kinderen &lt; 2 jaar (op het moment van de reis) hebben hun eigen stoel. We zoeken opnieuw naar het correcte aantal tickets.</string>
+    <string name="infants_in_seats_prompt">Baby\&apos;s op een stoel hebben hun eigen ticket nodig. Zoek opnieuw met inbegrip van tickets voor baby\&apos;s.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Alle kinderen &lt; 2 jaar (op het moment van de reis) dienen op de schoot te zitten van een passagier van minstens 12 jaar oud. We zoeken opnieuw naar het correcte aantal tickets.</string>
+    <string name="infants_in_laps_prompt">Baby\&apos;s op schoot hebben geen ticket nodig. We voeren een nieuwe zoekopdracht uit met minder tickets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nacht</string>
+    <string name="room_rate_per_night_template">%s/nacht</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Dit hotel berekent &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt; aan extra kosten</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reizen</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Jouw reizen</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Verken</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -1051,7 +1065,7 @@
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">Kies luchthaven van aankomst</string>
     <!-- Prompt when user selects more infant travelers than available laps -->
-    <string name="not_enough_laps_for_infants">Er dient minstens 1 volwassene te zijn voor elk kind &lt; 2 jaar dat op een schoot gaat zitten.</string>
+    <string name="not_enough_laps_for_infants">Er dient minstens 1 volwassene te zijn voor elke baby &lt; 2 jaar dat op een schoot gaat zitten.</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1298,9 +1312,9 @@
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Info over kind van %1$s</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Baby op schoot %1$s gegevens</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Info over baby op schoot %1$s</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Info over kind op schoot %1$s</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Info over baby op stoel %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
@@ -2294,7 +2308,7 @@
     <!-- Action button label to follow on twitter -->
     <string name="Follow">Volgen</string>
     <!-- Action button label to like on facebook -->
-    <string name="Like">Like</string>
+    <string name="Like">Vind ik leuk</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Deze app gebruikt het Stack Blur algoritme van Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->

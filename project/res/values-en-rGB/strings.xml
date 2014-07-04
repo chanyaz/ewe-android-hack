@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Search destinations and landmarks</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Search destinations…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Search origins…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Sorry, no hotels are \n currently available.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Sorry, no flights are \n currently available.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Flight removed.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hotel removed.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">Items in Trip</item>
+        <item quantity="one">Item in Trip</item>
+        <item quantity="two">Items in Trip</item>
+        <item quantity="few">Items in Trip</item>
+        <item quantity="many">Items in Trip</item>
+        <item quantity="other">Items in Trip</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">From %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Infants under 2 (at time of travel) in laps</string>
+    <string name="infants_in_laps">Laps</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Infants under 2 (at time of travel) in seats</string>
+    <string name="infants_in_seats">Seats</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Infants Under 2</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Maximum of one infant per adult (&gt;13) lap</string>
+    <string name="max_one_infant_per_lap">There aren\&apos;t enough adults (age 12+) to have infants sit in laps. They need their own seats.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">In Laps</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">In Seats</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Seating Preference for Infants Under 2</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Will infants under age 2 (at time of flight) sit in laps or have their own seats?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">All infants under 2 (at time of travel) will have their own seats. We will now search again for the correct number of tickets.</string>
+    <string name="infants_in_seats_prompt">Infants in seats need their own tickets. Let\&apos;s search again for the infants\&apos; tickets.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">All infants under 2 (at time of travel) must be in the lap of someone who is at least 12 years old. We will now search again for the correct number of tickets.</string>
+    <string name="infants_in_laps_prompt">Infants in lap don\&apos;t need their own tickets. We\&apos;ll start a new search with fewer tickets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/night</string>
+    <string name="room_rate_per_night_template">%s/night</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">This hotel charges additional fees of &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Unfortunately, we can\&apos;t connect.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Your Trips</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Explore</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

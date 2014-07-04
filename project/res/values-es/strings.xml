@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Busca por destino o punto de interés</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Busca un destino</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Busca un origen</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Vaya, no hay ningún hotel \n disponible en este momento.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Vaya, no hay ningún vuelo \n disponible en este momento.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Se ha borrado el vuelo.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Se ha borrado el hotel.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">elementos de viaje</item>
+        <item quantity="one">elemento de viaje</item>
+        <item quantity="two">elementos de viaje</item>
+        <item quantity="few">elementos de viaje</item>
+        <item quantity="many">elementos de viaje</item>
+        <item quantity="other">elementos de viaje</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Desde %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Bebé de menos de 2 años (en el momento del viaje) en regazo</string>
+    <string name="infants_in_laps">Regazo</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Bebé de menos de 2 años (en el momento del viaje) en asiento</string>
+    <string name="infants_in_seats">Asiento</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Bebé de menos de 2 años</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">1 niño de menos de 13 años en el regazo de 1 adulto como máximo.</string>
+    <string name="max_one_infant_per_lap">No hay suficientes adultos de más de 12 años para que todos los bebés viajen en regazo. Es necesario adquirir asientos para el resto de bebés.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">En regazo</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">En asiento</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Preferencia de asiento para bebés de menos de 2 años</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">¿Los bebés de menos de 2 años (en el momento del viaje) tendrán su propio asiento o se sentarán en el regazo de un adulto?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Todos los bebés de menos de 2 años (en el momento del viaje) tendrán su propio asiento. Volveremos a realizar la búsqueda con el número correcto de billetes.</string>
+    <string name="infants_in_seats_prompt">Es necesario adquirir un billete para los bebés que viajen en un asiento. Vamos a modificar la búsqueda para incluir los billetes de los bebés.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Todos los bebés de menos de 2 años (en el momento del viaje) deben viajar en el regazo de una persona con al menos 12 años de edad. Volveremos a realizar la búsqueda con el número correcto de billetes.</string>
+    <string name="infants_in_laps_prompt">No es necesario adquirir un billete para los bebés que viajen en el regazo de un adulto. Vamos a modificar la búsqueda.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt; por noche</string>
+    <string name="room_rate_per_night_template">%s por noche</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Este hotel cobra un cargo adicional de &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -355,6 +367,8 @@
     <string name="error_launch_connection">No ha sido posible conectarse</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viajes</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Tus viajes</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Buscar</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -1896,8 +1910,8 @@
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">Solo Acceso VIP</string>
     <!-- ON and OFF text for toggle switches -->
-    <string name="switch_on">del</string>
-    <string name="switch_off">MENOS</string>
+    <string name="switch_on">ENCENDER</string>
+    <string name="switch_off">APAGAR</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->

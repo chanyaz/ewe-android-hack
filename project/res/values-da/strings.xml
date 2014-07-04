@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Søg efter destinationer og seværdigheder</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Søg efter destinationer…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Søg efter afrejsested…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -144,7 +142,19 @@
     <string name="tablet_search_results_hotels_unavailable">Beklager, der er ingen tilgængelige hoteller \n i øjeblikket.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Beklager, der er ingen tilgængelige flyrejser \n i øjeblikket.</string>
-
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Flyrejse fjernet.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hotel fjernet.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">komponenter i denne rejseplan</item>
+        <item quantity="one">komponent i denne rejseplan</item>
+        <item quantity="two">komponenter i denne rejseplan</item>
+        <item quantity="few">komponenter i denne rejseplan</item>
+        <item quantity="many">komponenter i denne rejseplan</item>
+        <item quantity="other">komponenter i denne rejseplan</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Fra %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Spædbørn under 2 år (på rejsetidspunktet) skal sidde på skødet</string>
+    <string name="infants_in_laps">Skød</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Spædbørn under 2 år (på rejsetidspunktet) skal sidde på eget sæde</string>
+    <string name="infants_in_seats">Sæder</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Spædbørn under 2 år</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Maks. et spædbarn pr. voksen (&gt;13) skød</string>
+    <string name="max_one_infant_per_lap">Der er ikke nok voksne (i alderen 12+) til, at spædbørnene kan sidde på skødet. De skal sidde på deres eget sæde.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">På skød</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">På sæde</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Sædepræferencer for spædbørn under 2 år</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Skal børn under 2 år (på rejsetidspunktet) sidde på skødet eller på deres eget sæde?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Alle spædbørn under 2 år (på rejsetidspunktet) vil have eget sæde. Vi foretager nu en ny søgning med det korrekte antal billetter.</string>
+    <string name="infants_in_seats_prompt">Spædbørn på eget sæde skal have sin egen billet. Søg efter billetter til spædbørn.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Alle spædbørn under 2 år (på rejsetidspunktet) skal sidde på skødet af en person, som er mindst 12 år gammel. Vi foretager nu en ny søgning med det korrekte antal billetter.</string>
+    <string name="infants_in_laps_prompt">Spædbørn, der sidder på skødet, behøver ikke at have sin egen billet. Vi vil påbegynde en ny søgning med færre billetter.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nat</string>
+    <string name="room_rate_per_night_template">%s/nat</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Dette hotel opkræver yderligere gebyrer på &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Vi beklager, men vi kan ikke oprette forbindelse.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Rejser</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Dine rejser</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Udforsk</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->

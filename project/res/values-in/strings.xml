@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Cari destinasi dan landmark</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Cari destinasi…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Cari asal…</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
@@ -121,7 +119,7 @@
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Habis Terjual</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">Flight Pulang-Pergi ke %1$s</string>
+    <string name="trip_bucket_label_flight_roundtrip">Penerbangan Pulang-Pergi ke %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Penerbangan ke %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
@@ -141,10 +139,22 @@
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Informasi lokasi tidak ditemukan! Ubah pencarian, lalu coba lagi.</string>
     <!-- Tablet search results, no hotels available -->
-    <string name="tablet_search_results_hotels_unavailable">Maaf, saat ini tak ada \nhotel yang tersedia</string>
+    <string name="tablet_search_results_hotels_unavailable">Maaf, saat ini tak ada \n hotel yang tersedia</string>
     <!-- Tablet search results, no flights available -->
-    <string name="tablet_search_results_flights_unavailable">Maaf, saat ini tak ada \npenerbangan yang tersedia</string>
-
+    <string name="tablet_search_results_flights_unavailable">Maaf, saat ini tak ada \n penerbangan yang tersedia</string>
+    <!-- Remove Trip Bucket Flight - Undo messaging -->
+    <string name="tablet_tripbucket_flight_removed">Penerbangan dihapus.</string>
+    <!-- Remove Trip Bucket Hotel - Undo messaging -->
+    <string name="tablet_tripbucket_hotel_removed">Hotel dihapus.</string>
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">Item dalam Perjalanan</item>
+        <item quantity="one">Item dalam Perjalanan</item>
+        <item quantity="two">Item dalam Perjalanan</item>
+        <item quantity="few">Item dalam Perjalanan</item>
+        <item quantity="many">Item dalam Perjalanan</item>
+        <item quantity="other">Item dalam Perjalanan</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -174,23 +184,25 @@
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Mulai dari %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Anak di bawah 2 tahun duduk dipangku</string>
+    <string name="infants_in_laps">Di Pangkuan</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Anak di bawah 2 tahun duduk di kursi</string>
+    <string name="infants_in_seats">Tempat Duduk</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Anak di bawah umur 2 tahun</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Maks 1 anak per pangkuan orang dewasa (&gt;13 tahun)</string>
+    <string name="max_one_infant_per_lap">Jumlah traveler dewasa (12+) tidak cukup untuk memangku balita. Balita harus memiliki kursinya sendiri.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Di Pangkuan</string>
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Di Tempat Duduk</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Preferensi Tempat Duduk untuk Anak di Bawah 2 Tahun</string>
+    <!-- Description for infant seating preference message -->
+    <string name="infants_seating_preference_description">Apakah balita (di bawah umur 2 tahun saat perjalanan) akan duduk dipangku atau di kursinya sendiri?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Semua anak di bawah 2 tahun duduk di kursinya sendiri Sekarang kami akan mencari lagi jumlah tiket yang tepat.</string>
+    <string name="infants_in_seats_prompt">Balita yang duduk di kursi memerlukan tiketnya sendiri. Mari cari lagi untuk tiket balita Anda.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Semua anak di bawah 2 tahun harus dipangku oleh penumpang berusia minimal 12 tahun. Sekarang kami akan mencari lagi jumlah tiket yang tepat.</string>
+    <string name="infants_in_laps_prompt">Balita yang dipangku tidak memerlukan tiket terpisah. Kami akan cari lagi untuk jumlah tiket yang baru.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -215,7 +227,7 @@
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/malam</string>
+    <string name="room_rate_per_night_template">%s/malam</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">Hotel ini mengenakan biaya tambahan sebesar &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
@@ -354,6 +366,8 @@
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Perjalanan</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="Your_Trips">Perjalanan Anda</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Cari</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -892,7 +906,7 @@
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">dari %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
-    <string name="share_car_start_TEMPLATE">Berikut perincian rental mobil %1$s saya.</string>
+    <string name="share_car_start_TEMPLATE">Berikut rincian rental mobil %1$s saya.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">Kendaraan: %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
@@ -911,9 +925,9 @@
     <string name="shared_options">Opsi Berbagi</string>
 
     <!-- activity message subject 1: activity title -->
-    <string name="share_template_subject_activity">Detail %1$s Saya</string>
+    <string name="share_template_subject_activity">Rincian %1$s Saya</string>
     <!-- activity message subject when the title is unknown -->
-    <string name="share_template_subject_activity_no_title">Detail Aktivitas Saya</string>
+    <string name="share_template_subject_activity_no_title">Rincian Aktivitas Saya</string>
     <!-- message displaying the purchased activity title -->
     <string name="share_template_short_activity_title">Saya sudah membeli %1$s</string>
     <!-- activity valid date -->
@@ -921,7 +935,7 @@
     <!-- activity expiration date -->
     <string name="share_template_short_activity_expires">Kedaluwarsa: %1$s</string>
     <!-- message for activity message for 1: title -->
-    <string name="share_template_long_activity_title">Halo,\n\nBerikut perincian %1$s saya</string>
+    <string name="share_template_long_activity_title">Halo,\n\nBerikut rincian %1$s saya</string>
     <!-- label for activity 1: valid date -->
     <string name="share_template_long_activity_valid">Valid %1$s</string>
     <!-- label for activity 1: expiration date -->
@@ -971,7 +985,7 @@
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Bandara keberangkatan dan kedatangan tidak valid.</string>
     <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">Detail</string>
+    <string name="details">Rincian</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Pilih</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
@@ -1010,7 +1024,7 @@
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">Tidak ada url halaman web yang bisa dimuat.</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Segera Terbang…</string>
+    <string name="taking_off_soon">Segera Lepas Landas…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Maaf, pemesanan penerbangan melalui perangkat mobile belum tersedia di lokasi Anda.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -1026,7 +1040,7 @@
     <!-- Label for "sort" button -->
     <string name="sort_flights">Urutkan Penerbangan</string>
     <!-- Edit search title -->
-    <string name="edit_search">Edit Pencarian</string>
+    <string name="edit_search">Ubah Pencarian</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Pilih Tanggal</string>
     <!-- Number of adults template -->
@@ -1098,7 +1112,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informasi Biaya Bagasi</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s pemberhentian&lt;/b&gt; di %2$s</string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s transit&lt;/b&gt; di %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
@@ -1134,13 +1148,13 @@
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Detail Pembayaran Saat Ini</string>
+    <string name="edit_current_payment_details">Rincian Pembayaran Saat Ini</string>
     <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">Pilih Metode Pembayaran</string>
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Detail pembayaran</string>
+    <string name="select_payment_sentence_case">Rincian pembayaran</string>
     <!-- Add new card -->
     <string name="add_new_card">Tambahkan Kartu Baru</string>
     <!-- Overview button -->
@@ -1176,12 +1190,12 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d Pelancong</item>
-        <item quantity="one">%1$d Pelancong</item>
-        <item quantity="two">%1$d Pelancong</item>
-        <item quantity="few">%1$d Pelancong</item>
-        <item quantity="many">%1$d Pelancong</item>
-        <item quantity="other">%1$d Pelancong</item>
+        <item quantity="zero">%1$d Traveler</item>
+        <item quantity="one">%1$d Traveler</item>
+        <item quantity="two">%1$d Traveler</item>
+        <item quantity="few">%1$d Traveler</item>
+        <item quantity="many">%1$d Traveler</item>
+        <item quantity="other">%1$d Traveler</item>
     </plurals>
     <!-- Checkout button text -->
     <string name="checkout_btn">Pembayaran</string>
@@ -1250,7 +1264,7 @@
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
-    <string name="travelers">Pelancong</string>
+    <string name="travelers">Traveler</string>
     <!-- Payment -->
     <string name="payment">Pembayaran</string>
     <!-- Enter Payment Information -->
@@ -1261,7 +1275,7 @@
     <!-- Done menu item -->
     <string name="menu_done">Selesai</string>
     <!-- unable to load traveler details message -->
-    <string name="unable_to_load_traveler_message">Kami tidak bisa memuat detail pelancong ini. Periksa koneksi jaringan Anda dan coba lagi.</string>
+    <string name="unable_to_load_traveler_message">Kami tidak bisa memuat informasi traveler ini. Periksa koneksi jaringan Anda dan coba lagi.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
@@ -1275,34 +1289,34 @@
     <!-- Flight -->
     <string name="flight">Penerbangan</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">Pelancong %1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Traveler %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Tambah Pelancong</string>
+    <string name="Add_Traveler">Tambah Traveler</string>
 
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Tambah Pembayaran</string>
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Informasi Pelancong</string>
+    <string name="enter_traveler_info">Informasi Traveler</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Detail pelancong</string>
+    <string name="traveler_details">Rincian traveler</string>
     <!-- Add Guest for hotels -->
-    <string name="guest_details">Detail tamu</string>
+    <string name="guest_details">Rincian tamu</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Detail pelancong %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Rincian traveler %1$s</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">Detail dewasa %1$s</string>
+    <string name="add_adult_number_TEMPLATE">Rincian tamu dewasa %1$s</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">Detail anak %1$s</string>
+    <string name="add_child_number_TEMPLATE">Rincian anak %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Detail anak usia %1$s tahun</string>
+    <string name="add_child_with_age_TEMPLATE">Rincian anak usia %1$s tahun</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Detail bayi di Pangkuan %1$s</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Rincian bayi di Pangkuan %1$s</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Detail Bayi di Tempat Duduk %1$s</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Rincian Bayi di Tempat Duduk %1$s</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama pelancong tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
+    <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama traveler tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Bantuan Khusus: %1$s</string>
@@ -1373,7 +1387,7 @@
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
-    <string name="save_traveler">Simpan Pelancong</string>
+    <string name="save_traveler">Simpan Traveler</string>
     <!-- Save traveler name Template -->
     <string name="save_traveler_message_TEMPLATE">Simpan informasi %1$s ke akun Expedia Anda untuk mempercepat proses pembelian di masa mendatang?</string>
     <!-- no thanks -->
@@ -1381,17 +1395,17 @@
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">Tidak Bisa Menyimpan Pelancong</string>
+    <string name="cant_save_traveler">Tidak Berhasil Menyimpan Traveler</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Anda sudah menyimpan seorang pelancong dengan nama \"%1$s\".</string>
+    <string name="you_already_have_traveler_TEMPLATE">Anda sudah menyimpan seorang traveler dengan nama \"%1$s\".</string>
     <!-- Don't save -->
     <string name="dont_save">Jangan Simpan</string>
     <!-- Overwrite -->
-    <string name="overwrite">Timpa</string>
+    <string name="overwrite">Ubah</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
-    <string name="traveler_information">Informasi Pelancong</string>
+    <string name="traveler_information">Informasi Traveler</string>
     <!-- First name label -->
     <string name="first_name">Nama Depan</string>
     <!-- Middle name label -->
@@ -1413,9 +1427,9 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">No. Redress (jika ada)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Menyimpan informasi pelancong ke akun Anda…</string>
+    <string name="saving_traveler">Menyimpan informasi traveler ke akun Anda…</string>
     <!-- Traveler information Template. e.g. Traveler 2 Information -->
-    <string name="traveler_information_TEMPLATE">Informasi %1$s Pelancong</string>
+    <string name="traveler_information_TEMPLATE">Informasi %1$s Traveler</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Preferensi Tempat Duduk</string>
     <!-- Special Assistance -->
@@ -1432,23 +1446,23 @@
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
-    <string name="select_a_traveler">Pilih pelancong</string>
+    <string name="select_a_traveler">Pilih traveler</string>
     <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Pilih pelancong yang lain</string>
+    <string name="select_a_different_traveler">Pilih traveler yang lain</string>
     <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Masukkan pelancong baru</string>
+    <string name="enter_new_traveler">Masukkan traveler baru</string>
     <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">Edit Informasi Pelancong</string>
+    <string name="edit_current_traveler">Ubah Informasi Traveler</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Lebih Memilih Tempat Duduk %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Lebih Memilih Tempat Duduk &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Memuat informasi pelancong…</string>
+    <string name="loading_traveler_info">Memuat informasi traveler…</string>
     <!-- Passport -->
     <string name="passport">Paspor</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Pelancong ini -&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Traveler ini -&lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -1488,7 +1502,7 @@
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
     <string name="itinerary_confirmation_TEMPLATE">Itinerary no. %s telah dikirim ke</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">Cari Penginapan</string>
+    <string name="get_a_room">Cari Akomodasi</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -1580,7 +1594,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Harap coba lagi.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi atau hubungi Layanan Pelanggan Expedia dan sebutkan nomor penerbangan berikut: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi atau hubungi Layanan Pelanggan Expedia dan sebutkan nomor itinerary berikut: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">Maaf, penerbangan Anda tidak lagi tersedia.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1684,9 +1698,9 @@
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Pilih umur anak</item>
-        <item quantity="two">Pilih umur anak masing-masing</item>
-        <item quantity="many">Pilih umur anak masing-masing</item>
-        <item quantity="other">Pilih umur anak masing-masing</item>
+        <item quantity="two">Masukkan umur tiap anak</item>
+        <item quantity="many">Masukkan umur tiap anak</item>
+        <item quantity="other">Masukkan umur tiap anak</item>
     </plurals>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Pilih Umur Anak (%1$s - %2$s)</string>
@@ -2027,7 +2041,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Mencari kamar yang tersedia…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Tidak dapat mengambil informasi kamar &amp; tarif.  Periksa koneksi Anda dan coba lagi.</string>
+    <string name="error_no_response_room_rates">Tidak berhasil mengakses informasi harga &amp; kamar.  Periksa koneksi Anda dan coba lagi.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per malam</string>
     <!-- Rate price displayed "average per night" -->
@@ -2043,10 +2057,10 @@
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Kamar habis!</item>
-        <item quantity="one">Hanya sisa 1 kamar!</item>
-        <item quantity="two">Hanya sisa %d kamar!</item>
-        <item quantity="many">Hanya sisa %d kamar!</item>
-        <item quantity="other">Hanya sisa %d kamar!</item>
+        <item quantity="one">Sisa 1 kamar!</item>
+        <item quantity="two">Sisa %d kamar!</item>
+        <item quantity="many">Sisa %d kamar!</item>
+        <item quantity="other">Sisa %d kamar!</item>
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Pembayaran tidak bisa dikembalikan</string>
@@ -2079,7 +2093,7 @@
     <!-- Label for room type -->
     <string name="room_type">Jenis Kamar</string>
     <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">Maaf, kami tidak dapat menemukan detail tambahan mengenai kamar ini.</string>
+    <string name="error_room_type_nonexistant">Maaf, kami tidak dapat menemukan informasi tambahan mengenai kamar ini.</string>
     <!-- Label for bed type -->
     <string name="bed_type">Jenis Tempat Tidur</string>
     <!-- Label for length of stay -->
@@ -2090,7 +2104,7 @@
         <item quantity="other">%d malam</item>
     </plurals>
     <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-    <string name="room_rate_template">Tarif Kamar %s</string>
+    <string name="room_rate_template">Harga Kamar %s</string>
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">Biaya Tamu Tambahan</string>
     <!-- Label for total cost of hotel stay -->
@@ -2154,15 +2168,15 @@
     <!-- Policy displayed to user when an immediate charge is required -->
     <string name="PolicyImmediateChargeRequired">Kartu kredit Anda akan langsung dikenai biaya sebesar biaya reservasi pada saat pemesanan.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Kami menawarkan tarif yang sangat rendah untuk properti ini. Karenanya, tarif ini tidak dapat dikembalikan. Jika Anda memutuskan untuk membatalkan reservasi ini, Anda tidak akan menerima pengembalian pembayaran.</string>
+    <string name="PolicyNonRefundable">Kami menawarkan harga yang sangat murah untuk properti ini. Karenanya, pemesanan ini tidak dapat dikembalikan. Jika Anda memutuskan untuk membatalkan pemesanan ini, Anda tidak akan menerima refund.</string>
     <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk reservasi Anda. Kartu kredit Anda akan dikenai biaya langsung oleh hotel saat reservasi dilakukan.</string>
+    <string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk pemesanan Anda. Kartu kredit Anda akan dikenai biaya langsung oleh hotel saat pemesanan dilakukan.</string>
     <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat menjamin reservasi Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
+    <string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat mengamaknkan pemesanan Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
     <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Dengan melanjutkan proses reservasi ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya reservasi Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
+    <string name="PolicyExpediaMerchant">Dengan melanjutkan proses pemesanan ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya pemesanan Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua tarif ditampilkan per malam dan tiap kamar untuk digunakan oleh dua orang kecuali ditentukan lain. Baca deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi seluruh tamu. Beberapa tarif memerlukan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk lebih dari 2 orang, atau lebih dari yang ditentukan oleh tarif yang Anda pilih, akan dikirim ke hotel tapi tidak dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan kebijaksanaan hotel.</string>
+    <string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua harga berlaku untuk per malam dan 2 orang per kamar, kecuali jika dinyatakan berlainan. Silakan baca deskripsi kamar dan ketentuan harga secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi seluruh tamu. Beberapa harga memerlukan Anda untuk menunjukkan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk jumlah tamu lebih dari yang ditentukan oleh harga yang Anda pilih akan dikirim ke hotel, tapi hal ini tidak bisa dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan kebijaksanaan hotel.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -2949,15 +2963,15 @@
     <string name="cd_display_critical_reviews">Tekan untuk menampilkan ulasan kritis</string>
     <!-- Flight Search -->
     <!-- Content description for action: Edit departure airport -->
-    <string name="cd_flights_search_departure_edit_text">Edit bandara keberangkatan</string>
+    <string name="cd_flights_search_departure_edit_text">Ubah bandara keberangkatan</string>
     <!-- Content description for action: Edit arrival airport -->
-    <string name="cd_flights_search_arrival_edit_text">Edit bandara kedatangan</string>
+    <string name="cd_flights_search_arrival_edit_text">Ubah bandara kedatangan</string>
     <!-- Content description for action: Press to edit departure and arrival dates -->
-    <string name="cd_flights_search_dates_edit">Tekan untuk mengedit tanggal keberangkatan dan kedatangan</string>
+    <string name="cd_flights_search_dates_edit">Tekan untuk mengubah tanggal keberangkatan dan kedatangan</string>
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Tekan untuk menghapus tanggal yang dipilih</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tekan untuk mengedit jumlah pelancong</string>
+    <string name="cd_flights_search_number_of_travelers_edit">Tekan untuk mengubah jumlah traveler</string>
     <!-- Flight Search Results -->
     <!-- Content description for action: Press to return to flight search -->
     <string name="cd_flights_search_search_button">Tekan untuk kembali ke pencarian penerbangan</string>
@@ -2990,7 +3004,7 @@
     <!-- Content description for action: Press to make this purchase with Google Wallet -->
     <string name="cd_checkout_buy_with_google">Tekan untuk melakukan pembelian dengan Google Wallet</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
-    <string name="cd_checkout_add_traveler">Tekan untuk menambahkan pelancong ke pemesanan ini</string>
+    <string name="cd_checkout_add_traveler">Tekan untuk menambahkan traveler ke pemesanan ini</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Tekan untuk memilih pembayaran untuk pemesanan ini</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
@@ -3008,11 +3022,11 @@
     <string name="cd_log_in_with_facebook">Tekan untuk masuk ke Expedia dengan akun Facebook Anda</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Tekan untuk memasukkan pelancong baru</string>
+    <string name="cd_traveler_enter_new_traveler">Tekan untuk memasukkan traveler baru</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Tekan untuk mengedit informasi pelancong</string>
+    <string name="cd_traveler_edit_traveler_information">Tekan untuk mengubah informasi traveler</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Edit negara paspor pelancong</string>
+    <string name="cd_traveler_edit_passport_country">Ubah negara paspor</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Enter first name -->
     <string name="cd_traveler_first_name_edit_text">Masukkan nama depan</string>
@@ -3025,16 +3039,16 @@
     <!-- Content description for action: Enter phone number -->
     <string name="cd_traveler_phone_number">Masukkan nomor telepon</string>
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Tekan untuk menyelesaikan pengisian informasi pelancong</string>
+    <string name="cd_traveler_information_done">Tekan untuk menyelesaikan pengisian informasi traveler</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">Tekan untuk memilih tanggal lahir pelancong</string>
+    <string name="cd_traveler_birthday_edit">Tekan untuk memilih tanggal lahir traveler</string>
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Tekan untuk memilih jenis kelamin pelancong</string>
+    <string name="cd_traveler_gender_edit">Tekan untuk memilih jenis kelamin traveler</string>
     <!-- Content description for action: Enter redress number, if applicable -->
     <string name="cd_traveler_redress_number_edit_text">Masukkan alamat redress, jika ada</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Pilih jenis bantuan khusus yang diperlukan pelancong</string>
+    <string name="cd_traveler_special_assistance_edit">Pilih jenis bantuan khusus yang diperlukan traveler</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Pilih tempat duduk yang dikehendaki</string>
     <!-- Credit Card Information -->
