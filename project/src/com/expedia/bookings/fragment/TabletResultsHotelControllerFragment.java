@@ -327,7 +327,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
 		mHotelListC.setVisibility(View.VISIBLE);
-		mLoadingC.setVisibility(hotelsState == ResultsHotelsState.LOADING ? View.VISIBLE : View.INVISIBLE);
+		mLoadingC.setVisibility(
+			hotelsState == ResultsHotelsState.LOADING
+			? View.VISIBLE
+			: View.INVISIBLE);
+
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
@@ -351,7 +355,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES
 				|| hotelsState == ResultsHotelsState.REVIEWS
 				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP
-				|| hotelsState == ResultsHotelsState.GALLERY) {
+				|| hotelsState == ResultsHotelsState.GALLERY
+				|| hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				mMapDimmer.setVisibility(View.VISIBLE);
 				mMapDimmer.setAlpha(1f);
 			}
@@ -360,26 +365,22 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mMapDimmer.setAlpha(0f);
 			}
 
-			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.GALLERY) {
-				mHotelDetailsC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mHotelDetailsC.setVisibility(View.INVISIBLE);
-			}
+			mHotelDetailsC.setVisibility(
+				hotelsState == ResultsHotelsState.ROOMS_AND_RATES
+				|| hotelsState == ResultsHotelsState.GALLERY
+				? View.VISIBLE
+				: View.INVISIBLE);
 
-			if (hotelsState == ResultsHotelsState.REVIEWS) {
-				mHotelReviewsC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mHotelReviewsC.setVisibility(View.INVISIBLE);
-			}
+			mHotelReviewsC.setVisibility(
+				hotelsState == ResultsHotelsState.REVIEWS
+				? View.VISIBLE
+				: View.INVISIBLE);
 
-			if (hotelsState == ResultsHotelsState.GALLERY) {
-				mHotelGalleryC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mHotelGalleryC.setVisibility(View.INVISIBLE);
-			}
+			mHotelGalleryC.setVisibility(
+				hotelsState == ResultsHotelsState.GALLERY
+				? View.VISIBLE
+				: View.INVISIBLE
+			);
 		}
 	}
 
@@ -1345,12 +1346,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		private void setHotelsFiltersAnimationVisibilities(boolean start) {
 			mHotelFiltersC.setVisibility(View.VISIBLE);
 			mHotelFilteredCountC.setVisibility(View.VISIBLE);
+			mMapDimmer.setVisibility(View.VISIBLE);
 		}
 
 		private void setHotelsFiltersAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mHotelFiltersC.setLayerType(layerValue, null);
 			mHotelFilteredCountC.setLayerType(layerValue, null);
+			mMapDimmer.setLayerType(layerValue, null);
 		}
 
 		private void setHotelsFiltersShownPercentage(float percentage) {
@@ -1364,6 +1367,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else {
 				mHotelFilteredCountC.setVisibility(View.GONE);
 			}
+
+			mMapDimmer.setAlpha(percentage);
 		}
 
 		/*
