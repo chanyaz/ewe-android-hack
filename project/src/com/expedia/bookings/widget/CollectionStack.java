@@ -24,20 +24,18 @@ import com.expedia.bookings.utils.Ui;
 public class CollectionStack extends FrameLayout {
 	public CollectionStack(Context context) {
 		super(context);
-		init(context);
+		init();
 	}
 
 	public CollectionStack(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
+		init();
 	}
 
 	public CollectionStack(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context);
+		init();
 	}
-
-	private Context mContext;
 
 	private float mBasePadding;
 
@@ -50,16 +48,14 @@ public class CollectionStack extends FrameLayout {
 	private int mBackgroundColor;
 	private boolean mIsStack = true;
 
-	private void init(Context context) {
-		mContext = context;
-
+	private void init() {
 		setClipChildren(false);
 
-		mBasePadding = mContext.getResources().getDimension(R.dimen.destination_stack_padding);
+		mBasePadding = getContext().getResources().getDimension(R.dimen.destination_stack_padding);
 
-		View root = Ui.inflate(context, R.layout.widget_collection_stack, this);
+		View root = Ui.inflate(getContext(), R.layout.widget_collection_stack, this);
 
-		mBackgroundColor = mContext.getResources().getColor(R.color.tablet_bg_tiles_blend);
+		mBackgroundColor = getContext().getResources().getColor(R.color.tablet_bg_tiles_blend);
 	}
 
 	@Override
@@ -101,13 +97,13 @@ public class CollectionStack extends FrameLayout {
 			HeaderBitmapDrawable drawable;
 
 			drawable = makeHeaderBitmapDrawable(url);
-			gradColor = mContext.getResources().getColor(R.color.tablet_collection_back_image_overlay);
+			gradColor = getContext().getResources().getColor(R.color.tablet_collection_back_image_overlay);
 			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mBackImageView.setImageDrawable(drawable);
 			mBackImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 			drawable = makeHeaderBitmapDrawable(url);
-			gradColor = mContext.getResources().getColor(R.color.tablet_collection_back_image_overlay);
+			gradColor = getContext().getResources().getColor(R.color.tablet_collection_back_image_overlay);
 			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mMiddleImageView.setImageDrawable(drawable);
 			mMiddleImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -129,7 +125,7 @@ public class CollectionStack extends FrameLayout {
 	private HeaderBitmapDrawable makeHeaderBitmapDrawable(String url) {
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
-		headerBitmapDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(R.dimen.destination_stack_corner_radius));
+		headerBitmapDrawable.setCornerRadius(getContext().getResources().getDimensionPixelSize(R.dimen.destination_stack_corner_radius));
 
 		ArrayList<String> urls = new ArrayList<String>();
 		urls.add(url);
@@ -148,7 +144,7 @@ public class CollectionStack extends FrameLayout {
 
 			}
 		});
-		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(mContext.getResources(), urls, R.drawable.bg_itin_placeholder));
+		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getContext().getResources(), urls, R.drawable.bg_itin_placeholder));
 
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
