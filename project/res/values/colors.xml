@@ -181,6 +181,8 @@
     <color name="hotel_room_rate_add_room_button">#e4822a</color>
     <color name="hotel_room_rate_add_room_button_pressed">#ab601f</color>
     <color name="trip_bucket_background_color">#dbdada</color>
+    <color name="tablet_collection_back_image_overlay">#e5141d36</color>
+    <color name="tablet_collection_middle_image_overlay">#b2141d36</color>
 
     <!-- Tablet flights -->
     <color name="tablet_flight_filter_text_color">#4c5156</color>

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
@@ -102,13 +101,13 @@ public class CollectionStack extends FrameLayout {
 			HeaderBitmapDrawable drawable;
 
 			drawable = makeHeaderBitmapDrawable(url);
-			gradColor = Color.parseColor("#e5141d36");
+			gradColor = mContext.getResources().getColor(R.color.tablet_collection_back_image_overlay);
 			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mBackImageView.setImageDrawable(drawable);
 			mBackImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 			drawable = makeHeaderBitmapDrawable(url);
-			gradColor = Color.parseColor("#b2141d36");
+			gradColor = mContext.getResources().getColor(R.color.tablet_collection_back_image_overlay);
 			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mMiddleImageView.setImageDrawable(drawable);
 			mMiddleImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -137,8 +136,11 @@ public class CollectionStack extends FrameLayout {
 		headerBitmapDrawable.setCallback(new L2ImageCache.OnBitmapLoaded() {
 			@Override
 			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				int color = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f).build();
-				mTextView.setBackgroundColor(Color.argb(224, Color.red(color), Color.green(color), Color.blue(color)));
+				int color = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)) //
+					.darkenBy(0.4f) //
+					.setAlpha(224) //
+					.build();
+				mTextView.setBackgroundColor(color);
 			}
 
 			@Override
