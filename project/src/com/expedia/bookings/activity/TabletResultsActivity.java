@@ -418,7 +418,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-
 	}
 
 	@Override
@@ -987,6 +986,16 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(2));
 				}
+			}
+			else if (stateOne == ResultsSearchState.DEFAULT && mSearchController.stateShowsWaypoint(stateTwo)
+				|| mSearchController.stateShowsWaypoint(stateOne) && stateTwo == ResultsSearchState.DEFAULT) {
+				float p = stateOne == ResultsSearchState.DEFAULT ? 1f - percentage : percentage;
+
+				mHotelC.setAlpha(p);
+				mFlightsC.setAlpha(p);
+				mTripBucketC.setAlpha(p);
+				mMissingFlightInfo.setAlpha(p);
+				//DOUG: TODO: asdf
 			}
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {

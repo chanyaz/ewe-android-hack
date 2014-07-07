@@ -69,7 +69,7 @@ public class TabletWaypointFragment extends Fragment
 	private TextView mErrorTv;
 	private ProgressBar mLocationProgressBar;
 
-	private boolean mHasInvisibleBackground = false;
+	private boolean mHasInvisibleBackground = true;
 	private String mWayPointString;
 
 	//////////////////////////////////////////////////////////////////////////

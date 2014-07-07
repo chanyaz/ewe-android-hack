@@ -5,7 +5,6 @@ import java.util.List;
 import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Build;
@@ -521,7 +520,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 	}
 
-	private boolean stateShowsWaypoint(ResultsSearchState state) {
+	public boolean stateShowsWaypoint(ResultsSearchState state) {
 		return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
 	}
 
@@ -605,6 +604,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
 			float percentage) {
+
 			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
 				float perc = goingUp(stateOne, stateTwo) ? percentage : (1f - percentage);
 				setSlideUpAnimationPercentage(perc);
@@ -657,7 +657,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 						mTravPickWhiteSpace.setTranslationX((1f - percentage) * mBottomCenterC.getWidth());
 					}
 				}
+				else if (stateOne == ResultsSearchState.DEFAULT && stateShowsWaypoint(stateTwo)
+					|| stateShowsWaypoint(stateOne) && stateTwo == ResultsSearchState.DEFAULT) {
+					float p = stateOne == ResultsSearchState.DEFAULT ? 1f - percentage : percentage;
 
+					mBottomRightC.setAlpha(p);
+					mBottomCenterC.setAlpha(p);
+					mSearchActionsC.setAlpha(p);
+					mSearchBarC.setAlpha(p);
+				}
 			}
 		}
 
