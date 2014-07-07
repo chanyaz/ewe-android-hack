@@ -766,8 +766,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
 			mSearchBarC.getBackground().setAlpha((int)(255f * (1f - percentage)));
 			mSearchActionsC.setTranslationY(percentage * -barTransDistance);
-			mBottomRightC.setTranslationY(percentage * widgetHeight);
-			mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * widgetHeight);
+			if (mGrid.isLandscape()) {
+				mBottomRightC.setTranslationY(percentage * widgetHeight);
+				mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * widgetHeight);
+			}
+			else {
+				mBottomRightC.setTranslationY(percentage * 2 * mBottomRightC.getHeight());
+				mBottomCenterC.setTranslationY(percentage * 2 * mBottomCenterC.getHeight());
+			}
 			mDestBtn.setTranslationY(percentage * searchBarHeight);
 			mDestBtn.setAlpha(1f - percentage);
 
