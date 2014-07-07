@@ -144,6 +144,11 @@
     <dimen name="percent_off_corner_margin_top">3dp</dimen>
     <dimen name="percent_off_corner_margin_right">2dp</dimen>
 
+    <!-- TripBucket -->
+    <dimen name="results_bucket_y_padding">16dp</dimen>
+    <dimen name="results_bucket_header_padding">16dp</dimen>
+    <dimen name="results_bucket_item_padding">14dp</dimen>
+
     <!-- Text sizes for amenities -->
     <dimen name="amenity_text_size_large">12sp</dimen>
     <dimen name="amenity_text_size_small">10sp</dimen>

@@ -39,17 +39,16 @@
                 android:layout_height="wrap_content"
                 android:background="@color/trip_bucket_background_color"
                 android:orientation="vertical"
-                android:paddingBottom="8dp"
+                android:paddingBottom="@dimen/results_bucket_y_padding"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
-                android:paddingTop="8dp">
+                android:paddingTop="@dimen/results_bucket_y_padding">
 
                 <FrameLayout
                     android:id="@+id/trip_bucket_header_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp">
+                    android:paddingBottom="@dimen/results_bucket_header_padding">
 
                     <TextView
                         android:id="@+id/your_trip_tv"
@@ -70,14 +69,13 @@
                 <FrameLayout
                     android:id="@+id/bucket_flight_frag_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_height="wrap_content" />
 
                 <FrameLayout
                     android:id="@+id/bucket_hotel_frag_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"/>
+                    android:paddingTop="@dimen/results_bucket_item_padding"/>
             </LinearLayout>
         </ScrollView>
 
@@ -94,17 +92,17 @@
             <FrameLayout
                 android:id="@+id/booking_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center" >
+                    android:gravity="center">
 
                     <ProgressBar
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:indeterminate="true" />
+                        android:indeterminate="true"/>
                 </LinearLayout>
             </FrameLayout>
 
