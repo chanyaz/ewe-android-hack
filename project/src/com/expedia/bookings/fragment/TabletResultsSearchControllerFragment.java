@@ -761,8 +761,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * widgetHeight);
 			mDestBtn.setTranslationY(percentage * searchBarHeight);
 			mDestBtn.setAlpha(1f - percentage);
-			//TODO: Use better number than searchBarHeight (this is to move to the left of the action bar buttons)
-			mRightButtonsC.setTranslationX(percentage * -searchBarHeight);
+
+			if (mGrid.isLandscape()) {
+				//TODO: Use better number than searchBarHeight (this is to move to the left of the action bar buttons)
+				mRightButtonsC.setTranslationX(percentage * -searchBarHeight);
+			}
+			else {
+				mRightButtonsC.setTranslationY(percentage * searchBarHeight);
+			}
 		}
 
 		private void setSlideUpHotelsOnlyHardwareLayers(boolean enabled) {
