@@ -30,4 +30,11 @@
     <dimen name="tablet_hotel_details_top_padding">36dp</dimen>
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">8%</fraction>
 
+    <!-- Trip Bucket -->
+    <dimen name="hotel_flight_card_width">245dp</dimen>
+    <dimen name="trip_bucket_undo_bar_width">247dp</dimen>
+    <dimen name="bucket_top_margin">0dp</dimen>
+    <dimen name="bucket_heading_top_margin">8dp</dimen>
+
+
 </resources>

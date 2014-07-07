@@ -16,6 +16,7 @@
             android:layout_height="@dimen/results_column_header_height"
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+            android:layout_marginTop="@dimen/bucket_heading_top_margin"
             android:gravity="center_vertical|left"
             android:textSize="18sp"
             android:text="@string/your_trip"

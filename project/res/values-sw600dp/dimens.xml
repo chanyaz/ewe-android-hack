@@ -73,6 +73,7 @@
 
     <!-- Trip Bucket Fragment -->
     <dimen name="bucket_top_margin">7dp</dimen>
+    <dimen name="bucket_heading_top_margin">0dp</dimen>
 
     <dimen name="bucket_card_divider_size">8dp</dimen>
 

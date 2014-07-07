@@ -100,6 +100,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mHotelUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);
 		mFlightUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);
 
+		if (getResources().getBoolean(R.bool.portrait)) {
+			mContentC.setOrientation(LinearLayout.HORIZONTAL);
+		}
+
 		return mRootC;
 	}
 

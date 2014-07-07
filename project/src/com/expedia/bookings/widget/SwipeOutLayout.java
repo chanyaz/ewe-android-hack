@@ -144,7 +144,7 @@ public class SwipeOutLayout extends FrameLayout {
 		else {
 			//horizontal
 			height = mContentView.getMeasuredHeight();
-			width = mContentView.getMeasuredWidth() + mSwipeOutView.getMeasuredWidth();
+			width = mContentView.getMeasuredWidth();
 		}
 
 		width = width + getPaddingRight() + getPaddingLeft();
@@ -399,7 +399,7 @@ public class SwipeOutLayout extends FrameLayout {
 					}
 				}
 				else {
-					if (x < mContentView.getX() || (mPositiveDirection && x > (getWidth() - getSwipeOutDistance()))) {
+					if (x < mContentView.getX()) {
 						mHasDown = false;
 					}
 				}

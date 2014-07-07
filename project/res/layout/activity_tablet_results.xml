@@ -28,7 +28,7 @@
     <!-- TRIP BUCKET -->
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_container"
-        android:background="@color/trip_bucket_background_color"
+        android:background="@drawable/bg_tablet_portrait_trip_bucket_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

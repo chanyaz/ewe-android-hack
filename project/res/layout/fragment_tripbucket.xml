@@ -19,7 +19,7 @@
 
         <com.expedia.bookings.widget.SwipeOutLayout
             android:id="@+id/trip_bucket_flight_trip_swipeout"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/hotel_flight_card_width"
             android:layout_height="wrap_content"
             app:swipeOutContentId="@+id/trip_bucket_flight_trip"
             app:swipeOutDirection="east"
@@ -27,7 +27,7 @@
 
             <FrameLayout
                 android:id="@id/trip_bucket_flight_trip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
             <include
@@ -41,7 +41,7 @@
 
         <com.expedia.bookings.widget.SwipeOutLayout
             android:id="@+id/trip_bucket_hotel_trip_swipeout"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/hotel_flight_card_width"
             android:layout_height="wrap_content"
             app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
             app:swipeOutDirection="east"
@@ -49,7 +49,7 @@
 
             <FrameLayout
                 android:id="@id/trip_bucket_hotel_trip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
             <include
