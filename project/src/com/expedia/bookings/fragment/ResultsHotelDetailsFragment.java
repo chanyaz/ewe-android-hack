@@ -442,7 +442,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				RowRoomRateLayout row = (RowRoomRateLayout) v;
 				Rate clickedRate = row.getRate();
 				// Let's set and bind the roomRate only when a new roomRate is clicked.
-				if (!Db.getHotelSearch().getSelectedRate().equals(clickedRate)) {
+				Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+				if (selectedRate == null || !selectedRate.equals(clickedRate)) {
 					setSelectedRate(clickedRate);
 				}
 			}
@@ -465,10 +466,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		List<Rate> rates = mResponse.getRates();
 
+		// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
+		boolean first = true;
 		for (Rate rate : rates) {
 			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRoomsRatesContainer, false);
 			row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
+
+			// Separator
+			if (!first) {
+				View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
+				mRoomsRatesContainer.addView(sep);
+			}
+
 			mRoomsRatesContainer.addView(row);
+			first = false;
 		}
 	}
 
@@ -529,9 +540,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
 
 		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
-			final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
-			boolean isSelected = row.getRate().equals(selectedRate);
-			row.setSelected(isSelected);
+			if (mRoomsRatesContainer.getChildAt(i) instanceof RowRoomRateLayout) {
+				final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
+				boolean isSelected = row.getRate().equals(selectedRate);
+				row.setSelected(isSelected);
+			}
 		}
 	}
 
@@ -549,7 +562,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 			View v = mRoomsRatesContainer.getChildAt(i);
 			v.setHasTransientState(true);
-			((ViewGroup) v).setClipChildren(false);
+			if (v instanceof ViewGroup) {
+				((ViewGroup) v).setClipChildren(false);
+			}
 			oldCoordinates.put(v, new int[] {v.getTop(), v.getBottom()});
 		}
 
@@ -558,11 +573,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		// Do expand/contract
 		RowRoomRateLayout selectedRow = null;
 		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
-			final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
-			boolean isSelected = row.getRate().equals(selectedRate);
-			row.setSelected(isSelected, true);
-			if (isSelected) {
-				selectedRow = row;
+			if (mRoomsRatesContainer.getChildAt(i) instanceof RowRoomRateLayout) {
+				final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
+				boolean isSelected = row.getRate().equals(selectedRate);
+				row.setSelected(isSelected, true);
+				if (isSelected) {
+					selectedRow = row;
+				}
 			}
 		}
 		final RowRoomRateLayout fSelectedRow = selectedRow;
@@ -620,7 +637,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 							newCoordinates.put(v, new int[] {newtop, newbot});
 							animations.add(anim);
-							((RowRoomRateLayout) v).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+							if (v instanceof RowRoomRateLayout) {
+								((RowRoomRateLayout) v).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+							}
 						}
 					}
 
