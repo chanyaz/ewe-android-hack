@@ -159,13 +159,35 @@ public class CommonCheckoutScreen extends ScreenActions {
 		slideToPurchaseStartView().perform(swipeRight());
 	}
 
+	public static void clickNewPaymentCard() {
+		onView(withId(R.id.new_payment_new_card)).perform(click());
+	}
+
+	public static void clickIAcceptButton() {
+		onView(withId(R.id.layout_i_accept)).perform(click());
+	}
+
+	public static void clickEnterInfoButton() {
+		onView(withId(R.id.enter_info_manually_button)).perform(click());
+	}
+
 	public static void clickTravelerDetails() {
-		onView(withText("Traveler details")).perform(scrollTo());
-		onView(withText("Traveler details")).perform(click());
+		try {
+			onView(withId(R.id.traveler_empty_text_view)).perform(click());
+		}
+		catch (Exception e) {
+			onView(withText("Traveler details")).perform(scrollTo());
+			onView(withText("Traveler details")).perform(click());
+		}
 	}
 
 	public static void clickGuestDetails() {
-		onView(withText("Guest details")).perform(scrollTo());
-		onView(withText("Guest details")).perform(click());
+		try {
+			onView(withId(R.id.traveler_info_btn)).perform(click());
+		}
+		catch (Exception e) {
+			onView(withText("Guest details")).perform(scrollTo());
+			onView(withText("Guest details")).perform(click());
+		}
 	}
 }

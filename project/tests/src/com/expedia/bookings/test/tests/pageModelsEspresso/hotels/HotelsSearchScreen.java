@@ -211,7 +211,7 @@ public class HotelsSearchScreen extends ScreenActions {
 	}
 
 	public static void clickSuggestion(Activity activity, String city) {
-		onView(withText(city)).inRoot(withDecorView(not(CoreMatchers.is(activity.getWindow().getDecorView())))).perform(click());
+		onData(anything()).inRoot(withDecorView(not(CoreMatchers.is(activity.getWindow().getDecorView())))).atPosition(0).perform(click());
 	}
 }
 
