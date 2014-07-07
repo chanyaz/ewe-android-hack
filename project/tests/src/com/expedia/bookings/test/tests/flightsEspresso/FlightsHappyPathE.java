@@ -18,7 +18,6 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchR
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchScreen;
 
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.test.tests.flights.FlightsHappyPath;
 import com.expedia.bookings.test.utils.HotelsUserData;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -35,7 +34,7 @@ public class FlightsHappyPathE {
 	 * and a user as its parameters. Executes a flight happy path
 	 * test based upon these parameters.
 	 */
-	private static final String TAG = FlightsHappyPath.class.getSimpleName();
+	private static final String TAG = "FlightsHappyPath";
 
 	public static void execute(HotelsUserData mUser) throws Exception {
 
