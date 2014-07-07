@@ -16,6 +16,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Region;
 import android.graphics.Shader;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -103,7 +105,8 @@ public class SlideToWidgetJB extends RelativeLayout {
 		super.onDraw(canvas);
 
 		if (mMask != null && mIsSliding && !mHitDestination) {
-			canvas.drawBitmap(mMask, mPartialSlide, 0.0f, mPaint);
+			int shift = (getHeight() - mMask.getHeight()) / 2;
+			canvas.drawBitmap(mMask, mPartialSlide, shift, mPaint);
 		}
 	}
 

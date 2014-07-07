@@ -41,11 +41,4 @@
         android:visibility="invisible"
         android:contentDescription="@string/cd_slide_to_checkout_end"/>
 
-    <View
-        android:id="@+id/dots"
-        android:layout_width="143dp"
-        android:layout_height="143dp"
-        android:visibility="invisible"
-        android:background="@drawable/slide_bg_dots"/>
-
 </merge>

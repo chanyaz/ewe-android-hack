@@ -58,12 +58,10 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/slide_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:paddingBottom="15dp"
         android:paddingTop="10dp">
 
@@ -71,16 +69,19 @@
             android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="@dimen/slide_to_purchase_widget_margin_top"
             app:sliderText="@string/slide_to_book_hotel"/>
 
         <TextView
             android:id="@+id/purchase_total_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/slide_to_purchase_text"
             android:textSize="@dimen/slide_to_purchase_price_text_size"/>
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/book_container"
