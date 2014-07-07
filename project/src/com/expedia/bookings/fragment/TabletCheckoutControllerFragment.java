@@ -10,7 +10,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -121,6 +120,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ViewGroup mBucketContainer;
 	private View mBucketDimmer;
 	private ViewGroup mBucketShowHideButton;
+	private ScrollView mBucketScrollView;
 
 	// Fragments
 	private TripBucketFlightFragment mBucketFlightFrag;
@@ -232,6 +232,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBucketDateRange.setText(dateRange);
 
 		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
+		mBucketScrollView = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketDimmer = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
 		mBucketShowHideButton = Ui.findView(mRootC, R.id.trip_bucket_show_hide_button);
 		if (mBucketShowHideButton != null) {
@@ -870,6 +871,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBucketContainer.setVisibility(View.GONE);
 			mBucketDimmer.setVisibility(View.GONE);
 		}
+	}
+
+	public void scrollBucketYTo(int y) {
+		mBucketScrollView.smoothScrollTo(0, y);
 	}
 
 	private void doCreateTrip() {
