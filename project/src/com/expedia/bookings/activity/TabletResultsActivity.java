@@ -495,7 +495,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateFinalized(ResultsState state) {
 			setListenerState(state);
 
-			if (hideTripBucketInPortrait() || searchControlsActive()) {
+			if (!isPortraitAndShouldShowTripBucket()) {
 				int transY = mGrid.getRowTop(2);
 				mTripBucketC.setTranslationY(transY);
 			}
@@ -577,13 +577,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private void setEnteringProductPercentage(float percentage, boolean enteringHotels, boolean vertical) {
 		if (vertical) {
 			//Reset X things, because they dont change if we are in vertical mode
-			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
+			if (isPortraitAndShouldShowTripBucket()) {
 				mTripBucketC.setTranslationX(0f);
 			}
 			mMissingFlightInfo.setTranslationX(0f);
 			mFlightsC.setTranslationX(0f);
 
-			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
+			if (isPortraitAndShouldShowTripBucket()) {
 				mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
 			}
 			mMissingFlightInfo.setTranslationY(
@@ -599,13 +599,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 		else {
 			//Reset Y things because they don't change if we are
-			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
+			if (isPortraitAndShouldShowTripBucket()) {
 				mTripBucketC.setTranslationY(0);
 			}
 			mMissingFlightInfo.setTranslationY(0f);
 			mFlightsC.setTranslationY(0);
 
-			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
+			if (isPortraitAndShouldShowTripBucket()) {
 				mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
 			}
 			mMissingFlightInfo.setTranslationX(percentage * -mGrid.getColRight(2));
@@ -735,13 +735,16 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 	}
 
-	private boolean hideTripBucketInPortrait() {
-		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty();
+	private boolean isPortraitAndShouldShowTripBucket() {
+		boolean isPortrait = !mGrid.isLandscape();
+		boolean hasItemsInTripBucket = !Db.getTripBucket().isEmpty();
+		ResultsSearchState state = mSearchController.getState();
+		boolean searchControlsAreShowing = state == ResultsSearchState.TRAVELER_PICKER || state == ResultsSearchState.CALENDAR;
+		return isPortrait && hasItemsInTripBucket && !searchControlsAreShowing;
 	}
 
-	private boolean searchControlsActive() {
-		ResultsSearchState state = mSearchController.getState();
-		return state == ResultsSearchState.TRAVELER_PICKER || state == ResultsSearchState.CALENDAR;
+	private boolean hideTripBucketInPortrait() {
+		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty();
 	}
 
 	@Override
