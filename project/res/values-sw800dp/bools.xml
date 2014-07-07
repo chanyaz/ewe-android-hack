@@ -2,5 +2,6 @@
 <resources>
 
     <bool name="show_now_booking_heading">true</bool>
+    <bool name="show_tripbucket_date">true</bool>
 
 </resources>

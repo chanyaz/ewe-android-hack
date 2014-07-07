@@ -112,6 +112,10 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			}
 		});
 
+		if (!getResources().getBoolean(R.bool.show_tripbucket_date)) {
+			mDatesTv.setVisibility(View.GONE);
+		}
+
 		bindExpandedView(Db.getTripBucket().getFlight());
 
 		root.addView(mExpandedView);
