@@ -49,6 +49,7 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -763,8 +764,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mDestBtn.setAlpha(1f - percentage);
 
 			if (mGrid.isLandscape()) {
-				//TODO: Use better number than searchBarHeight (this is to move to the left of the action bar buttons)
-				mRightButtonsC.setTranslationX(percentage * -searchBarHeight);
+				// This is only to ensure the search controls shift left of the overflow menu. This
+				// overflow menu is only present for HockeyApp builds.
+				if (!AndroidUtils.isRelease(getActivity())) {
+					mRightButtonsC.setTranslationX(percentage * -searchBarHeight);
+				}
 			}
 			else {
 				mRightButtonsC.setTranslationY(percentage * searchBarHeight);
