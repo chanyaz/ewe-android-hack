@@ -1055,7 +1055,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 				mGrid.setRowSize(2, getActivity().getActionBar().getHeight());
-				mGrid.setRowSize(3, getActivity().getActionBar().getHeight());
+				mGrid.setRowSize(3, 2 * getActivity().getActionBar().getHeight());
 				mGrid.setRowPercentage(4, getResources().getFraction(R.fraction.results_grid_half_bottom_half, 1, 1));
 				mGrid.setRowPercentage(5, getResources().getFraction(R.fraction.results_grid_half_bottom_half, 1, 1));
 
