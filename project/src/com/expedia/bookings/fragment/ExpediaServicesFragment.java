@@ -99,7 +99,7 @@ public class ExpediaServicesFragment extends Fragment {
 	public void startSuggestionsNearby(final double latitude, final double longitude, boolean continueIfInProgress) {
 		doDownload(ServiceType.SUGGEST_NEARBY, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
-				return services.suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, 0);
+				return services.suggestionsNearby(latitude, longitude, SuggestionSort.POPULARITY, 0);
 			}
 		});
 	}
