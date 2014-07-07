@@ -233,7 +233,9 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		@Override
 		public void onSwipeAllTheWay() {
 			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight() : Db.getTripBucket().getHotel());
-			tripBucketItemRemoved(item);
+			if (item != null) {
+				tripBucketItemRemoved(item);
+			}
 		}
 	}
 
