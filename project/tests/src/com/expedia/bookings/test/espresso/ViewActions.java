@@ -7,10 +7,13 @@ import org.hamcrest.Matchers;
 
 import com.google.android.apps.common.testing.ui.espresso.UiController;
 import com.google.android.apps.common.testing.ui.espresso.ViewAction;
+import com.google.android.apps.common.testing.ui.espresso.action.CoordinatesProvider;
 import com.google.android.apps.common.testing.ui.espresso.action.GeneralLocation;
 import com.google.android.apps.common.testing.ui.espresso.action.GeneralSwipeAction;
+import com.google.android.apps.common.testing.ui.espresso.action.PrecisionDescriber;
 import com.google.android.apps.common.testing.ui.espresso.action.Press;
 import com.google.android.apps.common.testing.ui.espresso.action.Swipe;
+import com.google.android.apps.common.testing.ui.espresso.action.Swiper;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 public final class ViewActions {
@@ -35,8 +38,30 @@ public final class ViewActions {
 	}
 
 	public static ViewAction swipeRight() {
-		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
+		return new LaxSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
 			GeneralLocation.CENTER_RIGHT, Press.FINGER);
+	}
+
+	public static class LaxSwipeAction implements ViewAction {
+		private GeneralSwipeAction mAction;
+		public LaxSwipeAction(Swiper swiper, CoordinatesProvider startCoordinatesProvider, CoordinatesProvider endCoordinatesProvider, PrecisionDescriber precisionDescriber) {
+			mAction = new GeneralSwipeAction(swiper, startCoordinatesProvider, endCoordinatesProvider, precisionDescriber);
+		}
+
+		@Override
+		public Matcher<View> getConstraints() {
+			return ViewMatchers.isDisplayingAtLeast(70);
+		}
+
+		@Override
+		public void perform(UiController uiController, View view) {
+			mAction.perform(uiController, view);
+		}
+
+		@Override
+		public String getDescription() {
+			return mAction.getDescription();
+		}
 	}
 
 }
