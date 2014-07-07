@@ -20,7 +20,6 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -113,7 +112,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ViewGroup mBookingContainer;
 	private ViewGroup mBookingUnavailableContainer;
 	private ViewGroup mConfirmationContainer;
-	private ViewGroup mBlurredDestImageOverlay;
 
 	// Views
 	private TextView mBucketDateRange;
@@ -197,8 +195,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_controller, null, false);
 
-		Ui.findView(mRootC, R.id.blurred_dest_image_overlay);
-
 		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
 		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
 
@@ -274,10 +270,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		int numItemsInTripBucket = 0;
 
 		if (Db.getTripBucket().getFlight() != null) {
-			numItemsInTripBucket ++;
+			numItemsInTripBucket++;
 		}
 		if (Db.getTripBucket().getHotel() != null) {
-			numItemsInTripBucket ++;
+			numItemsInTripBucket++;
 		}
 
 		TextView numText = Ui.findView(mRootC, R.id.number_of_items_in_trip_textview);
@@ -588,7 +584,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ViewGroup[] mTripBucketItemViews;
 
 
-
 	private class TripBucketOrchestrator extends StateListenerHelper<TripBucketItemState> {
 		private TripBucketItemFragment mFragment;
 		private boolean mForward = true;
@@ -607,7 +602,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		@Override
 		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (stateTwo == TripBucketItemState.EXPANDED || stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 				for (int i = 0; i < mTripBucketItemFragments.size(); i++) {
 					TripBucketItemFragment f = mTripBucketItemFragments.get(i);
@@ -813,7 +808,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 						&& (state != CheckoutState.READY_FOR_CHECKOUT && state != CheckoutState.CVV)) {
 						Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_PRICE_CHANGE);
 					}
-					else if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.BOOKING_UNAVAILABLE){
+					else if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
 						setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 					}
 					else {
@@ -837,7 +832,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 						&& (state != CheckoutState.READY_FOR_CHECKOUT && state != CheckoutState.CVV)) {
 						Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_PRICE_CHANGE);
 					}
-					else if (Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE){
+					else if (Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
 						setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 					}
 					else {
