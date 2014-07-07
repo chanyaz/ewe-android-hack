@@ -364,6 +364,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			manager.executePendingTransactions();//These must be finished before we continue..
 		}
 
+
 		if (mFlightsController == null) {
 			//Show the missing info pane
 			mMissingFlightInfo.setVisibility(View.VISIBLE);
@@ -576,13 +577,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private void setEnteringProductPercentage(float percentage, boolean enteringHotels, boolean vertical) {
 		if (vertical) {
 			//Reset X things, because they dont change if we are in vertical mode
-			if (!hideTripBucketInPortrait()) {
+			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
 				mTripBucketC.setTranslationX(0f);
 			}
 			mMissingFlightInfo.setTranslationX(0f);
 			mFlightsC.setTranslationX(0f);
 
-			if (!hideTripBucketInPortrait()) {
+			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
 				mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
 			}
 			mMissingFlightInfo.setTranslationY(
@@ -598,13 +599,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 		else {
 			//Reset Y things because they don't change if we are
-			if (!hideTripBucketInPortrait()) {
+			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
 				mTripBucketC.setTranslationY(0);
 			}
 			mMissingFlightInfo.setTranslationY(0f);
 			mFlightsC.setTranslationY(0);
 
-			if (!hideTripBucketInPortrait()) {
+			if (!hideTripBucketInPortrait() && !searchControlsActive()) {
 				mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
 			}
 			mMissingFlightInfo.setTranslationX(percentage * -mGrid.getColRight(2));
