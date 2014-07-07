@@ -89,11 +89,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
 	private static final String FTAG_SEARCH_CONTROLLER = "FTAG_SEARCH_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
+	private static final String FTAG_BLURRY_BACKGROUND_IMAGE = "FTAG_BLURRY_BACKGROUND_IMAGE";
 	private static final String FTAG_BUCKET = "FTAG_BUCKET";
 
 	//Containers..
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBgDestImageC;
+	private FrameLayoutTouchController mBlurryBgDestImageC;
 	private FrameLayoutTouchController mTripBucketC;
 	private ViewGroup mFlightsC;
 	private ViewGroup mHotelC;
@@ -102,6 +104,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
+	private ResultsBackgroundImageFragment mBlurryBackgroundImageFrag;
 	private TabletResultsFlightControllerFragment mFlightsController;
 	private TabletResultsHotelControllerFragment mHotelsController;
 	private TabletResultsSearchControllerFragment mSearchController;
@@ -130,6 +133,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
+		mBlurryBgDestImageC = Ui.findView(this, R.id.bg_blurry_dest_image_overlay);
+		mBlurryBgDestImageC.setBlockNewEventsEnabled(true);
+		mBlurryBgDestImageC.setVisibility(View.VISIBLE);
+		mBlurryBgDestImageC.setAlpha(0f);
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
@@ -151,14 +158,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		mBackgroundImageFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
-			FTAG_BACKGROUND_IMAGE,
-			manager, transaction, this, R.id.bg_dest_image_overlay, false);
-		mHotelsController = FragmentAvailabilityUtils.setFragmentAvailability(
-			true,
+			FTAG_BACKGROUND_IMAGE, manager, transaction, this, R.id.bg_dest_image_overlay, false);
+		mBlurryBackgroundImageFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
+			FTAG_BLURRY_BACKGROUND_IMAGE, manager, transaction, this, R.id.bg_blurry_dest_image_overlay, false);
+		mHotelsController = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_HOTELS_CONTROLLER, manager, transaction, this,
 			R.id.full_width_hotels_controller_container, false);
-		mSearchController = FragmentAvailabilityUtils.setFragmentAvailability(
-			true,
+		mSearchController = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_SEARCH_CONTROLLER, manager, transaction, this,
 			R.id.full_width_search_controller_container, false);
 		mTripBucketFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
@@ -388,6 +394,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
 		}
+		else if (tag == FTAG_BLURRY_BACKGROUND_IMAGE) {
+			frag = mBlurryBackgroundImageFrag;
+		}
 		else if (tag == FTAG_BUCKET) {
 			frag = mTripBucketFrag;
 		}
@@ -409,6 +418,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			String destination = Sp.getParams().getDestination().getAirportCode();
 			frag = ResultsBackgroundImageFragment.newInstance(destination, false);
+		}
+		else if (tag == FTAG_BLURRY_BACKGROUND_IMAGE) {
+			String destination = Sp.getParams().getDestination().getAirportCode();
+			frag = ResultsBackgroundImageFragment.newInstance(destination, true);
 		}
 		else if (tag == FTAG_BUCKET) {
 			frag = new ResultsTripBucketFragment();
@@ -995,7 +1008,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mFlightsC.setAlpha(p);
 				mTripBucketC.setAlpha(p);
 				mMissingFlightInfo.setAlpha(p);
-				//DOUG: TODO: asdf
+				mBlurryBgDestImageC.setAlpha(1f-p);
 			}
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {
