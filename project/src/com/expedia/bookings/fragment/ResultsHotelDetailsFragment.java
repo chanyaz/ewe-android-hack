@@ -539,13 +539,35 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		Db.getHotelSearch().setSelectedRate(selectedRate);
 
+		setSelectedRateNonAnimated(selectedRate);
+	}
+
+	private RowRoomRateLayout setSelectedRateNonAnimated(Rate selectedRate) {
+		RowRoomRateLayout selectedRow = null;
+
+		int selectedChildIndex = -1;
 		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
-			if (mRoomsRatesContainer.getChildAt(i) instanceof RowRoomRateLayout) {
-				final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
+			View child = mRoomsRatesContainer.getChildAt(i);
+			child.setVisibility(View.VISIBLE);
+			if (child instanceof RowRoomRateLayout) {
+				final RowRoomRateLayout row = (RowRoomRateLayout) child;
 				boolean isSelected = row.getRate().equals(selectedRate);
-				row.setSelected(isSelected);
+				row.setSelected(isSelected, true);
+				if (isSelected) {
+					selectedRow = row;
+					selectedChildIndex = i;
+				}
 			}
 		}
+		// Show/hide row separators appropriately
+		if (selectedChildIndex > 0) {
+			mRoomsRatesContainer.getChildAt(selectedChildIndex - 1).setVisibility(View.INVISIBLE);
+		}
+		if (selectedChildIndex < mRoomsRatesContainer.getChildCount() - 1) {
+			mRoomsRatesContainer.getChildAt(selectedChildIndex + 1).setVisibility(View.INVISIBLE);
+		}
+
+		return selectedRow;
 	}
 
 	/**
@@ -570,19 +592,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		final HashMap<View, int[]> newCoordinates = new HashMap<>();
 
-		// Do expand/contract
-		RowRoomRateLayout selectedRow = null;
-		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
-			if (mRoomsRatesContainer.getChildAt(i) instanceof RowRoomRateLayout) {
-				final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
-				boolean isSelected = row.getRate().equals(selectedRate);
-				row.setSelected(isSelected, true);
-				if (isSelected) {
-					selectedRow = row;
-				}
-			}
-		}
-		final RowRoomRateLayout fSelectedRow = selectedRow;
+		final RowRoomRateLayout fSelectedRow = setSelectedRateNonAnimated(selectedRate);
 
 		/* What is this whole "pass" thing anyway?
 		 * The idea is that every re-layout triggers another draw. We want to intercept these
