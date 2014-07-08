@@ -17,6 +17,7 @@ import android.animation.AnimatorSet;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +36,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
@@ -67,7 +69,9 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -793,6 +797,17 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(DOWNLOAD_KEY);
 		bd.startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
+
+		// Start the image downloads so we can download/load into cache for the next screen
+		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		Point screen = AndroidUtils.getScreenSize(this);
+		int width = screen.x;
+		int height = screen.y;
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(width, height) //
+			.build();
+
+		L2ImageCache.sDestination.loadImage(url, true /*blurred*/, new L2ImageCache.OnBitmapLoadedAdapter());
 	}
 
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {

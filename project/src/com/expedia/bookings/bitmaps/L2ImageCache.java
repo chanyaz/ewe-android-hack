@@ -436,6 +436,18 @@ public class L2ImageCache {
 		public void onBitmapLoadFailed(String url);
 	}
 
+	public static class OnBitmapLoadedAdapter implements OnBitmapLoaded {
+		@Override
+		public void onBitmapLoaded(String url, Bitmap bitmap) {
+			// ignore
+		}
+
+		@Override
+		public void onBitmapLoadFailed(String url) {
+			// ignore
+		}
+	}
+
 	/**
 	 * Loads an image, then uses the callback to do something with that image.
 	 * @param url the url of the image
