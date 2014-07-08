@@ -26,6 +26,7 @@ import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
@@ -45,12 +46,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private String mDestinationCode;
 	private boolean mBlur;
 
-	private int mScreenWidth;
-	private int mScreenHeight;
-
 	private ImageView mImageView;
-
-	private Bitmap mBgBitmap; // We temporarily store a bitmap here if we have not yet initialized
 
 	public static ResultsBackgroundImageFragment newInstance(String destination, boolean blur) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
@@ -75,14 +71,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		Point screenSize = AndroidUtils.getScreenSize(activity);
-		mScreenWidth = screenSize.x;
-		mScreenHeight = screenSize.y;
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -99,14 +87,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		mImageView.setLayoutParams(params);
 		mImageView.setScaleType(ImageView.ScaleType.MATRIX);
 
-		// Check to see if bitmap was retrieved before onCreateView
-		if (mBgBitmap != null) {
-			handleBitmap(mBgBitmap, false);
-			mBgBitmap = null;
-		}
-		else {
-			loadImage();
-		}
+		loadImage();
 
 		return mImageView;
 	}
@@ -137,12 +118,25 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		}
 	}
 
-	private void loadImage() {
-		final String url = new Akeakamai(Images.getFlightDestination(mDestinationCode)) //
-			.resizeExactly(mScreenWidth, mScreenHeight) //
-			.build();
+	public void setBlur(boolean blur) {
+		if (mBlur == blur) {
+			// Nothing to see here
+			return;
+		}
 
-		L2ImageCache.sDestination.loadImage(url, mBlur, this);
+		mBlur = blur;
+		loadImage();
+	}
+
+	private void loadImage() {
+		if (getActivity() != null) {
+			Point landscape = Ui.getLandscapeScreenSize(getActivity());
+			final String url = new Akeakamai(Images.getFlightDestination(mDestinationCode)) //
+				.resizeExactly(landscape.x, landscape.y) //
+				.build();
+
+			L2ImageCache.sDestination.loadImage(url, mBlur, this);
+		}
 	}
 
 	private static String getMostRelevantDestinationCode(LineOfBusiness lob) {
@@ -164,6 +158,16 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Override
 	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		if (bitmap != null && !mBlur) {
+			int avgColor = BitmapUtils.getAvgColorOnePixelTrick(bitmap);
+			int transparentAvgColor = new ColorBuilder(avgColor) //
+				.setSaturation(0.2f) //
+				.setOpacity(0.35f) //
+				.setAlpha(0xE5) //
+				.build();
+			Db.setFullscreenAverageColor(transparentAvgColor);
+		}
+
 		handleBitmap(bitmap, true);
 	}
 
@@ -178,42 +182,17 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		//mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		//TODO: TEMPORARY
 		if (bitmap != null) {
-			if (!mBlur) {
-				int color = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)) //
-					.setSaturation(0.2f) //
-					.setOpacity(0.35f) //
-					.setAlpha(0xE5) //
-					.build();
-				Db.setFullscreenAverageColor(color);
-			}
-
-			if (mImageView != null) {
-				Matrix topCrop = BitmapUtils.createTopCropMatrix(bitmap.getWidth(), bitmap.getHeight(), mImageView.getWidth(), mImageView.getHeight());
-				mImageView.setImageMatrix(topCrop);
+			if (mImageView != null && getActivity() != null) {
+				Point screen = Ui.getScreenSize(getActivity());
+				Matrix topCrop = BitmapUtils.createFitWidthMatrix(bitmap.getWidth(), bitmap.getHeight(), screen.x, screen.y);
 
 				if (fade) {
-					// Use ViewPropertyAnimator to run a simple fade in + fade out animation to update the
-					// ImageView
-					mImageView.animate()
-						.alpha(0f)
-						.setDuration(mImageView.getDrawable() == null ? 0 : HALF_FADE_IN_TIME)
-						.setListener(new AnimatorListenerAdapter() {
-							@Override
-							public void onAnimationEnd(Animator animation) {
-								mImageView.setImageBitmap(bitmap);
-								mImageView.animate()
-									.alpha(1f)
-									.setDuration(HALF_FADE_IN_TIME)
-									.setListener(null);
-							}
-						});
+					kickoffCrossfade(bitmap, topCrop);
 				}
 				else {
+					mImageView.setImageMatrix(topCrop);
 					mImageView.setImageBitmap(bitmap);
 				}
-			}
-			else {
-				mBgBitmap = bitmap; // Store the Bitmap to get picked up in onCreateView
 			}
 		}
 		else {
@@ -221,4 +200,20 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		}
 	}
 
+	private void kickoffCrossfade(final Bitmap bitmap, final Matrix newMatrix) {
+		mImageView.animate()
+			.alpha(0f)
+			.setDuration(mImageView.getDrawable() == null ? 0 : HALF_FADE_IN_TIME)
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mImageView.setImageMatrix(newMatrix);
+					mImageView.setImageBitmap(bitmap);
+					mImageView.animate()
+				.alpha(1f)
+				.setDuration(HALF_FADE_IN_TIME)
+				.setListener(null);
+				}
+			});
+	}
 }

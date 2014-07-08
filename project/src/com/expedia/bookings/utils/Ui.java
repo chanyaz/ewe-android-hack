@@ -363,14 +363,26 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return location[1];
 	}
 
-	public static Point getPortraitScreenSize(Context context) {
+	public static Point getScreenSize(Context context) {
 		Point screen = AndroidUtils.getDisplaySize(context);
-		int temp;
+		return screen;
+	}
+
+	public static Point getPortraitScreenSize(Context context) {
+		Point screen = getScreenSize(context);
 
 		if (screen.y < screen.x) {
-			temp = screen.y;
-			screen.y = screen.x;
-			screen.x = temp;
+			screen.set(screen.y, screen.x);
+		}
+
+		return screen;
+	}
+
+	public static Point getLandscapeScreenSize(Context context) {
+		Point screen = getScreenSize(context);
+
+		if (screen.y > screen.x) {
+			screen.set(screen.y, screen.x);
 		}
 
 		return screen;

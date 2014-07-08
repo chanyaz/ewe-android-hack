@@ -34,14 +34,27 @@ public class Akeakamai {
 		return this;
 	}
 
+	public Akeakamai downsize(Dimension w, Dimension h) {
+		commands.add("downsize=" + w.render() + ":" + h.render());
+		return this;
+	}
+
+	public Akeakamai quality(int amount) {
+		commands.add("output-quality=" + amount);
+		// the quality command is only valid for jpegs
+		commands.add("output-format=jpeg");
+		return this;
+	}
+
 	public Akeakamai crop(Dimension w, Dimension h, Location x, Location y) {
 		commands.add("crop=" + w.render() + ":" + h.render() + ";" + x.render() + "," + y.render());
 		return this;
 	}
 
 	public Akeakamai resizeExactly(int w, int h) {
-		this.resize(pixels(w), preserve());
-		this.crop(pixels(w), pixels(h), pixels(0), pixels(0));
+		this.downsize(pixels(w), preserve());
+		this.crop(new Width(), new Fractional(h, w, new Width()), new Alignment(Alignment.CENTER), new Alignment(Alignment.TOP));
+		this.quality(60);
 		return this;
 	}
 
@@ -49,8 +62,9 @@ public class Akeakamai {
 		return new Pixels(pixels);
 	}
 
+	private static Preserve mPreserve = new Preserve();
 	public static Preserve preserve() {
-		return new Preserve();
+		return mPreserve;
 	}
 
 	public static abstract class Location {
@@ -142,6 +156,23 @@ public class Akeakamai {
 		@Override
 		public String render() {
 			return "h";
+		}
+	}
+
+	public static class Fractional extends Dimension {
+		private int numerator;
+		private int denominator;
+		private Dimension dimension;
+
+		public Fractional(int numerator, int denominator, Dimension dimension) {
+			this.numerator = numerator;
+			this.denominator = denominator;
+			this.dimension = dimension;
+		}
+
+		@Override
+		public String render() {
+			return "" + numerator + "/" + denominator + "x" + dimension.render();
 		}
 	}
 }

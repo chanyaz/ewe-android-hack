@@ -370,4 +370,18 @@ public class BitmapUtils {
 
 		return matrix;
 	}
+
+	/**
+	 * Creates a matrix to use in a drawable or ImageView to fit the image by width
+	 */
+	public static Matrix createFitWidthMatrix(int bitmapWidth, int bitmapHeight, int vwidth, int vheight) {
+		Matrix matrix = new Matrix();
+
+		float scale;
+		scale = (float) vwidth / (float) bitmapWidth;
+
+		matrix.setScale(scale, scale);
+
+		return matrix;
+	}
 }
