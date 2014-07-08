@@ -300,10 +300,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		JSONUtils.putEnum(b, "lob", item.getLineOfBusiness());
 		JSONUtils.putJSONable(b, "item", item);
 
-		String undoString = item.getLineOfBusiness() == LineOfBusiness.FLIGHTS ?
-			getString(R.string.tablet_tripbucket_flight_removed) :
-			getString(R.string.tablet_tripbucket_hotel_removed);
-
 		// Remove item from db, show undo bar
 		Db.getTripBucket().clear(item.getLineOfBusiness());
 		Db.saveTripBucket(getActivity());
@@ -314,7 +310,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		else {
 			mHotelInLimbo = true;
 		}
-		undoBar.showUndoBar(true, undoString, b);
+		undoBar.showUndoBar(true, getString(R.string.tablet_tripbucket_item_removed), b);
 		bindToDb();
 	}
 
