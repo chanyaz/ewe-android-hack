@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.allOf;
 
 public class Checkout {
 	public static void clickOnTravelerDetails() {
-		onView(withText("Traveler details")).perform(click());
+		onView(withText("Main traveler details")).perform(click());
 	}
 
 	public static ViewInteraction loginButton() {
