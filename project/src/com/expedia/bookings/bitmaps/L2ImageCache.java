@@ -925,6 +925,11 @@ public class L2ImageCache {
 					origBitmap = getImage(mOrigUrl, true);
 				}
 
+				if (origBitmap == null) {
+					Log.w(mLogTag, "Could not fetch original image url=" + mOrigUrl);
+					return null;
+				}
+
 				// Allocate a new Bitmap for the blurred Bitmap
 				blurBitmap = BitmapUtils.stackBlurAndDarken(origBitmap, mContext,
 					BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
