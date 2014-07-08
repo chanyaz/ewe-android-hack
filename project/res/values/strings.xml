@@ -33,7 +33,7 @@
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Choose dates</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Hotels Tonight</string>
+    <string name="hotels_tonight">Hotels tonight</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Missing search information!</string>
     <!-- Missing flight info message -->
@@ -1162,7 +1162,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Choose a Stored Payment Method</string>
     <!-- Payment Method -->
-    <string name="payment_method">Payment Method</string>
+    <string name="payment_method">Payment details</string>
     <!-- Billing Address -->
     <string name="billing_address">Billing Address</string>
     <!-- Card Info -->
@@ -1268,7 +1268,7 @@
     <!-- Payment -->
     <string name="payment">Payment</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">Enter payment information</string>
+    <string name="enter_payment_information">Enter payment details</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1300,7 +1300,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Traveler details</string>
+    <string name="traveler_details">Main traveler details</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
     <!-- Add traveler number template -->
@@ -1312,9 +1312,13 @@
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">%1$s yr old details</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Infant in Lap %1$s details</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Infant in lap %1$s details</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">Infant in lap details</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Infant in Seat %1$s details</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Infant in seat %1$s details</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">Infant in seat details</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
 
