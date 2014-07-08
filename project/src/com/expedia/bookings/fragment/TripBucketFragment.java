@@ -47,6 +47,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
 
 	private static final float BUCKET_ITEM_SWIPE_THRESHOLD = 0.50f;
+	private static final int UNDO_BAR_DIVIDER_PADDING = 72;
 
 	private TripBucketFlightFragment mTripBucketFlightFrag;
 	private TripBucketHotelFragment mTripBucketHotelFrag;
@@ -63,10 +64,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private LinearLayout mContentC;
 	private SwipeOutLayout mHotelC;
 	private FrameLayout mHotelCard;
-	private View mHotelUndo;
+	private LinearLayout mHotelUndo;
 	private SwipeOutLayout mFlightC;
 	private FrameLayout mFlightCard;
-	private View mFlightUndo;
+	private LinearLayout mFlightUndo;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -92,7 +93,9 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mFlightC.addListener(new TripBucketSwipeListener(LineOfBusiness.FLIGHTS));
 		mFlightC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
 
+		mHotelUndo.setDividerPadding(UNDO_BAR_DIVIDER_PADDING);
 		mHotelUndo.setVisibility(View.INVISIBLE);
+		mFlightUndo.setDividerPadding(UNDO_BAR_DIVIDER_PADDING);
 		mFlightUndo.setVisibility(View.INVISIBLE);
 
 		return mRootC;
