@@ -128,8 +128,8 @@ public class L2ImageCache {
 		final String logTag = "DestinationImageCache";
 		// NOTE: The phone flights flow requires both the regular and blurred versions of the destination
 		// image in memory at once to properly show the regular to blur transition on FlightSearchResults.
-		// Tablet search results requires a fade from non-blurry to blurry versions of the destination image.
-		final int numMemCacheEntries = 2;
+		// Tablet only requires one Bitmap in memory at a given time.
+		final int numMemCacheEntries = ExpediaBookingApp.useTabletInterface(context) ? 1 : 2;
 		final int diskCacheSize = 1024 * 1024 * 20; // 20 mb
 
 		// Construct cache
