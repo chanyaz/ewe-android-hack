@@ -19,7 +19,6 @@
         android:background="@drawable/ab_gradient"/>
 
     <LinearLayout
-        android:id="@+id/bucket_showing_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
@@ -78,6 +77,18 @@
                     android:paddingTop="@dimen/results_bucket_item_padding"/>
             </LinearLayout>
         </ScrollView>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <FrameLayout
             android:layout_width="0dp"

@@ -164,6 +164,7 @@
     <dimen name="tablet_checkout_form_group_heading_margin_top">16dp</dimen>
     <dimen name="tablet_checkout_form_group_heading_margin_bottom">6dp</dimen>
     <dimen name="tablet_checkout_coupon_button_gap">8dp</dimen>
+    <dimen name="tablet_checkout_data_form_margin_x">108dp</dimen>
     <dimen name="checkout_data_button_icon_size">40dp</dimen>
     <dimen name="checkout_data_button_text_size">@dimen/login_button_text_size</dimen>
     <dimen name="tablet_data_button_sub_text_size">14sp</dimen>

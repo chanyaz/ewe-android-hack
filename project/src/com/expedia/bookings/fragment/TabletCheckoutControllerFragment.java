@@ -153,8 +153,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private boolean mAnimateState = false;
 
 	//vars
-	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
-		CheckoutState.OVERVIEW, this);
+	private StateManager<CheckoutState> mStateManager = new StateManager<>(CheckoutState.OVERVIEW, this);
 
 	private TripBucketOrchestrator mBucketFlightFragStateListener;
 	private TripBucketOrchestrator mBucketHotelFragStateListener;

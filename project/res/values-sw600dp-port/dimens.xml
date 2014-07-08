@@ -36,5 +36,7 @@
     <dimen name="bucket_top_margin">0dp</dimen>
     <dimen name="bucket_heading_top_margin">8dp</dimen>
 
+    <!-- Checkout -->
+    <dimen name="tablet_checkout_data_form_margin_x">32dp</dimen>
 
 </resources>
