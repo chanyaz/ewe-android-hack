@@ -36,7 +36,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
 import com.expedia.bookings.data.FlightLeg;
@@ -281,8 +280,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		}
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
-			ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(Db.getFlightSearch(), false);
-			ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(Db.getFlightSearch(), true);
 		}
 
 		// End any animations now
@@ -796,12 +793,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(DOWNLOAD_KEY);
 		bd.startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
-
-		// Destination images
-		ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(Db.getFlightSearch(), false);
-		ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(Db.getFlightSearch(), true);
-		ExpediaImageManager.getInstance().loadDestinationBitmap(this, Db.getFlightSearch(), false);
-		ExpediaImageManager.getInstance().loadDestinationBitmap(this, Db.getFlightSearch(), true);
 	}
 
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {

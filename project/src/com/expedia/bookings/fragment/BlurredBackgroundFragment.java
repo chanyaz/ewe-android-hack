@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
+import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.Images;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 public class BlurredBackgroundFragment extends Fragment {
@@ -55,9 +58,23 @@ public class BlurredBackgroundFragment extends Fragment {
 	}
 
 	public void loadBitmapFromCache(Context context) {
+		if (getActivity() == null) {
+			return;
+		}
 
-		Bitmap og = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), false);
-		Bitmap bl = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), true);
+		Point screen = AndroidUtils.getScreenSize(getActivity());
+		int width = screen.x;
+		int height = screen.y;
+
+		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(width, height) //
+			.build();
+
+		// FIXME don't load unblurred image on landscape since it is completely covered
+
+		Bitmap og = L2ImageCache.sDestination.getImage(url, false /*blur*/, true /*checkOnDisk*/);
+		Bitmap bl = L2ImageCache.sDestination.getImage(url, true /*blur*/, true /*checkOnDisk*/);
 
 		// If Bitmaps according to our FlightSearch aren't in memory, then we should default to the clouds from resources
 		if (og == null || bl == null) {

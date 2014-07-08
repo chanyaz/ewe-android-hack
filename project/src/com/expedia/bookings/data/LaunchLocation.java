@@ -1,5 +1,7 @@
 package com.expedia.bookings.data;
 
+import com.expedia.bookings.utils.Images;
+
 public class LaunchLocation {
 	public String title;
 	public String subtitle;
@@ -9,6 +11,6 @@ public class LaunchLocation {
 	public SuggestionV2 location;
 
 	public String getImageUrl() {
-		return LaunchCollection.LAUNCH_MEDIA + imageCode + ".jpg";
+		return Images.getTabletLaunch(imageCode);
 	}
 }

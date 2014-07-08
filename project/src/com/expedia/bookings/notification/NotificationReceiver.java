@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
@@ -22,7 +23,6 @@ import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
@@ -31,6 +31,8 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
+import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
@@ -150,10 +152,17 @@ public class NotificationReceiver extends BroadcastReceiver {
 				mUrls = mNotification.getImageUrls();
 				loadNextUrl();
 				break;
-			case DESTINATION:
-				ExpediaImageManager.getInstance().loadDestinationBitmap(mContext,
-					mNotification.getImageValue(), false, mDestinationImageLoaded);
+			case DESTINATION: {
+				final String code = mNotification.getImageValue();
+				Point screen = AndroidUtils.getScreenSize(mContext);
+				int width = screen.x;
+				int height = screen.y;
+				final String url = new Akeakamai(Images.getFlightDestination(code)) //
+					.resizeExactly(width, height) //
+					.build();
+				L2ImageCache.sDestination.loadImage(url, false /*blurred*/, mDestinationImageLoaded);
 				break;
+			}
 			case CAR:
 			case ACTIVITY:
 			case NONE:

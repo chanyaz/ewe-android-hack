@@ -19,7 +19,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
@@ -153,9 +152,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
-
-		ExpediaImageManager.init(this);
-		startupTimer.addSplit("ExpediaImageManager Init");
 
 		L2ImageCache.initAllCacheInstances(this);
 		startupTimer.addSplit("L2ImageCache Init");

@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -7,22 +9,29 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.BitmapDrawable;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.L2ImageCache.OnBitmapLoaded;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 
-public class FlightConfirmationActivity extends FragmentActivity {
+public class FlightConfirmationActivity extends FragmentActivity implements OnBitmapLoaded {
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
+
+	private ImageView mBgImageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +65,16 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		setContentView(R.layout.activity_flight_confirmation);
 		getWindow().setBackgroundDrawable(null);
 
-		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
-		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
+		mBgImageView = Ui.findView(this, R.id.background_bg_view);
+
+		Point screen = AndroidUtils.getScreenSize(this);
+		int width = screen.x;
+		int height = screen.y;
+		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(width, height) //
+			.build();
+		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
 	}
 
 	@Override
@@ -121,4 +138,17 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	///////////////////////////////////////////////////////////////
+	// OnBitmapLoaded
+
+	@Override
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+		mBgImageView.setImageDrawable(drawable);
+	}
+
+	@Override
+	public void onBitmapLoadFailed(String url) {
+		// ignore
+	}
 }

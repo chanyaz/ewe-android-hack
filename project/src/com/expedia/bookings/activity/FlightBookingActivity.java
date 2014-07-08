@@ -8,6 +8,8 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -18,8 +20,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
+import com.expedia.bookings.bitmaps.BitmapDrawable;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.L2ImageCache.OnBitmapLoaded;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -34,6 +38,8 @@ import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -43,7 +49,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
-public class FlightBookingActivity extends FragmentActivity implements CVVEntryFragmentListener {
+public class FlightBookingActivity extends FragmentActivity implements CVVEntryFragmentListener, OnBitmapLoaded {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -53,6 +59,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	private BookingInProgressDialogFragment mProgressFragment;
 	private FlightBookingFragment mBookingFragment;
 	private ViewGroup mActionBarTextView;
+	private ImageView mBgImageView;
 
 	private boolean mCvvErrorModeEnabled;
 
@@ -89,8 +96,15 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 		setContentView(R.layout.activity_flight_booking);
 
-		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
-		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
+		mBgImageView = Ui.findView(this, R.id.background_bg_view);
+		Point screen = AndroidUtils.getScreenSize(this);
+		int width = screen.x;
+		int height = screen.y;
+		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(width, height) //
+			.build();
+		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
 
 		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
@@ -478,5 +492,19 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 				getString(R.string.preference_flight_fake_obfees),
 				getString(R.string.preference_flight_fake_obfees_default));
 		return new BigDecimal(amount);
+	}
+
+	///////////////////////////////////////////////////////////////
+	// OnBitmapLoaded
+
+	@Override
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+		mBgImageView.setImageDrawable(drawable);
+	}
+
+	@Override
+	public void onBitmapLoadFailed(String url) {
+		// ignore
 	}
 }

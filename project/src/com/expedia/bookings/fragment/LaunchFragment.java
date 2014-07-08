@@ -44,8 +44,6 @@ import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.ExpediaFlightDestinations;
-import com.expedia.bookings.data.ExpediaImage;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.HotelFilter;
@@ -61,10 +59,12 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
@@ -435,7 +435,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		@Override
 		public List<Destination> doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
-			ExpediaImageManager imageManager = ExpediaImageManager.getInstance();
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_FLIGHT_DESTINATIONS, services);
 			List<Destination> destinations = new ArrayList<Destination>();
 
@@ -503,16 +502,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					return null;
 				}
 
-				ExpediaImage image = imageManager.getDestinationImage(destId, width, height, true);
-				if (image == null) {
-					Log.w("Could not get URL for destination bg: " + destId);
-				}
-				else {
-					Log.v("Got destination data for: " + destId);
-					Destination destination = new Destination(destId, displayName.first, displayName.second,
-							image.getUrl());
-					destinations.add(destination);
-				}
+				final String url = new Akeakamai(Images.getFlightDestination(destId)) //
+					.resizeExactly(width, height) //
+					.build();
+				Destination destination = new Destination(destId, displayName.first, displayName.second, url);
+				destinations.add(destination);
 			}
 
 			return destinations;

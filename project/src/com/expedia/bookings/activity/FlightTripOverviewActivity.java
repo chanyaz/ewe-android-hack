@@ -4,6 +4,8 @@ import java.util.Date;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -23,10 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.BitmapDrawable;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.L2ImageCache.OnBitmapLoaded;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -43,8 +47,10 @@ import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FlightUtils;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -53,11 +59,12 @@ import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener,
-	FlightTripPriceFragmentListener {
+	FlightTripPriceFragmentListener, OnBitmapLoaded {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -81,6 +88,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private ViewGroup mCheckoutContainer;
 	private FrameLayoutTouchController mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
+	private ImageView mBgImageView;
 
 	private ScrollViewListener mScrollViewListener;
 	private ScrollView mContentScrollView;
@@ -130,8 +138,15 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			}
 		}
 
-		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
-		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
+		mBgImageView = Ui.findView(this, R.id.background_bg_view);
+		Point screen = AndroidUtils.getScreenSize(this);
+		int width = screen.x;
+		int height = screen.y;
+		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(width, height) //
+			.build();
+		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
 
 		mContentRoot = Ui.findView(this, R.id.content_root);
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
@@ -815,5 +830,19 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void doLogout() {
 		mCheckoutFragment.doLogout();
+	}
+
+	///////////////////////////////////////////////////////////////
+	// OnBitmapLoaded
+
+	@Override
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+		mBgImageView.setImageDrawable(drawable);
+	}
+
+	@Override
+	public void onBitmapLoadFailed(String url) {
+		// ignore
 	}
 }

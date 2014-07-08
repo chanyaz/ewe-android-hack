@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImage;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -30,11 +28,10 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ShareUtils;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 
@@ -76,46 +73,18 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 
-		ViewTreeObserver vto = mDestinationImageView.getViewTreeObserver();
-		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		int imageWidth = getResources().getDimensionPixelSize(R.dimen.confirmation_width);
+		int imageHeight = getResources().getDimensionPixelSize(R.dimen.confirmation_image_height);
+		// FIXME tablet destination image
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(imageWidth, imageHeight) //
+			.build();
 
-			@Override
-			public void onGlobalLayout() {
-				startDestinationImageDownload();
-			}
-		});
+		mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, R.drawable.bg_itin_placeholder));
 
 		return v;
 	}
-
-	private void startDestinationImageDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
-			bd.startDownload(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, mDestinationImageInfoDownload,
-					mDestinationImageInfoDownloadCallback);
-		}
-	}
-
-	private Download<ExpediaImage> mDestinationImageInfoDownload = new Download<ExpediaImage>() {
-		@Override
-		public ExpediaImage doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, services);
-			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-			return ExpediaImageManager.getInstance().getDestinationImage(code,
-					mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), true);
-		}
-	};
-
-	private OnDownloadComplete<ExpediaImage> mDestinationImageInfoDownloadCallback = new OnDownloadComplete<ExpediaImage>() {
-		@Override
-		public void onDownload(ExpediaImage image) {
-			if (image != null) {
-				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
-						R.drawable.bg_itin_placeholder));
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// TabletConfirmationFragment
@@ -179,27 +148,6 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		}
 		else {
 			return null;
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
-			bd.registerDownloadCallback(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, mDestinationImageInfoDownloadCallback);
-		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (getActivity().isFinishing()) {
-			bd.cancelDownload(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY);
-		}
-		else {
-			bd.unregisterDownloadCallback(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY);
 		}
 	}
 }

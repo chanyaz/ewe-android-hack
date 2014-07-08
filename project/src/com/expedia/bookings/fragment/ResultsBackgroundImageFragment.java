@@ -20,11 +20,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ColorBuilder;
+import com.expedia.bookings.utils.Images;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
@@ -103,8 +104,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			handleBitmap(mBgBitmap, false);
 			mBgBitmap = null;
 		}
-		else if (!ExpediaImageManager.getInstance().isDownloadingDestinationImage(mBlur)) {
-			ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
+		else {
+			loadImage();
 		}
 
 		return mImageView;
@@ -132,14 +133,16 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			getArguments().putString(ARG_DEST_CODE, newCode);
 			mDestinationCode = newCode;
 
-			// Start new dl
-			ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(mBlur);
-			ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), this);
+			loadImage();
 		}
 	}
 
-	private ExpediaImageManager.ImageParams makeImageParams() {
-		return new ExpediaImageManager.ImageParams().setBlur(mBlur).setWidth(mScreenWidth).setHeight(mScreenHeight).setDestinationId(mDestinationCode);
+	private void loadImage() {
+		final String url = new Akeakamai(Images.getFlightDestination(mDestinationCode)) //
+			.resizeExactly(mScreenWidth, mScreenHeight) //
+			.build();
+
+		L2ImageCache.sDestination.loadImage(url, mBlur, this);
 	}
 
 	private static String getMostRelevantDestinationCode(LineOfBusiness lob) {

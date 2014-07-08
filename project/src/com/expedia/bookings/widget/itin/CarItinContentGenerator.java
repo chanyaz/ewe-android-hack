@@ -21,14 +21,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Car;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -88,11 +88,14 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	@Override
 	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		Car car = getItinCardData().getCar();
-		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(),
-				getHeaderImagePlaceholderResId(),
-				car.getCategory(), car.getType(), width, height);
-		setSharableImageURL(ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/car/convertible_720_500.jpg");
-		return bitmapDrawable;
+
+		final String url = new Akeakamai(Images.getCarRental(car)) //
+			.resizeExactly(width, height) //
+			.build();
+
+		UrlBitmapDrawable drawable = new UrlBitmapDrawable(getResources(), url, getHeaderImagePlaceholderResId());
+		setSharableImageURL(url);
+		return drawable;
 	}
 
 	@Override
@@ -345,7 +348,9 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Notification notification = new Notification(itinId + "_pickup", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setImageCar(ExpediaImageManager.getImageCode(car.getCategory(), car.getType()));
+
+		final String carUrl = Images.getCarRental(car);
+		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
 
@@ -381,7 +386,9 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Notification notification = new Notification(itinId + "_dropoff", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setImageCar(ExpediaImageManager.getImageCode(car.getCategory(), car.getType()));
+
+		final String carUrl = Images.getCarRental(car);
+		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
 

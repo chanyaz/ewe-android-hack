@@ -3,6 +3,8 @@ package com.expedia.bookings.activity;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -13,17 +15,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.LoginExtender;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
-public class LoginActivity extends FragmentActivity implements TitleSettable {
+public class LoginActivity extends FragmentActivity implements TitleSettable, L2ImageCache.OnBitmapLoaded {
 
 	public static final String ARG_BUNDLE = "ARG_BUNDLE";
 	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
@@ -43,7 +48,6 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 	private LoginExtender mLoginExtender;
 
-	
 	/**
 	 * Please don't use this. SRSLY. If you want to sign into expedia,
 	 * please use User.signIn(contex, bundle).
@@ -60,7 +64,6 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 		return loginIntent;
 	}
 
-	
 	/**
 	 * This generates the arguments bundle for LoginActivity.
 	 * The Bundle generated is suitable for passing into User.signIn(context,BUNDLE)
@@ -139,17 +142,23 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 
 		// Set the background (based on mode)
 		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
+			final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 			if (ExpediaBookingApp.useTabletInterface(this)) {
 				ResultsBackgroundImageFragment frag = Ui.findSupportFragment(this, FRAG_TAG_IMAGE_FRAG);
 				if (frag == null) {
-					String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 					frag = ResultsBackgroundImageFragment.newInstance(code, true);
 					getSupportFragmentManager().beginTransaction()
 						.add(R.id.background_image_container, frag, FRAG_TAG_IMAGE_FRAG).commit();
 				}
 			}
 			else {
-				ExpediaImageManager.getInstance().setDestinationBitmap(this, mBgImageView, Db.getFlightSearch(), true);
+				Point screen = AndroidUtils.getScreenSize(this);
+				int width = screen.x;
+				int height = screen.y;
+				final String url = new Akeakamai(Images.getFlightDestination(code)) //
+					.resizeExactly(width, height) //
+					.build();
+				L2ImageCache.sDestination.loadImage(url, true, this);
 			}
 			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
@@ -230,6 +239,19 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 		else {
 			super.onBackPressed();
 		}
+	}
+
+	///////////////////////////////////////////////////////////////
+	// OnBitmapLoaded
+
+	@Override
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		mBgImageView.setImageBitmap(bitmap);
+	}
+
+	@Override
+	public void onBitmapLoadFailed(String url) {
+		// ignore
 	}
 
 }

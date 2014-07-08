@@ -45,15 +45,16 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -132,12 +133,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
-		String destinationCode = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
-		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(),
-				getHeaderImagePlaceholderResId(), destinationCode, width,
-				height);
-		setSharableImageURL(bitmapDrawable.getSharableUrl());
-		return bitmapDrawable;
+		final String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
+
+		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+			.resizeExactly(width, height) //
+			.build();
+
+		UrlBitmapDrawable drawable = new UrlBitmapDrawable(getResources(), url, getHeaderImagePlaceholderResId());
+		setSharableImageURL(url);
+		return drawable;
 	}
 
 	@Override

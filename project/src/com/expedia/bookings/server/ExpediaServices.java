@@ -47,8 +47,6 @@ import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager.ImageType;
-import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
@@ -591,22 +589,6 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 		return false;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Images API
-
-	public ExpediaImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("imageType", imageType.getIdentifier()));
-		query.add(new BasicNameValuePair("imageCode", imageCode));
-		query.add(new BasicNameValuePair("imageWidth", Integer.toString(width)));
-		query.add(new BasicNameValuePair("imageHeight", Integer.toString(height)));
-
-		return doFlightsRequest("api/mobile/image", query, new ExpediaImageResponseHandler(mContext), 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

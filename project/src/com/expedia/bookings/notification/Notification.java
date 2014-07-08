@@ -52,15 +52,12 @@ public class Notification extends Model implements JSONable {
 	 * URL = A url must be specified in setImageValue, and a placeholder image
 	 * must be specified in setImageResId.
 	 * URLS = A list of URLs. It will be stored as a JSONArray object.
-	 * DESTINATION = Corresponds to ExpediaImageManager.ImageType.DESTINATION. An
-	 * airport code must be specified in setImageValue, and a placeholder image must
-	 * be specified in setImageResId.
-	 * CAR = Corresponds to ExpediaImageManager.ImageType.CAR. A car type must be
-	 * specified in setImageValue, and a placeholder image must be specified in
-	 * setImageResId.
-	 * ACTIVITY = Corresponds to ExpediaImageManager.ImageType.CAR. An activity
-	 * type must be specified in setImageValue, and a placeholder image must be
-	 * specified in setImageResId.
+	 * DESTINATION = An airport code must be specified in setImageValue, and a
+	 * placeholder image must be specified in setImageResId.
+	 * CAR = A car cetegory must be specified in setImageValue, and a placeholder
+	 * image must be specified in setImageResId.
+	 * ACTIVITY = An activitytype must be specified in setImageValue, and a
+	 * placeholder image must be specified in setImageResId.
 	 */
 	public enum ImageType {
 		RESOURCE,

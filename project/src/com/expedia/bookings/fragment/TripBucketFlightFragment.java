@@ -16,8 +16,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImage;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -28,10 +26,11 @@ import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
@@ -140,41 +139,26 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		mHeaderBitmapDrawable = headerBitmapDrawable;
 		mDestinationImageView = imageView;
 
-		if (!BackgroundDownloader.getInstance().isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
-			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
+		mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-			mHeaderBitmapDrawable.disableOverlay();
-			mHeaderBitmapDrawable
-				.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
-			mDestinationImageView.getViewTreeObserver()
-				.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+		mHeaderBitmapDrawable.disableOverlay();
+		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+		mDestinationImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				// Let's listen for just one time
+				mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
-					@Override
-					public void onGlobalLayout() {
-						// Let's listen for just one time
-						mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				mPreviousDestination = mNewDestination;
+				mHeaderBitmapDrawable.enableOverlay();
 
-						mPreviousDestination = mNewDestination;
+				final String url = new Akeakamai(Images.getFlightDestination(mNewDestination)) //
+					.resizeExactly(mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight()) //
+					.build();
 
-						ExpediaImage bgImage = null;
-						if (!TextUtils.isEmpty(mNewDestination)) {
-							bgImage = ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
-								mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
-						}
-
-						if (bgImage == null) {
-							startDestinationImageDownload();
-						}
-						else {
-
-							mHeaderBitmapDrawable.enableOverlay();
-							mHeaderBitmapDrawable
-								.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
-									R.drawable.bg_itin_placeholder));
-						}
-					}
-				});
-		}
+				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, R.drawable.bg_itin_placeholder));
+			}
+		});
 	}
 
 	@Override
@@ -299,37 +283,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		public void onClick(View arg0) {
 			Db.getTripBucket().selectHotelAndFlight();
 			triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
-		}
-	};
-
-	private void startDestinationImageDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
-			if (!TextUtils.isEmpty(mNewDestination)) {
-				bd.startDownload(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, mDestinationImageInfoDownload,
-					mDestinationImageInfoDownloadCallback);
-			}
-		}
-	}
-
-	private BackgroundDownloader.Download<ExpediaImage> mDestinationImageInfoDownload = new BackgroundDownloader.Download<ExpediaImage>() {
-		@Override
-		public ExpediaImage doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, services);
-			return ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
-				mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), true);
-		}
-	};
-
-	private BackgroundDownloader.OnDownloadComplete<ExpediaImage> mDestinationImageInfoDownloadCallback = new BackgroundDownloader.OnDownloadComplete<ExpediaImage>() {
-		@Override
-		public void onDownload(ExpediaImage image) {
-			if (image != null) {
-				mHeaderBitmapDrawable.enableOverlay();
-				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
-					R.drawable.bg_itin_placeholder));
-			}
 		}
 	};
 
