@@ -197,12 +197,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	public void setTopRightTextButtonEnabled(boolean enabled) {
 		mTopRightButtonEnabled = enabled;
 		if (mTopRightTextButton != null) {
-			if (enabled) {
-				mTopRightTextButton.setVisibility(View.VISIBLE);
-			}
-			else {
-				mTopRightTextButton.setVisibility(View.GONE);
-			}
+			mTopRightTextButton.setVisibility(enabled ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
 
