@@ -800,11 +800,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 		// Start the image downloads so we can download/load into cache for the next screen
 		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-		Point screen = AndroidUtils.getScreenSize(this);
-		int width = screen.x;
-		int height = screen.y;
+		Point portrait = Ui.getPortraitScreenSize(this);
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
-			.resizeExactly(width, height) //
+			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
 		L2ImageCache.sDestination.loadImage(url, true /*blurred*/, new L2ImageCache.OnBitmapLoadedAdapter());

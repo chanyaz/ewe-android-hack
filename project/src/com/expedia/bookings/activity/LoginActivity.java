@@ -26,7 +26,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 
 public class LoginActivity extends FragmentActivity implements TitleSettable, L2ImageCache.OnBitmapLoaded {
 
@@ -152,11 +151,9 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 				}
 			}
 			else {
-				Point screen = AndroidUtils.getScreenSize(this);
-				int width = screen.x;
-				int height = screen.y;
+				Point portrait = Ui.getPortraitScreenSize(this);
 				final String url = new Akeakamai(Images.getFlightDestination(code)) //
-					.resizeExactly(width, height) //
+					.resizeExactly(portrait.x, portrait.y) //
 					.build();
 				L2ImageCache.sDestination.loadImage(url, true, this);
 			}

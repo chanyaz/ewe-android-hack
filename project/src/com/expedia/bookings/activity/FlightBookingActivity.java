@@ -97,12 +97,10 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		setContentView(R.layout.activity_flight_booking);
 
 		mBgImageView = Ui.findView(this, R.id.background_bg_view);
-		Point screen = AndroidUtils.getScreenSize(this);
-		int width = screen.x;
-		int height = screen.y;
+		Point portrait = Ui.getPortraitScreenSize(this);
 		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
-			.resizeExactly(width, height) //
+			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
 

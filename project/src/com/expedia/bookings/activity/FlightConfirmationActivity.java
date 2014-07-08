@@ -24,7 +24,6 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class FlightConfirmationActivity extends FragmentActivity implements OnBitmapLoaded {
 
@@ -67,12 +66,10 @@ public class FlightConfirmationActivity extends FragmentActivity implements OnBi
 
 		mBgImageView = Ui.findView(this, R.id.background_bg_view);
 
-		Point screen = AndroidUtils.getScreenSize(this);
-		int width = screen.x;
-		int height = screen.y;
+		Point portrait = Ui.getPortraitScreenSize(this);
 		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
-			.resizeExactly(width, height) //
+			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
 	}

@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -360,5 +361,18 @@ public class Ui extends com.mobiata.android.util.Ui {
 		int[] location = new int[2];
 		view.getLocationOnScreen(location);
 		return location[1];
+	}
+
+	public static Point getPortraitScreenSize(Context context) {
+		Point screen = AndroidUtils.getDisplaySize(context);
+		int temp;
+
+		if (screen.y < screen.x) {
+			temp = screen.y;
+			screen.y = screen.x;
+			screen.x = temp;
+		}
+
+		return screen;
 	}
 }

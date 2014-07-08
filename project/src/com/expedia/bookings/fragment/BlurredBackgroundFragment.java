@@ -19,8 +19,7 @@ import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 public class BlurredBackgroundFragment extends Fragment {
 
@@ -62,16 +61,11 @@ public class BlurredBackgroundFragment extends Fragment {
 			return;
 		}
 
-		Point screen = AndroidUtils.getScreenSize(getActivity());
-		int width = screen.x;
-		int height = screen.y;
-
+		Point portrait = Ui.getPortraitScreenSize(getActivity());
 		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
-			.resizeExactly(width, height) //
+			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-
-		// FIXME don't load unblurred image on landscape since it is completely covered
 
 		Bitmap og = L2ImageCache.sDestination.getImage(url, false /*blur*/, true /*checkOnDisk*/);
 		Bitmap bl = L2ImageCache.sDestination.getImage(url, true /*blur*/, true /*checkOnDisk*/);
