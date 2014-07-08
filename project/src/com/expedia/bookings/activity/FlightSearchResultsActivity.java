@@ -63,9 +63,7 @@ import com.expedia.bookings.fragment.NoFlightsFragment;
 import com.expedia.bookings.fragment.NoFlightsFragment.NoFlightsFragmentListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.StatusFragment;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -85,7 +83,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
-import com.squareup.otto.Subscribe;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
@@ -245,7 +242,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Events.register(this);
 		OmnitureTracking.onResume(this);
 	}
 
@@ -277,7 +273,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Events.unregister(this);
 
 		if (!isFinishing()) {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
@@ -820,20 +815,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				completeLocation(leg.getArrivalLocation());
 			}
 
-			if (params.blockIndiaDomesticFlightSearch()) {
-				// Add a simulated error to trip the error handling logic to display the dialog.
-				FlightSearchResponse response = new FlightSearchResponse();
-				response.setIsIndiaDomestic(true);
-				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
-				error.setCode(ERROR_CODE_SIMULATED);
-				response.addError(error);
-				return response;
-			}
-			else {
-				ExpediaServices services = new ExpediaServices(mContext);
-				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-				return services.flightSearch(params, 0);
-			}
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
+			return services.flightSearch(params, 0);
 		}
 	};
 
@@ -949,19 +933,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				showNoFlights(getString(resId));
 				return;
 			}
-		}
-
-		// 911 alert users of india domestic flights not being available
-		if (response.isIndiaDomestic()) {
-			String title = getString(R.string.india_domestic_flights_not_available_title);
-			String body = getString(R.string.india_domestic_flights_not_available_body);
-			String ok = getString(R.string.ok);
-
-			SimpleCallbackDialogFragment.newInstance(title, body, ok, SimpleCallbackDialogFragment.CODE_INDIA_DOMESTIC)
-					.show(getSupportFragmentManager(), "indiaDomesticDialog");
-			mStatusFragment.showError(null);
-
-			return;
 		}
 
 		// If we haven't handled the error by now, throw generic message
@@ -1187,22 +1158,5 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	public void onFlightDetailsLayout(FlightDetailsFragment fragment) {
 		mFlightDetailsFragment = fragment;
 		onFragmentLoaded(mFlightDetailsFragment);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Otto event subscriptions
-
-	@Subscribe
-	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
-		if (event.callBackId == SimpleCallbackDialogFragment.CODE_INDIA_DOMESTIC) {
-			finish();
-		}
-	}
-
-	@Subscribe
-	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
-		if (event.callBackId == SimpleCallbackDialogFragment.CODE_INDIA_DOMESTIC) {
-			finish();
-		}
 	}
 }

@@ -74,16 +74,6 @@ public class FlightSearchResponse extends Response {
 		return mObFeesDetails;
 	}
 
-	private boolean mIsIndiaDomestic = false;
-
-	public void setIsIndiaDomestic(boolean isIndiaDomestic) {
-		mIsIndiaDomestic = isIndiaDomestic;
-	}
-
-	public boolean isIndiaDomestic() {
-		return mIsIndiaDomestic;
-	}
-
 	/**
 	 * Compacts the memory taken up by de-duplicating String usage.
 	 *

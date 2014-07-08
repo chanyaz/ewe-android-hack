@@ -7,7 +7,6 @@ import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -165,22 +164,6 @@ public class FlightSearchParams implements JSONable {
 
 	public boolean isRoundTrip() {
 		return mQueryLegs.size() == 2;
-	}
-
-	private static final String INDIA_COUNTRY_CODE = "IND";
-
-	public boolean blockIndiaDomesticFlightSearch() {
-		if (PointOfSale.getPointOfSale().blockDomesticFlightSearch()) {
-			for (FlightSearchLeg leg : mQueryLegs) {
-				String dep = leg.getDepartureLocation().getCountryCode();
-				String arr = leg.getArrivalLocation().getCountryCode();
-
-				if (INDIA_COUNTRY_CODE.equals(dep) && INDIA_COUNTRY_CODE.equals(arr)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public void setDepartureDate(LocalDate departureDate) {

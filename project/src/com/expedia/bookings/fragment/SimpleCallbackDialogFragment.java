@@ -18,8 +18,6 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 
 	public static final String TAG = SimpleCallbackDialogFragment.class.getName();
 
-	public static final int CODE_INDIA_DOMESTIC = 1;
-
 	public static final int CODE_INVALID_CC = 100;
 	public static final int CODE_INVALID_PAYMENT = 102;
 	public static final int CODE_INVALID_PHONENUMBER = 103;

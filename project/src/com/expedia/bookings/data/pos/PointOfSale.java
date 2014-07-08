@@ -120,9 +120,6 @@ public class PointOfSale {
 	// Whether or not to show cross-sells
 	private boolean mShowHotelCrossSell;
 
-	// Whether or not to block domestic flight searches before flight/search is called
-	private boolean mBlockDomesticFlightSearches;
-
 	// Does this pos not allow debit cards for flights?
 	private boolean mDoesNotAcceptDebitCardsFlights;
 
@@ -346,10 +343,6 @@ public class PointOfSale {
 
 	public boolean showHotelCrossSell() {
 		return mShowHotelCrossSell;
-	}
-
-	public boolean blockDomesticFlightSearch() {
-		return mBlockDomesticFlightSearches;
 	}
 
 	public boolean doesNotAcceptDebitCardsForFlights() {
@@ -719,7 +712,6 @@ public class PointOfSale {
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
-		pos.mBlockDomesticFlightSearches = data.optBoolean("blockDomesticFlightSearches", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 
