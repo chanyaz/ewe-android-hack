@@ -1006,6 +1006,7 @@ public class L2ImageCache {
 	private Bitmap downloadBitmapToDiskCacheFromNetwork(String url, HttpURLConnection conn) throws IOException {
 		Log.i(mLogTag, "Downloading bitmap from network, url=" + url);
 
+		long tic = System.currentTimeMillis();
 		Editor editor = null;
 		try {
 			InputStream in = conn.getInputStream();
@@ -1038,6 +1039,8 @@ public class L2ImageCache {
 			if (editor != null) {
 				editor.abortUnlessCommitted();
 			}
+			long toc = System.currentTimeMillis();
+			Log.v(mLogTag, "Download took " + (toc - tic) + "ms url=" + url);
 		}
 	}
 
