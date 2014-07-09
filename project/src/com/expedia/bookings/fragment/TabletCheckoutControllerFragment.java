@@ -48,9 +48,11 @@ import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
@@ -1568,18 +1570,23 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
 		if (frag == mCheckoutFragment) {
 			if (acceptingListener) {
-				mCheckoutFragment.registerStateListener(mCheckoutFormStateListener, true);
+				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerSlide, true);
+				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerEditPayment, true);
+				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerEditTraveler, true);
 			}
 			else {
-				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListener);
+				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerSlide);
+				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerEditPayment);
+				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerEditTraveler);
 			}
 		}
 	}
 
 	///////////////////////////////////
-	// Listen to CheckoutFormState, hide the slide to checkout when required
+	// CheckoutFormState listeners
+	// Hide/show the slide to checkout when required
 
-	private StateListenerHelper<CheckoutFormState> mCheckoutFormStateListener = new StateListenerHelper<CheckoutFormState>() {
+	private StateListenerHelper<CheckoutFormState> mCheckoutFormStateListenerSlide = new StateListenerHelper<CheckoutFormState>() {
 		private boolean mStartReacted = false;
 		private boolean mValidAtStart = false;
 
@@ -1639,6 +1646,62 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return state != CheckoutFormState.OVERVIEW;
 		}
 	};
+
+	// Hide/show the trip bucket and actionbar when appropriate
+	private ISingleStateListener mCheckoutFormStateListenerAlpha = new ISingleStateListener() {
+		View mTripBucketButtonContainer;
+
+		@Override
+		public void onStateTransitionStart(boolean isReversed) {
+			mTripBucketButtonContainer = Ui.findView(getView(), R.id.trip_bucket_show_hide_container);
+			if (mTripBucketButtonContainer != null) {
+				mTripBucketButtonContainer.setAlpha(isReversed ? 0f : 1f);
+			}
+
+			if (!isReversed) {
+				getActivity().getActionBar().hide();
+			}
+			else {
+				getActivity().getActionBar().show();
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			mBucketContainer.setAlpha(1f - percentage);
+
+			// Show/hide trip bucket button in portrait
+			if (mTripBucketButtonContainer != null) {
+				mTripBucketButtonContainer.setAlpha(1f - percentage);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(boolean isReversed) {
+
+		}
+
+		@Override
+		public void onStateFinalized(boolean isReversed) {
+			mTripBucketButtonContainer = Ui.findView(getView(), R.id.trip_bucket_show_hide_container);
+			if (mTripBucketButtonContainer != null) {
+				mTripBucketButtonContainer.setAlpha(isReversed ? 1f : 0f);
+			}
+
+			if (!isReversed) {
+				getActivity().getActionBar().hide();
+			}
+			else {
+				getActivity().getActionBar().show();
+			}
+		}
+	};
+
+	private SingleStateListener mCheckoutFormStateListenerEditPayment = new SingleStateListener(
+		CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, mCheckoutFormStateListenerAlpha);
+
+	private SingleStateListener mCheckoutFormStateListenerEditTraveler = new SingleStateListener(
+		CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, mCheckoutFormStateListenerAlpha);
 
 	@Subscribe
 	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
