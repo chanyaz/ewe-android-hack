@@ -133,7 +133,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		closeForm(true);
 	}
 
-	protected void setUpFormContent(ViewGroup formContainer) {
+	@Override
+	public void setUpFormContent(ViewGroup formContainer) {
 		//This will probably end up having way more moving parts than this...
 		formContainer.removeAllViews();
 
@@ -200,7 +201,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	}
 
 	@Override
-	protected void onFormClosed() {
+	public void onFormClosed() {
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
 			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());

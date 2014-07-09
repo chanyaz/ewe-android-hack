@@ -219,9 +219,9 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	// Abstract methods to be implemented by concrete children
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected abstract void setUpFormContent(ViewGroup formContainer);
+	public abstract void setUpFormContent(ViewGroup formContainer);
 
-	protected abstract void onFormClosed();
+	public abstract void onFormClosed();
 
-	protected abstract void onFormOpened();
+	public abstract void onFormOpened();
 }

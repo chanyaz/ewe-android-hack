@@ -350,7 +350,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	@Override
-	protected void setUpFormContent(ViewGroup formContainer) {
+	public void setUpFormContent(ViewGroup formContainer) {
 		//This will probably end up having way more moving parts than this...
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
@@ -494,7 +494,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	@Override
-	protected void onFormClosed() {
+	public void onFormClosed() {
 		if (isResumed() && isFormOpen()) {
 			mAttemptToLeaveMade = false;
 			Db.getWorkingTravelerManager().deleteWorkingTravelerFile(getActivity());
