@@ -180,7 +180,8 @@ public class FlightTrip implements JSONable {
 
 		// #1363: Duplicate Mastercard valid payment types as a Google Wallet card as well,
 		// since Google Wallet uses Mastercard on the back end.
-		if (payment.getCreditCardType() == CreditCardType.MASTERCARD) {
+		// #3014: Google Wallet now uses Discover cards
+		if (payment.getCreditCardType() == CreditCardType.DISCOVER) {
 			ValidPayment googlePayment = new ValidPayment();
 			googlePayment.setCreditCardType(CreditCardType.GOOGLE_WALLET);
 			googlePayment.setFee(payment.getFee());
