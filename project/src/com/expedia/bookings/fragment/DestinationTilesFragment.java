@@ -92,7 +92,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 	@Subscribe
 	public void onLaunchCollectionsAvailable(Events.LaunchCollectionsAvailable event) {
 		clearCollections();
-		if (getActivity() != null) {
+		if (getActivity() != null && event.collections != null) {
 			LayoutInflater inflater = LayoutInflater.from(getActivity());
 			for (LaunchCollection collection : event.collections) {
 				addCollection(inflater, collection);
