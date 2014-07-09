@@ -118,6 +118,8 @@
     <string name="trip_bucket_book_hotel">Book Hotel</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Sold Out</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">Expired</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Round Trip Flight to %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -1609,6 +1611,10 @@
     <string name="error_flight_no_longer_available">We\'re really sorry, your flight is no longer available.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">We\'re really sorry, one of your flights is no longer available.</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">We\'re sorry, your hold on this flight has expired.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">We\'re sorry, your hold on these flights has expired.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Pick a New Flight</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -3124,6 +3130,8 @@
     <string name="tablet_sold_out_remove_hotel">Remove hotel</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">Select another hotel</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">Select another hotel or room</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">This flight is now sold out. Sorry!</string>
     <!-- Button text to remove sold flight -->
