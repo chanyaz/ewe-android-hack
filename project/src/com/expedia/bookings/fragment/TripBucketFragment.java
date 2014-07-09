@@ -25,12 +25,14 @@ import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BucketItemUndoController;
 import com.expedia.bookings.widget.SwipeOutLayout;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.Ui;
 
@@ -141,6 +143,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		if (showHotelContainer && lobToRefresh != null && lobToRefresh == LineOfBusiness.HOTELS) {
 			mTripBucketHotelFrag.bind();
 			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+		}
+		if (mTripBucketFlightFrag != null) {
+			setItemSwipeEnabled(mTripBucketFlightFrag.getItem());
+		}
+		if (mTripBucketHotelFrag != null) {
+			setItemSwipeEnabled(mTripBucketHotelFrag.getItem());
 		}
 	}
 
@@ -367,4 +375,13 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		return mHotelInLimbo || mFlightInLimbo;
 	}
 
+	// Item is swipeable if its state is not "PURCHASED"
+	private void setItemSwipeEnabled(TripBucketItem item) {
+		if (item != null) {
+			LineOfBusiness lob = item.getLineOfBusiness();
+			SwipeOutLayout swipeable = lob == LineOfBusiness.FLIGHTS ? mFlightC : mHotelC;
+			TripBucketItemState state = item.getState();
+			swipeable.setSwipeEnabled(state != TripBucketItemState.PURCHASED);
+		}
+	}
 }
