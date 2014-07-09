@@ -74,6 +74,7 @@
     <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
+    <dimen name="trip_bucket_undo_bar_width">362dp</dimen>
 
     <!-- Trip Bucket Fragment -->
     <dimen name="bucket_top_margin">14dp</dimen>

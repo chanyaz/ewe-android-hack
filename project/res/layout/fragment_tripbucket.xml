@@ -32,7 +32,7 @@
 
             <include
                 android:id="@id/flight_swipe_out_undo_bar"
-                android:layout_width="@dimen/hotel_flight_card_width"
+                android:layout_width="@dimen/trip_bucket_undo_bar_width"
                 android:layout_height="@dimen/hotel_flight_card_height"
                 android:background="@drawable/bg_undobar"
                 layout="@layout/view_undobar"/>
@@ -54,7 +54,7 @@
 
             <include
                 android:id="@id/hotel_swipe_out_undo_bar"
-                android:layout_width="@dimen/hotel_flight_card_width"
+                android:layout_width="@dimen/trip_bucket_undo_bar_width"
                 android:layout_height="@dimen/hotel_flight_card_height"
                 android:background="@drawable/bg_undobar"
                 layout="@layout/view_undobar"/>
