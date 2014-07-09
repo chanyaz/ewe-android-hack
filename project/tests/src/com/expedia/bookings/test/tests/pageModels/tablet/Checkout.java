@@ -106,7 +106,7 @@ public class Checkout {
 	}
 
 	public static void clickOnEnterPaymentInformation() {
-		onView(withText("Enter payment information")).perform(scrollTo(), click());
+		onView(withText("Enter payment details")).perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction creditCardNumber() {
