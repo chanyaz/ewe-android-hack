@@ -368,6 +368,10 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">Network Unavailable</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">Connect to a Wi-Fi or cellular data network to continue</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
     <!-- Menu option for going to see your trips/itineraries -->
