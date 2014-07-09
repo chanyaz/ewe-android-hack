@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +53,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.widget.SizeCopyView;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 @SuppressWarnings("ResourceType")
@@ -89,12 +89,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
-	private ViewGroup mOverlayContentC;
 	private ViewGroup mTravelerFormC;
 	private ViewGroup mPaymentFormC;
 	private View mPaymentView;
-
-	private int mShowingViewIndex = -1;
 
 	private CheckoutInformationListener mCheckoutInfoListener;
 
@@ -130,7 +127,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_forms, container, false);
 		mCheckoutRowsC = Ui.findView(mRootC, R.id.checkout_forms_container);
-		mOverlayContentC = Ui.findView(mRootC, R.id.overlay_content_container);
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 		mSizeCopyView = Ui.findView(mRootC, R.id.slide_container_size_copy_view);
@@ -559,7 +555,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 		if (viewNumber >= 0) {
-			mShowingViewIndex = viewNumber;
 			mTravelerForm.setHeaderText(getTravelerBoxLabelForIndex(travelerNumber));
 			mTravelerForm.bindToDb(travelerNumber);
 			setState(CheckoutFormState.EDIT_TRAVELER, true);
@@ -608,27 +603,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	 */
 
 	protected void openPaymentForm() {
-		int viewNumber = getPaymentViewIndex();
-		if (viewNumber >= 0) {
-			mShowingViewIndex = viewNumber;
-			mPaymentForm.bindToDb();
-			setState(CheckoutFormState.EDIT_PAYMENT, true);
+		for (int i = 0; i < mCheckoutRowsC.getChildCount(); i++) {
+			if (mCheckoutRowsC.getChildAt(i) == mPaymentView) {
+				mPaymentForm.bindToDb();
+				setState(CheckoutFormState.EDIT_PAYMENT, true);
+				return;
+			}
 		}
 	}
 
 	protected boolean validatePaymentInfo() {
 		return mPaymentButton != null && mPaymentButton.validate();
-	}
-
-	private int getPaymentViewIndex() {
-		int viewNumber = -1;
-		for (int i = 0; i < mCheckoutRowsC.getChildCount(); i++) {
-			if (mCheckoutRowsC.getChildAt(i) == mPaymentView) {
-				viewNumber = i;
-				break;
-			}
-		}
-		return viewNumber;
 	}
 
 	/*
@@ -665,6 +650,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private class OpenCloseListener implements ISingleStateListener {
 		private View mFormContainer;
 		private TabletCheckoutDataFormFragment mFormFragment;
+		private int mSlideHeight;
 
 		public OpenCloseListener (View container, TabletCheckoutDataFormFragment fragment) {
 			mFormContainer = container;
@@ -673,16 +659,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			mOverlayContentC.setVisibility(View.VISIBLE);
-			if (!isReversed) {
-				mOverlayContentC.setAlpha(0f);
-				mFormContainer.setVisibility(View.VISIBLE);
-			}
+			mFormContainer.setVisibility(View.VISIBLE);
+			mSlideHeight = getView().getHeight();
+			setEntryFormShowingPercentage(isReversed ? 1f : 0f);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			setEntryFormShowingPercentage(percentage, mShowingViewIndex);
+			setEntryFormShowingPercentage(percentage);
 		}
 
 		@Override
@@ -692,75 +676,24 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mPaymentFormC.setVisibility(View.INVISIBLE);
+			mTravelerFormC.setVisibility(View.INVISIBLE);
+			setEntryFormShowingPercentage(isReversed ? 0f : 1f);
+
 			if (isReversed) {
-				mOverlayContentC.setVisibility(View.INVISIBLE);
-				mPaymentFormC.setVisibility(View.INVISIBLE);
-				mTravelerFormC.setVisibility(View.INVISIBLE);
-
-				setEntryFormShowingPercentage(0f, mShowingViewIndex);
-				mShowingViewIndex = -1;
-
 				mFormFragment.onFormClosed();
-
 				bindAll();
 			}
 			else {
-				mOverlayContentC.setVisibility(View.VISIBLE);
-				mPaymentFormC.setVisibility(View.INVISIBLE);
-				mTravelerFormC.setVisibility(View.INVISIBLE);
 				mFormContainer.setVisibility(View.VISIBLE);
-
-				if (mFormContainer == mPaymentFormC) {
-					int viewNumber = getPaymentViewIndex();
-					if (viewNumber >= 0) {
-						mShowingViewIndex = viewNumber;
-					}
-				}
 				mFormFragment.onFormOpened();
-				setEntryFormShowingPercentage(1f, mShowingViewIndex);
 			}
 		}
 
-		private void setEntryFormShowingPercentage(float percentage, int viewIndex) {
-			//TODO: Much of this stuff could be cached, which would speed up animation performance
-			if (viewIndex < 0 || mCheckoutRowsC == null || mCheckoutRowsC.getChildCount() <= viewIndex) {
-				return;
-			}
-
-			//Find bottom of the overlay
-			int overlayBottom = mOverlayContentC.getBottom();
-			for (int i = 0; i < mOverlayContentC.getChildCount(); i++) {
-				View child = mOverlayContentC.getChildAt(i);
-				if (child.getVisibility() == View.VISIBLE) {
-					overlayBottom = child.getBottom();
-					break;
-				}
-			}
-
-			//Slide views (only if they are already measured etc.)
-			View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
-			if (selectedView.getHeight() > 0) {
-				float aboveViewsTransY = percentage * selectedView.getTop();
-				float activeViewTransY = percentage
-					* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
-				float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
-				for (int i = 0; i < viewIndex; i++) {
-					mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
-				}
-				selectedView.setTranslationY(-activeViewTransY);
-				selectedView.setAlpha(1f - percentage);
-				selectedView.setPivotY(selectedView.getHeight());
-				selectedView.setScaleY(1f + (percentage / 2f) * (mOverlayContentC.getHeight() / selectedView.getHeight()));
-				for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
-					mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
-				}
-				//Form cross fade/scale
-				mOverlayContentC.setAlpha(percentage);
-				float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
-				float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
-				mOverlayContentC.setPivotY(selectedView.getBottom());
-				mOverlayContentC.setScaleY(scaleYPercentage);
-			}
+		private void setEntryFormShowingPercentage(float percentage) {
+			mFormContainer.setTranslationY(mSlideHeight * (1f - percentage));
+			mFormContainer.setAlpha(percentage);
+			mCheckoutRowsC.setAlpha(1f - percentage);
 		}
 
 	}
