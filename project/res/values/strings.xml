@@ -1027,6 +1027,8 @@
     <string name="taking_off_soon">Taking Off Soon…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">We\&apos;re sorry, but the app can\&apos;t display flights for your region. You can view them on &lt;a href=\"%1$s\"&gt;our website&lt;/a&gt; though!</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Departure and arrival airports must be different.</string>
 
