@@ -4,11 +4,15 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 
 /**
@@ -23,10 +27,10 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	private final static String STATE_ERROR_IMAGE_RES_ID = "STATE_ERROR_IMAGE_RES_ID";
 
 	private CenteredCaptionedIcon mErrorView;
-	private String mErrorText;
+	private CharSequence mErrorText;
 	private int mErrorImageResId;
 
-	public static ResultsListSearchErrorFragment newInstance(String errorText, int errorImageResId) {
+	public static ResultsListSearchErrorFragment newInstance(CharSequence errorText, int errorImageResId) {
 		ResultsListSearchErrorFragment frag = new ResultsListSearchErrorFragment();
 		frag.setErrorText(errorText);
 		frag.setErrorImage(errorImageResId);
@@ -39,7 +43,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_ERROR_TEXT)) {
-				setErrorText(savedInstanceState.getString(STATE_ERROR_TEXT));
+				setErrorText(savedInstanceState.getCharSequence(STATE_ERROR_TEXT));
 				setErrorImage(savedInstanceState.getInt(STATE_ERROR_IMAGE_RES_ID));
 			}
 		}
@@ -59,14 +63,14 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (mErrorText != null) {
-			outState.putString(STATE_ERROR_TEXT, mErrorText);
+			outState.putCharSequence(STATE_ERROR_TEXT, mErrorText);
 		}
 		if (mErrorImageResId != 0) {
 			outState.putInt(STATE_ERROR_IMAGE_RES_ID, mErrorImageResId);
 		}
 	}
 
-	public void setErrorText(String text) {
+	public void setErrorText(CharSequence text) {
 		mErrorText = text;
 		if (mErrorView != null) {
 			mErrorView.setCaption(mErrorText);
@@ -77,6 +81,26 @@ public class ResultsListSearchErrorFragment extends Fragment {
 		mErrorImageResId = resId;
 		if (mErrorView != null) {
 			mErrorView.setSVG(resId);
+		}
+	}
+
+	public void setState(ResultsFlightsState state) {
+		switch (state) {
+		case NO_FLIGHTS_POS:
+			setErrorText(getString(R.string.invalid_flights_pos));
+			break;
+		case NO_FLIGHTS_DROPDOWN_POS:
+			setErrorText(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable, PointOfSale.getPointOfSale().getWebsiteUrl())));
+			break;
+		case MISSING_STARTDATE:
+			setErrorText(getString(R.string.missing_flight_trip_date_message));
+			break;
+		case MISSING_ORIGIN:
+			setErrorText(getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
+			break;
+		case SEARCH_ERROR:
+			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));
+			break;
 		}
 	}
 }

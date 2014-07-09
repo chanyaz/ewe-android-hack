@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.CenteredCaptionedIcon
+<com.expedia.bookings.widget.CenteredCaptionedIcon android:id="@+id/empty_bucket_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/empty_bucket_view"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    app:svg="@raw/ic_tablet_trip_bucket_suitcase"/>
+    android:layout_height="match_parent"
+    android:background="@color/tablet_white_pane_bg"
+    app:svg="@raw/ic_tablet_trip_bucket_suitcase" />

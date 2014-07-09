@@ -282,6 +282,13 @@ public class PointOfSale {
 		return mSupportsFlights;
 	}
 
+	/**
+	 * * Helper method to determine if flights are enabled and if we need to even kick off a flight search - TABLETS ONLY.
+	 */
+	public boolean isFlightSearchEnabledTablet() {
+		return mSupportsFlights && !displayFlightDropDownRoutes();
+	}
+
 	public boolean displayFlightDropDownRoutes() {
 		return mDisplayFlightDropDownRoutes;
 	}

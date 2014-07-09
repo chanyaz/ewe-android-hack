@@ -21,10 +21,10 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -92,7 +92,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private View mAddToTripShadeView;
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
-		ResultsFlightsState.LOADING, this);
+		getBaseState(), this);
 
 	// When we are downloading new data, we set this to true, so that we remember to resetQuery on our legs chooser.
 	private boolean mNeedsQueryReset = true;
@@ -222,12 +222,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	// 2. If we don't have FlightSearch data but do have flight histogram data, let's show that
 	// 3. Otherwise, let's just show the loading state
 	private ResultsFlightsState getBaseState() {
-		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
+		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
+			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
+		}
+		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
+			return ResultsFlightsState.NO_FLIGHTS_POS;
+		}
+		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
 			.getFlightSearch().getSearchResponse().hasErrors()) {
 			return ResultsFlightsState.SEARCH_ERROR;
 		}
 		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
 			return ResultsFlightsState.FLIGHT_LIST_DOWN;
+		}
+		else if (Sp.getParams().getOriginLocation(true) == null) {
+			return ResultsFlightsState.MISSING_ORIGIN;
+		}
+		else if (Sp.getParams().getStartDate() == null) {
+			return ResultsFlightsState.MISSING_STARTDATE;
 		}
 		else {
 			return ResultsFlightsState.LOADING;
@@ -235,15 +247,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	}
 
 	/*
+	 * Helper method to check if it's time to start the flight search.
+	 */
+	public boolean readyToSearch() {
+		return Sp.getParams().hasEnoughInfoForFlightsSearch() && PointOfSale.getPointOfSale().isFlightSearchEnabledTablet();
+	}
+	/*
 	 * NEW SEARCH PARAMS
 	 */
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		if (mFlightsStateManager.getState() != ResultsFlightsState.LOADING) {
+		if (mFlightsStateManager.getState() != ResultsFlightsState.LOADING && readyToSearch()) {
 			setFlightsState(ResultsFlightsState.LOADING, false);
 		}
 		else {
+			if (mSearchErrorFrag != null && mSearchErrorFrag.isAdded()) {
+				mSearchErrorFrag.setState(getBaseState());
+			}
 			if (mFlightSearchDownloadFrag != null) {
 				// We dont care if our last search finished, we are waiting for our cooldown period before we want to
 				// commit to doing a full search.
@@ -389,8 +410,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	private void setVisibilityState(ResultsFlightsState flightsState) {
 		ArrayList<View> visibleViews = new ArrayList<View>();
-
 		switch (flightsState) {
+		case MISSING_ORIGIN:
+		case MISSING_STARTDATE:
+		case NO_FLIGHTS_DROPDOWN_POS:
+		case NO_FLIGHTS_POS:
 		case SEARCH_ERROR: {
 			visibleViews.add(mSearchErrorC);
 			break;
@@ -459,6 +483,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				searchErrorAvailable = true;
 			}
 
+			flightLegsFragAvailable = false;
+			flightMapAvailable = false;
+			flightAddToTripAvailable = false;
+		}
+
+		if (flightsState == ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS || flightsState == ResultsFlightsState.MISSING_ORIGIN
+			|| flightsState == ResultsFlightsState.MISSING_STARTDATE || flightsState == ResultsFlightsState.NO_FLIGHTS_POS) {
+			flightSearchDownloadAvailable = false;
+			loadingAvailable = false;
+			searchErrorAvailable = true;
 			flightLegsFragAvailable = false;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
@@ -810,6 +844,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else {
 				mAddToTripC.setAlpha(0f);
+			}
+
+			if (state == ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS || state == ResultsFlightsState.MISSING_ORIGIN
+				|| state == ResultsFlightsState.MISSING_ORIGIN || state == ResultsFlightsState.SEARCH_ERROR
+				|| state == ResultsFlightsState.NO_FLIGHTS_POS) {
+				if (mSearchErrorFrag.isAdded()) {
+					mSearchErrorFrag.setState(state);
+				}
 			}
 		}
 	};

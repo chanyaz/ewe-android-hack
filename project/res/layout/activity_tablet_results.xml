@@ -13,15 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- FLIGHT LIST PLACEHOLDER FOR WHEN WE DONT HAVE ENOUGH FLIGHT DATA -->
-
-    <com.expedia.bookings.widget.CenteredCaptionedIcon
-        android:id="@+id/missing_flight_info_view"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:background="@color/tablet_white_pane_bg"
-        app:svg="@raw/ic_tablet_sold_out_flight"/>
-
     <!-- CONTROLLER CONTAINERS -->
 
     <com.expedia.bookings.widget.FrameLayoutTouchController

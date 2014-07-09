@@ -54,7 +54,6 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
-import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
@@ -98,7 +97,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private ViewGroup mFlightsC;
 	private ViewGroup mHotelC;
 	private ViewGroup mSearchC;
-	private CenteredCaptionedIcon mMissingFlightInfo;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -134,17 +132,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
 		mSearchC = Ui.findView(this, R.id.full_width_search_controller_container);
-		mMissingFlightInfo = Ui.findView(this, R.id.missing_flight_info_view);
-
-		updateMissingFlightInfoText();
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
 			mStateManager.setDefaultState(ResultsState.valueOf(stateName));
-
-			//If the flights fragment was attached before, we want the local reference to be accurate
-			FragmentManager manager = getSupportFragmentManager();
-			mFlightsController = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHTS_CONTROLLER);
 		}
 
 		//Add default fragments
@@ -164,6 +155,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mTripBucketFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_BUCKET, manager, transaction, this,
 			R.id.trip_bucket_container, false);
+		mFlightsController = FragmentAvailabilityUtils.setFragmentAvailability(true,
+			FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
+			R.id.full_width_flights_controller_container, false);
 
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
@@ -344,28 +338,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//Register our listeners now that flights is attached
 			setListenerState(getState());
 		}
-		else if (mFlightsController != null && getState() != ResultsState.FLIGHTS && !Sp.getParams()
-			.hasEnoughInfoForFlightsSearch()) {
-
-			//We dont have enough info for a flight search, so we detach our flights controller
-			FragmentManager manager = getSupportFragmentManager();
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			mFlightsController = FragmentAvailabilityUtils.setFragmentAvailability(
-				false,
-				FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
-				R.id.full_width_flights_controller_container, false);
-			transaction.commit();
-			manager.executePendingTransactions();//These must be finished before we continue..
-		}
-
-		if (mFlightsController == null) {
-			//Show the missing info pane
-			mMissingFlightInfo.setVisibility(View.VISIBLE);
-			updateMissingFlightInfoText();
-		}
-		else {
-			//Hide the missing info pane
-			mMissingFlightInfo.setVisibility(View.GONE);
+		else if (mFlightsController != null && mFlightsController.readyToSearch()) {
+			//Now we are ready to start the search, so let's fire up the LOADING state.
+			mFlightsController.setFlightsState(ResultsFlightsState.LOADING, false);
 		}
 	}
 
@@ -515,32 +490,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 	};
 
-	private void updateMissingFlightInfoText() {
-		if (PointOfSale.getPointOfSale().supportsFlights()) {
-			String missingSearchParams = null;
-			SearchParams sp = Sp.getParams();
-			if (sp.getOriginLocation(true) == null) {
-				missingSearchParams = getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString());
-			}
-			else if (sp.getStartDate() == null) {
-				missingSearchParams = getString(R.string.missing_flight_trip_date_message);
-			}
-
-			mMissingFlightInfo.setCaption(missingSearchParams);
-		}
-		else {
-			mMissingFlightInfo.setCaption(Html.fromHtml(getString(R.string.invalid_flights_pos).toString()));
-		}
-	}
-
-
 	/**
 	 * TRANSITIONS
 	 */
 
 	private void setEnteringProductHardwareLayers(int layerType, boolean enteringHotels) {
 		mTripBucketC.setLayerType(layerType, null);
-		mMissingFlightInfo.setLayerType(layerType, null);
 		if (enteringHotels) {
 			//If we are entring hotels, we move the flights container
 			mFlightsC.setLayerType(layerType, null);
@@ -552,8 +507,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	private void resetTranslations() {
-		mMissingFlightInfo.setTranslationX(0f);
-		mMissingFlightInfo.setTranslationY(0f);
 		mFlightsC.setTranslationX(0f);
 		mFlightsC.setTranslationY(0f);
 		mHotelC.setTranslationX(0f);
@@ -566,14 +519,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (!hideTripBucketInPortrait()) {
 				mTripBucketC.setTranslationX(0f);
 			}
-			mMissingFlightInfo.setTranslationX(0f);
 			mFlightsC.setTranslationX(0f);
 
 			if (!hideTripBucketInPortrait()) {
 				mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
 			}
-			mMissingFlightInfo.setTranslationY(
-				mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
 			if (enteringHotels) {
 				mFlightsC
 					.setTranslationY(
@@ -588,13 +538,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (!hideTripBucketInPortrait()) {
 				mTripBucketC.setTranslationY(0);
 			}
-			mMissingFlightInfo.setTranslationY(0f);
 			mFlightsC.setTranslationY(0);
 
 			if (!hideTripBucketInPortrait()) {
 				mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
 			}
-			mMissingFlightInfo.setTranslationX(percentage * -mGrid.getColRight(2));
 
 			if (enteringHotels) {
 				mFlightsC.setTranslationX(percentage * mGrid.getColSpanWidth(2, 5));
@@ -695,8 +643,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 				mGrid.setContainerToColumn(mTripBucketC, 4);
 				mGrid.setContainerToRow(mTripBucketC, 1);
-				mGrid.setContainerToColumn(mMissingFlightInfo, 2);
-				mGrid.setContainerToRow(mMissingFlightInfo, 1);
 			}
 			else {
 				mGrid.setDimensions(totalWidth, totalHeight);
@@ -707,9 +653,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
-
-				mGrid.setContainerToRowSpan(mMissingFlightInfo, 1, 2);
-				mGrid.setContainerToColumn(mMissingFlightInfo, 2);
 
 				mGrid.setContainerToRow(mTripBucketC, 2);
 				mGrid.setContainerToColumnSpan(mTripBucketC, 0, 2);
@@ -938,6 +881,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
 			switch (state) {
 			case LOADING:
+			case MISSING_ORIGIN:
+			case MISSING_STARTDATE:
+			case NO_FLIGHTS_DROPDOWN_POS:
+			case NO_FLIGHTS_POS:
 			case FLIGHT_LIST_DOWN:
 			case SEARCH_ERROR:
 				return ResultsState.OVERVIEW;
@@ -994,7 +941,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mHotelC.setAlpha(p);
 				mFlightsC.setAlpha(p);
 				mTripBucketC.setAlpha(p);
-				mMissingFlightInfo.setAlpha(p);
 			}
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {

@@ -183,7 +183,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
 
-		if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		if (!PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
 			mOrigBtn.setVisibility(View.GONE);
 		}
 
@@ -280,7 +280,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mCalBtn.setText(dateStr);
 		}
 		else {
-			if (PointOfSale.getPointOfSale().supportsFlights()) {
+			if (PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
 				mCalBtn.setText(R.string.choose_flight_dates);
 			}
 			else {
@@ -567,7 +567,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					FragmentTransaction transaction = manager.beginTransaction();
 					mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_CALENDAR, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.calendar_container, true);
-					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(PointOfSale.getPointOfSale().supportsFlights(), FTAG_FLIGHTS_GDE, manager,
+					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(PointOfSale.getPointOfSale().isFlightSearchEnabledTablet(), FTAG_FLIGHTS_GDE, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.gde_container, true);
 					transaction.commit();
 				}
@@ -871,7 +871,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mParamFragsAvailable = state != ResultsSearchState.HOTELS_UP && state != ResultsSearchState.FLIGHTS_UP;
 
 		boolean mCalAvail = mParamFragsAvailable;
-		boolean mGdeAvail = PointOfSale.getPointOfSale().supportsFlights(); //Always follows the POS
+		boolean mGdeAvail = PointOfSale.getPointOfSale().isFlightSearchEnabledTablet(); //Always follows the POS
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvailable = mParamFragsAvailable;
 
