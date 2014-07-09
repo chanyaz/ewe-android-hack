@@ -973,13 +973,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
-
-			if (stateOne == ResultsSearchState.DEFAULT && mSearchController.stateShowsWaypoint(stateTwo)) {
-				mBackgroundImageFrag.setBlur(true);
-			}
-			if (mSearchController.stateShowsWaypoint(stateOne) && stateTwo == ResultsSearchState.DEFAULT) {
-				mBackgroundImageFrag.setBlur(false);
-			}
 		}
 
 		@Override
@@ -1023,6 +1016,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateFinalized(ResultsSearchState state) {
 			if (mSearchC != null) {
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+			}
+
+			if (mSearchController.stateShowsWaypoint(state)) {
+				mBackgroundImageFrag.setBlur(true);
+			}
+			else {
+				mBackgroundImageFrag.setBlur(false);
 			}
 		}
 

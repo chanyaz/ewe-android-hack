@@ -131,10 +131,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private void loadImage() {
 		if (getActivity() != null) {
 			Point landscape = Ui.getLandscapeScreenSize(getActivity());
-			final String url = new Akeakamai(Images.getFlightDestination(mDestinationCode)) //
+			final String url = new Akeakamai(Images.getTabletDestination(mDestinationCode)) //
 				.resizeExactly(landscape.x, landscape.y) //
 				.build();
 
+			L2ImageCache.sDestination.clearCallbacksByUrl(url);
 			L2ImageCache.sDestination.loadImage(url, mBlur, this);
 		}
 	}
