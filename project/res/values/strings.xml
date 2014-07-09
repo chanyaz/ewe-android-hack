@@ -134,6 +134,8 @@
     <string name="when_to_fly">When To Fly</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">When to Return</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">No date recommendations available.</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">Search One Way Flight</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
