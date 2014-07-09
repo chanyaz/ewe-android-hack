@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.BitmapDrawable;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.L2ImageCache.OnBitmapLoaded;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -63,7 +62,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener,
-	FlightTripPriceFragmentListener, OnBitmapLoaded {
+	FlightTripPriceFragmentListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -143,7 +142,13 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/ , true /*checkdisk*/);
+		if (bitmap != null) {
+			onBitmapLoaded(bitmap);
+		}
+		else {
+			onBitmapLoadFailed();
+		}
 
 		mContentRoot = Ui.findView(this, R.id.content_root);
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
@@ -829,17 +834,13 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		mCheckoutFragment.doLogout();
 	}
 
-	///////////////////////////////////////////////////////////////
-	// OnBitmapLoaded
-
-	@Override
-	public void onBitmapLoaded(String url, Bitmap bitmap) {
+	public void onBitmapLoaded(Bitmap bitmap) {
 		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 		mBgImageView.setImageDrawable(drawable);
 	}
 
-	@Override
-	public void onBitmapLoadFailed(String url) {
-		// ignore
+	public void onBitmapLoadFailed() {
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true);
+		onBitmapLoaded(bitmap);
 	}
 }
