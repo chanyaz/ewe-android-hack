@@ -48,36 +48,24 @@
     <!-- Overlay for editing of a single checkout form: travelers, payment -->
 
     <FrameLayout
-        android:id="@+id/overlay_container"
+        android:id="@+id/overlay_content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tablet_checkout_data_form_margin_x"
+        android:layout_marginRight="@dimen/tablet_checkout_data_form_margin_x"
         android:visibility="invisible">
 
-        <com.expedia.bookings.widget.FrameLayoutTouchController
-            android:id="@+id/overlay_shade"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#BB000000" />
-
         <FrameLayout
-            android:id="@+id/overlay_content_container"
+            android:id="@+id/traveler_form_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/tablet_checkout_data_form_margin_x"
-            android:layout_marginRight="@dimen/tablet_checkout_data_form_margin_x">
+            android:visibility="invisible" />
 
-            <FrameLayout
-                android:id="@+id/traveler_form_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
-
-            <FrameLayout
-                android:id="@+id/payment_form_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
-        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/payment_form_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
     </FrameLayout>
 
 </FrameLayout>

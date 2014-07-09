@@ -39,11 +39,12 @@ import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
+import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
-import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.model.TravelerFlowStateTablet;
@@ -52,7 +53,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.mobiata.android.util.Ui;
 
@@ -89,11 +89,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
-	private ViewGroup mOverlayC;
 	private ViewGroup mOverlayContentC;
 	private ViewGroup mTravelerFormC;
 	private ViewGroup mPaymentFormC;
-	private FrameLayoutTouchController mOverlayShade;
 	private View mPaymentView;
 
 	private int mShowingViewIndex = -1;
@@ -132,9 +130,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_forms, container, false);
 		mCheckoutRowsC = Ui.findView(mRootC, R.id.checkout_forms_container);
-		mOverlayC = Ui.findView(mRootC, R.id.overlay_container);
 		mOverlayContentC = Ui.findView(mRootC, R.id.overlay_content_container);
-		mOverlayShade = Ui.findView(mRootC, R.id.overlay_shade);
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 		mSizeCopyView = Ui.findView(mRootC, R.id.slide_container_size_copy_view);
@@ -149,7 +145,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			buildCheckoutForm();
 		}
 
-		registerStateListener(mStateHelper, false);
+		registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm)), false);
+		registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm)), false);
 		registerStateListener(new StateListenerLogger<CheckoutFormState>(), false);
 
 		return mRootC;
@@ -569,49 +566,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 	}
 
-	private void setEntryFormShowingPercentage(float percentage, int viewIndex) {
-		//TODO: Much of this stuff could be cached, which would speed up animation performance
-		if (viewIndex < 0 || mCheckoutRowsC == null || mCheckoutRowsC.getChildCount() <= viewIndex) {
-			return;
-		}
-
-		//Find bottom of the overlay
-		int overlayBottom = mOverlayContentC.getBottom();
-		for (int i = 0; i < mOverlayContentC.getChildCount(); i++) {
-			View child = mOverlayContentC.getChildAt(i);
-			if (child.getVisibility() == View.VISIBLE) {
-				overlayBottom = child.getBottom();
-				break;
-			}
-		}
-
-		//Slide views (only if they are already measured etc.)
-		View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
-		if (selectedView.getHeight() > 0) {
-			float aboveViewsTransY = percentage * selectedView.getTop();
-			float activeViewTransY = percentage
-				* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
-			float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
-			for (int i = 0; i < viewIndex; i++) {
-				mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
-			}
-			selectedView.setTranslationY(-activeViewTransY);
-			selectedView.setAlpha(1f - percentage);
-			selectedView.setPivotY(selectedView.getHeight());
-			selectedView.setScaleY(1f + (percentage / 2f) * (mOverlayContentC.getHeight() / selectedView.getHeight()));
-			for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
-				mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
-			}
-			//Form cross fade/scale
-			mOverlayContentC.setAlpha(percentage);
-			mOverlayShade.setAlpha(percentage);
-			float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
-			float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
-			mOverlayContentC.setPivotY(selectedView.getBottom());
-			mOverlayContentC.setScaleY(scaleYPercentage);
-		}
-	}
-
 	protected void bindTravelers() {
 		for (TravelerButtonFragment btn : mTravelerButtonFrags) {
 			if (btn.isAdded()) {
@@ -708,83 +662,108 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	 * ISTATELISTENER
 	 */
 
-	private StateListenerHelper<CheckoutFormState> mStateHelper = new StateListenerHelper<CheckoutFormState>() {
+	private class OpenCloseListener implements ISingleStateListener {
+		private View mFormContainer;
+		private TabletCheckoutDataFormFragment mFormFragment;
+
+		public OpenCloseListener (View container, TabletCheckoutDataFormFragment fragment) {
+			mFormContainer = container;
+			mFormFragment = fragment;
+		}
 
 		@Override
-		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
-			if (stateTwo == CheckoutFormState.OVERVIEW) {
-				mOverlayC.setVisibility(View.VISIBLE);
-			}
-			else {
+		public void onStateTransitionStart(boolean isReversed) {
+			mOverlayContentC.setVisibility(View.VISIBLE);
+			if (!isReversed) {
 				mOverlayContentC.setAlpha(0f);
-				mOverlayShade.setAlpha(0f);
-				mOverlayC.setVisibility(View.VISIBLE);
-				if (stateTwo == CheckoutFormState.EDIT_PAYMENT) {
-					mPaymentFormC.setVisibility(View.VISIBLE);
-				}
-				else if (stateTwo == CheckoutFormState.EDIT_TRAVELER) {
-					mTravelerFormC.setVisibility(View.VISIBLE);
-				}
+				mFormContainer.setVisibility(View.VISIBLE);
 			}
 		}
 
 		@Override
-		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
-			if (stateTwo != CheckoutFormState.OVERVIEW) {
-				setEntryFormShowingPercentage(percentage, mShowingViewIndex);
-			}
-			else {
-				setEntryFormShowingPercentage(1f - percentage, mShowingViewIndex);
-			}
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			setEntryFormShowingPercentage(percentage, mShowingViewIndex);
 		}
 
 		@Override
-		public void onStateTransitionEnd(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
-			// TODO Auto-generated method stub
+		public void onStateTransitionEnd(boolean isReversed) {
 
 		}
 
 		@Override
-		public void onStateFinalized(CheckoutFormState state) {
-			if (state == CheckoutFormState.OVERVIEW) {
-				mOverlayC.setVisibility(View.INVISIBLE);
+		public void onStateFinalized(boolean isReversed) {
+			if (isReversed) {
+				mOverlayContentC.setVisibility(View.INVISIBLE);
 				mPaymentFormC.setVisibility(View.INVISIBLE);
 				mTravelerFormC.setVisibility(View.INVISIBLE);
-				mOverlayShade.setBlockNewEventsEnabled(false);
 
 				setEntryFormShowingPercentage(0f, mShowingViewIndex);
 				mShowingViewIndex = -1;
 
-				if(mTravelerForm != null && mTravelerForm.isFormOpen()){
-					mTravelerForm.onFormClosed();
-				}
-				if(mPaymentForm != null && mPaymentForm.isFormOpen()){
-					mPaymentForm.onFormClosed();
-				}
+				mFormFragment.onFormClosed();
 
 				bindAll();
 			}
 			else {
-				mOverlayC.setVisibility(View.VISIBLE);
-				if (state == CheckoutFormState.EDIT_PAYMENT) {
-					mPaymentFormC.setVisibility(View.VISIBLE);
-					mTravelerFormC.setVisibility(View.INVISIBLE);
+				mOverlayContentC.setVisibility(View.VISIBLE);
+				mPaymentFormC.setVisibility(View.INVISIBLE);
+				mTravelerFormC.setVisibility(View.INVISIBLE);
+				mFormContainer.setVisibility(View.VISIBLE);
+
+				if (mFormContainer == mPaymentFormC) {
 					int viewNumber = getPaymentViewIndex();
 					if (viewNumber >= 0) {
 						mShowingViewIndex = viewNumber;
 					}
-					mPaymentForm.onFormOpened();
 				}
-				else if (state == CheckoutFormState.EDIT_TRAVELER) {
-					mTravelerFormC.setVisibility(View.VISIBLE);
-					mPaymentFormC.setVisibility(View.INVISIBLE);
-					mTravelerForm.onFormOpened();
-				}
-				mOverlayShade.setBlockNewEventsEnabled(true);
+				mFormFragment.onFormOpened();
 				setEntryFormShowingPercentage(1f, mShowingViewIndex);
 			}
 		}
-	};
+
+		private void setEntryFormShowingPercentage(float percentage, int viewIndex) {
+			//TODO: Much of this stuff could be cached, which would speed up animation performance
+			if (viewIndex < 0 || mCheckoutRowsC == null || mCheckoutRowsC.getChildCount() <= viewIndex) {
+				return;
+			}
+
+			//Find bottom of the overlay
+			int overlayBottom = mOverlayContentC.getBottom();
+			for (int i = 0; i < mOverlayContentC.getChildCount(); i++) {
+				View child = mOverlayContentC.getChildAt(i);
+				if (child.getVisibility() == View.VISIBLE) {
+					overlayBottom = child.getBottom();
+					break;
+				}
+			}
+
+			//Slide views (only if they are already measured etc.)
+			View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
+			if (selectedView.getHeight() > 0) {
+				float aboveViewsTransY = percentage * selectedView.getTop();
+				float activeViewTransY = percentage
+					* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
+				float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
+				for (int i = 0; i < viewIndex; i++) {
+					mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
+				}
+				selectedView.setTranslationY(-activeViewTransY);
+				selectedView.setAlpha(1f - percentage);
+				selectedView.setPivotY(selectedView.getHeight());
+				selectedView.setScaleY(1f + (percentage / 2f) * (mOverlayContentC.getHeight() / selectedView.getHeight()));
+				for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
+					mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
+				}
+				//Form cross fade/scale
+				mOverlayContentC.setAlpha(percentage);
+				float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
+				float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
+				mOverlayContentC.setPivotY(selectedView.getBottom());
+				mOverlayContentC.setScaleY(scaleYPercentage);
+			}
+		}
+
+	}
 
 	/*
 	 * ISTATEPROVIDER
