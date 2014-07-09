@@ -760,15 +760,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		private void setSlideUpAnimationPercentage(float percentage) {
 			//Grid manager dimensions work before onMeasure
 			int searchBarHeight = mGrid.getRowHeight(3);
-			int widgetHeight = mGrid.getRowSpanHeight(0, 4);
 			int barTransDistance = mGrid.getRowSpanHeight(0, 3);
 
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
 			mSearchBarC.getBackground().setAlpha((int)(255f * (1f - percentage)));
 			mSearchActionsC.setTranslationY(percentage * -barTransDistance);
 			if (mGrid.isLandscape()) {
-				mBottomRightC.setTranslationY(percentage * widgetHeight);
-				mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * widgetHeight);
+				mBottomRightC.setTranslationY(percentage * mBottomRightC.getHeight());
+				mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mBottomCenterC.getHeight());
 			}
 			else {
 				mBottomRightC.setTranslationY(percentage * 2 * mBottomRightC.getHeight());
