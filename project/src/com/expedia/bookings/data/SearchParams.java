@@ -401,14 +401,13 @@ public class SearchParams implements Parcelable, JSONable {
 				break;
 			}
 
-			//This seems to work pretty well. Almost everything has a location that seems to return good hotel results.
-			//RegionId is sort of a mystery.
-			//Just feed text to the hotel service if all else fails.
-			if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
-				params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
-			}
-			else if (mDestination.getRegionId() != 0) {
+			// We prioritize regionId over lat/lng over query str. This is the same behavior in
+			// ExpediaServices.search();
+			if (mDestination.getRegionId() != 0) {
 				params.setRegionId(Integer.toString(mDestination.getRegionId()));
+			}
+			else if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
+				params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
 			}
 			else {
 				params.setQuery(mDestination.getFullName());
