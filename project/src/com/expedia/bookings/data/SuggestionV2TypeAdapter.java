@@ -99,7 +99,7 @@ public class SuggestionV2TypeAdapter extends TypeAdapter<SuggestionV2> {
 						break;
 					}
 					case "id": {
-						suggestion.setHotelId(reader.nextInt());
+						suggestion.setRegionId(reader.nextInt());
 						break;
 					}
 					case "a": {
@@ -107,7 +107,7 @@ public class SuggestionV2TypeAdapter extends TypeAdapter<SuggestionV2> {
 						break;
 					}
 					case "amc": {
-						suggestion.setRegionId(reader.nextInt());
+						suggestion.setMultiCityRegionId(reader.nextInt());
 						break;
 					}
 					case "ad": {

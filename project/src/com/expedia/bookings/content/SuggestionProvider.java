@@ -32,9 +32,9 @@ public class SuggestionProvider extends ContentProvider {
 	public static final String SUGGEST_COLUMN_REGION_TYPE = "suggest_region_type";
 	public static final String SUGGEST_COLUMN_FULL_NAME = "suggest_full_name";
 	public static final String SUGGEST_COLUMN_DISPLAY_NAME = "suggest_display_name";
-	public static final String SUGGEST_COLUMN_HOTEL_ID = "suggest_hotel_id";
-	public static final String SUGGEST_COLUMN_AIRPORT_CODE = "suggest_airport_code";
 	public static final String SUGGEST_COLUMN_REGION_ID = "suggest_region_id";
+	public static final String SUGGEST_COLUMN_AIRPORT_CODE = "suggest_airport_code";
+	public static final String SUGGEST_COLUMN_MULTI_CITY_REGION_ID = "suggest_multi_city_region_id";
 	public static final String SUGGEST_COLUMN_ADDRESS = "suggest_address";
 	public static final String SUGGEST_COLUMN_CITY = "suggest_city";
 	public static final String SUGGEST_COLUMN_STATE_CODE = "suggest_state_code";
@@ -61,9 +61,9 @@ public class SuggestionProvider extends ContentProvider {
 		SUGGEST_COLUMN_REGION_TYPE,
 		SUGGEST_COLUMN_FULL_NAME,
 		SUGGEST_COLUMN_DISPLAY_NAME,
-		SUGGEST_COLUMN_HOTEL_ID,
-		SUGGEST_COLUMN_AIRPORT_CODE,
 		SUGGEST_COLUMN_REGION_ID,
+		SUGGEST_COLUMN_AIRPORT_CODE,
+		SUGGEST_COLUMN_MULTI_CITY_REGION_ID,
 		SUGGEST_COLUMN_ADDRESS,
 		SUGGEST_COLUMN_CITY,
 		SUGGEST_COLUMN_STATE_CODE,
@@ -82,9 +82,9 @@ public class SuggestionProvider extends ContentProvider {
 	public static final int COL_REGION_TYPE = 7;
 	public static final int COL_FULL_NAME = 8;
 	public static final int COL_DISPLAY_NAME = 9;
-	public static final int COL_HOTEL_ID = 10;
+	public static final int COL_REGION_ID = 10;
 	public static final int COL_AIRPORT_CODE = 11;
-	public static final int COL_REGION_ID = 12;
+	public static final int COL_MULTI_CITY_REGION_ID = 12;
 	public static final int COL_ADDRESS = 13;
 	public static final int COL_CITY = 14;
 	public static final int COL_STATE_CODE = 15;
@@ -246,8 +246,8 @@ public class SuggestionProvider extends ContentProvider {
 		row[COL_FULL_NAME] = suggestion.getFullName();
 		row[COL_DISPLAY_NAME] = suggestion.getDisplayName();
 
+		row[COL_MULTI_CITY_REGION_ID] = suggestion.getMultiCityRegionId();
 		row[COL_REGION_ID] = suggestion.getRegionId();
-		row[COL_HOTEL_ID] = suggestion.getHotelId();
 		row[COL_AIRPORT_CODE] = suggestion.getAirportCode();
 
 		Location location = suggestion.getLocation();
@@ -284,8 +284,8 @@ public class SuggestionProvider extends ContentProvider {
 		suggestion.setFullName(c.getString(COL_FULL_NAME));
 		suggestion.setDisplayName(c.getString(COL_DISPLAY_NAME));
 
+		suggestion.setMultiCityRegionId(c.getInt(COL_MULTI_CITY_REGION_ID));
 		suggestion.setRegionId(c.getInt(COL_REGION_ID));
-		suggestion.setHotelId(c.getInt(COL_HOTEL_ID));
 		suggestion.setAirportCode(c.getString(COL_AIRPORT_CODE));
 
 		Location location = new Location();

@@ -72,14 +72,14 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	// "i" denotes the index, indicating the position of the result in the set of results. The results are not to be sorted by index. They may appear to be sorted, but the client should short them by index before rendering to user.
 	private int mIndex;
 
-	// "id" denotes the hotel id
-	private int mHotelId;
+	// "id" denotes regionId but it denotes the hotel id if RegionType == "HOTEL"
+	private int mRegionId;
 
 	// "a" denotes the airport TLA
 	private String mAirportCode;
 
 	// "amc" denotes the multicity region id associated with the region/hotel element. We don't guarantee to have a multicity value available in this field (for all the regions)
-	private int mRegionId;
+	private int mMultiCityRegionId;
 
 	// "ad" denotes the hotel address
 	// "ci" denotes the city where the hotel is located
@@ -140,12 +140,12 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mIndex = index;
 	}
 
-	public int getHotelId() {
-		return mHotelId;
+	public int getRegionId() {
+		return mRegionId;
 	}
 
-	public void setHotelId(int hotelId) {
-		mHotelId = hotelId;
+	public void setRegionId(int regionId) {
+		mRegionId = regionId;
 	}
 
 	public String getAirportCode() {
@@ -156,12 +156,12 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mAirportCode = airportCode;
 	}
 
-	public int getRegionId() {
-		return mRegionId;
+	public int getMultiCityRegionId() {
+		return mMultiCityRegionId;
 	}
 
-	public void setRegionId(int regionId) {
-		mRegionId = regionId;
+	public void setMultiCityRegionId(int regionId) {
+		mMultiCityRegionId = regionId;
 	}
 
 	public Location getLocation() {
@@ -189,9 +189,9 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 				&& mRegionType == other.mRegionType
 				&& TextUtils.equals(mFullName, other.mFullName)
 				&& mIndex == other.mIndex
-				&& mHotelId == other.mHotelId
-				&& TextUtils.equals(mAirportCode, other.mAirportCode)
 				&& mRegionId == other.mRegionId
+				&& TextUtils.equals(mAirportCode, other.mAirportCode)
+				&& mMultiCityRegionId == other.mMultiCityRegionId
 				&& ((mLocation == null && other.mLocation == null) || (mLocation != null && mLocation
 						.equals(other.mLocation)));
 	}
@@ -238,9 +238,9 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 			obj.put("index", mIndex);
 
-			obj.put("hotelId", mHotelId);
+			obj.put("hotelId", mRegionId);
 			obj.putOpt("airportCode", mAirportCode);
-			obj.putOpt("regionId", mRegionId);
+			obj.putOpt("regionId", mMultiCityRegionId);
 
 			JSONUtils.putJSONable(obj, "location", mLocation);
 
@@ -262,9 +262,9 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 		mIndex = obj.optInt("index");
 
-		mHotelId = obj.optInt("hotelId");
+		mRegionId = obj.optInt("hotelId");
 		mAirportCode = obj.optString("airportCode", null);
-		mRegionId = obj.optInt("regionId");
+		mMultiCityRegionId = obj.optInt("regionId");
 
 		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
 
@@ -281,9 +281,9 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mFullName = in.readString();
 		mDisplayName = in.readString();
 		mIndex = in.readInt();
-		mHotelId = in.readInt();
-		mAirportCode = in.readString();
 		mRegionId = in.readInt();
+		mAirportCode = in.readString();
+		mMultiCityRegionId = in.readInt();
 		mLocation = in.readParcelable(getClass().getClassLoader());
 	}
 
@@ -295,9 +295,9 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		dest.writeString(mFullName);
 		dest.writeString(mDisplayName);
 		dest.writeInt(mIndex);
-		dest.writeInt(mHotelId);
-		dest.writeString(mAirportCode);
 		dest.writeInt(mRegionId);
+		dest.writeString(mAirportCode);
+		dest.writeInt(mMultiCityRegionId);
 		dest.writeParcelable(mLocation, 0);
 	}
 

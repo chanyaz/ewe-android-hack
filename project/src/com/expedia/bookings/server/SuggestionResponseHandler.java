@@ -118,11 +118,11 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 
 				suggestion.setIndex(suggestionJson.optInt("i"));
 
-				suggestion.setHotelId(suggestionJson.optInt("id"));
+				suggestion.setRegionId(suggestionJson.optInt("id"));
 
 				suggestion.setAirportCode(suggestionJson.optString("a", null));
 
-				suggestion.setRegionId(suggestionJson.optInt("amc"));
+				suggestion.setMultiCityRegionId(suggestionJson.optInt("amc"));
 
 				Location location = new Location();
 				location.addStreetAddressLine(suggestionJson.optString("ad", null));
