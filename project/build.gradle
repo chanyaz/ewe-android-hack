@@ -86,6 +86,7 @@ android {
         ExpediaAutomation {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "boolean", "IS_AUTOMATION", "true"
+            buildConfigField "String", "MEDIA_URL", "\"http://0.0.0.0\""
             packageName "com.expedia.bookings.auto"
             testInstrumentationRunner "com.expedia.bookings.test.utils.SpoonInstrumentationTestRunner"
         }
