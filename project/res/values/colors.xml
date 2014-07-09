@@ -219,4 +219,31 @@
     <color name="trip_bucket_sold_out_selected">#660e4d8c</color>
     <color name="trip_bucket_sold_out_unselected">#cc525252</color>
 
+    <!-- About Activity -->
+    <color name="AboutRowTextColor">#797979</color>
+    <color name="AboutAppsTitleTextColor">#4b4b4b</color>
+    <color name="AboutTextSelectedStateColor">#d79100</color>
+    <color name="AboutFooterTextColor">#888888</color>
+    <color name="AboutRowTitleTextColor">#121212</color>
+
+    <color name="AboutBackground">#333</color>
+    <color name="AboutTitleTextColor">#dcdcdc</color>
+    <color name="AboutTitleTextShadowColor">#181818</color>
+    <color name="AboutFooterTextShadowColor">#262626</color>
+    <color name="AboutRowTitleTextShadowColor">#fff</color>
+    <color name="AboutRowSelectedColor">#cfcfcf</color>
+    <color name="AboutRowSeparator">#c7c7c7</color>
+    <color name="AboutAppRowSeparator">#9c9c9c</color>
+    <color name="AboutAppsTitleTextShadowColor">#e0e0e0</color>
+    <color name="AboutAppsTextColor">#222222</color>
+
+    <!-- AboutSectionFragment -->
+    <color name="about_row_bg_normal">#0000</color>
+    <color name="about_row_bg_pressed">#7caae5</color>
+    <color name="AboutSectionBackground">#333</color>
+    <color name="AboutSectionTextColor">#232323</color>
+    <color name="AboutSectionTitleTextColor">#dcdcdc</color>
+    <color name="AboutSectionAppsTextColor">#454545</color>
+    <color name="AboutSectionTextSelectedStateColor">#d79100</color>
+
 </resources>
