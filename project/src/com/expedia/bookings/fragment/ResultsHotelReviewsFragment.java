@@ -303,7 +303,9 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	}
 
 	public void resetDominantColor() {
-		setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
+		if (getActivity() != null) {
+			setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
+		}
 	}
 
 	public void setDominantColor(int color) {
