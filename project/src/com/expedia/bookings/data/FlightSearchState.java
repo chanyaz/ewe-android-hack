@@ -38,9 +38,7 @@ public class FlightSearchState implements JSONable {
 	}
 
 	public FlightFilter getFilter(int expectedLength, int legPosition, FlightSearch.FlightTripQuery query) {
-		if (mFilters == null || mFilters.length != expectedLength) {
-			mFilters = new FlightFilter[expectedLength];
-		}
+		ensureFilterIntegrity(expectedLength);
 
 		if (mFilters[legPosition] == null) {
 			mFilters[legPosition] = new FlightFilter();
@@ -50,8 +48,15 @@ public class FlightSearchState implements JSONable {
 		return mFilters[legPosition];
 	}
 
-	public FlightFilter[] getFilters() {
+	public FlightFilter[] getFilters(int expectedLength) {
+		ensureFilterIntegrity(expectedLength);
 		return mFilters;
+	}
+
+	private void ensureFilterIntegrity(int expectedLength) {
+		if (mFilters == null || mFilters.length != expectedLength) {
+			mFilters = new FlightFilter[expectedLength];
+		}
 	}
 
 	public FlightSearchState clone() {

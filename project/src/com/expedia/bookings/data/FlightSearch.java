@@ -255,7 +255,7 @@ public class FlightSearch implements JSONable {
 		// depends upon dynamic data from the FlightTripQuery so it must
 		// be nulled out and regenerated when the query changes.
 		mFlightTripQueries[legPosition] = null;
-		mSearchState.getFilters()[legPosition] = null;
+		mSearchState.getFilters(mSearchParams.getQueryLegCount())[legPosition] = null;
 	}
 
 	private void ensureFlightTripQueriesIntegrity() {
