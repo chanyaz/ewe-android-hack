@@ -249,7 +249,13 @@ public class FlightSearch implements JSONable {
 	public void clearQuery(int legPosition) {
 		ensureFlightTripQueriesIntegrity();
 
+		// We must null out both the Query and the Filter in order
+		// to ensure the FlightTripQuery.getTrips() call will retrieve
+		// the FlightTrips from an unadultered state. The airport filter
+		// depends upon dynamic data from the FlightTripQuery so it must
+		// be nulled out and regenerated when the query changes.
 		mFlightTripQueries[legPosition] = null;
+		mSearchState.getFilters()[legPosition] = null;
 	}
 
 	private void ensureFlightTripQueriesIntegrity() {

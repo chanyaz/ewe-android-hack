@@ -50,6 +50,10 @@ public class FlightSearchState implements JSONable {
 		return mFilters[legPosition];
 	}
 
+	public FlightFilter[] getFilters() {
+		return mFilters;
+	}
+
 	public FlightSearchState clone() {
 		FlightSearchState state = new FlightSearchState();
 		state.mSelectedLegs = new FlightTripLeg[mSelectedLegs.length];
