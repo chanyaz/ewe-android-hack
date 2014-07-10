@@ -1,7 +1,9 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -40,7 +42,6 @@ public class CenteredCaptionedIcon extends RelativeLayout {
 
 		mSvg = Ui.findView(widget, R.id.svg);
 		mCaption = Ui.findView(widget, R.id.caption);
-		mCaption.setMovementMethod(LinkMovementMethod.getInstance());
 
 		if (attr != null) {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.CenteredCaptionedIcon, 0, 0);
@@ -58,7 +59,22 @@ public class CenteredCaptionedIcon extends RelativeLayout {
 	}
 
 	public void setCaption(CharSequence caption) {
+		setCaption(caption, null);
+	}
+
+	public void setCaption(CharSequence caption, final String url) {
 		mCaption.setText(caption);
+		if (url != null) {
+			mCaption.setMovementMethod(LinkMovementMethod.getInstance());
+			mCaption.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(url));
+					getContext().startActivity(intent);
+				}
+			});
+		}
 	}
 
 	public CharSequence getCaption() {

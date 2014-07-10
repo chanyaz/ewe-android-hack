@@ -71,9 +71,13 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	}
 
 	public void setErrorText(CharSequence text) {
+		setErrorText(text, null);
+	}
+
+	public void setErrorText(CharSequence text, String link) {
 		mErrorText = text;
 		if (mErrorView != null) {
-			mErrorView.setCaption(mErrorText);
+			mErrorView.setCaption(mErrorText, link);
 		}
 	}
 
@@ -90,7 +94,8 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			setErrorText(getString(R.string.invalid_flights_pos));
 			break;
 		case NO_FLIGHTS_DROPDOWN_POS:
-			setErrorText(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable, PointOfSale.getPointOfSale().getWebsiteUrl())));
+			String posURL = PointOfSale.getPointOfSale().getWebsiteUrl();
+			setErrorText(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable, posURL)), posURL);
 			break;
 		case MISSING_STARTDATE:
 			setErrorText(getString(R.string.missing_flight_trip_date_message));
