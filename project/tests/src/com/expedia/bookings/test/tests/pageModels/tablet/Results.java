@@ -52,6 +52,12 @@ public class Results {
 	}
 
 	public static void swipeUpHotelList() {
+		try {
+			Thread.sleep(1500);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 		onView(withId(R.id.column_one_hotel_list)).perform(slowSwipeUp());
 		// FIXME: OMG I HATE SLEEPS BUT WE NEED THIS FOR NOW
 		try {
@@ -63,6 +69,12 @@ public class Results {
 	}
 
 	public static void swipeUpFlightList() {
+		try {
+			Thread.sleep(1500);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 		onView(withId(R.id.list_column_container)).perform(slowSwipeUp());
 		try {
 			Thread.sleep(1500);
