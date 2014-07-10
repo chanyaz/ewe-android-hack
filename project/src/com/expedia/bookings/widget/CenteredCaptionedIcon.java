@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class CenteredCaptionedIcon extends RelativeLayout {
 
 		mSvg = Ui.findView(widget, R.id.svg);
 		mCaption = Ui.findView(widget, R.id.caption);
+		mCaption.setMovementMethod(LinkMovementMethod.getInstance());
 
 		if (attr != null) {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.CenteredCaptionedIcon, 0, 0);

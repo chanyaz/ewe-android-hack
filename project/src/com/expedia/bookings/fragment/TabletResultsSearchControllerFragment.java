@@ -166,9 +166,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mCancelBtn = Ui.findView(view, R.id.cancel_btn);
 		mSearchNowBtn = Ui.findView(view, R.id.search_now_btn);
 
-		//We dont want our clicks to pass through this container
-		mGdeC.setConsumeTouch(true);
-
 		//Fake AB actions
 		mDestBtn.setOnClickListener(mDestClick);
 		mOrigBtn.setOnClickListener(mOrigClick);
