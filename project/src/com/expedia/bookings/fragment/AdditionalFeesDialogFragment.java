@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FlightUtils;
+import com.expedia.bookings.utils.Ui;
 
 public class AdditionalFeesDialogFragment extends DialogFragment {
 
@@ -16,14 +18,19 @@ public class AdditionalFeesDialogFragment extends DialogFragment {
 
 	private FlightUtils.OnBaggageFeeViewClicked mCallback;
 
-	public static AdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl, FlightUtils.OnBaggageFeeViewClicked callback) {
+	public static AdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl) {
 		AdditionalFeesDialogFragment fragment = new AdditionalFeesDialogFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_BAGGAGE_FEES_URL, baggageFeesUrl);
 		args.putString(ARG_OB_FEES_URL, obFeesUrl);
 		fragment.setArguments(args);
-		fragment.mCallback = callback;
 		return fragment;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCallback = Ui.findFragmentListener(this, FlightUtils.OnBaggageFeeViewClicked.class);
 	}
 
 	@Override

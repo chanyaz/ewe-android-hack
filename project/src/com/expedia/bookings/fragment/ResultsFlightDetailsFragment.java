@@ -49,7 +49,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightDetailsFragment extends Fragment {
+public class ResultsFlightDetailsFragment extends Fragment implements FlightUtils.OnBaggageFeeViewClicked {
 
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
 	private static final String BGD_KEY_RATINGS = "BGD_KEY_RATINGS";
@@ -283,18 +283,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		}
 
 		// Baggage fees
-		FlightUtils
-			.configureBaggageFeeViews(getActivity(), trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
-				mBaggageFeesLinkSecondaryTv, false, new FlightUtils.OnBaggageFeeViewClicked() {
-					@Override
-					public void onBaggageFeeViewClicked(String title, String url) {
-						openBaggageFees(title, url);
-					}
-				}
-			);
+		FlightUtils.configureBaggageFeeViews(this, trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
+			mBaggageFeesLinkSecondaryTv, false);
 	}
 
-	private void openBaggageFees(String title, String url) {
+	@Override
+	public void onBaggageFeeViewClicked(String title, String url) {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 		Intent intent = builder.setUrl(url) //
 			.setTheme(R.style.V2_Theme_Activity_TabletWeb) //

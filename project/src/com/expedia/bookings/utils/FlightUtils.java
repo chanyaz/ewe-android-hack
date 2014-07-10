@@ -4,6 +4,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -104,8 +105,8 @@ public class FlightUtils {
 		void onBaggageFeeViewClicked(String title, String url);
 	}
 
-	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, final FlightLeg leg, TextView feesTv,
-		ViewGroup mFeesContainer, TextView secondaryFeesTv, boolean isPhone, final OnBaggageFeeViewClicked callback) {
+	public static void configureBaggageFeeViews(final Fragment fragment, final FlightTrip trip, final FlightLeg leg, TextView feesTv,
+		ViewGroup mFeesContainer, TextView secondaryFeesTv, boolean isPhone) {
 
 		// Configure the first TextView, "Baggage Fee Information"
 		int textViewResId;
@@ -134,15 +135,15 @@ public class FlightUtils {
 
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);
-			secondaryFeesTv.setText(context.getString(R.string.payment_and_baggage_fees_may_apply));
+			secondaryFeesTv.setText(fragment.getString(R.string.payment_and_baggage_fees_may_apply));
 			ViewUtils.setAllCaps(secondaryFeesTv);
 
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					AdditionalFeesDialogFragment dialogFragment = AdditionalFeesDialogFragment.newInstance(
-						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails(), callback);
-					dialogFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "additionalFeesDialog");
+						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails());
+					dialogFragment.show(fragment.getChildFragmentManager(), "additionalFeesDialog");
 				}
 			});
 		}
@@ -151,7 +152,7 @@ public class FlightUtils {
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					callback.onBaggageFeeViewClicked(context.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
+					((OnBaggageFeeViewClicked) fragment).onBaggageFeeViewClicked(fragment.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
 				}
 			});
 		}

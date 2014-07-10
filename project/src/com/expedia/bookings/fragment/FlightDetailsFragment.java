@@ -41,7 +41,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class FlightDetailsFragment extends Fragment {
+public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBaggageFeeViewClicked {
 
 	public static final String TAG = FlightDetailsFragment.class.getName();
 
@@ -146,33 +146,8 @@ public class FlightDetailsFragment extends Fragment {
 		mInfoContainer.addView(arriveAtSection);
 
 		// Footer: https://mingle/projects/eb_ad_app/cards/660
-		FlightUtils.configureBaggageFeeViews(getActivity(), trip, leg, mFeesTextView, mFeesContainer,
-			mFeesSecondaryTextView, true, new FlightUtils.OnBaggageFeeViewClicked() {
-				@Override
-				public void onBaggageFeeViewClicked(String title, String url) {
-					String trackingName = null;
-					int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
-					if (legPosition == 0) {
-						if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
-						}
-						else {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
-						}
-					}
-					else if (legPosition == 1) {
-						trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
-					}
-
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					builder.setUrl(url);
-					builder.setTheme(R.style.FlightTheme);
-					builder.setTitle(title);
-					builder.setTrackingName(trackingName);
-					builder.setAllowMobileRedirects(false);
-					getActivity().startActivity(builder.getIntent());
-				}
-			});
+		FlightUtils.configureBaggageFeeViews(this, trip, leg, mFeesTextView, mFeesContainer,
+			mFeesSecondaryTextView, true);
 
 		mFirstLayoutPass = true;
 		v.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
@@ -353,6 +328,31 @@ public class FlightDetailsFragment extends Fragment {
 		}
 
 		return animSet;
+	}
+
+	@Override
+	public void onBaggageFeeViewClicked(String title, String url) {
+		String trackingName = null;
+		int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
+		if (legPosition == 0) {
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
+			}
+			else {
+				trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
+			}
+		}
+		else if (legPosition == 1) {
+			trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
+		}
+
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+		builder.setUrl(url);
+		builder.setTheme(R.style.FlightTheme);
+		builder.setTitle(title);
+		builder.setTrackingName(trackingName);
+		builder.setAllowMobileRedirects(false);
+		getActivity().startActivity(builder.getIntent());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
