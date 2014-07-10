@@ -667,6 +667,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private void setShowCvvPercentage(float percentage) {
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
 		mCvvContainer.setTranslationX((1f - percentage) * -mCvvContainer.getWidth());
+		mBucketContainer.setTranslationX(percentage * -mBucketContainer.getWidth());
 	}
 
 	private void setShowReadyForCheckoutPercentage(float percentage) {
