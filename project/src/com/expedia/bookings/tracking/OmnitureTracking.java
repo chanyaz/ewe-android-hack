@@ -50,10 +50,13 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -353,9 +356,6 @@ public class OmnitureTracking {
 		// Promo description
 		s.setEvar(9, property.getLowestRate().getPromoDescription());
 
-		// Rating or highly rated
-		addHotelRating(s, property);
-
 		// Products
 		addProducts(s, property);
 
@@ -431,18 +431,12 @@ public class OmnitureTracking {
 
 		s.setEvents("event32");
 
-		// Rating or highly rated
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		addHotelRating(s, property);
 
 		// Products
 		addProducts(s, property);
 
 		// Position, if opened from list
-
-		if (position != -1) {
-			s.setEvar(39, position + "");
-		}
 
 		// Send the tracking data
 		s.track();
@@ -470,7 +464,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createSimpleEvent(context, "App.Hotels.Details", "event32", null);
 
-		addHotelRating(s, property);
 
 		Rate rate = property.getLowestRate();
 		if (rate != null) {
@@ -1720,7 +1713,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"App Launch\" pageLoad");
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		s.setEvar(10, sMarketingDate);
-		s.setEvar(27, "App Launch");
 		s.track();
 	}
 
@@ -1749,10 +1741,6 @@ public class OmnitureTracking {
 			// App was upgraded
 			s.setEvents("event29");
 			save = true;
-		}
-		else {
-			// Regular launch
-			s.setEvents("event27");
 		}
 
 		if (save) {
@@ -1990,7 +1978,8 @@ public class OmnitureTracking {
 		s.setProp(37, Locale.getDefault().getLanguage());
 
 		String email = null;
-
+		String expediaId = null;
+		String rewardsStatus = null;
 		// If the user is logged in, we want to send their email address along with request
 		if (User.isLoggedIn(context)) {
 			// Load the user into the Db if it has not been done (which will most likely be the case on app launch)
@@ -1999,6 +1988,8 @@ public class OmnitureTracking {
 			}
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
 				email = Db.getUser().getPrimaryTraveler().getEmail();
+				expediaId = Db.getUser().getTuidString();
+				rewardsStatus = getRewardsStatusString(Db.getUser());
 			}
 		}
 
@@ -2015,6 +2006,29 @@ public class OmnitureTracking {
 			s.setProp(11, md5(email));
 		}
 
+		if (!TextUtils.isEmpty(expediaId)) {
+			s.setProp(13, expediaId);
+		}
+
+		if (!TextUtils.isEmpty(rewardsStatus)) {
+			s.setEvar(56, rewardsStatus);
+		}
+
+		// TripBucket State - eVar23
+		if (Db.getTripBucket() != null) {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			String hotelState = hotel == null ? "No Hotel" : (hotel.getState() == TripBucketItemState.PURCHASED ? "Hotel" : "UB Hotel");
+
+			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+			String flightState = flight == null ? "No Flight" : (flight.getState() == TripBucketItemState.PURCHASED ? "Flight" : "UB Flight");
+
+			String tbState = hotelState + "|" + flightState;
+			s.setEvar(23, tbState);
+		}
+
+		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setEvar(61, tpid);
+
 		// Screen orientation
 		Configuration config = context.getResources().getConfiguration();
 		switch (config.orientation) {
@@ -2023,9 +2037,6 @@ public class OmnitureTracking {
 			break;
 		case Configuration.ORIENTATION_PORTRAIT:
 			s.setProp(39, "portrait");
-			break;
-		case Configuration.ORIENTATION_SQUARE:
-			s.setProp(39, "square");
 			break;
 		case Configuration.ORIENTATION_UNDEFINED:
 			s.setProp(39, "undefined");
@@ -2040,10 +2051,25 @@ public class OmnitureTracking {
 		}
 	}
 
+	private static String getRewardsStatusString(User user) {
+		boolean rewardsUser = Db.getUser().isRewardsUser();
+		boolean elitePlusUser = Db.getUser().isElitePlus();
+		StringBuilder sb = new StringBuilder();
+		if (!rewardsUser) {
+			sb.append("notRewardsMember");
+		}
+		else {
+			sb.append("rewardsMember");
+			if (elitePlusUser) {
+				sb.append(", elitePlusMember");
+			}
+		}
+		return sb.toString();
+	}
+
 	private static void addDeepLinkData(ADMS_Measurement s) {
 		if (sDeepLinkKey != null && sDeepLinkValue != null) {
 			String var;
-			boolean useEvar22 = true;
 
 			if (sDeepLinkKey.equals("emlcid")) {
 				var = "EML.";
@@ -2061,7 +2087,6 @@ public class OmnitureTracking {
 				var = "Brand.";
 			}
 			else if (sDeepLinkKey.equals("seocid")) {
-				useEvar22 = false;
 				var = "SEO.";
 			}
 			else {
@@ -2071,7 +2096,7 @@ public class OmnitureTracking {
 				return;
 			}
 
-			int evar = useEvar22 ? 22 : 27;
+			int evar = 22;
 			var += sDeepLinkValue;
 			s.setEvar(evar, var);
 
@@ -2080,16 +2105,11 @@ public class OmnitureTracking {
 		}
 	}
 
-	private static void addHotelRating(ADMS_Measurement s, Property property) {
-		s.setProp(38, property.getAverageExpediaRating() + "");
-	}
-
 	private static String getReportSuiteIds(Context context) {
 		String id = "";
-		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
 		if (AndroidUtils.isRelease(context)) {
 			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
-				id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+				id = "expediaglobalapp";
 			}
 
 			if (ExpediaBookingApp.IS_VSC) {
@@ -2099,14 +2119,10 @@ public class OmnitureTracking {
 			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				id = "tvlglobalapp";
 			}
-			else {
-				id += ",expediaglobalapp";
-			}
-
 		}
 		else {
 			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
-				id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
+				id = "expediaglobalappdev";
 			}
 
 			if (ExpediaBookingApp.IS_VSC) {
@@ -2114,9 +2130,6 @@ public class OmnitureTracking {
 			}
 			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				id = "tvlglobalappdev";
-			}
-			else {
-				id += ",expediaglobalappdev";
 			}
 		}
 		return id;
