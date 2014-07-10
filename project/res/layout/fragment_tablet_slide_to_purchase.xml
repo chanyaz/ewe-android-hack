@@ -11,6 +11,7 @@
         android:layout_weight="@integer/tablet_checkout_forms_left_margin_weight"/>
 
     <FrameLayout
+        android:id="@+id/slide_content_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"

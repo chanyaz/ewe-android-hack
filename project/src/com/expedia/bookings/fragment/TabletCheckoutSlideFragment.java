@@ -84,7 +84,7 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_slide_to_purchase, container, false);
 
-		mRootC.setBackgroundColor(Db.getFullscreenAverageColor());
+		Ui.findView(mRootC, R.id.slide_content_container).setBackgroundColor(Db.getFullscreenAverageColor());
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(HAS_ACCEPTED_TOS)) {
 			mHasAcceptedTOS = savedInstanceState.getBoolean(HAS_ACCEPTED_TOS);
