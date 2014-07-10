@@ -95,7 +95,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			break;
 		case NO_FLIGHTS_DROPDOWN_POS:
 			String posURL = PointOfSale.getPointOfSale().getWebsiteUrl();
-			setErrorText(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable, posURL)), posURL);
+			setErrorText(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable_TEMPLATE, posURL)), posURL);
 			break;
 		case MISSING_STARTDATE:
 			setErrorText(getString(R.string.missing_flight_trip_date_message));
