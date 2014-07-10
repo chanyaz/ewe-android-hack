@@ -108,7 +108,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private FrameLayoutTouchController mRootC;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
-	private ViewGroup mSlideAndFormContainer;
 	private ViewGroup mSlideContainer;
 	private ViewGroup mFormContainer;
 	private ViewGroup mCvvContainer;
@@ -200,7 +199,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
 		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
 
-		mSlideAndFormContainer = Ui.findView(mRootC, R.id.checkout_forms_and_slide_container);
 		mFormContainer = Ui.findView(mRootC, R.id.checkout_forms_container);
 		mSlideContainer = Ui.findView(mRootC, R.id.slide_container);
 		mCvvContainer = Ui.findView(mRootC, R.id.cvv_container);
@@ -480,7 +478,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowReadyForCheckoutPercentage(0f);
 				mSlideContainer.setVisibility(View.VISIBLE);
 				mFormContainer.setVisibility(View.VISIBLE);
-				mSlideAndFormContainer.setVisibility(View.VISIBLE);
 				if (Db.getTripBucket().getFlight() != null
 					&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
@@ -696,7 +693,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mFormContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.GONE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
-			mSlideAndFormContainer.setVisibility(View.VISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
@@ -705,7 +701,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mFormContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
-			mSlideAndFormContainer.setVisibility(View.VISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
@@ -714,7 +709,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
-			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
@@ -723,7 +717,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
-			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.VISIBLE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
@@ -732,7 +725,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
-			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.VISIBLE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
@@ -741,7 +733,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
-			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.INVISIBLE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.VISIBLE);
