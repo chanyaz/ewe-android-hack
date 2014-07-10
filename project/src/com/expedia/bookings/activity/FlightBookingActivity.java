@@ -22,7 +22,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
 import com.expedia.bookings.bitmaps.BitmapDrawable;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.L2ImageCache.OnBitmapLoaded;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
@@ -49,7 +48,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
-public class FlightBookingActivity extends FragmentActivity implements CVVEntryFragmentListener, OnBitmapLoaded {
+public class FlightBookingActivity extends FragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -102,7 +101,14 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		L2ImageCache.sDestination.loadImage(url, true /*blurred*/ , this);
+
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/, true /*checkDisk*/);
+		if (bitmap != null) {
+			onBitmapLoaded(bitmap);
+		}
+		else {
+			onBitmapLoadFailed();
+		}
 
 		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
@@ -492,17 +498,13 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		return new BigDecimal(amount);
 	}
 
-	///////////////////////////////////////////////////////////////
-	// OnBitmapLoaded
-
-	@Override
-	public void onBitmapLoaded(String url, Bitmap bitmap) {
+	public void onBitmapLoaded(Bitmap bitmap) {
 		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 		mBgImageView.setImageDrawable(drawable);
 	}
 
-	@Override
-	public void onBitmapLoadFailed(String url) {
-		// ignore
+	public void onBitmapLoadFailed() {
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true /*blurred*/);
+		onBitmapLoaded(bitmap);
 	}
 }
