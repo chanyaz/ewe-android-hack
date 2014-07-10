@@ -892,7 +892,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				handleErrors(response);
 			}
 			else {
-				// FIXME default cloud bitmaps from res?
 				mBgFragment.loadBitmapFromCache(FlightSearchResultsActivity.this);
 
 				if (response.getTripCount() == 0) {
