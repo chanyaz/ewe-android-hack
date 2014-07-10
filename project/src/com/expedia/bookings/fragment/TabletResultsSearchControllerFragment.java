@@ -94,6 +94,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
 	private FrameLayoutTouchController mTravC;
+	private FrameLayoutTouchController mPopupC;
 	private FrameLayoutTouchController mWaypointC;
 	private FrameLayoutTouchController mGdeC;
 	private View mTravPickWhiteSpace;
@@ -152,6 +153,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
 		mGdeC = Ui.findView(view, R.id.gde_container);
+		mPopupC = Ui.findView(view, R.id.search_popup_container);
 		mTravPickWhiteSpace = Ui.findView(view, R.id.traveler_picker_port_white_space);
 
 		//Fake AB form buttons
