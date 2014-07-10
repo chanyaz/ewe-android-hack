@@ -156,10 +156,45 @@
 
         <!-- Baggage fee link TextView(s) -->
 
-        <include
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/fees_container"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/include_flight_details_baggage_fees" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:contentDescription="@string/cd_flight_leg_baggage_fee_info"
+            android:gravity="left|center_vertical"
+            android:orientation="vertical"
+            android:background="?android:attr/selectableItemBackground">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fees_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_suitcase_small"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="@string/baggage_fee_info"
+                android:textColor="#DDf3f3f3"
+                android:textSize="@dimen/flight_details_baggage_fee_text_view_text_size"
+                app:textStyle="bold" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fees_secondary_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_payment_fee"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="@string/payment_and_baggage_fees_may_apply"
+                android:textColor="#DDf3f3f3"
+                android:textSize="@dimen/flight_details_baggage_fee_text_view_text_size"
+                app:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </RelativeLayout>
 
