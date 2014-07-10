@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.allOf;
 
 public class Checkout {
 	public static void clickOnTravelerDetails() {
-		onView(withText("Main traveler details")).perform(click());
+		onView(withId(R.id.empty_traveler_container)).perform(click());
 	}
 
 	public static ViewInteraction loginButton() {
@@ -102,11 +102,11 @@ public class Checkout {
 	public static void enterDateOfBirth(int year, int month, int day) {
 		//TODO: use year/month/day
 		dateOfBirth().perform(scrollTo(), click());
-		onView(withText("Done")).perform(click());
+		onView(withId(android.R.id.button1)).perform(click());
 	}
 
 	public static void clickOnEnterPaymentInformation() {
-		onView(withText("Enter payment details")).perform(scrollTo(), click());
+		onView(withId(R.id.payment_info_btn)).perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction creditCardNumber() {
@@ -177,7 +177,7 @@ public class Checkout {
 		onView(withId(R.id.edit_creditcard_exp_text_btn)).perform(scrollTo());
 		onView(withId(R.id.edit_creditcard_exp_text_btn)).perform(click());
 		onView(withId(R.id.year_up)).perform(click());
-		onView(withText("Set")).perform(click());
+		onView(withId(R.id.positive_button)).perform(click());
 	}
 
 	public static void enterNameOnCard(String text) {
@@ -193,7 +193,7 @@ public class Checkout {
 	}
 
 	public static void clickOnDone() {
-		onView(allOf(withId(R.id.header_text_button_tv), withText("Done"), isDisplayed())).perform(click());
+		onView(allOf(withId(R.id.header_text_button_tv), isDisplayed())).perform(click());
 	}
 
 	public static void slideToPurchase() {
@@ -209,11 +209,11 @@ public class Checkout {
 	}
 
 	public static void clickBookButton() {
-		onView(allOf(withId(R.id.book_button), withText("Book"))).perform(click());
+		onView(allOf(withId(R.id.book_button))).perform(click());
 	}
 
 	public static void clickDoneBooking() {
-		onView(allOf(withId(R.id.done_booking), withText("Done Booking"))).perform(click());
+		onView(allOf(withId(R.id.done_booking))).perform(click());
 	}
 
 	public static void clickBookNextItem() {
@@ -234,6 +234,10 @@ public class Checkout {
 
 	public static ViewInteraction costSummaryText() {
 		return onView(withId(R.id.title_text_view));
+	}
+
+	public static void clickIAcceptButton() {
+		onView(withId(R.id.layout_i_accept)).perform(click());
 	}
 
 }

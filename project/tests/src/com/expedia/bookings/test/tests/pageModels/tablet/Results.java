@@ -14,7 +14,6 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import static com.expedia.bookings.test.espresso.TabletViewActions.clickDates;
 import static com.expedia.bookings.test.espresso.ViewActions.slowSwipeUp;
-import static com.expedia.bookings.test.espresso.ViewActions.swipeUp;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -108,6 +107,14 @@ public class Results {
 		originEditText().perform(typeText(text));
 	}
 
+	public static void clickSuggestionAtPosition(int index) {
+		onData(anything()) //
+			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
+			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
+			.atPosition(index) //
+			.perform(click());
+	}
+
 	public static void clickSuggestion(String text) {
 		onData(allOf(is(instanceOf(String.class)), equalTo(text))) //
 			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
@@ -124,7 +131,7 @@ public class Results {
 	}
 
 	public static ViewInteraction addHotel() {
-		return onView(allOf(withId(R.id.room_rate_button_add), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		return onView(allOf(withId(R.id.room_rate_button_add), isDisplayed(), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	public static void clickAddHotel() {
@@ -143,9 +150,13 @@ public class Results {
 		onView(allOf(withId(R.id.book_button_text), withText("Book Flight"), isDisplayed())).perform(click());
 	}
 
+	public static void clickBookButton() {
+		onView(allOf(withId(R.id.book_button_text), isDisplayed())).perform(click());
+	}
+
 	public static DataInteraction flightAtIndex(int index) {
 		return onData(anything()) //
-			.inAdapterView(allOf(withContentDescription("Flight Search Results"), isDisplayed())) //
+			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withParent(withId(R.id.list_container)))), isDisplayed())) //
 			.atPosition(index);
 	}
 
@@ -155,7 +166,7 @@ public class Results {
 
 	public static DataInteraction hotelAtIndex(int index) {
 		return onData(anything()) //
-			.inAdapterView(allOf(withContentDescription("Hotel Search Results"), isDisplayed())) //
+			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withParent(withId(R.id.column_one_hotel_list)))), isDisplayed())) //
 			.atPosition(index);
 	}
 

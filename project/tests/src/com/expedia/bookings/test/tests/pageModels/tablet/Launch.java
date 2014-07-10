@@ -1,10 +1,8 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.SuggestionAdapterViewProtocol;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.mobiata.android.util.Ui;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -12,8 +10,8 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -48,8 +46,11 @@ public class Launch {
 		destinationEditText().perform(typeText(text));
 	}
 
+	public static void clickSuggestionAtPosition(int index) {
+		onData(anything()).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).atPosition(index).perform(click());
+	}
+
 	public static void clickSuggestion(String text) {
 		onData(allOf(is(instanceOf(String.class)), equalTo(text))).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).perform(click());
 	}
-
 }
