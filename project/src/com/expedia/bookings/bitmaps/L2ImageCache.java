@@ -880,7 +880,7 @@ public class L2ImageCache {
 				return downloadBitmapToDiskCacheFromNetwork(mUrl, mConn);
 			}
 			catch (IOException e) {
-				if (!mCancelled) {
+				if (!mCancelled && !ExpediaBookingApp.IS_AUTOMATION) {
 					Log.w(mLogTag, "Could not fetch image, could not load.", e);
 				}
 				return null;
@@ -959,7 +959,7 @@ public class L2ImageCache {
 				return null;
 			}
 			catch (IOException e) {
-				if (!mNetworkDownloadCancelled) {
+				if (!mNetworkDownloadCancelled && !ExpediaBookingApp.IS_AUTOMATION) {
 					Log.w(mLogTag, "Could not fetch image, could not load.", e);
 				}
 				return null;
