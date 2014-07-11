@@ -241,7 +241,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		FragmentAvailabilityUtils
 			.setFragmentAvailability(showOverwriteDialog, FTAG_OVERWRITE_DIALOG, manager, transaction, this,
 				FragmentAvailabilityUtils.DIALOG_FRAG, true);
-		transaction.commit();
+		transaction.commitAllowingStateLoss();
 	}
 
 	private void proceed() {
