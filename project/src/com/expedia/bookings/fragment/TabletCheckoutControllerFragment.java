@@ -474,6 +474,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.BOOKING) {
 				setShowBookingPercentage(0f);
 			}
+			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.BOOKING) {
+				setShowBookingPercentage(0f);
+				mBucketScrollView.setVisibility(View.VISIBLE);
+			}
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowReadyForCheckoutPercentage(0f);
 				mSlideContainer.setVisibility(View.VISIBLE);
@@ -684,6 +688,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else {
 			mCvvContainer.setTranslationX(percentage * -mCvvContainer.getWidth());
+			mBucketScrollView.setTranslationX((1f - percentage) * -mBucketScrollView.getWidth());
+			mBucketScrollView.setAlpha(percentage);
 		}
 		mBookingContainer.setTranslationX((1f - percentage) * mBookingContainer.getWidth());
 	}
@@ -725,6 +731,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
 			mBucketContainer.setVisibility(View.VISIBLE);
+			mBucketScrollView.setVisibility(View.VISIBLE);
 		}
 		else if (state == CheckoutState.BOOKING_UNAVAILABLE) {
 			mFormContainer.setVisibility(View.INVISIBLE);
