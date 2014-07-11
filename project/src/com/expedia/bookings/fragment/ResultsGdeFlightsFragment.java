@@ -116,7 +116,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
 
 		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
-		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
+		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
 		mMissingFlightInfo.setVisibility(View.GONE);
 
 		mGdeBack.setOnClickListener(new View.OnClickListener() {

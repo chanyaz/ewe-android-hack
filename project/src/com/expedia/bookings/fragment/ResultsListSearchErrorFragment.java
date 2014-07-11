@@ -103,7 +103,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			setErrorText(getString(R.string.missing_flight_trip_date_message));
 			break;
 		case MISSING_ORIGIN:
-			setErrorText(getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
+			setErrorText(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
 			break;
 		case SEARCH_ERROR:
 			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));

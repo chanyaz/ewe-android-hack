@@ -39,6 +39,8 @@
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message">Set Departure Airport \nfor Flights to %s</string>
     <!-- Missing flight info message -->
+    <string name="missing_flight_info_message_TEMPLATE">Set Departure Airport \nfor Flights to %s</string>
+    <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Please select a valid date or date range.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Clear dates</string>
