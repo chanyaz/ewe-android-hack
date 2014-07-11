@@ -217,10 +217,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 	}
 
-	// Base state is semi-complicated at this point. For now, it'll work like this:
-	// 1. If we have actual FlightSearch data, let's show that.
-	// 2. If we don't have FlightSearch data but do have flight histogram data, let's show that
-	// 3. Otherwise, let's just show the loading state
+	/*
+	 * Returns the base/default flights state at any point in time.
+	 * Use it to either reset the state or to get the state to begin with.
+	 */
 	private ResultsFlightsState getBaseState() {
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
@@ -848,9 +848,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mAddToTripC.setAlpha(0f);
 			}
 
-			if (state == ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS || state == ResultsFlightsState.MISSING_ORIGIN
-				|| state == ResultsFlightsState.MISSING_ORIGIN || state == ResultsFlightsState.SEARCH_ERROR
-				|| state == ResultsFlightsState.NO_FLIGHTS_POS) {
+			if (ResultsFlightsState.isShowMessageState(state)) {
 				if (mSearchErrorFrag.isAdded()) {
 					mSearchErrorFrag.setState(state);
 				}

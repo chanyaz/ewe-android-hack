@@ -9,5 +9,39 @@ public enum ResultsFlightsState {
 	NO_FLIGHTS_DROPDOWN_POS,
 	NO_FLIGHTS_POS,
 	MISSING_ORIGIN,
-	MISSING_STARTDATE
+	MISSING_STARTDATE;
+
+	public static ResultsState getResultsState(ResultsFlightsState state) {
+		switch (state) {
+		case LOADING:
+		case MISSING_ORIGIN:
+		case MISSING_STARTDATE:
+		case NO_FLIGHTS_DROPDOWN_POS:
+		case NO_FLIGHTS_POS:
+		case FLIGHT_LIST_DOWN:
+		case SEARCH_ERROR:
+			return ResultsState.OVERVIEW;
+		case CHOOSING_FLIGHT:
+		case ADDING_FLIGHT_TO_TRIP:
+		default:
+			return ResultsState.FLIGHTS;
+		}
+	}
+
+	/*
+	 * Helper method to check if for the given state, we should show the respective message or show the results list.
+	 */
+	public static boolean isShowMessageState(ResultsFlightsState state) {
+		switch(state) {
+		case MISSING_ORIGIN:
+		case MISSING_STARTDATE:
+		case NO_FLIGHTS_DROPDOWN_POS:
+		case NO_FLIGHTS_POS:
+		case SEARCH_ERROR:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 }

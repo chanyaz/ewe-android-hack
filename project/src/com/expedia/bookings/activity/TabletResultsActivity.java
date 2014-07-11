@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -24,9 +23,7 @@ import android.view.animation.Interpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -826,7 +823,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 
 			//DO WORK
-			startStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
+			startStateTransition(ResultsFlightsState.getResultsState(stateOne), ResultsFlightsState.getResultsState(stateTwo));
 
 			if (mFlightsController != null && mTripBucketFrag != null
 				&& stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
@@ -843,7 +840,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 											float percentage) {
 
-			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo), percentage);
+			updateStateTransition(ResultsFlightsState.getResultsState(stateOne), ResultsFlightsState.getResultsState(stateTwo), percentage);
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {
 				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(percentage);
@@ -856,7 +853,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			//DO WORK
-			endStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
+			endStateTransition(ResultsFlightsState.getResultsState(stateOne), ResultsFlightsState.getResultsState(stateTwo));
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
@@ -866,7 +863,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
 
 			//DO WORK
-			setState(getResultsStateFromFlights(state), false);
+			setState(ResultsFlightsState.getResultsState(state), false);
 
 			if (state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mDoingFlightsAddToBucket = false;
@@ -879,23 +876,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
 
-		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
-			switch (state) {
-			case LOADING:
-			case MISSING_ORIGIN:
-			case MISSING_STARTDATE:
-			case NO_FLIGHTS_DROPDOWN_POS:
-			case NO_FLIGHTS_POS:
-			case FLIGHT_LIST_DOWN:
-			case SEARCH_ERROR:
-				return ResultsState.OVERVIEW;
-			case CHOOSING_FLIGHT:
-			case ADDING_FLIGHT_TO_TRIP:
-			default:
-				return ResultsState.FLIGHTS;
-			}
-		}
-
 		private boolean isActionBarAppearing(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
 		}
@@ -905,7 +885,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		private boolean isActionBarVisibleFor(ResultsFlightsState state) {
-			return getResultsStateFromFlights(state) == ResultsState.FLIGHTS;
+			return ResultsFlightsState.getResultsState(state) == ResultsState.FLIGHTS;
 		}
 
 	};
