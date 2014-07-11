@@ -31,10 +31,8 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	private CharSequence mErrorText;
 	private int mErrorImageResId;
 
-	public static ResultsListSearchErrorFragment newInstance(CharSequence errorText, int errorImageResId) {
+	public static ResultsListSearchErrorFragment newInstance() {
 		ResultsListSearchErrorFragment frag = new ResultsListSearchErrorFragment();
-		frag.setErrorText(errorText);
-		frag.setErrorImage(errorImageResId);
 		return frag;
 	}
 
@@ -90,6 +88,9 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	}
 
 	public void setState(ResultsFlightsState state) {
+		if (mErrorImageResId == 0) {
+			setErrorImage(R.raw.ic_tablet_sold_out_flight);
+		}
 		switch (state) {
 		case NO_FLIGHTS_POS:
 			setErrorText(getString(R.string.invalid_flights_pos));
@@ -111,6 +112,9 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	}
 
 	public void setState(ResultsHotelsState state) {
+		if (mErrorImageResId == 0) {
+			setErrorImage(R.raw.ic_tablet_sold_out_hotel);
+		}
 		switch (state) {
 		case MAX_HOTEL_STAY:
 			setErrorText(getString(R.string.hotel_search_range_error_TEMPLATE, getResources().getInteger(R.integer.calendar_max_days_hotel_stay)));
