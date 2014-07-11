@@ -97,11 +97,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		R.drawable.bg_launch_london,
 		R.drawable.bg_launch_ny,
 		R.drawable.bg_launch_paris,
-		R.drawable.bg_launch_sea,
 		R.drawable.bg_launch_sf,
-		R.drawable.bg_launch_toronto,
 		R.drawable.bg_launch_hongkong,
-		R.drawable.bg_launch_petronas,
 		R.drawable.bg_launch_vegas,
 	};
 
