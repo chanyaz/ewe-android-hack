@@ -783,6 +783,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			case LOADING:
 			case SEARCH_ERROR:
 			case HOTEL_LIST_DOWN:
+			case MAX_HOTEL_STAY:
 				return ResultsState.OVERVIEW;
 			case HOTEL_LIST_UP:
 			case HOTEL_LIST_AND_FILTERS:

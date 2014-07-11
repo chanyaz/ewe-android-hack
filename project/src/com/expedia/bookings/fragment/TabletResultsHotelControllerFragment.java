@@ -212,20 +212,35 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	/*
+	 * Helper method to check if it's valid to start the hotel search.
+	 */
+	public boolean readyToSearch() {
+		return Sp.getParams().toHotelSearchParams().getStayDuration() <= getResources().getInteger(R.integer.calendar_max_days_hotel_stay);
+	}
+
+	/*
 	 * NEW SEARCH PARAMS
 	 */
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
+		if (mHotelSearchDownloadFrag != null) {
+			// Let's ignore the results of the current download.
+			mHotelSearchDownloadFrag.ignoreNextDownload();
+		}
+		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING && readyToSearch()) {
 			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
 		else {
-			if (mHotelSearchDownloadFrag != null) {
-				// We dont care if our last search finished, we are waiting for our cooldown period before we want to
-				// commit to doing a full search.
-				mHotelSearchDownloadFrag.ignoreNextDownload();
+			if (mSearchErrorFrag == null && !readyToSearch()) {
+				FragmentManager manager = getChildFragmentManager();
+				FragmentTransaction transaction = manager.beginTransaction();
+				mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
+					FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this, R.id.column_one_hotel_search_error, false);
+				transaction.commit();
+				manager.executePendingTransactions();
 			}
+			mHotelsStateManager.setState(getBaseState(), true);
 			if (mSearchParamUpdateRunner != null) {
 				mRootC.removeCallbacks(mSearchParamUpdateRunner);
 			}
@@ -257,7 +272,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 
 	private ResultsHotelsState getBaseState() {
-		if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
+		if (Sp.getParams().toHotelSearchParams().getStayDuration() > getResources().getInteger(R.integer.calendar_max_days_hotel_stay)) {
+			return ResultsHotelsState.MAX_HOTEL_STAY;
+		}
+		else if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
 			return ResultsHotelsState.LOADING;
 		}
 		else {
@@ -332,7 +350,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			? View.VISIBLE
 			: View.INVISIBLE);
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING || hotelsState == ResultsHotelsState.MAX_HOTEL_STAY) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
@@ -437,6 +455,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelGalleryAvailable = true;
 		}
 
+		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY) {
+			// We need to have an instance of HotelSearchDownloadFragment so we can ignore download results on new search params.
+			hotelSearchDownloadAvailable = true;
+			loadingGuiAvailable = false;
+			searchErrorAvailable = true;
+			hotelListAvailable = false;
+			hotelMapAvailable = false;
+			hotelFiltersAvailable = false;
+			hotelFilteredCountAvailable = false;
+			hotelRoomsAndRatesAvailable = false;
+		}
+
 		// TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
 
 		mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelListAvailable,
@@ -472,6 +502,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			// Button and locking
 			switch (state) {
 			case LOADING:
+			case MAX_HOTEL_STAY:
 			case SEARCH_ERROR:
 			case HOTEL_LIST_DOWN:
 				mHotelListFrag.updateAdapter();
@@ -504,7 +535,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			// List scroll position
 			mHotelListFrag.setListenerEnabled(mListStateHelper, false);
 			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING
-				|| state == ResultsHotelsState.SEARCH_ERROR) {
+				|| state == ResultsHotelsState.SEARCH_ERROR || state == ResultsHotelsState.MAX_HOTEL_STAY) {
 				mHotelListFrag.setPercentage(1f, 0);
 			}
 			else if (mHotelListFrag.hasList()
@@ -1274,7 +1305,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsHotelsState state) {
-			Log.d("TabletResultsHotelControllerFragment.onStateFinalized:" + state);
 			TimingLogger logger = new TimingLogger("TabletResultsHotelControllerFragment", "onStateFinalized");
 			setVisibilityState(state);
 			logger.addSplit("setVisibilityState");
@@ -1321,6 +1351,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 				break;
 			}
+			case MAX_HOTEL_STAY:
+				if (mSearchErrorFrag.isAdded()) {
+					mSearchErrorFrag.setState(state);
+				}
 			}
 			logger.addSplit("Switch Statement");
 
@@ -1484,15 +1518,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
+
 		if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH) {
 			Context context = getActivity();
-
 			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
 			Db.saveHotelSearchTimestamp(context);
 			Db.kickOffBackgroundHotelSearchSave(context);
-
 			if (response != null && !response.hasErrors()) {
-
 				// We need the list fragment to start drawing so we can animate it in
 				FragmentManager manager = getChildFragmentManager();
 				FragmentTransaction transaction = manager.beginTransaction();
@@ -1501,6 +1533,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
 				transaction.commit();
 				manager.executePendingTransactions();
+
 				mHotelListC.setVisibility(View.VISIBLE);
 
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);

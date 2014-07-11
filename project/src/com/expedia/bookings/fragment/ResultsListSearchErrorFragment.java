@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
+import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 
 /**
@@ -106,6 +107,13 @@ public class ResultsListSearchErrorFragment extends Fragment {
 		case SEARCH_ERROR:
 			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));
 			break;
+		}
+	}
+
+	public void setState(ResultsHotelsState state) {
+		switch (state) {
+		case MAX_HOTEL_STAY:
+			setErrorText(getString(R.string.hotel_search_range_error_TEMPLATE, getResources().getInteger(R.integer.calendar_max_days_hotel_stay)));
 		}
 	}
 }

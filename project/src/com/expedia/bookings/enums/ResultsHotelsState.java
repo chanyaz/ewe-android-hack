@@ -10,4 +10,5 @@ public enum ResultsHotelsState {
 	REVIEWS,
 	GALLERY,
 	ADDING_HOTEL_TO_TRIP,
+	MAX_HOTEL_STAY
 }
