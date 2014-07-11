@@ -667,7 +667,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private void setShowCvvPercentage(float percentage) {
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
 		mCvvContainer.setTranslationX((1f - percentage) * -mCvvContainer.getWidth());
-		mBucketContainer.setTranslationX(percentage * -mBucketContainer.getWidth());
+		mBucketScrollView.setTranslationX(percentage * -mBucketScrollView.getWidth());
 	}
 
 	private void setShowReadyForCheckoutPercentage(float percentage) {
@@ -697,6 +697,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
+			mBucketScrollView.setVisibility(View.VISIBLE);
 		}
 		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 			mFormContainer.setVisibility(View.VISIBLE);
@@ -705,6 +706,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
+			mBucketScrollView.setVisibility(View.VISIBLE);
 		}
 		else if (state == CheckoutState.CVV) {
 			mFormContainer.setVisibility(View.INVISIBLE);
@@ -713,6 +715,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
+			mBucketScrollView.setVisibility(View.INVISIBLE);
 		}
 		else if (state == CheckoutState.BOOKING) {
 			mFormContainer.setVisibility(View.INVISIBLE);
@@ -721,6 +724,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.VISIBLE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
+			mBucketContainer.setVisibility(View.VISIBLE);
 		}
 		else if (state == CheckoutState.BOOKING_UNAVAILABLE) {
 			mFormContainer.setVisibility(View.INVISIBLE);
@@ -729,6 +733,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.VISIBLE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollView.setVisibility(View.VISIBLE);
 		}
 		else if (state == CheckoutState.CONFIRMATION) {
 			mFormContainer.setVisibility(View.INVISIBLE);
@@ -737,6 +742,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.INVISIBLE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.VISIBLE);
+			mBucketScrollView.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -1645,6 +1651,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
+			mBucketScrollView.setVisibility(View.VISIBLE);
+			mBucketScrollView.setAlpha(isReversed ? 0f : 1f);
+
 			mTripBucketButtonContainer = Ui.findView(getView(), R.id.trip_bucket_show_hide_container);
 			if (mTripBucketButtonContainer != null) {
 				mTripBucketButtonContainer.setAlpha(isReversed ? 0f : 1f);
@@ -1660,7 +1669,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			mBucketContainer.setAlpha(1f - percentage);
+			mBucketScrollView.setAlpha(1f - percentage);
 
 			// Show/hide trip bucket button in portrait
 			if (mTripBucketButtonContainer != null) {
@@ -1675,6 +1684,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mBucketScrollView.setVisibility(isReversed ? View.VISIBLE : View.INVISIBLE);
+
 			mTripBucketButtonContainer = Ui.findView(getView(), R.id.trip_bucket_show_hide_container);
 			if (mTripBucketButtonContainer != null) {
 				mTripBucketButtonContainer.setAlpha(isReversed ? 1f : 0f);
