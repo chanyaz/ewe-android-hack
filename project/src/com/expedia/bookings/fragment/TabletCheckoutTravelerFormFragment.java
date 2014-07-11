@@ -234,14 +234,16 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		boolean showSaveDialog = (state == TravelerFormState.SAVE_PROMPT);
 		boolean showOverwriteDialog = (state == TravelerFormState.OVERWRITE_PROMPT);
 
-		FragmentManager manager = getChildFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
-		FragmentAvailabilityUtils.setFragmentAvailability(showSaveDialog, FTAG_SAVE_DIALOG, manager, transaction, this,
-			FragmentAvailabilityUtils.DIALOG_FRAG, true);
-		FragmentAvailabilityUtils
-			.setFragmentAvailability(showOverwriteDialog, FTAG_OVERWRITE_DIALOG, manager, transaction, this,
+		if (isAdded()) {
+			FragmentManager manager = getChildFragmentManager();
+			FragmentTransaction transaction = manager.beginTransaction();
+			FragmentAvailabilityUtils.setFragmentAvailability(showSaveDialog, FTAG_SAVE_DIALOG, manager, transaction, this,
 				FragmentAvailabilityUtils.DIALOG_FRAG, true);
-		transaction.commitAllowingStateLoss();
+			FragmentAvailabilityUtils
+				.setFragmentAvailability(showOverwriteDialog, FTAG_OVERWRITE_DIALOG, manager, transaction, this,
+					FragmentAvailabilityUtils.DIALOG_FRAG, true);
+			transaction.commitAllowingStateLoss();
+		}
 	}
 
 	private void proceed() {
