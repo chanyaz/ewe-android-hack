@@ -46,6 +46,12 @@
     <string name="clear_dates">Clear dates</string>
     <!-- Search Now -->
     <string name="search_now">Search Now</string>
+    <!-- Denotes the start date of the trip -->
+    <string name="trip_starts">Trip starts</string>
+    <!-- Denotes the end date of the trip -->
+    <string name="trip_ends">Trip ends</string>
+    <!-- Denotes that the return date for the trip is optional, in the event of a one-way flight ticket -->
+    <string name="trip_end_optional">Optional</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
