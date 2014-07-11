@@ -714,7 +714,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
-			startStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo));
+			startStateTransition(ResultsHotelsState.getResultsState(stateOne), ResultsHotelsState.getResultsState(stateTwo));
 
 			if (stateTwo == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
@@ -734,7 +734,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
 											float percentage) {
-			updateStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo), percentage);
+			updateStateTransition(ResultsHotelsState.getResultsState(stateOne), ResultsHotelsState.getResultsState(stateTwo), percentage);
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {
 				mHotelC.findViewById(R.id.action_bar_background).setAlpha(percentage);
@@ -747,7 +747,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
 			//DO WORK
-			endStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo));
+			endStateTransition(ResultsHotelsState.getResultsState(stateOne), ResultsHotelsState.getResultsState(stateTwo));
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
@@ -757,7 +757,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
-			setState(getResultsStateFromHotels(state), false);
+			setState(ResultsHotelsState.getResultsState(state), false);
 
 			if (state == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
@@ -775,24 +775,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
-		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
-			switch (state) {
-			case LOADING:
-			case SEARCH_ERROR:
-			case HOTEL_LIST_DOWN:
-			case MAX_HOTEL_STAY:
-				return ResultsState.OVERVIEW;
-			case HOTEL_LIST_UP:
-			case HOTEL_LIST_AND_FILTERS:
-			case ROOMS_AND_RATES:
-			case REVIEWS:
-			case GALLERY:
-			case ADDING_HOTEL_TO_TRIP:
-			default:
-				return ResultsState.HOTELS;
-			}
-		}
-
 		private boolean isActionBarAppearing(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
 			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
 		}
@@ -802,7 +784,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		private boolean isActionBarVisibleFor(ResultsHotelsState state) {
-			return getResultsStateFromHotels(state) == ResultsState.HOTELS;
+			return ResultsHotelsState.getResultsState(state) == ResultsState.HOTELS;
 		}
 
 	};

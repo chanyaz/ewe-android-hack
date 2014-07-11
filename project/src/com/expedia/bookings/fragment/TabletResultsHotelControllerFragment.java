@@ -350,7 +350,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			? View.VISIBLE
 			: View.INVISIBLE);
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING || hotelsState == ResultsHotelsState.MAX_HOTEL_STAY) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING || ResultsHotelsState.isShowMessageState(hotelsState)) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
@@ -535,7 +535,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			// List scroll position
 			mHotelListFrag.setListenerEnabled(mListStateHelper, false);
 			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING
-				|| state == ResultsHotelsState.SEARCH_ERROR || state == ResultsHotelsState.MAX_HOTEL_STAY) {
+				|| ResultsHotelsState.isShowMessageState(state)) {
 				mHotelListFrag.setPercentage(1f, 0);
 			}
 			else if (mHotelListFrag.hasList()
@@ -1351,10 +1351,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 				break;
 			}
+			case SEARCH_ERROR:
 			case MAX_HOTEL_STAY:
 				if (mSearchErrorFrag.isAdded()) {
 					mSearchErrorFrag.setState(state);
 				}
+				break;
 			}
 			logger.addSplit("Switch Statement");
 
