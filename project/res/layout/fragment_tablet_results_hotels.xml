@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@drawable/ab_gradient_results_hotels_mode"/>
+        android:background="@drawable/ab_gradient"/>
 
     <!-- FORGROUND CONTAINERS -->
 
