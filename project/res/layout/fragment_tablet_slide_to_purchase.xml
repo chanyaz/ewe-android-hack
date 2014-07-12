@@ -14,8 +14,7 @@
         android:id="@+id/slide_content_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:background="@color/slide_to_purchase_background">
+        android:layout_weight="2">
 
         <LinearLayout
             android:id="@+id/accept_tos_container"
