@@ -18,10 +18,66 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_bright" />
+        <LinearLayout
+            android:id="@+id/calendar_popup_content_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom|right"
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="16dp">
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/trip_starts"
+                    android:textAllCaps="true"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/trip_ends"
+                    android:textAllCaps="true"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/trip_end_optional"/>
+
+            </LinearLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/search_calendar_done"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_overview_checkmark"
+                android:text="@string/done"
+                android:textAllCaps="true"
+                android:background="@color/divider_grey"/>
+
+        </LinearLayout>
 
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 

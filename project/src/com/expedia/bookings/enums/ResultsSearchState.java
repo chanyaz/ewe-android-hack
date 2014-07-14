@@ -7,5 +7,10 @@ public enum ResultsSearchState {
 	DESTINATION,
 	FLIGHT_ORIGIN,
 	CALENDAR,
-	TRAVELER_PICKER
+	TRAVELER_PICKER;
+
+	public boolean searchControlsAreActive() {
+		return this == CALENDAR || this == TRAVELER_PICKER;
+	}
+
 }

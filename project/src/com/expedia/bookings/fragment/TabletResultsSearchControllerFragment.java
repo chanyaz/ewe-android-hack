@@ -93,7 +93,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
 	private FrameLayoutTouchController mTravC;
-	private FrameLayoutTouchController mPopupC;
 	private FrameLayoutTouchController mWaypointC;
 	private FrameLayoutTouchController mGdeC;
 	private View mTravPickWhiteSpace;
@@ -103,6 +102,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mOrigBtn;
 	private TextView mCalBtn;
 	private TextView mTravBtn;
+
+	//Search popup buttons
+	private FrameLayoutTouchController mPopupC;
+	private ViewGroup mCalContentC;
+	private TextView mCalDoneBtn;
+	private TextView mTravDoneBtn;
 
 	//Uncommited data
 	private SearchParams mLocalParams;
@@ -147,7 +152,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
 		mGdeC = Ui.findView(view, R.id.gde_container);
-		mPopupC = Ui.findView(view, R.id.search_popup_container);
 		mTravPickWhiteSpace = Ui.findView(view, R.id.traveler_picker_port_white_space);
 
 		//Fake AB form buttons
@@ -156,11 +160,18 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mCalBtn = Ui.findView(view, R.id.calendar_btn);
 		mTravBtn = Ui.findView(view, R.id.traveler_btn);
 
+		//Search popup
+		mPopupC = Ui.findView(view, R.id.search_popup_container);
+		mCalContentC = Ui.findView(view, R.id.calendar_popup_content_container);
+		mCalDoneBtn = Ui.findView(view, R.id.search_calendar_done);
+
 		//Fake AB actions
 		mDestBtn.setOnClickListener(mDestClick);
 		mOrigBtn.setOnClickListener(mOrigClick);
 		mCalBtn.setOnClickListener(mCalClick);
 		mTravBtn.setOnClickListener(mTravClick);
+
+		mCalDoneBtn.setOnClickListener(mSearchNowClick);
 
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
@@ -542,6 +553,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalC.setVisibility(View.VISIBLE);
 				mGdeC.setVisibility(View.VISIBLE);
 
+				mPopupC.setVisibility(View.VISIBLE);
+				mCalContentC.setVisibility(View.VISIBLE);
+
 				if ((mDatesFragment == null || mDatesFragment.isDetached()) || (mGdeFragment == null || mGdeFragment
 					.isDetached())) {
 					FragmentManager manager = getChildFragmentManager();
@@ -561,6 +575,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mBottomCenterC.setVisibility(View.VISIBLE);
 					mTravPickWhiteSpace.setVisibility(View.VISIBLE);
 				}
+
+				mPopupC.setVisibility(View.VISIBLE);
+				mCalContentC.setVisibility(View.VISIBLE);
 
 				if (mGuestsFragment == null || mGuestsFragment.isDetached()) {
 					FragmentManager manager = getChildFragmentManager();
@@ -598,18 +615,26 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
 					mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
 					mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
+
+					setPopupAnimationPercentage(percentage, true);
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
 					mBottomRightC.setTranslationY(percentage * dist * mBottomRightC.getHeight());
 					mBottomCenterC.setTranslationY(percentage * dist * mBottomCenterC.getHeight());
+
+					setPopupAnimationPercentage(percentage, false);
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
 					mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
+
+					setPopupAnimationPercentage(percentage, true);
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
 					mBottomRightC.setTranslationY(percentage * dist * mBottomRightC.getHeight());
 					mBottomCenterC.setTranslationY(percentage * dist * mBottomCenterC.getHeight());
+
+					setPopupAnimationPercentage(percentage, false);
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
 					mTravC.setTranslationX(percentage * mTravC.getWidth());
@@ -642,6 +667,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mSearchBarC.setAlpha(p);
 				}
 			}
+		}
+
+		private void setPopupAnimationPercentage(float percentage, boolean active) {
+			percentage = active ? percentage : 1f - percentage;
+			mCalContentC.setPivotX(mCalContentC.getWidth() / 2.0f);
+			mCalContentC.setPivotY(mCalContentC.getHeight() / 2.0f);
+			mCalContentC.setScaleX(percentage);
+			mCalContentC.setScaleY(percentage);
+
+			mCalContentC.setPivotX(mCalContentC.getWidth() / 2.0f);
+			mCalContentC.setPivotY(mCalContentC.getHeight() / 2.0f);
+			mCalContentC.setScaleX(percentage);
+			mCalContentC.setScaleY(percentage);
+
+			// TODO add a shade to the top half that plays nicely with the gradients
 		}
 
 		@Override
@@ -785,6 +825,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
 			mGdeC.setVisibility(mCalC.getVisibility());
+
+			mCalContentC.setVisibility(state.searchControlsAreActive() ? View.VISIBLE : View.INVISIBLE);
+			mPopupC.setVisibility(mCalContentC.getVisibility());
 
 			if (!mGrid.isLandscape()) {
 				if (state == ResultsSearchState.TRAVELER_PICKER) {
@@ -1021,6 +1064,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setRowSize(3, getActivity().getActionBar().getHeight());
 				mGrid.setRowPercentage(4, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
+				mGrid.setContainerToRowSpan(mPopupC, 0, 2);
 				mGrid.setContainerToRow(mSearchBarC, 3);
 				mGrid.setContainerToRowSpan(mWaypointC, 0, 4);
 				mGrid.setContainerToRow(mBottomRightC, 4);
@@ -1043,6 +1087,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setRowPercentage(4, getResources().getFraction(R.fraction.results_grid_half_bottom_half, 1, 1));
 				mGrid.setRowPercentage(5, getResources().getFraction(R.fraction.results_grid_half_bottom_half, 1, 1));
 
+				mGrid.setContainerToRowSpan(mPopupC, 0, 2);
 				mGrid.setContainerToRow(mSearchBarC, 3);
 				mGrid.setContainerToRowSpan(mWaypointC, 0, 5);
 				mGrid.setContainerToRow(mBottomRightC, 4);
