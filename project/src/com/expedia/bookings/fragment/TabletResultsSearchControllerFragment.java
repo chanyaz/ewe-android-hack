@@ -600,7 +600,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
-			float percentage) {
+											float percentage) {
 
 			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
 				float perc = goingUp(stateOne, stateTwo) ? percentage : (1f - percentage);
@@ -722,7 +722,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (state == ResultsSearchState.CALENDAR) {
 				if (mGdeFragment != null) {
 					mGdeFragment.setGdeInfo(mLocalParams.getOriginLocation(true), mLocalParams.getDestinationLocation(true),
-							mLocalParams.getStartDate());
+						mLocalParams.getStartDate());
 				}
 			}
 
@@ -772,7 +772,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			int barTransDistance = mGrid.getRowSpanHeight(0, 3);
 
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
-			mSearchBarC.getBackground().setAlpha((int)(255f * (1f - percentage)));
+			mSearchBarC.getBackground().setAlpha((int) (255f * (1f - percentage)));
 			if (mGrid.isLandscape()) {
 				mBottomRightC.setTranslationY(percentage * mBottomRightC.getHeight());
 				mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mBottomCenterC.getHeight());
