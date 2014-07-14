@@ -413,13 +413,15 @@ public class SwipeOutLayout extends FrameLayout {
 				}
 
 				float x = event.getX();
-				float xDeltaTotal = Math.abs(x - mStartX);
-				if (event.getAction() == MotionEvent.ACTION_MOVE && xDeltaTotal > mTouchSlop) {
+				float xDeltaTotal = x - mStartX;
+				if (event.getAction() == MotionEvent.ACTION_MOVE && Math.abs(xDeltaTotal) > mTouchSlop) {
 					stopTouchSteals(true);
 				}
 
 				// Do scroll related stuff.
-				mGesDet.onTouchEvent(event);
+				if (isSwipeInCorrectDirection(xDeltaTotal)) {
+					mGesDet.onTouchEvent(event);
+				}
 
 				//clean up and fire listeners
 				if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
@@ -440,6 +442,34 @@ public class SwipeOutLayout extends FrameLayout {
 				}
 
 				return true;
+			}
+			return false;
+		}
+
+		private boolean isSwipeInCorrectDirection(float delta) {
+			if (!mVertical) {
+				if (getSwipeDirection() == Direction.EAST) {
+					if (delta > 0) {
+						return true;
+					}
+				}
+				else if (getSwipeDirection() == Direction.WEST) {
+					if (delta < 0) {
+						return true;
+					}
+				}
+			}
+			else {
+				if (getSwipeDirection() == Direction.SOUTH) {
+					if (delta > 0) {
+						return true;
+					}
+				}
+				else if (getSwipeDirection() == Direction.NORTH) {
+					if (delta < 0) {
+						return true;
+					}
+				}
 			}
 			return false;
 		}
