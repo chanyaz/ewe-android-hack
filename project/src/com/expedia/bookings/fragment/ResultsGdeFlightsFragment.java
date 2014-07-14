@@ -32,7 +32,7 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 /**
- * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
+ * ResultsGdeFlightsFragment: The GDE calendar/list fragment designed for tablet results 2013
  */
 public class ResultsGdeFlightsFragment extends Fragment implements
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, ExpediaServicesFragment.ExpediaServicesFragmentListener,
@@ -59,6 +59,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private TextView mGdeHeaderTv;
 	private ImageView mGdeBack;
 	private ProgressBar mGdeProgressBar;
+	private TextView mGdeMaxPriceTv;
 
 	private ResultsFlightHistogramFragment mHistogramFrag;
 	private GdeDownloadFragment mGdeDownloadFrag;
@@ -114,6 +115,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeHeaderTv = Ui.findView(mRootC, R.id.flight_histogram_header);
 		mGdeBack = Ui.findView(mRootC, R.id.flight_histogram_back);
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
+		mGdeMaxPriceTv = Ui.findView(mRootC, R.id.flight_histogram_max_price);
 
 		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
 		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
@@ -215,6 +217,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			//We always pass null for the date here, because the one way search has all the information we need
 			frag.startOrResumeForRoute(mOrigin, mDestination, null);
 			mGdeProgressBar.setVisibility(View.VISIBLE);
+			mGdeMaxPriceTv.setVisibility(View.GONE);
 			mMissingFlightInfo.setVisibility(View.GONE);
 		}
 	}
@@ -264,10 +267,15 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				if (mHistogramFrag != null) {
 					mHistogramFrag.setHistogramData((FlightSearchHistogramResponse) response);
 				}
+				if (mGdeMaxPriceTv != null) {
+					//TODO: more appropriate currency conversion
+					String priceAsString = "$" + (int)((FlightSearchHistogramResponse) response).getMaxPrice();
+					mGdeMaxPriceTv.setVisibility(View.VISIBLE);
+					mGdeMaxPriceTv.setText(priceAsString);
+				}
 			}
 			else {
 				if (mHistogramFrag != null) {
-
 					mHistogramFrag.setHistogramData(null);
 				}
 

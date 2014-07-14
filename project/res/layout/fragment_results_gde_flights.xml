@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFF">
+    android:background="@color/tablet_white_pane_bg">
 
     <LinearLayout
         android:id="@+id/header_container"
@@ -12,6 +12,8 @@
         android:layout_height="@dimen/results_column_header_height"
         android:layout_gravity="top"
         android:background="@color/tablet_white_pane_bg"
+        android:paddingLeft="@dimen/hotel_flight_card_padding_x"
+        android:paddingRight="@dimen/hotel_flight_card_padding_x"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -19,10 +21,9 @@
         <ImageView
             android:id="@+id/flight_histogram_back"
             android:layout_width="24dp"
-            android:layout_marginLeft="16dp"
             android:layout_height="24dp"
             android:layout_weight="0"
-            android:background="#FFFFFF"
+            android:paddingRight="8dp"
             android:visibility="gone"
             android:src="@drawable/ic_left_enabled" />
 
@@ -30,10 +31,9 @@
             android:id="@+id/flight_histogram_header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="16dp"
+            android:layout_gravity="left"
             android:layout_weight="1"
-            android:gravity="center_vertical|left"
+            android:gravity="center_vertical"
             android:text="@string/when_to_fly"
             android:textSize="18sp"
             app:textStyle="light" />
@@ -43,10 +43,18 @@
             android:layout_weight="0"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginRight="8dp"
             android:gravity="center_vertical"
             android:indeterminate="true"
             android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_histogram_max_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:textStyle="bold" />
 
     </LinearLayout>
 
