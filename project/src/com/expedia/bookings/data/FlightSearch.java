@@ -238,7 +238,10 @@ public class FlightSearch implements JSONable {
 			getFilter(legPosition).registerDataSetObserver(new DataSetObserver() {
 				@Override
 				public void onChanged() {
-					mFlightTripQueries[legPosition].notifyFilterChanged();
+					FlightTripQuery query = mFlightTripQueries[legPosition];
+					if (query != null) {
+						query.notifyFilterChanged();
+					}
 				}
 			});
 		}
