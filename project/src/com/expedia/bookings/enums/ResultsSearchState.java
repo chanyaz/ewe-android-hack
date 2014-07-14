@@ -9,7 +9,10 @@ public enum ResultsSearchState {
 	CALENDAR,
 	TRAVELER_PICKER;
 
-	public boolean searchControlsAreActive() {
+	/**
+	 * @return whether or not the search knobs are shown on screen
+	 */
+	public boolean showsSearchControls() {
 		return this == CALENDAR || this == TRAVELER_PICKER;
 	}
 

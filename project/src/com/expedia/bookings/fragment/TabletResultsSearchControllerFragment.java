@@ -465,7 +465,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mClearDatesClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			if (getState().searchControlsAreActive()) {
+			if (getState().showsSearchControls()) {
 				dateChangeHelper(null, null);
 			}
 		}
@@ -474,7 +474,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCancelClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (getState().searchControlsAreActive()) {
+			if (getState().showsSearchControls()) {
 				clearChanges();
 				setState(ResultsSearchState.DEFAULT, true);
 			}
@@ -484,7 +484,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mSearchNowClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (getState().searchControlsAreActive()) {
+			if (getState().showsSearchControls()) {
 				if (copyTempValuesToParams()) {
 					doSpUpdate();
 				}
@@ -504,7 +504,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	public void setState(ResultsSearchState state, boolean animate) {
 		ResultsSearchState curState = mSearchStateManager.getState();
-		if (animate && curState.searchControlsAreActive() && stateShowsWaypoint(state)) {
+		if (animate && curState.showsSearchControls() && stateShowsWaypoint(state)) {
 			mSearchStateManager.animateThroughStates(200, false, ResultsSearchState.DEFAULT, state);
 		}
 		else {
@@ -805,7 +805,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		// Popup anim helper methods
 
 		private boolean performingPopupAnimation(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne.searchControlsAreActive() || stateTwo.searchControlsAreActive();
+			return stateOne.showsSearchControls() || stateTwo.showsSearchControls();
 		}
 
 		private void setPopupAnimationHardwareLayers(boolean enabled) {
@@ -840,7 +840,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
 			mGdeC.setVisibility(mCalC.getVisibility());
 
-			mCalContentC.setVisibility(state.searchControlsAreActive() ? View.VISIBLE : View.INVISIBLE);
+			mCalContentC.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.INVISIBLE);
 			mPopupC.setVisibility(mCalContentC.getVisibility());
 
 			if (!mGrid.isLandscape()) {
