@@ -482,6 +482,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowReadyForCheckoutPercentage(0f);
 				mSlideContainer.setVisibility(View.VISIBLE);
 				mFormContainer.setVisibility(View.VISIBLE);
+				mBucketScrollView.setVisibility(View.VISIBLE);
 				if (Db.getTripBucket().getFlight() != null
 					&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
@@ -670,7 +671,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void setShowCvvPercentage(float percentage) {
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
-		mCvvContainer.setTranslationX((1f - percentage) * -mCvvContainer.getWidth());
+		// Translate CVV container from -70% to 0%
+		mCvvContainer.setTranslationX(-.7f * (1f - percentage) * mCvvContainer.getWidth());
 		mBucketScrollView.setTranslationX(percentage * -mBucketScrollView.getWidth());
 	}
 
