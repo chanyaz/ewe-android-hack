@@ -504,16 +504,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	public void setState(ResultsSearchState state, boolean animate) {
 		ResultsSearchState curState = mSearchStateManager.getState();
-		if (animate && curState.showsSearchControls() && stateShowsWaypoint(state)) {
+		if (animate && curState.showsSearchControls() && state.showsWaypoint()) {
 			mSearchStateManager.animateThroughStates(200, false, ResultsSearchState.DEFAULT, state);
 		}
 		else {
 			mSearchStateManager.setState(state, animate);
 		}
-	}
-
-	public boolean stateShowsWaypoint(ResultsSearchState state) {
-		return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
 	}
 
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
@@ -529,7 +525,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			}
 			else {
-				if (stateShowsWaypoint(stateOne) || stateShowsWaypoint(stateTwo)) {
+				if (stateOne.showsWaypoint() || stateTwo.showsWaypoint()) {
 					mWaypointC.setVisibility(View.VISIBLE);
 
 					//Here we set up where the search bar animation will originate from
@@ -657,8 +653,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 						mTravPickWhiteSpace.setTranslationX((1f - percentage) * mBottomCenterC.getWidth());
 					}
 				}
-				else if (stateOne == ResultsSearchState.DEFAULT && stateShowsWaypoint(stateTwo)
-					|| stateShowsWaypoint(stateOne) && stateTwo == ResultsSearchState.DEFAULT) {
+				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo.showsWaypoint()
+					|| stateOne.showsWaypoint() && stateTwo == ResultsSearchState.DEFAULT) {
 					float p = stateOne == ResultsSearchState.DEFAULT ? 1f - percentage : percentage;
 
 					mBottomRightC.setAlpha(p);
@@ -794,7 +790,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
-			if (stateShowsWaypoint(state)) {
+			if (state.showsWaypoint()) {
 				getActivity().getActionBar().hide();
 			}
 			else {
@@ -829,7 +825,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setVisibilitiesForState(ResultsSearchState state) {
-			mWaypointC.setVisibility(stateShowsWaypoint(state) ? View.VISIBLE : View.INVISIBLE);
+			mWaypointC.setVisibility(state.showsWaypoint() ? View.VISIBLE : View.INVISIBLE);
 			mTravC.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.INVISIBLE);
 			mCalC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.INVISIBLE);
 			mBottomRightC.setVisibility(

@@ -900,8 +900,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(2));
 				}
 			}
-			else if (stateOne == ResultsSearchState.DEFAULT && mSearchController.stateShowsWaypoint(stateTwo)
-				|| mSearchController.stateShowsWaypoint(stateOne) && stateTwo == ResultsSearchState.DEFAULT) {
+			else if (stateOne == ResultsSearchState.DEFAULT && stateTwo.showsWaypoint()
+				|| stateOne.showsWaypoint() && stateTwo == ResultsSearchState.DEFAULT) {
 				float p = stateOne == ResultsSearchState.DEFAULT ? 1f - percentage : percentage;
 
 				mHotelC.setAlpha(p);
@@ -930,7 +930,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
 			}
 
-			if (mSearchController.stateShowsWaypoint(state)) {
+			if (state.showsWaypoint()) {
 				mBackgroundImageFrag.setBlur(true);
 			}
 			else {
