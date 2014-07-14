@@ -465,8 +465,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mClearDatesClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			ResultsSearchState state = getState();
-			if (state == ResultsSearchState.TRAVELER_PICKER || state == ResultsSearchState.CALENDAR) {
+			if (getState().searchControlsAreActive()) {
 				dateChangeHelper(null, null);
 			}
 		}
@@ -475,7 +474,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCancelClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (getState() == ResultsSearchState.CALENDAR || getState() == ResultsSearchState.TRAVELER_PICKER) {
+			if (getState().searchControlsAreActive()) {
 				clearChanges();
 				setState(ResultsSearchState.DEFAULT, true);
 			}
@@ -485,7 +484,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mSearchNowClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (getState() == ResultsSearchState.CALENDAR || getState() == ResultsSearchState.TRAVELER_PICKER) {
+			if (getState().searchControlsAreActive()) {
 				if (copyTempValuesToParams()) {
 					doSpUpdate();
 				}
@@ -505,7 +504,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	public void setState(ResultsSearchState state, boolean animate) {
 		ResultsSearchState curState = mSearchStateManager.getState();
-		if (animate && stateShowsWidget(curState) && stateShowsWaypoint(state)) {
+		if (animate && curState.searchControlsAreActive() && stateShowsWaypoint(state)) {
 			mSearchStateManager.animateThroughStates(200, false, ResultsSearchState.DEFAULT, state);
 		}
 		else {
@@ -515,10 +514,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	public boolean stateShowsWaypoint(ResultsSearchState state) {
 		return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
-	}
-
-	private boolean stateShowsWidget(ResultsSearchState state) {
-		return state == ResultsSearchState.TRAVELER_PICKER || state == ResultsSearchState.CALENDAR;
 	}
 
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
