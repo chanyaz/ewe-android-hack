@@ -29,13 +29,14 @@ public class ResultsTripBucketFragment extends Fragment
 
 	private TripBucketFragment mBucketFrag;
 
+	private ViewGroup mRootC;
 	private FrameLayoutTouchController mTripBucketC;
 	private CenteredCaptionedIcon mEmptyBucketView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_trip_bucket, container, false);
-
+		mRootC = container;
 		mTripBucketC = Ui.findView(view, R.id.trip_bucket_container);
 		mEmptyBucketView = Ui.findView(view, R.id.empty_bucket_view);
 
@@ -67,10 +68,16 @@ public class ResultsTripBucketFragment extends Fragment
 		if (showBucket) {
 			mEmptyBucketView.setVisibility(View.GONE);
 			mTripBucketC.setVisibility(View.VISIBLE);
+			mRootC.setVisibility(View.VISIBLE);
 		}
 		else {
-			mEmptyBucketView.setVisibility(View.VISIBLE);
-			mTripBucketC.setVisibility(View.INVISIBLE);
+			if (getResources().getBoolean(R.bool.landscape)) {
+				mEmptyBucketView.setVisibility(View.VISIBLE);
+				mTripBucketC.setVisibility(View.INVISIBLE);
+			}
+			else {
+				mRootC.setVisibility(View.GONE);
+			}
 		}
 
 		if (mBucketFrag != null && mBucketFrag.isAdded() && showBucket) {
@@ -115,6 +122,9 @@ public class ResultsTripBucketFragment extends Fragment
 		return new Rect();
 	}
 
+	public boolean hasItemsInUndoState() {
+		return mBucketFrag.hasItemsInUndoState();
+	}
 
 	/**
 	 * IFragmentAvailabilityProvider

@@ -662,7 +662,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	private boolean hideTripBucketInPortrait() {
-		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty();
+		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty() && !mTripBucketFrag.hasItemsInUndoState();
 	}
 
 	private boolean searchControlsActive() {
