@@ -8,6 +8,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -135,7 +136,7 @@ public class SlideToWidgetJB extends RelativeLayout {
 		public boolean onTouch(View v, MotionEvent event) {
 
 			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
+			case MotionEvent.ACTION_DOWN: {
 				mInitialTouchOffsetX = event.getX();
 				activateSlide();
 				fireSlideStart();
@@ -149,7 +150,8 @@ public class SlideToWidgetJB extends RelativeLayout {
 				mSliderLine.setPivotX(calculateSliderLineWidth());
 
 				break;
-			case MotionEvent.ACTION_MOVE:
+			}
+			case MotionEvent.ACTION_MOVE: {
 				float pixels = event.getX() - mInitialTouchOffsetX;
 				pixels = Math.min(mTotalSlide, Math.max(0, pixels));
 
@@ -176,17 +178,41 @@ public class SlideToWidgetJB extends RelativeLayout {
 				}
 
 				break;
-			case MotionEvent.ACTION_UP:
+			}
+			case MotionEvent.ACTION_UP: {
 
 				if (mHitDestination) {
 					fireSlideAllTheWay();
 				}
 				else {
-					abortSlide();
-					fireSlideAbort();
+					float pixels = event.getX() - mInitialTouchOffsetX;
+					pixels = Math.min(mTotalSlide, Math.max(0, pixels));
+
+					ValueAnimator anim = ValueAnimator.ofFloat(pixels, 0);
+					anim.setDuration(200);
+					anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+						@Override
+						public void onAnimationUpdate(ValueAnimator valueAnimator) {
+							mPartialSlide = (float)valueAnimator.getAnimatedValue();
+
+							mSliderLine.setScaleX(1.0f - (mPartialSlide / mTotalSlide));
+							invalidate();
+
+							fireSlideProgress(mPartialSlide, mTotalSlide);
+						}
+					});
+					anim.addListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							abortSlide();
+							fireSlideAbort();
+						}
+					});
+					anim.start();
 				}
 
 				break;
+			}
 			default:
 				return false;
 			}
