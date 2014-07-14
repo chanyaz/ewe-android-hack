@@ -164,7 +164,6 @@ public class Checkout {
 
 	public static void enterCreditCardNumber(String text) {
 		creditCardNumber().perform(scrollTo());
-		creditCardNumber().perform(click());
 		creditCardNumber().perform(typeText(text));
 	}
 
