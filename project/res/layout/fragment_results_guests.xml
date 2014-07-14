@@ -11,31 +11,13 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/tablet_guest_picker_header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/tablet_guest_picker_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textSize="24sp"
-                app:textStyle="light" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/tablet_guest_picker_done_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:textSize="14sp"
-                android:text="@string/DONE"
-                android:textColor="#3E79A3"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_tablet_traveler_checkmark"
-                app:textStyle="light" />
-        </FrameLayout>
+            android:layout_gravity="left"
+            android:textSize="24sp"
+            app:textStyle="light" />
 
         <com.expedia.bookings.widget.GuestPicker
             android:id="@+id/guest_picker"

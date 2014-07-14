@@ -69,14 +69,6 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 		mHeaderTextView = Ui.findView(mRootC, R.id.tablet_guest_picker_header);
 		mInfantAlertTextView = Ui.findView(mRootC, R.id.tablet_lap_infant_alert);
 
-		TextView doneButton = Ui.findView(mRootC, R.id.tablet_guest_picker_done_button);
-		doneButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				// Do something crazy
-			}
-		});
-
 		return mRootC;
 	}
 
