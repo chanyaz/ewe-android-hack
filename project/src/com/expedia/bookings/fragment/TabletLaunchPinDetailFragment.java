@@ -6,19 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.Fragment;
-import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoundImageView;
@@ -97,6 +95,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null));
 				}
 			});
+			OmnitureTracking.trackLaunchCitySelect(getActivity(), event.launchLocation.title);
 		}
 	}
 

@@ -23,6 +23,7 @@ import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
@@ -66,7 +67,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
-
+		OmnitureTracking.trackPageLoadLaunchScreen(this);
 		LaunchDb.getCollections(this);
 	}
 
@@ -80,12 +81,13 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		gpsd.startChecking();
 
 		mHockeyPuck.onResume();
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
+		OmnitureTracking.onPause();
 		Events.unregister(this);
 	}
 

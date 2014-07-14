@@ -30,6 +30,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -132,6 +133,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			@Override
 			public void onClick(View view) {
 				setLaunchState(LaunchState.WAYPOINT, true);
+				OmnitureTracking.trackTabletDestinationSearchPageLoad(getActivity());
 			}
 		});
 		return mRootC;

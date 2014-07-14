@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionStack;
 import com.expedia.bookings.widget.HorizontalScrollView;
@@ -117,6 +118,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 			LaunchCollection launchCollection = (LaunchCollection) stack.getTag();
 			if (launchCollection.equals(event.launchCollection)) {
 				setCheckedCollection(stack);
+				OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), launchCollection.title);
 			}
 		}
 	}
