@@ -547,6 +547,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 
+			if (performingPopupAnimation(stateOne, stateTwo)) {
+				setPopupAnimationHardwareLayers(true);
+			}
+
 			if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
@@ -669,21 +673,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 		}
 
-		private void setPopupAnimationPercentage(float percentage, boolean active) {
-			percentage = active ? percentage : 1f - percentage;
-			mCalContentC.setPivotX(mCalContentC.getWidth() / 2.0f);
-			mCalContentC.setPivotY(mCalContentC.getHeight() / 2.0f);
-			mCalContentC.setScaleX(percentage);
-			mCalContentC.setScaleY(percentage);
-
-			mCalContentC.setPivotX(mCalContentC.getWidth() / 2.0f);
-			mCalContentC.setPivotY(mCalContentC.getHeight() / 2.0f);
-			mCalContentC.setScaleX(percentage);
-			mCalContentC.setScaleY(percentage);
-
-			// TODO add a shade to the top half that plays nicely with the gradients
-		}
-
 		@Override
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
@@ -692,6 +681,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					//For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(false);
 				}
+			}
+
+			if (performingPopupAnimation(stateOne, stateTwo)) {
+				setPopupAnimationHardwareLayers(false);
 			}
 		}
 
@@ -812,6 +805,32 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			else {
 				getActivity().getActionBar().show();
 			}
+		}
+
+		// Popup anim helper methods
+
+		private boolean performingPopupAnimation(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return stateOne.searchControlsAreActive() || stateTwo.searchControlsAreActive();
+		}
+
+		private void setPopupAnimationHardwareLayers(boolean enabled) {
+			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+			mPopupC.setLayerType(layerType, null);
+		}
+
+		private void setPopupAnimationPercentage(float percentage, boolean active) {
+			percentage = active ? percentage : 1f - percentage;
+			mCalContentC.setPivotX(mCalContentC.getWidth() / 2.0f);
+			mCalContentC.setPivotY(mCalContentC.getHeight() / 2.0f);
+			mCalContentC.setScaleX(percentage);
+			mCalContentC.setScaleY(percentage);
+
+			mCalContentC.setPivotX(mCalContentC.getWidth() / 2.0f);
+			mCalContentC.setPivotY(mCalContentC.getHeight() / 2.0f);
+			mCalContentC.setScaleX(percentage);
+			mCalContentC.setScaleY(percentage);
+
+			// TODO add a shade to the top half that plays nicely with the gradients
 		}
 
 		private void setVisibilitiesForState(ResultsSearchState state) {
