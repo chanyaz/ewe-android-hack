@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@drawable/ab_gradient"/>
+        android:background="@drawable/ab_gradient" />
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/search_popup_container"
@@ -38,12 +38,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/trip_starts"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"/>
+                    android:focusable="false" />
 
             </LinearLayout>
 
@@ -57,13 +57,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/trip_ends"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="@string/trip_end_optional"/>
+                    android:hint="@string/trip_end_optional" />
 
             </LinearLayout>
 
@@ -117,8 +117,7 @@
         android:layout_height="?android:attr/actionBarSize"
         tools:ignore="NewApi">
 
-        <LinearLayout
-            style="@style/V2.Widget.LinearLayout.TabletSearchControls">
+        <LinearLayout style="@style/V2.Widget.LinearLayout.TabletSearchControls">
 
             <com.mobiata.android.widget.AutoResizeTextView
                 android:id="@+id/dest_btn"
@@ -185,7 +184,7 @@
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFF"/>
+            android:background="#FFF" />
 
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 
