@@ -36,7 +36,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		Results.clickDate(startDate, endDate);
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 		Results.swipeUpHotelList();
 
 		Results.clickHotelWithName("happy_path");
@@ -74,7 +74,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			Pair<Integer, Integer> currentPair = adultChildNumberPairs.get(i);
 			Results.clickTravelerButton();
 			setGuests(currentPair.first, currentPair.second);
-			Results.clickSearchNow();
+			Results.clickSearchPopupDone();
 			Results.swipeUpHotelList();
 			Results.clickHotelWithName("happy_path");
 			Results.clickAddHotel();
@@ -103,7 +103,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			LocalDate startDate = LocalDate.now().plusDays(35);
 			LocalDate endDate = LocalDate.now().plusDays(35 + numberOfNights);
 			Results.clickDate(startDate, endDate);
-			Results.clickSearchNow();
+			Results.clickSearchPopupDone();
 			Results.swipeUpHotelList();
 			Common.enterLog(TAG, "Testing for hotels for a stay of " + numberOfNights + " nights.");
 

@@ -38,7 +38,7 @@ public class FlightSearchResultsSortTests extends TabletTestCase {
 		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(1);
 		Results.clickDate(startDate, null);
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		mNow = DateTime.now();
 	}

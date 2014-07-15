@@ -35,7 +35,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		int randomOffset = 20 + (int) (Math.random() * 100);
 		LocalDate startDate = LocalDate.now().plusDays(randomOffset);
 		Results.clickDate(startDate, null);
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();

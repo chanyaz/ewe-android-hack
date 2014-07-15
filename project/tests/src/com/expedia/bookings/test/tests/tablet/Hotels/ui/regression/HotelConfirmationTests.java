@@ -28,7 +28,7 @@ public class HotelConfirmationTests extends TabletTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		Results.clickDate(startDate, endDate);
 		mDateRange = EspressoUtils.getText(R.id.calendar_btn);
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 
 		Results.swipeUpHotelList();
 		Results.clickHotelWithName("happy_path_Hotel_Orchard");

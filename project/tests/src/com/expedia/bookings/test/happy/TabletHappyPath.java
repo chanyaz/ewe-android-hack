@@ -69,7 +69,7 @@ public class TabletHappyPath extends TabletTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		Results.clickDate(startDate, null);
 		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
 		Results.clickFlightAtIndex(1);
@@ -127,7 +127,7 @@ public class TabletHappyPath extends TabletTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		Results.clickDate(startDate, endDate);
 		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 
 		// Add Hotel to trip bucket
 		Results.swipeUpHotelList();

@@ -126,8 +126,8 @@ public class Results {
 		onView(withId(R.id.calendar_btn)).perform(click());
 	}
 
-	public static void clickSearchNow() {
-		onView(withId(R.id.search_now_btn)).perform(click());
+	public static void clickSearchPopupDone() {
+		onView(withId(R.id.search_popup_done)).perform(click());
 	}
 
 	public static ViewInteraction addHotel() {

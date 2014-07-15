@@ -111,7 +111,7 @@ public class MarketingSweepTablet extends ActivityInstrumentationTestCase2<Searc
 		LocalDate startDate = LocalDate.now().plusDays(45);
 		Results.clickDate(startDate, null);
 		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
-		Results.clickSearchNow();
+		Results.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
 		Results.clickFlightAtIndex(1);
