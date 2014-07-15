@@ -112,7 +112,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			if (mShowNearbyAirports && loc != null) {
 				ExpediaServices expediaServices = new ExpediaServices(mContext);
 				SuggestionResponse response = expediaServices.suggestionsNearby(loc.getLatitude(), loc.getLongitude(),
-						SuggestionSort.DISTANCE, 0);
+						SuggestionSort.POPULARITY, 0);
 
 				List<SuggestionV2> airportSuggestions = new ArrayList<SuggestionV2>();
 				Airport airport;
