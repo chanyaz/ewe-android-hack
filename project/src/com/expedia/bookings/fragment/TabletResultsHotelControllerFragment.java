@@ -350,7 +350,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			? View.VISIBLE
 			: View.INVISIBLE);
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING || ResultsHotelsState.isShowMessageState(hotelsState)) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING || hotelsState.isShowMessageState()) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
@@ -535,7 +535,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			// List scroll position
 			mHotelListFrag.setListenerEnabled(mListStateHelper, false);
 			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING
-				|| ResultsHotelsState.isShowMessageState(state)) {
+				|| state.isShowMessageState()) {
 				mHotelListFrag.setPercentage(1f, 0);
 			}
 			else if (mHotelListFrag.hasList()

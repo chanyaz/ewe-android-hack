@@ -717,7 +717,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
-			startStateTransition(ResultsHotelsState.getResultsState(stateOne), ResultsHotelsState.getResultsState(stateTwo));
+			startStateTransition(stateOne.getResultsState(), stateTwo.getResultsState());
 
 			if (stateTwo == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
@@ -737,7 +737,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
 											float percentage) {
-			updateStateTransition(ResultsHotelsState.getResultsState(stateOne), ResultsHotelsState.getResultsState(stateTwo), percentage);
+			updateStateTransition(stateOne.getResultsState(), stateTwo.getResultsState(), percentage);
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {
 				mHotelC.findViewById(R.id.action_bar_background).setAlpha(percentage);
@@ -750,7 +750,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
 			//DO WORK
-			endStateTransition(ResultsHotelsState.getResultsState(stateOne), ResultsHotelsState.getResultsState(stateTwo));
+			endStateTransition(stateOne.getResultsState(), stateTwo.getResultsState());
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
@@ -760,7 +760,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
-			setState(ResultsHotelsState.getResultsState(state), false);
+			setState(state.getResultsState(), false);
 
 			if (state == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
@@ -787,7 +787,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		private boolean isActionBarVisibleFor(ResultsHotelsState state) {
-			return ResultsHotelsState.getResultsState(state) == ResultsState.HOTELS;
+			return state.getResultsState() == ResultsState.HOTELS;
 		}
 
 	};

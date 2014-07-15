@@ -12,8 +12,8 @@ public enum ResultsHotelsState {
 	ADDING_HOTEL_TO_TRIP,
 	MAX_HOTEL_STAY;
 
-	public static ResultsState getResultsState(ResultsHotelsState state) {
-		switch (state) {
+	public ResultsState getResultsState() {
+		switch (this) {
 		case LOADING:
 		case SEARCH_ERROR:
 		case HOTEL_LIST_DOWN:
@@ -33,8 +33,8 @@ public enum ResultsHotelsState {
 	/*
 	 * Helper method to check if for the given state, we should show the respective message or show the results list.
 	 */
-	public static boolean isShowMessageState(ResultsHotelsState state) {
-		switch (state) {
+	public boolean isShowMessageState() {
+		switch (this) {
 		case SEARCH_ERROR:
 		case MAX_HOTEL_STAY:
 			return true;
