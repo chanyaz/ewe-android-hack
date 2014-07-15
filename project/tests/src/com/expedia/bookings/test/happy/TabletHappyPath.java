@@ -62,6 +62,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
 
+		Common.pressBack();
 		Results.clickOriginButton();
 		Results.typeInOriginEditText("San Francisco, CA");
 		Results.clickSuggestion("San Francisco, CA");
@@ -119,6 +120,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
 
+		Common.pressBack();
 		Results.clickOriginButton();
 		Results.typeInOriginEditText("San Francisco, CA");
 		Results.clickSuggestion("San Francisco, CA");
