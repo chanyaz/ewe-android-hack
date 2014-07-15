@@ -1208,7 +1208,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (mLocalParams.getOrigin() != null && mLocalParams.getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
 					&& mLocalParams.getDestination() != null && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 					mLocalParams.setOrigin(null);
-					Events.post(new Events.SearchSuggestionSelected(event.suggestion, event.queryText));
 				}
 				if (!TextUtils.isEmpty(event.queryText)) {
 					mLocalParams.setCustomDestinationQryText(event.queryText);
