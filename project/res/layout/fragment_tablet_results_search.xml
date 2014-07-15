@@ -76,6 +76,13 @@
         android:layout_height="match_parent"
         android:visibility="invisible">
 
+        <View
+            android:id="@+id/search_popup_shade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="#66000000" />
+
         <LinearLayout
             android:id="@+id/search_popup_content_container"
             android:orientation="horizontal"

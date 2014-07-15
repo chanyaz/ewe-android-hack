@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -110,6 +109,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ViewGroup mCalContentC;
 	private TextView mPopupTravTv;
 	private TextView mPopupDoneTv;
+	private View mPopupShade;
 
 	//Uncommited data
 	private SearchParams mLocalParams;
@@ -168,6 +168,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mCalContentC = Ui.findView(view, R.id.calendar_popup_content_container);
 		mPopupTravTv = Ui.findView(view, R.id.traveler_popup_num_guests_label);
 		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
+		mPopupShade = Ui.findView(view, R.id.search_popup_shade);
 
 		mPopupDoneTv.setOnClickListener(mSearchNowClick);
 
@@ -829,7 +830,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mPopupContentC.setScaleX(percentage);
 			mPopupContentC.setScaleY(percentage);
 
-			// TODO add a shade to the top half that plays nicely with the gradients
+			mPopupShade.setAlpha(percentage);
+			mSearchBarC.setAlpha(1f - percentage);
 		}
 
 		private void setVisibilitiesForState(ResultsSearchState state) {
@@ -844,6 +846,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mCalContentC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.GONE);
 			mPopupTravTv.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.GONE);
 			mPopupC.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.INVISIBLE);
+
+			// If the search controls are active, that means the popup is showing and we want to hide
+			// the search bar!
+			mPopupShade.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.GONE);
+			mSearchBarC.setVisibility(state.showsSearchControls() ? View.INVISIBLE : View.VISIBLE);
 
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
 			mGdeC.setVisibility(mCalC.getVisibility());
