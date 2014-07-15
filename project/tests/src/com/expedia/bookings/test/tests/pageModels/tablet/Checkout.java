@@ -84,19 +84,19 @@ public class Checkout {
 	}
 
 	public static void enterFirstName(String text) {
-		firstName().perform(scrollTo(), click(), typeText(text));
+		firstName().perform(scrollTo(), typeText(text));
 	}
 
 	public static void enterLastName(String text) {
-		lastName().perform(scrollTo(), click(), typeText(text));
+		lastName().perform(scrollTo(), typeText(text));
 	}
 
 	public static void enterPhoneNumber(String text) {
-		phoneNumber().perform(scrollTo(), click(), typeText(text));
+		phoneNumber().perform(scrollTo(), typeText(text));
 	}
 
 	public static void enterEmailAddress(String text) {
-		emailAddress().perform(scrollTo(), click(), typeText(text));
+		emailAddress().perform(scrollTo(), typeText(text));
 	}
 
 	public static void enterDateOfBirth(int year, int month, int day) {
@@ -139,25 +139,21 @@ public class Checkout {
 
 	public static void enterAddress1(String text) {
 		address1().perform(scrollTo());
-		address1().perform(click());
 		address1().perform(typeText(text));
 	}
 
 	public static void enterAddress2(String text) {
 		address2().perform(scrollTo());
-		address2().perform(click());
 		address2().perform(typeText(text));
 	}
 
 	public static void enterCity(String text) {
 		addressCity().perform(scrollTo());
-		addressCity().perform(click());
 		addressCity().perform(typeText(text));
 	}
 
 	public static void enterState(String text) {
 		addressState().perform(scrollTo());
-		addressState().perform(click());
 		addressState().perform(clearText());
 		addressState().perform(typeText(text));
 	}
@@ -181,13 +177,11 @@ public class Checkout {
 
 	public static void enterNameOnCard(String text) {
 		nameOnCard().perform(scrollTo());
-		nameOnCard().perform(click());
 		nameOnCard().perform(typeText(text));
 	}
 
 	public static void enterPostalCode(String text) {
 		postalCode().perform(scrollTo());
-		postalCode().perform(click());
 		postalCode().perform(typeText(text));
 	}
 
