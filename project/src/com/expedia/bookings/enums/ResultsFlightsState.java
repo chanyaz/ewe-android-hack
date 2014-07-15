@@ -11,8 +11,8 @@ public enum ResultsFlightsState {
 	MISSING_ORIGIN,
 	MISSING_STARTDATE;
 
-	public static ResultsState getResultsState(ResultsFlightsState state) {
-		switch (state) {
+	public ResultsState getResultsState() {
+		switch (this) {
 		case LOADING:
 		case MISSING_ORIGIN:
 		case MISSING_STARTDATE:
@@ -31,8 +31,8 @@ public enum ResultsFlightsState {
 	/*
 	 * Helper method to check if for the given state, we should show the respective message or show the results list.
 	 */
-	public static boolean isShowMessageState(ResultsFlightsState state) {
-		switch(state) {
+	public boolean isShowMessageState() {
+		switch(this) {
 		case MISSING_ORIGIN:
 		case MISSING_STARTDATE:
 		case NO_FLIGHTS_DROPDOWN_POS:

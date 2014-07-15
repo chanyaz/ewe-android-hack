@@ -848,7 +848,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mAddToTripC.setAlpha(0f);
 			}
 
-			if (ResultsFlightsState.isShowMessageState(state)) {
+			if (state.isShowMessageState()) {
 				if (mSearchErrorFrag.isAdded()) {
 					mSearchErrorFrag.setState(state);
 				}

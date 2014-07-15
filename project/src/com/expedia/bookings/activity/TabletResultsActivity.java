@@ -808,7 +808,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 
 			//DO WORK
-			startStateTransition(ResultsFlightsState.getResultsState(stateOne), ResultsFlightsState.getResultsState(stateTwo));
+			startStateTransition(stateOne.getResultsState(), stateTwo.getResultsState());
 
 			if (mFlightsController != null && mTripBucketFrag != null
 				&& stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
@@ -825,7 +825,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 											float percentage) {
 
-			updateStateTransition(ResultsFlightsState.getResultsState(stateOne), ResultsFlightsState.getResultsState(stateTwo), percentage);
+			updateStateTransition(stateOne.getResultsState(), stateTwo.getResultsState(), percentage);
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {
 				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(percentage);
@@ -838,7 +838,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			//DO WORK
-			endStateTransition(ResultsFlightsState.getResultsState(stateOne), ResultsFlightsState.getResultsState(stateTwo));
+			endStateTransition(stateOne.getResultsState(), stateTwo.getResultsState());
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
@@ -848,7 +848,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
 
 			//DO WORK
-			setState(ResultsFlightsState.getResultsState(state), false);
+			setState(state.getResultsState(), false);
 
 			if (state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mDoingFlightsAddToBucket = false;
@@ -870,7 +870,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		private boolean isActionBarVisibleFor(ResultsFlightsState state) {
-			return ResultsFlightsState.getResultsState(state) == ResultsState.FLIGHTS;
+			return state.getResultsState() == ResultsState.FLIGHTS;
 		}
 
 	};
