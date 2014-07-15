@@ -16,11 +16,16 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 
 public class EspressoUtils {
 
 	public static void assertTrue(String text) {
 		onView(withText(text)).check(matches(isDisplayed()));
+	}
+
+	public static void assertContains(ViewInteraction view, String str) {
+		view.check(matches(withText(containsString(str))));
 	}
 
 	public static String getText(int id) {
