@@ -143,8 +143,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 	@Override
 	protected LineOfBusiness getNextBookingItem() {
-		if (Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+		if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().canBePurchased()) {
 			return LineOfBusiness.FLIGHTS;
 		}
 		else {

@@ -19,10 +19,13 @@ package com.expedia.bookings.enums;
 public enum TripBucketItemState {
 	DEFAULT,
 	DISABLED,
-	SHOWING_CHECKOUT_BUTTON,
 	BOOKING_UNAVAILABLE,
-	SHOWING_PRICE_CHANGE,
-	EXPANDED,
 	PURCHASED,
-	CONFIRMATION
+
+	// The following states are transient UI states and should never be set
+	// in the data model!
+	SHOWING_CHECKOUT_BUTTON, // transient
+	SHOWING_PRICE_CHANGE, // transient
+	EXPANDED, // transient
+	CONFIRMATION, // transient
 }

@@ -40,6 +40,12 @@ public abstract class TripBucketItem implements JSONable {
 	}
 
 	public void setState(TripBucketItemState state) {
+		if (state == TripBucketItemState.EXPANDED
+			|| state == TripBucketItemState.SHOWING_CHECKOUT_BUTTON
+			|| state == TripBucketItemState.SHOWING_PRICE_CHANGE
+			|| state == TripBucketItemState.CONFIRMATION) {
+			throw new RuntimeException("Cannot set this state to the data model: " + state.name());
+		}
 		mState = state;
 	}
 
@@ -50,7 +56,12 @@ public abstract class TripBucketItem implements JSONable {
 	public void setSelected(boolean isSelected) {
 		this.mIsSelected = isSelected;
 	}
-//////////////////////////////////////////////////////////////////////////
+
+	public boolean canBePurchased() {
+		return mState != TripBucketItemState.PURCHASED && mState != TripBucketItemState.BOOKING_UNAVAILABLE;
+	}
+
+	//////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override

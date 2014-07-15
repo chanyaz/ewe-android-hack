@@ -66,18 +66,18 @@ public class BookingUnavailableFragment extends LobableFragment {
 	private View.OnClickListener mClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			LineOfBusiness lob = getLob();
+			Db.getTripBucket().clear(lob);
 			switch (v.getId()) {
 			case R.id.remove_sold_out_button:
 				if (mListener != null) {
-					mListener.onTripBucketItemRemoved(getLob());
+					mListener.onTripBucketItemRemoved(lob);
 				}
-				Db.getTripBucket().clear(getLob());
 				break;
 			case R.id.select_new_item_button:
 				if (mListener != null) {
-					mListener.onSelectNewTripItem(getLob());
+					mListener.onSelectNewTripItem(lob);
 				}
-				Db.getTripBucket().clear(getLob());
 				break;
 			}
 		}

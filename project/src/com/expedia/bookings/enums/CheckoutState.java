@@ -6,5 +6,10 @@ public enum CheckoutState {
 	CVV,
 	BOOKING,
 	BOOKING_UNAVAILABLE,
-	CONFIRMATION
+	CONFIRMATION,
+	;
+
+	public static boolean shouldShowPriceChange(CheckoutState state) {
+		return !(state == READY_FOR_CHECKOUT || state == CVV || state == BOOKING || state == CONFIRMATION);
+	}
 }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -18,13 +19,20 @@ import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
+import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
+import com.expedia.bookings.fragment.TabletCheckoutFormsFragment;
+import com.expedia.bookings.fragment.TabletCheckoutTripBucketControllerFragment;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
@@ -38,7 +46,7 @@ import com.mobiata.android.util.AndroidUtils;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends FragmentActivity implements IBackButtonLockListener,
-	IBackManageable, ITripBucketBookClickListener {
+	IBackManageable, ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -51,6 +59,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	private static final String ARG_LOB = "ARG_LOB";
 
 	private static final String CHECKOUT_FRAG_TAG = "CHECKOUT_FRAG_TAG";
+	private static final String TRIP_BUCKET_FRAG_TAG = "TRIP_BUCKET_FRAG_TAG";
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
 	private static final String INSTANCE_LOADED_CACHED_DATA = "INSTANCE_LOADED_CACHED_DATA";
@@ -60,6 +69,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	//Fragments
 	TabletCheckoutControllerFragment mFragCheckoutController;
+	TabletCheckoutTripBucketControllerFragment mFragTripBucketController;
 
 	//Other
 	private boolean mBackButtonLocked = false;
@@ -119,8 +129,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		mRootC = Ui.findView(this, R.id.root_layout);
 
 		// Fragments
-		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.root_layout,
-			TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
+		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.checkout_controller_root, TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
+		mFragTripBucketController = Ui.findOrAddSupportFragment(this, R.id.trip_bucket_controller_root, TabletCheckoutTripBucketControllerFragment.class, TRIP_BUCKET_FRAG_TAG);
 
 		// Args
 		if (savedInstanceState == null) {
@@ -207,6 +217,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		mCurrentLob = lob;
 
 		mFragCheckoutController.setLob(lob);
+		mFragTripBucketController.setLob(lob);
 	}
 
 	@Override
@@ -317,6 +328,98 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 	}
 
+	public CheckoutState getCheckoutState() {
+		if (mFragCheckoutController != null) {
+			return mFragCheckoutController.getCheckoutState();
+		}
+		return null;
+	}
+
+	public void updateBucketItems(boolean animate) {
+		if (mFragTripBucketController != null) {
+			mFragTripBucketController.updateBucketItems(animate);
+		}
+	}
+
+	/*
+	IAcceptingListenersListener
+	 */
+
+	@Override
+	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
+		final boolean isLandscape = getResources().getBoolean(R.bool.landscape);
+		// We only want to listen to these on landscape for the trip bucket
+		// I hate that this leaks the concern but the way the wiring works I have to do klunky stuff like this
+		if (frag == mFragCheckoutController) {
+			if (acceptingListener && isLandscape) {
+				mFragCheckoutController.registerStateListener(mCheckoutStateHelper, false);
+			}
+			else {
+				mFragCheckoutController.unRegisterStateListener(mCheckoutStateHelper);
+			}
+		}
+
+		if (frag instanceof TabletCheckoutFormsFragment) {
+			TabletCheckoutFormsFragment f = (TabletCheckoutFormsFragment) frag;
+			if (acceptingListener) {
+				f.registerStateListener(mCheckoutFormStateHelper, false);
+			}
+			else {
+				f.unRegisterStateListener(mCheckoutFormStateHelper);
+			}
+		}
+	}
+
+	private StateListenerHelper<CheckoutState> mCheckoutStateHelper = new StateListenerHelper<CheckoutState>() {
+		@Override
+		public void onStateTransitionStart(CheckoutState stateOne, CheckoutState stateTwo) {
+			if (stateOne != stateTwo) {
+				mFragTripBucketController.startStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo));
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(CheckoutState stateOne, CheckoutState stateTwo, float percentage) {
+			if (stateOne != stateTwo) {
+				mFragTripBucketController.updateStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo), percentage);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(CheckoutState stateOne, CheckoutState stateTwo) {
+			if (stateOne != stateTwo) {
+				mFragTripBucketController.endStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo));
+			}
+		}
+
+		@Override
+		public void onStateFinalized(CheckoutState state) {
+			mFragTripBucketController.setState(CheckoutTripBucketState.transmogrify(state), false);
+		}
+	};
+
+	private StateListenerHelper<CheckoutFormState> mCheckoutFormStateHelper = new StateListenerHelper<CheckoutFormState>() {
+		@Override
+		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			mFragTripBucketController.startStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo));
+		}
+
+		@Override
+		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
+			mFragTripBucketController.updateStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo), percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			mFragTripBucketController.endStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo));
+		}
+
+		@Override
+		public void onStateFinalized(CheckoutFormState state) {
+			mFragTripBucketController.setState(CheckoutTripBucketState.transmogrify(state), false);
+		}
+	};
+
 	/*
 	 * BACK STACK MANAGEMENT
 	 */
@@ -370,6 +473,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		else {
 			state = CheckoutState.OVERVIEW;
 		}
+
+		updateBucketItems(true);
 		setCheckoutState(state, true);
 	}
 
@@ -383,6 +488,22 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			};
 			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
 		}
+	}
+
+	/*
+	 * BookingUnavailableFragment listener
+	 */
+
+	@Override
+	public void onTripBucketItemRemoved(LineOfBusiness lob) {
+		if (mFragTripBucketController != null) {
+			mFragTripBucketController.onTripBucketItemRemoved(lob);
+		}
+	}
+
+	@Override
+	public void onSelectNewTripItem(LineOfBusiness lob) {
+		// ignore
 	}
 
 }

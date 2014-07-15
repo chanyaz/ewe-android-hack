@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.FrameLayoutTouchController
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#454235">
+    android:background="#454235" >
 
     <FrameLayout
         android:id="@+id/blurred_dest_image_overlay"
@@ -24,6 +23,7 @@
         android:id="@+id/cvv_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/tablet_checkout_trip_bucket_header_height"
         android:paddingTop="?android:attr/actionBarSize"/>
 
     <!-- Booking Unavailable -->
@@ -39,7 +39,8 @@
     <FrameLayout
         android:id="@+id/checkout_forms_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/tablet_checkout_trip_bucket_header_height" />
 
     <!-- Slide To Purchase -->
 
@@ -52,29 +53,20 @@
 
     <!-- "Now Booking" progressbar -->
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/booking_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/tablet_checkout_trip_bucket_header_height"
         android:paddingTop="?android:attr/actionBarSize">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="@integer/tablet_checkout_forms_left_margin_weight"/>
+        <ProgressBar
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"/>
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
-
-            <ProgressBar
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:indeterminate="true"/>
-        </FrameLayout>
-    </LinearLayout>
+    </FrameLayout>
 
     <!-- Confirmation -->
 
@@ -82,74 +74,7 @@
         android:id="@+id/confirmation_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/tablet_checkout_trip_bucket_header_height"
         android:paddingTop="?android:attr/actionBarSize"/>
-
-    <!-- Trip Bucket -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:paddingTop="?android:attr/actionBarSize"
-        android:orientation="horizontal">
-
-        <ScrollView
-            android:id="@+id/trip_bucket_scroll"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:fillViewport="true">
-
-            <LinearLayout
-                android:id="@+id/trip_bucket_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/trip_bucket_background_color"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/results_bucket_y_padding"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:paddingTop="@dimen/results_bucket_y_padding">
-
-                <FrameLayout
-                    android:id="@+id/trip_bucket_header_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/results_bucket_header_padding">
-
-                    <TextView
-                        android:id="@+id/your_trip_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="@string/your_trip"
-                        android:textSize="18dp"/>
-
-                    <TextView
-                        android:id="@+id/trip_date_range"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:textSize="18dp"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/bucket_flight_frag_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <FrameLayout
-                    android:id="@+id/bucket_hotel_frag_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/results_bucket_item_padding"/>
-            </LinearLayout>
-        </ScrollView>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-    </LinearLayout>
 
 </com.expedia.bookings.widget.FrameLayoutTouchController>

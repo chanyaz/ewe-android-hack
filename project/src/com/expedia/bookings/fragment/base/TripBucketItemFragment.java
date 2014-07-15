@@ -476,9 +476,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			// Expanded <--> Price change
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 				setPriceChangePercentage(1.0f);
-				if (getItem().getLineOfBusiness() == LineOfBusiness.HOTELS) {
-					((TabletCheckoutControllerFragment) getParentFragment()).scrollBucketYTo(mExpandedC.getBottom());
-				}
 			}
 			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.EXPANDED) {
 				setPriceChangePercentage(0.0f);
