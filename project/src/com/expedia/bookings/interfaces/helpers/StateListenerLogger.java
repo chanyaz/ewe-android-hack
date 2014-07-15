@@ -15,13 +15,13 @@ public class StateListenerLogger<T> implements IStateListener<T> {
 
 	@Override
 	public void onStateTransitionStart(T stateOne, T stateTwo) {
-		Log.d("IStateChangeLogger - " + getStateTypeStr(stateOne) + " - onPrepareStateTransition - stateOne:" + stateOne
+		Log.d("IStateChangeLogger", getStateTypeStr(stateOne) + " - onStateTransitionStart - stateOne:" + stateOne
 			+ " stateTwo:" + stateTwo);
 	}
 
 	@Override
 	public void onStateTransitionUpdate(T stateOne, T stateTwo, float percentage) {
-		Log.d("IStateChangeLogger - " + getStateTypeStr(stateOne) + " - onStateTransitionPercentageChange - stateOne:"
+		Log.d("IStateChangeLogger", getStateTypeStr(stateOne) + " - onStateTransitionUpdate - stateOne:"
 			+ stateOne + " stateTwo:" + stateTwo
 			+ " percentage:" + percentage);
 
@@ -29,13 +29,13 @@ public class StateListenerLogger<T> implements IStateListener<T> {
 
 	@Override
 	public void onStateTransitionEnd(T stateOne, T stateTwo) {
-		Log.d("IStateChangeLogger - " + getStateTypeStr(stateOne) + " - onFinishStateTransition - stateOne:" + stateOne
+		Log.d("IStateChangeLogger", getStateTypeStr(stateOne) + " - onStateTransitionEnd - stateOne:" + stateOne
 			+ " stateTwo:" + stateTwo);
 	}
 
 	@Override
 	public void onStateFinalized(T state) {
-		Log.d("IStateChangeLogger - " + getStateTypeStr(state) + " - onStateFinalized - state:" + state);
+		Log.d("IStateChangeLogger", getStateTypeStr(state) + " - onStateFinalized - state:" + state);
 	}
 
 	private String getStateTypeStr(T state) {
