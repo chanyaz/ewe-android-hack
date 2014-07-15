@@ -107,6 +107,9 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 	}
 
 	public String getHeaderString() {
+		if (mGuestPicker == null) {
+			return null;
+		}
 		return mGuestPicker.getHeaderString();
 	}
 
