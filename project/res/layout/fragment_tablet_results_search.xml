@@ -146,7 +146,7 @@
 
                 <!-- Traveler popup content -->
 
-                <com.expedia.bookings.widget.TextView
+                <TextView
                     android:id="@+id/traveler_popup_num_guests_label"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -156,7 +156,7 @@
 
             </FrameLayout>
 
-            <com.expedia.bookings.widget.TextView
+            <TextView
                 android:id="@+id/search_popup_done"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
