@@ -90,12 +90,13 @@
             android:layout_marginRight="12dp"
             android:layout_marginBottom="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="64dp">
+            android:layout_height="wrap_content">
 
             <FrameLayout
                 android:id="@+id/popup_left_content_container"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="64dp"
                 android:padding="8dp"
                 android:background="@android:color/white">
 
@@ -115,7 +116,7 @@
                         android:orientation="vertical"
                         android:layout_marginRight="16dp">
 
-                        <com.expedia.bookings.widget.TextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -123,8 +124,10 @@
                             android:textAllCaps="true" />
 
                         <EditText
-                            android:layout_width="match_parent"
+                            android:id="@+id/popup_start_date"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="96dp"
                             android:focusable="false" />
 
                     </LinearLayout>
@@ -134,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.expedia.bookings.widget.TextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -142,8 +145,10 @@
                             android:textAllCaps="true" />
 
                         <EditText
-                            android:layout_width="match_parent"
+                            android:id="@+id/popup_end_date"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="96dp"
                             android:focusable="false"
                             android:hint="@string/trip_end_optional" />
 
@@ -159,7 +164,7 @@
                     android:layout_height="match_parent"
                     android:visibility="invisible"
                     android:textSize="18dp"
-                    android:gravity="center_vertical" />
+                    android:layout_gravity="center_vertical" />
 
             </FrameLayout>
 

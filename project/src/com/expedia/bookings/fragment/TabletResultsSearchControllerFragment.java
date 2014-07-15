@@ -109,6 +109,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ViewGroup mCalContentC;
 	private TextView mPopupTravTv;
 	private TextView mPopupDoneTv;
+	private TextView mPopupStartTv;
+	private TextView mPopupEndTv;
 	private View mPopupShade;
 
 	//Uncommited data
@@ -168,6 +170,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mCalContentC = Ui.findView(view, R.id.calendar_popup_content_container);
 		mPopupTravTv = Ui.findView(view, R.id.traveler_popup_num_guests_label);
 		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
+		mPopupStartTv = Ui.findView(view, R.id.popup_start_date);
+		mPopupEndTv = Ui.findView(view, R.id.popup_end_date);
 		mPopupShade = Ui.findView(view, R.id.search_popup_shade);
 
 		mPopupDoneTv.setOnClickListener(mSearchNowClick);
@@ -287,6 +291,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 	}
 
+	private void bindCalPopup() {
+		if (mLocalParams != null) {
+			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
+			String startStr = null, endStr = null;
+			if (mLocalParams.getStartDate() != null) {
+				startStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getStartDate(), flags);
+			}
+			if (mLocalParams.getEndDate() != null) {
+				endStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getEndDate(), flags);
+			}
+			mPopupStartTv.setText(startStr);
+			mPopupEndTv.setText(endStr);
+		}
+	}
+
 	private void bindTravBtn() {
 		int numTravelers = mLocalParams.getNumAdults() + mLocalParams.getNumChildren();
 		String travStr = getResources()
@@ -391,7 +410,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			mLocalParams.setStartDate(startDate);
 			mLocalParams.setEndDate(endDate);
+
 			bindCalBtn();
+			bindCalPopup();
 
 			mIgnoreDateChanges = false;
 		}
