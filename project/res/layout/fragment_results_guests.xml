@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textSize="24sp"
+            android:textSize="24dp"
+            android:text="@string/travelers"
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.GuestPicker
@@ -31,7 +32,7 @@
             android:layout_gravity="bottom"
             android:background="#FF9900"
             android:textColor="#F3F3F3"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:text="@string/max_one_infant_per_lap"
             android:visibility="gone"
             app:textStyle="light" />

@@ -22,8 +22,9 @@
             android:id="@+id/calendar_popup_content_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="bottom|right"
+            android:visibility="invisible"
+            android:orientation="horizontal"
             android:background="@android:color/white">
 
             <LinearLayout
@@ -75,7 +76,35 @@
                 android:drawableLeft="@drawable/ic_overview_checkmark"
                 android:text="@string/done"
                 android:textAllCaps="true"
-                android:background="@color/divider_grey"/>
+                android:background="@color/divider_grey" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/traveler_popup_content_container"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_gravity="bottom|right"
+            android:visibility="invisible"
+            android:orientation="horizontal"
+            android:background="@android:color/white">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/traveler_popup_num_guests_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/search_traveler_done"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_overview_checkmark"
+                android:text="@string/done"
+                android:textAllCaps="true"
+                android:background="@color/divider_grey" />
 
         </LinearLayout>
 

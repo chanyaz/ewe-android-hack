@@ -27,10 +27,7 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 	private ViewGroup mRootC;
 	private GuestPicker mGuestPicker;
 
-	private TextView mHeaderTextView;
 	private TextView mInfantAlertTextView;
-
-	private boolean mInfantsInLaps;
 
 	private int mInitialAdultCount;
 	private List<ChildTraveler> mInitialChildren;
@@ -66,7 +63,6 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 			mInitialChildren = null;
 		}
 
-		mHeaderTextView = Ui.findView(mRootC, R.id.tablet_guest_picker_header);
 		mInfantAlertTextView = Ui.findView(mRootC, R.id.tablet_lap_infant_alert);
 
 		return mRootC;
@@ -80,7 +76,6 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 
 	@Override
 	public void onGuestsChanged(int numAdults, List<ChildTraveler> children) {
-		setHeaderString();
 		toggleInfantSeatingStates();
 		mListener.onGuestsChanged(numAdults, children);
 	}
@@ -98,7 +93,6 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 	public void bind() {
 		if (mRootC != null) {
 			mGuestPicker.bind();
-			setHeaderString();
 		}
 	}
 
@@ -106,16 +100,14 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 		// Let's not show the alert if flights is not supported for the current POS
 		if (mGuestPicker.moreInfantsThanAvailableLaps() && PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
 			mInfantAlertTextView.setVisibility(View.VISIBLE);
-			mInfantsInLaps = false;
 		}
 		else {
 			mInfantAlertTextView.setVisibility(View.GONE);
-			mInfantsInLaps = true;
 		}
 	}
 
-	private void setHeaderString() {
-		mHeaderTextView.setText(mGuestPicker.getHeaderString());
+	public String getHeaderString() {
+		return mGuestPicker.getHeaderString();
 	}
 
 }
