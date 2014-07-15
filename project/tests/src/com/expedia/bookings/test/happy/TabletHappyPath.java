@@ -23,6 +23,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Results.clickHotelWithName("happy_path");
 		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
 		Results.clickAddHotel();
+		SpoonScreenshotUtils.screenshot("Trip_Bucket", getInstrumentation());
 		Results.clickBookHotel();
 
 		Checkout.clickOnTravelerDetails();
@@ -74,6 +75,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Results.clickFlightAtIndex(1);
 		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
 		Results.clickAddFlight();
+		SpoonScreenshotUtils.screenshot("Trip_Bucket", getInstrumentation());
 		Results.clickBookFlight();
 
 		Checkout.clickOnTravelerDetails();
@@ -142,6 +144,8 @@ public class TabletHappyPath extends TabletTestCase {
 		Results.clickAddFlight();
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
+
+		SpoonScreenshotUtils.screenshot("Trip_Bucket", getInstrumentation());
 
 		// Book Hotel
 		Results.clickBookHotel();
