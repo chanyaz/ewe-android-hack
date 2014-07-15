@@ -221,7 +221,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	 * Returns the base/default flights state at any point in time.
 	 * Use it to either reset the state or to get the state to begin with.
 	 */
-	private ResultsFlightsState getBaseState() {
+	public ResultsFlightsState getBaseState() {
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
 		}
@@ -232,14 +232,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			.getFlightSearch().getSearchResponse().hasErrors()) {
 			return ResultsFlightsState.SEARCH_ERROR;
 		}
-		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
-			return ResultsFlightsState.FLIGHT_LIST_DOWN;
-		}
 		else if (Sp.getParams().getOriginLocation(true) == null) {
 			return ResultsFlightsState.MISSING_ORIGIN;
 		}
 		else if (Sp.getParams().getStartDate() == null) {
 			return ResultsFlightsState.MISSING_STARTDATE;
+		}
+		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
+			return ResultsFlightsState.FLIGHT_LIST_DOWN;
 		}
 		else {
 			return ResultsFlightsState.LOADING;

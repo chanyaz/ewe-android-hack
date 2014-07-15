@@ -171,6 +171,7 @@ public class CurrentLocationFragment extends Fragment
 	protected void onLocationSuggestion(SuggestionV2 suggestion) {
 		if (suggestion != null) {
 			mLocationSuggestion = suggestion;
+			mLocationSuggestion.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
 			mListener.onCurrentLocation(mLastLocation, mLocationSuggestion);
 		}
 		else {

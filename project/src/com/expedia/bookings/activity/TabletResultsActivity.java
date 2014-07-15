@@ -339,6 +339,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//Now we are ready to start the search, so let's fire up the LOADING state.
 			mFlightsController.setFlightsState(ResultsFlightsState.LOADING, false);
 		}
+		else if (mFlightsController != null) {
+			mFlightsController.setFlightsState(mFlightsController.getBaseState(), false);
+		}
 	}
 
 	/**
