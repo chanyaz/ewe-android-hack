@@ -1,36 +1,19 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import android.util.SparseArray;
+
+import com.mobiata.android.time.util.JodaUtils;
 
 /**
  * Holds a week's worth of FlightHistogram objects.
  */
 public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implements Comparable<WeeklyFlightHistogram> {
 
-	private String mKeyString;
 	private LocalDate mWeekStart;
 	private LocalDate mWeekEnd;
-
-	private static String getKeyString(FlightHistogram gram) {
-		return getKeyString(gram.getKeyDate());
-	}
-
-	private static String getKeyString(LocalDate mKeyDate) {
-		int week = mKeyDate.getWeekOfWeekyear();
-		return mKeyDate.getYear() + "-" + ((week < 10) ? "0" : "") + week;
-	}
-
-	private static int getGramIndex(FlightHistogram gram) {
-		return getGramIndex(gram.getKeyDate());
-	}
-
-	private static int getGramIndex(LocalDate mKeyDate) {
-		return mKeyDate.getDayOfWeek();
-	}
 
 	/**
 	 * Creates a new WeeklyFlightHistogram object and initiates it with the week in which the
@@ -40,9 +23,9 @@ public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implemen
 	 */
 	public WeeklyFlightHistogram(FlightHistogram gram) {
 		super(7);
-		mKeyString = getKeyString(gram);
-		mWeekStart = gram.getKeyDate().withDayOfWeek(1);
-		mWeekEnd = gram.getKeyDate().withDayOfWeek(7);
+		LocalDate seed = gram.getKeyDate();
+		mWeekStart = seed.minusDays(JodaUtils.getDayOfWeekNormalized(seed));
+		mWeekEnd = mWeekStart.plusDays(6);
 		add(gram);
 	}
 
@@ -50,17 +33,13 @@ public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implemen
 		if (!isInWeek(gram)) {
 			throw new RuntimeException("The passed flight histogram is not in the valid week range");
 		}
-		int index = getGramIndex(gram);
+		int index = Days.daysBetween(mWeekStart, gram.getKeyDate()).getDays();
 		put(index, gram);
 		return true;
 	}
 
 	public boolean isInWeek(FlightHistogram gram) {
-		return getKeyString(gram).equals(mKeyString);
-	}
-
-	public String getKeyString() {
-		return mKeyString;
+		return gram.getKeyDate().compareTo(mWeekStart) >= 0 && gram.getKeyDate().compareTo(mWeekEnd) <= 0;
 	}
 
 	public LocalDate getWeekStart() {
@@ -73,6 +52,7 @@ public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implemen
 
 	@Override
 	public int compareTo(WeeklyFlightHistogram another) {
-		return mKeyString.compareTo(another.mKeyString);
+		// We'll assume that if their start dates are equal, then their end dates are too
+		return mWeekStart.compareTo(another.mWeekStart);
 	}
 }
