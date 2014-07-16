@@ -657,6 +657,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		ResultsHotelsState state = mHotelsStateManager.getState();
 		if (state == ResultsHotelsState.HOTEL_LIST_UP) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_AND_FILTERS, true);
+			OmnitureTracking.trackTabletHotelsSortAndFilterOpen(getActivity());
 		}
 		else if (state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);

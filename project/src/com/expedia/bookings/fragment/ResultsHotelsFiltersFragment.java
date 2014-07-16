@@ -392,6 +392,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setNeighborhoods(neighborhoods);
 			filter.notifyFilterChanged();
+			OmnitureTracking.trackTabletNeighborhoodFilter(getActivity());
 		}
 	};
 

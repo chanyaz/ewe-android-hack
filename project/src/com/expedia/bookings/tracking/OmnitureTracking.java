@@ -131,20 +131,20 @@ public class OmnitureTracking {
 	private static final String HOTELS_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Hotels.Checkout.Payment.EnterManually";
 	private static final String HOTELS_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
 	private static final String HOTELS_CHECKOUT_PAYMENT_CID = "App.Hotels.Checkout.Payment.CID";
-	private static final String HOTELS_SEARCH_REFINE = "App.Hotels.Search.Refine";
-	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
-	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
-	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
-	private static final String HOTELS_SEARCH_REFINE_VIP = "App.Hotels.Search.Refine.VIPAccess";
+	private static final String HOTELS_SEARCH_REFINE = "App.Hotel.Search.Filter";
+	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotel.Search.Filter.Name";
+	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotel.Search.Filter.PriceRange";
+	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotel.Search.Filter.SearchRadius";
+	private static final String HOTELS_SEARCH_REFINE_VIP = "App.Hotel.Search.Filter.VIPAccess";
 	private static final String HOTELS_CONF_CROSSSELL_FLIGHTS = "CrossSell.Hotels.Flights";
 	private static final String HOTELS_CONF_ADD_TO_CALENDAR = "App.Hotels.Checkout.Confirmation.Add.Calendar";
 	private static final String HOTELS_CONF_SHARE_EMAIL = "App.Hotels.Checkout.Confirmation.Share.Mail";
 
-	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotels.Search.Sort.Popular";
-	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotels.Search.Sort.Price";
-	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotels.Search.Sort.Distance";
-	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
-	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
+	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotel.Search.Sort.Popular";
+	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotel.Search.Sort.Price";
+	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotel.Search.Sort.Distance";
+	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotel.Search.Sort.Rating";
+	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotel.Search.Sort.Deals";
 
 	//////////////////////////////
 	// Coupon tracking
@@ -206,9 +206,7 @@ public class OmnitureTracking {
 		s.setProp(4, region);
 
 		// Check in/check out date
-		String days5 = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
-		s.setEvar(5, days5);
-		s.setProp(5, days5);
+		addAdvancePurchaseWindow(context, s, searchParams);
 
 		String days6 = Integer.toString(JodaUtils.daysBetween(searchParams.getCheckInDate(),
 				searchParams.getCheckInDate()));
@@ -425,16 +423,19 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
-		addStandardFields(context, s);
-
-		s.setAppState("App.Hotels.Infosite");
-
+		s.setAppState("App.Hotels.Rooms.Infosite");
 		s.setEvents("event32");
+
+		addStandardFields(context, s);
+		addStandardHotelFields(context, s, Db.getHotelSearch().getSearchParams());
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		// Products
 		addProducts(s, property);
+
+		String drrString = internalGenerateDRRString(context, property.getLowestRate());
+		s.setEvar(9, drrString);
 
 		// Position, if opened from list
 
@@ -442,6 +443,17 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	private static String internalGenerateDRRString(Context context, Rate rate) {
+		String base = "Hotels | ";
+		if (rate.isMobileExclusive()) {
+			return base + context.getString(R.string.mobile_exclusive);
+		}
+		else if (rate.isOnSale()) {
+			return base + context.getString(R.string.percent_minus_template,
+				(float) rate.getDiscountPercent());
+		}
+		return null;
+	}
 	public static void trackPageLoadHotelsInfositeMap(Context context) {
 		Log.d(TAG, "Tracking \"App.Hotels.Infosite.Map\" pageLoad");
 
@@ -1199,9 +1211,14 @@ public class OmnitureTracking {
 	///////////////////////////
 	// Search Results Screen - Hotels
 
+	// Page names
 	private static final String PAGE_NAME_HOTEL_SEARCH = "App.Hotels.Search";
+	private static final String PAGE_NAME_HOTEL_SORT_FILTER = "App.Hotels.Search.Refine";
 
+	// Link URLs
 	private static final String PIN_CLICK_LINK_NAME = "App.HOT.SR.TapPin";
+	private static final String NEIGHBORHOOD_FILTER_LINK_NAME = "App.Hotel.Search.Filter.Area";
+
 
 	private static final String PROP_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -1217,6 +1234,15 @@ public class OmnitureTracking {
 		// Props
 		s.setProp(1, Integer.toString(searchResponse.getPropertiesCount()));
 		String checkInDate = searchParams.getCheckInDate().toString(PROP_DATE_FORMAT);
+		internalSetHotelDateProps(s, searchParams);
+
+		// Evars
+		addStandardHotelFields(context, s, searchParams);
+		s.setEvar(47, getEvar47String(searchParams));
+	}
+
+	private static void internalSetHotelDateProps(ADMS_Measurement s, HotelSearchParams searchParams) {
+		String checkInDate = searchParams.getCheckInDate().toString(PROP_DATE_FORMAT);
 		s.setProp(5, checkInDate);
 
 		String checkoutDate;
@@ -1227,11 +1253,18 @@ public class OmnitureTracking {
 			checkoutDate = "nil";
 		}
 		s.setProp(6, checkoutDate);
+	}
 
-		// Evars
-		s.setEvar(2, "hotels");
-		s.setEvar(6, Integer.toString(searchParams.getStayDuration()));
-		s.setEvar(47, getEvar47String(searchParams));
+	public static void trackLinkHotelPinClick(Context context) {
+		internalTrackLink(context, PIN_CLICK_LINK_NAME);
+	}
+
+	public static void trackTabletHotelsSortAndFilterOpen(Context context) {
+		internalTrackPageLoadEventStandard(context, PAGE_NAME_HOTEL_SORT_FILTER);
+	}
+
+	public static void trackTabletNeighborhoodFilter(Context context) {
+		internalTrackLink(context, NEIGHBORHOOD_FILTER_LINK_NAME);
 	}
 
 	private static String getEvar47String (HotelSearchParams params) {
@@ -1240,10 +1273,6 @@ public class OmnitureTracking {
 		sb.append("|C");
 		sb.append(params.getNumChildren());
 		return sb.toString();
-	}
-
-	public static void trackLinkHotelPinClick(Context context) {
-		internalTrackLink(context, PIN_CLICK_LINK_NAME);
 	}
 
 	///////////////////////////
@@ -2032,6 +2061,19 @@ public class OmnitureTracking {
 		}
 
 		return s;
+	}
+
+	private static void addStandardHotelFields(Context context, ADMS_Measurement s, HotelSearchParams searchParams) {
+		s.setEvar(2, "hotels");
+		s.setProp(2, "hotels");
+		s.setEvar(6, Integer.toString(searchParams.getStayDuration()));
+		internalSetHotelDateProps(s, searchParams);
+	}
+
+	private static void addAdvancePurchaseWindow(Context context, ADMS_Measurement s, HotelSearchParams searchParams) {
+		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
+		s.setEvar(5, window);
+		s.setProp(5, window);
 	}
 
 	private static void addStandardFields(Context context, ADMS_Measurement s) {
