@@ -608,14 +608,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 
 			// Popup stuff
-			if (stateTwo == ResultsSearchState.CALENDAR) {
+			if (stateTwo.showsSearchControls()) {
 				mPopupC.setVisibility(View.VISIBLE);
+				mPopupShade.setVisibility(View.VISIBLE);
+			}
+
+			if (stateTwo == ResultsSearchState.CALENDAR) {
 				mCalContentC.setVisibility(View.VISIBLE);
 			}
 
 			if (stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-				mPopupC.setVisibility(View.VISIBLE);
 				mPopupTravTv.setVisibility(View.VISIBLE);
+			}
+
+			if (stateTwo == ResultsSearchState.DEFAULT) {
+				mSearchBarC.setVisibility(View.VISIBLE);
 			}
 
 			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
