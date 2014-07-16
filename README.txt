@@ -48,3 +48,19 @@ $ ./gradlew connectedAndroidTestExpediaDebug
 2. After the test run, you can view the test report:
 
 $ open project/build/reports/androidTests/connected/flavors/Expedia/index.html
+
+
+/////////////////////////
+Happy Path Tests
+
+1. Ensure both ExpediaAutomationDebug and ExpediaAutomationDebugTest are installed to a device
+
+2. Run the happy path test.
+
+$ ./buildbot/happypath.sh
+
+3. Wait for the test to finish and view the report.
+
+$ open spoon/happy/index.html
+
+4. Run the happy path tests before pushing changes to the repository!
