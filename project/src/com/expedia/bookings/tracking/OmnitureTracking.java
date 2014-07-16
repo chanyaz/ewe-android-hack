@@ -1196,6 +1196,60 @@ public class OmnitureTracking {
 		s.setEvar(61, posTpid);
 	}
 
+	///////////////////////////
+	// Search Results Screen - Hotels
+
+	private static final String PAGE_NAME_HOTEL_SEARCH = "App.Hotels.Search";
+
+	private static final String PIN_CLICK_LINK_NAME = "App.HOT.SR.TapPin";
+
+	private static final String PROP_DATE_FORMAT = "yyyy-MM-dd";
+
+	public static void trackTabletHotelListOpen(Context context, HotelSearchParams searchParams, HotelSearchResponse searchResponse) {
+		internalTrackTabletHotelSearchOpen(context, searchParams, searchResponse);
+	}
+
+	private static void internalTrackTabletHotelSearchOpen(Context context, HotelSearchParams searchParams, HotelSearchResponse searchResponse) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, PAGE_NAME_HOTEL_SEARCH);
+		// Events
+		s.setEvents("event30,event51");
+
+		// Props
+		s.setProp(1, Integer.toString(searchResponse.getPropertiesCount()));
+		String checkInDate = searchParams.getCheckInDate().toString(PROP_DATE_FORMAT);
+		s.setProp(5, checkInDate);
+
+		String checkoutDate;
+		if (searchParams.getCheckOutDate() != null) {
+			checkoutDate = searchParams.getCheckOutDate().toString(PROP_DATE_FORMAT);
+		}
+		else {
+			checkoutDate = "nil";
+		}
+		s.setProp(6, checkoutDate);
+
+		// Evars
+		s.setEvar(2, "hotels");
+		s.setEvar(6, Integer.toString(searchParams.getStayDuration()));
+		s.setEvar(47, getEvar47String(searchParams));
+	}
+
+	private static String getEvar47String (HotelSearchParams params) {
+		StringBuilder sb = new StringBuilder("HOT|A");
+		sb.append(params.getNumAdults());
+		sb.append("|C");
+		sb.append(params.getNumChildren());
+		return sb.toString();
+	}
+
+	public static void trackLinkHotelPinClick(Context context) {
+		internalTrackLink(context, PIN_CLICK_LINK_NAME);
+	}
+
+	///////////////////////////
+	// Search Results Screen - Flights
+
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Samsung Wallet Click Tracking

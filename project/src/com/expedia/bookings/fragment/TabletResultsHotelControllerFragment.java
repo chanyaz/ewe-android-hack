@@ -43,6 +43,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
@@ -771,6 +772,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mMapFragment.hideBallon(property);
 		}
 		onPropertyClicked(property);
+		OmnitureTracking.trackLinkHotelPinClick(getActivity());
 	}
 
 	@Override
@@ -1330,6 +1332,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
+				OmnitureTracking.trackTabletHotelListOpen(getActivity(), Db.getHotelSearch().getSearchParams(),
+					Db.getHotelSearch().getSearchResponse());
 				break;
 			case ROOMS_AND_RATES: {
 				setHotelsFiltersShownPercentage(0f);

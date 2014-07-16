@@ -47,6 +47,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -202,16 +203,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		});
 
 		Sp.getBus().register(this);
-
 		mHockeyPuck.onResume();
-
-
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		Sp.getBus().unregister(this);
+		OmnitureTracking.onPause();
 	}
 
 	@Override
