@@ -10,9 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
@@ -86,6 +88,34 @@ public class CustomMatchers {
 
 			@Override
 			public void describeTo(Description description) {
+			}
+		};
+	}
+
+	public static Matcher<View> withRating(final float rating) {
+		return new BoundedMatcher<View, RatingBar>(RatingBar.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("has rating " + rating);
+			}
+
+			@Override
+			public boolean matchesSafely(RatingBar ratingBar) {
+				return ratingBar.getRating() == rating;
+			}
+		};
+	}
+
+	public static Matcher<View> isEmpty() {
+		return new BoundedMatcher<View, TextView>(TextView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("empty");
+			}
+
+			@Override
+			public boolean matchesSafely(TextView textview) {
+				return TextUtils.isEmpty(textview.getText());
 			}
 		};
 	}
