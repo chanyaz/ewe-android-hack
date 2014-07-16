@@ -485,7 +485,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				searchErrorAvailable = true;
 			}
 
-			flightLegsFragAvailable = false;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
 		}
@@ -495,7 +494,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightSearchDownloadAvailable = false;
 			loadingAvailable = false;
 			searchErrorAvailable = true;
-			flightLegsFragAvailable = false;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
 		}
@@ -902,15 +900,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (response != null && !response.hasErrors()) {
-				// We need the legs fragment to start drawing so we can animate it in
-				FragmentManager manager = getChildFragmentManager();
-				FragmentTransaction transaction = manager.beginTransaction();
-				mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-					true,
-					FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, TabletResultsFlightControllerFragment.this,
-					R.id.flight_leg_container, false);
-				transaction.commit();
-				manager.executePendingTransactions();
 				mFlightLegsC.setVisibility(View.VISIBLE);
 
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
