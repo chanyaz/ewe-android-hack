@@ -48,13 +48,14 @@
             android:visibility="gone" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/flight_histogram_max_price"
+            android:id="@+id/flight_histogram_price_range"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:textSize="18sp"
             android:visibility="gone"
-            app:textStyle="bold" />
+            android:textColor="#666666"
+            app:textStyle="light" />
 
     </LinearLayout>
 
@@ -62,7 +63,8 @@
         android:id="@+id/histogram_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/results_column_header_height" />
+        android:layout_marginTop="@dimen/results_column_header_height"
+        android:paddingTop="8dp"/>
 
     <com.expedia.bookings.widget.CenteredCaptionedIcon
         android:id="@+id/missing_flight_info_view"
