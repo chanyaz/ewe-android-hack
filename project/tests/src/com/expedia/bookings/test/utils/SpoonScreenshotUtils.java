@@ -9,7 +9,7 @@ import android.app.Instrumentation;
 import com.google.android.apps.common.testing.testrunner.ActivityLifecycleMonitorRegistry;
 import com.google.android.apps.common.testing.testrunner.Stage;
 import com.google.common.collect.Iterables;
-import com.squareup.spoon.Spoon;
+import com.squareup.spoon.Spork;
 
 /**
  * Created by dmadan on 7/3/14.
@@ -17,7 +17,11 @@ import com.squareup.spoon.Spoon;
 public class SpoonScreenshotUtils {
 
 	public static void screenshot(String tag, Instrumentation instrumentation) throws Throwable {
-		Spoon.screenshot(getCurrentActivity(instrumentation), tag);
+		Spork.screenshot(getCurrentActivity(instrumentation), instrumentation, tag);
+	}
+
+	public static void screenshot(String tag, Instrumentation instrumentation, String className, String methodName) throws Throwable {
+		Spork.screenshot(getCurrentActivity(instrumentation), instrumentation, tag, className, methodName);
 	}
 
 	//Helper method to get current activity for spoon screenshot
