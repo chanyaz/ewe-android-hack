@@ -28,6 +28,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("San Francisco, CA");
 		Launch.clickSuggestion("San Francisco, CA");
+		Common.pressBack();
 		Results.clickOriginButton();
 		Results.typeInOriginEditText("Detroit, MI");
 		Results.clickSuggestion("Detroit, MI");

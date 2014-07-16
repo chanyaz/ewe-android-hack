@@ -69,6 +69,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		Results.clickDate(startDate, endDate);
+		Results.clickSearchPopupDone();
 
 		for (int i = 0; i < adultChildNumberPairs.size(); i++) {
 			Pair<Integer, Integer> currentPair = adultChildNumberPairs.get(i);
