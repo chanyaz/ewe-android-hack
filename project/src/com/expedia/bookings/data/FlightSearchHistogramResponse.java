@@ -43,22 +43,6 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		return mMax;
 	}
 
-	public int getColorResIdForPrice(FlightHistogram gram) {
-		double price = gram.getMinPrice();
-		if (price >= mMin && price <= mQ1) {
-			return R.color.tablet_flight_histogram_green;
-		}
-		else if (price > mQ1 && price <= mMedian) {
-			return R.color.tablet_flight_histogram_yellow;
-		}
-		else if (price > mMedian && price <= mQ3) {
-			return R.color.tablet_flight_histogram_orange;
-		}
-		else {
-			return R.color.tablet_flight_histogram_red;
-		}
-	}
-
 	//////////////////////////////////////////////////////
 	// Quartile computation
 

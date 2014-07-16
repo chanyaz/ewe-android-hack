@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.view.View;
@@ -18,7 +16,6 @@ import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 
@@ -95,15 +92,21 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			getHistograms();
 
 			if (mHistograms != null) {
-				WeeklyFlightHistogram current = null;
+				LocalDate startDate = LocalDate.now();
+				LocalDate endDate = startDate.plusDays(mContext.getResources().getInteger(R.integer.calendar_max_selectable_date_range));
+
+				WeeklyFlightHistogram current = new WeeklyFlightHistogram(startDate);
+				mWeeklyHistograms.add(current);
 				for (FlightHistogram gram : mHistograms) {
-					if (current == null || !current.isInWeek(gram)) {
-						current = new WeeklyFlightHistogram(gram);
+					while (current.getWeekEnd().isBefore(gram.getKeyDate())) {
+						current = new WeeklyFlightHistogram(current.getWeekEnd().plusDays(1));
 						mWeeklyHistograms.add(current);
 					}
-					else {
-						current.add(gram);
-					}
+					current.add(gram);
+				}
+				while (endDate.isAfter(current.getWeekEnd())) {
+					current = new WeeklyFlightHistogram(current.getWeekEnd().plusDays(1));
+					mWeeklyHistograms.add(current);
 				}
 			}
 		}
@@ -175,8 +178,8 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			dateTv.setDates(week.getWeekStart(), week.getWeekEnd());
 
 			// relative width
-			float minPrice = (float)mFlightHistogramResponse.getMinPrice();
-			float maxPrice = (float)mFlightHistogramResponse.getMaxPrice();
+			float minPrice = (float) mFlightHistogramResponse.getMinPrice();
+			float maxPrice = (float) mFlightHistogramResponse.getMaxPrice();
 			histogram.setData(minPrice, maxPrice, week);
 		}
 		return row;

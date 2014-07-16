@@ -17,16 +17,14 @@ public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implemen
 
 	/**
 	 * Creates a new WeeklyFlightHistogram object and initiates it with the week in which the
-	 * passed gram will fit.
+	 * passed LocalDate will fit.
 	 *
-	 * @param gram
+	 * @param seed
 	 */
-	public WeeklyFlightHistogram(FlightHistogram gram) {
+	public WeeklyFlightHistogram(LocalDate seed) {
 		super(7);
-		LocalDate seed = gram.getKeyDate();
 		mWeekStart = seed.minusDays(JodaUtils.getDayOfWeekNormalized(seed));
 		mWeekEnd = mWeekStart.plusDays(6);
-		add(gram);
 	}
 
 	public boolean add(FlightHistogram gram) {
