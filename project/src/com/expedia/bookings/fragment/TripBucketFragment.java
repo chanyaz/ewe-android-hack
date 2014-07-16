@@ -25,14 +25,12 @@ import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BucketItemUndoController;
 import com.expedia.bookings.widget.SwipeOutLayout;
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.Ui;
 
@@ -142,11 +140,11 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 		if (showFlightContainer && lobToRefresh != null && lobToRefresh == LineOfBusiness.FLIGHTS) {
 			mTripBucketFlightFrag.bind();
-			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+			mTripBucketFlightFrag.setState(bucket.getFlight().getState());
 		}
 		if (showHotelContainer && lobToRefresh != null && lobToRefresh == LineOfBusiness.HOTELS) {
 			mTripBucketHotelFrag.bind();
-			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+			mTripBucketHotelFrag.setState(bucket.getHotel().getState());
 		}
 		if (mTripBucketFlightFrag != null) {
 			setItemSwipeEnabled(mTripBucketFlightFrag.getItem());
@@ -336,12 +334,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		// Add item back
 		if (itemLob == LineOfBusiness.FLIGHTS) {
 			TripBucketItemFlight flight = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemFlight.class);
-			Db.getTripBucket().add(flight.getFlightSearchParams(), flight.getFlightTrip());
+			Db.getTripBucket().add(flight);
 			mFlightInLimbo = false;
 		}
 		else {
 			TripBucketItemHotel hotel = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemHotel.class);
-			Db.getTripBucket().add(hotel.getHotelSearchParams(), hotel.getRate(), hotel.getProperty(), hotel.getHotelAvailability());
+			Db.getTripBucket().add(hotel);
 			mHotelInLimbo = false;
 		}
 		Db.saveTripBucket(getActivity());
