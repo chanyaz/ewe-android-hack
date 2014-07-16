@@ -3,7 +3,7 @@ package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-
+import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -88,6 +88,11 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	public static ViewInteraction additionalFeesInfoButton() {
 		return onView(withId(ADDITIONAL_FEES_INFO_IMAGE_ID));
 	}
+
+	public static DataInteraction listItem() {
+		return onData(anything()).inAdapterView(withId(android.R.id.list));
+	}
+
 
 	// Object interaction
 
