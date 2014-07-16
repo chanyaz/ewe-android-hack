@@ -15,10 +15,9 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FlightHistogramAdapter;
+import com.expedia.bookings.widget.WeeklyFlightHistogramAdapter;
 
 /**
  * ResultsFlightHistogramFragment: The flight histogram fragment designed for tablet results 2014
@@ -31,8 +30,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	}
 
 	private ListView mList;
-	private FlightHistogramAdapter mAdapter;
-	private int mColWidth = 0;
+	private WeeklyFlightHistogramAdapter mAdapter;
 	private IFlightHistogramListener mListener;
 
 	@Override
@@ -48,76 +46,36 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 
 		// Adapter setup
 		if (mAdapter == null) {
-			mAdapter = new FlightHistogramAdapter(getActivity());
+			mAdapter = new WeeklyFlightHistogramAdapter(getActivity());
 		}
 		if (Db.getFlightSearchHistogramResponse() != null) {
 			mAdapter.setHistogramData(Db.getFlightSearchHistogramResponse());
-			mAdapter.setColWidth(mColWidth);
 		}
 		mList.setAdapter(mAdapter);
 
 		return mList;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		mList.getViewTreeObserver().addOnPreDrawListener(mColWidthListener);
-
-		if (mAdapter != null && mColWidth != 0) {
-			mAdapter.setColWidth(mColWidth);
-		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		mList.getViewTreeObserver().removeOnPreDrawListener(mColWidthListener);
-	}
-
-
-	private ViewTreeObserver.OnPreDrawListener mColWidthListener = new ViewTreeObserver.OnPreDrawListener() {
-		@Override
-		public boolean onPreDraw() {
-			if (mList != null && mList.getWidth() > 0 && mList.getWidth() != mColWidth) {
-				setColWidth(mList.getWidth());
-			}
-			return true;
-		}
-	};
-
-
 	public void setHistogramData(FlightSearchHistogramResponse data) {
 		if (mAdapter != null) {
 			mAdapter.setHistogramData(data);
-			mAdapter.notifyDataSetChanged();
 		}
 	}
 
 	public void setSelectedDepartureDate(LocalDate departureDate) {
 		if (mAdapter != null) {
 			mAdapter.setSelectedDepartureDate(departureDate);
-			mAdapter.notifyDataSetChanged();
-		}
-	}
-
-	public void setColWidth(int width) {
-		if (mAdapter != null) {
-			mAdapter.setColWidth(width);
-		}
-		else {
-			mColWidth = width;
 		}
 	}
 
 	@Override
 	public void onListItemClick(ListView list, View view, int pos, long id) {
 		if (list == mList && list.getAdapter() != null && list.getAdapter() == mAdapter) {
-			FlightHistogram histo = mAdapter.getItem(pos);
-			if (histo != null) {
-				mListener.onGdeDateSelected(histo.getKeyDate());
-			}
+//			FlightHistogram histo = mAdapter.getItem(pos);
+//			if (histo != null) {
+//				mListener.onGdeDateSelected(histo.getKeyDate());
+//			}
+			//TODO: item click
 		}
 	}
 
