@@ -27,7 +27,6 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 
 	private DatesFragment.DatesFragmentListener mListener;
 
-	private TextView mStatusTextView;
 	private CalendarPicker mCalendarPicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
@@ -45,15 +44,12 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_results_dates, container, false);
 
-		mStatusTextView = Ui.findView(view, R.id.status_text_view);
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
 		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
-
-		updateStatusText();
 
 		return view;
 	}
@@ -71,30 +67,12 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 		}
 	}
 
-	private void updateStatusText() {
-		LocalDate start = mCalendarPicker.getStartDate();
-		LocalDate end = mCalendarPicker.getEndDate();
-
-		if (start != null && end != null) {
-			int daysBetween = JodaUtils.daysBetween(start, end);
-			mStatusTextView.setText(getString(R.string.dates_status_multi_TEMPLATE, daysBetween));
-		}
-		else if (start != null) {
-			mStatusTextView.setText(R.string.dates_status_one);
-		}
-		else {
-			mStatusTextView.setText(R.string.dates_status_none);
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// DateSelectionChangedListener
 
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
 		mListener.onDatesChanged(start, end);
-
-		updateStatusText();
 	}
 
 }
