@@ -10,12 +10,13 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
+import com.expedia.bookings.data.WeeklyFlightHistogram;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.WeeklyFlightHistogramAdapter;
 
@@ -25,19 +26,12 @@ import com.expedia.bookings.widget.WeeklyFlightHistogramAdapter;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightHistogramFragment extends ListFragment {
 
-	public interface IFlightHistogramListener {
-		public void onGdeDateSelected(LocalDate date);
-	}
-
 	private ListView mList;
 	private WeeklyFlightHistogramAdapter mAdapter;
-	private IFlightHistogramListener mListener;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		mListener = Ui.findFragmentListener(this, IFlightHistogramListener.class);
 	}
 
 	@Override
@@ -48,9 +42,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 		if (mAdapter == null) {
 			mAdapter = new WeeklyFlightHistogramAdapter(getActivity());
 		}
-		if (Db.getFlightSearchHistogramResponse() != null) {
-			mAdapter.setHistogramData(Db.getFlightSearchHistogramResponse());
-		}
+		setHistogramData(Db.getFlightSearchHistogramResponse());
 		mList.setAdapter(mAdapter);
 
 		return mList;
@@ -71,11 +63,10 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View view, int pos, long id) {
 		if (list == mList && list.getAdapter() != null && list.getAdapter() == mAdapter) {
-//			FlightHistogram histo = mAdapter.getItem(pos);
-//			if (histo != null) {
-//				mListener.onGdeDateSelected(histo.getKeyDate());
-//			}
-			//TODO: item click
+			WeeklyFlightHistogram week = mAdapter.getItem(pos);
+			if (week != null) {
+				Events.post(new Events.GdeItemSelected(week));
+			}
 		}
 	}
 

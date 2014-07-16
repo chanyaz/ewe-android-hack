@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -400,6 +401,14 @@ public class Events {
 		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText) {
 			this.suggestion = suggestion;
 			this.queryText = queryText;
+		}
+	}
+
+	public static class GdeItemSelected {
+		public final WeeklyFlightHistogram week;
+
+		public GdeItemSelected(WeeklyFlightHistogram week) {
+			this.week = week;
 		}
 	}
 }

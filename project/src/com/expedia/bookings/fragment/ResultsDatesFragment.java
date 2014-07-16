@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 /**
  * One important detail
@@ -54,6 +58,18 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 		return view;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
 	public void setDatesFromParams(SearchParams searchParams) {
 		setDates(searchParams.getStartDate(), searchParams.getEndDate());
 	}
@@ -73,6 +89,14 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
 		mListener.onDatesChanged(start, end);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Otto event - GDE week clicked
+
+	@Subscribe
+	public void onGdeItemSelected(Events.GdeItemSelected event) {
+		mCalendarPicker.setDisplayYearMonth(new YearMonth(event.week.getWeekStart()));
 	}
 
 }

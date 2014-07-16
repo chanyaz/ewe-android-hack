@@ -61,7 +61,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, ResultsGuestPicker.GuestPickerFragmentListener,
 	TabletWaypointFragment.ITabletWaypointFragmentListener,
-	CurrentLocationFragment.ICurrentLocationListener, ResultsGdeFlightsFragment.IGdeFlightsListener {
+	CurrentLocationFragment.ICurrentLocationListener {
 
 	private static final String INSTANCE_RESULTS_SEARCH_STATE = "INSTANCE_RESULTS_SEARCH_STATE";
 	private static final String INSTANCE_ANIM_FROM_ORIGIN = "INSTANCE_ANIM_FROM_ORIGIN";
@@ -418,35 +418,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 	}
 
+	/*
+	 * DatesFragment.DatesFragmentListener
+	 */
 
 	@Override
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
 		dateChangeHelper(startDate, endDate);
 	}
-
-	@Override
-	public void onGdeFirstDateSelected(LocalDate date) {
-		dateChangeHelper(date, null);
-	}
-
-	@Override
-	public void onGdeOneWayTrip(LocalDate date) {
-		dateChangeHelper(date, null);
-		if (copyTempValuesToParams()) {
-			doSpUpdate();
-		}
-		setState(ResultsSearchState.DEFAULT, true);
-	}
-
-	@Override
-	public void onGdeTwoWayTrip(LocalDate depDate, LocalDate retDate) {
-		dateChangeHelper(depDate, retDate);
-		if (copyTempValuesToParams()) {
-			doSpUpdate();
-		}
-		setState(ResultsSearchState.DEFAULT, true);
-	}
-
 
 	/*
 	 * SEARCH BAR BUTTON STUFF
