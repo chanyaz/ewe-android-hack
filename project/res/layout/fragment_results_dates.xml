@@ -16,12 +16,13 @@
         android:padding="2dp"
         app:calendarBaseColor="#000000"
         app:calendarSecondaryColor="#6F6F6F"
-        app:calendarHighlightColor="#0FCFCF"
+        app:calendarHighlightColor="@color/tablet_results_search_blue"
         app:calendarHighlightInverseColor="#FFFFFF"
         app:calendarTodayColor="#FF4F4F"
         app:calendarInvalidDaysColor="#CFCFCF"
         app:calendarDaysOfWeekColor="#000000"
-        app:calendarChangeMonthCaretColor="#000000"
+        app:calendarChangeMonthCaretColor="@color/tablet_results_search_blue"
+        app:calendarHeaderTextSize="18dp"
         app:calendarHeaderTextColor="#000000"/>
 </LinearLayout>
 

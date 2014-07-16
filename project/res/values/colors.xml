@@ -184,6 +184,9 @@
     <color name="tablet_collection_back_image_overlay">#e5141d36</color>
     <color name="tablet_collection_middle_image_overlay">#b2141d36</color>
 
+    <!-- Tablet results -->
+    <color name="tablet_results_search_blue">#3d6a99</color>
+
     <!-- Tablet flights -->
     <color name="tablet_flight_filter_text_color">#4c5156</color>
     <color name="tablet_flight_trip_view_airport_text_color">#aaffffff</color>
