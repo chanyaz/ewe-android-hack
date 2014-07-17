@@ -88,7 +88,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/trip_bucket_sold_out"
                     android:textAllCaps="true"
                     android:textColor="#7FFFFFFF"
                     android:textSize="16sp"

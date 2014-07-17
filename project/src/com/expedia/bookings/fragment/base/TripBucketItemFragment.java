@@ -225,6 +225,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			setState(mStateManager.getState());
 
 			mBookBtnText.setText(getBookButtonText());
+			mSoldOutText.setText(getSoldOutText());
 			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
 			mSoldOutContainer.setOnClickListener(getOnBookClickListener());
 
@@ -676,6 +677,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract TripBucketItem getItem();
 
 	public abstract CharSequence getBookButtonText();
+
+	public abstract CharSequence getSoldOutText();
 
 	public abstract void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup);
 

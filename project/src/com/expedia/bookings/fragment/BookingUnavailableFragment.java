@@ -89,7 +89,12 @@ public class BookingUnavailableFragment extends LobableFragment {
 			mSelectNewItemButton.setText(getString(R.string.tablet_sold_out_select_hotel));
 		}
 		else {
-			mSoldOutText.setText(getString(R.string.tablet_sold_out_summary_text_flight));
+			if (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1) {
+				mSoldOutText.setText(getString(R.string.error_flights_hold_expired));
+			}
+			else {
+				mSoldOutText.setText(getString(R.string.error_flight_hold_expired));
+			}
 			mRemoveItemButton.setText(getString(R.string.tablet_sold_out_remove_flight));
 			mSelectNewItemButton.setText(getString(R.string.tablet_sold_out_select_flight));
 		}
