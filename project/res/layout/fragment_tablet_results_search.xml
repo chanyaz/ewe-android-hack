@@ -120,10 +120,20 @@
                             style="@style/V2.Widget.TextView.TabletSearch.PopupTripDatesHeader"
                             android:text="@string/trip_starts" />
 
-                        <EditText
-                            android:id="@+id/popup_start_date"
-                            style="@style/V2.Widget.TextView.TabletSearch.PopupFakeEditText"
-                            android:hint="@string/select_dates"/>
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/popup_start_date"
+                                style="@style/V2.Widget.TextView.TabletSearch.PopupFakeEditText"
+                                android:hint="@string/select_dates"/>
+
+                            <ImageView
+                                android:id="@+id/popup_start_date_clear_btn"
+                                style="@style/V2.Widget.ImageView.TabletSearch.ClearDates"/>
+
+                        </FrameLayout>
 
                     </LinearLayout>
 
@@ -144,10 +154,20 @@
                             style="@style/V2.Widget.TextView.TabletSearch.PopupTripDatesHeader"
                             android:text="@string/trip_ends" />
 
-                        <EditText
-                            android:id="@+id/popup_end_date"
-                            style="@style/V2.Widget.TextView.TabletSearch.PopupFakeEditText"
-                            android:hint="@string/trip_end_optional" />
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/popup_end_date"
+                                style="@style/V2.Widget.TextView.TabletSearch.PopupFakeEditText"
+                                android:hint="@string/trip_end_optional" />
+
+                            <ImageView
+                                android:id="@+id/popup_end_date_clear_btn"
+                                style="@style/V2.Widget.ImageView.TabletSearch.ClearDates"/>
+
+                        </FrameLayout>
 
                     </LinearLayout>
 

@@ -302,6 +302,23 @@
         <item name="textStyle">light</item>
     </style>
 
+    <!-- ImageView styling -->
+
+    <style name="V2.Widget.ImageView" />
+
+    <style name="V2.Widget.ImageView.TabletSearch" />
+
+    <style name="V2.Widget.ImageView.TabletSearch.ClearDates">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">center_vertical|right</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:visibility">gone</item> <!-- default to gone -->
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@drawable/ic_tablet_search_results_popup_clear</item>
+    </style>
+
     <!-- RadioButton styling -->
 
     <style name="V2.Widget.RadioButton" />

@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -115,6 +116,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mPopupStartTv;
 	private TextView mPopupEndTv;
 
+	private ImageView mPopupStartClearBtn;
+	private ImageView mPopupEndClearBtn;
+
 	//Uncommited data
 	private SearchParams mLocalParams;
 
@@ -175,7 +179,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
 		mPopupStartTv = Ui.findView(view, R.id.popup_start_date);
 		mPopupEndTv = Ui.findView(view, R.id.popup_end_date);
+		mPopupStartClearBtn = Ui.findView(view, R.id.popup_start_date_clear_btn);
+		mPopupEndClearBtn = Ui.findView(view, R.id.popup_end_date_clear_btn);
 
+		mPopupStartClearBtn.setOnClickListener(mStartDateClearClick);
+		mPopupEndClearBtn.setOnClickListener(mEndDateClearClick);
 		mPopupDoneTv.setOnClickListener(mSearchNowClick);
 
 		//Fake AB actions
@@ -271,6 +279,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	private void bindCalBtn() {
+		// Search bar
 		if (mLocalParams != null && mLocalParams.getStartDate() != null) {
 			String dateStr;
 			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
@@ -291,9 +300,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalBtn.setText(R.string.choose_dates);
 			}
 		}
-	}
 
-	private void bindCalPopup() {
+		// Popup
 		if (mLocalParams != null) {
 			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
 			String startStr = null, endStr = null;
@@ -305,6 +313,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			mPopupStartTv.setText(startStr);
 			mPopupEndTv.setText(endStr);
+
+			mPopupStartClearBtn.setVisibility(mLocalParams.getStartDate() == null ? View.GONE : View.VISIBLE);
+			mPopupEndClearBtn.setVisibility(mLocalParams.getEndDate() == null ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -421,7 +432,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mLocalParams.setEndDate(endDate);
 
 			bindCalBtn();
-			bindCalPopup();
 
 			mIgnoreDateChanges = false;
 		}
@@ -479,6 +489,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View view) {
 			setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
+		}
+	};
+
+	private View.OnClickListener mStartDateClearClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			dateChangeHelper(null, null);
+		}
+	};
+
+	private View.OnClickListener mEndDateClearClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			dateChangeHelper(mLocalParams.getStartDate(), null);
 		}
 	};
 
