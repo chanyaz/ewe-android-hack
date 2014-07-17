@@ -106,6 +106,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	//Search popup buttons
 	private ViewGroup mPopupC;
 	private ViewGroup mPopupContentC;
+	private ViewGroup mPopupLeftC;
 	private ViewGroup mCalContentC;
 	private TextView mPopupTravTv;
 	private TextView mPopupDoneTv;
@@ -167,6 +168,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		//Search popup
 		mPopupC = Ui.findView(view, R.id.search_popup_container);
 		mPopupContentC = Ui.findView(view, R.id.search_popup_content_container);
+		mPopupLeftC = Ui.findView(view, R.id.search_popup_left_content_container);
 		mCalContentC = Ui.findView(view, R.id.calendar_popup_content_container);
 		mPopupTravTv = Ui.findView(view, R.id.traveler_popup_num_guests_label);
 		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
@@ -838,8 +840,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		private void setPopupAnimationPercentage(float percentage, boolean active) {
 			percentage = active ? percentage : 1f - percentage;
-			mPopupContentC.setPivotX(mPopupContentC.getWidth() / 2.0f);
-			mPopupContentC.setPivotY(mPopupContentC.getHeight() / 2.0f);
+
+			// Note: these wiggle values are dependent upon the layout and more specifically
+			// the background assets that are used the popup
+			float wiggleX = 32 * getResources().getDisplayMetrics().density;
+			float wiggleY = 12 * getResources().getDisplayMetrics().density;
+			float pivotX = mPopupLeftC.getWidth() - wiggleX;
+			float pivotY = mPopupContentC.getHeight() - wiggleY;
+
+			mPopupContentC.setPivotX(pivotX);
+			mPopupContentC.setPivotY(pivotY);
 			mPopupContentC.setScaleX(percentage);
 			mPopupContentC.setScaleY(percentage);
 
