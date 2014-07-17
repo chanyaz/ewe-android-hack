@@ -37,7 +37,11 @@ public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implemen
 	}
 
 	public boolean isInWeek(FlightHistogram gram) {
-		return gram.getKeyDate().compareTo(mWeekStart) >= 0 && gram.getKeyDate().compareTo(mWeekEnd) <= 0;
+		return isInWeek(gram.getKeyDate());
+	}
+
+	public boolean isInWeek(LocalDate date) {
+		return date.compareTo(mWeekStart) >= 0 && date.compareTo(mWeekEnd) <= 0;
 	}
 
 	public LocalDate getWeekStart() {

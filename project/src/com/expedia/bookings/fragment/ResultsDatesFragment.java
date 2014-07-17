@@ -29,7 +29,7 @@ import com.squareup.otto.Subscribe;
  */
 public class ResultsDatesFragment extends Fragment implements CalendarPicker.DateSelectionChangedListener {
 
-	private DatesFragment.DatesFragmentListener mListener;
+	private DatesFragmentListener mListener;
 
 	private CalendarPicker mCalendarPicker;
 
@@ -41,7 +41,7 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, DatesFragment.DatesFragmentListener.class);
+		mListener = Ui.findFragmentListener(this, DatesFragmentListener.class);
 	}
 
 	@Override
@@ -97,6 +97,13 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 	@Subscribe
 	public void onGdeItemSelected(Events.GdeItemSelected event) {
 		mCalendarPicker.setDisplayYearMonth(new YearMonth(event.week.getWeekStart()));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface DatesFragmentListener {
+		public void onDatesChanged(LocalDate startDate, LocalDate endDate);
 	}
 
 }

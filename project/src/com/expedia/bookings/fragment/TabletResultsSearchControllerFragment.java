@@ -59,7 +59,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
-	DatesFragment.DatesFragmentListener, ResultsGuestPicker.GuestPickerFragmentListener,
+	ResultsDatesFragment.DatesFragmentListener, ResultsGuestPicker.GuestPickerFragmentListener,
 	TabletWaypointFragment.ITabletWaypointFragmentListener,
 	CurrentLocationFragment.ICurrentLocationListener {
 
@@ -419,7 +419,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	/*
-	 * DatesFragment.DatesFragmentListener
+	 * ResultDatesFragment.DatesFragmentListener
 	 */
 
 	@Override

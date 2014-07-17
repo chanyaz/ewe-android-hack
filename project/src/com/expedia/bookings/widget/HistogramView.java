@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 
@@ -40,14 +41,9 @@ public class HistogramView extends View {
 
 	private void init() {
 		Paint paint = new Paint();
-		paint.setColor(Color.rgb(0x56, 0x79, 0xc7));
+		paint.setColor(getResources().getColor(R.color.tablet_results_search_blue));
 		setPaint(paint);
-
-		float[] data = new float[7];
-		for (int i = 0; i < data.length; i++) {
-			data[i] = (float) (Math.random() * 0.6f + 0.2f);
-		}
-		setData(data);
+		setData(new float[0]);
 	}
 
 	/**
@@ -97,6 +93,9 @@ public class HistogramView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		if (mData == null || mData.length == 0) {
+			return;
+		}
 		int bars = mData.length;
 		float paddingTopPx = getPaddingTop();
 		float paddingBottomPx = getPaddingBottom();
