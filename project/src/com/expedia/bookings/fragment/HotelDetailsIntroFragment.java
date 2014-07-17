@@ -25,10 +25,10 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 public class HotelDetailsIntroFragment extends Fragment {
@@ -122,6 +122,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 				public synchronized void onClick(final View v) {
 					Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
 					newIntent.fillIn(getActivity().getIntent(), 0);
+					OmnitureTracking.trackPageLoadHotelsDetailsReviews(getActivity());
 					startActivity(newIntent);
 				}
 			});

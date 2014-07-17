@@ -685,6 +685,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else {
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
+		OmnitureTracking.trackPageLoadHotelsInfosite(getActivity(), -1);
 	}
 
 	private void updateFragsForRoomsAndRates() {
@@ -716,6 +717,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onHotelReviewsClicked() {
 		setHotelsState(ResultsHotelsState.REVIEWS, true);
+		OmnitureTracking.trackPageLoadHotelsDetailsReviews(getActivity());
 	}
 
 	/*

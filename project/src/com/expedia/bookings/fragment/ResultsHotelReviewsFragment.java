@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -40,6 +39,7 @@ import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
@@ -249,19 +249,22 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		int position = 0;
 		switch (checkedId) {
 		case R.id.user_review_button_recent:
-			referrerId = "App.Hotels.Reviews.Sort.Recent";
+			referrerId = OmnitureTracking.HOTELS_REFINE_REVIEWS_RECENT;
 			position = 0;
 			break;
 		case R.id.user_review_button_favorable:
-			referrerId = "App.Hotels.Reviews.Sort.Favorable";
+			referrerId = OmnitureTracking.HOTELS_REFINE_REVIEWS_FAV;
 			position = 1;
 			break;
 		case R.id.user_review_button_critical:
-			referrerId = "App.Hotels.Reviews.Sort.Critical";
+			referrerId = OmnitureTracking.HOTELS_REFINE_REVIEWS_CRIT;
 			position = 2;
 			break;
 		}
-
+		// Track change in Reviews filter if it is different than the current.
+		if (mViewPager.getCurrentItem() != position) {
+			OmnitureTracking.trackLinkReviewTypeSelected(getActivity(), referrerId);
+		}
 		mViewPager.setCurrentItem(position);
 	}
 

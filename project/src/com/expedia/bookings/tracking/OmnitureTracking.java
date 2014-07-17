@@ -117,6 +117,7 @@ public class OmnitureTracking {
 
 	private static final String HOTELS_ROOMS_RATES = "App.Hotels.RoomsRates";
 	private static final String HOTELS_RATE_DETAILS = "App.Hotels.RateDetails";
+	private static final String HOTELS_DETAILS_REVIEWS = "App.Hotels.Reviews";
 	private static final String HOTELS_CHECKOUT_INFO = "App.Hotels.Checkout.Info";
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
 	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Hotels.Checkout.Login.Forgot";
@@ -145,6 +146,10 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotel.Search.Sort.Distance";
 	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotel.Search.Sort.Rating";
 	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotel.Search.Sort.Deals";
+
+	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.HOT.Review.Fav";
+	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.HOT.Review.Crit";
+	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.HOT.Review.Recent";
 
 	//////////////////////////////
 	// Coupon tracking
@@ -523,6 +528,14 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsRateDetails(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_RATE_DETAILS);
+	}
+
+	public static void trackPageLoadHotelsDetailsReviews(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_DETAILS_REVIEWS, LineOfBusiness.HOTELS);
+	}
+
+	public static void trackLinkReviewTypeSelected(Context context, String linkName) {
+		internalTrackLink(context, linkName);
 	}
 
 	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
@@ -1233,7 +1246,6 @@ public class OmnitureTracking {
 
 		// Props
 		s.setProp(1, Integer.toString(searchResponse.getPropertiesCount()));
-		String checkInDate = searchParams.getCheckInDate().toString(PROP_DATE_FORMAT);
 		internalSetHotelDateProps(s, searchParams);
 
 		// Evars
@@ -2008,6 +2020,15 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(context, pageName).track();
 	}
 
+	private static void internalTrackPageLoadEventStandard(Context context, String pageName, LineOfBusiness lob) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
+		String lobString = getLobString(lob);
+		s.setEvar(2, lobString);
+		s.setProp(2, lobString);
+		s.track();
+	}
+
 	private static void internalTrackPageLoadEventPriceChange(Context context, String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventPriceChange(context, pageName).track();
@@ -2074,6 +2095,10 @@ public class OmnitureTracking {
 		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
 		s.setEvar(5, window);
 		s.setProp(5, window);
+	}
+
+	private static String getLobString(LineOfBusiness lob) {
+		return (lob == LineOfBusiness.HOTELS ? "hotels" : "flights");
 	}
 
 	private static void addStandardFields(Context context, ADMS_Measurement s) {
