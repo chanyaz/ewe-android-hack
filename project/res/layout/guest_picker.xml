@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@drawable/ic_traveler_minus" />
+            android:src="@drawable/ic_traveler_minus_btn" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/adult_count_text"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@drawable/ic_traveler_plus" />
+            android:src="@drawable/ic_traveler_plus_btn" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@drawable/ic_traveler_minus" />
+            android:src="@drawable/ic_traveler_minus_btn" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/child_count_text"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@drawable/ic_traveler_plus" />
+            android:src="@drawable/ic_traveler_plus_btn" />
     </LinearLayout>
 
     <include layout="@layout/include_child_age_selectors" />
