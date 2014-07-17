@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -92,8 +93,12 @@ public class AirportFilterWidget extends TextView {
 		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() >= airportsAll.size()) {
 			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mLegNumber, mDepartureAirport);
-			sb.append(loc.getDestinationId() + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
-			sb.append(loc.getDescription(), FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
+			if (!TextUtils.isEmpty(loc.getDestinationId())) {
+				sb.append(loc.getDestinationId() + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			}
+			if (!TextUtils.isEmpty(loc.getDescription())) {
+				sb.append(loc.getDescription(), FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
+			}
 		}
 		else {
 			sb.append(StrUtils.joinWithoutEmpties(", ", airportsInFilter),
