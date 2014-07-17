@@ -1323,6 +1323,8 @@
     <string name="add_traveler_number_TEMPLATE">Traveler %1$s details</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
+    <!-- Add adult traveler details label -->
+    <string name="add_adult">Adult details</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Child %1$s details</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->

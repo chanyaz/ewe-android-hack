@@ -139,7 +139,7 @@ public class AccountButton extends LinearLayout {
 		Resources res = getResources();
 		if (isTablet) {
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.VISIBLE);
+			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.INVISIBLE);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tablet_checkout_expedia_logo, 0, 0, 0);
 		}
 		else if (ExpediaBookingApp.IS_EXPEDIA) {
