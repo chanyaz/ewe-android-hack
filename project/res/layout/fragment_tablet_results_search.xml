@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="64dp"
                 android:paddingLeft="16dp"
-                android:paddingTop="24dp"
+                android:paddingTop="20dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="32dp"
                 android:background="@drawable/bg_tablet_search_results_popup">
@@ -169,7 +169,7 @@
                 android:drawablePadding="8dp"
                 android:drawableLeft="@drawable/ic_tablet_search_results_popup_done_check"
                 android:paddingLeft="16dp"
-                android:paddingTop="24dp"
+                android:paddingTop="20dp"
                 android:paddingRight="24dp"
                 android:paddingBottom="32dp"
                 android:text="@string/done"
