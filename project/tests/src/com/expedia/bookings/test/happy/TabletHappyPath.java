@@ -6,24 +6,23 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
-import com.expedia.bookings.test.utils.SpoonScreenshotUtils;
 import com.expedia.bookings.test.utils.TabletTestCase;
 
 public class TabletHappyPath extends TabletTestCase {
 
 	public void testBookHotel() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
+		screenshot("Search_Results");
 
 		Results.swipeUpHotelList();
 		Results.clickHotelWithName("happy_path");
-		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
+		screenshot("Details");
 		Results.clickAddHotel();
-		SpoonScreenshotUtils.screenshot("Trip_Bucket", getInstrumentation());
+		screenshot("Trip_Bucket");
 		Results.clickBookHotel();
 
 		Checkout.clickOnTravelerDetails();
@@ -32,7 +31,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.enterEmailAddress("aaa@aaa.com");
 		Common.closeSoftKeyboard(Checkout.firstName());
-		SpoonScreenshotUtils.screenshot("Checkout_Traveler_Entered", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
@@ -42,21 +41,21 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
 		Common.closeSoftKeyboard(Checkout.postalCode());
-		SpoonScreenshotUtils.screenshot("Checkout_Payment_Entered", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Slide_To_Purchase", getInstrumentation());
+		screenshot("Slide_To_Purchase");
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		Checkout.clickBookButton();
 
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		Checkout.clickDoneBooking();
 	}
 
 	public void testBookFlight() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
@@ -69,14 +68,14 @@ public class TabletHappyPath extends TabletTestCase {
 		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		Results.clickDate(startDate, null);
-		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
+		screenshot("Search");
 		Results.clickSearchPopupDone();
 		Results.swipeUpFlightList();
-		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
+		screenshot("Search_Results");
 		Results.clickFlightAtIndex(1);
-		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
+		screenshot("Details");
 		Results.clickAddFlight();
-		SpoonScreenshotUtils.screenshot("Trip_Bucket", getInstrumentation());
+		screenshot("Trip_Bucket");
 		Results.clickBookFlight();
 
 		Checkout.clickOnTravelerDetails();
@@ -86,7 +85,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterEmailAddress("aaa@aaa.com");
 		Common.closeSoftKeyboard(Checkout.emailAddress());
 		Checkout.enterDateOfBirth(1970, 1, 1);
-		SpoonScreenshotUtils.screenshot("Checkout_Traveler_Entered", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
@@ -100,21 +99,21 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterState("WI");
 		Checkout.enterPostalCode("53704");
 		Common.closeSoftKeyboard(Checkout.firstName());
-		SpoonScreenshotUtils.screenshot("Checkout_Payment_Entered", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Slide_To_Purchase", getInstrumentation());
+		screenshot("Slide_To_Purchase");
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		Checkout.clickBookButton();
 
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		Checkout.clickDoneBooking();
 	}
 
 	public void testBookHotelAndFlight() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
@@ -128,26 +127,26 @@ public class TabletHappyPath extends TabletTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		Results.clickDate(startDate, endDate);
-		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
+		screenshot("Search");
 		Results.clickSearchPopupDone();
 
 		// Add Hotel to trip bucket
 		Results.swipeUpHotelList();
-		SpoonScreenshotUtils.screenshot("Hotel_Search_Results", getInstrumentation());
+		screenshot("Hotel_Search_Results");
 		Results.clickHotelWithName("happy_path");
-		SpoonScreenshotUtils.screenshot("Hotel_Details", getInstrumentation());
+		screenshot("Hotel_Details");
 		Results.clickAddHotel();
 
 		// Add Flight to trip bucket
 		Results.swipeUpFlightList();
-		SpoonScreenshotUtils.screenshot("Flight_Search_Results", getInstrumentation());
+		screenshot("Flight_Search_Results");
 		Results.clickFlightAtIndex(1);
-		SpoonScreenshotUtils.screenshot("Flight_Details", getInstrumentation());
+		screenshot("Flight_Details");
 		Results.clickAddFlight();
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
 
-		SpoonScreenshotUtils.screenshot("Trip_Bucket", getInstrumentation());
+		screenshot("Trip_Bucket");
 
 		// Book Hotel
 		Results.clickBookHotel();
@@ -158,7 +157,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.enterEmailAddress("aaa@aaa.com");
 		Common.closeSoftKeyboard(Checkout.firstName());
-		SpoonScreenshotUtils.screenshot("Checkout_Traveler_Entered", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
@@ -168,13 +167,13 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
 		Common.closeSoftKeyboard(Checkout.postalCode());
-		SpoonScreenshotUtils.screenshot("Checkout_Payment_Entered", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Slide_To_Purchase", getInstrumentation());
+		screenshot("Slide_To_Purchase");
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		Checkout.clickBookButton();
 
 		Checkout.clickBookNextItem();
@@ -187,7 +186,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterEmailAddress("aaa@aaa.com");
 		Common.closeSoftKeyboard(Checkout.emailAddress());
 		Checkout.enterDateOfBirth(1970, 1, 1);
-		SpoonScreenshotUtils.screenshot("Checkout_Traveler_Entered", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
@@ -200,17 +199,17 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterCity("Madison");
 		Checkout.enterState("WI");
 		Common.closeSoftKeyboard(Checkout.creditCardNumber());
-		SpoonScreenshotUtils.screenshot("Checkout_Payment_Entered", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		// Postal code should come from hotel entry
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Slide_To_Purchase", getInstrumentation());
+		screenshot("Slide_To_Purchase");
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		Checkout.clickBookButton();
 
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		Checkout.clickDoneBooking();
 	}
 }

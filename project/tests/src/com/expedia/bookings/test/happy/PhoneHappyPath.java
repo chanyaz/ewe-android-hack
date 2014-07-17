@@ -20,11 +20,10 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsSc
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.PhoneTestCase;
-import com.expedia.bookings.test.utils.SpoonScreenshotUtils;
 
 public class PhoneHappyPath extends PhoneTestCase {
 	public void testBookFlight() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
@@ -32,13 +31,13 @@ public class PhoneHappyPath extends PhoneTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		FlightsSearchScreen.clickDate(startDate, endDate);
-		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
+		screenshot("Search");
 		FlightsSearchScreen.clickSearchButton();
-		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
+		screenshot("Search_Results");
 		FlightsSearchResultsScreen.clickListItem(1);
-		SpoonScreenshotUtils.screenshot("Details1", getInstrumentation());
+		screenshot("Details1");
 		FlightLegScreen.clickSelectFlightButton();
-		SpoonScreenshotUtils.screenshot("Details2", getInstrumentation());
+		screenshot("Details2");
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
 		FlightsCheckoutScreen.clickCheckoutButton();
@@ -55,7 +54,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		catch (Exception e) {
 			CommonTravelerInformationScreen.clickDoneString();
 		}
-		SpoonScreenshotUtils.screenshot("Checkout_Traveler_Entered", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
@@ -64,7 +63,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
 		BillingAddressScreen.typeTextPostalCode("94105");
-		SpoonScreenshotUtils.screenshot("Checkout_Payment_Entered", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		BillingAddressScreen.clickNextButton();
 
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
@@ -77,17 +76,17 @@ public class PhoneHappyPath extends PhoneTestCase {
 		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
 		CardInfoScreen.clickOnDoneButton();
 
-		SpoonScreenshotUtils.screenshot("Slide_To_Purchase", getInstrumentation());
+		screenshot("Slide_To_Purchase");
 		FlightsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		CVVEntryScreen.clickBookButton();
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		FlightsConfirmationScreen.clickDoneButton();
 	}
 
 	public void testBookHotel() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
@@ -97,14 +96,14 @@ public class PhoneHappyPath extends PhoneTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(startDate, endDate);
-		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
+		screenshot("Search");
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
+		screenshot("Search_Results");
 		HotelsSearchScreen.clickListItem(1);
-		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
+		screenshot("Details");
 		HotelsDetailsScreen.clickSelectButton();
-		SpoonScreenshotUtils.screenshot("RoomsAndRates", getInstrumentation());
+		screenshot("RoomsAndRates");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		HotelsCheckoutScreen.clickCheckoutButton();
 
@@ -114,7 +113,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		CommonTravelerInformationScreen.enterLastName("Auto");
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
 		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
-		SpoonScreenshotUtils.screenshot("Checkout_Traveler_Entered", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		CommonTravelerInformationScreen.clickDoneButton();
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
@@ -126,15 +125,15 @@ public class PhoneHappyPath extends PhoneTestCase {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextPostalCode("94015");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		SpoonScreenshotUtils.screenshot("Checkout_Payment_Entered", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		CardInfoScreen.clickOnDoneButton();
 
-		SpoonScreenshotUtils.screenshot("Slide_To_Purchase", getInstrumentation());
+		screenshot("Slide_To_Purchase");
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		CVVEntryScreen.clickBookButton();
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		HotelsConfirmationScreen.clickDoneButton();
 	}
 }
