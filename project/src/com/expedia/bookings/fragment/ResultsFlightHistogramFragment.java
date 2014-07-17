@@ -57,6 +57,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	public void setSelectedDepartureDate(LocalDate departureDate) {
 		if (mAdapter != null) {
 			mAdapter.setSelectedDepartureDate(departureDate);
+			mList.smoothScrollToPosition(0);
 		}
 	}
 

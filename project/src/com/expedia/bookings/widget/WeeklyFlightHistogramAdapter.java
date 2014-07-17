@@ -126,24 +126,22 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		getWeeklyHistograms();
-		if (mWeeklyHistograms != null) {
-			return mWeeklyHistograms.size();
-		}
-		return 0;
+		return mWeeklyHistograms == null ? 0 : mWeeklyHistograms.size();
 	}
 
 	@Override
 	public WeeklyFlightHistogram getItem(int position) {
 		getWeeklyHistograms();
-		if (mWeeklyHistograms != null && mWeeklyHistograms.size() > 0 && mWeeklyHistograms.size() > position) {
-			return mWeeklyHistograms.get(position);
-		}
-		return null;
+		return mWeeklyHistograms == null
+			|| mWeeklyHistograms.size() == 0
+			|| position >= mWeeklyHistograms.size()
+			? null
+			: mWeeklyHistograms.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return position;
+		return getItem(position).getWeekStart().toDateTimeAtStartOfDay().getMillis();
 	}
 
 	@Override

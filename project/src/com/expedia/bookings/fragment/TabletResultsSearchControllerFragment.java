@@ -405,9 +405,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 
 			if (mGdeFragment != null) {
-				mGdeFragment
-					.setGdeInfo(mLocalParams.getOriginLocation(true), mLocalParams.getDestinationLocation(true),
-						startDate);
+				mGdeFragment.setGdeInfo(
+					mLocalParams.getOriginLocation(true),
+					mLocalParams.getDestinationLocation(true),
+					startDate);
 			}
 
 			if (mLocalParams.getStartDate() == null && startDate != null) {

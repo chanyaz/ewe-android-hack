@@ -83,6 +83,10 @@ public class HistogramView extends View {
 				data[i] = max == min ? 1f
 					: (float) (gram.getMinPrice() - min) / (max - min);
 
+				// Return trips are sometimes outside the range (shrug)
+				data[i] = Math.min(1f, data[i]);
+				data[i] = Math.max(0f, data[i]);
+
 				// Adjust the range from 20% - 100% to look better
 				data[i] = 0.8f * data[i] + 0.2f;
 			}
