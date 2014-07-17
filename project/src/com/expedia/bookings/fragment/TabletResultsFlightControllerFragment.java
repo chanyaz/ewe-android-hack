@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsState;
+import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -90,6 +91,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Other
 	private View mAddToTripShadeView;
+	private View mShadeView;
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
 		getBaseState(), this);
@@ -148,6 +150,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mFlightLegsC = Ui.findView(view, R.id.flight_leg_container);
 		mSearchErrorC = Ui.findView(view, R.id.search_error_container);
 		mAddToTripShadeView = Ui.findView(view, R.id.flights_add_to_trip_shade);
+		mShadeView = Ui.findView(view, R.id.overview_shade);
 
 		mVisibilityControlledViews.add(mFlightMapC);
 		mVisibilityControlledViews.add(mAddToTripC);
@@ -579,6 +582,47 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					setFlightsState(mFlightsStateManager.getState(), false);
 				}
 			}
+		}
+	};
+
+	/*
+	 * RESULTS SEARCH STATE LISTENER
+	 */
+
+	public StateListenerHelper<ResultsSearchState> getResultsSearchStateListener() {
+		return mResultsSearchStateHelper;
+	}
+
+	private StateListenerHelper<ResultsSearchState> mResultsSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
+		@Override
+		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+				mShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mShadeView.setVisibility(View.VISIBLE);
+				mFlightLegsC.setBlockNewEventsEnabled(true);
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
+			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+				mShadeView.setAlpha(percentage);
+			}
+			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
+				mShadeView.setAlpha(1f - percentage);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsSearchState state) {
+			mShadeView.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.GONE);
+			mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
+			mFlightLegsC.setBlockNewEventsEnabled(state.showsSearchControls() ? true : false);
 		}
 	};
 
