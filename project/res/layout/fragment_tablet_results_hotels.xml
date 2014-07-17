@@ -73,11 +73,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <View
-        android:id="@+id/overview_shade"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="#66000000" />
-
 </FrameLayout>

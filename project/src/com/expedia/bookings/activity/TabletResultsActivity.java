@@ -95,6 +95,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private ViewGroup mHotelC;
 	private ViewGroup mSearchC;
 
+	private View mShadeView;
+
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
 	private TabletResultsFlightControllerFragment mFlightsController;
@@ -129,6 +131,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
 		mSearchC = Ui.findView(this, R.id.full_width_search_controller_container);
+
+		mShadeView = Ui.findView(this, R.id.overview_shade);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -883,6 +887,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
+
+			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+				mShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mShadeView.setVisibility(View.VISIBLE);
+			}
 		}
 
 		@Override
@@ -915,6 +924,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else if (isActionBarDisappearing(stateOne, stateTwo)) {
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
 			}
+
+			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+				mShadeView.setAlpha(percentage);
+			}
+			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
+				mShadeView.setAlpha(1f - percentage);
+			}
 		}
 
 		@Override
@@ -923,6 +939,14 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mFlightsController.getResultsSearchStateListener().onStateTransitionEnd(stateOne, stateTwo);
 			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+
+
+			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+				mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
+				mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 		}
 
@@ -940,6 +964,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else {
 				mBackgroundImageFrag.setBlur(false);
 			}
+
+			mShadeView.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.GONE);
 		}
 
 		private boolean isActionBarAppearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {

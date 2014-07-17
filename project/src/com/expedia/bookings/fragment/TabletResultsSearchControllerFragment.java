@@ -112,7 +112,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mPopupDoneTv;
 	private TextView mPopupStartTv;
 	private TextView mPopupEndTv;
-	private View mPopupShade;
 
 	//Uncommited data
 	private SearchParams mLocalParams;
@@ -174,7 +173,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
 		mPopupStartTv = Ui.findView(view, R.id.popup_start_date);
 		mPopupEndTv = Ui.findView(view, R.id.popup_end_date);
-		mPopupShade = Ui.findView(view, R.id.search_popup_shade);
 
 		mPopupDoneTv.setOnClickListener(mSearchNowClick);
 
@@ -592,7 +590,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			// Popup stuff
 			if (stateTwo.showsSearchControls()) {
 				mPopupC.setVisibility(View.VISIBLE);
-				mPopupShade.setVisibility(View.VISIBLE);
 			}
 
 			if (stateTwo == ResultsSearchState.CALENDAR) {
@@ -853,7 +850,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mPopupContentC.setScaleX(percentage);
 			mPopupContentC.setScaleY(percentage);
 
-			mPopupShade.setAlpha(percentage);
 			mSearchBarC.setAlpha(1f - percentage);
 		}
 
@@ -872,7 +868,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			// If the search controls are active, that means the popup is showing and we want to hide
 			// the search bar!
-			mPopupShade.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.GONE);
 			mSearchBarC.setVisibility(state.showsSearchControls() ? View.INVISIBLE : View.VISIBLE);
 
 			mBottomCenterC.setVisibility(mCalC.getVisibility());

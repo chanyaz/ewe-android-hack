@@ -43,13 +43,6 @@
         android:background="#66000000"
         android:visibility="invisible" />
 
-    <View
-        android:id="@+id/overview_shade"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#66000000"
-        android:visibility="gone" />
-
     <!-- ADD TO TRIP -->
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/flights_add_to_trip"

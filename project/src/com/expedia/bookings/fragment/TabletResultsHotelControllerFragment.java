@@ -95,7 +95,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
 	private FrameLayoutTouchController mMapDimmer;
-	private View mShade;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;
@@ -162,7 +161,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
 		mMapDimmer = Ui.findView(view, R.id.bg_map_dimmer);
-		mShade = Ui.findView(view, R.id.overview_shade);
 
 		// Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
@@ -942,20 +940,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
-				mShade.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-				mShade.setVisibility(View.VISIBLE);
 				mHotelListC.setBlockNewEventsEnabled(true);
 			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
-				mShade.setAlpha(percentage);
-			}
-			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
-				mShade.setAlpha(1f - percentage);
-			}
+
 		}
 
 		@Override
@@ -965,8 +956,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-			mShade.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.GONE);
-			mShade.setLayerType(View.LAYER_TYPE_NONE, null);
 			mHotelListC.setBlockNewEventsEnabled(state.showsSearchControls() ? true : false);
 		}
 	};
