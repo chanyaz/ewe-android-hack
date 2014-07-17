@@ -312,6 +312,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
 		mTravBtn.setText(travStr);
 
+
 		if (mGuestsFragment != null) {
 			mPopupTravTv.setText(mGuestsFragment.getHeaderString());
 		}
@@ -598,6 +599,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			if (stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 				mPopupTravTv.setVisibility(View.VISIBLE);
+				bindTravBtn();
 			}
 
 			if (stateTwo == ResultsSearchState.DEFAULT) {
@@ -729,6 +731,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mGdeFragment.setGdeInfo(mLocalParams.getOriginLocation(true), mLocalParams.getDestinationLocation(true),
 						mLocalParams.getStartDate());
 				}
+			}
+
+			if (state == ResultsSearchState.TRAVELER_PICKER) {
+				bindTravBtn();
 			}
 
 			if (state != ResultsSearchState.CALENDAR && state != ResultsSearchState.TRAVELER_PICKER) {
