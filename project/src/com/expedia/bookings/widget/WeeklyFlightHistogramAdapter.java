@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -26,7 +25,6 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 	List<FlightHistogram> mHistograms = null;
 	List<WeeklyFlightHistogram> mWeeklyHistograms = null;
 
-	private int mSelectedDeparturePosition = -1;
 	private LocalDate mSelectedDepartureDate;
 
 	public WeeklyFlightHistogramAdapter(Context context) {
@@ -38,13 +36,6 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	private void unSetSelectedDeparturePosition() {
-		if (mSelectedDeparturePosition != -1) {
-			mSelectedDeparturePosition = -1;
-			notifyDataSetChanged();
-		}
-	}
-
 	@Override
 	public void notifyDataSetChanged() {
 		mHistograms = null;
@@ -54,27 +45,8 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 	}
 
 	public void setSelectedDepartureDate(LocalDate date) {
-		// Find the selected position
-		if (date != null) {
-			mSelectedDepartureDate = null;
-			mHistograms = null;
-			List<FlightHistogram> grams = getHistograms();
-			mSelectedDepartureDate = date;
-			if (grams != null) {
-				for (int i = 0; i < grams.size(); i++) {
-					if (grams.get(i).getKeyDate().equals(date)) {
-						if (mSelectedDeparturePosition != i) {
-							mSelectedDeparturePosition = i;
-							notifyDataSetChanged();
-						}
-						return;
-					}
-				}
-			}
-		}
 		mSelectedDepartureDate = date;
-		unSetSelectedDeparturePosition();
-
+		notifyDataSetChanged();
 	}
 
 	private void processData() {
@@ -89,15 +61,18 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 		if (mWeeklyHistograms == null) {
 			mWeeklyHistograms = new ArrayList<>();
 
-			getHistograms();
+			mHistograms = getHistograms();
 
 			if (mHistograms != null) {
-				LocalDate startDate = LocalDate.now();
-				LocalDate endDate = startDate.plusDays(mContext.getResources().getInteger(R.integer.calendar_max_selectable_date_range));
+				LocalDate startDate = mSelectedDepartureDate == null ? LocalDate.now() : mSelectedDepartureDate;
+				LocalDate endDate = LocalDate.now().plusDays(mContext.getResources().getInteger(R.integer.calendar_max_selectable_date_range));
 
 				WeeklyFlightHistogram current = new WeeklyFlightHistogram(startDate);
 				mWeeklyHistograms.add(current);
 				for (FlightHistogram gram : mHistograms) {
+					if (mSelectedDepartureDate != null && gram.getKeyDate().isBefore(mSelectedDepartureDate)) {
+						continue;
+					}
 					while (current.getWeekEnd().isBefore(gram.getKeyDate())) {
 						current = new WeeklyFlightHistogram(current.getWeekEnd().plusDays(1));
 						mWeeklyHistograms.add(current);
@@ -113,31 +88,39 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 		return mWeeklyHistograms;
 	}
 
+	/**
+	 * Returns the FlightHistogramResponse's histograms. If an outbound flight date is selected,
+	 * this will return the inbound flight date histograms instead.
+	 *
+	 * @return
+	 */
 	private List<FlightHistogram> getHistograms() {
-		if (mHistograms == null) {
-			List<FlightHistogram> grams = null;
-			if (mFlightHistogramResponse != null && mFlightHistogramResponse.getFlightHistograms() != null) {
-				grams = mFlightHistogramResponse.getFlightHistograms();
-				if (mSelectedDepartureDate != null) {
-					if (mSelectedDeparturePosition >= 0
-						&& grams.size() > mSelectedDeparturePosition
-						&& grams.get(mSelectedDeparturePosition) != null
-						&& grams.get(mSelectedDeparturePosition).getReturnFlightDateHistograms() != null) {
-						grams = new ArrayList(grams
-							.get(mSelectedDeparturePosition)
-							.getReturnFlightDateHistograms()
-							.values());
-						// They naturally sort based on keydate
-						Collections.sort(grams);
-					}
-					else {
-						grams = new ArrayList<>();
-					}
-				}
-			}
-			mHistograms = grams;
+		if (mHistograms != null) {
+			return mHistograms;
 		}
-		return mHistograms;
+
+		if (mFlightHistogramResponse == null) {
+			// Return null in this case because the data isn't available yet
+			return null;
+		}
+
+		if (mFlightHistogramResponse.getFlightHistograms() == null) {
+			return new ArrayList<>();
+		}
+
+		// No selected departure date (this is the default)
+		if (mSelectedDepartureDate == null) {
+			return mFlightHistogramResponse.getFlightHistograms();
+		}
+
+		// A departure date is selected, get the return trip histograms instead
+		for (FlightHistogram gram : mFlightHistogramResponse.getFlightHistograms()) {
+			if (gram.getKeyDate().equals(mSelectedDepartureDate)) {
+				return gram.getReturnFlightDateHistograms();
+			}
+		}
+
+		return new ArrayList<>();
 	}
 
 	@Override

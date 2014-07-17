@@ -1,5 +1,7 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.joda.time.LocalDate;
@@ -68,8 +70,20 @@ public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 		mReturnFlightDateHistograms = returnFlightDatePrices;
 	}
 
-	public HashMap<String, FlightHistogram> getReturnFlightDateHistograms() {
-		return mReturnFlightDateHistograms;
+	/**
+	 * Thus returns a sorted list of FlightHistogram's for return flights based on this
+	 * FlightHistogram. It purposely returns an empty list if no data is available. Hopefully
+	 * the GDE data will get better.
+	 *
+	 * @return a non-null ArrayList
+	 */
+	public ArrayList<FlightHistogram> getReturnFlightDateHistograms() {
+		if (mReturnFlightDateHistograms == null) {
+			return new ArrayList<>();
+		}
+		ArrayList<FlightHistogram> grams = new ArrayList<>(mReturnFlightDateHistograms.values());
+		Collections.sort(grams);
+		return grams;
 	}
 
 	public String getPriceAsStr() {
