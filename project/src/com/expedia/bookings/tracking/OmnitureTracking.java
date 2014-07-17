@@ -774,6 +774,8 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CONF_ADD_TO_CALENDAR = "App.Flights.Checkout.Confirmation.Add.Calendar";
 	private static final String FLIGHT_CONF_SHARE_EMAIL = "App.Flights.Checkout.Confirmation.Share.Mail";
 
+	private static final String FLIGHT_INFANT_ALERT = "App.Flight.Search.LapAlert";
+
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
 		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
@@ -1172,6 +1174,10 @@ public class OmnitureTracking {
 
 	public static void trackFlightConfirmationShareEmail(Context context) {
 		internalTrackLink(context, FLIGHT_CONF_SHARE_EMAIL);
+	}
+
+	public static void trackFlightInfantDialog(Context context) {
+		createTrackLinkEvent(context, FLIGHT_INFANT_ALERT).track();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

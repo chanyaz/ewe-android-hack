@@ -37,6 +37,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
@@ -867,6 +868,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (!mInfantFrag.isAdded()) {
 				mInfantFrag.show(getFragmentManager(), "infantChooser");
 			}
+			OmnitureTracking.trackFlightInfantDialog(getActivity());
 		}
 	}
 
