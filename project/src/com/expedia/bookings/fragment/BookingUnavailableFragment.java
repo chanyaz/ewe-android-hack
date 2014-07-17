@@ -23,6 +23,7 @@ public class BookingUnavailableFragment extends LobableFragment {
 
 	public static final String TAG = BookingUnavailableFragment.class.getName();
 
+	private View mRootC;
 	private TextView mSoldOutText;
 	private Button mRemoveItemButton;
 	private Button mSelectNewItemButton;
@@ -36,16 +37,16 @@ public class BookingUnavailableFragment extends LobableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_sold_out, container, false);
-		mSoldOutText = Ui.findView(v, R.id.sold_out_text_view);
-		mRemoveItemButton = Ui.findView(v, R.id.remove_sold_out_button);
-		mSelectNewItemButton = Ui.findView(v, R.id.select_new_item_button);
+		mRootC = inflater.inflate(R.layout.fragment_sold_out, container, false);
+		mSoldOutText = Ui.findView(mRootC, R.id.sold_out_text_view);
+		mRemoveItemButton = Ui.findView(mRootC, R.id.remove_sold_out_button);
+		mSelectNewItemButton = Ui.findView(mRootC, R.id.select_new_item_button);
 		mRemoveItemButton.setOnClickListener(mClickListener);
 		mSelectNewItemButton.setOnClickListener(mClickListener);
 		FontCache.setTypeface(mRemoveItemButton, R.id.remove_sold_out_button, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mSelectNewItemButton, R.id.select_new_item_button, FontCache.Font.ROBOTO_LIGHT);
 		updateViews();
-		return v;
+		return mRootC;
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class BookingUnavailableFragment extends LobableFragment {
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
-		if (isAdded()) {
+		if (isAdded() && mRootC != null) {
 			updateViews();
 		}
 	}
