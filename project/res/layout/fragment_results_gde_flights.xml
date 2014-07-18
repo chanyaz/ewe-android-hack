@@ -70,7 +70,6 @@
         android:id="@+id/missing_flight_info_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@color/tablet_white_pane_bg"
         app:svg="@raw/ic_tablet_sold_out_flight"/>
 </FrameLayout>
 

@@ -19,9 +19,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -105,7 +108,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdePriceRangeTv = Ui.findView(mRootC, R.id.flight_histogram_price_range);
 
 		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
-		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
 		mMissingFlightInfo.setVisibility(View.GONE);
 
 		mGdeBack.setOnClickListener(new View.OnClickListener() {
@@ -194,13 +196,23 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	}
 
 	protected void startOrResumeDownload(GdeDownloadFragment frag) {
-		if (frag != null) {
-			//We always pass null for the date here, because the one way search has all the information we need
-			frag.startOrResumeForRoute(mOrigin, mDestination, null);
-			mGdeProgressBar.setVisibility(View.VISIBLE);
-			mGdePriceRangeTv.setVisibility(View.GONE);
-			mMissingFlightInfo.setVisibility(View.GONE);
+		if (frag == null) {
+			return;
 		}
+
+		// No need to bother with doing a GDE search if the origin is missing
+		if (mOrigin == null) {
+			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
+			mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, destination));
+			mMissingFlightInfo.setVisibility(View.VISIBLE);
+			return;
+		}
+
+		//We always pass null for the date here, because the one way search has all the information we need
+		frag.startOrResumeForRoute(mOrigin, mDestination, null);
+		mGdeProgressBar.setVisibility(View.VISIBLE);
+		mGdePriceRangeTv.setVisibility(View.GONE);
+		mMissingFlightInfo.setVisibility(View.GONE);
 	}
 
 	/**
@@ -242,39 +254,58 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	@Override
 	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-		if (type == ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH) {
-			if (response != null && !response.hasErrors()) {
-				Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
-				if (mHistogramFrag != null) {
-					mHistogramFrag.setHistogramData((FlightSearchHistogramResponse) response);
-				}
-				if (mGdePriceRangeTv != null) {
-					int minPrice = (int)(((FlightSearchHistogramResponse) response).getMinPrice());
-					int maxPrice = (int)(((FlightSearchHistogramResponse) response).getMaxPrice());
-					//TODO: more appropriate currency conversion
-					String priceAsString = "$" + minPrice + "-$" + maxPrice;
-					mGdePriceRangeTv.setVisibility(View.VISIBLE);
-					mGdePriceRangeTv.setText(priceAsString);
-				}
+		if (mGdeProgressBar != null) {
+			mGdeProgressBar.setVisibility(View.GONE);
+		}
+		mMissingFlightInfo.setVisibility(View.GONE);
+		mHistogramC.setVisibility(View.GONE);
+
+		if (type != ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH) {
+			return;
+		}
+
+		// Error/unexpected input
+		if (response == null || response.hasErrors()) {
+			if (mHistogramFrag != null) {
+				mHistogramFrag.setHistogramData(null);
+			}
+
+			if (response != null) {
+				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
 			}
 			else {
-				if (mHistogramFrag != null) {
-					mHistogramFrag.setHistogramData(null);
-				}
+				Log.e("FLIGHT_GDE_SEARCH null response");
+			}
 
-				if (response != null) {
-					Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
-				}
-				else {
-					Log.e("FLIGHT_GDE_SEARCH null response");
-				}
+			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
+			mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+			mMissingFlightInfo.setVisibility(View.VISIBLE);
+		}
+
+		// No GDE results or GDE not supported
+		else if (((FlightSearchHistogramResponse) response).getFlightHistograms() == null) {
+			Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
+
+			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
+			mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+			mMissingFlightInfo.setVisibility(View.VISIBLE);
+		}
+
+		// Normal/expected GDE response
+		else {
+			Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
+			if (mHistogramFrag != null) {
+				mHistogramC.setVisibility(View.VISIBLE);
+				mHistogramFrag.setHistogramData((FlightSearchHistogramResponse) response);
 			}
-			if (mGdeProgressBar != null) {
-				mGdeProgressBar.setVisibility(View.GONE);
-			}
-			// Let's show the missing Flight search info if origin is not set.
-			if (mMissingFlightInfo != null && Sp.getParams().getOriginLocation(true) == null) {
-				mMissingFlightInfo.setVisibility(View.VISIBLE);
+			if (mGdePriceRangeTv != null) {
+				int minPrice = (int) (((FlightSearchHistogramResponse) response).getMinPrice());
+				int maxPrice = (int) (((FlightSearchHistogramResponse) response).getMaxPrice());
+				//TODO: more appropriate currency conversion
+				String priceAsString = "$" + minPrice + "-$" + maxPrice;
+				Money.F_NO_DECIMAL
+				mGdePriceRangeTv.setVisibility(View.VISIBLE);
+				mGdePriceRangeTv.setText(priceAsString);
 			}
 		}
 	}
