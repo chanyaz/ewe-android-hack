@@ -151,6 +151,8 @@ public class TabletHappyPath extends TabletTestCase {
 		// Book Hotel
 		Results.clickBookHotel();
 
+		screenshot("Start_Hotel_Checkout");
+
 		Checkout.clickOnTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
@@ -174,11 +176,15 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
 		screenshot("CVV");
+
 		Checkout.clickBookButton();
+		screenshot("Confirmation");
 
 		Checkout.clickBookNextItem();
 
 		// Book Flight
+		screenshot("Start_Flight_Checkout");
+
 		Checkout.clickOnTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
@@ -199,17 +205,18 @@ public class TabletHappyPath extends TabletTestCase {
 		Checkout.enterCity("Madison");
 		Checkout.enterState("WI");
 		Common.closeSoftKeyboard(Checkout.creditCardNumber());
-		screenshot("Checkout_Payment_Entered");
 		// Postal code should come from hotel entry
+		screenshot("Checkout_Payment_Entered");
 		Checkout.clickOnDone();
 
 		screenshot("Slide_To_Purchase");
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
 		screenshot("CVV");
-		Checkout.clickBookButton();
 
+		Checkout.clickBookButton();
 		screenshot("Confirmation");
+
 		Checkout.clickDoneBooking();
 	}
 }
