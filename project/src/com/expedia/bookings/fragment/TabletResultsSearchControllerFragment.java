@@ -630,50 +630,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			else {
 				int dist = mGrid.isLandscape() ? 1 : 2;
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
-					mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
-					mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
-
+					setSearchControlsAnimationPercentage(percentage, dist);
 					setPopupAnimationPercentage(percentage, true);
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
-					mBottomRightC.setTranslationY(percentage * dist * mBottomRightC.getHeight());
-					mBottomCenterC.setTranslationY(percentage * dist * mBottomCenterC.getHeight());
-
+					setSearchControlsAnimationPercentage(1f - percentage, dist);
 					setPopupAnimationPercentage(percentage, false);
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
-					mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
-
+					setSearchControlsAnimationPercentage(percentage, dist);
 					setPopupAnimationPercentage(percentage, true);
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
-					mBottomRightC.setTranslationY(percentage * dist * mBottomRightC.getHeight());
-					mBottomCenterC.setTranslationY(percentage * dist * mBottomCenterC.getHeight());
-
+					setSearchControlsAnimationPercentage(1f - percentage, dist);
 					setPopupAnimationPercentage(percentage, false);
-				}
-				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
-					mTravC.setTranslationX(percentage * mTravC.getWidth());
-					mCalC.setTranslationX((1f - percentage) * -mCalC.getWidth());
-					if (mGrid.isLandscape()) {
-						mGdeC.setTranslationY((1f - percentage) * mBottomCenterC.getHeight());
-					}
-					else {
-						mGdeC.setTranslationX((1f - percentage) * -mBottomCenterC.getWidth());
-						mTravPickWhiteSpace.setTranslationX(percentage * mBottomCenterC.getWidth());
-					}
-				}
-				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
-					mCalC.setTranslationX(percentage * -mCalC.getWidth());
-					if (mGrid.isLandscape()) {
-						mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
-					}
-					else {
-						mGdeC.setTranslationX(percentage * -mBottomCenterC.getWidth());
-						mTravPickWhiteSpace.setTranslationX((1f - percentage) * mBottomCenterC.getWidth());
-					}
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo.showsWaypoint()
 					|| stateOne.showsWaypoint() && stateTwo == ResultsSearchState.DEFAULT) {
@@ -833,6 +803,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		private void setPopupAnimationHardwareLayers(boolean enabled) {
 			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mPopupC.setLayerType(layerType, null);
+		}
+
+		private void setSearchControlsAnimationPercentage(float percentage, int dist) {
+			mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
+			mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
 		}
 
 		private void setPopupAnimationPercentage(float percentage, boolean active) {
