@@ -853,6 +853,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					mSearchErrorFrag.setState(state);
 				}
 			}
+
+			if (state == ResultsFlightsState.CHOOSING_FLIGHT) {
+				if (mFlightLegsFrag.isFirstLeg()) {
+					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
+				}
+			}
 		}
 	};
 
@@ -906,6 +912,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightLegsC.setVisibility(View.VISIBLE);
 
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+
+				// We only want to track Omniture events on a fresh search (i.e. changed params)
+				OmnitureTracking.markTrackNewSearchResultSet(true);
 			}
 			else if (!mFlightSearchDownloadFrag.isDownloadingFlightSearch()) {
 				// If we aren't downloading, and we dont have a valid response, we move to the error state

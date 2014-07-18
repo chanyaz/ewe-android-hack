@@ -33,6 +33,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
@@ -300,6 +301,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mParentFlightSelectedListener != null) {
 			mParentFlightSelectedListener.onFlightSelected(legNumber);
 		}
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(), legNumber);
 	}
 
 	/*
@@ -419,6 +421,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		public void onStateFinalized(ResultsFlightLegState state) {
 			if (getState() == ResultsFlightLegState.LATER_LEG && state == ResultsFlightLegState.ADDING_TO_TRIP) {
 				setState(ResultsFlightLegState.ADDING_TO_TRIP, false);
+			}
+			else if (getState() == ResultsFlightLegState.LATER_LEG) {
+				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1 );
 			}
 		}
 	};

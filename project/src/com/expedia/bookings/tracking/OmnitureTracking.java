@@ -1285,7 +1285,7 @@ public class OmnitureTracking {
 		internalTrackLink(context, NEIGHBORHOOD_FILTER_LINK_NAME);
 	}
 
-	private static String getEvar47String (HotelSearchParams params) {
+	private static String getEvar47String(HotelSearchParams params) {
 		StringBuilder sb = new StringBuilder("HOT|A");
 		sb.append(params.getNumAdults());
 		sb.append("|C");
@@ -2367,7 +2367,10 @@ public class OmnitureTracking {
 		}
 
 		str += params.getNumAdults();
-		str += "|C0";
+		str += "|C";
+		str += params.getNumberOfSeatedChildren();
+		str += "|L";
+		str += (params.getNumChildren() - params.getNumberOfSeatedChildren());
 
 		return str;
 	}
