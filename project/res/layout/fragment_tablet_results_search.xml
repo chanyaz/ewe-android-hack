@@ -117,7 +117,8 @@
 
                         <EditText
                             android:id="@+id/popup_start_date"
-                            style="@style/V2.Widget.TextView.TabletSearch.PopupFakeEditText" />
+                            style="@style/V2.Widget.TextView.TabletSearch.PopupFakeEditText"
+                            android:hint="@string/select_dates"/>
 
                     </LinearLayout>
 
