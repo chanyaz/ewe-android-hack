@@ -151,6 +151,10 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		mMap.setMyLocationEnabled(true);
 		mMap.getUiSettings().setZoomControlsEnabled(false);
 
+		if (mIsTablet) {
+			mMap.getUiSettings().setCompassEnabled(false);
+		}
+
 		mMap.setOnMapClickListener(new OnMapClickListener() {
 			public void onMapClick(LatLng point) {
 				if (mListener != null) {
