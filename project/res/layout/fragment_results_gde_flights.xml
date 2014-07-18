@@ -18,15 +18,6 @@
         android:orientation="horizontal"
         android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/flight_histogram_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_weight="0"
-            android:paddingRight="8dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_left_enabled" />
-
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_histogram_header"
             android:layout_width="wrap_content"

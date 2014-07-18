@@ -12,7 +12,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
@@ -22,9 +21,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -50,7 +47,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	private CenteredCaptionedIcon mMissingFlightInfo;
 	private TextView mGdeHeaderTv;
-	private ImageView mGdeBack;
 	private ProgressBar mGdeProgressBar;
 	private TextView mGdePriceRangeTv;
 
@@ -103,19 +99,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mRootC = inflater.inflate(R.layout.fragment_results_gde_flights, container, false);
 		mHistogramC = Ui.findView(mRootC, R.id.histogram_container);
 		mGdeHeaderTv = Ui.findView(mRootC, R.id.flight_histogram_header);
-		mGdeBack = Ui.findView(mRootC, R.id.flight_histogram_back);
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
 		mGdePriceRangeTv = Ui.findView(mRootC, R.id.flight_histogram_price_range);
 
 		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
 		mMissingFlightInfo.setVisibility(View.GONE);
-
-		mGdeBack.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setGdeInfo(mOrigin, mDestination, null);
-			}
-		});
 
 		return mRootC;
 	}
@@ -184,11 +172,9 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		if (mRootC != null) {
 			if (departureDate != null) {
-				mGdeBack.setVisibility(View.VISIBLE);
 				mGdeHeaderTv.setText(R.string.when_to_return);
 			}
 			else {
-				mGdeBack.setVisibility(View.GONE);
 				mGdeHeaderTv.setText(R.string.when_to_fly);
 			}
 		}
