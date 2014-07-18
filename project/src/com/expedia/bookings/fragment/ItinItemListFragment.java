@@ -306,11 +306,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	public synchronized void startAddGuestItinActivity() {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
+		OmnitureTracking.trackFindItin(getActivity());
 		startActivity(intent);
 	}
 
 	public synchronized void startLoginActivity() {
 		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
+		OmnitureTracking.trackTabletLoginPageLoad(getActivity());
 		User.signIn(getActivity(), args);
 	}
 

@@ -1321,7 +1321,7 @@ public class OmnitureTracking {
 
 	private static final String CHECKOUT_FLIGHT_INFO_TEMPLATE = "App.Flight.Checkout";
 	private static final String CHECKOUT_HOTEL_INFO_TEMPLATE = "App.Hotel.Checkout";
-
+	private static final String LOGIN_PAGELOAD  = "App.Account.Login";
 
 	private static final String getBase(boolean isFlights) {
 		return isFlights ? CHECKOUT_FLIGHT_INFO_TEMPLATE : CHECKOUT_HOTEL_INFO_TEMPLATE;
@@ -1388,6 +1388,10 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackTabletLoginPageLoad(Context context) {
+		internalTrackPageLoadEventStandard(context, LOGIN_PAGELOAD);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Samsung Wallet Click Tracking
 	//
@@ -1430,6 +1434,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
+	private static final String ITIN_FIND = "App.Itinerary.Find";
 	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
@@ -1458,6 +1463,10 @@ public class OmnitureTracking {
 
 	public static void trackItinEmpty(Context context) {
 		internalTrackPageLoadEventStandard(context, ITIN_EMPTY);
+	}
+
+	public static void trackFindItin(Context context) {
+		internalTrackPageLoadEventStandard(context, ITIN_FIND);
 	}
 
 	/**
