@@ -2,13 +2,13 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightHistogram;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 
 /**
@@ -72,7 +72,10 @@ public class HistogramView extends View {
 	 * @param max     Global price maximum (across all dates)
 	 * @param flights
 	 */
-	public void setData(float min, float max, WeeklyFlightHistogram flights) {
+	public void setData(Money min, Money max, WeeklyFlightHistogram flights) {
+		float fMin = min == null ? 0f : min.getAmount().floatValue();
+		float fMax = max == null ? 0f : max.getAmount().floatValue();
+
 		float[] data = new float[7];
 		for (int i = 0; i < 7; i++) {
 			FlightHistogram gram = flights.get(i);
@@ -80,12 +83,11 @@ public class HistogramView extends View {
 				data[i] = 0f;
 			}
 			else {
-				data[i] = max == min ? 1f
-					: (float) (gram.getMinPrice() - min) / (max - min);
+				float fGram = gram.getMinPrice().getAmount().floatValue();
+				data[i] = fMax == fMin ? 1f : (fGram - fMin) / (fMax - fMin);
 
 				// Return trips are sometimes outside the range (shrug)
-				data[i] = Math.min(1f, data[i]);
-				data[i] = Math.max(0f, data[i]);
+				data[i] = Math.max(0f, Math.min(1f, data[i]));
 
 				// Adjust the range from 20% - 100% to look better
 				data[i] = 0.8f * data[i] + 0.2f;

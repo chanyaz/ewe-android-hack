@@ -133,7 +133,6 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 	public WeeklyFlightHistogram getItem(int position) {
 		getWeeklyHistograms();
 		return mWeeklyHistograms == null
-			|| mWeeklyHistograms.size() == 0
 			|| position >= mWeeklyHistograms.size()
 			? null
 			: mWeeklyHistograms.get(position);
@@ -159,9 +158,7 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			dateTv.setDates(week.getWeekStart(), week.getWeekEnd());
 
 			// relative width
-			float minPrice = (float) mFlightHistogramResponse.getMinPrice();
-			float maxPrice = (float) mFlightHistogramResponse.getMaxPrice();
-			histogram.setData(minPrice, maxPrice, week);
+			histogram.setData(mFlightHistogramResponse.getMinPrice(), mFlightHistogramResponse.getMaxPrice(), week);
 		}
 		return row;
 	}

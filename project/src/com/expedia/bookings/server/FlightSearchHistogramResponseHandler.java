@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
+import com.expedia.bookings.data.Money;
 import com.mobiata.android.Log;
 
 public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<FlightSearchHistogramResponse> {
@@ -24,7 +25,6 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 		FlightSearchHistogramResponse histogramResponse = new FlightSearchHistogramResponse();
 
 		try {
-
 			JSONArray flightsJson = response.getJSONArray("flights");
 			JSONObject histogramJson = response.getJSONObject("histogram");
 			JSONArray entries = histogramJson.getJSONArray("entries");
@@ -37,6 +37,12 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 				String depDateStr = fjson.optString("departDate");
 				String retDateStr = fjson.optString("returnDate");
 				Double perPsgPrice = fjson.optDouble("perPsgrPrice", 0);
+				String currency = fjson.optString("currency");
+
+				Money perPsgMoney = new Money();
+				perPsgMoney.setAmount(perPsgPrice);
+				perPsgMoney.setCurrency(currency);
+
 				if (!TextUtils.isEmpty(depDateStr) && !TextUtils.isEmpty(retDateStr) && perPsgPrice != 0) {
 					//If we dont have any return date/histograms for this start date, lets add a new entry
 					if (!returnFlightPrices.containsKey(depDateStr)) {
@@ -52,24 +58,23 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 					FlightHistogram gram = returnFlightPrices.get(depDateStr).get(retDateStr);
 					if (gram.getCount() == 0) {
 						gram.setKeyDate(LocalDate.parse(retDateStr));
-						gram.setPriceAsStr("" + perPsgPrice);
-						gram.setMinPrice(perPsgPrice.floatValue());
-						gram.setMaxPrice(perPsgPrice.floatValue());
+						gram.setMinPrice(perPsgMoney);
+						gram.setMaxPrice(perPsgMoney);
 					}
 					else {
-						if (perPsgPrice < gram.getMinPrice()) {
-							gram.setMinPrice(perPsgPrice);
-							gram.setPriceAsStr("" + perPsgPrice);
+						if (perPsgMoney.compareTo(gram.getMinPrice()) < 0) {
+							gram.setMinPrice(perPsgMoney);
 						}
-						if (perPsgPrice > gram.getMaxPrice()) {
-							gram.setMaxPrice(perPsgPrice.floatValue());
+						if (perPsgMoney.compareTo(gram.getMaxPrice()) > 0) {
+							gram.setMaxPrice(perPsgMoney);
 						}
 					}
 					gram.setCount(gram.getCount() + 1);
 				}
 			}
 
-			//We add the histogram data to the response
+			// We add the histogram data to the response
+			String currency = histogramJson.optString("currency");
 			List<FlightHistogram> histograms = new ArrayList<FlightHistogram>();
 			for (int i = 0; i < entries.length(); i++) {
 				JSONObject entryJson = entries.getJSONObject(i);
@@ -81,14 +86,10 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 				histogram.setKeyDate(LocalDate.parse(dateKey));
 				histogram.setCount(entryJson.getInt("count"));
 
-				// TODO better money parsing once API sends currency information
-				String minStr = entryJson.getString("min");
-				if (minStr.contains(".")) {
-					minStr = minStr.split("\\.", 0)[0];
-				}
-				histogram.setPriceAsStr(minStr);
-
-				histogram.setMinPrice(entryJson.getDouble("min"));
+				Money minPrice = new Money();
+				minPrice.setAmount(entryJson.getDouble("min"));
+				minPrice.setCurrency(currency);
+				histogram.setMinPrice(minPrice);
 
 				histograms.add(histogram);
 			}

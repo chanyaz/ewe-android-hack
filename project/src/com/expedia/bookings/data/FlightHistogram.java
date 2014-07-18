@@ -13,13 +13,9 @@ public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 
 	private LocalDate mKeyDate;
 	private int mCount;
-	private float mTotalPrice;
-	private double mMinPrice;
-	private float mMaxPrice;
+	private Money mMinPrice;
+	private Money mMaxPrice;
 	private HashMap<String, FlightHistogram> mReturnFlightDateHistograms;
-
-	// TODO priceAsStr is temporary!
-	private String mPriceAsStr;
 
 	public LocalDate getKeyDate() {
 		return mKeyDate;
@@ -37,27 +33,19 @@ public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 		mCount = count;
 	}
 
-	public float getTotalPrice() {
-		return mTotalPrice;
-	}
-
-	public void setTotalPrice(float totalPrice) {
-		mTotalPrice = totalPrice;
-	}
-
-	public double getMinPrice() {
+	public Money getMinPrice() {
 		return mMinPrice;
 	}
 
-	public void setMinPrice(double minPrice) {
+	public void setMinPrice(Money minPrice) {
 		mMinPrice = minPrice;
 	}
 
-	public float getMaxPrice() {
+	public Money getMaxPrice() {
 		return mMaxPrice;
 	}
 
-	public void setMaxPrice(float maxPrice) {
+	public void setMaxPrice(Money maxPrice) {
 		mMaxPrice = maxPrice;
 	}
 
@@ -84,14 +72,6 @@ public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 		ArrayList<FlightHistogram> grams = new ArrayList<>(mReturnFlightDateHistograms.values());
 		Collections.sort(grams);
 		return grams;
-	}
-
-	public String getPriceAsStr() {
-		return mPriceAsStr;
-	}
-
-	public void setPriceAsStr(String price) {
-		mPriceAsStr = "$" + price;
 	}
 
 	// TODO better JSONable implementation once types are set

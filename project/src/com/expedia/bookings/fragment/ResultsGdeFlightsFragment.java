@@ -299,13 +299,18 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				mHistogramFrag.setHistogramData((FlightSearchHistogramResponse) response);
 			}
 			if (mGdePriceRangeTv != null) {
-				int minPrice = (int) (((FlightSearchHistogramResponse) response).getMinPrice());
-				int maxPrice = (int) (((FlightSearchHistogramResponse) response).getMaxPrice());
-				//TODO: more appropriate currency conversion
-				String priceAsString = "$" + minPrice + "-$" + maxPrice;
-				Money.F_NO_DECIMAL
-				mGdePriceRangeTv.setVisibility(View.VISIBLE);
-				mGdePriceRangeTv.setText(priceAsString);
+				Money minMoney = ((FlightSearchHistogramResponse) response).getMinPrice();
+				Money maxMoney = ((FlightSearchHistogramResponse) response).getMaxPrice();
+				if (minMoney != null && maxMoney != null) {
+					String priceAsString = minMoney.getFormattedMoney(Money.F_NO_DECIMAL)
+						+ "-" + maxMoney.getFormattedMoney(Money.F_NO_DECIMAL);
+
+					mGdePriceRangeTv.setVisibility(View.VISIBLE);
+					mGdePriceRangeTv.setText(priceAsString);
+				}
+				else {
+					mGdePriceRangeTv.setVisibility(View.GONE);
+				}
 			}
 		}
 	}

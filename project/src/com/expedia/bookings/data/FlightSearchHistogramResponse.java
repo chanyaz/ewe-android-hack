@@ -21,7 +21,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 
 	// Quartile vars
 	private int mMinIndex, mQ1Index, mMedianIndex, mQ3Index, mMaxIndex;
-	private double mMin, mQ1, mMedian, mQ3, mMax;
+	private Money mMin, mQ1, mMedian, mQ3, mMax;
 
 	// This is defined as 1.5 by the math gods, but we may want to increase if we are throwing out seemingly reasonable prices
 	private static final double IQR_MULTIPLIER = 1.5d;
@@ -35,11 +35,11 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		return mFlightHistograms;
 	}
 
-	public double getMinPrice() {
+	public Money getMinPrice() {
 		return mMin;
 	}
 
-	public double getMaxPrice() {
+	public Money getMaxPrice() {
 		return mMax;
 	}
 
@@ -60,17 +60,17 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		computeQuartiles();
 
 		// Compute IQR
-		double iqr = mQ3 - mQ1;
-		double upperFenceValue = mQ3 + IQR_MULTIPLIER * iqr; // 1.5
+		double iqr = mQ3.getAmount().doubleValue() - mQ1.getAmount().doubleValue();
+		double upperFenceValue = mQ3.getAmount().doubleValue() + IQR_MULTIPLIER * iqr; // 1.5
 
 		// Trash the outliers above the upper fence. We are OK with showing abnormally low prices...
-		List<Double> removed = new LinkedList<Double>();
+		List<Money> removed = new LinkedList<>();
 		Iterator iterator = mFlightHistograms.iterator();
 		FlightHistogram gram;
 		while (iterator.hasNext()) {
 			gram = (FlightHistogram) iterator.next();
-			if (gram.getMinPrice() > upperFenceValue) {
-				removed.add(Double.valueOf(gram.getMinPrice()));
+			if (gram.getMinPrice().getAmount().doubleValue() > upperFenceValue) {
+				removed.add(gram.getMinPrice());
 				iterator.remove();
 			}
 		}
@@ -115,20 +115,14 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	private static final Comparator<FlightHistogram> sDateComparator = new Comparator<FlightHistogram>() {
 		@Override
 		public int compare(FlightHistogram lhs, FlightHistogram rhs) {
-			if (lhs.getKeyDate().isEqual(rhs.getKeyDate())) {
-				return 0;
-			}
-			else {
-				boolean isBefore = lhs.getKeyDate().isBefore(rhs.getKeyDate());
-				return isBefore ? -1 : 1;
-			}
+			return lhs.compareTo(rhs);
 		}
 	};
 
 	private static final Comparator<FlightHistogram> sPriceComparator = new Comparator<FlightHistogram>() {
 		@Override
 		public int compare(FlightHistogram lhs, FlightHistogram rhs) {
-			return (int) (lhs.getMinPrice() - rhs.getMinPrice());
+			return lhs.getMinPrice().compareTo(rhs.getMinPrice());
 		}
 	};
 
