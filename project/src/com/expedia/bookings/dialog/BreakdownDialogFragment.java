@@ -196,8 +196,14 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Taxes & Fees
 		if (originalRate.getTotalSurcharge() != null) {
-			String surcharge = (originalRate.getTotalSurcharge().isZero()) ? context.getString(R.string.included)
-				: originalRate.getTotalSurcharge().getFormattedMoney();
+			String surcharge;
+			if (originalRate.getTaxStatusType() != null && originalRate.getTaxStatusType() == Rate.TaxStatusType.UNKNOWN) {
+				surcharge = context.getString(R.string.unknown);
+			}
+			else {
+				surcharge = (originalRate.getTotalSurcharge().isZero()) ? context.getString(R.string.included)
+					: originalRate.getTotalSurcharge().getFormattedMoney();
+			}
 
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())

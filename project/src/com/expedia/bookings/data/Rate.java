@@ -35,6 +35,12 @@ public class Rate implements JSONable {
 		TOTAL_WITH_MANDATORY_FEES
 	}
 
+	// Tax type to display
+	public enum TaxStatusType {
+		UNKNOWN,
+		ESTIMATED
+	}
+
 	// Common fields between HotelPal and StayHIP
 	private String mRatePlanCode; // In Expedia, this is just rateCode
 	private String mRatePlanName;
@@ -82,6 +88,8 @@ public class Rate implements JSONable {
 	private boolean mHasFreeCancellation = false;
 	private DateTime mFreeCancellationWindowDate;
 	private boolean mNonRefundable = false;
+
+	private TaxStatusType mTaxStatusType;
 
 	private Set<BedType> mBedTypes;
 
@@ -528,7 +536,19 @@ public class Rate implements JSONable {
 		return getDisplayPrice().compareTo(other.getDisplayPrice());
 	}
 
-	//////////////////////////////////////////////////////////////////////////
+	public TaxStatusType getTaxStatusType() {
+		return mTaxStatusType;
+	}
+
+	public void setTaxStatusType(String taxStatusType) {
+		if ("ESTIMATED".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.ESTIMATED;
+		}
+		else if ("UNKNOWN".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.UNKNOWN;
+		}
+	}
+//////////////////////////////////////////////////////////////////////////
 	// Prices to show users
 	//
 	// Unless you're targeting a specific part of the cost (like surcharges),
