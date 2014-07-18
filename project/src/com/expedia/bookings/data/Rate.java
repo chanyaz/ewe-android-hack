@@ -37,6 +37,8 @@ public class Rate implements JSONable {
 
 	// Tax type to display
 	public enum TaxStatusType {
+		NONE,
+		INCLUDED,
 		UNKNOWN,
 		ESTIMATED
 	}
@@ -546,6 +548,12 @@ public class Rate implements JSONable {
 		}
 		else if ("UNKNOWN".equals(taxStatusType)) {
 			mTaxStatusType = TaxStatusType.UNKNOWN;
+		}
+		else if ("INCLUDED".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.INCLUDED;
+		}
+		else if ("NONE".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.NONE;
 		}
 	}
 //////////////////////////////////////////////////////////////////////////
