@@ -108,9 +108,11 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 			OmnitureTracking.trackHotelCouponExpand(getActivity());
 			mCouponDialogFragment = new CouponDialogFragment();
 			mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
+			OmnitureTracking.trackHotelCouponExpand(getActivity());
 			break;
 		}
 		case R.id.coupon_clear: {
+			OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			clearCoupon();
 			break;
 		}

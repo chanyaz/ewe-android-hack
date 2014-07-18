@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -16,8 +13,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
@@ -41,7 +36,6 @@ import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
-import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
@@ -54,6 +48,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -425,14 +420,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(0f);
 				doCreateTrip();
+				OmnitureTracking.trackTabletCheckoutPageLoad(getActivity(), getLob());
 			}
 			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(1f);
+				OmnitureTracking.trackTabletSlideToPurchasePageLoad(getActivity(), getLob());
 			}
 			else if (state == CheckoutState.CVV) {
 				setShowCvvPercentage(1f);
 				setShowReadyForCheckoutPercentage(0f);
+				OmnitureTracking.trackTabletCVVPageLoad(getActivity(), getLob());
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
@@ -440,6 +438,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					setShowReadyForCheckoutPercentage(0f);
 				}
 				startBooking();
+			}
+			else if (state == CheckoutState.CONFIRMATION) {
+				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
 			}
 
 			if (state == CheckoutState.BOOKING) {

@@ -47,6 +47,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.model.TravelerFlowStateTablet;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -390,6 +391,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		addActionable(mPaymentView, new Runnable() {
 			@Override
 			public void run() {
+				OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
 				openPaymentForm();
 			}
 		});
@@ -510,6 +512,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		addActionable(frame, new Runnable() {
 			@Override
 			public void run() {
+				OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
 				openTravelerEntry(travelerNumber);
 			}
 		});

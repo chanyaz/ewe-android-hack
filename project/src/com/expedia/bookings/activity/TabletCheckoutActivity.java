@@ -33,6 +33,7 @@ import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
@@ -159,6 +160,13 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	public void onResume() {
 		super.onResume();
 		mHockeyPuck.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override
