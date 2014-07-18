@@ -432,7 +432,7 @@ public class OmnitureTracking {
 		s.setEvents("event32");
 
 		addStandardFields(context, s);
-		addStandardHotelFields(context, s, Db.getHotelSearch().getSearchParams());
+		addStandardHotelFields(s, Db.getHotelSearch().getSearchParams());
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
@@ -803,13 +803,7 @@ public class OmnitureTracking {
 		eVar30 += ":N";
 		s.setEvar(30, eVar30);
 
-		// products variable, described here: http://confluence/display/Omniture/Product+string+format
-		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
-		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
-		String numTravelers = Integer.toString(Db.getFlightSearch().getSearchParams().getNumAdults());
-		String price = trip.getTotalFare().getAmount().toString();
-
-		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
+		addProducts(s, trip);
 
 		s.setCurrencyCode(trip.getTotalFare().getCurrency());
 		s.setEvents("purchase");
@@ -826,6 +820,16 @@ public class OmnitureTracking {
 		s.setProp(72, orderId);
 
 		s.track();
+	}
+
+	private static void addProducts(ADMS_Measurement s, FlightTrip trip) {
+		// products variable, described here: http://confluence/display/Omniture/Product+string+format
+		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
+		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
+		String numTravelers = Integer.toString(Db.getFlightSearch().getSearchParams().getNumAdults());
+		String price = trip.getTotalFare().getAmount().toString();
+
+		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentCid(Context context) {
@@ -1274,7 +1278,7 @@ public class OmnitureTracking {
 		internalSetHotelDateProps(s, searchParams);
 
 		// Evars
-		addStandardHotelFields(context, s, searchParams);
+		addStandardHotelFields(s, searchParams);
 		s.setEvar(47, getEvar47String(searchParams));
 	}
 
@@ -1312,10 +1316,77 @@ public class OmnitureTracking {
 		return sb.toString();
 	}
 
-	///////////////////////////
-	// Search Results Screen - Flights
+	// Checkout
+	// Calls are similar enough, with only LOB tweaks, so it makes sense to unify this.
+
+	private static final String CHECKOUT_FLIGHT_INFO_TEMPLATE = "App.Flight.Checkout";
+	private static final String CHECKOUT_HOTEL_INFO_TEMPLATE = "App.Hotel.Checkout";
 
 
+	private static final String getBase(boolean isFlights) {
+		return isFlights ? CHECKOUT_FLIGHT_INFO_TEMPLATE : CHECKOUT_HOTEL_INFO_TEMPLATE;
+	}
+
+	public static void trackTabletCheckoutPageLoad(Context context, LineOfBusiness lob) {
+		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
+		String pageName = getBase(isFlights) + ".Info";
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
+		addStandardFields(context, s);
+		if (isFlights) {
+			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
+			s.setEvar(47, getEvar47String(params));
+			addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
+			addStandardFlightFields(s);
+		}
+		else {
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			s.setEvar(47, getEvar47String(params));
+			addProducts(s, Db.getTripBucket().getHotel().getProperty());
+			addStandardHotelFields(s, params);
+		}
+		s.track();
+	}
+
+	public static void trackTabletEditTravelerPageLoad(Context context, LineOfBusiness lob) {
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Edit.Info", false);
+	}
+
+	public static void trackTabletEditPaymentPageLoad(Context context, LineOfBusiness lob) {
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Payment.Info", false);
+	}
+
+	public static void trackTabletSlideToPurchasePageLoad(Context context, LineOfBusiness lob) {
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Payment.SlideToPurchase", false);
+	}
+
+	public static void trackTabletCVVPageLoad(Context context, LineOfBusiness lob) {
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Payment.CID", false);
+	}
+
+	public static void trackTabletConfirmationPageLoad(Context context, LineOfBusiness lob) {
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Confirmation", true);
+	}
+
+
+	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix, boolean includeProductString) {
+		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
+		String pageName = getBase(isFlights) + pageNameSuffix;
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
+		addStandardFields(context, s);
+		if (isFlights) {
+			addStandardFlightFields(s);
+			if (includeProductString) {
+				addProducts(s, Db.getTripBucket().getFlight().getFlightTrip());
+			}
+		}
+		else {
+			addStandardHotelFields(s, Db.getTripBucket().getHotel().getHotelSearchParams());
+			if (includeProductString) {
+				addProducts(s, Db.getTripBucket().getHotel().getProperty());
+			}
+		}
+		s.track();
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Samsung Wallet Click Tracking
@@ -2109,11 +2180,16 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static void addStandardHotelFields(Context context, ADMS_Measurement s, HotelSearchParams searchParams) {
+	private static void addStandardHotelFields(ADMS_Measurement s, HotelSearchParams searchParams) {
 		s.setEvar(2, "hotels");
 		s.setProp(2, "hotels");
 		s.setEvar(6, Integer.toString(searchParams.getStayDuration()));
 		internalSetHotelDateProps(s, searchParams);
+	}
+
+	private static void addStandardFlightFields(ADMS_Measurement s) {
+		s.setEvar(2, "flights");
+		s.setProp(2, "flights");
 	}
 
 	private static void addAdvancePurchaseWindow(Context context, ADMS_Measurement s, HotelSearchParams searchParams) {
