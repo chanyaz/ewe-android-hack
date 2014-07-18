@@ -888,7 +888,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 
-			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
 				mShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mShadeView.setVisibility(View.VISIBLE);
 			}
@@ -928,7 +928,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
 				mShadeView.setAlpha(percentage);
 			}
-			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
+			else if (stateOne.showsSearchPopup() && !stateTwo.showsSearchPopup()) {
 				mShadeView.setAlpha(1f - percentage);
 			}
 		}
@@ -965,7 +965,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mBackgroundImageFrag.setBlur(false);
 			}
 
-			mShadeView.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.GONE);
+			mShadeView.setVisibility(state.showsSearchPopup() ? View.VISIBLE : View.GONE);
 		}
 
 		private boolean isActionBarAppearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
@@ -985,6 +985,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				return false;
 			case DEFAULT:
 			case CALENDAR:
+			case CALENDAR_WITH_POPUP:
 			case TRAVELER_PICKER:
 			default:
 				return true;
@@ -992,11 +993,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		private boolean isSearchControlsActiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.TRAVELER_PICKER);
+			return stateOne == ResultsSearchState.DEFAULT && (stateTwo.showsCalendar() || stateTwo == ResultsSearchState.TRAVELER_PICKER);
 		}
 
 		private boolean isSearchControlsInactiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return (stateOne == ResultsSearchState.CALENDAR || stateOne == ResultsSearchState.TRAVELER_PICKER) && stateTwo == ResultsSearchState.DEFAULT;
+			return (stateOne.showsCalendar() || stateOne == ResultsSearchState.TRAVELER_PICKER) && stateTwo == ResultsSearchState.DEFAULT;
 		}
 	};
 

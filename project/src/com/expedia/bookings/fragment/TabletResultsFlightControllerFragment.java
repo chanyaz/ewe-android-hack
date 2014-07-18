@@ -594,7 +594,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private StateListenerHelper<ResultsSearchState> mResultsSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
 				mFlightLegsC.setBlockNewEventsEnabled(true);
 			}
 		}

@@ -7,6 +7,7 @@ public enum ResultsSearchState {
 	DESTINATION,
 	FLIGHT_ORIGIN,
 	CALENDAR,
+	CALENDAR_WITH_POPUP,
 	TRAVELER_PICKER;
 
 	/**
@@ -16,11 +17,19 @@ public enum ResultsSearchState {
 		return this == DESTINATION || this == FLIGHT_ORIGIN;
 	}
 
+	public boolean showsCalendar() {
+		return this == CALENDAR || this == CALENDAR_WITH_POPUP;
+	}
+
 	/**
 	 * @return whether or not the search knobs are shown on screen
 	 */
 	public boolean showsSearchControls() {
-		return this == CALENDAR || this == TRAVELER_PICKER;
+		return this == CALENDAR || this == CALENDAR_WITH_POPUP || this == TRAVELER_PICKER;
+	}
+
+	public boolean showsSearchPopup() {
+		return this == CALENDAR_WITH_POPUP || this == TRAVELER_PICKER;
 	}
 
 }

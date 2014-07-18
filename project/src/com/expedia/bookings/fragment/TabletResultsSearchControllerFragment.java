@@ -396,6 +396,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	private void dateChangeHelper(LocalDate startDate, LocalDate endDate) {
+		boolean showPopup = false;
 		if (!mIgnoreDateChanges) {
 			mIgnoreDateChanges = true;
 
@@ -409,6 +410,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 						startDate);
 			}
 
+			if (mLocalParams.getStartDate() == null && startDate != null) {
+				showPopup = true;
+			}
 			mLocalParams.setStartDate(startDate);
 			mLocalParams.setEndDate(endDate);
 
@@ -416,6 +420,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			bindCalPopup();
 
 			mIgnoreDateChanges = false;
+		}
+
+		if (showPopup) {
+			setState(ResultsSearchState.CALENDAR_WITH_POPUP, true);
 		}
 	}
 
@@ -451,43 +459,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			if (mSearchStateManager.getState() != ResultsSearchState.CALENDAR) {
-				setState(ResultsSearchState.CALENDAR, mAnimateButtonClicks);
-			}
-			else {
-				setState(ResultsSearchState.DEFAULT, mAnimateButtonClicks);
-			}
+			setState(ResultsSearchState.CALENDAR_WITH_POPUP, mAnimateButtonClicks);
 		}
 	};
 
 	private View.OnClickListener mTravClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			if (mSearchStateManager.getState() != ResultsSearchState.TRAVELER_PICKER) {
-				setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
-			}
-			else {
-				setState(ResultsSearchState.DEFAULT, mAnimateButtonClicks);
-			}
-		}
-	};
-
-	private View.OnClickListener mClearDatesClick = new View.OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			if (getState().showsSearchControls()) {
-				dateChangeHelper(null, null);
-			}
-		}
-	};
-
-	private View.OnClickListener mCancelClick = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if (getState().showsSearchControls()) {
-				clearChanges();
-				setState(ResultsSearchState.DEFAULT, true);
-			}
+			setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
 		}
 	};
 
@@ -552,7 +531,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setPopupAnimationHardwareLayers(true);
 			}
 
-			if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
+			if (stateOne.showsCalendar() || stateTwo.showsCalendar()) {
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
 				mCalC.setVisibility(View.VISIBLE);
@@ -588,16 +567,18 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 
 			// Popup stuff
-			if (stateTwo.showsSearchControls()) {
+			if (stateTwo.showsSearchPopup()) {
 				mPopupC.setVisibility(View.VISIBLE);
 			}
 
-			if (stateTwo == ResultsSearchState.CALENDAR) {
+			if (stateTwo.showsCalendar()) {
 				mCalContentC.setVisibility(View.VISIBLE);
+				mPopupTravTv.setVisibility(View.GONE);
 			}
 
 			if (stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 				mPopupTravTv.setVisibility(View.VISIBLE);
+				mCalContentC.setVisibility(View.GONE);
 				bindTravBtn();
 			}
 
@@ -631,11 +612,32 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				int dist = mGrid.isLandscape() ? 1 : 2;
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
 					setSearchControlsAnimationPercentage(percentage, dist);
+				}
+				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR_WITH_POPUP) {
+					setSearchControlsAnimationPercentage(percentage, dist);
+					setPopupAnimationPercentage(percentage, true);
+				}
+				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.CALENDAR_WITH_POPUP) {
 					setPopupAnimationPercentage(percentage, true);
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
 					setSearchControlsAnimationPercentage(1f - percentage, dist);
+				}
+				else if (stateOne == ResultsSearchState.CALENDAR_WITH_POPUP && stateTwo == ResultsSearchState.DEFAULT) {
+					setSearchControlsAnimationPercentage(1f - percentage, dist);
 					setPopupAnimationPercentage(percentage, false);
+				}
+				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
+					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
+					mCalC.setTranslationX(percentage * -mCalC.getWidth());
+					if (mGrid.isLandscape()) {
+						mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
+					}
+					else {
+						mGdeC.setTranslationX(percentage * -mBottomCenterC.getWidth());
+						mTravPickWhiteSpace.setTranslationX((1f - percentage) * mBottomCenterC.getWidth());
+					}
+					setPopupAnimationPercentage(percentage, true);
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					setSearchControlsAnimationPercentage(percentage, dist);
@@ -706,7 +708,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				bindTravBtn();
 			}
 
-			if (state != ResultsSearchState.CALENDAR && state != ResultsSearchState.TRAVELER_PICKER) {
+			if (!state.showsCalendar() && state != ResultsSearchState.TRAVELER_PICKER) {
 				clearChanges();
 			}
 
@@ -797,7 +799,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		// Popup anim helper methods
 
 		private boolean performingPopupAnimation(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne.showsSearchControls() || stateTwo.showsSearchControls();
+			return stateOne.showsSearchPopup() || stateTwo.showsSearchPopup();
 		}
 
 		private void setPopupAnimationHardwareLayers(boolean enabled) {
@@ -831,19 +833,19 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		private void setVisibilitiesForState(ResultsSearchState state) {
 			mWaypointC.setVisibility(state.showsWaypoint() ? View.VISIBLE : View.INVISIBLE);
 			mTravC.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.INVISIBLE);
-			mCalC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.INVISIBLE);
+			mCalC.setVisibility(state.showsCalendar() ? View.VISIBLE : View.INVISIBLE);
 			mBottomRightC.setVisibility(
 				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE ? View.VISIBLE
 					: View.INVISIBLE
 			);
 
-			mCalContentC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.GONE);
+			mCalContentC.setVisibility(state.showsCalendar() ? View.VISIBLE : View.GONE);
 			mPopupTravTv.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.GONE);
-			mPopupC.setVisibility(state.showsSearchControls() ? View.VISIBLE : View.INVISIBLE);
+			mPopupC.setVisibility(state.showsSearchPopup() ? View.VISIBLE : View.INVISIBLE);
 
 			// If the search controls are active, that means the popup is showing and we want to hide
 			// the search bar!
-			mSearchBarC.setVisibility(state.showsSearchControls() ? View.INVISIBLE : View.VISIBLE);
+			mSearchBarC.setVisibility(state.showsSearchPopup() ? View.INVISIBLE : View.VISIBLE);
 
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
 			mGdeC.setVisibility(mCalC.getVisibility());
