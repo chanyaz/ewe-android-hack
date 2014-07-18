@@ -33,7 +33,7 @@
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Velg datoer</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Hoteller i kveld</string>
+    <string name="hotels_tonight">Hoteller for i kveld</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Manglende søkeinformasjon!</string>
     <!-- Missing flight info message -->
@@ -118,6 +118,8 @@
     <string name="trip_bucket_book_hotel">Bestill hotell</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Utsolgt på appen vår</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">Utløpt</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Tur-retur-flyvning til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -134,6 +136,8 @@
     <string name="when_to_fly">Når skal du fly?</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Når skal du tilbake?</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">Ingen datoanbefalinger er tilgjengelige</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">Søk på enveisflyvning</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -287,7 +291,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Tur-returreise</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Totalpris med skatt</string>
+    <string name="total_with_tax">Totalt</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -364,6 +368,10 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Beklager, det er ikke mulig å koble til.</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">Nettverket er ikke tilgjengelig</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">Koble til et trådløst nettverk eller mobildatanettverk for å fortsette</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reiser</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1027,6 +1035,8 @@
     <string name="taking_off_soon">Avgang snart…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Beklager, flybestillinger på mobil er ikke ennå tilgjengelig der du befinner deg.</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">Beklager, appen kan ikke vise flyvninger for ditt område. Du kan søke på flyvninger på &lt;a href=\"%1$s\"&gt;nettsiden vår&lt;/a&gt; i stedet!</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Avreise- og ankomstflyplassene må være forskjellige.</string>
 
@@ -1162,7 +1172,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Velg lagret betalingsform</string>
     <!-- Payment Method -->
-    <string name="payment_method">Betalingsmåte</string>
+    <string name="payment_method">Betalingsdetaljer</string>
     <!-- Billing Address -->
     <string name="billing_address">Faktureringsadresse</string>
     <!-- Card Info -->
@@ -1300,7 +1310,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reisendes informasjon</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Den reisendes detaljer</string>
+    <string name="traveler_details">Informasjon om hovedreisende</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Gjestens detaljer</string>
     <!-- Add traveler number template -->
@@ -1312,9 +1322,13 @@
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Detaljer om %1$s-åring</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Detaljer for spedbarn på fanget %1$s</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Detaljer for spedbarn %1$s på fanget</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">Detaljer for spedbarn på fanget</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Detaljer for spedbarn på fanget %1$s</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Detaljer for spedbarn %1$s i sete</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">Detaljer for spedbarn i sete</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Du kan nektes boarding på flyet dersom navnet på billetten ikke stemmer overens med din offentlig godkjente legitimasjon.</string>
 
@@ -1587,6 +1601,8 @@
     <string name="error_flight_price_decreased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling, men vi har nettopp funnet dine flyvninger på salg for %2$s mindre. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kredittkortnummeret du oppga, er ugyldig. Prøv på nytt.</string>
+    <!-- Error shown to user if their name on card is invalid -->
+    <string name="error_name_on_card_mismatch">Kortinnehaverens navn som du anga stemmer ikke overens med navnet på kortet. Prøv på nytt.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kredittkortet du prøver å bruke, er utgått. Vennligst prøv et annet kredittkort.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1599,6 +1615,10 @@
     <string name="error_flight_no_longer_available">Dessverre er ikke flyet lenger tilgjengelig.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">Dessverre er et av flyene dine ikke lenger tilgjengelig.</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">Vi beklager, din reservasjon på denne flyvningen har utløpt.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">Vi beklager, din reservasjon på disse flyvningene har utløpt.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Velg et nytt fly</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2163,6 +2183,8 @@
     <string name="CheckOut">Utsjekking</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Rabatt</string>
+    <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
+    <string name="unknown">Ukjent</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
@@ -3114,6 +3136,8 @@
     <string name="tablet_sold_out_remove_hotel">Fjern hotell</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">Velg et annet hotell</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">Velg et annet hotell eller rom</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">Denne flyvningen er nå utsolgt. Beklager.</string>
     <!-- Button text to remove sold flight -->

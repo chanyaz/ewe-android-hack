@@ -113,11 +113,13 @@
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
-    <string name="trip_bucket_book_flight">항공편 예약</string>
+    <string name="trip_bucket_book_flight">항공 예약</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">호텔 예약</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">매진</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">만료됨</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">%1$s 왕복 여행 항공편</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -129,11 +131,13 @@
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
     <!-- Loading Hotels and Flights… -->
-    <string name="loading_hotels_and_flights">호텔 및 항공편 로드 중…</string>
+    <string name="loading_hotels_and_flights">호텔 및 항공 로드 중…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">떠나는 날짜</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">돌아오는 날짜</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">추천 날짜가 없습니다.</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">편도 항공편 검색</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -287,7 +291,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">왕복</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">세금 포함 총계</string>
+    <string name="total_with_tax">총 합계</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -347,7 +351,7 @@
     <!-- Home -->
     <string name="nav_home">홈</string>
     <!-- Flights -->
-    <string name="nav_flights">항공편</string>
+    <string name="nav_flights">항공</string>
     <!-- Hotels -->
     <string name="nav_hotels">호텔</string>
     <!-- Account -->
@@ -357,13 +361,17 @@
     <!-- Label for launch screen hotel button secondary text -->
     <string name="launch_hotel_secondary_text">객실 예약하기</string>
     <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">항공편 예약하기</string>
+    <string name="launch_flight_secondary_text">항공 예약하기</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;목적지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;숙박지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">네트워크 이용 불가</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">계속하시려면 WiFi 또는 데이터에 연결해 주세요.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">여행</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -468,7 +476,7 @@
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s, 호텔: %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
-    <string name="Flight">항공편</string>
+    <string name="Flight">항공</string>
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">호텔</string>
     <!-- Default (fallback) itin card title for CAR -->
@@ -865,9 +873,9 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">자세한 정보:\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 익스피디아 모바일 앱을 다운로드하세요.\n%s</string>
+    <string name="share_template_long_ad">호텔과 항공을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 익스피디아 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 무료 Travelocity 모바일 앱을 다운로드하세요.\n%s</string>
+    <string name="share_template_long_ad_tvly">호텔과 항공을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 무료 Travelocity 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">항공편으로 %1$s에 가요!(%2$s)</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -965,7 +973,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">익스피디아 항공편</string>
+    <string name="Expedia_Flights">익스피디아 항공</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">항공편 검색</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -1026,7 +1034,9 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">곧 이용 가능…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">죄송합니다. 고객님의 현재 지역에서는 모바일 항공편 예약이 아직 지원되지 않습니다.</string>
+    <string name="invalid_flights_pos">죄송합니다. 고객님의 현재 지역에서는 모바일 항공 예약이 아직 지원되지 않습니다.</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">죄송합니다. 고객님의 지역에서는 앱에 항공편이 표시되지 않습니다. 대신 &lt;a href=\"%1$s\"&gt;저희 웹사이트&lt;/a&gt;에서 항공편을 확인하실 수 있습니다!</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">출발 공항과 도착 공항은 달라야 합니다.</string>
 
@@ -1162,7 +1172,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">저장된 결제 방법 선택</string>
     <!-- Payment Method -->
-    <string name="payment_method">결제 방법</string>
+    <string name="payment_method">결제 정보</string>
     <!-- Billing Address -->
     <string name="billing_address">청구 주소</string>
     <!-- Card Info -->
@@ -1222,7 +1232,7 @@
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">밀어서 호텔 예약하기</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">밀어서 항공편 예약하기</string>
+    <string name="slide_to_book_flight">밀어서 항공 예약하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
     <!-- Amount to be paid now -->
@@ -1287,7 +1297,7 @@
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">카드 결제 수수료</string>
     <!-- Flight -->
-    <string name="flight">항공편</string>
+    <string name="flight">항공</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">여행객 %1$d</string>
 
@@ -1300,7 +1310,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">여행객 정보</string>
+    <string name="traveler_details">주 여행객 정보</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">숙박객 정보</string>
     <!-- Add traveler number template -->
@@ -1313,8 +1323,12 @@
     <string name="add_child_with_age_TEMPLATE">만 %1$s세 아동 정보</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">무릎에 앉히는 영유아 정보</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">좌석에 앉는 영유아 %1$s 정보</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">좌석에 앉는 영유아 정보</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
 
@@ -1514,7 +1528,7 @@
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">달력에 추가</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
-    <string name="add_to_flighttrack">FlightTrack으로 항공편 정보 확인</string>
+    <string name="add_to_flighttrack">FlightTrack으로 항공 정보 확인</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">익스피디아 고객 지원에 연락</string>
     <!-- Button label for VSC support webpage link -->
@@ -1587,6 +1601,8 @@
     <string name="error_flight_price_decreased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하지만 고객님이 요청하신 항공편의 가격이 %2$s만큼 할인된 것이 방금 확인되었습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
+    <!-- Error shown to user if their name on card is invalid -->
+    <string name="error_name_on_card_mismatch">입력하신 카드 소유자 이름이 신용카드상의 이름과 일치하지 않습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">사용하시려는 신용카드가 만료되었습니다. 다른 신용카드를 사용해 주세요.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1599,6 +1615,10 @@
     <string name="error_flight_no_longer_available">정말 죄송합니다. 고객님 항공편은 더 이상 이용하실 수 없습니다.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">정말 죄송합니다. 고객님 항공편 중 한 개는 더 이상 이용하실 수 없습니다.</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">죄송합니다. 고객님께서 담아두신 이 항공편이 만료되었습니다.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">죄송합니다. 고객님께서 담아두신 이들 항공편이 만료되었습니다.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">새 항공편 선택</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2163,6 +2183,8 @@
     <string name="CheckOut">체크아웃</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">할인</string>
+    <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
+    <string name="unknown">알 수 없음</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
@@ -2396,7 +2418,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2877,7 +2899,7 @@
     <!-- Content description for action: Press button to launch Expedia Hotels -->
     <string name="cd_launch_hotels">익스피디아 호텔 화면을 실행합니다.</string>
     <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">익스피디아 항공편 화면을 실행합니다.</string>
+    <string name="cd_launch_flights">익스피디아 항공 화면을 실행합니다.</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">메뉴 목록을 엽니다.</string>
     <!-- Content description for action: Open Settings Menu -->
@@ -3114,6 +3136,8 @@
     <string name="tablet_sold_out_remove_hotel">호텔 삭제</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">다른 호텔 선택</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">다른 호텔 또는 객실 선택</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">죄송합니다! 이 항공편은 현재 매진되었습니다.</string>
     <!-- Button text to remove sold flight -->

@@ -33,7 +33,7 @@
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Chọn ngày</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Khách sạn đêm nay</string>
+    <string name="hotels_tonight">Khách sạn tối nay</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Thiếu thông tin tìm kiếm!</string>
     <!-- Missing flight info message -->
@@ -118,6 +118,8 @@
     <string name="trip_bucket_book_hotel">Đặt khách sạn</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Hết chỗ</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">Hết hạn</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Chuyến bay khứ hồi đến %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -134,6 +136,8 @@
     <string name="when_to_fly">Ngày bay</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Trở về</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">Không có thông tin ngày đề xuất.</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">Tìm chuyến bay một chiều</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -287,7 +291,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Khứ hồi</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Tổng gồm thuế</string>
+    <string name="total_with_tax">Tổng cộng</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -364,6 +368,10 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Nghỉ tại&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">Không có kết nối mạng</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">Hãy kết nối internet qua mạng Wi-Fi hoặc mạng dữ liệu qua điện thoại</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Chuyến đi</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1027,6 +1035,8 @@
     <string name="taking_off_soon">Sắp cất cánh…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Rất tiếc, tính năng đặt chuyến bay qua di động hiện chưa được áp dụng tại khu vực của quý vị.</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">Rất tiếc, app không hỗ trợ hiển thị chuyến bay tại khu vực của quý vị. Quý vị vẫn có thể xem thông tin chuyến bay tại &lt;a href=\"%1$s\"&gt;trang web của chúng tôi&lt;/a&gt;!</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Sân bay khởi hành và đến phải khác nhau.</string>
 
@@ -1162,7 +1172,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Chọn phương thức thanh toán đã lưu</string>
     <!-- Payment Method -->
-    <string name="payment_method">Phương thức thanh toán</string>
+    <string name="payment_method">Chi tiết thanh toán</string>
     <!-- Billing Address -->
     <string name="billing_address">Địa chỉ thanh toán</string>
     <!-- Card Info -->
@@ -1268,7 +1278,7 @@
     <!-- Payment -->
     <string name="payment">Thanh toán</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">Nhập thông tin thanh toán</string>
+    <string name="enter_payment_information">Nhập chi tiết thanh toán</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1300,7 +1310,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Thông tin khách</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Chi tiết khách</string>
+    <string name="traveler_details">Chi tiết khách chính</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Chi tiết khách</string>
     <!-- Add traveler number template -->
@@ -1313,8 +1323,12 @@
     <string name="add_child_with_age_TEMPLATE">Chi tiết trẻ %1$s tuổi</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Chi tiết trẻ sơ sinh ngồi trong lòng %1$s</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">Chi tiết trẻ sơ sinh ngồi trong lòng</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Chi tiết trẻ sơ sinh có chỗ riêng %1$s</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Chi tiết trẻ sơ sinh có chỗ ngồi riêng %1$s</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">Chi tiết trẻ sơ sinh có chỗ ngồi riêng</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Khách có thể không được lên máy bay nếu tên khách không trùng khớp với giấy tờ tùy thân (ID) có ảnh hợp lệ.</string>
 
@@ -1587,6 +1601,8 @@
     <string name="error_flight_price_decreased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s, tuy nhiên, chúng tôi phát hiện chuyến bay quý vị yêu cầu vừa giảm giá %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Số thẻ tín dụng quý vị nhập không hợp lệ, vui lòng nhập lại.</string>
+    <!-- Error shown to user if their name on card is invalid -->
+    <string name="error_name_on_card_mismatch">Tên chủ thẻ quý vị nhập không trùng khớp tên trên thẻ tín dụng. Vui lòng thử lại.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Thẻ tín dụng quý vị dự định sử dụng đã hết hạn, vui lòng sử dụng thẻ khác.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1599,6 +1615,10 @@
     <string name="error_flight_no_longer_available">Chúng tôi thành thật xin lỗi! Chuyến bay của quý vị hiện không còn.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">Chúng tôi thành thật xin lỗi! Một trong các chuyến bay của quý vị hiện không còn.</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">Rất tiếc, đã hết hạn giữ chỗ chuyến bay này của quý vị.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">Rất tiếc, đã hết hạn giữ chỗ những chuyến bay này của quý vị.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Chọn một chuyến bay mới</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2163,6 +2183,8 @@
     <string name="CheckOut">Trả phòng</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Giảm</string>
+    <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
+    <string name="unknown">Không có thông tin</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
@@ -3114,6 +3136,8 @@
     <string name="tablet_sold_out_remove_hotel">Xóa khách sạn</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">Chọn khách sạn khác</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">Chọn khách sạn hoặc phòng khác</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">Chuyến bay này vừa hết chỗ. Thành thật xin lỗi!</string>
     <!-- Button text to remove sold flight -->

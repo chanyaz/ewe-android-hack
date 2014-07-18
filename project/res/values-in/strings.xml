@@ -33,7 +33,7 @@
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Pilih Tanggal</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Hotel Malam Ini</string>
+    <string name="hotels_tonight">Hotel malam ini</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Informasi pencarian tidak ada!</string>
     <!-- Missing flight info message -->
@@ -118,6 +118,8 @@
     <string name="trip_bucket_book_hotel">Pesan Hotel</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Habis Terjual</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">Kedaluwarsa</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Penerbangan Pulang-Pergi ke %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -134,6 +136,8 @@
     <string name="when_to_fly">Waktu Penerbangan</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Waktu Kembali</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">Tidak ada rekomendasi tanggal yang tersedia.</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">Cari Penerbangan Sekali Jalan</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -287,7 +291,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Pulang-Pergi</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Total dengan pajak</string>
+    <string name="total_with_tax">Total</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -364,6 +368,10 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">Jaringan Tidak Tersedia</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">Sambungkan ke Wi-Fi atau jaringan data seluler untuk melanjutkan</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Perjalanan</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1027,6 +1035,8 @@
     <string name="taking_off_soon">Segera Lepas Landas…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Maaf, pemesanan penerbangan melalui perangkat mobile belum tersedia di lokasi Anda.</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">Maaf, namun aplikasi tidak dapat menampilkan penerbangan untuk wilayah Anda. Namun, Anda dapat melihatnya di &lt;a href=\"%1$s\"&gt;situs web kami&lt;/a&gt;!</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Bandara keberangkatan dan kedatangan harus berbeda.</string>
 
@@ -1162,7 +1172,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Pilih Metode Pembayaran Tersimpan</string>
     <!-- Payment Method -->
-    <string name="payment_method">Metode Pembayaran</string>
+    <string name="payment_method">Detail pembayaran</string>
     <!-- Billing Address -->
     <string name="billing_address">Alamat Penagihan</string>
     <!-- Card Info -->
@@ -1268,7 +1278,7 @@
     <!-- Payment -->
     <string name="payment">Pembayaran</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">Masukkan informasi pembayaran</string>
+    <string name="enter_payment_information">Masukkan detail pembayaran</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1300,7 +1310,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informasi Traveler</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Rincian traveler</string>
+    <string name="traveler_details">Detail pelancong utama</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Rincian tamu</string>
     <!-- Add traveler number template -->
@@ -1312,9 +1322,13 @@
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Rincian anak usia %1$s tahun</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Rincian bayi di Pangkuan %1$s</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Detail bayi di pangkuan %1$s</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">Detail bayi di pangkuan</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Rincian Bayi di Tempat Duduk %1$s</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Detail bayi di tempat duduk %1$s</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">Detail bayi di tempat duduk</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama traveler tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
 
@@ -1587,6 +1601,8 @@
     <string name="error_flight_price_decreased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s tapi kami baru saja menemukan penerbangan yang Anda minta sedang didiskon sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid. Coba lagi.</string>
+    <!-- Error shown to user if their name on card is invalid -->
+    <string name="error_name_on_card_mismatch">Nama pemegang kartu yang Anda masukkan tidak cocok dengan nama pada kartu kredit. Coba lagi.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kartu kredit yang Anda coba gunakan sudah kedaluwarsa. Silakan gunakan kartu kredit lain.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1599,6 +1615,10 @@
     <string name="error_flight_no_longer_available">Maaf, penerbangan Anda tidak lagi tersedia.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">Maaf, salah satu penerbangan Anda tidak lagi tersedia.</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">Maaf, waktu menunggu Anda untuk penerbangan ini sudah habis.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">Maaf, waktu menunggu Anda untuk penerbangan ini sudah habis.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Pilih Penerbangan Baru</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2163,6 +2183,8 @@
     <string name="CheckOut">Check-Out</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Diskon</string>
+    <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
+    <string name="unknown">Tidak Diketahui</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
@@ -3114,6 +3136,8 @@
     <string name="tablet_sold_out_remove_hotel">Hapus hotel</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">Pilih hotel lain</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">Pilih hotel atau kamar lain</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">Penerbangan ini sudah habis dipesan. Maaf!</string>
     <!-- Button text to remove sold flight -->

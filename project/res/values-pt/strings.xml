@@ -118,6 +118,8 @@
     <string name="trip_bucket_book_hotel">Reservar hotel</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Esgotado</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">Expirou</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Voo de ida e volta para %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -134,6 +136,8 @@
     <string name="when_to_fly">Quando voar</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Quando voltar</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">Nenhuma recomendação de data disponível.</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">Buscar voo só de ida</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -287,7 +291,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Ida e volta</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Total com imposto</string>
+    <string name="total_with_tax">Total</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -364,6 +368,10 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Fique em&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Não é possível conectar.</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">Rede indisponível</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">Conecte-se a uma rede WiFi ou rede de dados celulares para continuar</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viagens</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1027,6 +1035,8 @@
     <string name="taking_off_soon">Decolando em breve…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">As reservas com dispositivos móveis ainda não estão disponíveis para seu local.</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">Impossível exibir voos para sua região através do app. No entanto, você pode visualizá-los em &lt;a href=\"%1$s\"&gt;nosso site&lt;/a&gt;!</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Os aeroportos de partida e chegada não podem ser o mesmo.</string>
 
@@ -1162,7 +1172,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Selecionar um método de pagamento armazenado</string>
     <!-- Payment Method -->
-    <string name="payment_method">Método de pagamento</string>
+    <string name="payment_method">Detalhes de pagamento</string>
     <!-- Billing Address -->
     <string name="billing_address">Endereço de cobrança</string>
     <!-- Card Info -->
@@ -1268,7 +1278,7 @@
     <!-- Payment -->
     <string name="payment">Pagamento</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">Insira informações de pagamento</string>
+    <string name="enter_payment_information">Insira as informações de pagamento</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1300,7 +1310,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informações do viajante</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Detalhes do viajante</string>
+    <string name="traveler_details">Principais informações do viajante</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Detalhes do hóspede</string>
     <!-- Add traveler number template -->
@@ -1313,8 +1323,12 @@
     <string name="add_child_with_age_TEMPLATE">Detalhes da criança com %1$s anos</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Detalhes do bebê de colo %1$s</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">Detalhes do bebê de colo</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Detalhes da criança no assento %1$s</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">Detalhes da criança no assento</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">O embarque poderá ser recusado se o nome do viajante não corresponder ao ID oficial com foto.</string>
 
@@ -1587,6 +1601,8 @@
     <string name="error_flight_price_decreased_with_fee">Parece que a companhia aérea está cobrando uma taxa de processamento de %1$s mas acabamos de encontrar o voo solicitado em oferta por %2$s menos. Deseja pagar um novo total de %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">O número de cartão de crédito que você inseriu não é válido. Tente novamente.</string>
+    <!-- Error shown to user if their name on card is invalid -->
+    <string name="error_name_on_card_mismatch">O nome do titular do cartão inserido não corresponde ao nome no cartão de crédito. Tente novamente.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">O cartão de crédito que você tentou utilizar expirou. Utilize outro cartão.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1599,6 +1615,10 @@
     <string name="error_flight_no_longer_available">Seu voo não está mais disponível.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">Um de seus voos não está mais disponível.</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">Infelizmente sua pré-reserva para esse voo expirou</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">Infelizmente sua pré-reserva para esses voos expirou</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Selecione um novo voo</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2163,6 +2183,8 @@
     <string name="CheckOut">Check-out</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Desconto</string>
+    <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
+    <string name="unknown">Desconhecido</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
@@ -3114,6 +3136,8 @@
     <string name="tablet_sold_out_remove_hotel">Remover hotel</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">Selecionar outro hotel</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">Selecione outro quarto ou hotel</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">Este voo agora está esgotado. Ops!</string>
     <!-- Button text to remove sold flight -->

@@ -118,6 +118,8 @@
     <string name="trip_bucket_book_hotel">預訂酒店</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">售罄</string>
+    <!-- Tablet Trip bucket, expired text -->
+    <string name="trip_bucket_expired">到期日</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">來回%1$s機票</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -134,6 +136,8 @@
     <string name="when_to_fly">出發日期</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">回程日期</string>
+    <!-- (GDE) Flight fare message when no flight data is available -->
+    <string name="gde_no_flight_data">沒有建議日期。</string>
     <!-- Search one way flight -->
     <string name="search_one_way_flight">搜尋單程機票</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -287,7 +291,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">來回</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">總計 (連稅)</string>
+    <string name="total_with_tax">總費用</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -364,6 +368,10 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;住在&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
+    <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
+    <string name="network_unavailable">沒有網絡</string>
+    <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
+    <string name="error_network_unavailable">請連接 Wi-Fi 或流動數據網絡以繼續</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1027,6 +1035,8 @@
     <string name="taking_off_soon">快將推出…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">很抱歉，您的地點尚未提供流動機票預訂服務。</string>
+    <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
+    <string name="tablet_drop_down_flight_pos_unavailable">很抱歉，應用程式無法顯示您地區的航班。您可於&lt;a href=\"%1$s\"&gt;我們的網站&lt;/a&gt;查看有關航班。</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">出發及抵達機場必須不同。</string>
 
@@ -1162,7 +1172,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">選擇已儲存的付款方法</string>
     <!-- Payment Method -->
-    <string name="payment_method">付款方法</string>
+    <string name="payment_method">付款詳情</string>
     <!-- Billing Address -->
     <string name="billing_address">帳單地址</string>
     <!-- Card Info -->
@@ -1268,7 +1278,7 @@
     <!-- Payment -->
     <string name="payment">付款</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">輸入付款資料</string>
+    <string name="enter_payment_information">請輸入付款詳情</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1300,7 +1310,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客資料</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">旅客資料</string>
+    <string name="traveler_details">主要旅客資料</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">房客資料</string>
     <!-- Add traveler number template -->
@@ -1313,8 +1323,12 @@
     <string name="add_child_with_age_TEMPLATE">%1$s 歲小童資料</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 資料</string>
+    <!-- Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap">手抱嬰幼兒資料</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 資料</string>
+    <!-- Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat">佔位嬰幼兒資料</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能被拒絕登機。</string>
 
@@ -1587,6 +1601,8 @@
     <string name="error_flight_price_decreased_with_fee">航空公司將收取付款處理費 %1$s，但我們剛得悉您要求的航班減價 %2$s。您願意支付新的總額 %3$s 嗎？</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您輸入的信用卡號碼無效，請再試一次。</string>
+    <!-- Error shown to user if their name on card is invalid -->
+    <string name="error_name_on_card_mismatch">您輸入的持卡人姓名與信用卡上的姓名不符。請再試一次。</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">您剛使用的信用卡已過期，請使用另一張信用卡。</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1599,6 +1615,10 @@
     <string name="error_flight_no_longer_available">很抱歉，您的航班已停售。</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">很抱歉，您的其中一個航班已停售。</string>
+    <!-- Error shown to user if their flight is no longer available or expired -->
+    <string name="error_flight_hold_expired">很抱歉，航班的留位已過期。</string>
+    <!-- Error shown to user if one of multiple flights is no longer available or expired -->
+    <string name="error_flights_hold_expired">很抱歉，航班的留位已過期。</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">選擇新的航班</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2163,6 +2183,8 @@
     <string name="CheckOut">退房</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
+    <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
+    <string name="unknown">未明</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
@@ -3114,6 +3136,8 @@
     <string name="tablet_sold_out_remove_hotel">移除酒店</string>
     <!-- Button text to select another hotel -->
     <string name="tablet_sold_out_select_hotel">選擇另一間酒店</string>
+    <!-- Button text to select another hotel or room -->
+    <string name="tablet_sold_out_select_hotel_room">選擇另一間酒店或客房</string>
     <!-- Header text to indicating flight sold out -->
     <string name="tablet_sold_out_summary_text_flight">這個航班現已售罄。很抱歉！</string>
     <!-- Button text to remove sold flight -->
