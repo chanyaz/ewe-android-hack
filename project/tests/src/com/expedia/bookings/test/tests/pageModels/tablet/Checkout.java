@@ -189,6 +189,10 @@ public class Checkout {
 		onView(allOf(withId(R.id.header_text_button_tv), isDisplayed())).perform(click());
 	}
 
+	public static void clickCreditCardSection() {
+		onView(withId(R.id.creditcard_section_button)).perform(click());
+	}
+
 	public static void slideToPurchase() {
 		onView(withId(R.id.slide_to_purchase_widget)).perform(swipeRight());
 	}

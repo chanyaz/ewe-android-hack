@@ -2,87 +2,87 @@ package com.expedia.bookings.test.tests.localization;
 
 import org.joda.time.LocalDate;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.espresso.IdlingResources;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
-import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
-import com.mobiata.android.util.SettingUtils;
-import com.expedia.bookings.test.utils.SpoonScreenshotUtils;
+import com.expedia.bookings.test.tests.pageModels.tablet.Search;
+import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
+import com.expedia.bookings.test.utils.TabletTestCase;
+
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 
 /**
  * Created by dmadan on 7/3/14.
  */
-public class MarketingSweepTablet extends ActivityInstrumentationTestCase2<SearchActivity> {
-
-	public MarketingSweepTablet() {
-		super(SearchActivity.class);
-	}
-
-	private IdlingResources.SuggestionResource mSuggestionResource;
-
-	@Override
-	public void runTest() throws Throwable {
-		if (Common.isTablet(getInstrumentation())) {
-			Settings.clearPrivateData(getInstrumentation());
-			SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_which_api_to_use_key, "Production");
-			mSuggestionResource = new IdlingResources.SuggestionResource();
-			IdlingResources.registerSuggestionResource(mSuggestionResource);
-
-			// Espresso will not launch our activity for us, we must launch it via getActivity().
-			getActivity();
-
-			super.runTest();
-		}
-	}
+public class MarketingSweepTablet extends TabletTestCase {
 
 	public void testBookHotel() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.clickSuggestionAtPosition(0);
 
-		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
+		screenshot("Search");
 		Results.swipeUpHotelList();
-		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
+		screenshot("Search_Results");
+		SortFilter.clickHotelSortFilterButton();
+		screenshot("Hotel_Sort_Filter");
 		Results.clickHotelAtIndex(1);
-		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
+		screenshot("Details");
 		Results.clickAddHotel();
 		Results.clickBookButton();
 
-		Checkout.clickLoginButton();
-		Common.closeSoftKeyboard(Checkout.loginButton());
-		SpoonScreenshotUtils.screenshot("Login", getInstrumentation());
+		Checkout.clickGrandTotalTextView();
+		screenshot("Cost_Summary");
 		Common.pressBack();
 
-		SpoonScreenshotUtils.screenshot("Checkout1", getInstrumentation());
+		screenshot("Checkout1");
 		Checkout.clickOnTravelerDetails();
+		Common.closeSoftKeyboard(Checkout.firstName());
+		screenshot("Traveler_Details");
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.enterEmailAddress("aaa@aaa.com");
 		Common.closeSoftKeyboard(Checkout.firstName());
-		SpoonScreenshotUtils.screenshot("Traveler_Details", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Checkout2", getInstrumentation());
+		screenshot("Checkout2");
 		Checkout.clickOnEnterPaymentInformation();
-		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
+		screenshot("Payment_Details");
+
+		//Enter Amex payment details to get the screenshot of CVV screen
+		Checkout.enterCreditCardNumber("345555555555555");
 		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
 		Common.closeSoftKeyboard(Checkout.postalCode());
-		SpoonScreenshotUtils.screenshot("Payment_Details", getInstrumentation());
+		Checkout.clickOnDone();
+		try {
+			Checkout.clickIAcceptButton();
+		}
+		catch (Exception e) {
+			//no I accept button
+		}
+		Checkout.slideToPurchase();
+		screenshot("American_Express_CVV");
+
+		//go back and checkout using VISA
+		Common.pressBack();
+		Checkout.clickCreditCardSection();
+		Checkout.creditCardNumber().perform(clearText());
+		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
+		screenshot("Checkout_Payment_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Checkout3", getInstrumentation());
+		screenshot("Checkout3");
 		try {
 			Checkout.clickIAcceptButton();
 		}
@@ -91,41 +91,57 @@ public class MarketingSweepTablet extends ActivityInstrumentationTestCase2<Searc
 		}
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		Checkout.clickBookButton();
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		Checkout.clickDoneBooking();
 	}
 
 	public void testBookFlight() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.clickSuggestionAtPosition(0);
 
+		Common.pressBack();
 		Results.clickOriginButton();
-		Results.typeInOriginEditText("New York, USA");
+		Results.typeInOriginEditText("London, England, UK");
 		getInstrumentation().sendCharacterSync(KeyEvent.KEYCODE_SPACE);
 		Results.clickSuggestionAtPosition(0);
 		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(45);
 		Results.clickDate(startDate, null);
-		SpoonScreenshotUtils.screenshot("Search", getInstrumentation());
+		screenshot("Search");
 		Results.clickSearchPopupDone();
+
+		//get screenshot of lap infant alert
+		Results.clickTravelerButton();
+		Search.incrementChildButton();
+		Search.incrementChildButton();
+		Search.clickChild1Spinner();
+		Search.selectChildTravelerAgeAt(0, getActivity());
+		Search.clickChild2Spinner();
+		Search.selectChildTravelerAgeAt(0, getActivity());
+		screenshot("Lap_Infant_Alert");
+		Search.decrementChildButton();
+		Search.decrementChildButton();
+		Results.clickSearchPopupDone();
+
 		Results.swipeUpFlightList();
-		SpoonScreenshotUtils.screenshot("Search_Results", getInstrumentation());
+		screenshot("Search_Results");
 		Results.clickFlightAtIndex(1);
-		SpoonScreenshotUtils.screenshot("Details", getInstrumentation());
+		screenshot("Details");
 		Results.clickAddFlight();
 		Results.clickBookButton();
 
-		Checkout.clickLoginButton();
-		Common.closeSoftKeyboard(Checkout.loginButton());
-		SpoonScreenshotUtils.screenshot("Login", getInstrumentation());
+		Checkout.clickGrandTotalTextView();
+		screenshot("Cost_Summary");
 		Common.pressBack();
 
-		SpoonScreenshotUtils.screenshot("Checkout1", getInstrumentation());
+		screenshot("Checkout1");
 		Checkout.clickOnTravelerDetails();
+		Common.closeSoftKeyboard(Checkout.firstName());
+		screenshot("Traveler_Details");
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -133,11 +149,13 @@ public class MarketingSweepTablet extends ActivityInstrumentationTestCase2<Searc
 		Checkout.enterDateOfBirth(1970, 1, 1);
 		Checkout.enterEmailAddress("aaa@aaa.com");
 		Common.closeSoftKeyboard(Checkout.emailAddress());
-		SpoonScreenshotUtils.screenshot("Traveler_Details", getInstrumentation());
+		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Checkout2", getInstrumentation());
+		screenshot("Checkout2");
 		Checkout.clickOnEnterPaymentInformation();
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
+		screenshot("Payment_Details");
 		Checkout.enterCreditCardNumber("4111111111111111");
 		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
@@ -148,10 +166,10 @@ public class MarketingSweepTablet extends ActivityInstrumentationTestCase2<Searc
 		Checkout.enterState("WI");
 		Checkout.enterPostalCode("53704");
 		Common.closeSoftKeyboard(Checkout.firstName());
-		SpoonScreenshotUtils.screenshot("Payment_Details", getInstrumentation());
+		screenshot("Checkout_Payment_Entered");
 		Checkout.clickOnDone();
 
-		SpoonScreenshotUtils.screenshot("Checkout3", getInstrumentation());
+		screenshot("Checkout3");
 		try {
 			Checkout.clickIAcceptButton();
 		}
@@ -160,20 +178,9 @@ public class MarketingSweepTablet extends ActivityInstrumentationTestCase2<Searc
 		}
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("111");
-		SpoonScreenshotUtils.screenshot("CVV", getInstrumentation());
+		screenshot("CVV");
 		Checkout.clickBookButton();
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		Checkout.clickDoneBooking();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		if (Common.isTablet(getInstrumentation())) {
-			if (mSuggestionResource != null) {
-				IdlingResources.unregisterSuggestionResource(mSuggestionResource);
-			}
-			Common.pressBackOutOfApp();
-		}
 	}
 }
