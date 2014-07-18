@@ -1116,6 +1116,25 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
+	public static void trackLinkFlightFilter(Context context, String filterType, int legPosition) {
+		String prefix = "";
+
+		if (legPosition == 0) {
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT;
+			}
+			else {
+				prefix = PREFIX_FLIGHT_SEARCH_ONE_WAY_SORT;
+			}
+		}
+		else if (legPosition == 1) {
+			prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT;
+		}
+
+		String link = prefix + "." + filterType;
+		internalTrackLink(context, link);
+	}
+
 	public static void trackLinkFlightRemoveOutboundSelection(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT);
 	}

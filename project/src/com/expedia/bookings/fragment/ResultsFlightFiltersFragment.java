@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
@@ -221,12 +222,20 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			FlightFilter.Sort sort = RES_ID_SORT_MAP.get(Integer.valueOf(checkedId));
+			if (mFilter.getSort() != sort) {
+				OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString(), mLegNumber);
+			}
 			if (sort != null) {
 				mFilter.setSort(sort);
 			}
 
 			if (group.getId() == R.id.flight_filter_control) {
-				mFilter.setStops(FlightFilter.getStopsValueFromStopsViewId(checkedId));
+				int newStops = FlightFilter.getStopsValueFromStopsViewId(checkedId);
+				if (mFilter.getStops() != newStops) {
+					String stopsString = getActivity().getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, newStops);
+					OmnitureTracking.trackLinkFlightFilter(getActivity(), stopsString, mLegNumber);
+				}
+				mFilter.setStops(newStops);
 			}
 
 			onFilterChanged();
@@ -255,7 +264,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			else {
 				mFilter.removeAirport(departureAirport, airportCode);
 			}
-
+			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airport", mLegNumber);
 			onFilterChanged();
 		}
 	};
