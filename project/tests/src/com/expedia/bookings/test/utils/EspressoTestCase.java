@@ -19,7 +19,14 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	public void runTest() throws Throwable {
 		Settings.clearPrivateData(getInstrumentation());
-		Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
+
+		//get server value from config file deployed in devices
+		if (ConfigFileUtils.doesConfigFileExist()) {
+			Settings.setServer(getInstrumentation(), new ConfigFileUtils().getConfigValue("Server"));
+		}
+		else {
+			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
+		}
 
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
 		getActivity();
@@ -32,7 +39,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
 			String tag = failedTestMethodName + "--FAILURE";
 
-			//takes a screenshot on test faliure
+			//takes a screenshot on test failure
 			SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), className, failedTestMethodName);
 			throw t;
 		}

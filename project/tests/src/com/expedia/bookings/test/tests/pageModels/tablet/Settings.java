@@ -19,6 +19,11 @@ public class Settings {
 		SettingUtils.save(c, getString(c, R.string.preference_force_custom_server_http_only), true);
 	}
 
+	public static void setServer(Instrumentation inst, String api) {
+		Context c = inst.getTargetContext();
+		SettingUtils.save(c, getString(c, R.string.preference_which_api_to_use_key), api);
+	}
+
 	public static void setFakeCurrentLocation(Instrumentation inst, String lat, String lng) {
 		Context c = inst.getTargetContext();
 		SettingUtils.save(c, getString(c, R.string.preference_fake_current_location), lat + "," + lng);
