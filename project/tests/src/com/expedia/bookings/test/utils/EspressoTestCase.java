@@ -52,7 +52,14 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		throw new IllegalArgumentException("Could not find test class!", throwable);
 	}
 
-	public void screenshot(String tag) throws Throwable {
+	public void screenshot(final String tag) throws Throwable {
+		try {
+			// Wait just a little for frames to settle
+			Thread.sleep(200);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 		SpoonScreenshotUtils.screenshot(tag, getInstrumentation());
 	}
 }
