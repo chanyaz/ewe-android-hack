@@ -34,37 +34,43 @@
                 <TextView
                     android:id="@+id/origin_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textSize="16dp"
                     android:textColor="#FFFFFF"
                     android:gravity="center_vertical"
-                    android:layout_marginRight="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_suggest_current_location" />
+                    android:drawableLeft="@drawable/ic_suggest_current_location"
+                    android:background="?android:attr/selectableItemBackground"/>
 
 
                 <TextView
                     android:id="@+id/calendar_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textSize="16dp"
                     android:textColor="#FFFFFF"
                     android:gravity="center_vertical"
-                    android:layout_marginRight="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_calendar" />
+                    android:drawableLeft="@drawable/ic_calendar"
+                    android:background="?android:attr/selectableItemBackground"/>
 
 
                 <TextView
                     android:id="@+id/traveler_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textSize="16dp"
                     android:textColor="#FFFFFF"
                     android:gravity="center_vertical"
-                    android:layout_marginRight="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_traveler_white" />
+                    android:drawableLeft="@drawable/ic_traveler_white"
+                    android:background="?android:attr/selectableItemBackground"/>
 
 
             </LinearLayout>

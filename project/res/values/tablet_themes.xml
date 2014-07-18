@@ -175,7 +175,7 @@
 
     <style name="V2.Widget.LinearLayout.TabletSearchRightButtonsContainer">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_weight">0</item>
@@ -188,17 +188,19 @@
 
     <style name="V2.Widget.TextView.TabletSearchDestination">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">22dp</item>
         <item name="minTextSize">14dp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_margin">8dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:layout_gravity">center_vertical|left</item>
         <item name="android:layout_weight">1</item>
         <item name="android:singleLine">true</item>
         <item name="android:drawableLeft">@drawable/ic_action_bar_magnifying_glass</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="V2.Widget.TextView.TabletSearch" />
