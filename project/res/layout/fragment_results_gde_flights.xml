@@ -29,15 +29,6 @@
             android:textSize="18sp"
             app:textStyle="light" />
 
-        <ProgressBar
-            android:id="@+id/flight_histogram_progress_bar"
-            android:layout_weight="0"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_histogram_price_range"
             android:layout_width="wrap_content"
@@ -49,6 +40,14 @@
             app:textStyle="light" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/flight_histogram_progress_bar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/histogram_container"
