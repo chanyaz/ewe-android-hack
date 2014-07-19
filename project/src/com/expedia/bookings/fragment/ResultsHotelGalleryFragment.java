@@ -3,7 +3,9 @@ package com.expedia.bookings.fragment;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -80,7 +82,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			mCurrentImagePosition = savedInstanceState.getInt(INSTANCE_CURRENT_IMAGE, NO_IMAGE);
 		}
 
-		mAdapter = new MediaPagerAdapter();
+		mAdapter = new MediaPagerAdapter(getActivity());
 		mPager.setAdapter(mAdapter);
 		return mRootC;
 	}
@@ -187,6 +189,14 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 	private static class MediaPagerAdapter extends PagerAdapter {
 		private List<Media> mMedia;
+		private int mImageWidth;
+		private int mImageHeight;
+
+		public MediaPagerAdapter(Context context) {
+			Point screen = Ui.getScreenSize(context);
+			mImageWidth = (int) (screen.x * 0.60f);
+			mImageHeight = (int) (screen.y * 0.60f);
+		}
 
 		public void replaceWith(List<Media> media) {
 			mMedia = media;
@@ -204,14 +214,15 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 			Media media = mMedia.get(position);
 			final ImageView image = Ui.findView(root, R.id.image);
+
 			image.setPivotX(0.0f);
 			image.setPivotY(0.0f);
 			media.loadHighResImage(image, new L2ImageCache.OnBitmapLoaded() {
 				@Override
 				public void onBitmapLoaded(String url, Bitmap bitmap) {
 					LayoutParams params = image.getLayoutParams();
-					params.width = bitmap.getWidth();
-					params.height = bitmap.getHeight();
+					params.width = mImageWidth;
+					params.height = mImageHeight;
 					image.setLayoutParams(params);
 				}
 
