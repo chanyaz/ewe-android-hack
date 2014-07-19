@@ -136,55 +136,13 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 	public void setAnimationPercentage(float p, Rect detailsCoords, Rect galleryCoords) {
 		mBackground.setAlpha(p);
-
-		int current = mPager.getCurrentItem();
-		View root = mPager.getChildAt(current);
-		if (root != null) {
-			ImageView image = Ui.findView(root, R.id.image);
-			if (image != null) {
-				final int x1 = detailsCoords.right - detailsCoords.left;
-				final int y1 = detailsCoords.bottom - detailsCoords.top;
-
-				final int x2 = galleryCoords.right - galleryCoords.left;
-				final int y2 = galleryCoords.bottom - galleryCoords.top;
-				float scaleX = (x1 + (x2 - x1) * p) / x2;
-				image.setScaleX(scaleX);
-				image.setScaleY(scaleX);
-
-				float transX = (detailsCoords.left - galleryCoords.left) * (1.0f - p);
-				image.setTranslationX(transX);
-
-				float diffY = detailsCoords.top - galleryCoords.top;
-				float shiftForCentering = (y2 * scaleX - y1) / 2.0f;
-				float transY = (diffY - shiftForCentering) * (1.0f - p);
-				image.setTranslationY(transY);
-			}
-		}
-		final int leftIndex = current - 1;
-		View left = leftIndex >= 0 && leftIndex < mPager.getChildCount() ? mPager.getChildAt(leftIndex) : null;
-		if (left != null) {
-			left.setAlpha(p);
-		}
-
-		final int rightIndex = current + 1;
-		View right = rightIndex >= 0 && rightIndex < mPager.getChildCount() ? mPager.getChildAt(rightIndex) : null;
-		if (right != null) {
-			right.setAlpha(p);
-		}
-
+		mPager.setAlpha(p);
 		mGalleryActionBar.setTranslationY(-mGalleryActionBar.getHeight() * (1.0f - p));
 	}
 
 	public void setHardwareLayer(int layerValue) {
 		mGalleryActionBar.setLayerType(layerValue, null);
-
-		View root = mPager.getChildAt(mPager.getCurrentItem());
-		if (root != null) {
-			ImageView image = Ui.findView(root, R.id.image);
-			if (image != null) {
-				image.setLayerType(layerValue, null);
-			}
-		}
+		mPager.setLayerType(layerValue, null);
 	}
 
 	private static class MediaPagerAdapter extends PagerAdapter {
