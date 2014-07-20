@@ -73,6 +73,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private ScrollView mBucketScrollView;
 	private View mBucketDimmer;
 	private View mBucketShowHideButton;
+	private View mCollapsedIndicator;
 
 	public TabletCheckoutTripBucketControllerFragment newInstance() {
 		return new TabletCheckoutTripBucketControllerFragment();
@@ -142,6 +143,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		mBucketScrollView = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketDimmer = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
 		mTouchBlocker = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
+		mCollapsedIndicator = Ui.findView(mRootC, R.id.collapsed_indicator);
 		mBucketShowHideButton = Ui.findView(mRootC, R.id.trip_bucket_show_hide_button);
 		if (mBucketShowHideButton != null) {
 			mBucketShowHideButton.setOnClickListener(new View.OnClickListener() {
@@ -403,6 +405,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		public void onStateTransitionUpdate(boolean isReversed, float p) {
 			mBucketDimmer.setAlpha(p);
 			mBucketContainer.setTranslationY((1.0f - p) * -mBucketContainer.getHeight());
+
+			mCollapsedIndicator.setRotation(180.0f * p);
 		}
 
 		@Override
