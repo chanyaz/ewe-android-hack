@@ -262,10 +262,7 @@ public class HotelSearch implements JSONable {
 	}
 
 	public HotelAvailability getAvailability(String id) {
-		if (Db.getTripBucket().getHotel() != null) {
-			return Db.getTripBucket().getHotel().getHotelAvailability();
-		}
-		else if (mSearchResponse != null && mAvailabilityMap != null && !TextUtils.isEmpty(id)) {
+		if (mSearchResponse != null && mAvailabilityMap != null && !TextUtils.isEmpty(id)) {
 			HotelAvailability availability = mAvailabilityMap.get(id);
 			return availability;
 		}
