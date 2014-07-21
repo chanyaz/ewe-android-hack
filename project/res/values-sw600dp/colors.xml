@@ -41,6 +41,7 @@
     <!-- Tablet Checkout -->
     <color name="tablet_checkout_light">#E5E6E5</color>
     <color name="tablet_checkout_dark">#464D51</color>
+    <color name="bg_clickable_trip_bucket_expand_pressed">#E5000000</color>
 
     <!-- Tablet Confirmation Action Buttons -->
     <color name="tablet_confirmation_actionbutton_pressed">#20000000</color>

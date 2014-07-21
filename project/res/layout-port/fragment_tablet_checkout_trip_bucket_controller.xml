@@ -15,14 +15,14 @@
         android:id="@+id/trip_bucket_show_hide_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tablet_checkout_trip_bucket_header_height"
-        android:background="#66000000" >
+        android:background="#5E000000" >
 
         <LinearLayout
             android:id="@+id/trip_bucket_show_hide_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@drawable/bg_clickable_row"
+            android:background="@drawable/bg_clickable_trip_bucket_expand"
             android:padding="8dp" >
 
             <TextView
@@ -31,7 +31,7 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
-                android:background="#ffff00"
+                android:background="@drawable/bg_tablet_portrait_trip_bucket_item_counter"
                 android:gravity="center" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_action_bar_checkout_arrow" />
+                android:src="@drawable/ic_tablet_portrait_trip_bucket_item_arrow" />
 
         </LinearLayout>
     </FrameLayout>
