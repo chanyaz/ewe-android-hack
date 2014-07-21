@@ -265,6 +265,12 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		}
 	}
 
+	public void clearSelection() {
+		if (hasList()) {
+			getListView().clearChoices();
+		}
+	}
+
 	private StateListenerHelper<ResultsListState> mListStateHelper = new StateListenerHelper<ResultsListState>() {
 
 		@Override

@@ -37,10 +37,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsRecursiveFlightLegsFragment
@@ -1124,6 +1124,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	/**
 	 * Fragment Helpers
 	 */
+
+	public void clearSelection() {
+		if (Ui.isAdded(mListFrag)) {
+			mListFrag.clearSelection();
+		}
+	}
 
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mGrid.getTotalWidth() > 0) {

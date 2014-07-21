@@ -206,6 +206,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mResultsStateHelper.unregisterWithProvider(this);
 	}
 
+	public void clearSelection() {
+		if (Ui.isAdded(mFlightLegsFrag)) {
+			mFlightLegsFrag.clearSelection();
+		}
+	}
+
 	public Rect getAddTripRect() {
 		if(mAddToTripFrag != null){
 			return mAddToTripFrag.getCenteredAddToTripRect();

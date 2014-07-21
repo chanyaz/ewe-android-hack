@@ -52,12 +52,12 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -486,6 +486,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			if (state == ResultsState.OVERVIEW) {
 				resetTranslations();
+
+				if (Ui.isAdded(mFlightsController)) {
+					mFlightsController.clearSelection();
+				}
 			}
 			else {
 				//Make sure everything is off screen
