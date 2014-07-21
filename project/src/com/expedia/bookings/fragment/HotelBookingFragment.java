@@ -86,11 +86,13 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 				HotelSearch search = Db.getHotelSearch();
 				String userId = null;
 				String tripId = null;
+				String tealeafId = null;
 				Long tuid = null;
 
 				if (search.getCreateTripResponse() != null) {
 					tripId = search.getCreateTripResponse().getTripId();
 					userId = search.getCreateTripResponse().getUserId();
+					tealeafId = search.getCreateTripResponse().getTealeafId();
 				}
 
 				if (Db.getUser() != null) {
@@ -99,7 +101,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 				Rate selectedRate = search.getBookingRate();
 				BookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
-					selectedRate, Db.getBillingInfo(), tripId, userId, tuid);
+					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId);
 
 				notifyWalletTransactionStatus(response);
 

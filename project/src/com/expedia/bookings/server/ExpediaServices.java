@@ -513,6 +513,10 @@ public class ExpediaServices implements DownloadListener {
 		List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
 			flags);
+
+		Log.d("HERE", "tealeaf flight=" + itinerary.getTealeafId());
+		addTealeafId(query, itinerary.getTealeafId());
+
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
 			+ F_SECURE_REQUEST);
 	}
@@ -846,9 +850,11 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
-		String tripId, String userId, Long tuid) {
-		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId,
-			userId, tuid);
+		String tripId, String userId, Long tuid, String tealeafId) {
+		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId, tuid);
+
+		Log.d("HERE", "tealeaf=" + tealeafId);
+		addTealeafId(query, tealeafId);
 
 		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
@@ -914,6 +920,13 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		query.add(new BasicNameValuePair("room1", guests.toString()));
+	}
+
+	private void addTealeafId(List<BasicNameValuePair> query, String tealeafId) {
+		if (!TextUtils.isEmpty(tealeafId)) {
+			query.add(new BasicNameValuePair("tlPaymentsSubmitEvent", "1"));
+			query.add(new BasicNameValuePair("tealeafTransactionId", tealeafId));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

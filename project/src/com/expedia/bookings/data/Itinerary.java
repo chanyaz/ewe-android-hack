@@ -15,6 +15,7 @@ public class Itinerary implements JSONable {
 	private String mItineraryNumber;
 	private String mTravelRecordLocator;
 	private String mTripId;
+	private String mTealeafId;
 
 	// List of associated product keys (or rate keys, as they are known in hotels)
 	//
@@ -53,6 +54,14 @@ public class Itinerary implements JSONable {
 		return mProductKeys;
 	}
 
+	public void setTealeafId(String id) {
+		mTealeafId = id;
+	}
+
+	public String getTealeafId() {
+		return mTealeafId;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -62,6 +71,7 @@ public class Itinerary implements JSONable {
 			obj.putOpt("itineraryNumber", mItineraryNumber);
 			obj.putOpt("travelRecordLocator", mTravelRecordLocator);
 			obj.putOpt("tripId", mTripId);
+			obj.putOpt("tealeafId", mTealeafId);
 			JSONUtils.putStringList(obj, "productKeys", mProductKeys);
 			return obj;
 		}
@@ -75,6 +85,7 @@ public class Itinerary implements JSONable {
 		mItineraryNumber = obj.optString("itineraryNumber");
 		mTravelRecordLocator = obj.optString("travelRecordLocator");
 		mTripId = obj.optString("tripId");
+		mTealeafId = obj.optString("tealeafId");
 		mProductKeys = JSONUtils.getStringList(obj, "productKeys");
 		return true;
 	}

@@ -48,6 +48,7 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 
 			createTripResponse.setTripId(response.optString("tripId", null));
 			createTripResponse.setUserId(response.optString("userId", null));
+			createTripResponse.setTealeafId(response.optString("tealeafTransactionId", null));
 
 			JSONObject newHotelResponse = response.getJSONObject("newHotelProductResponse");
 			int numberOfNights = newHotelResponse.getInt("numberOfNights");

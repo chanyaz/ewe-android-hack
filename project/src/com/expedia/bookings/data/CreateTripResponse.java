@@ -12,6 +12,7 @@ public class CreateTripResponse extends Response implements JSONable {
 	private String mTripId;
 	private String mUserId;
 	private Rate mNewRate;
+	private String mTealeafId;
 
 	@Override
 	public boolean isSuccess() {
@@ -42,6 +43,14 @@ public class CreateTripResponse extends Response implements JSONable {
 		return mNewRate;
 	}
 
+	public void setTealeafId(String id) {
+		mTealeafId = id;
+	}
+
+	public String getTealeafId() {
+		return mTealeafId;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 
@@ -55,6 +64,7 @@ public class CreateTripResponse extends Response implements JSONable {
 		try {
 			obj.put("tripId", mTripId);
 			obj.put("userId", mUserId);
+			obj.put("tealeafId", mTealeafId);
 			JSONUtils.putJSONable(obj, "newRate", mNewRate);
 			return obj;
 		}
@@ -70,6 +80,7 @@ public class CreateTripResponse extends Response implements JSONable {
 
 		mTripId = obj.optString("tripId", null);
 		mUserId = obj.optString("userId", null);
+		mTealeafId = obj.optString("tealeafId", null);
 		mNewRate = JSONUtils.getJSONable(obj, "newRate", Rate.class);
 		return true;
 	}

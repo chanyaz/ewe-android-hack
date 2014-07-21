@@ -55,6 +55,7 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 		itinerary.setItineraryNumber(itineraryJson.optString("itineraryNumber"));
 		itinerary.setTravelRecordLocator(itineraryJson.optString("travelRecordLocator"));
 		itinerary.setTripId(itineraryJson.optString("tripId"));
+		itinerary.setTealeafId(response.optString("tealeafTransactionId"));
 		createItinerary.setItinerary(itinerary);
 
 		// Parse details
