@@ -9,6 +9,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Confirmation;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.Search;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.TabletTestCase;
 
@@ -26,9 +27,9 @@ public class HotelConfirmationTests extends TabletTestCase {
 		Launch.clickSuggestion("Detroit, MI");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
-		Results.clickDate(startDate, endDate);
+		Search.clickDate(startDate, endDate);
 		mDateRange = EspressoUtils.getText(R.id.calendar_btn);
-		Results.clickSearchPopupDone();
+		Search.clickSearchPopupDone();
 
 		Results.swipeUpHotelList();
 		Results.clickHotelWithName("happy_path_Hotel_Orchard");

@@ -7,6 +7,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.FlightDetails;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.Search;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.TabletTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
@@ -30,14 +31,14 @@ public class FlightDetailsTests extends TabletTestCase {
 		Launch.typeInDestinationEditText("San Francisco, CA");
 		Launch.clickSuggestion("San Francisco, CA");
 		Common.pressBack();
-		Results.clickOriginButton();
-		Results.typeInOriginEditText("Detroit, MI");
-		Results.clickSuggestion("Detroit, MI");
-		Results.clickSelectFlightDates();
+		Search.clickOriginButton();
+		Search.typeInOriginEditText("Detroit, MI");
+		Search.clickSuggestion("Detroit, MI");
+		Search.clickSelectFlightDates();
 		int randomOffset = 20 + (int) (Math.random() * 100);
 		LocalDate startDate = LocalDate.now().plusDays(randomOffset);
-		Results.clickDate(startDate, null);
-		Results.clickSearchPopupDone();
+		Search.clickDate(startDate, null);
+		Search.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		Results.clickFlightAtIndex(1);
 	}

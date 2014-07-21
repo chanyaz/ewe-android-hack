@@ -12,6 +12,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.Search;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.TabletTestCase;
 
@@ -35,8 +36,8 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 		Launch.clickSuggestion("Detroit, MI");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
-		Results.clickDate(startDate, endDate);
-		Results.clickSearchPopupDone();
+		Search.clickDate(startDate, endDate);
+		Search.clickSearchPopupDone();
 		Results.swipeUpHotelList();
 
 		Results.clickHotelWithName("happy_path");
@@ -68,14 +69,14 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 		Launch.clickSuggestion("Detroit, MI");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
-		Results.clickDate(startDate, endDate);
-		Results.clickSearchPopupDone();
+		Search.clickDate(startDate, endDate);
+		Search.clickSearchPopupDone();
 
 		for (int i = 0; i < adultChildNumberPairs.size(); i++) {
 			Pair<Integer, Integer> currentPair = adultChildNumberPairs.get(i);
-			Results.clickTravelerButton();
+			Search.clickTravelerButton();
 			setGuests(currentPair.first, currentPair.second);
-			Results.clickSearchPopupDone();
+			Search.clickSearchPopupDone();
 			Results.swipeUpHotelList();
 			Results.clickHotelWithName("happy_path");
 			Results.clickAddHotel();
@@ -103,8 +104,8 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			Launch.clickSuggestion("Detroit, MI");
 			LocalDate startDate = LocalDate.now().plusDays(35);
 			LocalDate endDate = LocalDate.now().plusDays(35 + numberOfNights);
-			Results.clickDate(startDate, endDate);
-			Results.clickSearchPopupDone();
+			Search.clickDate(startDate, endDate);
+			Search.clickSearchPopupDone();
 			Results.swipeUpHotelList();
 			Common.enterLog(TAG, "Testing for hotels for a stay of " + numberOfNights + " nights.");
 

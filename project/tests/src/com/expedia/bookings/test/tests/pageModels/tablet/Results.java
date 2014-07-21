@@ -42,14 +42,6 @@ public class Results {
 		return onView(withContentDescription("Flight Search Results"));
 	}
 
-	public static ViewInteraction calendarPicker() {
-		return onView(withId(R.id.calendar_picker));
-	}
-
-	public static void clickTravelerButton() {
-		onView(withId(R.id.traveler_btn)).perform(click());
-	}
-
 	public static void swipeUpHotelList() {
 		try {
 			Thread.sleep(1500);
@@ -85,49 +77,6 @@ public class Results {
 
 	public static ViewInteraction actionUpButton() {
 		return onView(withId(android.R.id.home));
-	}
-
-	public static void clickDate(final LocalDate start, final LocalDate end) {
-		calendarPicker().perform(clickDates(start, end));
-	}
-
-	public static ViewInteraction originButton() {
-		return onView(withId(R.id.origin_btn));
-	}
-
-	public static void clickOriginButton() {
-		originButton().perform(click());
-	}
-
-	public static ViewInteraction originEditText() {
-		return onView(withId(R.id.waypoint_edit_text));
-	}
-
-	public static void typeInOriginEditText(String text) {
-		originEditText().perform(typeText(text));
-	}
-
-	public static void clickSuggestionAtPosition(int index) {
-		onData(anything()) //
-			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
-			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
-			.atPosition(index) //
-			.perform(click());
-	}
-
-	public static void clickSuggestion(String text) {
-		onData(allOf(is(instanceOf(String.class)), equalTo(text))) //
-			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
-			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
-			.perform(click());
-	}
-
-	public static void clickSelectFlightDates() {
-		onView(withId(R.id.calendar_btn)).perform(click());
-	}
-
-	public static void clickSearchPopupDone() {
-		onView(withId(R.id.search_popup_done)).perform(click());
 	}
 
 	public static ViewInteraction addHotel() {

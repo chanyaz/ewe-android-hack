@@ -104,18 +104,18 @@ public class MarketingSweepTablet extends TabletTestCase {
 		Launch.clickSuggestionAtPosition(0);
 
 		Common.pressBack();
-		Results.clickOriginButton();
-		Results.typeInOriginEditText("London, England, UK");
+		Search.clickOriginButton();
+		Search.typeInOriginEditText("London, England, UK");
 		getInstrumentation().sendCharacterSync(KeyEvent.KEYCODE_SPACE);
-		Results.clickSuggestionAtPosition(0);
-		Results.clickSelectFlightDates();
+		Search.clickSuggestionAtPosition(0);
+		Search.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(45);
-		Results.clickDate(startDate, null);
+		Search.clickDate(startDate, null);
 		screenshot("Search");
-		Results.clickSearchPopupDone();
+		Search.clickSearchPopupDone();
 
 		//get screenshot of lap infant alert
-		Results.clickTravelerButton();
+		Search.clickTravelerButton();
 		Search.incrementChildButton();
 		Search.incrementChildButton();
 		Search.clickChild1Spinner();
@@ -125,7 +125,7 @@ public class MarketingSweepTablet extends TabletTestCase {
 		screenshot("Lap_Infant_Alert");
 		Search.decrementChildButton();
 		Search.decrementChildButton();
-		Results.clickSearchPopupDone();
+		Search.clickSearchPopupDone();
 
 		Results.swipeUpFlightList();
 		screenshot("Search_Results");

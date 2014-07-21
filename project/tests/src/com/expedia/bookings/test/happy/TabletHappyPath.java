@@ -6,6 +6,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.Search;
 import com.expedia.bookings.test.utils.TabletTestCase;
 
 public class TabletHappyPath extends TabletTestCase {
@@ -62,14 +63,14 @@ public class TabletHappyPath extends TabletTestCase {
 		Launch.clickSuggestion("Detroit, MI");
 
 		Common.pressBack();
-		Results.clickOriginButton();
-		Results.typeInOriginEditText("San Francisco, CA");
-		Results.clickSuggestion("San Francisco, CA");
-		Results.clickSelectFlightDates();
+		Search.clickOriginButton();
+		Search.typeInOriginEditText("San Francisco, CA");
+		Search.clickSuggestion("San Francisco, CA");
+		Search.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(35);
-		Results.clickDate(startDate, null);
+		Search.clickDate(startDate, null);
 		screenshot("Search");
-		Results.clickSearchPopupDone();
+		Search.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		screenshot("Search_Results");
 		Results.clickFlightAtIndex(1);
@@ -120,15 +121,15 @@ public class TabletHappyPath extends TabletTestCase {
 		Launch.clickSuggestion("Detroit, MI");
 
 		Common.pressBack();
-		Results.clickOriginButton();
-		Results.typeInOriginEditText("San Francisco, CA");
-		Results.clickSuggestion("San Francisco, CA");
-		Results.clickSelectFlightDates();
+		Search.clickOriginButton();
+		Search.typeInOriginEditText("San Francisco, CA");
+		Search.clickSuggestion("San Francisco, CA");
+		Search.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
-		Results.clickDate(startDate, endDate);
+		Search.clickDate(startDate, endDate);
 		screenshot("Search");
-		Results.clickSearchPopupDone();
+		Search.clickSearchPopupDone();
 
 		// Add Hotel to trip bucket
 		Results.swipeUpHotelList();

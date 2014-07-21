@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.Search;
 import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.TabletTestCase;
@@ -33,13 +34,13 @@ public class FlightSearchResultsSortTests extends TabletTestCase {
 		Launch.typeInDestinationEditText("San Francisco, CA");
 		Launch.clickSuggestion("San Francisco, CA");
 		Common.pressBack();
-		Results.clickOriginButton();
-		Results.typeInOriginEditText("Detroit, MI");
-		Results.clickSuggestion("Detroit, MI");
-		Results.clickSelectFlightDates();
+		Search.clickOriginButton();
+		Search.typeInOriginEditText("Detroit, MI");
+		Search.clickSuggestion("Detroit, MI");
+		Search.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(1);
-		Results.clickDate(startDate, null);
-		Results.clickSearchPopupDone();
+		Search.clickDate(startDate, null);
+		Search.clickSearchPopupDone();
 		Results.swipeUpFlightList();
 		mNow = DateTime.now();
 	}
