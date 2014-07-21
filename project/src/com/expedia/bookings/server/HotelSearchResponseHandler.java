@@ -173,7 +173,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		}
 
 		String name, mediaName;
-		String currencyCode = null;
 		JsonToken token, mediaToken;
 		reader.beginObject();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
@@ -297,9 +296,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 			else if (name.equals("isSameDayDRR")) {
 				property.setIsLowestRateTonightOnly(reader.nextBoolean());
-			}
-			else if (name.equals("rateCurrencyCode")) {
-				currencyCode = reader.nextString();
 			}
 			else if (name.equals("highestSurveyPriceAsPrice")) {
 				Money money = readMoney(reader);
