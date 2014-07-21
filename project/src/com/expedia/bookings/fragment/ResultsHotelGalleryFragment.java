@@ -65,7 +65,14 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		mDoneText = Ui.findView(mRootC, R.id.done_button);
 		mHotelText = Ui.findView(mRootC, R.id.photos_for_hotel_text);
 		mPager = Ui.findView(mRootC, R.id.pager);
-		mPager.setPageMargin((int) getResources().getDimension(R.dimen.tablet_gallery_viewpager_gutter_margin));
+
+		Point screen = Ui.getScreenSize(getActivity());
+		final float imageWidth = screen.x * 0.60f;
+		final float imageHeight = screen.y * 0.60f;
+		final int pagerPadding = (int) ((screen.x - imageWidth) / 2);
+		mPager.setPadding(pagerPadding, mPager.getPaddingTop(), pagerPadding, mPager.getPaddingBottom());
+		mPager.setPageMargin(pagerPadding / 2);
+
 		mPager.setClipToPadding(false);
 		mPager.setOffscreenPageLimit(5);
 
@@ -82,7 +89,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			mCurrentImagePosition = savedInstanceState.getInt(INSTANCE_CURRENT_IMAGE, NO_IMAGE);
 		}
 
-		mAdapter = new MediaPagerAdapter(getActivity());
+		mAdapter = new MediaPagerAdapter(imageWidth, imageHeight);
 		mPager.setAdapter(mAdapter);
 		return mRootC;
 	}
@@ -147,13 +154,12 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 	private static class MediaPagerAdapter extends PagerAdapter {
 		private List<Media> mMedia;
-		private int mImageWidth;
-		private int mImageHeight;
+		private float mImageWidth;
+		private float mImageHeight;
 
-		public MediaPagerAdapter(Context context) {
-			Point screen = Ui.getScreenSize(context);
-			mImageWidth = (int) (screen.x * 0.60f);
-			mImageHeight = (int) (screen.y * 0.60f);
+		public MediaPagerAdapter(float imageWidth, float imageHeight) {
+			mImageWidth = imageWidth;
+			mImageHeight = imageHeight;
 		}
 
 		public void replaceWith(List<Media> media) {
@@ -179,8 +185,12 @@ public class ResultsHotelGalleryFragment extends Fragment {
 				@Override
 				public void onBitmapLoaded(String url, Bitmap bitmap) {
 					LayoutParams params = image.getLayoutParams();
-					params.width = mImageWidth;
-					params.height = mImageHeight;
+
+					float scale = mImageWidth / bitmap.getWidth();
+					int scaledHeight = Math.min((int) (scale * bitmap.getHeight()), (int) mImageHeight);
+
+					params.width = (int) mImageWidth;
+					params.height = scaledHeight;
 					image.setLayoutParams(params);
 				}
 

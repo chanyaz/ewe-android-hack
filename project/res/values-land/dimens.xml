@@ -5,7 +5,7 @@
     <dimen name="flight_search_header_padding_top">7dp</dimen>
     <dimen name="flight_search_header_padding_bottom">11dp</dimen>
     <dimen name="flight_search_space_between_rows">5dp</dimen>
-    
+
     <dimen name="flight_header_bottom_margin">44dp</dimen>
 
     <dimen name="plane_window_height">220dp</dimen>
@@ -16,6 +16,4 @@
 
 	<dimen name="hotel_row_price_text_view_max_width">350dp</dimen>
 
-    <dimen name="tablet_gallery_viewpager_padding">300dp</dimen>
-    <dimen name="tablet_gallery_viewpager_gutter_margin">150dp</dimen>
 </resources>
