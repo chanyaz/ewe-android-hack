@@ -898,6 +898,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
 				mHotelListC.setBlockNewEventsEnabled(false);
 			}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
+				mRootC.setVisibility(View.GONE);
+			}
 		}
 
 		@Override
