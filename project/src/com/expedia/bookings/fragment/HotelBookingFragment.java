@@ -366,7 +366,13 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
 					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
-					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
+					HotelAvailability selectedAvailability = Db.getHotelSearch().getSelectedHotelAvailability();
+					if (selectedAvailability != null) {
+						selectedAvailability.removeRate(response.getOriginalProductKey());
+					}
+					else {
+						Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
+					}
 					// Post event for tablets to show the BookingUnavailableFragment
 					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
 				}
