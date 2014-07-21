@@ -1899,19 +1899,6 @@ public class OmnitureTracking {
 		String pageName = String.format(LOGIN_SUCCESS_TEMPLATE, lobParam);
 		ADMS_Measurement s = createTrackLinkEvent(ctx, pageName);
 
-		String var55;
-		if (loggedInWithFb) {
-			var55 = "Facebook";
-		}
-		else {
-			var55 = "Registered";
-		}
-
-		if (isRewards) {
-			var55 += " Rewards";
-		}
-
-		s.setEvar(55, var55);
 		s.setEvents("event26");
 
 		internalTrackLink(s);
@@ -2284,6 +2271,9 @@ public class OmnitureTracking {
 		if (!TextUtils.isEmpty(expediaId)) {
 			s.setProp(13, expediaId);
 		}
+
+		String evar55 =  User.isLoggedIn(context) ? "loggedin | hard" : "unknown user";
+		s.setEvar(55, evar55);
 
 		if (!TextUtils.isEmpty(rewardsStatus)) {
 			s.setEvar(56, rewardsStatus);
