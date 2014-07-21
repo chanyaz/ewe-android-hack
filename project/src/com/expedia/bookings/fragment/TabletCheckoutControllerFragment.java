@@ -1022,6 +1022,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else {
 				Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
 				// TODO tracking ??
+				Db.saveTripBucket(getActivity());
 				setCheckoutState(CheckoutState.CONFIRMATION, true);
 			}
 		}
@@ -1038,6 +1039,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else {
 				Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
+				Db.saveTripBucket(getActivity());
 				response.setProperty(property);
 				setCheckoutState(CheckoutState.CONFIRMATION, true);
 			}
