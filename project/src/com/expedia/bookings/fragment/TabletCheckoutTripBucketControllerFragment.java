@@ -340,11 +340,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			state = TripBucketItemState.EXPANDED;
 		}
 
-		if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION) {
-			state = TripBucketItemState.CONFIRMATION;
-		}
-
-		if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION) {
+		if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION && mIsLandscape) {
 			state = TripBucketItemState.CONFIRMATION;
 		}
 
