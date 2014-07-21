@@ -1186,8 +1186,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.GALLERY) {
 				setGalleryAnimationHardwareRendering(true);
 				setGalleryAnimationVisibilities(true);
-				mHotelDetailsHeaderImageWindowRect = mHotelDetailsFrag.getHotelHeaderImageLocationInWindow();
-				mHotelGalleryImageWindowRect = mHotelGalleryFrag.getCurrentImageLocationInWindow();
 			}
 			else if (stateOne == ResultsHotelsState.GALLERY && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				setGalleryAnimationHardwareRendering(true);
@@ -1479,11 +1477,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelGalleryC.setVisibility(View.VISIBLE);
 		}
 
-		private Rect mHotelDetailsHeaderImageWindowRect;
-		private Rect mHotelGalleryImageWindowRect;
-
 		private void setGalleryShownPercentage(float percentage) {
-			mHotelGalleryFrag.setAnimationPercentage(percentage, mHotelDetailsHeaderImageWindowRect, mHotelGalleryImageWindowRect);
+			mHotelGalleryFrag.setAnimationPercentage(percentage);
 		}
 
 		private void setGalleryAnimationHardwareRendering(boolean useHardwareLayer) {

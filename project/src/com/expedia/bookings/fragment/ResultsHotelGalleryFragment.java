@@ -130,18 +130,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		bind(Db.getHotelSearch().getSelectedProperty());
 	}
 
-	public Rect getCurrentImageLocationInWindow() {
-		View root = mPager.getChildAt(mPager.getCurrentItem());
-		ImageView image = Ui.findView(root, R.id.image);
-
-		int[] location = new int[2];
-		image.getLocationInWindow(location);
-		final int x = location[0];
-		final int y = location[1];
-		return new Rect(x, y, x + image.getWidth(), y + image.getHeight());
-	}
-
-	public void setAnimationPercentage(float p, Rect detailsCoords, Rect galleryCoords) {
+	public void setAnimationPercentage(float p) {
 		mBackground.setAlpha(p);
 		mPager.setAlpha(p);
 		mGalleryActionBar.setTranslationY(-mGalleryActionBar.getHeight() * (1.0f - p));
