@@ -222,11 +222,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			FlightFilter.Sort sort = RES_ID_SORT_MAP.get(Integer.valueOf(checkedId));
-			if (mFilter.getSort() != sort) {
-				OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString(), mLegNumber);
-			}
 			if (sort != null) {
 				mFilter.setSort(sort);
+
+				if (mFilter.getSort() != sort) {
+					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString(), mLegNumber);
+				}
 			}
 
 			if (group.getId() == R.id.flight_filter_control) {
