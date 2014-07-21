@@ -514,7 +514,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
 			flags);
 
-		Log.d("HERE", "tealeaf flight=" + itinerary.getTealeafId());
+		Log.v("tealeafTransactionId for flight: " + itinerary.getTealeafId());
 		addTealeafId(query, itinerary.getTealeafId());
 
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
@@ -853,7 +853,7 @@ public class ExpediaServices implements DownloadListener {
 		String tripId, String userId, Long tuid, String tealeafId) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId, tuid);
 
-		Log.d("HERE", "tealeaf=" + tealeafId);
+		Log.v("tealeafTransactionId for hotel: " + tealeafId);
 		addTealeafId(query, tealeafId);
 
 		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);

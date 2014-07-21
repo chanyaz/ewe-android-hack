@@ -51,7 +51,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
-		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
+		ScreenActions.enterLog(TAG, "Clicking suggestion");
 		HotelsSearchScreen.clickSuggestion(getActivity(), "Boston, MA");
 		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 
@@ -91,7 +91,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
+		ScreenActions.enterLog(TAG, "Clicking suggestion");
 		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickReviewsTitle();

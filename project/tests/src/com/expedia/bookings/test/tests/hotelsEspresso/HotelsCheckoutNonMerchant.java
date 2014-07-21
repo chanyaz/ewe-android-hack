@@ -64,10 +64,9 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "Las Vegas, NV");
-		ScreenActions.enterLog(TAG, "HERE entering text");
 		HotelsSearchScreen.enterSearchText("Las Vegas, NV");
 
-		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
+		ScreenActions.enterLog(TAG, "Clicking suggestion");
 		HotelsSearchScreen.clickSuggestion(getActivity(), "Las Vegas, NV");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);

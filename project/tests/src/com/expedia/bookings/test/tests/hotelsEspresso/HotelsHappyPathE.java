@@ -52,7 +52,7 @@ public class HotelsHappyPathE {
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
 		HotelsSearchScreen.enterSearchText("New York, NY");
 
-		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
+		ScreenActions.enterLog(TAG, "Clicking suggestion");
 		HotelsSearchScreen.clickSuggestion(activity, "New York, NY");
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
