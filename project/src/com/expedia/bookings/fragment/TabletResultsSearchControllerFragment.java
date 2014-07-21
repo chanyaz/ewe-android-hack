@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
 
 import android.annotation.TargetApi;
 import android.graphics.Rect;
@@ -435,6 +436,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
 		dateChangeHelper(startDate, endDate);
+	}
+
+	@Override
+	public void onYearMonthDisplayedChanged(YearMonth yearMonth) {
+		mGdeFragment.scrollToMonth(yearMonth);
 	}
 
 	/*

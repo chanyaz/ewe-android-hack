@@ -27,7 +27,9 @@ import com.squareup.otto.Subscribe;
  * keep track of its own internal state; I don't want to risk duplicating any data and
  * confusing the issue.
  */
-public class ResultsDatesFragment extends Fragment implements CalendarPicker.DateSelectionChangedListener {
+public class ResultsDatesFragment extends Fragment implements
+	CalendarPicker.DateSelectionChangedListener,
+	CalendarPicker.YearMonthDisplayedChangedListener {
 
 	private DatesFragmentListener mListener;
 
@@ -54,6 +56,7 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
 		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
+		mCalendarPicker.setYearMonthDisplayedChangedListener(this);
 
 		return view;
 	}
@@ -92,6 +95,14 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// YearMonthDisplayedChangedListener
+
+	@Override
+	public void onYearMonthDisplayed(YearMonth yearMonth) {
+		mListener.onYearMonthDisplayedChanged(yearMonth);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Otto event - GDE week clicked
 
 	@Subscribe
@@ -104,6 +115,7 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 
 	public interface DatesFragmentListener {
 		public void onDatesChanged(LocalDate startDate, LocalDate endDate);
+		public void onYearMonthDisplayedChanged(YearMonth yearMonth);
 	}
 
 }

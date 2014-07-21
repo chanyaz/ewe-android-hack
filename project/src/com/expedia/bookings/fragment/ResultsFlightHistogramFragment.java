@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -59,6 +60,11 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 			mAdapter.setSelectedDepartureDate(departureDate);
 			mList.smoothScrollToPosition(0);
 		}
+	}
+
+	public void scrollToMonth(YearMonth yearMonth) {
+		LocalDate firstOfThaMonth = new LocalDate(yearMonth.year().get(), yearMonth.monthOfYear().get(), 1);
+		mList.smoothScrollToPosition(mAdapter.getPositionOf(firstOfThaMonth));
 	}
 
 	@Override

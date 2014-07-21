@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -149,10 +150,21 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	/*
 	 * Search Param updates
 	 */
+
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
 		setGdeInfo(Sp.getParams().getOriginLocation(true), Sp.getParams().getDestinationLocation(true),
 			Sp.getParams().getStartDate());
+	}
+
+	/*
+	 * Calendar interaction
+	 */
+
+	public void scrollToMonth(YearMonth yearMonth) {
+		if (mHistogramFrag != null) {
+			mHistogramFrag.scrollToMonth(yearMonth);
+		}
 	}
 
 	/*

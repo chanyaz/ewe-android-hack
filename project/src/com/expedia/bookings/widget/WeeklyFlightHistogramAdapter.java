@@ -138,6 +138,21 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			: mWeeklyHistograms.get(position);
 	}
 
+	// Finds the position of the date within the weeks in this adapter
+	public int getPositionOf(LocalDate localDate) {
+		getWeeklyHistograms();
+		if (mWeeklyHistograms == null) {
+			return -1;
+		}
+		for (int i = 0; i < mWeeklyHistograms.size(); i++) {
+			WeeklyFlightHistogram week = mWeeklyHistograms.get(i);
+			if (week.isInWeek(localDate)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	@Override
 	public long getItemId(int position) {
 		return getItem(position).getWeekStart().toDateTimeAtStartOfDay().getMillis();
