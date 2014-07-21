@@ -241,6 +241,7 @@ public class BookingInfoUtils {
 	 * @return true if billing info was updated;
 	 */
 	public static boolean populatePaymentDataFromUser(Context context, LineOfBusiness lob) {
+		Db.loadBillingInfo(context);
 		BillingInfo info = Db.getBillingInfo();
 		if (User.isLoggedIn(context)) {
 			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
