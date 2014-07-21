@@ -57,7 +57,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	private static final String TAG_MAILCHIMP_SUCCESS_DIALOG = "TAG_MAILCHIMP_SUCCESS_DIALOG";
 	private static final String TAG_MAILCHIMP_FAILURE_DIALOG = "TAG_MAILCHIMP_FAILURE_DIALOG";
 
-	private static final int ROW_CONTACT_EXPEDIA = 1;
+	private static final int ROW_BOOKING_SUPPORT = 1;
 	private static final int ROW_EXPEDIA_WEBSITE = 2;
 	private static final int ROW_APP_SUPPORT = 3;
 	private static final int ROW_WERE_HIRING = 4;
@@ -100,18 +100,24 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		AboutSectionFragment contactUsFragment = Ui.findSupportFragment(this, TAG_CONTACT_US);
 		if (contactUsFragment == null) {
 			builder = new AboutSectionFragment.Builder(this);
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutContactUsString), ROW_CONTACT_EXPEDIA);
+
+			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
+
+			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
+
 			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_TRAVELOCITY) {
 				builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 			}
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
+
 			if (ExpediaBookingApp.IS_EXPEDIA) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
+
 			// 1170. VSC Add clear private data in info/about screen
 			else if (ExpediaBookingApp.IS_VSC) {
 				builder.addRow(R.string.clear_private_data, ROW_VSC_PRIVATE_DATA);
 			}
+
 			contactUsFragment = builder.build();
 			ft.add(R.id.section_contact_us, contactUsFragment, TAG_CONTACT_US);
 		}
@@ -276,7 +282,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	@Override
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
-		case ROW_CONTACT_EXPEDIA: {
+		case ROW_BOOKING_SUPPORT: {
 			// 1245. VSC Show app support url
 			if (ExpediaBookingApp.IS_VSC) {
 				mAboutUtils.openContactUsVSC();

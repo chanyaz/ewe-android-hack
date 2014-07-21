@@ -2301,6 +2301,8 @@
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Contact Expedia</string>
+    <!-- Label for "Booking Support" button in info page -->
+    <string name="booking_support">Booking Support</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_expedia_via">Contact Expedia Via…</string>
     <!-- Contact Expedia via phone -->

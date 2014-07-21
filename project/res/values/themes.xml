@@ -190,7 +190,6 @@
         <item name="travelerLabelOnCheckout">@string/guest_details</item>
         <item name="bestPriceGuaranteeString">@string/best_price_guarantee</item>
         <item name="hotelBookButtonString">@string/book_now</item>
-        <item name="aboutContactUsString">@string/contact_expedia</item>
         <item name="aboutWebsiteString">@string/expedia_website</item>
         <item name="aboutAppSupportString">@string/app_support</item>
         <item name="aboutCopyrightString">@string/copyright</item>

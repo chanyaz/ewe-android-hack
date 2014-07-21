@@ -64,14 +64,6 @@ public class AboutUtils {
 			}
 		});
 
-		// Always show email option
-		items.add(mActivity.getString(R.string.contact_expedia_email));
-		actions.add(new Runnable() {
-			public void run() {
-				contactViaEmail();
-			}
-		});
-
 		builder.setItems(items.toArray(new String[0]), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				if (onDismiss != null) {
