@@ -91,8 +91,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBgDestImageC;
 	private FrameLayoutTouchController mTripBucketC;
-	private ViewGroup mFlightsC;
-	private ViewGroup mHotelC;
+	private FrameLayoutTouchController mFlightsC;
+	private FrameLayoutTouchController mHotelC;
 	private ViewGroup mSearchC;
 
 	private View mShadeView;
@@ -882,8 +882,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			mHotelsController.getResultsSearchStateListener().onStateTransitionStart(stateOne, stateTwo);
-			mFlightsController.getResultsSearchStateListener().onStateTransitionStart(stateOne, stateTwo);
 			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
@@ -896,8 +894,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-			mHotelsController.getResultsSearchStateListener().onStateTransitionUpdate(stateOne, stateTwo, percentage);
-			mFlightsController.getResultsSearchStateListener().onStateTransitionUpdate(stateOne, stateTwo, percentage);
 			if (isSearchControlsActiveTransition(stateOne, stateTwo)) {
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(2));
@@ -935,8 +931,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			mHotelsController.getResultsSearchStateListener().onStateTransitionEnd(stateOne, stateTwo);
-			mFlightsController.getResultsSearchStateListener().onStateTransitionEnd(stateOne, stateTwo);
 			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
@@ -952,8 +946,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-			mHotelsController.getResultsSearchStateListener().onStateFinalized(state);
-			mFlightsController.getResultsSearchStateListener().onStateFinalized(state);
 			if (mSearchC != null) {
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
 			}
@@ -965,6 +957,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mBackgroundImageFrag.setBlur(false);
 			}
 
+			// Search popup shade / touch blocking
+			mFlightsC.setBlockNewEventsEnabled(state.showsSearchPopup());
+			mHotelC.setBlockNewEventsEnabled(state.showsSearchPopup());
 			mShadeView.setVisibility(state.showsSearchPopup() ? View.VISIBLE : View.GONE);
 		}
 

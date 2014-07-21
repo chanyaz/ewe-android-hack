@@ -929,38 +929,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	};
 
 	/*
-	 * RESULTS SEARCH STATE LISTENER
-	 */
-
-	public StateListenerHelper<ResultsSearchState> getResultsSearchStateListener() {
-		return mResultsSearchStateHelper;
-	}
-
-	private StateListenerHelper<ResultsSearchState> mResultsSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
-		@Override
-		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
-				mHotelListC.setBlockNewEventsEnabled(true);
-			}
-		}
-
-		@Override
-		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-
-		}
-
-		@Override
-		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-
-		}
-
-		@Override
-		public void onStateFinalized(ResultsSearchState state) {
-			mHotelListC.setBlockNewEventsEnabled(state.showsSearchControls() ? true : false);
-		}
-	};
-
-	/*
 	 * MEASUREMENT LISTENER
 	 */
 

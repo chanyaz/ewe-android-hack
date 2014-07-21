@@ -584,38 +584,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	};
 
 	/*
-	 * RESULTS SEARCH STATE LISTENER
-	 */
-
-	public StateListenerHelper<ResultsSearchState> getResultsSearchStateListener() {
-		return mResultsSearchStateHelper;
-	}
-
-	private StateListenerHelper<ResultsSearchState> mResultsSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
-		@Override
-		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
-				mFlightLegsC.setBlockNewEventsEnabled(true);
-			}
-		}
-
-		@Override
-		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-
-		}
-
-		@Override
-		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-
-		}
-
-		@Override
-		public void onStateFinalized(ResultsSearchState state) {
-			mFlightLegsC.setBlockNewEventsEnabled(state.showsSearchControls() ? true : false);
-		}
-	};
-
-	/*
 	 * MEASUREMENT LISTENER
 	 */
 
