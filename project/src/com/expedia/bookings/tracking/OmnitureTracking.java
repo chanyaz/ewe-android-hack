@@ -1215,13 +1215,6 @@ public class OmnitureTracking {
 	private static final String BASE_RFFR_FEATURED_LINK = "App.LS.Featured.";
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
 
-	public static void trackTabletLaunchPageLoad(Context context) {
-		ADMS_Measurement s = getFreshTrackingObject(context);
-		s.setEvar(2, "D=c2"); // TODO this value seems...wrong.
-		addStandardFields(context, s);
-		s.track();
-	}
-
 	// When a bottom tile is clicked – collection selection
 	public static void trackTabletLaunchTileSelect(Context context, String tileCategory) {
 		ADMS_Measurement s = createTrackLinkEvent(context, "nil");
@@ -1937,6 +1930,7 @@ public class OmnitureTracking {
 	public static void trackPageLoadLaunchScreen(Context context) {
 		ADMS_Measurement s = createTrackLinkEvent(context, LAUNCH_SCREEN);
 		s.setProp(2, "storefront");
+		s.setEvar(2, "storefront");
 		s.track();
 	}
 
