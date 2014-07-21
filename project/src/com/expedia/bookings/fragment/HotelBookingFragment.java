@@ -304,22 +304,21 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	 * which is common for most cases.
 	 * If we want to add more UI functionality, then Subscribe to Events.HotelProductDownloadSuccess class.
 	 */
-	private void onHotelProductSuccess(HotelProductResponse response, final String selectedId, Rate selectedRate,
-									   Rate newRate) {
+	private void onHotelProductSuccess(HotelProductResponse response, final String selectedId, Rate selectedRate, Rate newRate) {
 		if (!AndroidUtils.isRelease(getActivity())) {
-			String val = SettingUtils.get(getActivity(),
+			String priceChangeString = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_hotel_price_change),
 				getString(R.string.preference_fake_price_change_default));
-			BigDecimal bigDecVal = new BigDecimal(val);
+			BigDecimal priceChange = new BigDecimal(priceChangeString);
 
 			//Update total price
-			newRate.getDisplayTotalPrice().add(bigDecVal);
+			newRate.getDisplayTotalPrice().add(priceChange);
 
 			//Update all nights total and per/night totals
-			newRate.getNightlyRateTotal().add(bigDecVal);
+			newRate.getNightlyRateTotal().add(priceChange);
 			if (newRate.getRateBreakdownList() != null) {
-				BigDecimal perNightChange = bigDecVal.divide(new BigDecimal(newRate
-					.getRateBreakdownList().size()));
+				BigDecimal numberOfNights = new BigDecimal(newRate.getRateBreakdownList().size());
+				BigDecimal perNightChange = priceChange.divide(numberOfNights, BigDecimal.ROUND_UP);
 				for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
 					breakdown.getAmount().add(perNightChange);
 				}
