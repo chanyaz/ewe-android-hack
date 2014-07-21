@@ -336,16 +336,18 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			state = TripBucketItemState.SHOWING_CHECKOUT_BUTTON;
 		}
 
-		if (state == TripBucketItemState.DEFAULT && item.isSelected() && mIsLandscape) {
-			state = TripBucketItemState.EXPANDED;
-		}
+		if (mIsLandscape) {
+			if (state == TripBucketItemState.DEFAULT && item.isSelected()) {
+				state = TripBucketItemState.EXPANDED;
+			}
 
-		if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION && mIsLandscape) {
-			state = TripBucketItemState.CONFIRMATION;
-		}
+			if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION) {
+				state = TripBucketItemState.CONFIRMATION;
+			}
 
-		if (lobMatches && item.hasPriceChanged() && CheckoutState.shouldShowPriceChange(checkoutState) && mIsLandscape) {
-			state = TripBucketItemState.SHOWING_PRICE_CHANGE;
+			if (lobMatches && item.hasPriceChanged() && CheckoutState.shouldShowPriceChange(checkoutState)) {
+				state = TripBucketItemState.SHOWING_PRICE_CHANGE;
+			}
 		}
 
 		if (!lobMatches && checkoutState == CheckoutState.BOOKING) {
