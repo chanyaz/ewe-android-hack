@@ -232,8 +232,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			if (group.getId() == R.id.flight_filter_control) {
 				int newStops = FlightFilter.getStopsValueFromStopsViewId(checkedId);
 				if (mFilter.getStops() != newStops) {
-					String stopsString = getActivity().getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, newStops);
-					OmnitureTracking.trackLinkFlightFilter(getActivity(), stopsString);
+					OmnitureTracking.trackNumStopsFlightFilter(getActivity(), newStops);
 				}
 				mFilter.setStops(newStops);
 			}

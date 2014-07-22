@@ -1112,6 +1112,21 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
+	public static void trackNumStopsFlightFilter(Context context, int numStops) {
+		// Has to always be in English, so no getQuantityString allowed.
+		String stopsString;
+		if (numStops == 0) {
+			stopsString = "No Stops";
+		}
+		else if (numStops == 1) {
+			stopsString = "1 Stop";
+		}
+		else {
+			stopsString = numStops + " Stops";
+		}
+		trackLinkFlightFilter(context, stopsString);
+	}
+
 	public static void trackLinkFlightRemoveOutboundSelection(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT);
 	}
