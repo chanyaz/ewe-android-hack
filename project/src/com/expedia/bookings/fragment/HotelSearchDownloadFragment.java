@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -18,6 +20,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 
 	private static final String STATE_PARAMS = "STATE_PARAMS";
 	private static final String DL_SEARCH = "DL_HOTEL_SEARCH";
+	private static final String DL_SEARCH_HOTEL = "DL_HOTEL_SEARCH_HOTEL";
 
 	public static HotelSearchDownloadFragment newInstance(HotelSearchParams params) {
 		HotelSearchDownloadFragment frag = new HotelSearchDownloadFragment();
@@ -72,16 +75,19 @@ public class HotelSearchDownloadFragment extends Fragment {
 		if (bd.isDownloading(DL_SEARCH)) {
 			bd.registerDownloadCallback(DL_SEARCH, mSearchCallback);
 		}
+		if (bd.isDownloading(DL_SEARCH_HOTEL)) {
+			bd.registerDownloadCallback(DL_SEARCH_HOTEL, mSearchHotelCallback);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		if (getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(DL_SEARCH);
+			cancelAllDownloads();
 		}
 		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(DL_SEARCH);
+			unregisterAllCallbacks();
 		}
 	}
 
@@ -99,9 +105,8 @@ public class HotelSearchDownloadFragment extends Fragment {
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
-	public void ignoreNextDownload(){
-		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		dl.unregisterDownloadCallback(DL_SEARCH);
+	public void ignoreNextDownload() {
+		unregisterAllCallbacks();
 	}
 
 	public void startOrResumeForParams(HotelSearchParams params) {
@@ -110,39 +115,80 @@ public class HotelSearchDownloadFragment extends Fragment {
 			mStartOrResumeOnAttach = true;
 		}
 		else {
+			// Unregister all callbacks at first because we might not need them
+			unregisterAllCallbacks();
+
 			BackgroundDownloader dl = BackgroundDownloader.getInstance();
-			dl.unregisterDownloadCallback(DL_SEARCH);
+			boolean areNewParams = mSearchParams != null && !mSearchParams.equals(params);
+
 			if (dl.isDownloading(DL_SEARCH)) {
-				if (mSearchParams != null && !mSearchParams.equals(params)) {
+				if (areNewParams) {
 					//We're in the middle of a download and we just got new (and different) params.
-					dl.cancelDownload(DL_SEARCH);
 					setSearchParams(params);
-					startOrRestart();
+					startOrRestartSearch();
 				}
 				else {
-					//Our params haven't changed so just listen for the existing download
 					dl.registerDownloadCallback(DL_SEARCH, mSearchCallback);
 				}
 			}
-			else {
-				//We weren't downloading, so we should start
-				setSearchParams(params);
-				startOrRestart();
+			else if (dl.isDownloading(DL_SEARCH_HOTEL)) {
+				if (areNewParams) {
+					//We're in the middle of a download and we just got new (and different) params.
+					setSearchParams(params);
+					startOrRestartSearchByHotel();
+				}
+				else {
+					dl.registerDownloadCallback(DL_SEARCH_HOTEL, mSearchHotelCallback);
+				}
 			}
+			else {
+				setSearchParams(params);
+
+				if (mSearchParams.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
+					startOrRestartSearchByHotel();
+				}
+				else {
+					startOrRestartSearch();
+				}
+			}
+
 		}
 	}
 
-	public void startOrRestart() {
+	private void startOrRestartSearch() {
+		cancelAllDownloads();
+		unregisterAllCallbacks();
+		BackgroundDownloader.getInstance().startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
+	}
+
+	private void startOrRestartSearchByHotel() {
+		cancelAllDownloads();
+		unregisterAllCallbacks();
+		BackgroundDownloader.getInstance().startDownload(DL_SEARCH_HOTEL, mSearchHotelDownload, mSearchHotelCallback);
+	}
+
+	private void cancelAllDownloads() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		dl.unregisterDownloadCallback(DL_SEARCH);
 		if (dl.isDownloading(DL_SEARCH)) {
 			dl.cancelDownload(DL_SEARCH);
 		}
-		dl.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
+		if (dl.isDownloading(DL_SEARCH_HOTEL)) {
+			dl.cancelDownload(DL_SEARCH_HOTEL);
+		}
 	}
 
-	public boolean isDownloadingHotelSearch() {
+	private void unregisterAllCallbacks() {
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		dl.unregisterDownloadCallback(DL_SEARCH);
+		dl.unregisterDownloadCallback(DL_SEARCH_HOTEL);
+	}
+
+	public boolean isDownloadingSearch() {
 		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH);
+	}
+
+	public boolean isDownloadingSearchByHotel() {
+		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH_HOTEL);
 	}
 
 	protected void setSearchParams(HotelSearchParams params) {
@@ -165,6 +211,31 @@ public class HotelSearchDownloadFragment extends Fragment {
 			}
 			else {
 				Log.e("Our HotelSearch returned, but we cannot use it. mListener == null:" + (mListener == null)
+					+ " getActivity() == null:" + (getActivity() == null));
+			}
+		}
+	};
+
+	private final BackgroundDownloader.Download<HotelOffersResponse> mSearchHotelDownload = new BackgroundDownloader.Download<HotelOffersResponse>() {
+		@Override
+		public HotelOffersResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+
+			Property selectedProperty = new Property();
+			selectedProperty.setPropertyId(Db.getHotelSearch().getSearchParams().getRegionId());
+
+			return services.availability(mSearchParams, selectedProperty);
+		}
+	};
+
+	private final BackgroundDownloader.OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new BackgroundDownloader.OnDownloadComplete<HotelOffersResponse>() {
+		@Override
+		public void onDownload(HotelOffersResponse results) {
+			if (mListener != null && getActivity() != null) {
+				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL, results);
+			}
+			else {
+				Log.e("Search by hotel returned but we can't use it. mListener == null:" + (mListener == null)
 					+ " getActivity() == null:" + (getActivity() == null));
 			}
 		}

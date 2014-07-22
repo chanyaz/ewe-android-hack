@@ -33,6 +33,7 @@ public class ExpediaServicesFragment extends Fragment {
 	public enum ServiceType {
 		SUGGEST_NEARBY,
 		HOTEL_SEARCH,
+		HOTEL_SEARCH_HOTEL,
 		FLIGHT_SEARCH,
 		HOTEL_AFFINITY_SEARCH,
 		FLIGHT_GDE_SEARCH

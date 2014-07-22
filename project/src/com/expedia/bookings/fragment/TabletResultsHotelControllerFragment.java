@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,13 +14,13 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
-import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
@@ -47,6 +46,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.TimingLogger;
@@ -1535,8 +1535,23 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
-			else if (!mHotelSearchDownloadFrag.isDownloadingHotelSearch()) {
+			else if (!mHotelSearchDownloadFrag.isDownloadingSearch()) {
 				// If we aren't downloading, and we dont have a valid response, we move to the error state
+				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+			}
+		}
+		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
+			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
+			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
+			Property property = offersResponse.getProperty();
+			Db.getHotelSearch().setSelectedProperty(property);
+
+			if (response != null && !response.hasErrors()) {
+				mHotelListC.setVisibility(View.VISIBLE);
+
+				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+			}
+			else if (!mHotelSearchDownloadFrag.isDownloadingSearchByHotel()) {
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
 		}
