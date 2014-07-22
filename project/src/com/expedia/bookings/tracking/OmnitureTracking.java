@@ -49,6 +49,7 @@ import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
@@ -1231,8 +1232,30 @@ public class OmnitureTracking {
 	}
 
 	// Destination waypoint screen - Launch
-	public static void trackTabletDestinationSearchPageLoad(Context context) {
-		internalTrackPageLoadEventStandard(context, TABLET_LAUNCH_DEST_SELECT);
+	public static void trackTabletDestinationSearchPageLoad(Context context, SearchParams params) {
+		Log.d(TAG, "Tracking \"" + TABLET_LAUNCH_DEST_SELECT + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, TABLET_LAUNCH_DEST_SELECT);
+		internalSetHotelDateProps(s, params.toHotelSearchParams());
+		addOriginAndDesinationVars(s, params);
+		s.setEvents("event2");
+		s.setEvar(48, params.getDestination().getDisplayName());
+		s.track();
+	}
+
+	private static void addOriginAndDesinationVars(ADMS_Measurement s, SearchParams params) {
+		String originAirportCode = params.getOriginAirport().getAirportCode();
+		if (TextUtils.isEmpty(originAirportCode)) {
+			originAirportCode = "nil";
+		}
+		s.setEvar(3, originAirportCode);
+		s.setProp(3, originAirportCode);
+
+		String destinationAirportCode = params.getDestinationAirport().getAirportCode();
+		if (TextUtils.isEmpty(destinationAirportCode)) {
+			destinationAirportCode = "nil";
+		}
+		s.setEvar(4, destinationAirportCode);
+		s.setProp(4, destinationAirportCode);
 	}
 
 	public static void trackTabletSearchResultsPageLoad(Context context) {
@@ -1301,17 +1324,38 @@ public class OmnitureTracking {
 	}
 
 	private static void internalSetHotelDateProps(ADMS_Measurement s, HotelSearchParams searchParams) {
-		String checkInDate = searchParams.getCheckInDate().toString(PROP_DATE_FORMAT);
-		s.setProp(5, checkInDate);
+		LocalDate checkInDate = searchParams.getCheckInDate();
+		LocalDate checkOutDate = searchParams.getCheckOutDate();
+		setDateValues(s, checkInDate, checkOutDate);
+	}
 
-		String checkoutDate;
-		if (searchParams.getCheckOutDate() != null) {
-			checkoutDate = searchParams.getCheckOutDate().toString(PROP_DATE_FORMAT);
+	private static void internalSetFlightDateProps(ADMS_Measurement s, FlightSearchParams searchParams) {
+		LocalDate departureDate = searchParams.getDepartureDate();
+		LocalDate returnDate = searchParams.getReturnDate();
+		setDateValues(s, departureDate, returnDate);
+	}
+
+	private static void setDateValues(ADMS_Measurement s, LocalDate startDate, LocalDate endDate) {
+		String checkInString = startDate.toString(PROP_DATE_FORMAT);
+		s.setProp(5, checkInString);
+
+		String checkOutString;
+		if (endDate != null) {
+			checkOutString = endDate.toString(PROP_DATE_FORMAT);
 		}
 		else {
-			checkoutDate = "nil";
+			checkOutString = "nil";
 		}
-		s.setProp(6, checkoutDate);
+		s.setProp(6, checkOutString);
+
+		LocalDate now = LocalDate.now();
+
+		// num days between current day (now) and flight departure date
+		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, startDate));
+		s.setEvar(5, numDaysOut);
+
+		String duration = Integer.toString(JodaUtils.daysBetween(startDate, endDate));
+		s.setEvar(6, duration);
 	}
 
 	public static void trackLinkHotelPinClick(Context context) {
