@@ -752,7 +752,6 @@ public class OmnitureTracking {
 
 	private static final String FLIGHT_SEARCH_RESULTS_ONE_WAY = "App.Flight.Search.OneWay";
 	private static final String PREFIX_FLIGHT_SEARCH_ONE_WAY_SELECT = "App.Flight.Search.OneWay.Select";
-	private static final String PREFIX_FLIGHT_SEARCH_ONE_WAY_SORT = "App.Flight.Search.OneWay.Sort";
 	private static final String FLIGHT_SEARCH_ONE_WAY_REFINE = "App.Flight.Search.OneWay.RefineSearch";
 	private static final String FLIGHT_SEARCH_ONE_WAY_DETAILS = "App.Flight.Search.OneWay.Details";
 	private static final String FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE = "App.Flight.Search.OneWay.BaggageFee";
@@ -766,10 +765,10 @@ public class OmnitureTracking {
 	private static final String FLIGHT_ERROR_SEARCH_EXPIRED = "App.Flight.Error.Search.Expired";
 
 	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SELECT = "App.Flight.Search.Roundtrip.Out.Select";
-	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT = "App.Flight.Search.Roundtrip.Out.Sort";
+	private static final String PREFIX_FLIGHT_SEARCH_SORT = "App.Flight.Search.Sort";
+	private static final String PREFIX_FLIGHT_SEARCH_FILTER = "App.Flight.Search.Filter";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE = "App.Flight.Search.Roundtrip.Out.RefineSearch";
 	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT = "App.Flight.Search.Roundtrip.In.Select";
-	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT = "App.Flight.Search.Roundtrip.In.Sort";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
 
@@ -1103,41 +1102,13 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackLinkFlightSort(Context context, String sortType, int legPosition) {
-		String prefix = "";
-
-		if (legPosition == 0) {
-			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT;
-			}
-			else {
-				prefix = PREFIX_FLIGHT_SEARCH_ONE_WAY_SORT;
-			}
-		}
-		else if (legPosition == 1) {
-			prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT;
-		}
-
-		String link = prefix + "." + sortType;
+	public static void trackLinkFlightSort(Context context, String sortType) {
+		String link = PREFIX_FLIGHT_SEARCH_SORT + "." + sortType;
 		internalTrackLink(context, link);
 	}
 
-	public static void trackLinkFlightFilter(Context context, String filterType, int legPosition) {
-		String prefix = "";
-
-		if (legPosition == 0) {
-			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT;
-			}
-			else {
-				prefix = PREFIX_FLIGHT_SEARCH_ONE_WAY_SORT;
-			}
-		}
-		else if (legPosition == 1) {
-			prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT;
-		}
-
-		String link = prefix + "." + filterType;
+	public static void trackLinkFlightFilter(Context context, String filterType) {
+		String link = PREFIX_FLIGHT_SEARCH_FILTER + "." + filterType;
 		internalTrackLink(context, link);
 	}
 

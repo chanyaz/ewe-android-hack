@@ -225,7 +225,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			if (sort != null) {
 				if (mFilter.getSort() != sort) {
 					mFilter.setSort(sort);
-					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString(), mLegNumber);
+					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString());
 				}
 			}
 
@@ -233,7 +233,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				int newStops = FlightFilter.getStopsValueFromStopsViewId(checkedId);
 				if (mFilter.getStops() != newStops) {
 					String stopsString = getActivity().getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, newStops);
-					OmnitureTracking.trackLinkFlightFilter(getActivity(), stopsString, mLegNumber);
+					OmnitureTracking.trackLinkFlightFilter(getActivity(), stopsString);
 				}
 				mFilter.setStops(newStops);
 			}
@@ -247,7 +247,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			String airlineCode = (String) view.getTag();
 			mFilter.setPreferredAirline(airlineCode, isChecked);
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airline", mLegNumber);
+			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airline");
 			onFilterChanged();
 		}
 	};
@@ -264,7 +264,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			else {
 				mFilter.removeAirport(departureAirport, airportCode);
 			}
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airport", mLegNumber);
+			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airport");
 			onFilterChanged();
 		}
 	};

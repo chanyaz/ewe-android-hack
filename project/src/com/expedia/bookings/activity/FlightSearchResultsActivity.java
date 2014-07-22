@@ -739,7 +739,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			filter.notifyFilterChanged();
 			item.setChecked(true);
 
-			OmnitureTracking.trackLinkFlightSort(mContext, filter.getSort().name(), mLegPosition);
+			OmnitureTracking.trackLinkFlightSort(mContext, filter.getSort().name());
 
 			return true;
 		case R.id.menu_search: {
