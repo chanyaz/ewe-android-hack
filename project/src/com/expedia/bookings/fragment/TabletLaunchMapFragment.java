@@ -6,11 +6,9 @@ import java.util.List;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +27,10 @@ import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.jhlabs.map.Point2D;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
@@ -324,6 +322,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				@Override
 				public void onClick(View view) {
 					mSelectedLocation = launchLocation;
+					OmnitureTracking.trackLaunchCitySelect(getActivity(), mSelectedLocation.id);
 					Events.post(new Events.LaunchMapPinClicked(launchLocation));
 				}
 			});

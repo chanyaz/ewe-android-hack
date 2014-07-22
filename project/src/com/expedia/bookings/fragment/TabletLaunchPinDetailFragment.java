@@ -16,7 +16,6 @@ import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoundImageView;
@@ -93,7 +92,6 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 				@Override
 				public void onClick(View view) {
 					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null));
-					OmnitureTracking.trackLaunchCitySelect(getActivity(), event.launchLocation.id);
 				}
 			});
 		}
