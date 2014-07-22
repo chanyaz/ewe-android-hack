@@ -1011,13 +1011,12 @@
     <!-- For the tablet launch map pins -->
     <style name="MapPinUpperTextAppearance">
         <item name="android:textColor">@color/actionbar_text</item>
-        <item name="android:textSize">20dp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="MapPinLowerTextAppearance">
         <item name="android:textColor">@color/actionbar_text</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!-- For the destination stack text spans in DestinationTilesFragment -->

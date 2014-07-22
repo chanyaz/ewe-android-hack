@@ -1,82 +1,87 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.enums.LaunchState;
-import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
+import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
-import com.jhlabs.map.Point2D;
-import com.mobiata.android.util.AndroidUtils;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Tile;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.maps.model.TileProvider;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
-public class TabletLaunchMapFragment extends SvgMapFragment {
-	private LayoutInflater mInflater;
-	private FrameLayout mRoot;
-	private FrameLayout mPinC;
+public class TabletLaunchMapFragment extends SupportMapFragment {
+	private HashMap<LaunchLocation, Marker> mLocations;
+	private LaunchLocation mClickedLocation;
 
-	private SvgDrawable mMapDrawable;
-	private Drawable mTiledDotDrawable;
-	private GradientDrawable mLinearGradDrawable;
-	private GradientDrawable mRadialGradDrawable;
-
-	private LaunchCollection mSelectedCollection;
-	private LaunchLocation mSelectedLocation;
-
-	private List<Rect> mNonOverlappingRects = new ArrayList<Rect>();
+	// value taken from google-play-services.jar
+	private static final String MAP_OPTIONS = "MapOptions";
 
 	public static TabletLaunchMapFragment newInstance() {
 		TabletLaunchMapFragment frag = new TabletLaunchMapFragment();
-		frag.setMapResource(R.raw.map_tablet_launch);
+
+		GoogleMapOptions options = new GoogleMapOptions();
+		options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
+			.camera(CameraPosition.fromLatLngZoom(new LatLng(0, 0), 1f))
+			.zoomControlsEnabled(false)
+			.zoomGesturesEnabled(true);
+
+		Bundle args = new Bundle();
+		args.putParcelable(MAP_OPTIONS, options);
+		frag.setArguments(args);
+
 		return frag;
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mInflater = LayoutInflater.from(activity);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		init();
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRoot = (FrameLayout) super.onCreateView(inflater, container, savedInstanceState);
-		mPinC = Ui.findView(mRoot, R.id.pin_container);
-
+	public void onViewCreated(View view, Bundle savedInstanceState) {
 		TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) getParentFragment();
+
 		controller.registerStateListener(mDetailsStateListener, false);
 		controller.registerStateListener(mWaypointStateListener, false);
 
-		return mRoot;
+		getMap().setOnMarkerClickListener(mMarkerClickListener);
+
+		adjustMapPadding(true);
+
+		addOverlay();
 	}
 
 	@Override
@@ -97,76 +102,51 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 
 	@Subscribe
 	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
-		mSelectedCollection = event.selectedCollection;
-		mSelectedLocation = event.selectedLocation;
-		onLaunchCollectionClicked(new Events.LaunchCollectionClicked(event.selectedCollection));
+		replaceAllPins(event.selectedCollection.locations);
 	}
 
 	@Subscribe
 	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
-		if (isMeasurable()) {
-			renderMap(event.launchCollection);
-		}
-		else {
-			mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-				@Override
-				public boolean onPreDraw() {
-					if (mRoot.getWidth() > 0) {
-						mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-						renderMap(event.launchCollection);
-					}
-					return true;
-				}
-			});
-		}
+		replaceAllPins(event.launchCollection.locations);
 	}
 
-	private LaunchPin findClickedPin() {
-		for (int i = 0; i < mPinC.getChildCount(); i++) {
-			LaunchPin pin = (LaunchPin) mPinC.getChildAt(i);
-			if (pin.getLaunchLocation() == mSelectedLocation && pin.getVisibility() != View.GONE) {
-				return pin;
-			}
-		}
-
-		return null;
-	}
+	/*
+	 * State Listeners
+	 */
 
 	SingleStateListener mDetailsStateListener = new SingleStateListener<>(
 		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			LaunchPin pin = findClickedPin();
-			if (pin != null) {
-				pin.setVisibility(View.INVISIBLE);
+			if (!isReversed) {
+				adjustMapPadding(false);
 			}
-			mPinC.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			mPinC.setAlpha(1f - percentage);
+			for (LaunchLocation location : mLocations.keySet()) {
+				Marker marker = mLocations.get(location);
+				if (mClickedLocation != null && mClickedLocation.equals(location)) {
+					marker.setAlpha(!isReversed || percentage < 1f ? 0f : 1f);
+				}
+				else {
+					marker.setAlpha(1f - percentage);
+				}
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
-
+			if (mClickedLocation != null && isReversed) {
+				mLocations.get(mClickedLocation).setAlpha(1f);
+			}
 		}
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
 			if (isReversed) {
-				LaunchPin pin = findClickedPin();
-				if (pin != null) {
-					pin.setVisibility(View.VISIBLE);
-				}
-			}
-
-			if (isReversed) {
-				mPinC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mPinC.setVisibility(View.INVISIBLE);
+				adjustMapPadding(true);
 			}
 		}
 	}
@@ -176,12 +156,18 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		LaunchState.DEFAULT, LaunchState.WAYPOINT, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			mPinC.setVisibility(View.VISIBLE);
+			if (!isReversed) {
+				adjustMapPadding(false);
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			mPinC.setAlpha(1f - percentage);
+			for (Marker marker : mLocations.values()) {
+				if (marker != null) {
+					marker.setAlpha(1f - percentage);
+				}
+			}
 		}
 
 		@Override
@@ -191,143 +177,189 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
-			mPinC.setVisibility(isReversed ? View.VISIBLE : View.INVISIBLE);
+			if (isReversed) {
+				adjustMapPadding(true);
+			}
 		}
 	}
 	);
 
-	public Rect getClickedPinRect() {
-		LaunchPin pin = findClickedPin();
-		if (pin != null) {
-			return pin.getPinGlobalPosition();
-		}
+	/*
+	 * Public methods
+	 */
 
-		return null;
+	public Rect getPinRect(Marker marker) {
+		if (marker == null) {
+			return null;
+		}
+		Projection projection = getMap().getProjection();
+
+		// Projection of the marker on the view
+		Point markerPoint = projection.toScreenLocation(marker.getPosition());
+
+		// Offset by location of this fragment on the screen
+		View view = getView();
+		int[] offsets = new int[2];
+		view.getLocationOnScreen(offsets);
+		markerPoint.offset(offsets[0], offsets[1]);
+
+		float size = getResources().getDimension(R.dimen.launch_pin_size) / 2f;
+		Rect pinRect = new Rect(
+			(int) (markerPoint.x - size),
+			(int) (markerPoint.y - size),
+			(int) (markerPoint.x + size),
+			(int) (markerPoint.y + size)
+		);
+		return pinRect;
+	}
+
+	public Rect getClickedPinRect() {
+		return mLocations == null || mClickedLocation == null ? null : getPinRect(mLocations.get(mClickedLocation));
 	}
 
 	/*
 	 * Private methods
 	 */
 
-	private void renderMap(LaunchCollection launchCollection) {
-		if (launchCollection == null || launchCollection.locations == null) {
-			return;
-		}
-
-		generateMap(launchCollection);
-		generatePins(launchCollection);
-	}
-
-	private void init() {
-		mTiledDotDrawable = getResources().getDrawable(R.drawable.tiled_dot);
-
-		// Linear Gradient
-		int[] linearGradColors = new int[] {
-			Color.parseColor("#001b2747"),
-			Color.parseColor("#98131c33"),
-			Color.parseColor("#ff131c33"),
-		};
-		mLinearGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, linearGradColors);
-
-		// Radial Gradient
-		int[] radialGradColors = new int[] {
-			Color.parseColor("#00000000"),
-			Color.parseColor("#5a000000"),
-		};
-		mRadialGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, radialGradColors);
-		mRadialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-		mRadialGradDrawable.setGradientCenter(0.5f, 0.5f);
-	}
-
-	private void generateMap(LaunchCollection launchCollection) {
-		int w = getMapView().getWidth();
-		int h = getMapView().getHeight();
-
-		int searchHeaderHeight = getResources().getDimensionPixelSize(R.dimen.tablet_search_header_height);
+	private void adjustMapPadding(boolean withStacksVisible) {
 		int stackHeight = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
-		int bottomPadding = stackHeight + searchHeaderHeight * 3;
-
-		int otherPadding = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
+		int bottomPadding = withStacksVisible ? stackHeight : 0;
 		int abHeight = getActivity().getActionBar().getHeight();
-		setPadding(otherPadding, otherPadding / 2 + abHeight, otherPadding, bottomPadding);
-
-		double[] latLngs = new double[launchCollection.locations.size() * 2];
-		for (int i = 0; i < launchCollection.locations.size(); i++) {
-			Location location = launchCollection.locations.get(i).location.getLocation();
-			latLngs[2 * i] = location.getLatitude();
-			latLngs[2 * i + 1] = location.getLongitude();
-		}
-		setBounds(latLngs);
-
-		// Draw scaled and translated map
-		mMapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
-
-		mRadialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
-
-		Drawable[] drawables = new Drawable[] {
-			mMapDrawable,
-			mTiledDotDrawable,
-			mLinearGradDrawable,
-			mRadialGradDrawable,
-		};
-		LayerDrawable allDrawables = new LayerDrawable(drawables);
-		getMapView().setBackgroundDrawable(allDrawables);
-		int layerType = AndroidUtils.hasJellyBeanMR1() ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_SOFTWARE;
-		getMapView().setLayerType(layerType, null);
+		setPadding(0, abHeight, 0, bottomPadding);
 	}
 
-	private void generatePins(LaunchCollection launchCollection) {
-		mPinC.removeAllViews();
-		mNonOverlappingRects.clear();
-		for (LaunchLocation launchLocation : launchCollection.locations) {
-			addPin(launchLocation);
+	private void animateCameraToShowFullCollection() {
+		LatLngBounds.Builder builder = new LatLngBounds.Builder();
+		for (LaunchLocation location : mLocations.keySet()) {
+			LatLng latlng = new LatLng(location.location.getLocation().getLatitude(), location.location.getLocation().getLongitude());
+			builder.include(latlng);
 		}
+		LatLngBounds bounds = builder.build();
+		int padding = 0; // offset from edges of the map in pixels
+		CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+		animateCamera(cu);
+	}
+
+	private void replaceAllPins(List<LaunchLocation> locations) {
+		if (mLocations == null) {
+			mLocations = new HashMap<>();
+		}
+		else {
+			for (LaunchLocation location : mLocations.keySet()) {
+				mLocations.get(location).remove();
+			}
+			mLocations.clear();
+		}
+
+		for (LaunchLocation location : locations) {
+			mLocations.put(location, null);
+			addPin(location);
+		}
+
+		animateCameraToShowFullCollection();
 	}
 
 	private void addPin(final LaunchLocation launchLocation) {
-		final LaunchPin pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
+		inflatePinAndAddMarker(launchLocation, null);
+
+		UrlBitmapDrawable bitmap = new UrlBitmapDrawable(getResources(), launchLocation.getImageUrl());
+		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+			@Override
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
+				inflatePinAndAddMarker(launchLocation, bitmap);
+			}
+
+			@Override
+			public void onBitmapLoadFailed(String url) {
+			}
+		});
+	}
+
+	private Marker inflatePinAndAddMarker(LaunchLocation launchLocation, Bitmap bitmap) {
+		// Create a detached LaunchPin view
+		final LaunchPin pin = Ui.inflate(LayoutInflater.from(getActivity()), R.layout.snippet_tablet_launch_map_pin, null, false);
 		pin.bind(launchLocation);
 		pin.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		pin.layout(0, 0, pin.getMeasuredWidth(), pin.getMeasuredHeight());
+		pin.setPinBitmap(bitmap);
+		Bitmap pinBitmap = Ui.createBitmapFromView(pin);
 
-		// Position on screen
-		Location loc = launchLocation.location.getLocation();
-		Point2D.Double transformed = projectToScreen(loc.getLatitude(), loc.getLongitude());
-		final int marginLeft = (int) (transformed.x - pin.getMeasuredWidth() / 2);
-		final int marginTop = (int) (transformed.y - pin.getMeasuredHeight() / 2);
+		Location location = launchLocation.location.getLocation();
+		MarkerOptions options = new MarkerOptions()
+			.position(new LatLng(location.getLatitude(), location.getLongitude()))
+			.icon(BitmapDescriptorFactory.fromBitmap(pinBitmap))
+			.anchor(0.5f, getResources().getDimension(R.dimen.launch_pin_size) / 2 / pin.getMeasuredHeight())
+			.title(launchLocation.id)
+			.alpha(0f);
+		Marker marker = getMap().addMarker(options);
 
-		boolean overlaps = false;
-		final int mapPinImageSize = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
-		final int imageLeft = (int) (pin.getMeasuredWidth() - mapPinImageSize) / 2;
+		// Fade this marker in
+		ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
 
-		// Break the pin down into its components for hit detection
-		Rect thisImageRect = new Rect(marginLeft + imageLeft, marginTop, marginLeft + imageLeft + mapPinImageSize, marginTop + mapPinImageSize);
-		Rect thisTextRect = new Rect(marginLeft, marginTop + mapPinImageSize, marginLeft + pin.getMeasuredWidth(), marginTop + pin.getMeasuredHeight());
-		for (Rect otherRect : mNonOverlappingRects) {
-			if (Rect.intersects(thisImageRect, otherRect) || Rect.intersects(thisTextRect, otherRect)) {
-				overlaps = true;
-				break;
-			}
-		}
-
-		if (!overlaps) {
-			mNonOverlappingRects.add(thisImageRect);
-			mNonOverlappingRects.add(thisTextRect);
-
-			MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
-			lp.setMargins(marginLeft, marginTop, 0, 0);
-			pin.setLayoutParams(lp);
-
-			mPinC.addView(pin);
-			pin.setOnClickListener(new View.OnClickListener() {
+		// Remove the existing marker
+		if (mLocations.get(launchLocation) != null) {
+			final Marker oldMarker = mLocations.get(launchLocation);
+			anim.addListener(new AnimatorListenerAdapter() {
 				@Override
-				public void onClick(View view) {
-					mSelectedLocation = launchLocation;
-					OmnitureTracking.trackLaunchCitySelect(getActivity(), mSelectedLocation.id);
-					Events.post(new Events.LaunchMapPinClicked(launchLocation));
+				public void onAnimationEnd(Animator animation) {
+					oldMarker.remove();
+					oldMarker.setVisible(false);
 				}
 			});
-
-			pin.retrieveImageAndStartAnimation();
 		}
+
+		Rect pinRect = getPinRect(marker);
+		anim.setDuration(500);
+		anim.setStartDelay(Math.max(0, 400 + pinRect.left / 5));
+
+		anim.start();
+
+		mLocations.put(launchLocation, marker);
+		return marker;
 	}
+
+	private GoogleMap.OnMarkerClickListener mMarkerClickListener = new GoogleMap.OnMarkerClickListener() {
+		@Override
+		public boolean onMarkerClick(Marker marker) {
+			mClickedLocation = null;
+			for (LaunchLocation location : mLocations.keySet()) {
+				Marker m = mLocations.get(location);
+				if (m != null && m.getTitle().equals(marker.getTitle())) {
+					mClickedLocation = location;
+					Events.post(new Events.LaunchMapPinClicked(mClickedLocation));
+					return true;
+				}
+			}
+			return false;
+		}
+	};
+
+	// Adds a dark blue transparent overlay on top of the map tiles (but under the pins)
+	private void addOverlay() {
+		TileOverlayOptions opts = new TileOverlayOptions()
+			.tileProvider(mOverlayProvider);
+		getMap().addTileOverlay(opts);
+	}
+
+	private TileProvider mOverlayProvider = new TileProvider() {
+		private static final int SIZE = 1;
+		private byte[] mBytes = null;
+
+		@Override
+		public Tile getTile(int x, int y, int zoom) {
+			if (mBytes == null) {
+				Bitmap bitmap = Bitmap.createBitmap(SIZE, SIZE, Bitmap.Config.ARGB_8888);
+				Paint paint = new Paint();
+				paint.setColor(getResources().getColor(R.color.tablet_launch_map_overlay));
+				Canvas canvas = new Canvas(bitmap);
+				canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
+
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				mBytes = stream.toByteArray();
+			}
+
+			return new Tile(SIZE, SIZE, mBytes);
+		}
+	};
 }

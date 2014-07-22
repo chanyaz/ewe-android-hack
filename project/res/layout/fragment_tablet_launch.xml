@@ -8,12 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <View
+        android:id="@+id/action_bar_background"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:layout_gravity="top"
+        android:background="@drawable/bg_tablet_launch_ab_gradient" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom|center_horizontal"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/bg_tablet_bottom_fade">
 
         <LinearLayout
             android:id="@+id/fake_search_bar_container"
@@ -39,8 +47,7 @@
         <FrameLayout
             android:id="@+id/tiles_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_tablet_bottom_fade"/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -54,6 +61,7 @@
         android:id="@+id/pin_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:background="#b2070f24"/>
 
 </FrameLayout>

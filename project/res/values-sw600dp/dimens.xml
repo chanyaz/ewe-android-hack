@@ -17,8 +17,11 @@
     <dimen name="tablet_result_row_price_max_width">170dp</dimen>
 
     <!-- Launch Screen -->
-    <dimen name="launch_pin_size">86dp</dimen>
-    <dimen name="launch_pin_detail_size">150dp</dimen>
+    <!-- The ratio of size to padding between these should stay the same. i.e. 70/4 = 175/10 -->
+    <dimen name="launch_pin_size">70dp</dimen>
+    <dimen name="launch_pin_padding">4dp</dimen>
+    <dimen name="launch_pin_detail_size">175dp</dimen>
+    <dimen name="launch_pin_detail_padding">10dp</dimen>
 
     <!-- For map pins on tablet launch screen -->
     <dimen name="destination_search_stack_width">220dp</dimen>

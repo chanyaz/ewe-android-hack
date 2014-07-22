@@ -76,12 +76,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	 */
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		//TODO
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_launch, null, false);
 
@@ -313,6 +307,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mTilesC.setVisibility(View.VISIBLE);
 			mPinDetailC.setVisibility(View.VISIBLE);
 			mPinDetailC.setConsumeTouch(!isReversed);
+			mPinDetailC.getBackground().setAlpha(isReversed ? 255 : 0);
 
 			if (isReversed) {
 				mSearchBarC.setTranslationY(mSearchBarY);
@@ -327,6 +322,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mTilesC.setTranslationY(percentage * mSearchBarY);
 			mAbText1.setAlpha(1f - percentage);
 			mAbText2.setAlpha(percentage);
+			mPinDetailC.getBackground().setAlpha((int)(255f * percentage));
 		}
 
 		@Override
@@ -341,6 +337,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			ab.setHomeButtonEnabled(!isReversed);
 
 			mPinDetailC.setConsumeTouch(!isReversed);
+			mPinDetailC.getBackground().setAlpha(isReversed ? 0 : 255);
 
 			if (isReversed) {
 				// details hidden

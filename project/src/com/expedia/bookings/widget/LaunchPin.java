@@ -20,8 +20,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
 
 public class LaunchPin extends FrameLayout {
@@ -129,10 +131,11 @@ public class LaunchPin extends FrameLayout {
 	}
 
 	private void setPinText(String upper) {
-		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.MapPinUpperTextAppearance);
+		TextAppearanceSpan appearanceSpan = new TextAppearanceSpan(getContext(), R.style.MapPinUpperTextAppearance);
+		TypefaceSpan fontSpan = FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM);
 
 		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(upper, upperSpan);
+		sb.append(upper, appearanceSpan, fontSpan);
 
 		mTextView.setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
@@ -141,10 +144,13 @@ public class LaunchPin extends FrameLayout {
 		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.MapPinUpperTextAppearance);
 		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getContext(), R.style.MapPinLowerTextAppearance);
 
+		TypefaceSpan upperFontSpan = FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM);
+		TypefaceSpan lowerFontSpan = FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT);
+
 		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(upper, upperSpan);
+		sb.append(upper, upperSpan, upperFontSpan);
 		sb.append("\n");
-		sb.append(lower, lowerSpan);
+		sb.append(lower, lowerSpan, lowerFontSpan);
 
 		mTextView.setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
