@@ -1299,7 +1299,7 @@ public class OmnitureTracking {
 	private static final String PAGE_NAME_HOTEL_SORT_FILTER = "App.Hotels.Search.Refine";
 
 	// Link URLs
-	private static final String PIN_CLICK_LINK_NAME = "App.HOT.SR.TapPin";
+	private static final String PIN_CLICK_LINK_NAME = "App.Hotel.SR.TapPin";
 	private static final String NEIGHBORHOOD_FILTER_LINK_NAME = "App.Hotel.Search.Filter.Area";
 
 
