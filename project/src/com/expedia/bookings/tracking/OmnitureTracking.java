@@ -1254,6 +1254,7 @@ public class OmnitureTracking {
 		internalSetHotelDateProps(s, params.toHotelSearchParams());
 		addOriginAndDesinationVars(s, params);
 		s.setEvents("event2");
+		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, params.getDestination().getDisplayName());
 		s.track();
 	}
@@ -1265,6 +1266,14 @@ public class OmnitureTracking {
 		s.setProp(16, rffrId);
 		s.setEvar(28, rffrId);
 		s.setEvar(61, posTpid);
+	}
+
+	// For shared screens (e.g. Tablet Search Results) we want to send the
+	// the same string as the Flights evar 47 string, but with FLT instead
+	// of DSR.
+	private static String getDSREvar47String(SearchParams params) {
+		String flightsString = getEvar47String(params.toFlightSearchParams());
+		return flightsString.replace("FLT", "DSR");
 	}
 
 	///////////////////////////
@@ -2530,7 +2539,6 @@ public class OmnitureTracking {
 	private static String getEvar47String(FlightSearchParams params) {
 		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
 		// e.g. FLT|RT|A2|C1
-		// TODO update for when we add children support
 		String str = "FLT|";
 		if (params.isRoundTrip()) {
 			str += "RT|A";
