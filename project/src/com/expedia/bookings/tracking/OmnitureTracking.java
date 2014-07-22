@@ -1218,16 +1218,16 @@ public class OmnitureTracking {
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
 
 	// When a bottom tile is clicked – collection selection
-	public static void trackTabletLaunchTileSelect(Context context, String tileCategory) {
+	public static void trackTabletLaunchTileSelect(Context context, String tileUniqueId) {
 		ADMS_Measurement s = createTrackLinkEvent(context, "nil");
-		addLaunchScreenCommonParams(s, BASE_RFFR_FEATURED_LINK, tileCategory);
+		addLaunchScreenCommonParams(s, BASE_RFFR_FEATURED_LINK, tileUniqueId);
 		internalTrackLink(s);
 	}
 
 	// When a city is selected within a collection
-	public static void trackLaunchCitySelect(Context context, String cityName) {
+	public static void trackLaunchCitySelect(Context context, String destinationId) {
 		ADMS_Measurement s = createTrackLinkEvent(context, "nil");
-		addLaunchScreenCommonParams(s, BASE_RFFR_MAP_LINK, cityName);
+		addLaunchScreenCommonParams(s, BASE_RFFR_MAP_LINK, destinationId);
 		internalTrackLink(s);
 	}
 

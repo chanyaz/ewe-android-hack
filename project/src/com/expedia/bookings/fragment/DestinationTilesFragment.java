@@ -152,7 +152,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 					// Only fire event if the stack isn't already selected
 					Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
 					setCheckedCollection(c);
-					OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), collectionToAdd.title);
+					OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), collectionToAdd.id);
 				}
 			}
 		});

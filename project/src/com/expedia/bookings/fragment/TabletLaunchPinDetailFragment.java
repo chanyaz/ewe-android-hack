@@ -93,7 +93,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 				@Override
 				public void onClick(View view) {
 					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null));
-					OmnitureTracking.trackLaunchCitySelect(getActivity(), event.launchLocation.title);
+					OmnitureTracking.trackLaunchCitySelect(getActivity(), event.launchLocation.id);
 				}
 			});
 		}
