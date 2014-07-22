@@ -1125,8 +1125,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		dismissLoadingDialogs();
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			mIsFlightTripDone = true;
-			rebindCheckoutFragment();
 		}
+		rebindCheckoutFragment();
 	}
 
 	@Subscribe
@@ -1216,10 +1216,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onFlightTripPriceChange(Events.FlightPriceChange event) {
-		String changeString = event.changeString;
-		if (changeString != null) {
-			setCheckoutState(CheckoutState.OVERVIEW, true);
-		}
+		setCheckoutState(CheckoutState.OVERVIEW, true);
 	}
 
 	///////////////////////////////////

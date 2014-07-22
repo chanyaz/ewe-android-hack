@@ -40,6 +40,9 @@ public class FlightTrip implements JSONable {
 	private Money mTaxes;
 	private Money mFees;
 
+	// For price changes
+	private Money mOldTotalFare;
+
 	// Possible price change from last time we queried this trip
 	private Money mPriceChangeAmount;
 
@@ -137,6 +140,10 @@ public class FlightTrip implements JSONable {
 
 	public void setBaseFare(Money baseFare) {
 		mBaseFare = baseFare;
+	}
+
+	public Money getOldTotalFare() {
+		return mOldTotalFare;
 	}
 
 	public Money getTotalFare() {
@@ -626,6 +633,9 @@ public class FlightTrip implements JSONable {
 		// - Leg segment attributes
 
 		if (other.hasPricing()) {
+			// Save the old price for price changes
+			mOldTotalFare = mTotalFare;
+
 			mBaseFare = other.mBaseFare;
 			mTotalFare = other.mTotalFare;
 			mTaxes = other.mTaxes;
@@ -683,6 +693,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_LEG_IDS = "d";
 	private static final String KEY_BASE_FARE = "e";
 	private static final String KEY_TOTAL_FARE = "f";
+	private static final String KEY_OLD_TOTAL_FARE = "oldTotalFare";
 	private static final String KEY_TAXES = "g";
 	private static final String KEY_FEES = "h";
 	private static final String KEY_PRICE_CHANGE_AMOUNT = "i";
@@ -729,6 +740,7 @@ public class FlightTrip implements JSONable {
 			}
 			addMoney(obj, KEY_BASE_FARE, mBaseFare);
 			addMoney(obj, KEY_TOTAL_FARE, mTotalFare);
+			addMoney(obj, KEY_OLD_TOTAL_FARE, mOldTotalFare);
 			addMoney(obj, KEY_TAXES, mTaxes);
 			addMoney(obj, KEY_FEES, mFees);
 			addMoney(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
@@ -818,6 +830,7 @@ public class FlightTrip implements JSONable {
 		if (!TextUtils.isEmpty(currency)) {
 			mBaseFare = parseMoney(obj, KEY_BASE_FARE, currency);
 			mTotalFare = parseMoney(obj, KEY_TOTAL_FARE, currency);
+			mOldTotalFare = parseMoney(obj, KEY_OLD_TOTAL_FARE, currency);
 			mTaxes = parseMoney(obj, KEY_TAXES, currency);
 			mFees = parseMoney(obj, KEY_FEES, currency);
 			mPriceChangeAmount = parseMoney(obj, KEY_PRICE_CHANGE_AMOUNT, currency);

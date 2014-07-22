@@ -25,6 +25,7 @@ import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -164,7 +165,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	public String getDateRangeText() {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
-			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			HotelSearchParams params = hotel.getHotelSearchParams();
 			return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_ABBREV_MONTH);
 		}
@@ -210,16 +211,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		}
 	}
 
-	@Override
-	public TripBucketItemState getItemState() {
-		if (Db.getTripBucket().getHotel() == null) {
-			return null;
-		}
-		else {
-			return Db.getTripBucket().getHotel().getState();
-		}
-	}
-
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
@@ -235,21 +226,22 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			Rate rate = hotel.getRate();
 			String price = rate.getDisplayTotalPrice().getFormattedMoney();
 			mPriceTv.setText(price);
-		}
 
+			refreshPriceChange();
+		}
 	}
 
-	public void refreshRate(Rate newRate) {
+	@Override
+	public CharSequence getPriceChangeMessage() {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
-			Rate oldRate = hotel.getRate();
-			String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
-			String priceChangeStr = String
-				.format(priceChangeTemplate, oldRate.getTotalAmountAfterTax().getFormattedMoney());
-			setPriceChangeNotificationText(priceChangeStr);
-			Db.getTripBucket().getHotel().setNewRate(newRate);
-			refreshRate();
+			Rate oldRate = hotel.getOldRate();
+			String amount = oldRate.getTotalAmountAfterTax().getFormattedMoney();
+			String message = getString(R.string.price_changed_from_TEMPLATE, amount);
+			return message;
 		}
+
+		return null;
 	}
 
 	@Override

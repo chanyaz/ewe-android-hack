@@ -47,6 +47,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.model.TravelerFlowStateTablet;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -56,6 +57,7 @@ import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 @SuppressWarnings("ResourceType")
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -163,6 +165,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onResume() {
 		super.onResume();
+		Events.register(this);
 
 		mBackManager.registerWithParent(this);
 
@@ -181,6 +184,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void onPause() {
+		Events.unregister(this);
 		super.onPause();
 
 		IAcceptingListenersListener readyForListeners = Ui
@@ -283,6 +287,27 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mPaymentButton.bindToDb();
 		}
 		bindTravelers();
+
+		LineOfBusiness lob = getLob();
+		if (lob == LineOfBusiness.HOTELS && mHorizontalHotelFrag != null) {
+			if (Db.getTripBucket().getHotel().hasPriceChanged()) {
+				mHorizontalHotelFrag.bind();
+				mHorizontalHotelFrag.setState(TripBucketItemState.SHOWING_PRICE_CHANGE, false);
+			}
+			else {
+				mHorizontalHotelFrag.setState(TripBucketItemState.EXPANDED, false);
+			}
+		}
+
+		if (lob == LineOfBusiness.FLIGHTS && mHorizontalFlightFrag != null) {
+			if (Db.getTripBucket().getFlight().hasPriceChanged()) {
+				mHorizontalFlightFrag.bind();
+				mHorizontalFlightFrag.setState(TripBucketItemState.SHOWING_PRICE_CHANGE, false);
+			}
+			else {
+				mHorizontalFlightFrag.setState(TripBucketItemState.EXPANDED, false);
+			}
+		}
 	}
 
 	/*
@@ -841,5 +866,19 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			return mTravelerFlowState.isValid(Db.getTravelers().get(travelerNumber), needsEmail, needsPassport);
 		}
 		return false;
+	}
+
+	@Subscribe
+	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
+		if (mHorizontalHotelFrag != null) {
+			mHorizontalHotelFrag.refreshRate();
+		}
+	}
+
+	@Subscribe
+	public void onFlightPriceChange(Events.FlightPriceChange event) {
+		if (mHorizontalFlightFrag != null) {
+			mHorizontalFlightFrag.refreshTripOnPriceChanged();
+		}
 	}
 }

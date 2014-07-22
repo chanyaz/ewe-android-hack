@@ -14,6 +14,7 @@ import com.mobiata.android.json.JSONUtils;
 public class TripBucketItemHotel extends TripBucketItem {
 
 	Property mProperty;
+	Rate mOldRate;
 	Rate mRate;
 	HotelAvailability mAvailability;
 	Rate mCouponRate;
@@ -21,7 +22,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 	boolean mIsCouponApplied;
 
 	public TripBucketItemHotel() {
-
+		// ignore
 	}
 
 	public TripBucketItemHotel(Property property, Rate rate, HotelSearchParams searchParams, HotelAvailability availability) {
@@ -49,6 +50,10 @@ public class TripBucketItemHotel extends TripBucketItem {
 		}
 	}
 
+	public Rate getOldRate() {
+		return mOldRate;
+	}
+
 	public HotelAvailability getHotelAvailability() {
 		return mAvailability;
 	}
@@ -58,6 +63,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public void setNewRate(Rate rate) {
+		mOldRate = mRate;
 		mRate = rate;
 		setHasPriceChanged(true);
 	}
@@ -83,6 +89,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 			JSONObject obj = super.toJson();
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			JSONUtils.putJSONable(obj, "rate", mRate);
+			JSONUtils.putJSONable(obj, "oldRate", mOldRate);
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			obj.put("type", "hotel");
 			obj.put("couponApplied", mIsCouponApplied);
@@ -101,6 +108,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 		super.fromJson(obj);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mRate = JSONUtils.getJSONable(obj, "rate", Rate.class);
+		mOldRate = JSONUtils.getJSONable(obj, "oldRate", Rate.class);
 		mIsCouponApplied = obj.optBoolean("couponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);

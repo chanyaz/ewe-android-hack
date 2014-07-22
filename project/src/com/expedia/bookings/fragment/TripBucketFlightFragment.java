@@ -67,22 +67,11 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	private void refreshFlightTrip() {
-		if (mIsOnCheckout) {
-			if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
-				mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
-			}
-			else {
-				mFlightTrip = null;
-			}
+		if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 		}
 		else {
-			if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().getFlightTrip() != null) {
-				mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-			}
-			else {
-				mFlightTrip = null;
-			}
+			mFlightTrip = null;
 		}
 	}
 
@@ -243,11 +232,10 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		mPriceTv.setText(price);
 	}
 
-	public void refreshTripOnPriceChanged(String priceChangeText) {
+	public void refreshTripOnPriceChanged() {
 		refreshFlightTrip();
 		refreshExpandedTripPrice();
-		setPriceChangeNotificationText(priceChangeText);
-		Db.getTripBucket().getFlight().setHasPriceChanged(true);
+		refreshPriceChange();
 	}
 
 	@Override
@@ -273,16 +261,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		}
 	}
 
-	@Override
-	public TripBucketItemState getItemState() {
-		if (Db.getTripBucket().getFlight() == null) {
-			return null;
-		}
-		else {
-			return Db.getTripBucket().getFlight().getState();
-		}
-	}
-
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
@@ -296,4 +274,14 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		return Db.getTripBucket().getFlight();
 	}
 
+	@Override
+	public CharSequence getPriceChangeMessage() {
+		if (Db.getTripBucket().getFlight() != null) {
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
+			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
+		}
+
+		return null;
+	}
 }

@@ -356,11 +356,6 @@ public class Events {
 	 * This event notifies that the Flight createTrip succeeded with a price change.
 	 */
 	public static class FlightPriceChange {
-		public final String changeString;
-
-		public FlightPriceChange(String changeText) {
-			this.changeString = changeText;
-		}
 	}
 
 	/**

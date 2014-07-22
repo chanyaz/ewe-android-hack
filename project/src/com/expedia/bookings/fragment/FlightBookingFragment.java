@@ -233,21 +233,13 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		}
 
 		Db.addItinerary(response.getItinerary());
-		Money originalPrice = mFlightTrip.getTotalFare();
-
 		mFlightTrip.updateFrom(response.getOffer());
+		if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null && mFlightTrip.notifyPriceChanged()) {
+			Db.getTripBucket().getFlight().setHasPriceChanged(true);
+		}
 
 		Db.kickOffBackgroundFlightSearchSave(getActivity());
-
-		if (mFlightTrip.notifyPriceChanged()) {
-			String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
-			String priceChangeStr = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
-			Events.post(new Events.FlightPriceChange(priceChangeStr));
-		}
-		else {
-			Events.post(new Events.FlightPriceChange(null));
-		}
-
+		Events.post(new Events.FlightPriceChange());
 		Events.post(new Events.CreateTripDownloadSuccess(response));
 	}
 

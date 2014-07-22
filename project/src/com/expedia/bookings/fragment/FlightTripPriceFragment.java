@@ -202,14 +202,24 @@ public class FlightTripPriceFragment extends Fragment {
 
 	@Subscribe
 	public void onFlightPriceChange(Events.FlightPriceChange event) {
-		String changeString = event.changeString;
-		if (changeString != null) {
+		String changeString = getPriceChangeString();
+		if (!TextUtils.isEmpty(changeString)) {
 			mPriceChangeString = changeString;
 			showPriceChange();
 		}
 		else {
 			hidePriceChange();
 		}
+	}
+
+	private String getPriceChangeString() {
+		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
+			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
+			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
+		}
+
+		return null;
 	}
 
 	@Subscribe
