@@ -3,6 +3,8 @@ package com.expedia.bookings.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -386,5 +388,15 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 
 		return screen;
+	}
+
+	public static Bitmap createBitmapFromView(View v) {
+		Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+
+		v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+		v.draw(canvas);
+
+		return bitmap;
 	}
 }
