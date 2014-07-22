@@ -179,7 +179,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		title.setText(R.string.Create_a_Trip);
 
 		if (savedInstanceState == null) {
-			OmnitureTracking.trackTabletSearchResultsPageLoad(this);
+			OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
 		}
 	}
 

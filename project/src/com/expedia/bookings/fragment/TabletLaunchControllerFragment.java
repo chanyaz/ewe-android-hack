@@ -133,7 +133,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			@Override
 			public void onClick(View view) {
 				setLaunchState(LaunchState.WAYPOINT, true);
-				OmnitureTracking.trackTabletDestinationSearchPageLoad(getActivity(), Sp.getParams());
+				OmnitureTracking.trackTabletDestinationSearchPageLoad(getActivity());
 			}
 		});
 		return mRootC;

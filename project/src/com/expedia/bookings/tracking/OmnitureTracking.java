@@ -51,6 +51,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -1232,25 +1233,18 @@ public class OmnitureTracking {
 	}
 
 	// Destination waypoint screen - Launch
-	public static void trackTabletDestinationSearchPageLoad(Context context, SearchParams params) {
-		Log.d(TAG, "Tracking \"" + TABLET_LAUNCH_DEST_SELECT + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(context, TABLET_LAUNCH_DEST_SELECT);
-		internalSetHotelDateProps(s, params.toHotelSearchParams());
-		addOriginAndDesinationVars(s, params);
-		s.setEvents("event2");
-		s.setEvar(48, params.getDestination().getDisplayName());
-		s.track();
+	public static void trackTabletDestinationSearchPageLoad(Context context) {
+		internalTrackPageLoadEventStandard(context, TABLET_LAUNCH_DEST_SELECT);
 	}
 
 	private static void addOriginAndDesinationVars(ADMS_Measurement s, SearchParams params) {
-		String originAirportCode = params.getOriginAirport().getAirportCode();
-		if (TextUtils.isEmpty(originAirportCode)) {
-			originAirportCode = "nil";
-		}
+		SuggestionV2 origin = params.getOrigin();
+		String originAirportCode = origin != null ? origin.getAirportCode() : "nil";
+
 		s.setEvar(3, originAirportCode);
 		s.setProp(3, originAirportCode);
 
-		String destinationAirportCode = params.getDestinationAirport().getAirportCode();
+		String destinationAirportCode = params.getDestination().getAirportCode();
 		if (TextUtils.isEmpty(destinationAirportCode)) {
 			destinationAirportCode = "nil";
 		}
@@ -1258,8 +1252,13 @@ public class OmnitureTracking {
 		s.setProp(4, destinationAirportCode);
 	}
 
-	public static void trackTabletSearchResultsPageLoad(Context context) {
-		internalTrackPageLoadEventStandard(context, TABLET_SEARCH_RESULTS);
+	public static void trackTabletSearchResultsPageLoad(Context context, SearchParams params) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, TABLET_SEARCH_RESULTS);
+		internalSetHotelDateProps(s, params.toHotelSearchParams());
+		addOriginAndDesinationVars(s, params);
+		s.setEvents("event2");
+		s.setEvar(48, params.getDestination().getDisplayName());
+		s.track();
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
