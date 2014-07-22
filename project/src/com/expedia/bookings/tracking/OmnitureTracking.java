@@ -957,17 +957,8 @@ public class OmnitureTracking {
 		// day computation date
 		LocalDate departureDate = searchParams.getDepartureDate();
 		LocalDate returnDate = searchParams.getReturnDate();
-		LocalDate now = LocalDate.now();
 
-		// num days between current day (now) and flight departure date
-		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, departureDate));
-		s.setEvar(5, numDaysOut);
-		s.setProp(5, numDaysOut);
-
-		// num days between departure and return dates
-		String numDays = Integer.toString(JodaUtils.daysBetween(departureDate, returnDate));
-		s.setEvar(6, numDays);
-		s.setProp(6, numDays);
+		setDateValues(s, departureDate, returnDate);
 
 		s.setEvar(47, getEvar47String(searchParams));
 
@@ -1006,14 +997,7 @@ public class OmnitureTracking {
 		s.setEvar(4, dest);
 		s.setProp(4, dest);
 
-		// day computation date
-		LocalDate departureDate = searchParams.getDepartureDate();
-		LocalDate now = LocalDate.now();
-
-		// num days between current day (now) and flight departure date
-		String daysOut = Integer.toString(JodaUtils.daysBetween(now, departureDate));
-		s.setEvar(5, daysOut);
-		s.setProp(5, daysOut);
+		setDateValues(s, searchParams.getDepartureDate(), searchParams.getReturnDate());
 
 		s.setEvar(47, getEvar47String(searchParams));
 
