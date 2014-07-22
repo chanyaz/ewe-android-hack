@@ -223,9 +223,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			FlightFilter.Sort sort = RES_ID_SORT_MAP.get(Integer.valueOf(checkedId));
 			if (sort != null) {
-				mFilter.setSort(sort);
-
 				if (mFilter.getSort() != sort) {
+					mFilter.setSort(sort);
 					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString(), mLegNumber);
 				}
 			}
@@ -248,7 +247,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			String airlineCode = (String) view.getTag();
 			mFilter.setPreferredAirline(airlineCode, isChecked);
-
+			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airline", mLegNumber);
 			onFilterChanged();
 		}
 	};
