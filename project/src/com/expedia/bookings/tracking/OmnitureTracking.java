@@ -1348,7 +1348,13 @@ public class OmnitureTracking {
 		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, startDate));
 		s.setEvar(5, numDaysOut);
 
-		String duration = Integer.toString(JodaUtils.daysBetween(startDate, endDate));
+		String duration;
+		if (endDate != null) {
+			duration = Integer.toString(JodaUtils.daysBetween(startDate, endDate));
+		}
+		else {
+			duration = "0";
+		}
 		s.setEvar(6, duration);
 	}
 
