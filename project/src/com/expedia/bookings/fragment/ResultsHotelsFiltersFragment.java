@@ -57,6 +57,10 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ISortAndFilterListener mSortAndFilterListener;
 
+	// We don't want Omniture events being sent for sorts and filters
+	// changing as their views are initialized.
+	private boolean mAllowSortFilterOmnitureReporting;
+
 	public static ResultsHotelsFiltersFragment newInstance() {
 		ResultsHotelsFiltersFragment frag = new ResultsHotelsFiltersFragment();
 		return frag;
@@ -105,6 +109,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	}
 
 	private void initializeViews(HotelSearch search, HotelFilter filter) {
+		mAllowSortFilterOmnitureReporting = false;
 		mHotelNameEditText.setText(filter.getHotelName());
 
 		// Configure radius labels
@@ -208,6 +213,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		// Configure Areas/Neighborhoods
 		mNeighborhoodLayout.setNeighborhoods(search.getSearchResponse(), filter);
+		mAllowSortFilterOmnitureReporting = true;
 	}
 
 	@Override
@@ -405,98 +411,105 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	}
 
 	private void onSortChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Sort\" change...");
+		if (mAllowSortFilterOmnitureReporting) {
+			Log.d("Tracking \"App.Hotels.Search.Sort\" change...");
 
-		switch (mSortByButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.sort_by_price_button: {
-			OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
-			break;
-		}
-		case R.id.sort_by_rating_button: {
-			OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
-			break;
-		}
-		case R.id.sort_by_distance_button: {
-			OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
-			break;
-		}
-		case R.id.sort_by_popular_button:
-		default: {
-			OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
-			break;
-		}
+			switch (mSortByButtonGroup.getCheckedRadioButtonId()) {
+			case R.id.sort_by_price_button: {
+				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
+				break;
+			}
+			case R.id.sort_by_rating_button: {
+				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
+				break;
+			}
+			case R.id.sort_by_distance_button: {
+				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
+				break;
+			}
+			case R.id.sort_by_popular_button:
+			default: {
+				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
+				break;
+			}
+			}
 		}
 	}
 
 	private void onPriceFilterChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.PriceRange\" change...");
+		if (mAllowSortFilterOmnitureReporting) {
+			Log.d("Tracking \"App.Hotels.Search.Refine.PriceRange\" change...");
 
-		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.price_cheap_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.CHEAP);
-			break;
-		}
-		case R.id.price_moderate_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.MODERATE);
-			break;
-		}
-		case R.id.price_expensive_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.EXPENSIVE);
-			break;
-		}
-		case R.id.price_all_button:
-		default: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.ALL);
-			break;
-		}
+			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
+			case R.id.price_cheap_button: {
+				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.CHEAP);
+				break;
+			}
+			case R.id.price_moderate_button: {
+				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.MODERATE);
+				break;
+			}
+			case R.id.price_expensive_button: {
+				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.EXPENSIVE);
+				break;
+			}
+			case R.id.price_all_button:
+			default: {
+				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.ALL);
+				break;
+			}
+			}
 		}
 	}
 
 	private void onRadiusFilterChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.SearchRadius\" rating change...");
+		if (mAllowSortFilterOmnitureReporting) {
+			Log.d("Tracking \"App.Hotels.Search.Refine.SearchRadius\" rating change...");
 
-		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.radius_small_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.SMALL);
-			break;
-		}
-		case R.id.radius_medium_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.MEDIUM);
-			break;
-		}
-		case R.id.radius_large_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.LARGE);
-			break;
-		}
-		case R.id.radius_all_button:
-		default: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.ALL);
-			break;
-		}
+			switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+			case R.id.radius_small_button: {
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.SMALL);
+				break;
+			}
+			case R.id.radius_medium_button: {
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.MEDIUM);
+				break;
+			}
+			case R.id.radius_large_button: {
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.LARGE);
+				break;
+			}
+			case R.id.radius_all_button:
+			default: {
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.ALL);
+				break;
+			}
+			}
 		}
 	}
 
 	private void onRatingFilterChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
-
-		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.rating_low_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "3Stars");
-			break;
-		}
-		case R.id.rating_medium_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "4Stars");
-			break;
-		}
-		case R.id.rating_high_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "5Stars");
-			break;
-		}
-		case R.id.rating_all_button:
-		default: {
-			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "AllStars");
-			break;
-		}
+		if (mAllowSortFilterOmnitureReporting) {
+			Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
+			switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
+			case R.id.rating_low_button: {
+				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "3Stars");
+				break;
+			}
+			case R.id.rating_medium_button: {
+				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "4Stars");
+				break;
+			}
+			case R.id.rating_high_button: {
+				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "5Stars");
+				break;
+			}
+			case R.id.rating_all_button:
+			default: {
+				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "AllStars");
+				break;
+			}
+			}
 		}
 	}
 
