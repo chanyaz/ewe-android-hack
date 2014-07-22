@@ -32,7 +32,7 @@ public class AdX {
 
 	private static void connect(String pos, boolean launchedAgain) {
 		if (!sConnected) {
-			AdXConnect.getAdXConnectInstance(sAppContext, launchedAgain, sLogLevel, pos, Installation.id(sAppContext));
+			AdXConnect.getAdXConnectInstance(sAppContext, launchedAgain, sLogLevel);
 			sConnected = true;
 		}
 	}
