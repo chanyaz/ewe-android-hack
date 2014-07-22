@@ -1277,12 +1277,12 @@ public class OmnitureTracking {
 
 	public static void trackTripBucketItemRemoval(Context context, LineOfBusiness lob) {
 		String link = lob == LineOfBusiness.FLIGHTS ? BUCKET_FLIGHT_REMOVAL : BUCKET_HOTEL_REMOVAL;
-		createTrackLinkEvent(context, link).track();
+		internalTrackLink(context, link);
 	}
 
 	public static void trackTripBucketItemUndoRemoval(Context context, LineOfBusiness lob) {
 		String link = lob == LineOfBusiness.FLIGHTS ? UNDO_BUCKET_FLIGHT_REMOVAL : UNDO_BUCKET_HOTEL_REMOVAL;
-		createTrackLinkEvent(context, link).track();
+		internalTrackLink(context, link);
 	}
 
 	///////////////////////////
@@ -1459,12 +1459,12 @@ public class OmnitureTracking {
 
 	public static void trackAddTravelerLink(Context context, String travelerType) {
 		String base = PICKER_TRACKING_BASE + PICKER_ADD;
-		createTrackLinkEvent(context, base + travelerType).track();
+		internalTrackLink(context, base + travelerType);
 	}
 
 	public static void trackRemoveTravelerLink(Context context, String travelerType) {
 		String base = PICKER_TRACKING_BASE + PICKER_REMOVE;
-		createTrackLinkEvent(context, base + travelerType).track();
+		internalTrackLink(context, base + travelerType);
 	}
 
 
