@@ -1277,6 +1277,25 @@ public class OmnitureTracking {
 	}
 
 	///////////////////////////
+	// Search Results Screen - Refinements
+
+	private static final String CHOOSE_DATES_LINK = "App.DSR.ChangeDates";
+	private static final String CHOOSE_ORIGIN_LINK = "App.DSR.Change.Origin";
+	private static final String CHOOSE_DEST_LINK = "App.DSR.Change.Destination";
+
+	public static void trackChooseDatesLinkClick(Context context) {
+		internalTrackLink(context, CHOOSE_DATES_LINK);
+	}
+
+	public static void trackChooseOriginLinkClick(Context context) {
+		internalTrackLink(context, CHOOSE_ORIGIN_LINK);
+	}
+
+	public static void trackChooseDestinationLinkClick(Context context) {
+		internalTrackLink(context, CHOOSE_DEST_LINK);
+	}
+
+	///////////////////////////
 	// Search Results Screen - TripBucket
 
 	private static final String BUCKET_HOTEL_REMOVAL = "App.DSR.DeleteHotel";

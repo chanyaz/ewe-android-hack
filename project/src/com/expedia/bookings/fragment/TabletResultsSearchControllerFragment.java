@@ -43,6 +43,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -452,6 +453,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mDestClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
+			OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
 			setState(ResultsSearchState.DESTINATION, mAnimateButtonClicks);
 		}
 	};
@@ -459,6 +461,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mOrigClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
+			OmnitureTracking.trackChooseOriginLinkClick(getActivity());
 			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
 		}
 	};
@@ -466,6 +469,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
+			OmnitureTracking.trackChooseDatesLinkClick(getActivity());
 			setState(ResultsSearchState.CALENDAR_WITH_POPUP, mAnimateButtonClicks);
 		}
 	};
