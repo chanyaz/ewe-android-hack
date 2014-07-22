@@ -26,6 +26,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
@@ -248,6 +249,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight() : Db.getTripBucket().getHotel());
 			if (item != null) {
 				tripBucketItemRemoved(item);
+				OmnitureTracking.trackTripBucketItemRemoval(getActivity(), mLob);
 			}
 		}
 	}
@@ -331,6 +333,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	public void onUndo(Parcelable token) {
 		// Get item's LOB
 		LineOfBusiness itemLob = JSONUtils.getEnum((Bundle) token, "lob", LineOfBusiness.class);
+		OmnitureTracking.trackTripBucketItemUndoRemoval(getActivity(), itemLob);
 		// Add item back
 		if (itemLob == LineOfBusiness.FLIGHTS) {
 			TripBucketItemFlight flight = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemFlight.class);

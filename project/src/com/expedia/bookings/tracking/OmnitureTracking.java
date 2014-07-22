@@ -1249,6 +1249,26 @@ public class OmnitureTracking {
 	}
 
 	///////////////////////////
+	// Search Results Screen - TripBucket
+
+	private static final String BUCKET_HOTEL_REMOVAL = "App.DSR.DeleteHotel";
+	private static final String UNDO_BUCKET_HOTEL_REMOVAL ="App.DSR.DeleteHotel.Undo";
+	private static final String BUCKET_FLIGHT_REMOVAL = "App.DSR.DeleteFlight";
+	private static final String UNDO_BUCKET_FLIGHT_REMOVAL ="App.DSR.DeleteFlight.Undo";
+
+	// Removing and undoing things
+
+	public static void trackTripBucketItemRemoval(Context context, LineOfBusiness lob) {
+		String link = lob == LineOfBusiness.FLIGHTS ? BUCKET_FLIGHT_REMOVAL : BUCKET_HOTEL_REMOVAL;
+		createTrackLinkEvent(context, link).track();
+	}
+
+	public static void trackTripBucketItemUndoRemoval(Context context, LineOfBusiness lob) {
+		String link = lob == LineOfBusiness.FLIGHTS ? UNDO_BUCKET_FLIGHT_REMOVAL : UNDO_BUCKET_HOTEL_REMOVAL;
+		createTrackLinkEvent(context, link).track();
+	}
+
+	///////////////////////////
 	// Search Results Screen - Hotels
 
 	// Page names
