@@ -176,6 +176,7 @@
     <dimen name="tablet_checkout_payment_button_new_cc_left_margin">1.5dp</dimen>
     <dimen name="data_display_primary_text">@dimen/checkout_data_button_text_size</dimen>
     <dimen name="stored_credit_card_button_padding">10dp</dimen>
+    <dimen name="tablet_checkout_trip_bucket_expanded_item_height">0dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_header_height">0dp</dimen>
 
     <!-- CVV Screen -->

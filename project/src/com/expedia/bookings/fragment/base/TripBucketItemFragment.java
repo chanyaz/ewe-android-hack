@@ -101,7 +101,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_tripbucket_item, null);
+		mRootC = Ui.inflate(inflater, getRootLayout(), null);
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
 		mCardCornersBottom = Ui.findView(mRootC, R.id.card_corners_bottom);
@@ -115,24 +115,31 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		}
 
 		// Top Part
-		mTripBucketImageView = Ui.findView(mTopC, R.id.tripbucket_card_background_view);
-		mBookBtnContainer = Ui.findView(mTopC, R.id.book_button_container);
-		mSoldOutContainer = Ui.findView(mTopC, R.id.sold_out_container);
-		mBookBtnText = Ui.findView(mTopC, R.id.book_button_text);
-		mSoldOutText = Ui.findView(mTopC, R.id.sold_out_text);
-		mTripPriceText = Ui.findView(mTopC, R.id.trip_bucket_price_text);
-		mNameAndDurationContainer = Ui.findView(mTopC, R.id.name_and_trip_duration_container);
-		mNameText = Ui.findView(mTopC, R.id.name_text_view);
-		mDurationText = Ui.findView(mTopC, R.id.trip_duration_text_view);
-		mBookingCompleteCheckImg = Ui.findView(mTopC, R.id.booking_complete_check);
+		if (mTopC != null) {
+			mTripBucketImageView = Ui.findView(mTopC, R.id.tripbucket_card_background_view);
+			mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+			mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
-		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
+			mBookBtnContainer = Ui.findView(mTopC, R.id.book_button_container);
+			mSoldOutContainer = Ui.findView(mTopC, R.id.sold_out_container);
+			mBookBtnText = Ui.findView(mTopC, R.id.book_button_text);
+			mSoldOutText = Ui.findView(mTopC, R.id.sold_out_text);
+			mTripPriceText = Ui.findView(mTopC, R.id.trip_bucket_price_text);
+			mNameAndDurationContainer = Ui.findView(mTopC, R.id.name_and_trip_duration_container);
+			mNameText = Ui.findView(mTopC, R.id.name_text_view);
+			mDurationText = Ui.findView(mTopC, R.id.trip_duration_text_view);
+			mBookingCompleteCheckImg = Ui.findView(mTopC, R.id.booking_complete_check);
+		}
+		else {
+			mTripBucketImageView = Ui.findView(mRootC, R.id.tripbucket_card_background_view);
+			mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+			mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
+		}
 
 		// Expanded / Receipt Part
 		addExpandedView(inflater, mExpandedC);
-
 
 		// Price Change Part
 		mPriceChangedClipC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_clip_container);
@@ -224,14 +231,21 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			//refresh the state...
 			setState(mStateManager.getState());
 
-			mBookBtnText.setText(getBookButtonText());
-			mSoldOutText.setText(getSoldOutText());
-			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
-			mSoldOutContainer.setOnClickListener(getOnBookClickListener());
+			if (mTopC != null) {
+				mBookBtnText.setText(getBookButtonText());
+				mSoldOutText.setText(getSoldOutText());
+				mBookBtnContainer.setOnClickListener(getOnBookClickListener());
+				mSoldOutContainer.setOnClickListener(getOnBookClickListener());
+			}
+
 
 			refreshTripPrice();
-			mNameText.setText(getNameText());
-			mDurationText.setText(getDateRangeText());
+
+			if (mTopC != null) {
+				mNameText.setText(getNameText());
+				mDurationText.setText(getDateRangeText());
+			}
+
 			if (doTripBucketImageRefresh()) {
 				mHeaderBitmapDrawable.enableOverlay();
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
@@ -242,7 +256,9 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	private void refreshTripPrice() {
-		mTripPriceText.setText(getTripPrice());
+		if (mTripPriceText != null) {
+			mTripPriceText.setText(getTripPrice());
+		}
 	}
 
 	public void setPriceChangeNotificationText(String priceChangeText) {
@@ -292,6 +308,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			|| state == TripBucketItemState.BOOKING_UNAVAILABLE)) {
 			setVisibilityState(state);
 		}
+	}
+
+	protected int getRootLayout() {
+		return R.layout.fragment_tablet_tripbucket_item;
 	}
 
 	/*
@@ -562,12 +582,16 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			break;
 
 		case EXPANDED:
-			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mBookBtnContainer.setVisibility(View.INVISIBLE);
-			mSoldOutContainer.setVisibility(View.GONE);
+			if (mTopC != null) {
+				mBookingCompleteCheckImg.setVisibility(View.GONE);
+				mBookBtnContainer.setVisibility(View.INVISIBLE);
+				mSoldOutContainer.setVisibility(View.GONE);
+			}
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
-			setNameAndDurationSlidePercentage(1f);
+			if (mTopC != null) {
+				setNameAndDurationSlidePercentage(1f);
+			}
 			mHeaderBitmapDrawable.setOverlayAlpha(1f);
 			break;
 
@@ -591,7 +615,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			break;
 		}
-		mCardCornersBottom.setTranslationY(0f);
+
+		if (mCardCornersBottom != null) {
+			mCardCornersBottom.setTranslationY(0f);
+		}
 	}
 
 	public void setNameAndDurationSoldOutSlidePercentage(float percentage) {

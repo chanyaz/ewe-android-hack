@@ -79,8 +79,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private static final String FRAG_TAG_LOGIN_BUTTONS = "FRAG_TAG_LOGIN_BUTTONS";
 	private static final String FRAG_TAG_PAYMENT_BUTTON = "FRAG_TAG_PAYMENT_BUTTON";
 	private static final String FRAG_TAG_COUPON_CONTAINER = "FRAG_TAG_COUPON_CONTAINER";
+	private static final String FRAG_TAG_HORIZONTAL_ITEM_HOTEL = "FRAG_TAG_HORIZONTAL_ITEM_HOTEL";
+	private static final String FRAG_TAG_HORIZONTAL_ITEM_FLIGHT = "FRAG_TAG_HORIZONTAL_ITEM_FLIGHT";
 
-	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";//We generate tags based on this
+	//We generate tags based on this
+	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";
 
 	//These act as dummy view ids (or the basis there of) that help us dynamically create veiws we can bind to
 	private static final int TRAV_BTN_ID_START = 1000000;
@@ -89,6 +92,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private static final int COUPON_FRAG_CONTAINER_ID = 2000002;
 
 	private ViewGroup mRootC;
+	private FrameLayout mHorizontalTripItemContainer;
 	private LinearLayout mCheckoutRowsC;
 	private ViewGroup mTravelerFormC;
 	private ViewGroup mPaymentFormC;
@@ -104,10 +108,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
 
+	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
+	private TripBucketHorizontalFlightFragment mHorizontalFlightFrag;
+
 	private ISlideToPurchaseSizeProvider mISlideToPurchaseSizeProvider;
 
 	private ArrayList<View> mTravelerViews = new ArrayList<View>();
 	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
+	private boolean mIsLandscape;
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
 		CheckoutFormState.OVERVIEW, this);
@@ -122,11 +130,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		super.onAttach(activity);
 		mCheckoutInfoListener = Ui.findFragmentListener(this, CheckoutInformationListener.class);
 		mISlideToPurchaseSizeProvider = Ui.findFragmentListener(this, ISlideToPurchaseSizeProvider.class);
+
+		mIsLandscape = activity.getResources().getBoolean(R.bool.landscape);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_forms, container, false);
+		mHorizontalTripItemContainer = Ui.findView(mRootC, R.id.horizontal_trip_bucket_item);
 		mCheckoutRowsC = Ui.findView(mRootC, R.id.checkout_forms_container);
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
@@ -212,6 +223,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		else if (tag == FRAG_TAG_COUPON_CONTAINER) {
 			return mCouponContainer;
 		}
+		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_HOTEL) {
+			return mHorizontalHotelFrag;
+		}
+		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_FLIGHT) {
+			return mHorizontalFlightFrag;
+		}
 		return null;
 	}
 
@@ -232,12 +249,26 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		else if (tag == FRAG_TAG_COUPON_CONTAINER) {
 			return CheckoutCouponFragment.newInstance(getLob());
 		}
+		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_HOTEL) {
+			return TripBucketHorizontalHotelFragment.newInstance();
+		}
+		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_FLIGHT) {
+			return TripBucketHorizontalFlightFragment.newInstance();
+		}
 		return null;
 	}
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		//None of our frags require setup...
+		if (tag == FRAG_TAG_HORIZONTAL_ITEM_HOTEL) {
+			TripBucketHorizontalHotelFragment f = (TripBucketHorizontalHotelFragment) frag;
+			f.setState(TripBucketItemState.EXPANDED);
+		}
+		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_FLIGHT) {
+			TripBucketHorizontalFlightFragment f = (TripBucketHorizontalFlightFragment) frag;
+			f.setState(TripBucketItemState.EXPANDED);
+		}
+		//None of the other frags require setup...
 	}
 
 	/*
@@ -322,6 +353,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mCouponContainer = FragmentAvailabilityUtils
 			.setFragmentAvailability(false, FRAG_TAG_COUPON_CONTAINER, fragmentManager, removeFragsTransaction, this,
 				COUPON_FRAG_CONTAINER_ID, false);
+		mHorizontalHotelFrag = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_HOTEL, fragmentManager, removeFragsTransaction, this,
+				R.id.horizontal_trip_bucket_item, false);
+		mHorizontalFlightFrag = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, removeFragsTransaction, this,
+				R.id.horizontal_trip_bucket_item, false);
 		for (TravelerButtonFragment btnFrag : mTravelerButtonFrags) {
 			removeFragsTransaction.remove(btnFrag);
 		}
@@ -440,6 +477,24 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mCouponContainer = FragmentAvailabilityUtils
 				.setFragmentAvailability(true, FRAG_TAG_COUPON_CONTAINER, fragmentManager, transaction, this,
 					COUPON_FRAG_CONTAINER_ID, true);
+		}
+
+		if (!mIsLandscape) {
+			mHorizontalTripItemContainer.setVisibility(View.VISIBLE);
+			final boolean lobIsHotels = getLob() == LineOfBusiness.HOTELS;
+			final boolean lobIsFlights = getLob() == LineOfBusiness.FLIGHTS;
+			
+			if (lobIsHotels) {
+				mHorizontalHotelFrag = FragmentAvailabilityUtils
+					.setFragmentAvailability(true, FRAG_TAG_HORIZONTAL_ITEM_HOTEL, fragmentManager, transaction, this,
+					R.id.horizontal_trip_bucket_item, true);
+			}
+
+			if (lobIsFlights) {
+				mHorizontalFlightFrag = FragmentAvailabilityUtils
+					.setFragmentAvailability(true, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, transaction, this,
+					R.id.horizontal_trip_bucket_item, true);
+			}
 		}
 		transaction.commit();
 
