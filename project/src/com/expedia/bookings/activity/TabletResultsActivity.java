@@ -177,6 +177,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		ab.setCustomView(R.layout.actionbar_tablet_title);
 		TextView title = Ui.findView(ab.getCustomView(), R.id.text1);
 		title.setText(R.string.Create_a_Trip);
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackTabletSearchResultsPageLoad(this);
+		}
 	}
 
 	@Override

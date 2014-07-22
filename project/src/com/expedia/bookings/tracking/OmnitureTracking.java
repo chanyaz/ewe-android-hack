@@ -1211,6 +1211,7 @@ public class OmnitureTracking {
 	// Launch Screen
 
 	private static String TABLET_LAUNCH_DEST_SELECT = "App.Dest-Search";
+	private static String TABLET_SEARCH_RESULTS = "App.Dest-Search.Results";
 
 	private static final String BASE_RFFR_FEATURED_LINK = "App.LS.Featured.";
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
@@ -1232,6 +1233,10 @@ public class OmnitureTracking {
 	// Destination waypoint screen - Launch
 	public static void trackTabletDestinationSearchPageLoad(Context context) {
 		internalTrackPageLoadEventStandard(context, TABLET_LAUNCH_DEST_SELECT);
+	}
+
+	public static void trackTabletSearchResultsPageLoad(Context context) {
+		internalTrackPageLoadEventStandard(context, TABLET_SEARCH_RESULTS);
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
