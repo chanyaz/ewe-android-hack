@@ -103,7 +103,7 @@
     <color name="hotel_cell_secondary_color">#a6a6a6</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_text_color_vsc">#0088ce</color>
-    <color name="hotel_price_sale_text_color">#a63030</color>
+    <color name="hotel_price_sale_text_color">#00b277</color>
     <color name="hotel_price_sale_text_color_vsc">#cb0044</color>
     <color name="suggestion_bg_pressed">#e0e0e0</color>
     <color name="hotel_details_text_color">#494e54</color>
