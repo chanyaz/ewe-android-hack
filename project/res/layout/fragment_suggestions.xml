@@ -4,5 +4,6 @@
     android:layout_width="@dimen/tablet_search_width"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:divider="#424963"
+    android:divider="#19ffffff"
+    android:layout_marginTop="-8dp"
     android:dividerHeight="1dp" />
