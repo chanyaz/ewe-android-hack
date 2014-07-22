@@ -1239,17 +1239,14 @@ public class OmnitureTracking {
 
 	private static void addOriginAndDesinationVars(ADMS_Measurement s, SearchParams params) {
 		SuggestionV2 origin = params.getOrigin();
-		String originAirportCode = origin != null ? origin.getAirportCode() : "nil";
+		String originId = origin.getRegionId() != 0 ? Integer.toString(origin.getRegionId()) : "No Origin";
+		s.setProp(3, originId);
+		s.setEvar(3, "D=c3");
 
-		s.setEvar(3, originAirportCode);
-		s.setProp(3, originAirportCode);
-
-		String destinationAirportCode = params.getDestination().getAirportCode();
-		if (TextUtils.isEmpty(destinationAirportCode)) {
-			destinationAirportCode = "nil";
-		}
-		s.setEvar(4, destinationAirportCode);
-		s.setProp(4, destinationAirportCode);
+		SuggestionV2 destination = params.getDestination();
+		String destinationId = origin.getRegionId() != 0 ? Integer.toString(destination.getRegionId()) : "No Destination";
+		s.setProp(4, destinationId);
+		s.setEvar(4, "D=c4");
 	}
 
 	public static void trackTabletSearchResultsPageLoad(Context context, SearchParams params) {
