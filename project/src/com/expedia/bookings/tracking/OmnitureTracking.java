@@ -1391,6 +1391,26 @@ public class OmnitureTracking {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Guest Picker Tracking
+
+	private static final String PICKER_TRACKING_BASE = "App.DSR.Traveler";
+	private static final String PICKER_ADD = ".Add.";
+	private static final String PICKER_REMOVE = ".Remove.";
+	public static final String PICKER_ADULT = "Adult";
+	public static final String PICKER_CHILD = "Child";
+
+	public static void trackAddTravelerLink(Context context, String travelerType) {
+		String base = PICKER_TRACKING_BASE + PICKER_ADD;
+		createTrackLinkEvent(context, base + travelerType).track();
+	}
+
+	public static void trackRemoveTravelerLink(Context context, String travelerType) {
+		String base = PICKER_TRACKING_BASE + PICKER_REMOVE;
+		createTrackLinkEvent(context, base + travelerType).track();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Samsung Wallet Click Tracking
 	//
 

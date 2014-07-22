@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.util.Ui;
 
@@ -75,6 +76,9 @@ public class GuestPicker extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
+				if (mAdultCount > 1) {
+					OmnitureTracking.trackRemoveTravelerLink(getContext(), OmnitureTracking.PICKER_ADULT);
+				}
 				removeAdult();
 			}
 		});
@@ -83,6 +87,9 @@ public class GuestPicker extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
+				if (canAddAnotherTraveler()) {
+					OmnitureTracking.trackAddTravelerLink(getContext(), OmnitureTracking.PICKER_ADULT);
+				}
 				addAdult();
 			}
 		});
@@ -91,6 +98,9 @@ public class GuestPicker extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
+				if (mChildren.size() > 0) {
+					OmnitureTracking.trackRemoveTravelerLink(getContext(), OmnitureTracking.PICKER_CHILD);
+				}
 				removeChild(mChildren.size() - 1);
 			}
 		});
@@ -100,6 +110,7 @@ public class GuestPicker extends LinearLayout {
 			public void onClick(View view) {
 				performHapticFeedback(view);
 				if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
+					OmnitureTracking.trackAddTravelerLink(getContext(), OmnitureTracking.PICKER_CHILD);
 					addChild(10);
 				}
 			}
