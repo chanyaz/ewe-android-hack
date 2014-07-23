@@ -1432,27 +1432,49 @@ public class OmnitureTracking {
 	}
 
 
-	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix, boolean includeProductString) {
+	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix, boolean isConfirmation) {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addStandardFields(context, s);
+
 		if (isFlights) {
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
+			s.setCurrencyCode(trip.getTotalFare().getCurrency());
+
 			addStandardFlightFields(s);
 			setEvar30(s, trip, params);
-			if (includeProductString) {
+
+			if (isConfirmation) {
+				s.setEvents("purchase");
 				addProducts(s, trip);
+				String itinId = trip.getItineraryNumber();
+				s.setProp(71, itinId);
+				String orderNumber = Db.getFlightCheckout().getOrderId();
+				s.setPurchaseID("onum" + orderNumber);
+				s.setProp(72, orderNumber);
 			}
 		}
 		else {
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			Rate rate = Db.getTripBucket().getHotel().getRate();
 			addStandardHotelFields(s, params);
-			if (includeProductString) {
-				boolean couponApplied = Db.getTripBucket().getHotel().isCouponApplied();
-				setEvar30(s, params, couponApplied);
-				addProducts(s, Db.getTripBucket().getHotel().getProperty());
+			s.setCurrencyCode(rate.getTotalAmountAfterTax().getCurrency());
+
+			boolean couponApplied = Db.getTripBucket().getHotel().isCouponApplied();
+			setEvar30(s, params, couponApplied);
+
+			if (isConfirmation) {
+				s.setEvents("purchase");
+				Property property = Db.getTripBucket().getHotel().getProperty();
+				addProducts(s, property, params.getStayDuration(), rate.getTotalAmountAfterTax().getAmount().doubleValue());
+
+				String itinId = Db.getBookingResponse().getItineraryId();
+				s.setProp(71, itinId);
+				String orderNumber = Db.getBookingResponse().getOrderNumber();
+				s.setPurchaseID("onum" + orderNumber);
+				s.setProp(72, orderNumber);
 			}
 		}
 		s.track();
