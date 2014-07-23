@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
@@ -38,6 +39,8 @@ public abstract class TabletConfirmationFragment extends Fragment {
 	private ViewGroup mBookNextContainer;
 	private ViewGroup mDoneBookingContainer;
 	private View mImageCard;
+
+	protected LineOfBusiness mLob;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				OmnitureTracking.trackBookNextClick(getActivity(), mLob);
 				Events.post(new Events.BookingConfirmationBookNext(getNextBookingItem()));
 			}
 		});
@@ -87,6 +91,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				OmnitureTracking.trackDoneBookingClick(getActivity(), mLob);
 				NavUtils.goToItin(getActivity());
 				getActivity().finish();
 			}

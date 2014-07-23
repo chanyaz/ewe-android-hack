@@ -21,7 +21,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -76,6 +75,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 		}
 
+		mLob = LineOfBusiness.HOTELS;
 		return v;
 	}
 

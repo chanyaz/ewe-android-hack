@@ -1387,6 +1387,7 @@ public class OmnitureTracking {
 	private static final String CHECKOUT_FLIGHT_INFO_TEMPLATE = "App.Flight.Checkout";
 	private static final String CHECKOUT_HOTEL_INFO_TEMPLATE = "App.Hotel.Checkout";
 	private static final String LOGIN_PAGELOAD  = "App.Account.Login";
+	private static final String BOOK_NEXT_ITEM_LINK = "App.Flights.Checkout.Confirm.BookNext";
 
 	private static final String getBase(boolean isFlights) {
 		return isFlights ? CHECKOUT_FLIGHT_INFO_TEMPLATE : CHECKOUT_HOTEL_INFO_TEMPLATE;
@@ -1518,6 +1519,16 @@ public class OmnitureTracking {
 		sb.append(checkInDate).append('-').append(checkOutDate);
 		sb.append(':').append(couponUsed);
 		s.setEvar(30, sb.toString());
+	}
+
+	public static void trackBookNextClick(Context context, LineOfBusiness lob) {
+		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.BookNext";
+		internalTrackLink(context, link);
+	}
+
+	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {
+		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
+		internalTrackLink(context, link);
 	}
 
 	public static void trackTabletLoginPageLoad(Context context) {
