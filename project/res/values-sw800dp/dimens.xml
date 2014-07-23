@@ -5,8 +5,6 @@
     Dimensions for tablet generic dimensions should go in values-sw600dp
     and dimensions for app generic dimensions should go in values -->
 
-    <dimen name="tablet_search_width">768dp</dimen>
-
     <!-- Tablet Flights -->
     <dimen name="standard_content_width">600dp</dimen>
     <dimen name="flight_header_bottom_margin">200dp</dimen>
