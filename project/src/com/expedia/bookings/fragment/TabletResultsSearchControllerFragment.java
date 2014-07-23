@@ -489,6 +489,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					doSpUpdate();
 				}
 				setState(ResultsSearchState.DEFAULT, true);
+				OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
 			}
 		}
 	};
