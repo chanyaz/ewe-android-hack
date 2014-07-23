@@ -3,6 +3,7 @@ package com.expedia.bookings.test.tests.pageModels.tablet;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.SuggestionAdapterViewProtocol;
@@ -12,7 +13,6 @@ import static com.expedia.bookings.test.espresso.TabletViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -73,6 +73,14 @@ public class Search {
 		onView(withId(R.id.children_minus)).perform(click());
 	}
 
+	public static void incrementAdultButton() {
+		onView(withId(R.id.adults_plus)).perform(click());
+	}
+
+	public static void decrementAdultButton() {
+		onView(withId(R.id.adults_minus)).perform(click());
+	}
+
 	public static void selectChildTravelerAgeAt(int index, Activity activity) {
 		onData(anything()).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).atPosition(index).perform(click());
 	}
@@ -85,8 +93,30 @@ public class Search {
 		onView(withId(R.id.child_2_age_layout)).perform(click());
 	}
 
-	public static void scrollToInfantAlert() {
-		onView(withId(R.id.tablet_lap_infant_alert)).perform(scrollTo());
+	public static ViewInteraction lapInfantAlert() {
+		return onView(withId(R.id.tablet_lap_infant_alert));
+	}
+
+	public static ViewInteraction adultCountText() {
+		return onView(withId(R.id.adult_count_text));
+	}
+
+	public static ViewInteraction childCountText() {
+		return onView(withId(R.id.child_count_text));
+	}
+
+	public static String childPickerStringPlural(int numberOfChildren, Instrumentation instrumentation) {
+		return instrumentation //
+			.getTargetContext() //
+			.getResources() //
+			.getQuantityString(R.plurals.number_of_children, numberOfChildren, numberOfChildren);
+	}
+
+	public static String adultPickerStringPlural(int numberOfAdults, Instrumentation instrumentation) {
+		return instrumentation //
+			.getTargetContext() //
+			.getResources() //
+			.getQuantityString(R.plurals.number_of_adults_TEMPLATE, numberOfAdults, numberOfAdults);
 	}
 
 	public static void clickSuggestionAtPosition(int index) {
