@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
-import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.fragment.TabletCheckoutFormsFragment;
@@ -474,9 +473,11 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		CheckoutState state;
 		if (lob == LineOfBusiness.FLIGHTS && !Db.getTripBucket().getFlight().canBePurchased()) {
 			state = CheckoutState.BOOKING_UNAVAILABLE;
+			OmnitureTracking.trackItemSoldOutOnCheckoutLink(this, lob);
 		}
 		else if (lob == LineOfBusiness.HOTELS && !Db.getTripBucket().getHotel().canBePurchased()) {
 			state = CheckoutState.BOOKING_UNAVAILABLE;
+			OmnitureTracking.trackItemSoldOutOnCheckoutLink(this, lob);
 		}
 		else {
 			state = CheckoutState.OVERVIEW;

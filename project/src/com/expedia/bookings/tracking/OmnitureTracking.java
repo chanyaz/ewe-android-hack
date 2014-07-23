@@ -1412,6 +1412,11 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackItemSoldOutOnCheckoutLink(Context context, LineOfBusiness lob) {
+		String soldOutLink = getBase(lob == LineOfBusiness.FLIGHTS) +  ".Checkout.Error";
+		internalTrackLink(context, soldOutLink);
+	}
+
 	public static void trackTabletEditTravelerPageLoad(Context context, LineOfBusiness lob) {
 		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Edit.Info", false);
 	}
