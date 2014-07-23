@@ -135,20 +135,20 @@ public class OmnitureTracking {
 	private static final String HOTELS_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Hotels.Checkout.Payment.EnterManually";
 	private static final String HOTELS_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
 	private static final String HOTELS_CHECKOUT_PAYMENT_CID = "App.Hotels.Checkout.Payment.CID";
-	private static final String HOTELS_SEARCH_REFINE = "App.Hotel.Search.Filter";
-	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotel.Search.Filter.Name";
-	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotel.Search.Filter.PriceRange";
-	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotel.Search.Filter.SearchRadius";
-	private static final String HOTELS_SEARCH_REFINE_VIP = "App.Hotel.Search.Filter.VIPAccess";
+	private static final String HOTELS_SEARCH_REFINE = "App.Hotels.Search.Filter";
+	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Filter.Name";
+	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Filter.PriceRange";
+	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Filter.SearchRadius";
+	private static final String HOTELS_SEARCH_REFINE_VIP = "App.Hotels.Search.Filter.VIPAccess";
 	private static final String HOTELS_CONF_CROSSSELL_FLIGHTS = "CrossSell.Hotels.Flights";
 	private static final String HOTELS_CONF_ADD_TO_CALENDAR = "App.Hotels.Checkout.Confirmation.Add.Calendar";
 	private static final String HOTELS_CONF_SHARE_EMAIL = "App.Hotels.Checkout.Confirmation.Share.Mail";
 
-	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotel.Search.Sort.Popular";
-	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotel.Search.Sort.Price";
-	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotel.Search.Sort.Distance";
-	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotel.Search.Sort.Rating";
-	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotel.Search.Sort.Deals";
+	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotels.Search.Sort.Popular";
+	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotels.Search.Sort.Price";
+	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotels.Search.Sort.Distance";
+	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
+	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
 
 	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.HOT.Review.Fav";
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.HOT.Review.Crit";
@@ -775,8 +775,8 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
 
-	private static final String FLIGHT_CONF_ADD_TO_CALENDAR = "App.Flights.Checkout.Confirmation.Add.Calendar";
-	private static final String FLIGHT_CONF_SHARE_EMAIL = "App.Flights.Checkout.Confirmation.Share.Mail";
+	private static final String FLIGHT_CONF_ADD_TO_CALENDAR = "App.Flight.Checkout.Confirmation.Add.Calendar";
+	private static final String FLIGHT_CONF_SHARE_EMAIL = "App.Flight.Checkout.Confirmation.Share.Mail";
 
 	private static final String FLIGHT_INFANT_ALERT = "App.Flight.Search.LapAlert";
 
@@ -1296,8 +1296,8 @@ public class OmnitureTracking {
 	private static final String PAGE_NAME_HOTEL_SORT_FILTER = "App.Hotels.Search.Refine";
 
 	// Link URLs
-	private static final String PIN_CLICK_LINK_NAME = "App.Hotel.SR.TapPin";
-	private static final String NEIGHBORHOOD_FILTER_LINK_NAME = "App.Hotel.Search.Filter.Area";
+	private static final String PIN_CLICK_LINK_NAME = "App.Hotels.SR.TapPin";
+	private static final String NEIGHBORHOOD_FILTER_LINK_NAME = "App.Hotels.Search.Filter.Area";
 
 
 	private static final String PROP_DATE_FORMAT = "yyyy-MM-dd";
@@ -1385,9 +1385,8 @@ public class OmnitureTracking {
 	// Calls are similar enough, with only LOB tweaks, so it makes sense to unify this.
 
 	private static final String CHECKOUT_FLIGHT_INFO_TEMPLATE = "App.Flight.Checkout";
-	private static final String CHECKOUT_HOTEL_INFO_TEMPLATE = "App.Hotel.Checkout";
+	private static final String CHECKOUT_HOTEL_INFO_TEMPLATE = "App.Hotels.Checkout";
 	private static final String LOGIN_PAGELOAD  = "App.Account.Login";
-	private static final String BOOK_NEXT_ITEM_LINK = "App.Flights.Checkout.Confirm.BookNext";
 
 	private static final String getBase(boolean isFlights) {
 		return isFlights ? CHECKOUT_FLIGHT_INFO_TEMPLATE : CHECKOUT_HOTEL_INFO_TEMPLATE;
@@ -1601,7 +1600,7 @@ public class OmnitureTracking {
 	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
-	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
+	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotels.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Info.Share.";
