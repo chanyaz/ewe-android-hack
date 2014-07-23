@@ -333,6 +333,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
 				setState(ResultsFlightLegState.LATER_LEG, true);
+				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1 );
 			}
 		}
 		if (mParentLegSelectedListener != null) {
@@ -421,9 +422,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		public void onStateFinalized(ResultsFlightLegState state) {
 			if (getState() == ResultsFlightLegState.LATER_LEG && state == ResultsFlightLegState.ADDING_TO_TRIP) {
 				setState(ResultsFlightLegState.ADDING_TO_TRIP, false);
-			}
-			else if (getState() == ResultsFlightLegState.LATER_LEG) {
-				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1 );
 			}
 		}
 	};
