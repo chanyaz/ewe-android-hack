@@ -870,6 +870,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
 				mRootC.setVisibility(View.VISIBLE);
 				mRootC.setAlpha(0f);
+				mHotelListC.setBlockNewEventsEnabled(true);
 			}
 			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
 				mHotelListC.setBlockNewEventsEnabled(true);
@@ -905,6 +906,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
 				mRootC.setVisibility(View.GONE);
+				mHotelListC.setBlockNewEventsEnabled(false);
 			}
 		}
 
