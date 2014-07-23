@@ -298,7 +298,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// "25% OFF"
 		Rate rate = property.getLowestRate();
-		if (rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
+		if (rate != null && rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
 			saleText.setVisibility(View.VISIBLE);
 			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
 				rate.getDiscountPercent()));

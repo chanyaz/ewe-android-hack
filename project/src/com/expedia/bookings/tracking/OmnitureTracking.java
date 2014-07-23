@@ -451,13 +451,15 @@ public class OmnitureTracking {
 	}
 
 	private static String internalGenerateDRRString(Context context, Rate rate) {
-		String base = "Hotels | ";
-		if (rate.isMobileExclusive()) {
-			return base + context.getString(R.string.mobile_exclusive);
-		}
-		else if (rate.isOnSale()) {
-			return base + context.getString(R.string.percent_minus_template,
-				(float) rate.getDiscountPercent());
+		if (rate != null) {
+			String base = "Hotels | ";
+			if (rate.isMobileExclusive()) {
+				return base + context.getString(R.string.mobile_exclusive);
+			}
+			else if (rate.isOnSale()) {
+				return base + context.getString(R.string.percent_minus_template,
+					(float) rate.getDiscountPercent());
+			}
 		}
 		return null;
 	}

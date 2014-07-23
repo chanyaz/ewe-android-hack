@@ -117,7 +117,9 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			int locationId = property.getLocation().getLocationId();
 			CheckBoxFilterWidget widget = mWidgetMap.get(locationId);
 			widget.setEnabled(false);
-			widget.setPriceIfLower(property.getLowestRate().getDisplayPrice());
+			if (property.getLowestRate() != null) {
+				widget.setPriceIfLower(property.getLowestRate().getDisplayPrice());
+			}
 		}
 
 		// Look through the filtered properties, enable that filter widget
@@ -130,7 +132,9 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			}
 			else {
 				widget.setEnabled(true);
-				widget.setPrice(property.getLowestRate().getDisplayPrice());
+				if (property.getLowestRate() != null) {
+					widget.setPrice(property.getLowestRate().getDisplayPrice());
+				}
 			}
 		}
 
