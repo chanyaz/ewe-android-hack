@@ -97,6 +97,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private ViewGroup mSearchC;
 
 	private View mShadeView;
+	private View mBottomGradient;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -134,6 +135,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mSearchC = Ui.findView(this, R.id.full_width_search_controller_container);
 
 		mShadeView = Ui.findView(this, R.id.overview_shade);
+		mBottomGradient = Ui.findView(this, R.id.search_bottom_gradient);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -464,7 +466,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateFinalized(ResultsState state) {
 			setListenerState(state);
 
-			if (hideTripBucketInPortrait() || mSearchController.getState().showsSearchControls()) {
+			if (!mGrid.isLandscape()
+				&& (hideTripBucketInPortrait() || mSearchController.getState().showsSearchControls())) {
 				int transY = mGrid.getRowTop(2);
 				mTripBucketC.setTranslationY(transY);
 			}
@@ -544,6 +547,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else if (mFlightsC.getTranslationY() != 0) {
 				mFlightsC.setTranslationY(0f);
 			}
+			mBottomGradient.setTranslationY(mGrid.getRowSpanHeight(0, 2) * -percentage);
 		}
 		else {
 			//Reset Y things because they don't change if we are
@@ -645,16 +649,20 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//Setup grid manager
 			if (isLandscape) {
 				mGrid.setDimensions(totalWidth, totalHeight);
-				mGrid.setGridSize(2, 5);
+				mGrid.setGridSize(4, 5);
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
 				mGrid.setColumnSize(3, spacerSize);
 
-				mGrid.setRowPercentage(1, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
+				mGrid.setRowPercentage(3, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
+				mGrid.setRowSize(1, getResources().getDimensionPixelSize(R.dimen.results_bottom_gradient_offset));
+				mGrid.setRowSize(2, getActionBar().getHeight());
 
 				mGrid.setContainerToColumn(mTripBucketC, 4);
-				mGrid.setContainerToRow(mTripBucketC, 1);
+				mGrid.setContainerToRow(mTripBucketC, 3);
+				GridManager.setFrameHeightAndPosition(mBottomGradient,
+					mGrid.getTotalHeight() + mGrid.getRowHeight(1), mGrid.getRowTop(1));
 			}
 			else {
 				mGrid.setDimensions(totalWidth, totalHeight);

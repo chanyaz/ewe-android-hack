@@ -766,7 +766,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			int barTransDistance = mGrid.getRowSpanHeight(0, 3);
 
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
-			mSearchBarC.getBackground().setAlpha((int) (255f * (1f - percentage)));
 			if (mGrid.isLandscape()) {
 				mBottomRightC.setTranslationY(percentage * mBottomRightC.getHeight());
 				mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mBottomCenterC.getHeight());

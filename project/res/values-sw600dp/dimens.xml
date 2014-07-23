@@ -53,6 +53,8 @@
     <dimen name="results_column_spacing">2dp</dimen>
     <dimen name="results_list_spacer_height">8dp</dimen>
     <dimen name="results_list_margin_top">40dp</dimen>
+    <!-- The height by which the bottom gradient starts above the search bar -->
+    <dimen name="results_bottom_gradient_offset">32dp</dimen>
     <!-- note: results_column_header_height should be equal to results_list_spacer_height + results_list_margin_top -->
     <dimen name="results_column_header_height">48dp</dimen>
     <dimen name="results_collapsed_row_height">284dp</dimen>
