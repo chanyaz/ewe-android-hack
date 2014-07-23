@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
@@ -105,7 +106,7 @@ public class LaunchPin extends FrameLayout {
 
 			@Override
 			public void onBitmapLoadFailed(String url) {
-				mImageView.setVisibility(View.GONE);
+				setPinBitmap(null);
 				getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 					@Override
 					public boolean onPreDraw() {
@@ -118,8 +119,13 @@ public class LaunchPin extends FrameLayout {
 		});
 	}
 
-	private void setPinBitmap(Bitmap bitmap) {
-		mImageView.setImageBitmap(bitmap);
+	public void setPinBitmap(Bitmap bitmap) {
+		if (bitmap == null) {
+			mImageView.setImageResource(R.drawable.launch_circle_placeholder);
+		}
+		else {
+			mImageView.setImageBitmap(bitmap);
+		}
 	}
 
 	private void setPinText(String upper) {
