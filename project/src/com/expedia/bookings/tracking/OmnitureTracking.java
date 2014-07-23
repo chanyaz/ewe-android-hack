@@ -1216,7 +1216,7 @@ public class OmnitureTracking {
 		s.setEvar(3, "D=c3");
 
 		SuggestionV2 destination = params.getDestination();
-		String destinationId = origin.getRegionId() != 0 ? Integer.toString(destination.getRegionId()) : "No Destination";
+		String destinationId = destination.getRegionId() != 0 ? Integer.toString(destination.getRegionId()) : "No Destination";
 		s.setProp(4, destinationId);
 		s.setEvar(4, "D=c4");
 	}
