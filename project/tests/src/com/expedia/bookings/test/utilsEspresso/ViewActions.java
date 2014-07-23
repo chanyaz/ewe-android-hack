@@ -31,13 +31,21 @@ public final class ViewActions {
 
 	// View Action for Calender Utils
 
+	public static ViewAction clickDate(LocalDate start) {
+		return new CalendarPickerClickDatesAction(start);
+	}
+
 	public static ViewAction clickDates(LocalDate start, LocalDate end) {
 		return new CalendarPickerClickDatesAction(start, end);
 	}
 
 	public final static class CalendarPickerClickDatesAction implements ViewAction {
-		private LocalDate mStartDate;
-		private LocalDate mEndDate;
+		private LocalDate mStartDate = null;
+		private LocalDate mEndDate = null;
+
+		public CalendarPickerClickDatesAction(LocalDate start) {
+			mStartDate = start;
+		}
 
 		public CalendarPickerClickDatesAction(LocalDate start, LocalDate end) {
 			mStartDate = start;
@@ -54,7 +62,7 @@ public final class ViewActions {
 		public void perform(UiController uiController, View view) {
 			CalendarDatePicker cp = (CalendarDatePicker) view;
 			cp.updateStartDate(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth());
-			if (mEndDate.getDayOfMonth() != 1) {
+			if (mEndDate != null) {
 				cp.updateEndDate(mEndDate.getYear(), mEndDate.getMonthOfYear(), mEndDate.getDayOfMonth());
 			}
 		}
