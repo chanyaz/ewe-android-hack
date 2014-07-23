@@ -2004,7 +2004,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadLaunchScreen(Context context) {
-		ADMS_Measurement s = createTrackLinkEvent(context, LAUNCH_SCREEN);
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, LAUNCH_SCREEN);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
