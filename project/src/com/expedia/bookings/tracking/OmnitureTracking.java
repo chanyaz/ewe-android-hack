@@ -1438,18 +1438,58 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addStandardFields(context, s);
 		if (isFlights) {
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			addStandardFlightFields(s);
+			setEvar30(s, trip, params);
 			if (includeProductString) {
-				addProducts(s, Db.getTripBucket().getFlight().getFlightTrip());
+				addProducts(s, trip);
 			}
 		}
 		else {
-			addStandardHotelFields(s, Db.getTripBucket().getHotel().getHotelSearchParams());
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			addStandardHotelFields(s, params);
 			if (includeProductString) {
+				boolean couponApplied = Db.getTripBucket().getHotel().isCouponApplied();
+				setEvar30(s, params, couponApplied);
 				addProducts(s, Db.getTripBucket().getHotel().getProperty());
 			}
 		}
 		s.track();
+	}
+
+	// Evar 30 doc: https://confluence/display/Omniture/eVar30+-+Product+Details
+	private static final String EVAR30_DATE_FORMAT = "yyyyMMdd";
+
+	// TODO: If we someday support multi-destination flights, we'll have to update
+	private static void setEvar30(ADMS_Measurement s, FlightTrip trip, FlightSearchParams searchParams) {
+		boolean isRoundtrip = searchParams.isRoundTrip();
+		String firstWaypointCode = trip.getLeg(0).getFirstWaypoint().mAirportCode;
+		String lastWaypointCode = trip.getLeg(0).getLastWaypoint().mAirportCode;
+
+		StringBuilder sb = new StringBuilder("Flight: ");
+		sb.append(firstWaypointCode).append('-');
+		sb.append(lastWaypointCode);
+		if (isRoundtrip) {
+			sb.append('-').append(firstWaypointCode);
+		}
+		sb.append(':');
+		sb.append(searchParams.getDepartureDate().toString(EVAR30_DATE_FORMAT));
+		if (isRoundtrip) {
+			sb.append('-').append(searchParams.getReturnDate().toString(EVAR30_DATE_FORMAT));
+		}
+
+		s.setEvar(30, sb.toString());
+	}
+
+	public static void setEvar30(ADMS_Measurement s, HotelSearchParams params, boolean couponApplied) {
+		String checkInDate = params.getCheckInDate().toString(EVAR30_DATE_FORMAT);
+		String checkOutDate = params.getCheckOutDate().toString(EVAR30_DATE_FORMAT);
+		String couponUsed = couponApplied ? "Y" : "N";
+		StringBuilder sb = new StringBuilder("Hotel: ");
+		sb.append(checkInDate).append('-').append(checkOutDate);
+		sb.append(':').append(couponUsed);
+		s.setEvar(30, sb.toString());
 	}
 
 	public static void trackTabletLoginPageLoad(Context context) {
