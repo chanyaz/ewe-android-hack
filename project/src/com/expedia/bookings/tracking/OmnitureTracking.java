@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.text.Html;
 import android.text.TextUtils;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
@@ -1227,7 +1228,7 @@ public class OmnitureTracking {
 		addOriginAndDesinationVars(s, params);
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
-		s.setEvar(48, params.getDestination().getDisplayName());
+		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 		s.track();
 	}
 
