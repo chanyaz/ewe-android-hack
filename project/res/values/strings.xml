@@ -3144,6 +3144,8 @@
     <!-- Tablet Sold Out Screen -->
     <!-- Header text to indicating hotel sold out -->
     <string name="tablet_sold_out_summary_text_hotel">This room is now sold out. Sorry!</string>
+    <!-- Header text to that the hold on the room has expired. -->
+    <string name="tablet_expired_summary_text_hotel">We\'re sorry, your hold on this room has expired.</string>
     <!-- Button text to remove sold hotel -->
     <string name="tablet_sold_out_remove_hotel">Remove hotel</string>
     <!-- Button text to select another hotel -->
