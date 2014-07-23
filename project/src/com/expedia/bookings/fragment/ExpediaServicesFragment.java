@@ -34,6 +34,7 @@ public class ExpediaServicesFragment extends Fragment {
 		SUGGEST_NEARBY,
 		HOTEL_SEARCH,
 		HOTEL_SEARCH_HOTEL,
+		HOTEL_INFO,
 		FLIGHT_SEARCH,
 		HOTEL_AFFINITY_SEARCH,
 		FLIGHT_GDE_SEARCH

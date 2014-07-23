@@ -1542,18 +1542,34 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
 			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
+			loadHotelOffersResponse(offersResponse);
+		}
+		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_INFO) {
+			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
+			loadHotelOffersResponse(offersResponse);
+		}
+	}
+
+	private void loadHotelOffersResponse(HotelOffersResponse offersResponse) {
+		if (offersResponse == null) {
+			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+		}
+		else if (offersResponse.isHotelUnavailable()) {
+			mHotelSearchDownloadFrag.startOrRestartHotelInfo();
+		}
+		else if (offersResponse.hasErrors()) {
+			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+		}
+		else if (offersResponse.getProperty() != null) {
 			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
 			Property property = offersResponse.getProperty();
 			Db.getHotelSearch().setSelectedProperty(property);
 
-			if (response != null && !response.hasErrors()) {
-				mHotelListC.setVisibility(View.VISIBLE);
-
-				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-			}
-			else if (!mHotelSearchDownloadFrag.isDownloadingSearchByHotel()) {
-				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
-			}
+			mHotelListC.setVisibility(View.VISIBLE);
+			setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+		}
+		else if (!mHotelSearchDownloadFrag.isDownloadingSearchByHotel() || !mHotelSearchDownloadFrag.isDownloadingHotelInfo()) {
+			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 		}
 	}
 
