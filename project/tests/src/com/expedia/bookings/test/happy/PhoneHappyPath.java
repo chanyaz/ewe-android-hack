@@ -40,9 +40,12 @@ public class PhoneHappyPath extends PhoneTestCase {
 		screenshot("Details2");
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
+		screenshot("Checkout_Overview");
 		FlightsCheckoutScreen.clickCheckoutButton();
+		screenshot("Checkout_Details");
 
 		FlightsCheckoutScreen.clickTravelerDetails();
+		screenshot("Checkout_Traveler");
 		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
 		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
@@ -60,6 +63,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		Common.pressBack();
 		FlightsCheckoutScreen.clickCheckoutButton();
 		FlightsCheckoutScreen.clickSelectPaymentButton();
+		screenshot("Checkout_Payment");
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
 		BillingAddressScreen.typeTextPostalCode("94105");
