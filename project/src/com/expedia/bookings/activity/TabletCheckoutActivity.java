@@ -472,10 +472,10 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	public void onTripBucketBookClicked(LineOfBusiness lob) {
 		updateLob(lob);
 		CheckoutState state;
-		if (lob == LineOfBusiness.FLIGHTS && Db.getTripBucket().getFlight().getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
+		if (lob == LineOfBusiness.FLIGHTS && !Db.getTripBucket().getFlight().canBePurchased()) {
 			state = CheckoutState.BOOKING_UNAVAILABLE;
 		}
-		else if (lob == LineOfBusiness.HOTELS && Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
+		else if (lob == LineOfBusiness.HOTELS && !Db.getTripBucket().getHotel().canBePurchased()) {
 			state = CheckoutState.BOOKING_UNAVAILABLE;
 		}
 		else {

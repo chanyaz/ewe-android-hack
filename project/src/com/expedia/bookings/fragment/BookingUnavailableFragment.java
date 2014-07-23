@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
@@ -85,17 +86,34 @@ public class BookingUnavailableFragment extends LobableFragment {
 
 	private void updateViews() {
 		if (getLob() == LineOfBusiness.HOTELS) {
-			mSoldOutText.setText(getString(R.string.tablet_sold_out_summary_text_hotel));
+			if (Db.getTripBucket().getHotel().getState() == TripBucketItemState.EXPIRED) {
+				mSoldOutText.setText(getString(R.string.tablet_expired_summary_text_hotel));
+			}
+			else {
+				mSoldOutText.setText(getString(R.string.tablet_sold_out_summary_text_hotel));
+			}
 			mRemoveItemButton.setText(getString(R.string.tablet_sold_out_remove_hotel));
 			mSelectNewItemButton.setText(getString(R.string.tablet_sold_out_select_hotel));
 		}
 		else {
-			if (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1) {
-				mSoldOutText.setText(getString(R.string.error_flights_hold_expired));
+			boolean isPlural = Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1;
+			if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.EXPIRED) {
+				if (isPlural) {
+					mSoldOutText.setText(getString(R.string.error_flights_hold_expired));
+				}
+				else {
+					mSoldOutText.setText(getString(R.string.error_flight_hold_expired));
+				}
 			}
 			else {
-				mSoldOutText.setText(getString(R.string.error_flight_hold_expired));
+				if (isPlural) {
+					mSoldOutText.setText(getString(R.string.tablet_sold_out_summary_text_flight));
+				}
+				else {
+					mSoldOutText.setText(getString(R.string.tablet_sold_out_summary_text_flights));
+				}
 			}
+
 			mRemoveItemButton.setText(getString(R.string.tablet_sold_out_remove_flight));
 			mSelectNewItemButton.setText(getString(R.string.tablet_sold_out_select_flight));
 		}

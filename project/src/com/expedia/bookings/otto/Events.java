@@ -370,6 +370,18 @@ public class Events {
 	}
 
 	/**
+	 * This event notifies that the item in the trip bucket has expired.
+	 */
+	public static class TripItemExpired {
+
+		public final LineOfBusiness lineOfBusiness;
+
+		public TripItemExpired(LineOfBusiness lob) {
+			this.lineOfBusiness = lob;
+		}
+	}
+
+	/**
 	 * This event notifies that the LCC payment fees was added to the flight trip.
 	 */
 	public static class LCCPaymentFeesAdded {

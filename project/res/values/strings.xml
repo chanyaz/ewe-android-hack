@@ -3152,8 +3152,10 @@
     <string name="tablet_sold_out_select_hotel">Select another hotel</string>
     <!-- Button text to select another hotel or room -->
     <string name="tablet_sold_out_select_hotel_room">Select another hotel or room</string>
-    <!-- Header text to indicating flight sold out -->
+    <!-- Header text to indicating flight is sold out -->
     <string name="tablet_sold_out_summary_text_flight">This flight is now sold out. Sorry!</string>
+    <!-- Header text to indicating flights are sold out -->
+    <string name="tablet_sold_out_summary_text_flights">These flights are now sold out. Sorry!</string>
     <!-- Button text to remove sold flight -->
     <string name="tablet_sold_out_remove_flight">Remove flight</string>
     <!-- Button text to select another flight -->

@@ -342,10 +342,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onLobSet(LineOfBusiness lob) {
 		if (mRootC != null) {
 			// Let's not build the checkout form when trip is sold out.
-			if (lob == LineOfBusiness.FLIGHTS && Db.getTripBucket().getFlight().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
+			if (lob == LineOfBusiness.FLIGHTS && Db.getTripBucket().getFlight().canBePurchased()) {
 				buildCheckoutForm();
 			}
-			else if (lob == LineOfBusiness.HOTELS && Db.getTripBucket().getHotel().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
+			else if (lob == LineOfBusiness.HOTELS && Db.getTripBucket().getHotel().canBePurchased()) {
 				buildCheckoutForm();
 			}
 		}

@@ -220,7 +220,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 			if (mTopC != null) {
 				mBookBtnText.setText(getBookButtonText());
-				mSoldOutText.setText(getSoldOutText());
 				mBookBtnContainer.setOnClickListener(getOnBookClickListener());
 				mSoldOutContainer.setOnClickListener(getOnBookClickListener());
 			}
@@ -262,6 +261,15 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		}
 	}
 
+	public CharSequence getSoldOutText() {
+		if (getItem().getState() == TripBucketItemState.EXPIRED) {
+			return getString(R.string.trip_bucket_expired);
+		}
+		else {
+			return getString(R.string.trip_bucket_sold_out);
+		}
+	}
+
 	protected void showBreakdownDialog(LineOfBusiness lob) {
 		mBreakdownFrag = com.expedia.bookings.utils.Ui
 			.findSupportFragment(TripBucketItemFragment.this, BreakdownDialogFragment.TAG);
@@ -287,12 +295,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private void refreshBucketItem() {
 		refreshTripPrice();
 		/*
-		 * Let's refresh the item state to reflect that of the existing bucket item. Let's update only for PURCHASED & BOOKING_UNAVAILABLE,
+		 * Let's refresh the item state to reflect that of the existing bucket item. Let's update only for PURCHASED, BOOKING_UNAVAILABLE, EXPIRED.
 		 * since for the rest of the states we want the user to be able to book it, i.e. show the book now button.
 		 */
 		TripBucketItemState state = getItemState();
-		if (state != null && (state == TripBucketItemState.PURCHASED
-			|| state == TripBucketItemState.BOOKING_UNAVAILABLE)) {
+		if (state != null && !getItem().canBePurchased()) {
 			setVisibilityState(state);
 		}
 	}
@@ -331,7 +338,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setPriceChangePercentage(0.0f);
 			}
 
-			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			if (stateOne == TripBucketItemState.EXPANDED &&
+				(stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE || stateTwo == TripBucketItemState.EXPIRED)) {
 				mSoldOutContainer.setVisibility(View.VISIBLE);
 				mSoldOutContainer.setAlpha(0.0f);
 				setNameAndDurationSoldOutSlidePercentage(1.0f);
@@ -377,6 +385,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				&& stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
 				setItemSoldOutSelected(isSelected());
 			}
+
+			if (stateOne == TripBucketItemState.EXPIRED
+				&& stateTwo == TripBucketItemState.EXPIRED) {
+				setItemSoldOutSelected(isSelected());
+			}
 		}
 
 		@Override
@@ -400,7 +413,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setPriceChangePercentage(percentage);
 			}
 
-			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			if (stateOne == TripBucketItemState.EXPANDED &&
+				(stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE || stateTwo == TripBucketItemState.EXPIRED)) {
 				mSoldOutContainer.setAlpha(percentage);
 				setNameAndDurationSoldOutSlidePercentage(1.0f - percentage);
 				setExpandedSlidePercentage(1.0f - percentage);
@@ -457,7 +471,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			}
 
-			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			if (stateOne == TripBucketItemState.EXPANDED &&
+				(stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE || stateTwo == TripBucketItemState.EXPIRED)) {
 				mSoldOutContainer.setAlpha(1.0f);
 				setNameAndDurationSoldOutSlidePercentage(0.0f);
 				setExpandedSlidePercentage(0.0f);
@@ -537,6 +552,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			break;
 
+		case EXPIRED:
 		case BOOKING_UNAVAILABLE:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
@@ -546,6 +562,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			setNameAndDurationSlidePercentage(0f);
 			mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			setItemSoldOutSelected(isSelected());
+			mSoldOutText.setText(getSoldOutText());
 			break;
 
 		case SHOWING_PRICE_CHANGE:
@@ -700,8 +717,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract TripBucketItem getItem();
 
 	public abstract CharSequence getBookButtonText();
-
-	public abstract CharSequence getSoldOutText();
 
 	public abstract void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup);
 

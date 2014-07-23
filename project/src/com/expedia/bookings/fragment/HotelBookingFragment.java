@@ -19,7 +19,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
@@ -375,6 +374,10 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 					}
 					// Post event for tablets to show the BookingUnavailableFragment
 					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
+				}
+				// Handling product key expiration.
+				else if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT && error.getExtra("field").equals("productKey")) {
+					Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
 				}
 			}
 		}

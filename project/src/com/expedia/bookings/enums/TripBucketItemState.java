@@ -20,6 +20,7 @@ public enum TripBucketItemState {
 	DEFAULT,
 	DISABLED,
 	BOOKING_UNAVAILABLE,
+	EXPIRED,
 	PURCHASED,
 
 	// The following states are transient UI states and should never be set

@@ -50,11 +50,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public CharSequence getSoldOutText() {
-		return getString(R.string.trip_bucket_sold_out);
-	}
-
-	@Override
 	public void addExpandedView(LayoutInflater inflater, ViewGroup root) {
 		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, root, false);
 

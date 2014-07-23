@@ -648,7 +648,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
 				&& !mIsFlightTripDone
 				&& Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
+				&& Db.getTripBucket().getFlight().canBePurchased()) {
 				mFlightCreateTripDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.loading_flight_details));
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
@@ -660,7 +660,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange
 				&& Db.getTripBucket().getHotel() != null
-				&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
+				&& Db.getTripBucket().getHotel().canBePurchased()) {
 				mHotelProductDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.calculating_taxes_and_fees));
 				mHotelProductDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
@@ -1404,6 +1404,19 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else {
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
+		}
+
+		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
+	}
+
+	@Subscribe
+	public void onHotelProductKeyExpired(Events.TripItemExpired event) {
+		dismissLoadingDialogs();
+		if (event.lineOfBusiness == LineOfBusiness.FLIGHTS) {
+			Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPIRED);
+		}
+		else {
+			Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPIRED);
 		}
 
 		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
