@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -199,7 +200,29 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		setCheckoutState(mStateManager.getState(), false);
+		CheckoutState state = mStateManager.getState();
+		if (getLob() == LineOfBusiness.HOTELS) {
+			state = getStartState(Db.getTripBucket().getHotel());
+		}
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			state = getStartState(Db.getTripBucket().getFlight());
+		}
+		setCheckoutState(state, false);
+	}
+
+	private CheckoutState getStartState(TripBucketItem item) {
+		CheckoutState state = mStateManager.getState();
+
+		if (item != null) {
+			if (item.getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
+				state = CheckoutState.BOOKING_UNAVAILABLE;
+			}
+			if (item.getState() == TripBucketItemState.PURCHASED) {
+				state = CheckoutState.CONFIRMATION;
+			}
+		}
+
+		return state;
 	}
 
 	@Override
