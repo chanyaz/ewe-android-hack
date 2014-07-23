@@ -366,13 +366,13 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private final ISingleStateListener mLandscapeBucketHidden = new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			mBucketScrollView.setTranslationX(0.0f);
-			mBucketScrollView.setVisibility(View.VISIBLE);
+			mBucketContainer.setTranslationX(0.0f);
+			mBucketContainer.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float p) {
-			mBucketScrollView.setTranslationX(p * -mBucketScrollView.getWidth());
+			mBucketContainer.setTranslationX(p * -mBucketContainer.getWidth());
 		}
 
 		@Override
@@ -384,8 +384,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			final boolean isHidden = !isReversed;
 
 			int visibility = isHidden ? View.INVISIBLE : View.VISIBLE;
-			mBucketScrollView.setVisibility(visibility);
-			mBucketScrollView.setTranslationX(0.0f);
+			mBucketContainer.setVisibility(visibility);
+			mBucketContainer.setTranslationX(0.0f);
 
 			setFragmentState(isHidden ? CheckoutTripBucketState.HIDDEN : CheckoutTripBucketState.SHOWING);
 			setBucketState(mAnimating);

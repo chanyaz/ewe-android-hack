@@ -42,34 +42,37 @@
 
     <View
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
         android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
         android:background="@color/divider_grey"
         android:padding="8dp" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp" >
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/price_expanded_bucket_text_view"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
             android:text="@string/total_with_tax" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@id/price_expanded_bucket_text_view"
+            android:id="@+id/price_expanded_bucket_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|right"
             android:drawableLeft="@drawable/ic_tablet_checkout_info"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:textColor="#2261B3"
             android:textSize="18sp"
             app:textStyle="bold" />
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>
