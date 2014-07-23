@@ -333,6 +333,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	protected void doSpUpdate() {
 		if (getActivity() != null && isAdded() && isResumed()) {
 			Sp.reportSpUpdate();
+			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
 		}
 	}
 
@@ -489,7 +490,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					doSpUpdate();
 				}
 				setState(ResultsSearchState.DEFAULT, true);
-				OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
 			}
 		}
 	};
