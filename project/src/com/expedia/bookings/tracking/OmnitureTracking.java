@@ -58,6 +58,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -1331,6 +1332,11 @@ public class OmnitureTracking {
 	public static void trackTripBucketItemUndoRemoval(Context context, LineOfBusiness lob) {
 		String link = lob == LineOfBusiness.FLIGHTS ? UNDO_BUCKET_FLIGHT_REMOVAL : UNDO_BUCKET_HOTEL_REMOVAL;
 		internalTrackLink(context, link);
+	}
+
+	public static void trackTripBucketPortraitToggle(Context context, LineOfBusiness lob, CheckoutTripBucketState newState) {
+		String suffix = newState == CheckoutTripBucketState.OPEN ? ".Checkout.DetailsExpand" : ".Checkout.DetailsCollapse";
+		internalTrackLink(context, getBase(lob == LineOfBusiness.FLIGHTS) + suffix);
 	}
 
 	///////////////////////////
