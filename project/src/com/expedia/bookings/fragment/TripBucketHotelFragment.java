@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		return frag;
 	}
 
+	private TextView mNowBookingTv;;
+	private TextView mRoomAndBedTv;
 	private TextView mRoomTypeTv;
 	private TextView mBedTypeTv;
 	private TextView mDatesTv;
@@ -54,11 +57,26 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, root, false);
 
 		// Title stuff
-		mRoomTypeTv = Ui.findView(vg, R.id.primary_title_text_view);
-		mRoomTypeTv.setVisibility(View.VISIBLE);
+		mRoomTypeTv = Ui.findView(vg, R.id.room_type_text_view);
+		if (mRoomTypeTv != null) {
+			mRoomTypeTv.setVisibility(View.VISIBLE);
+		}
 
-		mBedTypeTv = Ui.findView(vg, R.id.secondary_title_text_view);
-		mBedTypeTv.setVisibility(View.VISIBLE);
+		mBedTypeTv = Ui.findView(vg, R.id.bed_type_text_view);
+		if (mBedTypeTv != null) {
+			mBedTypeTv.setVisibility(View.VISIBLE);
+		}
+
+		// Portrait only
+		mNowBookingTv = Ui.findView(vg, R.id.now_booking_text_view);
+		if (mNowBookingTv != null) {
+			mNowBookingTv.setVisibility(View.VISIBLE);
+		}
+
+		mRoomAndBedTv = Ui.findView(vg, R.id.room_and_bed_text_view);
+		if (mRoomAndBedTv != null) {
+			mRoomAndBedTv.setVisibility(View.VISIBLE);
+		}
 
 		mDatesTv = Ui.findView(vg, R.id.dates_text_view);
 		mNumTravelersTv = Ui.findView(vg, R.id.num_travelers_text_view);
@@ -96,8 +114,21 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			if (itemHotel.getRate() != null) {
 				Rate rate = itemHotel.getRate();
 
-				mRoomTypeTv.setText(rate.getRoomDescription());
-				mBedTypeTv.setText(rate.getFormattedBedNames());
+				if (mRoomTypeTv != null) {
+					mRoomTypeTv.setText(rate.getRoomDescription());
+				}
+				if (mBedTypeTv != null) {
+					mBedTypeTv.setText(rate.getFormattedBedNames());
+				}
+				if (mRoomAndBedTv != null) {
+					mRoomAndBedTv.setText(Html.fromHtml(getString(R.string.room_and_bed_type_TEMPLATE, rate.getRoomDescription(), rate.getFormattedBedNames())));
+				}
+				if (mNowBookingTv != null) {
+					if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
+						String hotelName = Db.getHotelSearch().getSelectedProperty().getName();
+						mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase()));
+					}
+				}
 
 				String price = rate.getDisplayTotalPrice().getFormattedMoney();
 				mPriceTv.setText(price);

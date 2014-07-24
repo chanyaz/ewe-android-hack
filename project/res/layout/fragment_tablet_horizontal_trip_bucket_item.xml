@@ -15,7 +15,7 @@
 
         <com.expedia.bookings.widget.OptimizedImageView
             android:id="@+id/tripbucket_card_background_view"
-            android:layout_width="276dp"
+            android:layout_width="@dimen/tablet_checkout_trip_bucket_expanded_image_width"
             android:layout_height="@dimen/tablet_checkout_trip_bucket_expanded_item_height"
             android:scaleType="fitCenter"/>
 
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/tablet_checkout_trip_bucket_expanded_item_height"
             android:layout_weight="1"
-            android:background="#ffffff" />
+            android:background="#edebeb" />
 
     </LinearLayout>
 

@@ -4,40 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp" >
+    android:padding="@dimen/tablet_checkout_trip_bucket_expanded_padding_x" >
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/primary_title_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:textStyle="bold" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/secondary_title_text_view"
+        android:id="@+id/room_type_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:textColor="#444444"
+        android:textSize="14sp"
         android:visibility="gone"
-        app:textStyle="normal" />
+        app:textStyle="medium" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/dates_text_view"
+        android:id="@+id/bed_type_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_tablet_checkout_calendar"
-        android:drawablePadding="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/tablet_checkout_trip_bucket_expanded_padding_major_y"
+        android:textColor="#444444"
+        android:textSize="14sp"
+        android:visibility="gone"
         app:textStyle="light" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/num_travelers_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/tablet_checkout_trip_bucket_expanded_padding_major_y"
         android:drawableLeft="@drawable/ic_tablet_checkout_guest"
         android:drawablePadding="8dp"
-        android:layout_marginBottom="16dp"
         android:gravity="center_vertical"
+        android:textColor="#444444"
+        android:textSize="14sp"
+        app:textStyle="light" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/dates_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/tablet_checkout_trip_bucket_expanded_padding_minor_y"
+        android:drawableLeft="@drawable/ic_tablet_checkout_calendar"
+        android:drawablePadding="8dp"
+        android:textColor="#444444"
+        android:textSize="14sp"
         app:textStyle="light" />
 
     <View
@@ -48,31 +57,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
-        android:background="@color/divider_grey"
-        android:padding="8dp" />
+        android:background="@color/divider_grey" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" >
-
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|left"
-            android:gravity="center"
-            android:text="@string/total_with_tax" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/price_expanded_bucket_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:drawableLeft="@drawable/ic_tablet_checkout_info"
-            android:gravity="center"
-            android:textColor="#2261B3"
-            android:textSize="18sp"
-            app:textStyle="bold" />
-    </FrameLayout>
+    <include
+        layout="@layout/snippet_trip_bucket_expanded_price" />
 
 </LinearLayout>
