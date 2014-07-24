@@ -539,6 +539,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.DETAILS) {
 				// We want the bind to happen as early as possible when viewing different flights on details mode
 				mDetailsFrag.bindWithDb();
+				mDetailsFrag.scrollToTop();
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
 				showNextLegAnimPrep(0f);
@@ -701,6 +702,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mDetailsFrag != null) {
 			if (hasValidDataForDetails()) {
 				mDetailsFrag.bindWithDb();
+				mDetailsFrag.scrollToTop();
 			}
 
 			int slideInDistance = mGrid.getColSpanWidth(1, 4);

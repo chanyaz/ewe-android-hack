@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -68,6 +69,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	// Views
 	private FrameLayoutTouchController mRootC;
 	private ViewGroup mDetailsC;
+	private ScrollView mScrollC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
 
 	private TextView mTimeHeaderTv;
@@ -113,6 +115,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_flight_details, null);
+		mScrollC = Ui.findView(mRootC, R.id.flight_details_scroll_view);
 		mAnimationFlightRow = Ui.findView(mRootC, R.id.details_animation_row);
 		mAnimationFlightRow.setPivotX(0);
 		mAnimationFlightRow.setPivotY(0);
@@ -280,6 +283,12 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		// Baggage fees
 		FlightUtils.configureBaggageFeeViews(this, trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
 			mBaggageFeesLinkSecondaryTv, false);
+	}
+
+	public void scrollToTop() {
+		if (mScrollC != null) {
+			mScrollC.scrollTo(0, 0);
+		}
 	}
 
 	@Override

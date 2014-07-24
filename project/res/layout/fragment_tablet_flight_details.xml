@@ -67,6 +67,7 @@
             </RelativeLayout>
 
             <ScrollView
+                android:id="@+id/flight_details_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_flight_details_tablet_white_bottom"
