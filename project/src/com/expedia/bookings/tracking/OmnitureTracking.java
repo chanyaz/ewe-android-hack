@@ -1401,6 +1401,7 @@ public class OmnitureTracking {
 			s.setProp(4, dest);
 
 			addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
+			internalSetFlightDateProps(s, params);
 			addStandardFlightFields(s);
 		}
 		else {
