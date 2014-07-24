@@ -214,7 +214,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		CheckoutState state = mStateManager.getState();
 
 		if (item != null) {
-			if (item.getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			if (item.getState() == TripBucketItemState.BOOKING_UNAVAILABLE || item.getState() == TripBucketItemState.EXPIRED) {
 				state = CheckoutState.BOOKING_UNAVAILABLE;
 			}
 			if (item.getState() == TripBucketItemState.PURCHASED) {
@@ -1409,7 +1409,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	@Subscribe
-	public void onHotelProductKeyExpired(Events.TripItemExpired event) {
+	public void onTripItemExpired(Events.TripItemExpired event) {
 		dismissLoadingDialogs();
 		if (event.lineOfBusiness == LineOfBusiness.FLIGHTS) {
 			Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPIRED);
