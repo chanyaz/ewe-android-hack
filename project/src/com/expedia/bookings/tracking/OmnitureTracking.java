@@ -1706,7 +1706,7 @@ public class OmnitureTracking {
 			itinType = "Flight";
 		}
 		else if (type == Type.HOTEL) {
-			itinType = "Hotel";
+			itinType = "hotels";
 		}
 		else {
 			boolean isLong = shareType.equals("Mail") ? true : false;
@@ -2354,8 +2354,8 @@ public class OmnitureTracking {
 	}
 
 	private static void addStandardFlightFields(ADMS_Measurement s) {
-		s.setEvar(2, "flights");
-		s.setProp(2, "flights");
+		s.setEvar(2, "Flight");
+		s.setProp(2, "Flight");
 	}
 
 	private static void addAdvancePurchaseWindow(Context context, ADMS_Measurement s, HotelSearchParams searchParams) {
@@ -2365,7 +2365,7 @@ public class OmnitureTracking {
 	}
 
 	private static String getLobString(LineOfBusiness lob) {
-		return (lob == LineOfBusiness.HOTELS ? "hotels" : "flights");
+		return (lob == LineOfBusiness.HOTELS ? "hotels" : "Flight");
 	}
 
 	private static void addStandardFields(Context context, ADMS_Measurement s) {
