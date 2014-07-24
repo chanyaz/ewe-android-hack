@@ -201,16 +201,7 @@ public class OmnitureTracking {
 		s.setProp(2, "hotels");
 
 		// Region
-		DecimalFormat df = new DecimalFormat("#.######");
-		String region = null;
-		if (!TextUtils.isEmpty(searchParams.getQuery())) {
-			region = searchParams.getQuery();
-		}
-		else {
-			region = df.format(searchParams.getSearchLatitude()) + "|" + df.format(searchParams.getSearchLongitude());
-		}
-		s.setEvar(4, region);
-		s.setProp(4, region);
+		addHotelRegionId(s, searchParams);
 
 		// Check in/check out date
 		addAdvancePurchaseWindow(context, s, searchParams);
@@ -431,7 +422,7 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 		addStandardHotelFields(s, Db.getHotelSearch().getSearchParams());
-		addHotelRegionId(s, Db.getHotelSearch().getSearchParams().getRegionId());
+		addHotelRegionId(s, Db.getHotelSearch().getSearchParams());
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
@@ -551,7 +542,7 @@ public class OmnitureTracking {
 
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		s.setEvar(47, getEvar47String(params));
-		addHotelRegionId(s, params.getRegionId());
+		addHotelRegionId(s, params);
 		addProducts(s, Db.getHotelSearch().getSelectedProperty());
 		addStandardHotelFields(s, params);
 
@@ -1264,8 +1255,15 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 	}
 
-	private static void addHotelRegionId(ADMS_Measurement s, String hotelRegionId) {
-		s.setProp(4, hotelRegionId);
+	private static void addHotelRegionId(ADMS_Measurement s, HotelSearchParams params) {
+		String region;
+		if (params.getSearchType().equals(HotelSearchParams.SearchType.MY_LOCATION)) {
+			region = "Current Location";
+		}
+		else {
+			region = params.getRegionId();
+		}
+		s.setProp(4, region);
 		s.setEvar(4, "D=c4");
 	}
 
@@ -1361,6 +1359,7 @@ public class OmnitureTracking {
 		// Props
 		s.setProp(1, Integer.toString(searchResponse.getPropertiesCount()));
 		internalSetHotelDateProps(s, searchParams);
+		addHotelRegionId(s, searchParams);
 
 		// Evars
 		addStandardHotelFields(s, searchParams);
@@ -1465,7 +1464,7 @@ public class OmnitureTracking {
 			s.setEvents("event70");
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			s.setEvar(47, getEvar47String(params));
-			addHotelRegionId(s, params.getRegionId());
+			addHotelRegionId(s, params);
 			addProducts(s, Db.getTripBucket().getHotel().getProperty());
 			addStandardHotelFields(s, params);
 		}
