@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.view.Menu;
@@ -38,7 +36,6 @@ import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
 import com.expedia.bookings.fragment.TravelocityLauncherFragment;
 import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
@@ -444,9 +441,8 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
 			}
-
-			OmnitureTracking.trackPageLoadLaunchScreen(this);
 		}
+		OmnitureTracking.trackPageLoadLaunchScreen(this);
 	}
 
 	private synchronized void gotoItineraries() {
