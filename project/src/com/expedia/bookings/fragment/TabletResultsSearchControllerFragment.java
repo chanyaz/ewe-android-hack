@@ -303,6 +303,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		// Popup
 		if (mLocalParams != null) {
+			// Text
 			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
 			String startStr = null, endStr = null;
 			if (mLocalParams.getStartDate() != null) {
@@ -314,8 +315,23 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mPopupStartTv.setText(startStr);
 			mPopupEndTv.setText(endStr);
 
+			// X
 			mPopupStartClearBtn.setVisibility(mLocalParams.getStartDate() == null ? View.GONE : View.VISIBLE);
 			mPopupEndClearBtn.setVisibility(mLocalParams.getEndDate() == null ? View.GONE : View.VISIBLE);
+
+			// Highlight cursor
+			if (mLocalParams.getStartDate() == null && mLocalParams.getEndDate() == null) {
+				mPopupStartTv.setBackgroundResource(R.drawable.textfield_activated_tablet_date_picker);
+				mPopupEndTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+			}
+			else if (mLocalParams.getStartDate() != null && mLocalParams.getEndDate() == null) {
+				mPopupStartTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+				mPopupEndTv.setBackgroundResource(R.drawable.textfield_activated_tablet_date_picker);
+			}
+			else {
+				mPopupStartTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+				mPopupEndTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+			}
 		}
 	}
 
