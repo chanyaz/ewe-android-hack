@@ -890,6 +890,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			boolean newLapPref = !Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
 			Sp.getParams().setInfantsInLaps(newLapPref);
 			Sp.reportSpUpdate();
+			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
 		}
 	}
 
