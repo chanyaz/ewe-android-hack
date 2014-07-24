@@ -71,13 +71,16 @@ public class GuestPicker extends LinearLayout {
 		mChildAgesLayout = Ui.findView(this, R.id.child_ages_layout);
 		mChildAgesLayout.setVisibility(getChildAgesVisibility());
 
+		boolean isTablet = getContext().getResources().getBoolean(R.bool.tablet);
+		final String trackingBase = isTablet ? OmnitureTracking.PICKER_TRACKING_BASE_TABLET :
+			OmnitureTracking.PICKER_TRACKING_BASE_FLIGHT;
 		// Click listeners
 		mAdultMinus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
 				if (mAdultCount > 1) {
-					OmnitureTracking.trackRemoveTravelerLink(getContext(), OmnitureTracking.PICKER_ADULT);
+					OmnitureTracking.trackRemoveTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_ADULT);
 				}
 				removeAdult();
 			}
@@ -88,7 +91,7 @@ public class GuestPicker extends LinearLayout {
 			public void onClick(View view) {
 				performHapticFeedback(view);
 				if (canAddAnotherTraveler()) {
-					OmnitureTracking.trackAddTravelerLink(getContext(), OmnitureTracking.PICKER_ADULT);
+					OmnitureTracking.trackAddTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_ADULT);
 				}
 				addAdult();
 			}
@@ -99,7 +102,7 @@ public class GuestPicker extends LinearLayout {
 			public void onClick(View view) {
 				performHapticFeedback(view);
 				if (mChildren.size() > 0) {
-					OmnitureTracking.trackRemoveTravelerLink(getContext(), OmnitureTracking.PICKER_CHILD);
+					OmnitureTracking.trackRemoveTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_CHILD);
 				}
 				removeChild(mChildren.size() - 1);
 			}
@@ -110,7 +113,7 @@ public class GuestPicker extends LinearLayout {
 			public void onClick(View view) {
 				performHapticFeedback(view);
 				if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
-					OmnitureTracking.trackAddTravelerLink(getContext(), OmnitureTracking.PICKER_CHILD);
+					OmnitureTracking.trackAddTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_CHILD);
 					addChild(10);
 				}
 			}

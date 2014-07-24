@@ -2492,17 +2492,29 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	private final SimpleNumberPicker.OnValueChangeListener mNumberPickerChangedListener = new SimpleNumberPicker.OnValueChangeListener() {
 		@Override
 		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
+			boolean adultsChanged;
 			int numAdults = mAdultsNumberPicker.getValue();
 			int numChildren = mChildrenNumberPicker.getValue();
 			HotelSearchParams searchParams = getCurrentSearchParams();
+			adultsChanged = numAdults != searchParams.getNumAdults();
+
 			searchParams.setNumAdults(numAdults);
 			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, searchParams.getChildren(), numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
-			onGuestsChanged();
+			trackGuestCountChange(oldVal, newVal, adultsChanged ? OmnitureTracking.PICKER_ADULT : OmnitureTracking.PICKER_CHILD);
 		}
 	};
+
+	private void trackGuestCountChange(int oldCount, int newCount, String travelerType) {
+		if (oldCount < newCount) {
+			OmnitureTracking.trackAddTravelerLink(getBaseContext(), OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
+		}
+		else if (oldCount > newCount) {
+			OmnitureTracking.trackRemoveTravelerLink(getBaseContext(), OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
+		}
+	}
 
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
@@ -2743,13 +2755,6 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 	private void onSwitchToMap() {
 		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, null);
-	}
-
-	private void onGuestsChanged() {
-		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
-			+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
-
-		OmnitureTracking.trackSimpleEvent(this, pageName, null, null);
 	}
 
 	// HotelFilter tracking

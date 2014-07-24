@@ -1600,20 +1600,21 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Guest Picker Tracking
 
-	private static final String PICKER_TRACKING_BASE = "App.DSR.Traveler";
-	private static final String PICKER_ADD = ".Add.";
-	private static final String PICKER_REMOVE = ".Remove.";
+	public static final String PICKER_TRACKING_BASE_TABLET = "App.DSR";
+	public static final String PICKER_TRACKING_BASE_HOTELS = "App.Hotels";
+	public static final String PICKER_TRACKING_BASE_FLIGHT = "App.Flight";
+
+	private static final String PICKER_ADD = ".Traveler.Add.";
+	private static final String PICKER_REMOVE = ".Traveler.Remove.";
 	public static final String PICKER_ADULT = "Adult";
 	public static final String PICKER_CHILD = "Child";
 
-	public static void trackAddTravelerLink(Context context, String travelerType) {
-		String base = PICKER_TRACKING_BASE + PICKER_ADD;
-		internalTrackLink(context, base + travelerType);
+	public static void trackAddTravelerLink(Context context, String base, String travelerType) {
+		internalTrackLink(context, base + PICKER_ADD + travelerType);
 	}
 
-	public static void trackRemoveTravelerLink(Context context, String travelerType) {
-		String base = PICKER_TRACKING_BASE + PICKER_REMOVE;
-		internalTrackLink(context, base + travelerType);
+	public static void trackRemoveTravelerLink(Context context, String base, String travelerType) {
+		internalTrackLink(context, base + PICKER_REMOVE + travelerType);
 	}
 
 
