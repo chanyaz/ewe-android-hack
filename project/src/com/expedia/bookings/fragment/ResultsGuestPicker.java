@@ -92,6 +92,7 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 	public void bind() {
 		if (mRootC != null) {
 			mGuestPicker.bind();
+			toggleInfantSeatingStates();
 		}
 	}
 
