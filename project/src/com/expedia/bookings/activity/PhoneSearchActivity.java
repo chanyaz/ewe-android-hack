@@ -616,6 +616,12 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), null);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		((ExpediaBookingApp) getApplicationContext())
