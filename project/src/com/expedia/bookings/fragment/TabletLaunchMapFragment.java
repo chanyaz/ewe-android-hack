@@ -9,7 +9,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -29,6 +28,7 @@ import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.google.android.gms.maps.CameraUpdate;
@@ -45,7 +45,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 public class TabletLaunchMapFragment extends SupportMapFragment {
@@ -338,6 +337,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 				Marker m = mLocations.get(location);
 				if (m != null && m.getTitle().equals(marker.getTitle())) {
 					mClickedLocation = location;
+					OmnitureTracking.trackLaunchCitySelect(getActivity(), mClickedLocation.id);
 					Events.post(new Events.LaunchMapPinClicked(mClickedLocation));
 					return true;
 				}
