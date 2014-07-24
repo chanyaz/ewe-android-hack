@@ -2103,13 +2103,6 @@ public class OmnitureTracking {
 		trackOnClick(s);
 	}
 
-	public static void trackAppLaunch(Context context) {
-		Log.d(TAG, "Tracking \"App Launch\" pageLoad");
-		ADMS_Measurement s = getFreshTrackingObject(context);
-		s.setEvar(10, sMarketingDate);
-		s.track();
-	}
-
 	private static final String TRACK_VERSION = "tracking_version"; // The SettingUtils key for the last version tracked
 
 	public static void trackAppLoading(Context context) {

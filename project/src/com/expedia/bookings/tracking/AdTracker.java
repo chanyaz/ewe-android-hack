@@ -1,10 +1,8 @@
 package com.expedia.bookings.tracking;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -25,8 +23,6 @@ public class AdTracker {
 	public static void trackLaunch(Context context) {
 		// Other
 		AdX.trackLaunch();
-
-		OmnitureTracking.trackAppLaunch(context);
 	}
 
 	public static void trackLogin() {
