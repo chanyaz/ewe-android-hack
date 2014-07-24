@@ -942,6 +942,7 @@ public class OmnitureTracking {
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
+		s.setEvents("event54");
 		// Search Type: value always 'Flight'
 		s.setEvar(2, "Flight");
 		s.setProp(2, "Flight");
@@ -985,6 +986,7 @@ public class OmnitureTracking {
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
+		s.setEvents("event54");
 		// Search Type: value always 'Flight'
 		s.setEvar(2, "Flight");
 		s.setProp(2, "Flight");
