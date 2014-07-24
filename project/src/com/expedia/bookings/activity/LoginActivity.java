@@ -113,11 +113,8 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 		ActionBar actionBar = getActionBar();
 		switch (mLob) {
 		case HOTELS:
-			actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
-			actionBar.setDisplayUseLogoEnabled(false);
-			break;
 		case FLIGHTS:
-			actionBar.setIcon(R.drawable.ic_logo_flights);
+			actionBar.setIcon(R.drawable.ic_action_bar_dark);
 			actionBar.setDisplayUseLogoEnabled(false);
 			break;
 		default:
