@@ -311,7 +311,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			Db.saveFlightSearchParamsToDisk(this);
 			mStartSearchOnPostResume = true;
 
-			OmnitureTracking.markTrackNewSearchResultSet(true);
 		}
 	}
 

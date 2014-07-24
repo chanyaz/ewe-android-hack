@@ -239,7 +239,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 				Db.getFlightSearch().setSearchParams(params);
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				mUpdateOnResume = true;
-				OmnitureTracking.markTrackNewSearchResultSet(true);
 				AdTracker.trackFlightSearch();
 			}
 			return true;

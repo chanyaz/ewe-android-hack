@@ -904,32 +904,14 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventPriceChange(context, FLIGHT_RATE_DETAILS);
 	}
 
-	private static boolean mTrackNewSearchResultSet;
-
-	/**
-	 * This method is used in the client and internally as bookkeeping to ensure that the special events, outbound list
-	 * and oneway list of search results get tracked once and only once for a given set of search parameters. Clients
-	 * will use this method with 'true' when performing a new search, and internally this method is used with 'false' to
-	 * disallow additional tracking events after the first event has been tracked (until explicitly set true by client).
-	 *
-	 * Most importantly, this keeps the silly Omniture tracking details (mostly) out of client code and in this class.
-	 *
-	 * @param markTrackNewSearchResultSet
-	 */
-	public static void markTrackNewSearchResultSet(boolean markTrackNewSearchResultSet) {
-		mTrackNewSearchResultSet = markTrackNewSearchResultSet;
-	}
-
 	public static void trackPageLoadFlightSearchResults(Context context, int legPosition) {
 		if (legPosition == 0) {
 			// Note: according the spec we want only to track the FlightSearchResults if it represents a new set of data
-			if (mTrackNewSearchResultSet) {
-				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-					OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(context);
-				}
-				else {
-					OmnitureTracking.trackPageLoadFlightSearchResultsOneWay(context);
-				}
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(context);
+			}
+			else {
+				OmnitureTracking.trackPageLoadFlightSearchResultsOneWay(context);
 			}
 		}
 
@@ -940,7 +922,6 @@ public class OmnitureTracking {
 	}
 
 	private static void trackPageLoadFlightSearchResultsOutboundList(Context context) {
-		markTrackNewSearchResultSet(false);
 
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
@@ -984,7 +965,6 @@ public class OmnitureTracking {
 	}
 
 	private static void trackPageLoadFlightSearchResultsOneWay(Context context) {
-		markTrackNewSearchResultSet(false);
 
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
