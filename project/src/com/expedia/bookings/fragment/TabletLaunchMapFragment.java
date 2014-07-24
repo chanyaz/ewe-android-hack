@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
@@ -57,8 +58,14 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	public static TabletLaunchMapFragment newInstance() {
 		TabletLaunchMapFragment frag = new TabletLaunchMapFragment();
 
+		int mapType = GoogleMap.MAP_TYPE_SATELLITE;
+
+		if (ExpediaBookingApp.IS_AUTOMATION) {
+			mapType = GoogleMap.MAP_TYPE_NONE;
+		}
+
 		GoogleMapOptions options = new GoogleMapOptions();
-		options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
+		options.mapType(mapType)
 			.camera(CameraPosition.fromLatLngZoom(new LatLng(0, 0), 1f))
 			.zoomControlsEnabled(false)
 			.zoomGesturesEnabled(true);
