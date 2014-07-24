@@ -193,7 +193,7 @@ public class OmnitureTracking {
 			s.setProp(16, refinements);
 		}
 		else {
-			s.setEvents("event30");
+			s.setEvents("event30,event51");
 		}
 
 		// LOB Search
@@ -215,13 +215,10 @@ public class OmnitureTracking {
 		// Check in/check out date
 		addAdvancePurchaseWindow(context, s, searchParams);
 
-		String days6 = Integer.toString(JodaUtils.daysBetween(searchParams.getCheckInDate(),
-				searchParams.getCheckInDate()));
-		s.setEvar(6, days6);
-		s.setProp(6, days6);
+		s.setEvar(47, getEvar47String(searchParams));
 
-		// Number adults searched for
-		s.setEvar(47, "A" + searchParams.getNumAdults() + "|C" + searchParams.getNumChildren());
+		// prop and evar 5, 6
+		setDateValues(s, searchParams.getCheckInDate(), searchParams.getCheckOutDate());
 
 		// Freeform location
 		if (!TextUtils.isEmpty(searchParams.getUserQuery())) {
