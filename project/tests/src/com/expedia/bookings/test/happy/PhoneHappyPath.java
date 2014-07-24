@@ -27,6 +27,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
+		screenshot("Airport_Entered");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
@@ -63,13 +64,14 @@ public class PhoneHappyPath extends PhoneTestCase {
 		Common.pressBack();
 		FlightsCheckoutScreen.clickCheckoutButton();
 		FlightsCheckoutScreen.clickSelectPaymentButton();
-		screenshot("Checkout_Payment");
+		screenshot("Checkout_Payment_Address");
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
 		BillingAddressScreen.typeTextPostalCode("94105");
-		screenshot("Checkout_Payment_Entered");
+		screenshot("Checkout_Address_Entered");
 		BillingAddressScreen.clickNextButton();
 
+		screenshot("Checkout_Payment_Card");
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
@@ -78,6 +80,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
+		screenshot("Checkout_Payment_Card_Entered");
 		CardInfoScreen.clickOnDoneButton();
 
 		screenshot("Slide_To_Purchase");
@@ -95,6 +98,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
+		screenshot("Search_City_Entered");
 		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
@@ -112,7 +116,9 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsCheckoutScreen.clickCheckoutButton();
 
 		HotelsCheckoutScreen.clickGuestDetails();
+		screenshot("Add_Traveler");
 		HotelsCheckoutScreen.clickAddTravelerButton();
+		screenshot("Checkout_Traveler");
 		CommonTravelerInformationScreen.enterFirstName("Mobiata");
 		CommonTravelerInformationScreen.enterLastName("Auto");
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
@@ -121,6 +127,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		CommonTravelerInformationScreen.clickDoneButton();
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
+		screenshot("Checkout_Payment");
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
