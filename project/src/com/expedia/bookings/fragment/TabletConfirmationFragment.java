@@ -16,6 +16,7 @@ import android.view.animation.OvershootInterpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -77,7 +78,16 @@ public abstract class TabletConfirmationFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				OmnitureTracking.trackBookNextClick(getActivity(), mLob);
-				Events.post(new Events.BookingConfirmationBookNext(getNextBookingItem()));
+				LineOfBusiness nextLob = getNextBookingItem();
+				if (nextLob == LineOfBusiness.HOTELS) {
+					Db.getTripBucket().getHotel().setSelected(true);
+					Db.getTripBucket().getFlight().setSelected(false);
+				}
+				if (nextLob == LineOfBusiness.FLIGHTS) {
+					Db.getTripBucket().getFlight().setSelected(true);
+					Db.getTripBucket().getHotel().setSelected(false);
+				}
+				Events.post(new Events.BookingConfirmationBookNext(nextLob));
 			}
 		});
 
