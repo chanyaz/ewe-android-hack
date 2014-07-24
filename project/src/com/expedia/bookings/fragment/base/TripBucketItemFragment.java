@@ -19,7 +19,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -29,10 +28,11 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
 
 /**
  * TripBucketItemFragment: Tablet 2014
@@ -703,6 +703,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		setSelected(true);
 		if (getTripBucketBookClickedListener() != null) {
 			getTripBucketBookClickedListener().onTripBucketBookClicked(lob);
+			OmnitureTracking.trackTabletCheckoutPageLoad(getActivity(), lob);
 		}
 	}
 

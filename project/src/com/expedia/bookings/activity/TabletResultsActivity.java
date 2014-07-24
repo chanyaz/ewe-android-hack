@@ -1015,7 +1015,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void onTripBucketBookClicked(LineOfBusiness lob) {
-		OmnitureTracking.trackTabletCheckoutPageLoad(this, lob);
 		startActivity(TabletCheckoutActivity.createIntent(this, lob));
 	}
 
