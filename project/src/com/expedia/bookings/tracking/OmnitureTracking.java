@@ -549,7 +549,17 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_INFO);
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_CHECKOUT_INFO);
+		addStandardFields(context, s);
+		s.setEvents("event70");
+
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		s.setEvar(47, getEvar47String(params));
+		addHotelRegionId(s, params.getRegionId());
+		addProducts(s, Db.getHotelSearch().getSelectedProperty());
+		addStandardHotelFields(s, params);
+
+		s.track();
 	}
 
 	public static void trackPageLoadHotelsLogin(Context context) {
@@ -897,8 +907,27 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightCheckoutInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_INFO);
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_INFO);
+		addStandardFields(context, s);
+		s.setEvents("event74");
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		s.setEvar(47, getEvar47String(params));
+
+		String origin = params.getDepartureLocation().getDestinationId();
+		s.setEvar(3, origin);
+		s.setProp(3, origin);
+		String dest = params.getArrivalLocation().getDestinationId();
+		s.setEvar(4, dest);
+		s.setProp(4, dest);
+
+		addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
+		internalSetFlightDateProps(s, params);
+		addStandardFlightFields(s);
+
+		s.track();
 	}
+
+
 
 	public static void trackPageLoadFlightRateDetailsOverview(Context context) {
 		internalTrackPageLoadEventPriceChange(context, FLIGHT_RATE_DETAILS);
@@ -1420,8 +1449,8 @@ public class OmnitureTracking {
 		String pageName = getBase(isFlights) + ".Info";
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addStandardFields(context, s);
-		s.setEvents("event70");
 		if (isFlights) {
+			s.setEvents("event74");
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setEvar(47, getEvar47String(params));
 
@@ -1437,6 +1466,7 @@ public class OmnitureTracking {
 			addStandardFlightFields(s);
 		}
 		else {
+			s.setEvents("event70");
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			s.setEvar(47, getEvar47String(params));
 			addHotelRegionId(s, params.getRegionId());
