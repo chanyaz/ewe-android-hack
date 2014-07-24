@@ -80,7 +80,6 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	private TextView mFlightDistanceTv;
 	private TextView mFlightDurationTv;
 	private ViewGroup mFlightLegsC;
-	private ViewGroup mFlightCardC;
 	private ViewGroup mBaggageFeesLinkC;
 	private TextView mBaggageFeesLinkPrimaryTv;
 	private TextView mBaggageFeesLinkSecondaryTv;
@@ -99,9 +98,6 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	int mRowPositionTop = -1;
 	int mRowWidth = -1;
 	int mRowHeight = -1;
-
-	// Animation vars
-	private Rect mAddToTripRect;
 
 	// Misc
 	private int mLegNumber = -1;
@@ -135,7 +131,6 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		mFlightDistanceTv = Ui.findView(mRootC, R.id.flight_miles_text_view);
 		mFlightDurationTv = Ui.findView(mRootC, R.id.flight_overall_duration_text_view);
 		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
-		mFlightCardC = Ui.findView(mRootC, R.id.flight_card_container);
 
 		mBaggageFeesLinkC = Ui.findView(mRootC, R.id.fees_container);
 		mBaggageFeesLinkPrimaryTv = Ui.findView(mRootC, R.id.fees_text_view);
