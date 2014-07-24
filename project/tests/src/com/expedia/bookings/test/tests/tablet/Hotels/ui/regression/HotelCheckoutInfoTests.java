@@ -49,8 +49,8 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 		Results.clickBookHotel();
 
 		String checkoutHotelName = EspressoUtils.getText(R.id.name_text_view);
-		String checkoutRoomName = EspressoUtils.getText(R.id.primary_title_text_view);
-		String checkoutBedType = EspressoUtils.getText(R.id.secondary_title_text_view);
+		String checkoutRoomName = EspressoUtils.getText(R.id.room_type_text_view);
+		String checkoutBedType = EspressoUtils.getText(R.id.bed_type_text_view);
 
 		assertEquals(hotelName, checkoutHotelName);
 		assertEquals(roomName, checkoutRoomName);
