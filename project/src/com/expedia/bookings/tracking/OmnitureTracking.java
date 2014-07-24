@@ -149,9 +149,9 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
 	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
 
-	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.HOT.Review.Fav";
-	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.HOT.Review.Crit";
-	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.HOT.Review.Recent";
+	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.Hotels.Review.Fav";
+	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";
+	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.Hotels.Review.Recent";
 
 	//////////////////////////////
 	// Coupon tracking
