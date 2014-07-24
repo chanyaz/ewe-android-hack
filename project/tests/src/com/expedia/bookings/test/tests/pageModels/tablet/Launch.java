@@ -9,7 +9,10 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
@@ -47,10 +50,17 @@ public class Launch {
 	}
 
 	public static void clickSuggestionAtPosition(int index) {
-		onData(anything()).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).atPosition(index).perform(click());
+		onData(anything()) //
+			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
+			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
+			.atPosition(index) //
+			.perform(click());
 	}
 
 	public static void clickSuggestion(String text) {
-		onData(allOf(is(instanceOf(String.class)), equalTo(text))).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).perform(click());
+		onData(allOf(is(instanceOf(String.class)), equalTo(text))) //
+			.inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.suggestions_container)))) //
+			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
+			.perform(click());
 	}
 }
