@@ -957,6 +957,40 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	private static void trackPageLoadFlightLegDetails(Context context, String nameOfPage) {
+		Log.d(TAG, "Tracking \"" + nameOfPage + "\" pageLoad");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, nameOfPage);
+
+		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
+
+		// Search Type: value always 'Flight'
+		s.setEvar(2, "Flight");
+		s.setProp(2, "Flight");
+
+		// Search Origin: 3 letter airport code of origin
+		String origin = searchParams.getDepartureLocation().getDestinationId();
+		s.setEvar(3, origin);
+		s.setProp(3, origin);
+
+		// Search Destination: 3 letter airport code of destination
+		String dest = searchParams.getArrivalLocation().getDestinationId();
+		s.setEvar(4, dest);
+		s.setProp(4, dest);
+
+		// day computation date
+		LocalDate departureDate = searchParams.getDepartureDate();
+		LocalDate returnDate = searchParams.getReturnDate();
+
+		setDateValues(s, departureDate, returnDate);
+
+		s.setEvar(47, getEvar47String(searchParams));
+
+		// Success event for 'Search'
+
+		s.track();
+	}
+
 	private static void trackPageLoadFlightSearchResultsInboundList(Context context) {
 		if (mTrackPageLoadFromFSRA) {
 			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN);
@@ -1019,15 +1053,14 @@ public class OmnitureTracking {
 		if (mTrackPageLoadFromFSRA) {
 			if (legPosition == 0) {
 				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS);
+					trackPageLoadFlightLegDetails(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS);
 				}
 				else {
-					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS);
+					trackPageLoadFlightLegDetails(context, FLIGHT_SEARCH_ONE_WAY_DETAILS);
 				}
 			}
 			else if (legPosition == 1) {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS);
-
+				trackPageLoadFlightLegDetails(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS);
 			}
 		}
 	}
