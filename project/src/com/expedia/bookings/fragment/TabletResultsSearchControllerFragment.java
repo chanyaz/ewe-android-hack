@@ -394,11 +394,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	@Override
-	public void onGuestsChanged(int numAdults, List<ChildTraveler> children, boolean infantsInLaps) {
-		guestsChangeHelper(numAdults, children, infantsInLaps);
-	}
-
-	@Override
 	public void onGuestsChanged(int numAdults, List<ChildTraveler> children) {
 		guestsChangeHelper(numAdults, children);
 	}

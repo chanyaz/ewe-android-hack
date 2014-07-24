@@ -35,7 +35,6 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 	private GuestPickerFragmentListener mListener;
 
 	public interface GuestPickerFragmentListener {
-		public void onGuestsChanged(int numAdults, List<ChildTraveler> children, boolean infantsInLaps);
 		public void onGuestsChanged(int numAdults, List<ChildTraveler> children);
 	}
 
