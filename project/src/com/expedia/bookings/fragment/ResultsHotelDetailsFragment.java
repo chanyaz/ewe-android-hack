@@ -27,6 +27,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -147,8 +148,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mCurrentProperty = property;
 			scrollFragmentToTop();
 			toggleLoadingState(true);
-			prepareDetailsForInfo(mRootC, property);
 			downloadDetails();
+			prepareDetailsForInfo(mRootC, property);
 		}
 	}
 
@@ -358,6 +359,18 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mMobileExclusiveContainer.setVisibility(View.VISIBLE);
 			mRoomsLeftContainer.setVisibility(View.GONE);
 		}
+		else if (mResponse != null && mResponse.isFromSearchByHotel()) {
+			mMobileExclusiveContainer.setVisibility(View.GONE);
+			mRoomsLeftContainer.setVisibility(View.VISIBLE);
+			int color = res.getColor(R.color.details_ring_blue);
+			roomsLeftRing.setVisibility(View.VISIBLE);
+			roomsLeftText.setVisibility(View.VISIBLE);
+			roomsLeftRing.setPrimaryColor(color);
+			roomsLeftRing.setCountTextColor(color);
+			roomsLeftRing.setPercent(property.getPercentRecommended() / 100f);
+			roomsLeftRing.setCountText("");
+			roomsLeftText.setText(res.getString(R.string.n_recommend_TEMPLATE, property.getPercentRecommended()));
+		}
 		else if (roomsLeft <= 5 && roomsLeft >= 0) {
 			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
@@ -466,20 +479,30 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		List<Rate> rates = mResponse.getRates();
 
-		// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
-		boolean first = true;
-		for (Rate rate : rates) {
-			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRoomsRatesContainer, false);
-			row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
+		if (rates != null && rates.size() > 0) {
+			// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
+			boolean first = true;
+			for (Rate rate : rates) {
+				RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRoomsRatesContainer, false);
+				row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
 
-			// Separator
-			if (!first) {
-				View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
-				mRoomsRatesContainer.addView(sep);
+				// Separator
+				if (!first) {
+					View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
+					mRoomsRatesContainer.addView(sep);
+				}
+
+				mRoomsRatesContainer.addView(row);
+				first = false;
 			}
+		}
+		else {
+			ViewGroup soldOut = Ui.findView(mRootC, R.id.rooms_sold_out_container);
+			soldOut.setVisibility(View.VISIBLE);
 
-			mRoomsRatesContainer.addView(row);
-			first = false;
+			LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) descriptionsContainer.getLayoutParams();
+			params.addRule(RelativeLayout.BELOW, soldOut.getId());
 		}
 	}
 
