@@ -1328,6 +1328,7 @@ public class OmnitureTracking {
 		// Evars
 		addStandardHotelFields(s, searchParams);
 		s.setEvar(47, getEvar47String(searchParams));
+		s.track();
 	}
 
 	private static void internalSetHotelDateProps(ADMS_Measurement s, HotelSearchParams searchParams) {
