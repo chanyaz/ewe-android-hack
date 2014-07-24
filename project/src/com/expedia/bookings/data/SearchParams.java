@@ -445,6 +445,9 @@ public class SearchParams implements Parcelable, JSONable {
 			params.setReturnDate(mEndDate);
 		}
 
+		params.setOriginId(mOrigin.getRegionId());
+		params.setDestinationId(mDestination.getRegionId());
+
 		params.setNumAdults(mNumAdults);
 		params.setChildren(mChildTravelers);
 		params.setInfantSeatingInLap(mInfantsInLaps);

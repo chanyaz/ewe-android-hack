@@ -18,6 +18,8 @@ public class FlightSearchParams implements JSONable {
 	private List<ChildTraveler> mChildren;
 	private List<FlightSearchLeg> mQueryLegs;
 	private boolean mInfantSeatingInLap;
+	private int mOriginId;
+	private int mDestinationId;
 
 	public FlightSearchParams() {
 		mChildren = new ArrayList<ChildTraveler>();
@@ -106,6 +108,22 @@ public class FlightSearchParams implements JSONable {
 
 	public FlightSearchLeg getQueryLeg(int position) {
 		return mQueryLegs.get(position);
+	}
+
+	public void setOriginId(int originId) {
+		mOriginId = originId;
+	}
+
+	public int getOriginId() {
+		return mOriginId;
+	}
+
+	public void setDestinationId(int originId) {
+		mOriginId = originId;
+	}
+
+	public int getDestinationId() {
+		return mDestinationId;
 	}
 
 	@Override
@@ -271,6 +289,8 @@ public class FlightSearchParams implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("adults", mAdults);
+			obj.put("originId", mOriginId);
+			obj.put("destinationId", mDestinationId);
 			JSONUtils.putJSONableList(obj, "children", mChildren);
 			JSONUtils.putJSONableList(obj, "queryLegs", mQueryLegs);
 			obj.put("infantsInLaps", mInfantSeatingInLap);
@@ -287,6 +307,8 @@ public class FlightSearchParams implements JSONable {
 		mChildren = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);
 		mQueryLegs = JSONUtils.getJSONableList(obj, "queryLegs", FlightSearchLeg.class);
 		mInfantSeatingInLap = obj.optBoolean("infantsInLaps");
+		mOriginId = obj.optInt("originId");
+		mDestinationId = obj.optInt("destinationId");
 		return true;
 	}
 

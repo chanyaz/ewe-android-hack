@@ -52,7 +52,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -1210,22 +1209,25 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, TABLET_LAUNCH_DEST_SELECT);
 	}
 
-	private static void addOriginAndDesinationVars(ADMS_Measurement s, SearchParams params) {
-		SuggestionV2 origin = params.getOrigin();
-		String originId = origin.getRegionId() != 0 ? Integer.toString(origin.getRegionId()) : "No Origin";
-		s.setProp(3, originId);
+	private static void addOriginAndDestinationVars(ADMS_Measurement s, int originId, int destinationId) {
+		String originRegionId = originId != 0 ? Integer.toString(originId) : "No Origin";
+		s.setProp(3, originRegionId);
 		s.setEvar(3, "D=c3");
 
-		SuggestionV2 destination = params.getDestination();
-		String destinationId = destination.getRegionId() != 0 ? Integer.toString(destination.getRegionId()) : "No Destination";
-		s.setProp(4, destinationId);
+		String destinationRegionId = destinationId != 0 ? Integer.toString(destinationId) : "No Destination";
+		s.setProp(4, destinationRegionId);
+		s.setEvar(4, "D=c4");
+	}
+
+	private static void addHotelRegionId(ADMS_Measurement s, String hotelRegionId) {
+		s.setProp(4, hotelRegionId);
 		s.setEvar(4, "D=c4");
 	}
 
 	public static void trackTabletSearchResultsPageLoad(Context context, SearchParams params) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, TABLET_SEARCH_RESULTS);
 		internalSetHotelDateProps(s, params.toHotelSearchParams());
-		addOriginAndDesinationVars(s, params);
+		addOriginAndDestinationVars(s, params.toFlightSearchParams().getOriginId(), params.toFlightSearchParams().getDestinationId());
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
@@ -1400,12 +1402,14 @@ public class OmnitureTracking {
 		if (isFlights) {
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setEvar(47, getEvar47String(params));
+			addOriginAndDestinationVars(s, params.getOriginId(), params.getDestinationId());
 			addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
 			addStandardFlightFields(s);
 		}
 		else {
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			s.setEvar(47, getEvar47String(params));
+			addHotelRegionId(s, params.getRegionId());
 			addProducts(s, Db.getTripBucket().getHotel().getProperty());
 			addStandardHotelFields(s, params);
 		}
