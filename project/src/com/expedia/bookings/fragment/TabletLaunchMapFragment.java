@@ -65,8 +65,13 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		}
 
 		GoogleMapOptions options = new GoogleMapOptions();
+		CameraPosition camera = CameraPosition.builder()
+			.target(new LatLng(20, -40))
+			.zoom(1f)
+			.tilt(45)
+			.build();
 		options.mapType(mapType)
-			.camera(CameraPosition.fromLatLngZoom(new LatLng(0, 0), 1f))
+			.camera(camera)
 			.zoomControlsEnabled(false)
 			.zoomGesturesEnabled(true);
 
