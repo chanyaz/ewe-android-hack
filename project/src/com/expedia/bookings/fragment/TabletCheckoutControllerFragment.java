@@ -443,7 +443,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(0f);
 				doCreateTrip();
-				OmnitureTracking.trackTabletCheckoutPageLoad(getActivity(), getLob());
 			}
 			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(0f);
