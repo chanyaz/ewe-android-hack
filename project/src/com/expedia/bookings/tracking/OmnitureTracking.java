@@ -1399,6 +1399,7 @@ public class OmnitureTracking {
 		String pageName = getBase(isFlights) + ".Info";
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addStandardFields(context, s);
+		s.setEvents("event70");
 		if (isFlights) {
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setEvar(47, getEvar47String(params));
