@@ -1215,7 +1215,7 @@ public class OmnitureTracking {
 	public static void trackTabletSearchResultsPageLoad(Context context, SearchParams params) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, TABLET_SEARCH_RESULTS);
 		internalSetHotelDateProps(s, params.toHotelSearchParams());
-		addOriginAndDestinationVars(s, params.toFlightSearchParams().getOriginId(), params.toFlightSearchParams().getDestinationId());
+		addOriginAndDestinationVars(s, params.getOrigin().getRegionId(), params.getDestination().getRegionId());
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
@@ -1392,7 +1392,14 @@ public class OmnitureTracking {
 		if (isFlights) {
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setEvar(47, getEvar47String(params));
-			addOriginAndDestinationVars(s, params.getOriginId(), params.getDestinationId());
+
+			String origin = params.getDepartureLocation().getDestinationId();
+			s.setEvar(3, origin);
+			s.setProp(3, origin);
+			String dest = params.getArrivalLocation().getDestinationId();
+			s.setEvar(4, dest);
+			s.setProp(4, dest);
+
 			addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
 			addStandardFlightFields(s);
 		}

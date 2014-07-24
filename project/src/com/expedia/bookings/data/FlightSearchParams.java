@@ -118,8 +118,8 @@ public class FlightSearchParams implements JSONable {
 		return mOriginId;
 	}
 
-	public void setDestinationId(int originId) {
-		mOriginId = originId;
+	public void setDestinationId(int destinationId) {
+		mDestinationId = destinationId;
 	}
 
 	public int getDestinationId() {
