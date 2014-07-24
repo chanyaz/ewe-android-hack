@@ -435,6 +435,7 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 		addStandardHotelFields(s, Db.getHotelSearch().getSearchParams());
+		addHotelRegionId(s, Db.getHotelSearch().getSearchParams().getRegionId());
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
@@ -451,15 +452,20 @@ public class OmnitureTracking {
 	}
 
 	private static String internalGenerateDRRString(Context context, Rate rate) {
+		StringBuilder sb = new StringBuilder("Hotels | ");
 		if (rate != null) {
-			String base = "Hotels | ";
 			if (rate.isMobileExclusive()) {
-				return base + context.getString(R.string.mobile_exclusive);
+				sb.append("Mobile Exclusive");
+				if (rate.isOnSale()) {
+					sb.append(": ");
+				}
 			}
-			else if (rate.isOnSale()) {
-				return base + context.getString(R.string.percent_minus_template,
+			if (rate.isOnSale()) {
+				String discount = context.getString(R.string.percent_off_template,
 					(float) rate.getDiscountPercent());
+				sb.append(discount);
 			}
+			return sb.toString();
 		}
 		return null;
 	}
