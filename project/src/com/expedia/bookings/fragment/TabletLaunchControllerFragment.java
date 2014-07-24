@@ -184,6 +184,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mStateManager.setState(state, animate);
 	}
 
+	public boolean shouldDisplayMenu() {
+		return mStateManager.getState() == LaunchState.DEFAULT && !mStateManager.isAnimating();
+	}
+
 	/*
 	 * BACK STACK MANAGEMENT
 	 */
@@ -303,6 +307,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
 			mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
 
+			getActivity().invalidateOptionsMenu();
+
 			mSearchBarC.setVisibility(View.VISIBLE);
 			mTilesC.setVisibility(View.VISIBLE);
 			mPinDetailC.setVisibility(View.VISIBLE);
@@ -351,6 +357,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				mTilesC.setVisibility(View.INVISIBLE);
 				mPinDetailC.setVisibility(View.VISIBLE);
 			}
+
+			getActivity().invalidateOptionsMenu();
 		}
 	}
 	);

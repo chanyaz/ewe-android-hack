@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
+import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -27,6 +28,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -118,12 +120,14 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
-		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-
-		DebugMenu.onCreateOptionsMenu(this, menu);
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onCreateOptionsMenu(menu);
+		// We only want to show the menu items in the default launch state (not details or waypoint)
+		if (mControllerFragment.shouldDisplayMenu()) {
+			getMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
+			getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+			if (!AndroidUtils.isRelease(this)) {
+				DebugMenu.onCreateOptionsMenu(this, menu);
+				mHockeyPuck.onCreateOptionsMenu(menu);
+			}
 		}
 
 		return super.onCreateOptionsMenu(menu);
@@ -131,9 +135,11 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onPrepareOptionsMenu(menu);
+		if (mControllerFragment.shouldDisplayMenu()) {
+			if (!AndroidUtils.isRelease(this)) {
+				DebugMenu.onPrepareOptionsMenu(this, menu);
+				mHockeyPuck.onPrepareOptionsMenu(menu);
+			}
 		}
 
 		return super.onPrepareOptionsMenu(menu);
