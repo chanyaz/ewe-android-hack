@@ -59,7 +59,9 @@ public class RoundImageView extends ImageView {
 			src.right = mBitmap.getWidth();
 			src.bottom = mBitmap.getHeight();
 
-			RectF dst = new RectF(0, 0, getWidth(), getHeight());
+			RectF dst = new RectF(getPaddingLeft(), getPaddingTop(),
+				getWidth() - getPaddingRight(),
+				getHeight() - getPaddingBottom());
 			mMatrix.setRectToRect(src, dst, Matrix.ScaleToFit.CENTER);
 		}
 	}
