@@ -25,8 +25,6 @@ public class HotelOffersResponse extends Response {
 
 	private SummarizedRoomRates mSummarizedRoomRates;
 
-	private boolean mIsFromSearchByHotel = false;
-
 	public HotelOffersResponse() {
 		mRates = new ArrayList<Rate>();
 	}
@@ -98,14 +96,6 @@ public class HotelOffersResponse extends Response {
 		return mProperty;
 	}
 
-	public boolean isFromSearchByHotel() {
-		return mIsFromSearchByHotel;
-	}
-
-	public void setIsFromSearchByHotel(boolean isFromSearchByHotel) {
-		mIsFromSearchByHotel = isFromSearchByHotel;
-	}
-
 	/**
 	 * Gathers the list of common value adds between all Rates contained within.
 	 *
@@ -148,7 +138,6 @@ public class HotelOffersResponse extends Response {
 		try {
 			JSONUtils.putJSONableList(obj, "rates", mRates);
 			JSONUtils.putJSONable(obj, "property", mProperty);
-			obj.put("isFromSearchByHotel", mIsFromSearchByHotel);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -163,7 +152,6 @@ public class HotelOffersResponse extends Response {
 
 		mRates = JSONUtils.getJSONableList(obj, "rates", Rate.class);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
-		mIsFromSearchByHotel = obj.optBoolean("isFromSearchByHotel");
 
 		return true;
 	}

@@ -47,8 +47,8 @@ public class HotelUtils {
 	}
 
 	public static void loadHotelOffersAsSearchResponse(HotelOffersResponse offersResponse) {
-		offersResponse.setIsFromSearchByHotel(true);
 		Property property = offersResponse.getProperty();
+		property.setIsFromSearchByHotel(true);
 		HotelSearchResponse searchResponse = new HotelSearchResponse();
 
 		List<Rate> rates = offersResponse.getRates();

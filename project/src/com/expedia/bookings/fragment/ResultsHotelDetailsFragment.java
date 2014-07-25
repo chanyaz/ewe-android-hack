@@ -359,7 +359,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mMobileExclusiveContainer.setVisibility(View.VISIBLE);
 			mRoomsLeftContainer.setVisibility(View.GONE);
 		}
-		else if (mResponse != null && mResponse.isFromSearchByHotel()) {
+		else if (property.isFromSearchByHotel()) {
 			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
 			int color = res.getColor(R.color.details_ring_blue);

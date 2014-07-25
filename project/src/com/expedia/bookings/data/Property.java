@@ -114,7 +114,10 @@ public class Property implements JSONable {
 	private int mTotalRecommendations;
 	private double mAverageExpediaRating;
 
-	// Convienent itin data
+	// Convenient hotel search by name data
+	private boolean mIsFromSearchByHotel = false;
+
+	// Convenient itin data
 	private String mItinRoomType;
 	private String mItinBedType;
 
@@ -152,6 +155,14 @@ public class Property implements JSONable {
 
 	public boolean hasDescriptionText() {
 		return this.mDescriptionText != null && this.mDescriptionText.length() > 0;
+	}
+
+	public boolean isFromSearchByHotel() {
+		return mIsFromSearchByHotel;
+	}
+
+	public void setIsFromSearchByHotel(boolean isFromSearchByHotel) {
+		mIsFromSearchByHotel = isFromSearchByHotel;
 	}
 
 	public void setItinBedType(String bedType) {
@@ -523,6 +534,7 @@ public class Property implements JSONable {
 		mFeesText = property.mFeesText;
 		mMandatoryFeesText = property.mMandatoryFeesText;
 		mRenovationText = property.mRenovationText;
+		mIsFromSearchByHotel = property.mIsFromSearchByHotel;
 
 		// Only switch on with an update
 		mIsVipAccess |= property.isVipAccess();
@@ -562,6 +574,7 @@ public class Property implements JSONable {
 			obj.putOpt("isVipAccess", mIsVipAccess);
 			JSONUtils.putJSONable(obj, "highestPriceFromSurvey", mHighestPriceFromSurvey);
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
+			obj.putOpt("isFromSearchByHotel", mIsFromSearchByHotel);
 			obj.putOpt("itinBedType", mItinBedType);
 			obj.putOpt("itinRoomType", mItinRoomType);
 
@@ -605,6 +618,7 @@ public class Property implements JSONable {
 		mIsDesktopOverrideNumber = obj.optBoolean("isDesktopOverrideNumber", true);
 		mIsVipAccess = obj.optBoolean("isVipAccess", false);
 		mHighestPriceFromSurvey = JSONUtils.getJSONable(obj, "highestPriceFromSurvey", Money.class);
+		mIsFromSearchByHotel = obj.optBoolean("isFromSearchByHotel", false);
 		mItinRoomType = obj.optString("itinRoomType", null);
 		mItinBedType = obj.optString("itinBedType", null);
 
