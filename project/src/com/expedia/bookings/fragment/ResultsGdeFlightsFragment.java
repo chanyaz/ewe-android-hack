@@ -209,7 +209,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		//We always pass null for the date here, because the one way search has all the information we need
 		frag.startOrResumeForRoute(mOrigin, mDestination, null);
 		mGdeProgressBar.setVisibility(View.VISIBLE);
-		mGdePriceRangeTv.setVisibility(View.GONE);
+		mGdePriceRangeTv.setText("");
 		mMissingFlightInfo.setVisibility(View.GONE);
 	}
 
@@ -251,7 +251,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	 */
 
 	@Override
-	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
+	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response r) {
 		if (mGdeProgressBar != null) {
 			mGdeProgressBar.setVisibility(View.GONE);
 		}
@@ -262,27 +262,20 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			return;
 		}
 
+		FlightSearchHistogramResponse response = (FlightSearchHistogramResponse) r;
+
 		// Error/unexpected input
 		if (response == null || response.hasErrors()) {
 			if (mHistogramFrag != null) {
 				mHistogramFrag.setHistogramData(null);
 			}
 
-			if (response != null) {
-				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
-			}
-			else {
+			if (response == null) {
 				Log.e("FLIGHT_GDE_SEARCH null response");
 			}
-
-			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
-			mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
-			mMissingFlightInfo.setVisibility(View.VISIBLE);
-		}
-
-		// No GDE results or GDE not supported
-		else if (((FlightSearchHistogramResponse) response).getFlightHistograms() == null) {
-			Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
+			else if (response.hasErrors()) {
+				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
+			}
 
 			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
 			mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
@@ -291,25 +284,36 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		// Normal/expected GDE response
 		else {
-			Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
-			if (mHistogramFrag != null) {
-				mHistogramC.setVisibility(View.VISIBLE);
-				mHistogramFrag.setHistogramData((FlightSearchHistogramResponse) response);
-			}
-			if (mGdePriceRangeTv != null) {
-				Money minMoney = ((FlightSearchHistogramResponse) response).getMinPrice();
-				Money maxMoney = ((FlightSearchHistogramResponse) response).getMaxPrice();
-				if (minMoney != null && maxMoney != null) {
-					String priceAsString = minMoney.getFormattedMoney(Money.F_NO_DECIMAL)
-						+ "-" + maxMoney.getFormattedMoney(Money.F_NO_DECIMAL);
+			Db.setFlightSearchHistogramResponse(response);
 
-					mGdePriceRangeTv.setVisibility(View.VISIBLE);
-					mGdePriceRangeTv.setText(priceAsString);
-				}
-				else {
-					mGdePriceRangeTv.setVisibility(View.GONE);
-				}
+			int count = response.getCount();
+
+			if (count == 0) {
+				String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
+				mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+				mMissingFlightInfo.setVisibility(View.VISIBLE);
 			}
+
+			if (count != 0 && mHistogramFrag != null) {
+				mHistogramC.setVisibility(View.VISIBLE);
+				mHistogramFrag.setHistogramData(response);
+			}
+
+			Money minMoney = response.getMinPrice();
+			Money maxMoney = response.getMaxPrice();
+
+			String priceAsString;
+			if (count == 0) {
+				priceAsString = "";
+			}
+			else if (count == 1 || minMoney.equals(maxMoney)) {
+				priceAsString = minMoney.getFormattedMoney(Money.F_NO_DECIMAL);
+			}
+			else {
+				priceAsString = minMoney.getFormattedMoney(Money.F_NO_DECIMAL)
+					+ "-" + maxMoney.getFormattedMoney(Money.F_NO_DECIMAL);
+			}
+			mGdePriceRangeTv.setText(priceAsString);
 		}
 	}
 }

@@ -33,9 +33,9 @@
             android:id="@+id/flight_histogram_price_range"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:paddingLeft="8dp"
             android:gravity="center_vertical"
             android:textSize="18sp"
-            android:visibility="gone"
             android:textColor="#666666"
             app:textStyle="light" />
 

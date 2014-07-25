@@ -9,7 +9,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -43,11 +42,15 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		return mMax;
 	}
 
+	public int getCount() {
+		return mFlightHistograms == null ? 0 : mFlightHistograms.size();
+	}
+
 	//////////////////////////////////////////////////////
 	// Quartile computation
 
 	public void computeMetadata() {
-		if (mFlightHistograms == null || (mFlightHistograms != null && mFlightHistograms.size() < 3)) {
+		if (mFlightHistograms == null || mFlightHistograms.size() == 0) {
 			return;
 		}
 
@@ -56,7 +59,17 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		// Sort the values by price
 		Collections.sort(mFlightHistograms, sPriceComparator);
 
-		// Compute min, q1, median, q3, max
+		// Compute min and max
+		mMinIndex = 0;
+		mMaxIndex = mFlightHistograms.size() - 1;
+		mMin = mFlightHistograms.get(mMinIndex).getMinPrice();
+		mMax = mFlightHistograms.get(mMaxIndex).getMinPrice();
+
+		if (mFlightHistograms.size() < 3) {
+			return;
+		}
+
+		// Compute q1, median, q3
 		computeQuartiles();
 
 		// Compute IQR
@@ -99,17 +112,13 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	// much inspiration: http://en.wikipedia.org/wiki/Quartile
 	private void computeQuartiles() {
 		// Compute min, q1, median, q3, max
-		mMinIndex = 0;
-		mMaxIndex = mFlightHistograms.size() - 1;
 		mMedianIndex = mMaxIndex / 2;
 		mQ1Index = mMinIndex + (mMedianIndex - mMinIndex) / 2;
 		mQ3Index = mMedianIndex + (mMaxIndex - mMedianIndex) / 2;
 
-		mMin = mFlightHistograms.get(0).getMinPrice();
 		mQ1 = mFlightHistograms.get(mQ1Index).getMinPrice();
 		mMedian = mFlightHistograms.get(mMedianIndex).getMinPrice();
 		mQ3 = mFlightHistograms.get(mQ3Index).getMinPrice();
-		mMax = mFlightHistograms.get(mMaxIndex).getMinPrice();
 	}
 
 	private static final Comparator<FlightHistogram> sDateComparator = new Comparator<FlightHistogram>() {

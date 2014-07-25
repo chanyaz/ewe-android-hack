@@ -30,7 +30,7 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 			JSONArray entries = histogramJson.getJSONArray("entries");
 
 			//We parse out the flights list and create FlightHistogram objects for each departureDate return date pair
-			HashMap<String, HashMap<String, FlightHistogram>> returnFlightPrices = new HashMap<String, HashMap<String, FlightHistogram>>();
+			HashMap<String, HashMap<String, FlightHistogram>> returnFlightPrices = new HashMap<>();
 			for (int i = 0; i < flightsJson.length(); i++) {
 				//Parse the values we care about
 				JSONObject fjson = flightsJson.getJSONObject(i);
@@ -75,7 +75,7 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 
 			// We add the histogram data to the response
 			String currency = histogramJson.optString("currency");
-			List<FlightHistogram> histograms = new ArrayList<FlightHistogram>();
+			List<FlightHistogram> histograms = new ArrayList<>();
 			for (int i = 0; i < entries.length(); i++) {
 				JSONObject entryJson = entries.getJSONObject(i);
 				FlightHistogram histogram = new FlightHistogram();
