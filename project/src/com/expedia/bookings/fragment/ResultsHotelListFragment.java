@@ -29,10 +29,12 @@ import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.HotelSummarySection;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 /**
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013
@@ -157,6 +159,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		collapseRowsPerState();
 
 		Db.getFilter().addOnFilterChangedListener(this);
+		Events.register(this);
 	}
 
 	@Override
@@ -165,6 +168,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 		unRegisterStateListener(mExpandyListener);
 		Db.getFilter().removeOnFilterChangedListener(this);
+		Events.unregister(this);
 	}
 
 	@Override
@@ -306,6 +310,13 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	@Override
 	protected int getEmptyListImageResource() {
 		return R.raw.ic_tablet_sold_out_hotel;
+	}
+
+	@Subscribe
+	public void onHotelAvailabilityUpdated(Events.HotelAvailabilityUpdated event) {
+		if (hasList()) {
+			getListView().invalidate();
+		}
 	}
 
 	public void onHotelSelected() {

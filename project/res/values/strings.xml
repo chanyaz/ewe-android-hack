@@ -256,6 +256,8 @@
     <string name="n_recommend_TEMPLATE">%s%% recommend</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
     <string name="sorry_rooms_sold_out">Sorry, all rooms are sold out on Expedia.</string>
+    <!-- A message stating this hotel is sold out on Expedia -->
+    <string name="sold_out_on_expedia">Sold out on Expedia</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">Photos for %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->

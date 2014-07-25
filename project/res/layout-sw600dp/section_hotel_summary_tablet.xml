@@ -101,6 +101,20 @@
                     android:singleLine="true"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/tablet_result_row_secondary_text_size"/>
+
+                <TextView
+                    android:id="@+id/sold_out_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="2dp"
+                    android:singleLine="true"
+                    android:text="@string/sold_out_on_expedia"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/tablet_result_row_secondary_text_size"
+                    android:visibility="gone"/>
+
             </LinearLayout>
         </LinearLayout>
 

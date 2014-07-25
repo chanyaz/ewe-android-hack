@@ -19,7 +19,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -73,6 +75,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private RatingBar mUserRatingBar;
 	private TextView mNotRatedText;
 	private TextView mProximityText;
+	private TextView mSoldOutText;
 	private TextView mUrgencyText;
 	private boolean mDoUrgencyTextColorMatching = false;
 	private View mCardCornersBottom;
@@ -115,6 +118,7 @@ public class HotelSummarySection extends RelativeLayout {
 		mUserRatingBar = Ui.findView(this, R.id.user_rating_bar);
 		mNotRatedText = Ui.findView(this, R.id.not_rated_text_view);
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
+		mSoldOutText = Ui.findView(this, R.id.sold_out_text_view);
 		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
@@ -302,6 +306,17 @@ public class HotelSummarySection extends RelativeLayout {
 			mProximityText.setText(property.getLocation().getDescription());
 		}
 
+		// Sold out stuff
+		HotelOffersResponse offersResponse = Db.getHotelSearch().getHotelOffersResponse(property.getPropertyId());
+		if (offersResponse != null && offersResponse.getRateCount() == 0) {
+			setSoldOut();
+		}
+		else {
+			if (mSoldOutText != null) {
+				mSoldOutText.setVisibility(View.GONE);
+			}
+		}
+
 		// See if there's a first image; if there is, use that as the thumbnail
 		if (mThumbnailView != null) {
 			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
@@ -339,6 +354,21 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// Set the background based on whether the row is selected or not
 		setBackgroundDrawable(useSelectedBackground && isSelected ? mSelectedBackground : mUnselectedBackground);
+	}
+
+	private void setSoldOut() {
+		if (mSoldOutText != null) {
+			mSoldOutText.setVisibility(View.VISIBLE);
+		}
+		if (mNotRatedText != null) {
+			mNotRatedText.setVisibility(View.GONE);
+		}
+		if (mUserRatingBar != null) {
+			mUserRatingBar.setVisibility(View.GONE);
+		}
+		if (mProximityText != null) {
+			mProximityText.setVisibility(View.GONE);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
