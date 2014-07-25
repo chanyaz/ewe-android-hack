@@ -175,21 +175,23 @@
             <FrameLayout
                 android:id="@+id/rooms_sold_out_container"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/hotel_room_rate_list_height"
+                android:layout_height="70dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/amenities_container"
                 android:background="@color/bg_row_state_pressed"
                 android:visibility="gone">
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_price_alert_exclamation"
+                    android:drawableLeft="@drawable/ic_tablet_sold_out_hotel_details"
                     android:drawablePadding="8dp"
                     android:layout_gravity="center"
                     android:text="@string/sorry_rooms_sold_out"
-                    android:textSize="16dp"/>
+                    android:textColor="#5e6b7a"
+                    android:textSize="16dp"
+                    app:textStyle="light"/>
 
             </FrameLayout>
 
