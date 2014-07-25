@@ -155,7 +155,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	}
 
 	private void checkConnectivityAndDisplayMessage() {
-		if (NetUtils.isOnline(getActivity())) {
+		if (!NetUtils.isOnline(getActivity())) {
 			int srcColor = Color.WHITE;
 			PorterDuff.Mode mode = PorterDuff.Mode.SRC_ATOP;
 			PorterDuffColorFilter filter = new PorterDuffColorFilter(srcColor, mode);
