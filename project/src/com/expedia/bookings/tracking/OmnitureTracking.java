@@ -2441,9 +2441,10 @@ public class OmnitureTracking {
 				email = Db.getUser().getPrimaryTraveler().getEmail();
 				expediaId = Db.getUser().getTuidString();
 				rewardsStatus = getRewardsStatusString(Db.getUser());
-			} else {
-				rewardsStatus = "notRewardsMember";
 			}
+		}
+		if (TextUtils.isEmpty(rewardsStatus)) {
+			rewardsStatus = "notRewardsMember";
 		}
 
 		// If the email is still null, check against the BillingInfo in Db which is populated from manual forms
@@ -2466,9 +2467,7 @@ public class OmnitureTracking {
 		String evar55 =  User.isLoggedIn(context) ? "loggedin | hard" : "unknown user";
 		s.setEvar(55, evar55);
 
-		if (!TextUtils.isEmpty(rewardsStatus)) {
-			s.setEvar(56, rewardsStatus);
-		}
+		s.setEvar(56, rewardsStatus);
 
 		// TripBucket State - eVar23
 		if (Db.getTripBucket() != null) {
