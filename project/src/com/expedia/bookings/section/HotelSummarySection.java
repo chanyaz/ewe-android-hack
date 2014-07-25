@@ -357,17 +357,23 @@ public class HotelSummarySection extends RelativeLayout {
 	}
 
 	private void setSoldOut() {
-		if (mSoldOutText != null) {
-			mSoldOutText.setVisibility(View.VISIBLE);
+		if (ExpediaBookingApp.useTabletInterface(getContext())) {
+			if (mSoldOutText != null) {
+				mSoldOutText.setVisibility(View.VISIBLE);
+			}
+			if (mNotRatedText != null) {
+				mNotRatedText.setVisibility(View.GONE);
+			}
+			if (mUserRatingBar != null) {
+				mUserRatingBar.setVisibility(View.GONE);
+			}
+			if (mProximityText != null) {
+				mProximityText.setVisibility(View.GONE);
+			}
 		}
-		if (mNotRatedText != null) {
-			mNotRatedText.setVisibility(View.GONE);
-		}
-		if (mUserRatingBar != null) {
-			mUserRatingBar.setVisibility(View.GONE);
-		}
-		if (mProximityText != null) {
-			mProximityText.setVisibility(View.GONE);
+		else {
+			mProximityText.setVisibility(View.VISIBLE);
+			mProximityText.setText(getContext().getString(R.string.sold_out_on_expedia));
 		}
 	}
 
