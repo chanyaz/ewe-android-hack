@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -79,6 +82,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mUrgencyText;
 	private boolean mDoUrgencyTextColorMatching = false;
 	private View mCardCornersBottom;
+	private View mBgImgOverlay;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
@@ -120,6 +124,7 @@ public class HotelSummarySection extends RelativeLayout {
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
 		mSoldOutText = Ui.findView(this, R.id.sold_out_text_view);
 		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
+		mBgImgOverlay = Ui.findView(this, R.id.gradient_header_mask);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
 		// and if it's from color_matched, then we know we'll need to do color matching later on.
@@ -308,7 +313,8 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// Sold out stuff
 		HotelOffersResponse offersResponse = Db.getHotelSearch().getHotelOffersResponse(property.getPropertyId());
-		if (offersResponse != null && offersResponse.getRateCount() == 0) {
+		boolean isSoldOut = offersResponse != null && offersResponse.getRateCount() == 0;
+		if (isSoldOut) {
 			setSoldOut();
 		}
 		else {
@@ -339,7 +345,13 @@ public class HotelSummarySection extends RelativeLayout {
 
 		if (mHotelBackgroundView != null && property.getThumbnail() != null) {
 			final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
-			if (useHeaderGradient && isSelected) {
+			if (isSoldOut) {
+				ColorMatrix cm = new ColorMatrix();
+				cm.setSaturation(0.0f);
+				mHotelBackgroundView.setColorFilter(new ColorMatrixColorFilter(cm));
+				mBgImgOverlay.setBackgroundResource(R.drawable.bg_hotel_row_tablet_sold_out_overlay);
+			}
+			else if (useHeaderGradient && isSelected) {
 				headerBitmapDrawable.setGradient(SELECTED_GRADIENT_COLORS, SELECTED_GRADIENT_POSITIONS);
 			}
 			else {
