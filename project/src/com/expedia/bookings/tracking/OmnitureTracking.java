@@ -1483,32 +1483,35 @@ public class OmnitureTracking {
 	}
 
 	public static void trackTabletEditTravelerPageLoad(Context context, LineOfBusiness lob) {
-		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Edit.Info", false);
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Edit.Info", false, false);
 	}
 
 	public static void trackTabletEditPaymentPageLoad(Context context, LineOfBusiness lob) {
-		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Payment.Info", false);
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Traveler.Payment.Info", false, false);
 	}
 
 	public static void trackTabletSlideToPurchasePageLoad(Context context, LineOfBusiness lob) {
-		internalTrackTabletCheckoutPageLoad(context, lob, ".Payment.SlideToPurchase", false);
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Payment.SlideToPurchase", true, false);
 	}
 
 	public static void trackTabletCVVPageLoad(Context context, LineOfBusiness lob) {
-		internalTrackTabletCheckoutPageLoad(context, lob, ".Payment.CID", false);
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Payment.CID", false, false);
 	}
 
 	public static void trackTabletConfirmationPageLoad(Context context, LineOfBusiness lob) {
-		internalTrackTabletCheckoutPageLoad(context, lob, ".Confirmation", true);
+		internalTrackTabletCheckoutPageLoad(context, lob, ".Confirmation", false, true);
 	}
 
 
-	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix, boolean isConfirmation) {
+	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix,
+															boolean includePaymentInfo, boolean isConfirmation) {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addStandardFields(context, s);
-
+		if (includePaymentInfo) {
+			s.setEvar(37, getPaymentType(context));
+		}
 		if (isFlights) {
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
