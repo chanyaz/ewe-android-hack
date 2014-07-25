@@ -2,6 +2,10 @@ package com.expedia.bookings.fragment;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +40,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -145,6 +150,23 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		Events.register(this);
 		mBackManager.registerWithParent(this);
+
+		checkConnectivityAndDisplayMessage();
+	}
+
+	private void checkConnectivityAndDisplayMessage() {
+		if (NetUtils.isOnline(getActivity())) {
+			int srcColor = Color.WHITE;
+			PorterDuff.Mode mode = PorterDuff.Mode.SRC_ATOP;
+			PorterDuffColorFilter filter = new PorterDuffColorFilter(srcColor, mode);
+			Paint paint = new Paint();
+			paint.setColorFilter(filter);
+			Ui.findView(getView(), R.id.globe_background).setLayerType(View.LAYER_TYPE_SOFTWARE, paint);
+			Ui.findView(getView(), R.id.no_connectivity_container).setVisibility(View.VISIBLE);
+		}
+		else {
+			Ui.findView(getView(), R.id.no_connectivity_container).setVisibility(View.GONE);
+		}
 	}
 
 	@Override
