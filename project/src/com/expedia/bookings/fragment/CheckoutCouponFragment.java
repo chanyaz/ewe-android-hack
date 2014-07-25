@@ -166,13 +166,7 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 			couponShow = mCouponTextButton;
 			mCouponAppliedContainer.setVisibility(View.GONE);
 		}
-		if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-			couponShow.setVisibility(View.VISIBLE);
-		}
-		else {
-			mCouponTextButton.setVisibility(View.GONE);
-			mCouponAppliedContainer.setVisibility(View.GONE);
-		}
+		couponShow.setVisibility(View.VISIBLE);
 	}
 
 	private void dismissDialogs() {

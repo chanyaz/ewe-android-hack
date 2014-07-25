@@ -646,13 +646,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		if (mInCheckout) {
-			if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-				couponShow.setVisibility(View.VISIBLE);
-			}
-			else {
-				mCouponButton.setVisibility(View.GONE);
-				mCouponAppliedContainer.setVisibility(View.GONE);
-			}
+			couponShow.setVisibility(View.VISIBLE);
 			mLegalInformationTextView.setVisibility(View.VISIBLE);
 		}
 		else {
