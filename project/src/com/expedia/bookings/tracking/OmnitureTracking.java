@@ -347,7 +347,7 @@ public class OmnitureTracking {
 		s.setAppState("App.Hotels.RoomsRates");
 
 		// Promo description
-		s.setEvar(9, property.getLowestRate().getPromoDescription());
+		s.setEvar(9, internalGenerateDRRString(context, property.getLowestRate()));
 
 		// Products
 		addProducts(s, property);
@@ -370,7 +370,7 @@ public class OmnitureTracking {
 
 		// Promo description
 		if (rate != null) {
-			s.setEvar(9, rate.getPromoDescription());
+			s.setEvar(9, internalGenerateDRRString(context, property.getLowestRate()));
 		}
 
 		// Product details
@@ -458,35 +458,6 @@ public class OmnitureTracking {
 		addProducts(s, Db.getHotelSearch().getSelectedProperty());
 
 		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackPageLoadHotelDetails(Context context, Property property) {
-		// Track that the full details has a pageload
-		Log.d(TAG, "Tracking \"App.Hotels.Details\" pageLoad");
-
-		ADMS_Measurement s = createSimpleEvent(context, "App.Hotels.Details", "event32", null);
-
-
-		Rate rate = property.getLowestRate();
-		if (rate != null) {
-			s.setEvar(9, property.getLowestRate().getPromoDescription());
-		}
-
-		s.track();
-	}
-
-	public static void trackPageLoadHotelsSearchQuickView(Context context, Property property, String referrer) {
-		// Track that the mini details has a pageload
-		Log.d(TAG, "Tracking \"App.Hotels.Search.QuickView\" onClick");
-
-		ADMS_Measurement s = createSimpleEvent(context, "App.Hotels.Search.QuickView", null, referrer);
-
-		Rate rate = property.getLowestRate();
-		if (rate != null) {
-			s.setEvar(9, rate.getPromoDescription());
-		}
-
 		s.track();
 	}
 
@@ -2470,6 +2441,8 @@ public class OmnitureTracking {
 				email = Db.getUser().getPrimaryTraveler().getEmail();
 				expediaId = Db.getUser().getTuidString();
 				rewardsStatus = getRewardsStatusString(Db.getUser());
+			} else {
+				rewardsStatus = "notRewardsMember";
 			}
 		}
 
