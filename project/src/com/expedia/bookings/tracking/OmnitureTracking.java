@@ -347,7 +347,7 @@ public class OmnitureTracking {
 		s.setAppState("App.Hotels.RoomsRates");
 
 		// Promo description
-		s.setEvar(9, internalGenerateDRRString(context, property.getLowestRate()));
+		s.setEvar(9, internalGenerateDRRString(context, property));
 
 		// Products
 		addProducts(s, property);
@@ -370,7 +370,7 @@ public class OmnitureTracking {
 
 		// Promo description
 		if (rate != null) {
-			s.setEvar(9, internalGenerateDRRString(context, property.getLowestRate()));
+			s.setEvar(9, internalGenerateDRRString(context, property));
 		}
 
 		// Product details
@@ -417,27 +417,25 @@ public class OmnitureTracking {
 		// Products
 		addProducts(s, property);
 
-		String drrString = internalGenerateDRRString(context, property.getLowestRate());
+		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
-
-		// Position, if opened from list
 
 		// Send the tracking data
 		s.track();
 	}
 
-	private static String internalGenerateDRRString(Context context, Rate rate) {
+	private static String internalGenerateDRRString(Context context, Property property) {
 		StringBuilder sb = new StringBuilder("Hotels | ");
-		if (rate != null) {
-			if (rate.isMobileExclusive()) {
+		if (property != null) {
+			if (property.isLowestRateMobileExclusive()) {
 				sb.append("Mobile Exclusive");
-				if (rate.isOnSale()) {
+				if (property.getLowestRate().isOnSale()) {
 					sb.append(": ");
 				}
 			}
-			if (rate.isOnSale()) {
+			if (property.getLowestRate().isOnSale()) {
 				String discount = context.getString(R.string.percent_off_template,
-					(float) rate.getDiscountPercent());
+					(float) property.getLowestRate().getDiscountPercent());
 				sb.append(discount);
 			}
 			return sb.toString();
