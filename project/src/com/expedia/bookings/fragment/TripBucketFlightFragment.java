@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.Calendar;
 
 import android.graphics.BitmapFactory;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private TextView mPriceTv;
 	private TextView mNumTravelersTv;
 	private TextView mDatesTv;
+	private TextView mNowBookingTv;;
 
 	//Other
 	private FlightTrip mFlightTrip;
@@ -99,6 +101,13 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 				showBreakdownDialog(LineOfBusiness.FLIGHTS);
 			}
 		});
+
+		// Portrait only
+		mNowBookingTv = Ui.findView(mExpandedView, R.id.now_booking_text_view);
+		if (mNowBookingTv != null) {
+			mNowBookingTv.setVisibility(View.VISIBLE);
+		}
+
 
 		if (!getResources().getBoolean(R.bool.show_tripbucket_date)) {
 			mDatesTv.setVisibility(View.GONE);
@@ -206,6 +215,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 			String price = mFlightTrip.getTotalFare().getFormattedMoney();
 			mPriceTv.setText(price);
+
+			if (mNowBookingTv != null) {
+				String cityName = StrUtils.getWaypointCityOrCode(mFlightTrip.getLeg(0).getLastWaypoint());
+				String flightTo = getString(R.string.flights_to_TEMPLATE, cityName);
+				mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase()));
+			}
 		}
 
 		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
