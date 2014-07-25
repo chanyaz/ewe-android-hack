@@ -47,7 +47,6 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -386,18 +385,6 @@ public class OmnitureTracking {
 		s.setProp(72, response.getOrderNumber());
 		s.setPurchaseID("onum" + response.getOrderNumber());
 
-		if (billingInfo != null) {
-			Location location = billingInfo.getLocation();
-			// Not all POS need a location so it is null in some cases
-			if (location != null) {
-				s.setProp(46, location.getCountryCode());
-				s.setGeoState(location.getCountryCode());
-
-				s.setProp(49, location.getPostalCode());
-				s.setGeoZip(location.getPostalCode());
-			}
-		}
-
 		// Products
 		int numDays = searchParams.getStayDuration();
 		double totalCost = 0;
@@ -457,6 +444,7 @@ public class OmnitureTracking {
 		}
 		return null;
 	}
+
 	public static void trackPageLoadHotelsInfositeMap(Context context) {
 		Log.d(TAG, "Tracking \"App.Hotels.Infosite.Map\" pageLoad");
 
