@@ -1,36 +1,24 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.joda.time.LocalDate;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.test.espresso.SuggestionAdapterViewProtocol;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
-import static com.expedia.bookings.test.espresso.TabletViewActions.clickDates;
 import static com.expedia.bookings.test.espresso.ViewActions.slowSwipeUp;
+import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withHotelName;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 
 public class Results {
 
@@ -125,26 +113,5 @@ public class Results {
 
 	public static void clickHotelWithName(String hotelName) {
 		onData(withHotelName(hotelName)).inAdapterView(withContentDescription("Hotel Search Results")).perform(click());
-	}
-
-	public static Matcher<Object> withHotelName(String expectedText) {
-		checkNotNull(expectedText);
-		return withHotelName(equalTo(expectedText));
-	}
-
-	public static Matcher<Object> withHotelName(final Matcher<String> textMatcher) {
-		checkNotNull(textMatcher);
-		return new BoundedMatcher<Object, Property>(Property.class) {
-			@Override
-			public boolean matchesSafely(Property property) {
-				return textMatcher.matches(property.getName());
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("with item content: ");
-				textMatcher.describeTo(description);
-			}
-		};
 	}
 }

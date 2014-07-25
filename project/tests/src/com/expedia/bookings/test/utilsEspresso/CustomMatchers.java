@@ -17,7 +17,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.expedia.bookings.data.Property;
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created by dmadan on 5/13/14.
@@ -116,6 +120,27 @@ public class CustomMatchers {
 			@Override
 			public boolean matchesSafely(TextView textview) {
 				return TextUtils.isEmpty(textview.getText());
+			}
+		};
+	}
+
+	public static Matcher<Object> withHotelName(String expectedText) {
+		checkNotNull(expectedText);
+		return withHotelName(equalTo(expectedText));
+	}
+
+	public static Matcher<Object> withHotelName(final Matcher<String> textMatcher) {
+		checkNotNull(textMatcher);
+		return new BoundedMatcher<Object, Property>(Property.class) {
+			@Override
+			public boolean matchesSafely(Property property) {
+				return textMatcher.matches(property.getName());
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("with hotel name : ");
+				textMatcher.describeTo(description);
 			}
 		};
 	}

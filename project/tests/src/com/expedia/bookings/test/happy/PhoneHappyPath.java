@@ -108,7 +108,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		screenshot("Search_Results");
-		HotelsSearchScreen.clickListItem(1);
+		HotelsSearchScreen.clickHotelWithName("happy_path");
 		screenshot("Details");
 		HotelsDetailsScreen.clickSelectButton();
 		screenshot("RoomsAndRates");

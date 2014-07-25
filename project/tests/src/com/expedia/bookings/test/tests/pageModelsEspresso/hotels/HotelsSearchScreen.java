@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 
 import android.app.Activity;
 
+import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withHotelName;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -212,6 +213,10 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	public static void clickSuggestion(Activity activity, String city) {
 		onData(anything()).inRoot(withDecorView(not(CoreMatchers.is(activity.getWindow().getDecorView())))).atPosition(0).perform(click());
+	}
+
+	public static void clickHotelWithName(String hotelName) {
+		onData(withHotelName(hotelName)).inAdapterView(withId(android.R.id.list)).perform(click());
 	}
 }
 
