@@ -719,6 +719,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			Db.getFlightSearch().getSearchParams();
 	}
 
+	private boolean mIsBirthdateAligned = true;
+
+	public boolean isBirthdateAligned() {
+		return mIsBirthdateAligned;
+	}
+
 	SectionFieldEditable<TextView, Traveler> mEditBirthDateTextBtn = new SectionFieldEditableWithDateChangeListener<TextView, Traveler>(
 		R.id.edit_birth_date_text_btn) {
 
@@ -814,12 +820,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					if (getData().getBirthDate() != null) {
 						LocalDate birthDate = getData().getBirthDate();
 						PassengerCategory passengerCategory = getData().getPassengerCategory();
-						if (birthDate.isAfter(LocalDate.now()) ||
-							!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, getFlightSearchParams(), passengerCategory)) {
+						if (birthDate.isAfter(LocalDate.now())) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
+						}
+						else if (!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, getFlightSearchParams(), passengerCategory)) {
+							retVal = ValidationError.ERROR_DATA_INVALID;
+							mIsBirthdateAligned = false;
 						}
 						else {
 							retVal = ValidationError.NO_ERROR;
+							mIsBirthdateAligned = true;
 						}
 					}
 					else {
@@ -830,9 +840,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					retVal = ValidationError.ERROR_DATA_MISSING;
 				}
 				return retVal;
-
 			}
-
 		};
 
 		@Override

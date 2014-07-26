@@ -28,6 +28,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.TravelerFormState;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
@@ -68,6 +69,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private static final String FTAG_SAVE_DIALOG = "FTAG_SAVE_DIALOG";
 	private static final String FTAG_OVERWRITE_DIALOG = "FTAG_OVERWRITE_DIALOG";
 	private static final String FTAG_SAVING = "FTAG_SAVING";
+	private static final String FTAG_INVALID_BIRTHDATE_DIALOG = "FTAG_INVALID_BIRTHDATE_DIALOG";
 
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 	private static final String STATE_HEADER_STRING = "STATE_HEADER_STRING";
@@ -299,6 +301,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 					commitAndCloseForm();
 				}
 			}
+		}
+		else if (mSectionTraveler != null && !mSectionTraveler.isBirthdateAligned()) {
+			BirthDateInvalidDialog dialog = BirthDateInvalidDialog.newInstance();
+			dialog.show(getChildFragmentManager(), FTAG_INVALID_BIRTHDATE_DIALOG);
 		}
 	}
 

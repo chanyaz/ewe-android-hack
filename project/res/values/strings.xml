@@ -1467,6 +1467,8 @@
     <!-- Add Redress # -->
     <string name="add_redress_num">Add Redress #</string>
 
+    <!-- Entered invalid birthdate dialog -->
+    <string name="invalid_birthdate_message">The age that you entered does not match the age of the traveler that you searched for. Please update your information, and then try to check out again.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
