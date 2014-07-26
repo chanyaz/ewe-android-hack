@@ -32,6 +32,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AdvertisingIdUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SocketActivityHierarchyServer;
 import com.expedia.bookings.utils.WalletUtils;
@@ -40,11 +41,9 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.BuildConfigUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
 import net.danlew.android.joda.ResourceZoneInfoProvider;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
@@ -131,7 +130,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
 			startupTimer.addSplit("VSC force fr locale");
 		}
-
+		// Pull down advertising ID
+		AdvertisingIdUtils.loadIDFA(this);
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
 		// Setup Omniture for tracking crashes

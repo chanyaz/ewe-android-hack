@@ -61,6 +61,7 @@ import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
+import com.expedia.bookings.utils.AdvertisingIdUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.DebugUtils;
@@ -2412,9 +2413,9 @@ public class OmnitureTracking {
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
 		// Unique device id
-		String id = Installation.id(context);
+		String id = AdvertisingIdUtils.getIDFA();
 		if (id != null) {
-			s.setProp(12, md5(id));
+			s.setProp(12, id);
 		}
 
 		// Device local time
