@@ -459,7 +459,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setBirthDate(LocalDate date) {
 		mBirthDate = date;
-		setPassengerCategory(date);
 	}
 
 	public void setRedressNumber(String redressNumber) {
