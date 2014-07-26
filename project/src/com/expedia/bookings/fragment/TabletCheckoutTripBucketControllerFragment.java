@@ -64,7 +64,9 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	// Containers
 	private ViewGroup mRootC;
 	private ViewGroup mBucketHotelContainer;
+	private ViewGroup mBucketHotelContainerContainer;
 	private ViewGroup mBucketFlightContainer;
+	private ViewGroup mBucketFlightContainerContainer;
 	private ViewGroup mPortraitShowHideContainer;
 	private FrameLayoutTouchController mTouchBlocker;
 
@@ -75,6 +77,9 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private View mBucketDimmer;
 	private View mBucketShowHideButton;
 	private View mCollapsedIndicator;
+	private View mFlightSpacer;
+	private View mHotelSpacer;
+	private View mDummySpacer;
 
 	public TabletCheckoutTripBucketControllerFragment newInstance() {
 		return new TabletCheckoutTripBucketControllerFragment();
@@ -116,7 +121,9 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_trip_bucket_controller, null, false);
 
 		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
+		mBucketHotelContainerContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container_container);
 		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
+		mBucketFlightContainerContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container_container);
 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		String dateRange;
@@ -163,6 +170,10 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 				}
 			});
 		}
+
+		mFlightSpacer = Ui.findView(mRootC, R.id.flight_spacer);
+		mHotelSpacer = Ui.findView(mRootC, R.id.hotel_spacer);
+		mDummySpacer = Ui.findView(mRootC, R.id.dummy_spacer);
 
 		updateViews();
 		return mRootC;
@@ -304,6 +315,23 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 		boolean flightBucketItemAvailable = Db.getTripBucket().getFlight() != null;
 		boolean hotelBucketItemAvailable = Db.getTripBucket().getHotel() != null;
+
+		if (!mIsLandscape) {
+			if (flightBucketItemAvailable) {
+				mBucketFlightContainerContainer.setVisibility(View.VISIBLE);
+				mFlightSpacer.setVisibility(View.VISIBLE);
+
+				mHotelSpacer.setVisibility(View.GONE);
+				mDummySpacer.setVisibility(View.GONE);
+			}
+			else {
+				mBucketFlightContainerContainer.setVisibility(View.GONE);
+				mFlightSpacer.setVisibility(View.GONE);
+
+				mHotelSpacer.setVisibility(View.VISIBLE);
+				mDummySpacer.setVisibility(View.VISIBLE);
+			}
+		}
 
 		mBucketFlightFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
