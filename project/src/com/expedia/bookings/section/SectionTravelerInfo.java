@@ -33,10 +33,13 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -710,7 +713,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	}
 
-	;
+	private static FlightSearchParams getFlightSearchParams() {
+		return Db.getTripBucket().getFlight() != null ?
+			Db.getTripBucket().getFlight().getFlightSearchParams() :
+			Db.getFlightSearch().getSearchParams();
+	}
 
 	SectionFieldEditable<TextView, Traveler> mEditBirthDateTextBtn = new SectionFieldEditableWithDateChangeListener<TextView, Traveler>(
 		R.id.edit_birth_date_text_btn) {
@@ -806,7 +813,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				if (hasBoundData()) {
 					if (getData().getBirthDate() != null) {
 						LocalDate birthDate = getData().getBirthDate();
-						if (birthDate.isAfter(LocalDate.now())) {
+						PassengerCategory passengerCategory = getData().getPassengerCategory();
+						if (birthDate.isAfter(LocalDate.now()) ||
+							!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, getFlightSearchParams(), passengerCategory)) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
