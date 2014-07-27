@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.fragment.FlightTravelerInfoOneFragment;
@@ -53,6 +54,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	private static final String STATE_TAG_SKIP_OVERVIEW = "STATE_TAG_SKIP_OVERVIEW";
 
 	private static final String DIALOG_SAVING_TRAVELER = "DIALOG_SAVING_TRAVELER";
+	private static final String FTAG_INVALID_BIRTHDATE_DIALOG = "FTAG_INVALID_BIRTHDATE_DIALOG";
 
 	private Context mContext;
 
@@ -381,6 +383,9 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 					}
 					displayTravelerEntryTwo();
 				}
+				else if (!mOneFragment.isBirthdateAligned()) {
+					showInvalidBirthdateDialog();
+				}
 				break;
 			case TWO:
 				if (validate(mTwoFragment)) {
@@ -456,6 +461,9 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 								Db.getWorkingTravelerManager().getWorkingTraveler());
 						displayOptions();
 					}
+				}
+				else if (!mOneFragment.isBirthdateAligned()) {
+					showInvalidBirthdateDialog();
 				}
 				break;
 			case TWO:
@@ -821,6 +829,11 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 			ft.remove(dialog);
 		}
 		ft.commit();
+	}
+
+	private void showInvalidBirthdateDialog() {
+		BirthDateInvalidDialog dialog = BirthDateInvalidDialog.newInstance();
+		dialog.show(getSupportFragmentManager(), FTAG_INVALID_BIRTHDATE_DIALOG);
 	}
 
 

@@ -111,6 +111,10 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 		return mSectionTravelerInfo != null ? mSectionTravelerInfo.hasValidInput() : false;
 	}
 
+	public boolean isBirthdateAligned() {
+		return mSectionTravelerInfo.isBirthdateAligned();
+	}
+
 	public void onInteraction() {
 		if (getActivity() != null && mNameMatchWarningTextView.getVisibility() != View.GONE) {
 			mNameMatchWarningTextView.setVisibility(View.GONE);
