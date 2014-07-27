@@ -303,7 +303,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			}
 		}
 		else if (mSectionTraveler != null && !mSectionTraveler.isBirthdateAligned()) {
-			BirthDateInvalidDialog dialog = BirthDateInvalidDialog.newInstance();
+			BirthDateInvalidDialog dialog = BirthDateInvalidDialog.newInstance(true);
 			dialog.show(getChildFragmentManager(), FTAG_INVALID_BIRTHDATE_DIALOG);
 		}
 	}

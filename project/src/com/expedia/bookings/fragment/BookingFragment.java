@@ -231,7 +231,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			// return a "field", only a "cause" for passenger category
 			// mismatches.
 			String cause = error.getExtra("cause");
-			if (cause.matches("Unexpected (.*) traveler\\. Expected (.*)\\.")) {
+			if (!TextUtils.isEmpty(cause) && cause.matches("Unexpected (.*) traveler\\. Expected (.*)\\.")) {
 				hasPassengerCategoryError = true;
 			}
 
@@ -369,8 +369,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				return;
 			}
 			else if (hasPassengerCategoryError) {
-				DialogFragment frag = BirthDateInvalidDialog.newInstance();
-				frag.show(getFragmentManager(), "FRAG_TAG_BIRTHDATE_BAD");
+				DialogFragment frag = BirthDateInvalidDialog.newInstance(false);
+				frag.show(getFragmentManager(), "passengerCategoriesDoNotMatch");
 				return;
 			}
 			break;

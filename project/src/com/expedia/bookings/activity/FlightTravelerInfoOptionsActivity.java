@@ -31,12 +31,14 @@ import com.expedia.bookings.fragment.OverwriteExistingTravelerDialogFragment;
 import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.squareup.otto.Subscribe;
 
 public class FlightTravelerInfoOptionsActivity extends FragmentActivity implements TravelerInfoYoYoListener,
 	IDialogForwardBackwardListener {
@@ -188,6 +190,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Events.register(this);
 		OmnitureTracking.onResume(this);
 	}
 
@@ -832,8 +835,13 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	}
 
 	private void showInvalidBirthdateDialog() {
-		BirthDateInvalidDialog dialog = BirthDateInvalidDialog.newInstance();
+		BirthDateInvalidDialog dialog = BirthDateInvalidDialog.newInstance(true);
 		dialog.show(getSupportFragmentManager(), FTAG_INVALID_BIRTHDATE_DIALOG);
+	}
+
+	@Subscribe
+	public void onInvalidBirthdateEdit(Events.BirthDateInvalidEditSearch event) {
+		NavUtils.goToFlights(this, true, null);
 	}
 
 

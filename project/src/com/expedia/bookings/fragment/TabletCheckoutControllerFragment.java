@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
@@ -1246,6 +1247,20 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onFlightTripPriceChange(Events.FlightPriceChange event) {
+		setCheckoutState(CheckoutState.OVERVIEW, true);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// BirthDateInvalidDialog
+
+	@Subscribe
+	public void onBirthDateInvalidEditSearch(Events.BirthDateInvalidEditSearch event) {
+		Intent goToSearch = new Intent(getActivity(), TabletResultsActivity.class);
+		startActivity(goToSearch);
+	}
+
+	@Subscribe
+	public void onBirthDateInvalidEditTraveler(Events.BirthDateInvalidEditTraveler event) {
 		setCheckoutState(CheckoutState.OVERVIEW, true);
 	}
 

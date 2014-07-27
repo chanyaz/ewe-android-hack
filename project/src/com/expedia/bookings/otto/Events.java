@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
+import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -309,6 +310,18 @@ public class Events {
 		public SimpleCallBackDialogOnCancel(int id) {
 			this.callBackId = id;
 		}
+	}
+
+	/**
+	 * This event notifies that the user clicked the OK button for {@link BirthDateInvalidDialog }
+	 */
+	public static class BirthDateInvalidEditTraveler {
+	}
+
+	/**
+	 * This event notifies that the user clicked the Edit Search button for {@link BirthDateInvalidDialog }
+	 */
+	public static class BirthDateInvalidEditSearch {
 	}
 
 	/**

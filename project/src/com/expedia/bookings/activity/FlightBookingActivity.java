@@ -403,6 +403,20 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// BirthDateInvalidDialog
+
+	@Subscribe
+	public void onInvalidBirthdateEditSearch(Events.BirthDateInvalidEditSearch event) {
+		NavUtils.goToFlights(this, true, null);
+	}
+
+	@Subscribe
+	public void onInvalidBirthdateEditTraveler(Events.BirthDateInvalidEditTraveler event) {
+		Intent goBackToCheckout = new Intent(FlightBookingActivity.this, FlightTripOverviewActivity.class);
+		startActivity(goBackToCheckout);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// UnhandledErrorDialogFragment
 
 	@Subscribe
