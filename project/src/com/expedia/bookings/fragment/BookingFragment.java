@@ -16,6 +16,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
+import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.WalletUtils;
@@ -219,11 +220,20 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		boolean hasPostalCodeError = false;
 		boolean hasFlightMinorError = false;
 		boolean hasNameOnCardMismatchError = false;
+		boolean hasPassengerCategoryError = false;
 
 		// Log all errors, in case we need to see them
 		for (int a = 0; a < errors.size(); a++) {
 			ServerError error = errors.get(a);
 			Log.v("SERVER ERROR " + a + ": " + error.toJson().toString());
+
+			// Forced to special case this error, since the API doesn't
+			// return a "field", only a "cause" for passenger category
+			// mismatches.
+			String cause = error.getExtra("cause");
+			if (cause.matches("Unexpected (.*) traveler\\. Expected (.*)\\.")) {
+				hasPassengerCategoryError = true;
+			}
 
 			String field = error.getExtra("field");
 			if (TextUtils.isEmpty(field)) {
@@ -356,6 +366,11 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 					getString(R.string.error_booking_with_minor), getString(R.string.ok),
 					SimpleCallbackDialogFragment.CODE_INVALID_MINOR);
 				frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
+				return;
+			}
+			else if (hasPassengerCategoryError) {
+				DialogFragment frag = BirthDateInvalidDialog.newInstance();
+				frag.show(getFragmentManager(), "FRAG_TAG_BIRTHDATE_BAD");
 				return;
 			}
 			break;
