@@ -30,6 +30,7 @@ import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -201,6 +202,15 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			final ColorDrawable colorDrawable = new ColorDrawable(
 				getResources().getColor(R.color.bg_row_state_pressed));
 			row.setBackgroundDrawable(colorDrawable);
+		}
+
+		HotelOffersResponse offersResponse = Db.getHotelSearch().getHotelOffersResponse(property.getPropertyId());
+		if (offersResponse != null && offersResponse.getRateCount() == 0) {
+			ViewGroup roomRateContainer = Ui.findView(mRootC, R.id.room_rate_add_select_container);
+			roomRateContainer.setVisibility(View.GONE);
+
+			View soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out_tv);
+			soldOut.setVisibility(View.VISIBLE);
 		}
 	}
 

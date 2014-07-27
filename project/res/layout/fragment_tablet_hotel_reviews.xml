@@ -161,6 +161,20 @@
             android:paddingLeft="@dimen/hotel_details_horizontal_padding"
             android:paddingRight="@dimen/hotel_details_horizontal_padding" >
 
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/all_rooms_sold_out_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:drawableLeft="@drawable/ic_tablet_sold_out_hotel_details"
+                android:drawablePadding="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/sorry_rooms_sold_out"
+                android:textColor="#5e6b7a"
+                android:textSize="16dp"
+                app:textStyle="light"
+                android:visibility="invisible"/>
+
             <include
                 layout="@layout/snippet_tablet_room_rate_add_select" />
 
