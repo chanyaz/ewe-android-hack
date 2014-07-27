@@ -412,8 +412,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 	@Subscribe
 	public void onInvalidBirthdateEditTraveler(Events.BirthDateInvalidEditTraveler event) {
-		Intent goBackToCheckout = new Intent(FlightBookingActivity.this, FlightTripOverviewActivity.class);
-		startActivity(goBackToCheckout);
+		onBackPressed();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
