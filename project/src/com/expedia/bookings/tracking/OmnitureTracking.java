@@ -430,11 +430,11 @@ public class OmnitureTracking {
 		if (property != null) {
 			if (property.isLowestRateMobileExclusive()) {
 				sb.append("Mobile Exclusive");
-				if (property.getLowestRate().isOnSale()) {
+				if (property.getLowestRate() != null && property.getLowestRate().isOnSale()) {
 					sb.append(": ");
 				}
 			}
-			if (property.getLowestRate().isOnSale()) {
+			if (property.getLowestRate() != null && property.getLowestRate().isOnSale()) {
 				String discount = context.getString(R.string.percent_off_template,
 					(float) property.getLowestRate().getDiscountPercent());
 				sb.append(discount);
