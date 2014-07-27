@@ -1026,11 +1026,19 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onBookingResponse(Events.BookingDownloadResponse event) {
 		Response results = event.response;
 
-		if (!AndroidUtils.isRelease(getActivity()) && SettingUtils
-			.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
-			ServerError googleWalletError = new ServerError();
-			googleWalletError.setCode("GOOGLE_WALLET_ERROR");
-			results.addErrorToFront(googleWalletError);
+		if (!AndroidUtils.isRelease(getActivity())) {
+			if (SettingUtils
+				.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
+				ServerError googleWalletError = new ServerError();
+				googleWalletError.setCode("GOOGLE_WALLET_ERROR");
+				results.addErrorToFront(googleWalletError);
+			}
+			if (SettingUtils.get(getActivity(), R.string.preference_force_passenger_category_error, false)) {
+				ServerError passengerCategoryError = new ServerError();
+				passengerCategoryError.setCode("INVALID_INPUT");
+				passengerCategoryError.addExtra("cause", "Unexpected ADULT_CHILD traveler. Expected ADULT.");
+				results.addErrorToFront(passengerCategoryError);
+			}
 		}
 
 		if (results instanceof FlightCheckoutResponse) {

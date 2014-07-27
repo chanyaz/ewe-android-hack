@@ -116,6 +116,12 @@
             android:summary="Fake some online booking fees.  Positive numbers only."
             android:title="Fake Flight ObFees" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_force_passenger_category_error"
+            android:summary="Force the main passenger's passenger category to be 'ADULT_CHILD' instead of 'ADULT'"
+            android:title="Force a PassengerCategory error" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

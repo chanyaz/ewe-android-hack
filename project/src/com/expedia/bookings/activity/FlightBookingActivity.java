@@ -27,6 +27,7 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -441,6 +442,14 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 				amount.setAmount(fakeObFees);
 				response.getNewOffer().setOnlineBookingFeesAmount(amount);
 			}
+		}
+
+		if (!AndroidUtils.isRelease(mContext) && response != null &&
+			SettingUtils.get(this, R.string.preference_force_passenger_category_error, false)) {
+			ServerError passengerCategoryError = new ServerError();
+			passengerCategoryError.setCode("INVALID_INPUT");
+			passengerCategoryError.addExtra("cause", "Unexpected ADULT_CHILD traveler. Expected ADULT.");
+			response.addErrorToFront(passengerCategoryError);
 		}
 
 		Db.setFlightCheckout(response);
