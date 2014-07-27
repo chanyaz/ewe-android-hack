@@ -41,26 +41,19 @@ do this step again.
 /////////////////////////
 Unit Tests
 
-1. Run unit tests with the following command:
-
-$ ./gradlew connectedAndroidTestExpediaDebug
-
-2. After the test run, you can view the test report:
-
-$ open project/build/reports/androidTests/connected/flavors/Expedia/index.html
+$ ./gradlew assembleExpediaDebug assembleExpediaDebugTest
+$ ./buildbot/unittest.sh
+$ open spoon/unit/index.html
 
 
 /////////////////////////
 Happy Path Tests
 
-1. Ensure both ExpediaAutomationDebug and ExpediaAutomationDebugTest are installed to a device
+1. Happy path tests are run against the ExpediaAutomation product flavor. Make sure the device that will be running
+the tests has turned off animations: Window Animation, Transition Animation, Animator Duration. Then install and run:
 
-2. Run the happy path test.
-
+$ ./gradlew assembleExpediaAutomationDebug assembleExpediaAutomationDebugTest
 $ ./buildbot/happypath.sh
-
-3. Wait for the test to finish and view the report.
-
 $ open spoon/happy/index.html
 
-4. Run the happy path tests before pushing changes to the repository!
+
