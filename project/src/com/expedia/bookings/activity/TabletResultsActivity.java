@@ -213,6 +213,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	@Override
 	public void onPause() {
 		super.onPause();
+		Sp.saveSearchParamsToDisk(this);
 		Sp.getBus().unregister(this);
 		OmnitureTracking.onPause();
 	}

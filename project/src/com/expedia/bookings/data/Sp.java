@@ -97,4 +97,15 @@ public class Sp {
 			Log.e("Exception writing Sp testing data to disk.", ex);
 		}
 	}
+
+	private static final String SP_FILE_NAME = "search_params.json";
+
+	public static void saveSearchParamsToDisk(Context context) {
+		saveToDisk(context, SP_FILE_NAME);
+	}
+
+	public static void loadSearchParamsFromDisk(Context context) {
+		loadFromDisk(context, SP_FILE_NAME);
+	}
+
 }

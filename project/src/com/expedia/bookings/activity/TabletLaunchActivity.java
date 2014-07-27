@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchDb;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
-import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -28,7 +28,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -70,6 +69,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
+		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
 	}
 
