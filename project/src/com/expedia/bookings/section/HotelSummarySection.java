@@ -8,7 +8,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -345,13 +344,19 @@ public class HotelSummarySection extends RelativeLayout {
 
 		if (mHotelBackgroundView != null && property.getThumbnail() != null) {
 			final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+
 			if (isSoldOut) {
 				ColorMatrix cm = new ColorMatrix();
 				cm.setSaturation(0.0f);
 				mHotelBackgroundView.setColorFilter(new ColorMatrixColorFilter(cm));
 				mBgImgOverlay.setBackgroundResource(R.drawable.bg_hotel_row_tablet_sold_out_overlay);
 			}
-			else if (useHeaderGradient && isSelected) {
+			else {
+				mHotelBackgroundView.setColorFilter(null);
+				mBgImgOverlay.setBackgroundResource(R.drawable.bg_hotel_details_header_gradient);
+			}
+
+			if (useHeaderGradient && isSelected) {
 				headerBitmapDrawable.setGradient(SELECTED_GRADIENT_COLORS, SELECTED_GRADIENT_POSITIONS);
 			}
 			else {
