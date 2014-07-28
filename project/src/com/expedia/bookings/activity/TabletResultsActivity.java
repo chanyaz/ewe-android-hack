@@ -519,6 +519,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	private void resetTranslations() {
+		if (mGrid.isLandscape()
+			|| !(hideTripBucketInPortrait() || mSearchController.getState().showsSearchControls())) {
+			mTripBucketC.setTranslationX(0f);
+			mTripBucketC.setTranslationY(0f);
+		}
 		mFlightsC.setTranslationX(0f);
 		mFlightsC.setTranslationY(0f);
 		mHotelC.setTranslationX(0f);
