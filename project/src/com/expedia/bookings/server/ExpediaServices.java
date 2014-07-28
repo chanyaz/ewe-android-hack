@@ -551,9 +551,7 @@ public class ExpediaServices implements DownloadListener {
 			addFlightTraveler(query, travelers.get(i), prefix);
 		}
 
-		if (flightBookingHasKids(travelers)) {
-			query.add(new BasicNameValuePair("validateWithChildren", "true"));
-		}
+		query.add(new BasicNameValuePair("validateWithChildren", "true"));
 
 		String nameOnCard = billingInfo.getNameOnCard();
 		if (!TextUtils.isEmpty(nameOnCard)) {
