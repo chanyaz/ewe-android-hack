@@ -27,6 +27,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -288,7 +289,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				public void onClick(View v) {
 					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 					mCurrentTraveler = section.getTraveler();
-
+					PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory();
+					mCurrentTraveler.setPassengerCategory(category);
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					if (mCurrentTraveler.fromGoogleWallet()) {
 						onTravelerDetailsReceived(mCurrentTraveler);
