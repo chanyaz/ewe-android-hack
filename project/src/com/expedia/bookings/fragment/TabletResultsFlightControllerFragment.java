@@ -98,6 +98,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	// When we are downloading new data, we set this to true, so that we remember to resetQuery on our legs chooser.
 	private boolean mNeedsQueryReset = true;
 
+	private boolean mCouldShowInfantPrompt = false;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -800,7 +802,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
-				popInfantPromptIfNeeded();
+				mCouldShowInfantPrompt = true;
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				// The loading fragment is about to be removed in onFinalize, but lets reset it beforehand regardless.
@@ -860,6 +862,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (state == ResultsFlightsState.CHOOSING_FLIGHT) {
+				if (mCouldShowInfantPrompt) {
+					mCouldShowInfantPrompt = false;
+					popInfantPromptIfNeeded();
+				}
 				if (mFlightLegsFrag.isFirstLeg()) {
 					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
 				}
