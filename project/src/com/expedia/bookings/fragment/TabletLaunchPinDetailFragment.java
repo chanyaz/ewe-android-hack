@@ -91,7 +91,8 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			textBookNow.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null));
+					boolean fromLastSearch = event.launchLocation.id.equals("last-search");
+					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null, fromLastSearch));
 				}
 			});
 		}

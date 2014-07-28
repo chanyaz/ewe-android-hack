@@ -2,10 +2,8 @@ package com.expedia.bookings.otto;
 
 import java.util.List;
 
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LaunchCollection;
@@ -417,10 +415,18 @@ public class Events {
 	public static class SearchSuggestionSelected {
 		public final SuggestionV2 suggestion;
 		public final String queryText;
+		public final boolean isFromSavedParamsAndBucket;
 
 		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText) {
 			this.suggestion = suggestion;
 			this.queryText = queryText;
+			this.isFromSavedParamsAndBucket = false;
+		}
+
+		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText, boolean fromSavedParams) {
+			this.suggestion = suggestion;
+			this.queryText = queryText;
+			this.isFromSavedParamsAndBucket = fromSavedParams;
 		}
 	}
 

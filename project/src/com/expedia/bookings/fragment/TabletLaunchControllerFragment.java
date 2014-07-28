@@ -409,13 +409,20 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	@Subscribe
 	public void onSearchSuggestionSelected(Events.SearchSuggestionSelected event) {
 		if (event.suggestion != null) {
-			Sp.getParams().restoreToDefaults();
-			Sp.getParams().setDestination(event.suggestion);
-			if (!TextUtils.isEmpty(event.queryText)) {
-				Sp.getParams().setCustomDestinationQryText(event.queryText);
+			if (event.isFromSavedParamsAndBucket) {
+				Sp.loadSearchParamsFromDisk(getActivity());
 			}
 			else {
-				Sp.getParams().setDefaultCustomDestinationQryText();
+				Sp.getParams().restoreToDefaults();
+				Sp.getParams().setDestination(event.suggestion);
+				if (!TextUtils.isEmpty(event.queryText)) {
+					Sp.getParams().setCustomDestinationQryText(event.queryText);
+				}
+				else {
+					Sp.getParams().setDefaultCustomDestinationQryText();
+				}
+				Db.deleteTripBucket(getActivity());
+				Db.getTripBucket().clear();
 			}
 			doSearch();
 		}
