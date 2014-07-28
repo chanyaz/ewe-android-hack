@@ -110,8 +110,25 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 
 		// Actionbar
 		ActionBar actionBar = getActionBar();
-		actionBar.setIcon(R.drawable.ic_expedia_action_bar_logo_dark);
-		actionBar.setDisplayUseLogoEnabled(false);
+		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_TRAVELOCITY) {
+			switch (mLob) {
+			case HOTELS:
+				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
+				actionBar.setDisplayUseLogoEnabled(false);
+				break;
+			case FLIGHTS:
+				actionBar.setIcon(R.drawable.ic_logo_flights);
+				actionBar.setDisplayUseLogoEnabled(false);
+				break;
+			default:
+				actionBar.setDisplayUseLogoEnabled(true);
+				break;
+			}
+		}
+		else {
+			actionBar.setIcon(R.drawable.ic_expedia_action_bar_logo_dark);
+			actionBar.setDisplayUseLogoEnabled(false);
+		}
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
