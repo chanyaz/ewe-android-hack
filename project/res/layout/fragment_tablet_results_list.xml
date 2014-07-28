@@ -59,10 +59,10 @@
             android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
             android:gravity="center_vertical|right"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:textColor="#FF0B4EA4"
-            android:textSize="18sp"
-            app:textStyle="light" />
+            android:textColor="#6a6a6a"
+            android:textSize="12dp"
+            android:textAllCaps="true"
+            app:textStyle="bold" />
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 
 </FrameLayout>
