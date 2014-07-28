@@ -392,6 +392,14 @@ public class Events {
 		}
 	}
 
+	public static class TripBucketHasRedeyeItems {
+		// ignore
+	}
+
+	public static class TripBucketHasMismatchedItems {
+		// ignore
+	}
+
 	/**
 	 * This event notifies that the LCC payment fees was added to the flight trip.
 	 */

@@ -30,6 +30,7 @@ import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsTripBucketFragment;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
@@ -47,6 +48,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -208,6 +210,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		});
 
 		Sp.getBus().register(this);
+		Events.register(this);
 		mTripBucketFrag.bindToDb();
 		OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
 		mHockeyPuck.onResume();
@@ -219,6 +222,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		super.onPause();
 		Sp.saveSearchParamsToDisk(this);
 		Sp.getBus().unregister(this);
+		Events.unregister(this);
 		OmnitureTracking.onPause();
 	}
 
@@ -1049,5 +1053,27 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	@Override
 	public void onUndoAnimationListenerEnd() {
 		mTripBucketFrag.bindToDb();
+	}
+
+	// Otto events
+
+	@Subscribe
+	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
+		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS) {
+			Db.getTripBucket().clear(LineOfBusiness.HOTELS);
+			Db.saveTripBucket(this);
+			if (mTripBucketFrag != null) {
+				mTripBucketFrag.bindToDb();
+			}
+
+			//FIXME brennan start hotel search
+		}
+	}
+
+	@Subscribe
+	public void onSimpleCallbackCancel(Events.SimpleCallBackDialogOnCancel cancel) {
+		if (cancel.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS) {
+			// ignore
+		}
 	}
 }

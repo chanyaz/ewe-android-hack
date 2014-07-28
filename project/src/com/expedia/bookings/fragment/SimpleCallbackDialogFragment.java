@@ -32,35 +32,29 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	public static final int CODE_WALLET_PROMO_APPLY_ERROR = 300;
 
 	public static final int CODE_TABLET_FLIGHTS_INFANT_CHOOSER = 400;
-
+	public static final int CODE_TABLET_MISMATCHED_ITEMS = 401;
 
 	private static final String ARG_TITLE = "ARG_TITLE";
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";
 	private static final String ARG_BUTTON = "ARG_BUTTON";
 	private static final String ARG_CALLBACK = "ARG_CALLBACK";
+	private static final String ARG_NEGATIVE_BUTTON = "ARG_NEGATIVE_BUTTON";
 
-	public static SimpleCallbackDialogFragment newInstance(CharSequence title, CharSequence message,
-			CharSequence button, int callbackId) {
+	public static SimpleCallbackDialogFragment newInstance(CharSequence title, CharSequence message, CharSequence button, int callbackId) {
+		SimpleCallbackDialogFragment fragment = SimpleCallbackDialogFragment.newInstance(title, message, button, callbackId, "");
+		return fragment;
+	}
+
+	public static SimpleCallbackDialogFragment newInstance(CharSequence title, CharSequence message, CharSequence button, int callbackId, CharSequence negativeButton) {
 		SimpleCallbackDialogFragment fragment = new SimpleCallbackDialogFragment();
 		Bundle args = new Bundle();
 		args.putCharSequence(ARG_TITLE, title);
 		args.putCharSequence(ARG_MESSAGE, message);
 		args.putCharSequence(ARG_BUTTON, button);
 		args.putInt(ARG_CALLBACK, callbackId);
+		args.putCharSequence(ARG_NEGATIVE_BUTTON, negativeButton);
 		fragment.setArguments(args);
 		return fragment;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Events.register(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		Events.unregister(this);
 	}
 
 	@Override
@@ -70,6 +64,7 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 		CharSequence title = args.getCharSequence(ARG_TITLE);
 		CharSequence message = args.getCharSequence(ARG_MESSAGE);
 		CharSequence button = args.getCharSequence(ARG_BUTTON);
+		CharSequence negativeButton = args.getCharSequence(ARG_NEGATIVE_BUTTON);
 
 		Builder builder = new Builder(getActivity());
 		if (!TextUtils.isEmpty(title)) {
@@ -90,6 +85,15 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 				Events.post(new Events.SimpleCallBackDialogOnClick(getArguments().getInt(ARG_CALLBACK)));
 			}
 		});
+
+		if (!TextUtils.isEmpty(negativeButton)) {
+			builder.setNegativeButton(negativeButton, new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Events.post(new Events.SimpleCallBackDialogOnCancel(getArguments().getInt(ARG_CALLBACK)));
+				}
+			});
+		}
 
 		return builder.create();
 	}

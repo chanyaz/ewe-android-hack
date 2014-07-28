@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
+import com.expedia.bookings.otto.Events;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.maps.MapUtils;
 
 /**
  * Stores hotel and flight (and other Lines of Business?) selected items
@@ -93,6 +99,8 @@ public class TripBucket implements JSONable {
 		mLastLOBAdded = LineOfBusiness.HOTELS;
 		mRefreshCount++;
 		mItems.add(hotel);
+
+		checkForMismatchedItems();
 	}
 
 	/**
@@ -103,24 +111,22 @@ public class TripBucket implements JSONable {
 	 * @param availability
 	 */
 	public void add(HotelSearchParams params, Rate rate, Property property, HotelAvailability availability) {
-		mLastLOBAdded = LineOfBusiness.HOTELS;
-		mRefreshCount++;
-		mItems.add(new TripBucketItemHotel(property, rate, params, availability));
+		add(new TripBucketItemHotel(property, rate, params, availability));
 	}
 
 	public void add(TripBucketItemFlight flight) {
 		mLastLOBAdded = LineOfBusiness.FLIGHTS;
 		mRefreshCount++;
 		mItems.add(flight);
+
+		checkForMismatchedItems();
 	}
 
 	/**
 	 * Adds a Flight to the trip bucket.
 	 */
 	public void add(FlightSearchParams params, FlightTrip flightTrip) {
-		mLastLOBAdded = LineOfBusiness.FLIGHTS;
-		mRefreshCount++;
-		mItems.add(new TripBucketItemFlight(params, flightTrip));
+		add(new TripBucketItemFlight(params, flightTrip));
 	}
 
 	/**
@@ -220,6 +226,98 @@ public class TripBucket implements JSONable {
 				mRefreshCount--;
 			}
 		}
+	}
+
+	private void checkForMismatchedItems() {
+		if (getFlight() == null || getHotel() == null) {
+			// Don't bother checking if we don't have both items
+			return;
+		}
+
+		if (hasRedeyeDates()) {
+			Events.post(new Events.TripBucketHasRedeyeItems());
+		}
+		else if (hasMismatchedDates()) {
+			Events.post(new Events.TripBucketHasMismatchedItems());
+		}
+	}
+
+	private boolean hasRedeyeDates() {
+		if (!itemsAreForSameDestination()) {
+			return false;
+		}
+
+		if (hotelCheckinIsDayBeforeFlightLands()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean hasMismatchedDates() {
+		if (!itemsAreForSameDestination()) {
+			return false;
+		}
+
+		if (hotelCheckinIsDayBeforeFlightLands()) {
+			return true;
+		}
+
+		if (hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean hotelCheckinIsDayBeforeFlightLands() {
+		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
+		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
+		LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+		if (hotelParams.getCheckInDate().isBefore(departingFlightLandingTime)) {
+			Log.d("TripBucket", "Hotel Checkin is the day before Departing Flight Lands");
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean hotelCheckoutIsBeforeOrAfterFlightLeaves() {
+		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
+		if (getFlight().getFlightSearchParams().isRoundTrip()) {
+			FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
+			LocalDate returnFlightTakeoffTime = new LocalDate(returnFlight.getFirstWaypoint().getMostRelevantDateTime());
+			if (hotelParams.getCheckOutDate().isAfter(returnFlightTakeoffTime) ||
+					hotelParams.getCheckOutDate().isBefore(returnFlightTakeoffTime)) {
+				Log.d("TripBucket", "Hotel Checkout is the day before or after Returning Flight Takes off");
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean itemsAreForSameDestination() {
+		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
+		FlightSearchParams flightParams = getFlight().getFlightSearchParams();
+
+		if (TextUtils.equals("" + flightParams.getDestinationId(), hotelParams.getRegionId())) {
+			Log.d("TripBucket", "Items are for same region id");
+			return true;
+		}
+
+		// check latlng within 50 miles
+		Location flightLocation = flightParams.getArrivalLocation();
+		LatLng flightLL = new LatLng(flightLocation.getLatitude(), flightLocation.getLongitude());
+		LatLng hotelLL = new LatLng(hotelParams.getSearchLatitude(), hotelParams.getSearchLongitude());
+
+		double distance = MapUtils.getDistance(flightLL, hotelLL);
+		if (distance < 50.0f) {
+			Log.d("TripBucket", "Items are within 50miles of each other");
+			return true;
+		}
+
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
