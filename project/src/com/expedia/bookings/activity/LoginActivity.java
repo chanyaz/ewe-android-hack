@@ -116,15 +116,6 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		// add padding top as size of ActionBar for bg-image purposes (overlay-mode)
-		int paddingTop = 0;
-		TypedValue tv = new TypedValue();
-		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-			paddingTop = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-		}
-		mLoginContentContainer.setPadding(mLoginContentContainer.getPaddingLeft(), paddingTop, mLoginContentContainer.getPaddingRight(),
-			mLoginContentContainer.getPaddingBottom());
-
 		//defaults to login
 		setActionBarTitle(null);
 
