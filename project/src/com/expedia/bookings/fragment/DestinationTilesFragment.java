@@ -50,6 +50,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 	public void onPause() {
 		super.onPause();
 		Events.unregister(this);
+		cleanupCollections();
 	}
 
 	@Override
@@ -157,5 +158,14 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 			}
 		});
 		mItemsContainer.addView(c);
+	}
+
+	private void cleanupCollections() {
+		if (mItemsContainer != null) {
+			for (int i = 0; i < mItemsContainer.getChildCount(); i++) {
+				CollectionStack stack = (CollectionStack) mItemsContainer.getChildAt(i);
+				stack.cleanup();
+			}
+		}
 	}
 }
