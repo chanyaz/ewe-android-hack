@@ -74,6 +74,7 @@ public class ServerError implements JSONable {
 		COUPON_HOTEL_EXCLUDED,
 		COUPON_SERVICE_DOWN,
 		COUPON_FALLBACK,
+		COUPON_INVALID_HOTEL,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -140,6 +141,7 @@ public class ServerError implements JSONable {
 			put("Expired", ErrorCode.COUPON_EXPIRED);
 			put("FallBack", ErrorCode.COUPON_FALLBACK);
 			put("HotelExcluded", ErrorCode.COUPON_HOTEL_EXCLUDED);
+			put("InvalidHotel", ErrorCode.COUPON_INVALID_HOTEL);
 			put("InvalidProduct", ErrorCode.COUPON_INVALID_PRODUCT);
 			put("InvalidRegion", ErrorCode.COUPON_INVALID_REGION);
 			put("InvalidTravelDates", ErrorCode.COUPON_INVALID_TRAVEL_DATES);
@@ -158,6 +160,7 @@ public class ServerError implements JSONable {
 			put(ErrorCode.COUPON_EXPIRED, R.string.coupon_error_expired);
 			put(ErrorCode.COUPON_FALLBACK, R.string.coupon_error_fallback);
 			put(ErrorCode.COUPON_HOTEL_EXCLUDED, R.string.coupon_error_hotel_excluded);
+			put(ErrorCode.COUPON_INVALID_HOTEL, R.string.coupon_error_invalid_hotel);
 			put(ErrorCode.COUPON_INVALID_PRODUCT, R.string.coupon_error_invalid_product);
 			put(ErrorCode.COUPON_INVALID_REGION, R.string.coupon_error_invalid_region);
 			put(ErrorCode.COUPON_INVALID_TRAVEL_DATES, R.string.coupon_error_invalid_travel_dates);

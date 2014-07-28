@@ -2299,8 +2299,10 @@
     <string name="coupon_error_invalid_product">Sorry, but this hotel doesn’t accept coupons.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
     <string name="coupon_error_min_purchase_amount_not_met">Sorry, but this doesn’t meet the minimum cost requirement.</string>
-    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn’t accept coupons.</string>
+    <!-- Error when applying coupon - the hotel does not accept coupons -->
+    <string name="coupon_error_invalid_hotel">Sorry, but this hotel doesn’t accept coupons.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Sorry, but we cannot process coupons currently.  Please try again.</string>
     <!-- Error when applying coupon - session timeout -->
