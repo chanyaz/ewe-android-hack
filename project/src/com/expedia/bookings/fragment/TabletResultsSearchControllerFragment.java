@@ -249,12 +249,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	public void bindSearchBtns() {
-		//TODO: Improve string formats
-
-		//Origin/Destination - Note that these come strait from Params
+		// Destination Button - Note that this comes straight from Params
 		if (mLocalParams.hasDestination() && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 			mDestBtn.setText(R.string.current_location);
-
 		}
 		else if (mLocalParams.hasDestination()) {
 			mDestBtn.setText(Html.fromHtml(mLocalParams.getDestination().getDisplayName()).toString());
@@ -263,11 +260,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mDestBtn.setText("");
 		}
 
+		// Origin Button - Note that this comes straight from Params
 		if (mLocalParams.hasOrigin()) {
-			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, mLocalParams.getOrigin().getAirportCode()));
+			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, mLocalParams.getOrigin().getDisplayName().toString()));
 		}
 		else {
-			mOrigBtn.setText("");
+			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, "…"));
 		}
 
 		//Calendar button stuff
