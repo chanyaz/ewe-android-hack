@@ -16,7 +16,7 @@ public class HotelRulesActivity extends FragmentActivity {
 		setTheme(R.style.Theme_Phone_WebView);
 		setContentView(R.layout.activity_hotel_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setLogo(R.drawable.ic_action_bar_dark);
+		getActionBar().setLogo(R.drawable.ic_expedia_action_bar_logo_dark);
 	}
 
 	@Override

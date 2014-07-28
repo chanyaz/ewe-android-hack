@@ -8,7 +8,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +110,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 
 		// Actionbar
 		ActionBar actionBar = getActionBar();
-		actionBar.setIcon(R.drawable.ic_action_bar_dark);
+		actionBar.setIcon(R.drawable.ic_expedia_action_bar_logo_dark);
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);

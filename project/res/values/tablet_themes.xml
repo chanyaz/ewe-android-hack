@@ -118,7 +118,7 @@
     <style name="V2.Widget" />
 
     <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="14">
-        <item name="android:logo">@drawable/ic_action_bar_dark</item>
+        <item name="android:logo">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="android:background">@null</item>
     </style>
 
