@@ -217,6 +217,11 @@ public class Media implements JSONable {
 		drawable.setOnBitmapLoadedCallback(callback);
 	}
 
+	public void loadHighResImage(ImageView imageView, L2ImageCache.OnBitmapLoaded callback, int defaultResId) {
+		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(getHighResUrls(), imageView, defaultResId);
+		drawable.setOnBitmapLoadedCallback(callback);
+	}
+
 	public void preloadHighResImage(Context context, L2ImageCache.OnBitmapLoaded callback) {
 		// It may make sense to someday rewrite this not to abuse UrlBitmapDrawable (e.g. go straight to the cache)
 		UrlBitmapDrawable drawable = new UrlBitmapDrawable(context.getResources(), getHighResUrls());

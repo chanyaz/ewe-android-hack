@@ -168,8 +168,6 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			Media media = mMedia.get(position);
 			final ImageView image = Ui.findView(root, R.id.image);
 
-			image.setPivotX(0.0f);
-			image.setPivotY(0.0f);
 			media.loadHighResImage(image, new L2ImageCache.OnBitmapLoaded() {
 				@Override
 				public void onBitmapLoaded(String url, Bitmap bitmap) {
@@ -187,7 +185,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 				public void onBitmapLoadFailed(String url) {
 					// ignore
 				}
-			});
+			}, R.drawable.bg_tablet_hotel_results_placeholder);
 
 			ViewGroup group = (ViewGroup) collection;
 			if (position >= group.getChildCount()) {
