@@ -1,0 +1,30 @@
+{
+    "q": "LAX",
+    "rc": "OK",
+    "rid": "668ad469-d526-4c65-8ab9-78f8b465b385",
+    "sr": [
+        {
+            "@type": "regionResult",
+            "a": "LAX",
+            "amc": "178280",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "Los Angeles, CA, United States (<B>LAX</B>-Los Angeles Intl.)",
+            "f": "Los Angeles, CA, United States (LAX-Los Angeles Intl.)",
+            "hc": "688",
+            "i": "0",
+            "id": "6000346",
+            "isMinorAirport": "false",
+            "l": "Los Angeles, CA, United States (LAX-Los Angeles Intl.)",
+            "ll": {
+                "lat": "33.944150",
+                "lng": "-118.403200"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+            "t": "AIRPORT"
+        }
+    ]
+}

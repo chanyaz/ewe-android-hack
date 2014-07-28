@@ -1,9 +1,12 @@
 package com.expedia.bookings.test.utils;
 
+import java.net.URL;
+
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 /**
  * Created by dmadan on 7/15/14.
@@ -16,8 +19,10 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
 	static final String TEST_CASE_METHOD = "runMethod";
+	protected MockWebServer mMockWebServer;
 
 	public void runTest() throws Throwable {
+
 		Settings.clearPrivateData(getInstrumentation());
 
 		//get server value from config file deployed in devices
@@ -25,7 +30,15 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			Settings.setServer(getInstrumentation(), new ConfigFileUtils().getConfigValue("Server"));
 		}
 		else {
-			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
+			mMockWebServer = new MockWebServer();
+			mMockWebServer.play();
+			CustomDispatcher dispatcher = new CustomDispatcher(getInstrumentation());
+			mMockWebServer.setDispatcher(dispatcher);
+
+			//get mock web server address
+			URL mockUrl = mMockWebServer.getUrl("");
+			String server = mockUrl.getHost() + ":" + mockUrl.getPort();
+			Settings.setCustomServer(getInstrumentation(), server);
 		}
 
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
@@ -68,5 +81,13 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			// ignore
 		}
 		SpoonScreenshotUtils.screenshot(tag, getInstrumentation());
+	}
+
+	protected void tearDown() throws Exception {
+		if (mMockWebServer != null) {
+			mMockWebServer.shutdown();
+			mMockWebServer = null;
+		}
+		super.tearDown();
 	}
 }

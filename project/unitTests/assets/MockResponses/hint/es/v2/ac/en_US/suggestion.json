@@ -1,0 +1,76 @@
+{
+    "q": "LAS",
+    "rc": "OK",
+    "rid": "2d3beffb-2b8c-433c-8c71-b7dd3c50e951",
+    "sr": [
+        {
+            "@type": "regionResult",
+            "a": "LAS",
+            "amc": "178276",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "<B>Las</B> Vegas, NV, United States (<B>LAS</B>-McCarran Intl.)",
+            "f": "Las Vegas, NV, United States (LAS-McCarran Intl.)",
+            "hc": "260",
+            "i": "0",
+            "id": "6000345",
+            "isMinorAirport": "false",
+            "l": "Las Vegas, NV, United States (LAS-McCarran Intl.)",
+            "ll": {
+                "lat": "36.085393",
+                "lng": "-115.150098"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "Las Vegas, NV (LAS-McCarran Intl.)",
+            "t": "AIRPORT"
+        },
+        {
+            "@type": "regionResult",
+            "a": "LAX",
+            "amc": "178280",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "Los Angeles, CA, United States (<B>LAX</B>-Los Angeles Intl.)",
+            "f": "Los Angeles, CA, United States (LAX-Los Angeles Intl.)",
+            "hc": "682",
+            "i": "0",
+            "id": "6000346",
+            "isMinorAirport": "false",
+            "l": "Los Angeles, CA, United States (LAX-Los Angeles Intl.)",
+            "ll": {
+                "lat": "33.944150",
+                "lng": "-118.403200"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+            "t": "AIRPORT"
+        },
+        {
+            "@type": "regionResult",
+            "a": "SFO",
+            "amc": "178305",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "San Francisco, CA, United States (<B>SFO</B>-San Francisco Intl.)",
+            "f": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "hc": "347",
+            "i": "0",
+            "id": "6000581",
+            "isMinorAirport": "false",
+            "l": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "ll": {
+                "lat": "37.615940",
+                "lng": "-122.388000"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "San Francisco, CA (SFO-San Francisco Intl.)",
+            "t": "AIRPORT"
+        }
+    ]
+}
