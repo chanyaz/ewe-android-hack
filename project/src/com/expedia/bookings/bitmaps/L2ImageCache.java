@@ -605,7 +605,6 @@ public class L2ImageCache {
 				protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
 					super.entryRemoved(evicted, key, oldValue, newValue);
 					Log.i(mLogTag, "Entry removed key=" + key + " evicted=" + evicted);
-					handleMemCacheEviction(evicted, oldValue, newValue);
 				}
 			};
 		}
@@ -641,20 +640,13 @@ public class L2ImageCache {
 
 				@Override
 				protected int sizeOf(String key, Bitmap bitmap) {
-					// The cache size will be measured in bytes rather than number of items.
-					if (Build.VERSION.SDK_INT >= 12) {
-						return bitmap.getByteCount();
-					}
-					else {
-						// Approximation of byte count pre-getByteCount()
-						return bitmap.getRowBytes() * bitmap.getHeight();
-					}
+					return bitmap.getByteCount();
 				}
 
 				@Override
 				protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
 					super.entryRemoved(evicted, key, oldValue, newValue);
-					handleMemCacheEviction(evicted, oldValue, newValue);
+					Log.i(mLogTag, "Entry removed key=" + key + " evicted=" + evicted);
 				}
 
 			};
@@ -678,16 +670,6 @@ public class L2ImageCache {
 			// In the case that we can't open the disk cache, blow up catastrophically (as not having
 			// the disk cache will really screw things up down the line).
 			throw new RuntimeException("Failed to create DiskLruCache. We require it.");
-		}
-	}
-
-	private static void handleMemCacheEviction(boolean evicted, Bitmap oldValue, Bitmap newValue) {
-		// Explicitly recycle the bitmap if it's been evicted or replaced;
-		// older Android phones need the push.
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-			if (evicted || newValue != null) {
-				oldValue.recycle();
-			}
 		}
 	}
 
