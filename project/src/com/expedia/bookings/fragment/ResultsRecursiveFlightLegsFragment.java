@@ -946,6 +946,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				//This is the previous leg row that should always be visible if we aren't leg == 0
 				mLastLegC.setVisibility(View.VISIBLE);
 			}
+
+			// Sort and Filter button
+			mListFrag.setTopRightTextButtonEnabled(state == ResultsFlightLegState.DETAILS);
 		}
 	}
 
@@ -1112,11 +1115,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			((ResultsFlightFiltersFragment) frag).bindAll();
 			break;
 		case FTAG_LIST:
-			if (isFirstLeg()) {
-				ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
-				listFrag.setTopRightTextButtonText(getString(R.string.Done));
-				listFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
-			}
+			ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
+			listFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+			listFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
 			break;
 		}
 	}
@@ -1315,14 +1316,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 	@Override
 	public void onDoneClicked() {
-		if (isFirstLeg()) {
-			if (getState() == ResultsFlightLegState.FILTERS) {
-				setState(ResultsFlightLegState.LIST_DOWN, true);
-			}
-			else if (getState() == ResultsFlightLegState.DETAILS) {
-				mStateManager
-					.animateThroughStates(ResultsFlightLegState.FILTERS, ResultsFlightLegState.LIST_DOWN);
-			}
+		if (getState() == ResultsFlightLegState.DETAILS) {
+			setState(ResultsFlightLegState.FILTERS, true);
 		}
 	}
 
