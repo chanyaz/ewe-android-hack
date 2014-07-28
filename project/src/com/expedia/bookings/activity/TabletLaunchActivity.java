@@ -69,8 +69,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
-		Sp.loadSearchParamsFromDisk(this);
-		LaunchDb.getCollections(this);
 	}
 
 	@Override
@@ -78,7 +76,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		super.onResume();
 
 		Events.register(this);
-
+		Sp.loadSearchParamsFromDisk(this);
+		LaunchDb.getCollections(this);
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
 
