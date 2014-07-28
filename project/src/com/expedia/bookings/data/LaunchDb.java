@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.Html;
 
-import com.expedia.bookings.data.LaunchCollection;
-import com.expedia.bookings.data.LaunchDestinationCollections;
-import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
@@ -22,6 +20,8 @@ public class LaunchDb {
 	private static final LaunchDb sDb = new LaunchDb();
 
 	private static final String LAUNCH_DOWNLOAD_KEY = "LAUNCH_DOWNLOAD_KEY";
+
+	private static final int LAST_SEARCH_COLLECTION_INDEX = 0;
 
 	private LaunchDb() {
 		// Singleton
@@ -39,6 +39,11 @@ public class LaunchDb {
 				Download download = getDownload(context.getApplicationContext());
 				bd.startDownload(LAUNCH_DOWNLOAD_KEY, download, mCallback);
 			}
+		}
+		else {
+			Db.loadTripBucket(context);
+			injectLastSearch(Sp.getParams());
+			sDb.mSelectedCollection = sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX + 1);
 		}
 	}
 
@@ -87,6 +92,46 @@ public class LaunchDb {
 		};
 	}
 
+	public static void injectLastSearch(SearchParams params) {
+		// If there is already a "Last Search" collection,
+		// nuke it.
+		if (sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
+			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
+		}
+
+		String displayName = Html.fromHtml(params.getDestination().getDisplayName()).toString();
+		LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
+		lastSearch.title = "Your Search";
+
+		lastSearch.id = "last-search";
+		lastSearch.imageCode = Sp.getParams().getDestination().getAirportCode();
+
+		String locSubtitle = null;
+		if (Db.getTripBucket().isEmpty()) {
+			locSubtitle = displayName;
+		}
+		else {
+			if (Db.getTripBucket().size() == 1) {
+				locSubtitle = "1 item";
+			}
+			else if (Db.getTripBucket().size() == 2) {
+				locSubtitle = "2 items";
+			}
+		}
+
+		LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
+		loc.title = displayName;
+		loc.subtitle = locSubtitle;
+		loc.description = locSubtitle;
+		loc.id = "last-search";
+		loc.imageCode = Sp.getParams().getDestination().getAirportCode();
+
+		loc.location = Sp.getParams().getDestination();
+		lastSearch.locations = new ArrayList<LaunchLocation>();
+		lastSearch.locations.add(loc);
+		sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, lastSearch);
+	}
+
 	private static OnDownloadComplete<List<LaunchCollection>> mCallback = new OnDownloadComplete<List<LaunchCollection>>() {
 		@Override
 		public void onDownload(List<LaunchCollection> collections) {
@@ -94,6 +139,7 @@ public class LaunchDb {
 			if (collections != null && collections.size() > 0) {
 				sDb.mSelectedCollection = collections.get(0);
 			}
+			injectLastSearch(Sp.getParams());
 			Events.register(sDb);
 		}
 	};
