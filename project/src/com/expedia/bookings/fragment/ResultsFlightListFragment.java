@@ -32,10 +32,8 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlightsListState> {
 
-	public interface IDoneClickedListener {
-		public void onDoneClicked();
-
-		public void onStickyHeaderClicked();
+	public interface IFlightListHeaderClickListener {
+		public void onTopRightClicked();
 	}
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
@@ -43,7 +41,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	private ListAdapter mAdapter;
 	private int mLegNumber = -1;
 	private IResultsFlightSelectedListener mFlightSelectedListener;
-	private IDoneClickedListener mDoneClickedListener;
+	private IFlightListHeaderClickListener mListHeaderClickListener;
 
 	private boolean mEnableOnListItemClick = true;
 
@@ -73,7 +71,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		super.onAttach(activity);
 
 		mFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class);
-		mDoneClickedListener = Ui.findFragmentListener(this, IDoneClickedListener.class, false);
+		mListHeaderClickListener = Ui.findFragmentListener(this, IFlightListHeaderClickListener.class, false);
 	}
 
 	@Override
@@ -169,24 +167,14 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 			@Override
 			public void onClick(View arg0) {
-				if (mDoneClickedListener == null) {
+				if (mListHeaderClickListener == null) {
 					ResultsFlightListFragment.this.setPercentage(1f, 200);
 				}
 				else {
-					mDoneClickedListener.onDoneClicked();
+					mListHeaderClickListener.onTopRightClicked();
 				}
 			}
 
-		};
-	}
-
-	@Override
-	protected OnClickListener initializeStickyLeftOnClickListener() {
-		return new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mDoneClickedListener.onStickyHeaderClicked();
-			}
 		};
 	}
 

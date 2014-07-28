@@ -94,7 +94,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 		setTopRightTextButtonEnabled(initializeTopRightTextButtonEnabled());
 
-		mStickyHeaderTv.setOnClickListener(initializeStickyLeftOnClickListener());
 		mTopRightTextButton.setOnClickListener(initializeTopRightTextButtonOnClickListener());
 
 		if (savedInstanceState != null) {
@@ -348,8 +347,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	protected abstract ListAdapter initializeAdapter();
 
 	protected abstract CharSequence initializeStickyHeaderString();
-
-	protected abstract OnClickListener initializeStickyLeftOnClickListener();
 
 	protected abstract OnClickListener initializeTopRightTextButtonOnClickListener();
 

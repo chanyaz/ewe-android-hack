@@ -55,7 +55,7 @@ import com.mobiata.android.Log;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
-	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener, IAcceptingListenersListener {
+	IResultsFlightSelectedListener, ResultsFlightListFragment.IFlightListHeaderClickListener, IAcceptingListenersListener {
 
 	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
 		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
@@ -1315,15 +1315,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 * FLIGHT LIST FRAGMENT LISTENER
 	 */
 	@Override
-	public void onDoneClicked() {
+	public void onTopRightClicked() {
 		if (getState() == ResultsFlightLegState.DETAILS) {
 			setState(ResultsFlightLegState.FILTERS, true);
 		}
-	}
-
-	@Override
-	public void onStickyHeaderClicked() {
-		//THIS IS WHERE GOTO HISTOGRAM USED TO BE...
 	}
 
 	@Override
