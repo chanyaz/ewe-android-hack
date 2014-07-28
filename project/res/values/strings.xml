@@ -3189,4 +3189,12 @@
     <!-- Button text to select another flight -->
     <string name="tablet_sold_out_select_flight">Select another flight</string>
 
+    <!-- Tablet mismatched trip bucket item messages -->
+    <!-- Dialog message when we detect the user has selected a redeye flight and the hotel checkin date is wrong -->
+    <string name="tablet_redeye_products_message">Do you want to check in to your hotel on the same day that your flight arrives? Tap Yes to remove your current hotel selection and search for hotels with the correct check-in date.</string>
+    <!-- Dialog message when we detect the user has selected a flight and hotel that do not line up correctly with respect to dates -->
+    <string name="tablet_mismatched_products_message">Your selected hotel and flight dates are different. Do you want to remove your current hotel selection and search for hotels with dates that match your flights?</string>
+    <!-- Dialog positive button message -->
+    <string name="yes">Yes</string>
+
 </resources>
