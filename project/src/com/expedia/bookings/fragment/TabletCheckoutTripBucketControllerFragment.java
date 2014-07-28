@@ -341,7 +341,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			hotelBucketItemAvailable, FRAG_TAG_BUCKET_HOTEL,
 			manager, transaction, this, R.id.bucket_hotel_frag_container, false);
 
-		transaction.commit();
+		transaction.commitAllowingStateLoss();
 	}
 
 	private void setBucketState(boolean animate) {
