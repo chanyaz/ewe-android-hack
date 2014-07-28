@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.expedia.bookings.test.utilsEspresso.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
@@ -205,6 +206,10 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	public static void clickDate(final LocalDate start, final LocalDate end) {
 		calendarDatePicker().perform(clickDates(start, end));
+	}
+
+	public static void clickDate(final LocalDate start) {
+		calendarDatePicker().perform(ViewActions.clickDate(start));
 	}
 
 	public static void selectHotelFromList() {

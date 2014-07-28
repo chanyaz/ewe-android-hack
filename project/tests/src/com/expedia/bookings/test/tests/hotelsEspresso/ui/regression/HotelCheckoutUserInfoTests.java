@@ -1,11 +1,6 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CardInfoScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonTravelerInformationScreen;
@@ -18,9 +13,8 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRate
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withCompoundDrawable;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -33,28 +27,13 @@ import static org.hamcrest.Matchers.not;
 /**
  * Created by dmadan on 5/12/14.
  */
-public class HotelCheckoutUserInfoTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public HotelCheckoutUserInfoTests() {
-		super(SearchActivity.class);
-	}
+public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 
 	private static final String TAG = HotelCheckoutUserInfoTests.class.getSimpleName();
-	Context mContext;
-	Resources mRes;
 	HotelsUserData mUser;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		mUser = new HotelsUserData(getInstrumentation());
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.id.preference_suppress_hotel_booking_checkbox, "true");
-		getActivity();
-	}
-
 	public void testCheckHotels() throws Exception {
+		mUser = new HotelsUserData(getInstrumentation());
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();

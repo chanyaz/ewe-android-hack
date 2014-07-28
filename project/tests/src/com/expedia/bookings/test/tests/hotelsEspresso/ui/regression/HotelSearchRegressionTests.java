@@ -1,24 +1,17 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -28,33 +21,15 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/13/14.
  */
-public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public HotelSearchRegressionTests() {
-		super(SearchActivity.class);
-	}
+public class HotelSearchRegressionTests extends PhoneTestCase {
 
 	private static final String TAG = HotelSearchRegressionTests.class.getName();
 
-	Context mContext;
-	Resources mRes;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
-
 	public void selectCalendardates(int start, int end) {
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, start);
-		LocalDate mEndDate = new LocalDate(year, month, end);
+		LocalDate startDate = LocalDate.now().plusDays(start);
+		LocalDate endDate = LocalDate.now().plusDays(end);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 	}
 
 	public void testSearchByHotelName() throws Exception {
@@ -145,7 +120,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 		HotelsSearchScreen.enterSearchText(pointOfInterest);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		HotelsSearchScreen.searchEditText().check(matches(withText("Statue of Liberty National Monument, New York, NY 10004")));
+		HotelsSearchScreen.searchEditText().check(matches(withText("Statue of Liberty National Monument, New York, NY")));
 		Espresso.pressBack();
 	}
 

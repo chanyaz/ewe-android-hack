@@ -1,25 +1,18 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -28,24 +21,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/15/14.
  */
-public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<PhoneSearchActivity> {
-	public HotelSearchFilterTests() {
-		super(PhoneSearchActivity.class);
-	}
+public class HotelSearchFilterTests extends PhoneTestCase {
 
 	private static final String TAG = HotelSearchFilterTests.class.getName();
-
-	Context mContext;
-	Resources mRes;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
 
 	// Filter by stars test
 
@@ -65,16 +43,14 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Pho
 	}
 
 	public void testStarFilters() throws Exception {
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
@@ -116,16 +92,14 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Pho
 	// Verify that if verify VIP Access is enabled, only VIP access hotels are shown
 	// Verify by checking for VIP image view in hotels' galleries
 	public void testVIPFilter() throws Exception {
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
@@ -171,16 +145,14 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Pho
 	}
 
 	public void testDistanceFilter() throws Exception {
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("114 Sansome St., San Francisco, CA 94104");
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
@@ -220,12 +192,12 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Pho
 		if (currentHotelCount != 0) {
 			for (int j = 1; j < currentHotelCount - 1; j++) {
 				DataInteraction searchResultRow = HotelsSearchScreen.hotelListItem().atPosition(j);
-				String hotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view).toLowerCase(mRes.getConfiguration().locale);
+				String hotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view).toLowerCase(getActivity().getResources().getConfiguration().locale);
 				ScreenActions.enterLog(TAG, "Hotel name in text view:" + hotelName);
 
 				// If hotel name contains "..." don't test because it could produce false negative
 				if (!hotelName.contains("...")) {
-					if (!hotelName.contains(filterText.toLowerCase(mRes.getConfiguration().locale))) {
+					if (!hotelName.contains(filterText.toLowerCase(getActivity().getResources().getConfiguration().locale))) {
 						throw new Exception("Test fails because hotel name " + hotelName
 							+ " does not contain the filter text: " + filterText);
 					}
@@ -235,16 +207,14 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Pho
 	}
 
 	public void testTextFilter() throws Exception {
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 

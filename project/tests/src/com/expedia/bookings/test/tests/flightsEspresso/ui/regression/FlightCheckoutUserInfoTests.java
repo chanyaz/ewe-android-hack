@@ -1,15 +1,8 @@
 package com.expedia.bookings.test.tests.flightsEspresso.ui.regression;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.BillingAddressScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CardInfoScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonCheckoutScreen;
@@ -23,9 +16,8 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchS
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withCompoundDrawable;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -40,39 +32,20 @@ import static org.hamcrest.core.IsNot.not;
 /**
  * Created by dmadan on 5/8/14.
  */
-public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase2<LaunchActivity> {
-	public FlightCheckoutUserInfoTests() {
-		super(LaunchActivity.class);
-	}
+public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
-	Context mContext;
-	Resources mRes;
 	HotelsUserData mUser;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		mUser = new HotelsUserData(getInstrumentation());
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.id.preference_suppress_flight_booking_checkbox, "true");
-		getActivity();
-	}
-
 	public void testCheckFlights() throws Exception {
+		mUser = new HotelsUserData(getInstrumentation());
 		ScreenActions.enterLog(TAG, "Launching flights application");
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("SFO");
 		FlightsSearchScreen.enterArrivalAirport("LAS");
 		FlightsSearchScreen.clickSelectDepartureButton();
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 1);
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
 		ScreenActions.enterLog(TAG, "Click search button");
 		FlightsSearchScreen.clickSearchButton();
 		ScreenActions.enterLog(TAG, "Flight search results loaded");

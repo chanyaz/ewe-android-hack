@@ -2,23 +2,18 @@ package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CVVEntryScreen;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
@@ -28,28 +23,14 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/14/14.
  */
-public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSearchActivity> {
-	public HotelDetailsTests() {
-		super(PhoneSearchActivity.class);
-	}
+public class HotelDetailsTests extends PhoneTestCase {
 
 	private static final String TAG = HotelDetailsTests.class.getName();
-
-	Context mContext;
-	Resources mRes;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
 
 	// Verify that the correct dialog appears after clicking the VIP Access image in
 	// on the image gallery
 	public void testVIPAccessDialog() throws Exception {
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
@@ -83,6 +64,7 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 
 	// Verify that some UI Elements are present on the hotel details screen
 	public void testDetailsUIElements() throws Exception {
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");

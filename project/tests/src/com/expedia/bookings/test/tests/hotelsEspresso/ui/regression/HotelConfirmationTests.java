@@ -5,14 +5,10 @@ import java.util.Random;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateUtils;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.BillingAddressScreen;
@@ -31,10 +27,8 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRate
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.mobiata.android.util.SettingUtils;
-
 
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -42,29 +36,13 @@ import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewA
 /**
  * Created by dmadan on 5/13/14.
  */
-public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public HotelConfirmationTests() {
-		super(SearchActivity.class);
-	}
+public class HotelConfirmationTests extends PhoneTestCase {
 
 	private static final String TAG = HotelConfirmationTests.class.getSimpleName();
-	Context mContext;
-	Resources mRes;
 	HotelsUserData mUser;
 	int mNumberOfGuests;
 	String mDateRangeString;
 	String mHotelName;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		mUser = new HotelsUserData(getInstrumentation());
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.id.preference_suppress_hotel_booking_checkbox, "true");
-		getActivity();
-	}
 
 	private void getToCheckout() throws Exception {
 		ArrayList<Pair<Integer, Integer>> guestPairList = generateChildAdultCountPairs();
@@ -101,6 +79,8 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 	}
 
 	public void testLoggedInBookingConfirmation() throws Exception {
+		mUser = new HotelsUserData(getInstrumentation());
+
 		ScreenActions.enterLog(TAG, "START: Testing confirmation screen after logged-in booking");
 		getToCheckout();
 		HotelsCheckoutScreen.clickCheckoutButton();
@@ -176,15 +156,15 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		assertEquals(mNumberOfGuests, cachedNumberOfGuests);
 		ScreenActions.enterLog(TAG, "no guest  " + mNumberOfGuests + "," + cachedNumberOfGuests);
 
-		String guestString = mRes.getQuantityString(R.plurals.number_of_guests, mNumberOfGuests, mNumberOfGuests);
+		String guestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests, mNumberOfGuests, mNumberOfGuests);
 		mDateRangeString = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
-		String expectedSummaryString = mRes.getString(R.string.stay_summary_TEMPLATE, guestString, mDateRangeString);
+		String expectedSummaryString = getActivity().getResources().getString(R.string.stay_summary_TEMPLATE, guestString, mDateRangeString);
 		HotelsConfirmationScreen.summaryTextView().check(matches(withText(expectedSummaryString)));
 
 		HotelsConfirmationScreen.hotelNameTextView().check(matches(withText(mHotelName)));
 
 		String expectedItineraryNumber = Db.getBookingResponse().getItineraryId();
-		String expectedItineraryConfirmationText = mRes.getString(R.string.itinerary_confirmation_TEMPLATE, expectedItineraryNumber);
+		String expectedItineraryConfirmationText = getActivity().getResources().getString(R.string.itinerary_confirmation_TEMPLATE, expectedItineraryNumber);
 		HotelsConfirmationScreen.itineraryTextView().check(matches(withText(expectedItineraryConfirmationText)));
 
 		String expectedEmailAddString = mUser.getLoginEmail();

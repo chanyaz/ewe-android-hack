@@ -6,19 +6,16 @@ import java.util.GregorianCalendar;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.mobiata.android.util.SettingUtils;
 
 import junit.framework.AssertionFailedError;
 
@@ -27,28 +24,16 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.pressB
 /**
  * Created by dmadan on 5/6/14.
  */
-public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase2<FlightSearchActivity> {
-	public FlightSearchResultsSortTest() {
-		super(FlightSearchActivity.class);
-	}
+public class FlightSearchResultsSortTest extends PhoneTestCase {
 
 	private static final String TAG = "FlightSearchResultsTest";
 
-	Context mContext;
 	DateTime mNow;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.id.preference_suppress_flight_booking_checkbox, "true");
-		getActivity();
-	}
 
 	// Helper methods
 
 	private void executeAFlightSearch() throws Exception {
+		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("SFO");
 		FlightsSearchScreen.enterArrivalAirport("LAX");
 		FlightsSearchScreen.clickSelectDepartureButton();

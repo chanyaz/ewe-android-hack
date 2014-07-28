@@ -1,11 +1,6 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
@@ -13,9 +8,8 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsReviewsSc
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -26,24 +20,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/12/14.
  */
-public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public ReviewsTests() {
-		super(SearchActivity.class);
-	}
+public class ReviewsTests extends PhoneTestCase {
 
 	private static final String TAG = ReviewsTests.class.getName();
-
-	Context mContext;
-	Resources mRes;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
 
 	//tests number of reviews on Hotel reviews screen is equal to number of reviews on Hotel details screen
 	public void testNumberOfReviews() throws Exception {

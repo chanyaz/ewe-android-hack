@@ -4,22 +4,17 @@ import java.util.Calendar;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
@@ -27,29 +22,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/21/14.
  */
-public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public HotelSearchActionBarTests() {
-		super(SearchActivity.class);
-	}
+public class HotelSearchActionBarTests extends PhoneTestCase {
 
 	private static final String TAG = HotelSearchActionBarTests.class.getSimpleName();
-
-	Context mContext;
-	Resources mRes;
-	Calendar mCal = Calendar.getInstance();
-	int mYear = mCal.get(mCal.YEAR);
-	int mMonth = mCal.get(mCal.MONTH) + 1;
-	int mDayOfMonth = mCal.get(Calendar.DATE);
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
-
 
 	// verify that the number shown in the text view
 	// inside of guest button shows the proper number
@@ -128,13 +103,13 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 	public void testCalendarDateTextView() {
 		final int dateOffset = 5;
 		LaunchScreen.launchHotels();
-
-		LocalDate mStartDate = new LocalDate(mYear, mMonth, 5);
-		LocalDate mEndDate = new LocalDate(mYear, mMonth, 1);
+		Calendar mCal = Calendar.getInstance();
+		int mDayOfMonth = mCal.get(Calendar.DATE);
+		LocalDate startDate = LocalDate.now().plusDays(dateOffset);
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.calendarNumberTextView().check(matches(withText(Integer.toString(mDayOfMonth))));
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
-		HotelsSearchScreen.calendarNumberTextView().check(matches(withText(Integer.toString(dateOffset))));
+		HotelsSearchScreen.clickDate(startDate);
+		HotelsSearchScreen.calendarNumberTextView().check(matches(withText(Integer.toString(LocalDate.now().plusDays(dateOffset).getDayOfMonth()))));
 		Espresso.pressBack();
 		Espresso.pressBack();
 
@@ -148,20 +123,21 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
-		String tonight = mRes.getString(R.string.Tonight);
+		String tonight = getActivity().getResources().getString(R.string.Tonight);
 		HotelsSearchScreen.dateRangeTextView().check(matches(withText(tonight)));
 		int daysOffset = 1;
 
-		LocalDate mStartDate = new LocalDate(mYear, mMonth, 5);
-		LocalDate mEndDate = new LocalDate(mYear, mMonth, 5 + daysOffset);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(35 + daysOffset);
+
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
-		String firstDay = JodaUtils.formatLocalDate(mContext, new LocalDate(mYear, mMonth + 1, 5), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
-		String secondDay = JodaUtils.formatLocalDate(mContext, new LocalDate(mYear, mMonth + 1, 5 + daysOffset), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
-		String range = this.mRes.getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
+		String firstDay = JodaUtils.formatLocalDate(getInstrumentation().getTargetContext(), LocalDate.now().plusDays(35), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
+		String secondDay = JodaUtils.formatLocalDate(getInstrumentation().getTargetContext(), LocalDate.now().plusDays(35 + daysOffset), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
+		String range = this.getActivity().getResources().getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
 		HotelsSearchScreen.dateRangeTextView().check(matches(withText(range)));
 
 		Espresso.pressBack();
@@ -174,7 +150,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		String expectedText = mRes.getString(R.string.prices_avg_per_night);
+		String expectedText = getActivity().getResources().getString(R.string.prices_avg_per_night);
 		HotelsSearchScreen.pricingDescriptionTextView().check(matches(withText(expectedText)));
 	}
 }

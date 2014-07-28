@@ -6,13 +6,10 @@ import java.util.Random;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelReceiptModel;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
@@ -22,11 +19,9 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPick
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -37,32 +32,17 @@ import static org.hamcrest.Matchers.anything;
 /**
  * Created by dmadan on 5/16/14.
  */
-public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<PhoneSearchActivity> {
-	public HotelCheckoutInfoTests() {
-		super(PhoneSearchActivity.class);
-	}
+public class HotelCheckoutInfoTests extends PhoneTestCase {
 
 	private static final String TAG = HotelCheckoutInfoTests.class.getSimpleName();
-	Context mContext;
-	Resources mRes;
-	HotelsUserData mUser;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		mUser = new HotelsUserData(getInstrumentation());
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.id.preference_suppress_hotel_booking_checkbox, "true");
-		getActivity();
-	}
 
 	public void testHotelHeaderInfo() throws Exception {
 		int numberOfRooms;
 		String hotelName, checkoutHotelName, checkoutRoomName;
 		float hotelRating, checkoutHotelRating;
 		ScreenActions.enterLog(TAG, "START: HOTEL HEADER INFO TESTS");
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
@@ -141,7 +121,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 	public void testHotelReceiptGuestNumber() throws Exception {
 		ScreenActions.enterLog(TAG, "START: HOTEL RECEIPT GUEST NUMBER TESTS");
 		ArrayList<Pair<Integer, Integer>> adultChildNumberPairs = generateChildAdultCountPairs();
-		mUser.setHotelCityToRandomUSCity();
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
@@ -179,7 +159,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 					}
 					String receiptGuestString = EspressoUtils.getText(R.id.guests_text);
 					int totalNumberOfGuests = currentPair.first + currentPair.second;
-					String expectedGuestString = mRes.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
+					String expectedGuestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
 					assertEquals(expectedGuestString, receiptGuestString);
 					Espresso.pressBack();
 				}
@@ -195,6 +175,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		int dateOffsets[] = {
 			3, 7, 10, 25,
 		};
+		LaunchScreen.launchHotels();
 		for (int i = 0; i < dateOffsets.length; i++) {
 			int numberOfNights = dateOffsets[i];
 			HotelsSearchScreen.clickSearchEditText();
@@ -231,7 +212,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 					catch (Exception e) {
 						ScreenActions.enterLog(TAG, "No popup");
 					}
-					String expectedNightsString = mRes.getQuantityString(R.plurals.number_of_nights, numberOfNights, numberOfNights);
+					String expectedNightsString = getActivity().getResources().getQuantityString(R.plurals.number_of_nights, numberOfNights, numberOfNights);
 					String shownNightsString = EspressoUtils.getText(R.id.nights_text);
 					assertEquals(expectedNightsString, shownNightsString);
 					ScreenActions.enterLog(TAG, "Nights string in hotel receipt matched the number of nights selected.");
@@ -252,6 +233,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 
 	public void testUIElementsPresent() throws Exception {
 		ScreenActions.enterLog(TAG, "START: UI ELEMENTS PRESENT TESTS");
+		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");

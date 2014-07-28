@@ -1,9 +1,5 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
-import org.hamcrest.Matcher;
-
-import android.view.View;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;

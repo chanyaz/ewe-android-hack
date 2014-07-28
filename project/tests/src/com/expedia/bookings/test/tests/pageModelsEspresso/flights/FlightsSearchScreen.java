@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.expedia.bookings.test.utilsEspresso.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withHint;
@@ -123,6 +124,10 @@ public class FlightsSearchScreen extends ScreenActions {
 		calendarDatePicker().perform(clickDates(start, end));
 	}
 
+	public static void clickDate(final LocalDate start) {
+		calendarDatePicker().perform(ViewActions.clickDate(start));
+	}
+
 	public static void incrementAdultsButton() {
 		onView(withId(R.id.adults_plus)).perform(click());
 	}
@@ -130,7 +135,7 @@ public class FlightsSearchScreen extends ScreenActions {
 	public static String getTravelerNumberText() {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(R.id.adult_count_text)).perform(getString(value));
-		String stringValue=value.get();
+		String stringValue = value.get();
 		return stringValue;
 	}
 

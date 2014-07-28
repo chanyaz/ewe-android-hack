@@ -1,21 +1,14 @@
 package com.expedia.bookings.test.tests.flightsEspresso.ui.regression;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.mobiata.android.util.SettingUtils;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -24,32 +17,8 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/2/14.
  */
-public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class FlightSearchTests extends PhoneTestCase {
 	private static final String TAG = "FlightSearchTests";
-	private Context mContext;
-	private Calendar mCal;
-	private int mYear;
-	private int mMonth;
-	private LocalDate mStartDate;
-	private LocalDate mEndDate;
-
-	public FlightSearchTests() {
-		super(SearchActivity.class);
-	}
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mCal = Calendar.getInstance();
-		mYear = mCal.get(mCal.YEAR);
-		mMonth = mCal.get(mCal.MONTH) + 1;
-		mStartDate = new LocalDate(mYear, mMonth, 5);
-		mEndDate = new LocalDate(mYear, mMonth, 1);
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.id.preference_suppress_flight_booking_checkbox, "true");
-		getActivity();
-	}
 
 	// Test to check duplicate airport search gives error message
 	public void testDuplicateAirportSearchGivesErrorMessage() throws Exception {
@@ -60,7 +29,8 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 		FlightsSearchScreen.clickArrivalAirportField();
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
 		EspressoUtils.assertTrue("Departure and arrival airports must be different.");
 		ScreenActions.enterLog(TAG, "Duplicate airport search error message displayed.");
@@ -95,7 +65,8 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 		FlightsSearchScreen.clickArrivalAirportField();
 		FlightsSearchScreen.enterArrivalAirport("LAX");
 		FlightsSearchScreen.clickSelectDepartureButton();
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickClearSelectedDatesButton();
 		FlightsSearchScreen.checkHint("Select a departure date");
 		pressBack();
@@ -122,7 +93,8 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 		catch (Exception e) {
 			ScreenActions.enterLog(TAG, "Wasn't able to click the search button without date, as expected.");
 		}
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.searchButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Successfully asserted that the search button is shown.");
 		pressBack();
@@ -136,7 +108,8 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("Frankfurt, Germany");
 		FlightsSearchScreen.clickSelectDepartureButton();
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
 		pressBack();
 		pressBack();
@@ -150,8 +123,9 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("Frankfurt, Germany");
 		FlightsSearchScreen.clickSelectDepartureButton();
-		mEndDate = new LocalDate(mYear, mMonth, 10);
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		FlightsSearchScreen.clickDate(startDate, endDate);
 		FlightsSearchScreen.clickSearchButton();
 		pressBack();
 		pressBack();

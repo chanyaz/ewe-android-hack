@@ -2,20 +2,14 @@ package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -23,24 +17,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/20/14.
  */
-public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public HotelSearchSortTests() {
-		super(SearchActivity.class);
-	}
+public class HotelSearchSortTests extends PhoneTestCase {
 
 	private static final String TAG = HotelSearchSortTests.class.getName();
-
-	Context mContext;
-	Resources mRes;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
 
 	private float getCleanFloatFromString(String str) {
 		str = str.replaceAll("[^\\d.]", "");
