@@ -205,6 +205,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		});
 
 		Sp.getBus().register(this);
+		mTripBucketFrag.bindToDb();
 		OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
 		mHockeyPuck.onResume();
 		OmnitureTracking.onResume(this);
