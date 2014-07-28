@@ -113,12 +113,16 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	@Subscribe
 	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
-		replaceAllPins(event.selectedCollection.locations);
+		if (event.selectedCollection != null) {
+			replaceAllPins(event.selectedCollection.locations);
+		}
 	}
 
 	@Subscribe
 	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
-		replaceAllPins(event.launchCollection.locations);
+		if (event.launchCollection != null) {
+			replaceAllPins(event.launchCollection.locations);
+		}
 	}
 
 	/*
