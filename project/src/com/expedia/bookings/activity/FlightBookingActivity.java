@@ -461,7 +461,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			SettingUtils.get(this, R.string.preference_force_passenger_category_error, false)) {
 			ServerError passengerCategoryError = new ServerError();
 			passengerCategoryError.setCode("INVALID_INPUT");
-			passengerCategoryError.addExtra("cause", "Unexpected ADULT_CHILD traveler. Expected ADULT.");
+			passengerCategoryError.addExtra("field", "mainPassenger.birthDate");
 			response.addErrorToFront(passengerCategoryError);
 		}
 

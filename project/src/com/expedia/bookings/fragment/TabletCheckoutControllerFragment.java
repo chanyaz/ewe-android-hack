@@ -1037,7 +1037,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			if (SettingUtils.get(getActivity(), R.string.preference_force_passenger_category_error, false)) {
 				ServerError passengerCategoryError = new ServerError();
 				passengerCategoryError.setCode("INVALID_INPUT");
-				passengerCategoryError.addExtra("cause", "Unexpected ADULT_CHILD traveler. Expected ADULT.");
+				passengerCategoryError.addExtra("field", "mainFlightPassenger.birthDate");
 				results.addErrorToFront(passengerCategoryError);
 			}
 		}

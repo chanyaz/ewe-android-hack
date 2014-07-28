@@ -227,14 +227,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			ServerError error = errors.get(a);
 			Log.v("SERVER ERROR " + a + ": " + error.toJson().toString());
 
-			// Forced to special case this error, since the API doesn't
-			// return a "field", only a "cause" for passenger category
-			// mismatches.
-			String cause = error.getExtra("cause");
-			if (!TextUtils.isEmpty(cause) && cause.matches("Unexpected (.*) traveler\\. Expected (.*)\\.")) {
-				hasPassengerCategoryError = true;
-			}
-
 			String field = error.getExtra("field");
 			if (TextUtils.isEmpty(field)) {
 				continue;
@@ -255,11 +247,14 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else if (field.equals("postalCode")) {
 				hasPostalCodeError = true;
 			}
-			else if (field.equals("mainFlightPassenger.birthDate")) {
-				hasFlightMinorError = true;
-			}
 			else if (field.equals("nameOnCard")) {
 				hasNameOnCardMismatchError = true;
+			}
+			else if (field.equals("mainFlightPassenger.birthDate")) {
+				hasPassengerCategoryError = true;
+			}
+			else if (field.matches("associatedFlightPassengers\\[(\\d+)\\]\\.birthDate")) {
+				hasPassengerCategoryError = true;
 			}
 		}
 
