@@ -149,7 +149,10 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (mSelectedStack != (CollectionStack) view) {
+				if (collectionToAdd.id.equals("last-search")) {
+					Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location, null, true));
+				}
+				else if (mSelectedStack != (CollectionStack) view) {
 					// Only fire event if the stack isn't already selected
 					Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
 					setCheckedCollection(c);
