@@ -265,7 +265,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, mLocalParams.getOrigin().getDisplayName().toString()));
 		}
 		else {
-			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, "…"));
+			mOrigBtn.setText(getString(R.string.Fly_from_dot_dot_dot));
 		}
 
 		//Calendar button stuff

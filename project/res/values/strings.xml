@@ -28,6 +28,8 @@
     <string name="end_date_TEMPLATE">End Date: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Fly from %1$s</string>
+    <!-- Fly from... -->
+    <string name="Fly_from_dot_dot_dot">Fly from…</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">Choose flight dates</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
