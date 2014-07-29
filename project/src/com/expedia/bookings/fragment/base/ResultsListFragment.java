@@ -36,7 +36,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
 	private View mRootC;
-	private CenteredCaptionedIcon mEmptyView;
 	private FruitList mListView;
 	private String mListViewContentDescription;
 	private FrameLayoutTouchController mStickyHeader;
@@ -82,10 +81,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mStickyHeaderTv = Ui.findView(mRootC, R.id.sticky_number_of_items);
 		mTopRightTextButton = Ui.findView(mRootC, R.id.top_right_text_button);
 
-		mEmptyView = Ui.findView(mRootC, android.R.id.empty);
-		mEmptyView.setCaption(getEmptyListText());
-		mEmptyView.setSVG(getEmptyListImageResource());
-
 		mStickyHeaderTv.setText(mStickyHeaderText);
 		mTopRightTextButton.setText(mTopRightTextButtonText);
 
@@ -123,10 +118,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 			int topMargin = ((ViewGroup.MarginLayoutParams)mListView.getLayoutParams()).topMargin;
 			int dividerHeight = getResources().getDimensionPixelSize(R.dimen.results_list_spacer_height);
 			mListView.setTopSpacePixels(mTopSpacePixels - topMargin - dividerHeight);
-
-			ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mEmptyView.getLayoutParams();
-			params.topMargin = mTopSpacePixels - getActivity().getActionBar().getHeight();
-			mEmptyView.setLayoutParams(params);
 		}
 	}
 

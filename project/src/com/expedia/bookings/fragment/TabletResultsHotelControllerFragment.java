@@ -280,6 +280,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
 			return ResultsHotelsState.LOADING;
 		}
+		else if (mHotelsStateManager != null && mHotelsStateManager.getState() == ResultsHotelsState.ZERO_RESULT) {
+			return ResultsHotelsState.ZERO_RESULT;
+		}
 		else {
 			return ResultsHotelsState.HOTEL_LIST_DOWN;
 		}
@@ -456,7 +459,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelGalleryAvailable = true;
 		}
 
-		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY) {
+		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY || hotelsState == ResultsHotelsState.ZERO_RESULT) {
 			// We need to have an instance of HotelSearchDownloadFragment so we can ignore download results on new search params.
 			hotelSearchDownloadAvailable = true;
 			loadingGuiAvailable = false;
@@ -502,6 +505,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			// Button and locking
 			switch (state) {
 			case LOADING:
+			case ZERO_RESULT:
 			case MAX_HOTEL_STAY:
 			case SEARCH_ERROR:
 			case HOTEL_LIST_DOWN:
@@ -1361,6 +1365,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				break;
 			}
 			case SEARCH_ERROR:
+			case ZERO_RESULT:
 			case MAX_HOTEL_STAY:
 				if (mSearchErrorFrag.isAdded()) {
 					mSearchErrorFrag.setState(state);
@@ -1532,15 +1537,37 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
 			Db.saveHotelSearchTimestamp(context);
 			Db.kickOffBackgroundHotelSearchSave(context);
-			if (response != null && !response.hasErrors()) {
+			boolean isZeroResults = (response != null && !response.hasErrors() && ((HotelSearchResponse) response).getPropertiesCount() == 0) ? true : false;
+			if (!isZeroResults) {
+				// We need the list fragment to start drawing so we can animate it in
+				FragmentManager manager = getChildFragmentManager();
+				FragmentTransaction transaction = manager.beginTransaction();
+				mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+					true, FTAG_HOTEL_LIST, manager,
+					transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
+				transaction.commit();
+				manager.executePendingTransactions();
+
 				mHotelListC.setVisibility(View.VISIBLE);
 
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
-			else if (!mHotelSearchDownloadFrag.isDownloadingSearch()) {
+			else if (isZeroResults) {
+				if (mSearchErrorFrag == null) {
+					FragmentManager manager = getChildFragmentManager();
+					FragmentTransaction transaction = manager.beginTransaction();
+					mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
+						FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this, R.id.column_one_hotel_search_error, false);
+					transaction.commit();
+					manager.executePendingTransactions();
+				}
+				setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
+			}
+			else if (!mHotelSearchDownloadFrag.isDownloadingSearchByHotel()) {
 				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
+
 		}
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
 			HotelOffersResponse offersResponse = (HotelOffersResponse) response;

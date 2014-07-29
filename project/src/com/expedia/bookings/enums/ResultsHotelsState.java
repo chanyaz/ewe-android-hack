@@ -10,6 +10,7 @@ public enum ResultsHotelsState {
 	REVIEWS,
 	GALLERY,
 	ADDING_HOTEL_TO_TRIP,
+	ZERO_RESULT,
 	MAX_HOTEL_STAY;
 
 	public ResultsState getResultsState() {
@@ -18,6 +19,7 @@ public enum ResultsHotelsState {
 		case SEARCH_ERROR:
 		case HOTEL_LIST_DOWN:
 		case MAX_HOTEL_STAY:
+		case ZERO_RESULT:
 			return ResultsState.OVERVIEW;
 		case HOTEL_LIST_UP:
 		case HOTEL_LIST_AND_FILTERS:
@@ -35,6 +37,7 @@ public enum ResultsHotelsState {
 	 */
 	public boolean isShowMessageState() {
 		switch (this) {
+		case ZERO_RESULT:
 		case SEARCH_ERROR:
 		case MAX_HOTEL_STAY:
 			return true;

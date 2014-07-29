@@ -9,7 +9,8 @@ public enum ResultsFlightsState {
 	NO_FLIGHTS_DROPDOWN_POS,
 	NO_FLIGHTS_POS,
 	MISSING_ORIGIN,
-	MISSING_STARTDATE;
+	MISSING_STARTDATE,
+	ZERO_RESULT;
 
 	public ResultsState getResultsState() {
 		switch (this) {
@@ -19,6 +20,7 @@ public enum ResultsFlightsState {
 		case NO_FLIGHTS_DROPDOWN_POS:
 		case NO_FLIGHTS_POS:
 		case FLIGHT_LIST_DOWN:
+		case ZERO_RESULT:
 		case SEARCH_ERROR:
 			return ResultsState.OVERVIEW;
 		case CHOOSING_FLIGHT:
@@ -37,6 +39,7 @@ public enum ResultsFlightsState {
 		case MISSING_STARTDATE:
 		case NO_FLIGHTS_DROPDOWN_POS:
 		case NO_FLIGHTS_POS:
+		case ZERO_RESULT:
 		case SEARCH_ERROR:
 			return true;
 		default:

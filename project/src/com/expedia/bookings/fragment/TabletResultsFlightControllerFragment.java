@@ -117,7 +117,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		// If we are in a state such that we think we should have data, lets try to load it.
 		ResultsFlightsState state = mFlightsStateManager.getState();
-		if (state != ResultsFlightsState.LOADING && state != ResultsFlightsState.SEARCH_ERROR) {
+		if (state != ResultsFlightsState.LOADING && !state.isShowMessageState()) {
 			if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
 				if (!Db.loadCachedFlightData(getActivity())) {
 					mFlightsStateManager.setDefaultState(ResultsFlightsState.LOADING);
@@ -237,15 +237,18 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
-		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
-			.getFlightSearch().getSearchResponse().hasErrors()) {
-			return ResultsFlightsState.SEARCH_ERROR;
-		}
 		else if (Sp.getParams().getOriginLocation(true) == null) {
 			return ResultsFlightsState.MISSING_ORIGIN;
 		}
 		else if (Sp.getParams().getStartDate() == null) {
 			return ResultsFlightsState.MISSING_STARTDATE;
+		}
+		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
+			.getFlightSearch().getSearchResponse().hasErrors()) {
+			return ResultsFlightsState.SEARCH_ERROR;
+		}
+		else if (mFlightsStateManager != null && mFlightsStateManager.getState() == ResultsFlightsState.ZERO_RESULT) {
+			return ResultsFlightsState.ZERO_RESULT;
 		}
 		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
 			return ResultsFlightsState.FLIGHT_LIST_DOWN;
@@ -253,6 +256,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else {
 			return ResultsFlightsState.LOADING;
 		}
+
 	}
 
 	/*
@@ -267,18 +271,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		if (mFlightSearchDownloadFrag != null) {
+			// We dont care if our last search finished, we are waiting for our cooldown period before we want to
+			// commit to doing a full search.
+			mFlightSearchDownloadFrag.ignoreNextDownload();
+		}
 		if (mFlightsStateManager.getState() != ResultsFlightsState.LOADING && readyToSearch()) {
 			setFlightsState(ResultsFlightsState.LOADING, false);
+
 		}
 		else {
-			if (mSearchErrorFrag != null && mSearchErrorFrag.isAdded()) {
-				mSearchErrorFrag.setState(getBaseState());
+			if (mSearchErrorFrag == null && !readyToSearch()) {
+				FragmentManager manager = getChildFragmentManager();
+				FragmentTransaction transaction = manager.beginTransaction();
+				mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this, R.id.search_error_container, false);
+				transaction.commit();
+				manager.executePendingTransactions();
 			}
-			if (mFlightSearchDownloadFrag != null) {
-				// We dont care if our last search finished, we are waiting for our cooldown period before we want to
-				// commit to doing a full search.
-				mFlightSearchDownloadFrag.ignoreNextDownload();
-			}
+			mFlightsStateManager.setState(getBaseState(), true);
 			if (mSearchParamUpdateRunner != null) {
 				mRootC.removeCallbacks(mSearchParamUpdateRunner);
 			}
@@ -426,6 +436,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		case MISSING_STARTDATE:
 		case NO_FLIGHTS_DROPDOWN_POS:
 		case NO_FLIGHTS_POS:
+		case ZERO_RESULT:
 		case SEARCH_ERROR: {
 			visibleViews.add(mSearchErrorC);
 			break;
@@ -498,8 +509,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightAddToTripAvailable = false;
 		}
 
-		if (flightsState == ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS || flightsState == ResultsFlightsState.MISSING_ORIGIN
-			|| flightsState == ResultsFlightsState.MISSING_STARTDATE || flightsState == ResultsFlightsState.NO_FLIGHTS_POS) {
+		if (flightsState.isShowMessageState()) {
 			flightSearchDownloadAvailable = false;
 			loadingAvailable = false;
 			searchErrorAvailable = true;
@@ -818,7 +828,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			setVisibilityState(state);
 
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN
-				|| state == ResultsFlightsState.SEARCH_ERROR) {
+				|| state.isShowMessageState()) {
 				mFlightMapC.setAlpha(0f);
 			}
 			else {
@@ -840,7 +850,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (mFlightLegsFrag != null && state != ResultsFlightsState.LOADING
-				&& state != ResultsFlightsState.SEARCH_ERROR) {
+				&& !state.isShowMessageState()) {
 				mFlightLegsFrag.setAddToTripRect(getAddTripRect());
 			}
 
@@ -920,10 +930,23 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
 			}
 
-			if (response != null && !response.hasErrors()) {
+			boolean isZeroResults = (response != null && !response.hasErrors() && ((FlightSearchResponse) response).getTripCount() == 0) ? true : false;
+			if (!isZeroResults) {
 				mFlightLegsC.setVisibility(View.VISIBLE);
 
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			}
+			else if (isZeroResults) {
+				if (mSearchErrorFrag == null) {
+					FragmentManager manager = getChildFragmentManager();
+					FragmentTransaction transaction = manager.beginTransaction();
+					mSearchErrorFrag = FragmentAvailabilityUtils
+						.setFragmentAvailability(true, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this,
+							R.id.search_error_container, false);
+					transaction.commit();
+					manager.executePendingTransactions();
+				}
+				setFlightsState(ResultsFlightsState.ZERO_RESULT, false);
 			}
 			else if (!mFlightSearchDownloadFrag.isDownloadingFlightSearch()) {
 				// If we aren't downloading, and we dont have a valid response, we move to the error state

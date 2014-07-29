@@ -105,6 +105,9 @@ public class ResultsListSearchErrorFragment extends Fragment {
 		case MISSING_ORIGIN:
 			setErrorText(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
 			break;
+		case ZERO_RESULT:
+			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));
+			break;
 		case SEARCH_ERROR:
 			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));
 			break;
@@ -118,6 +121,11 @@ public class ResultsListSearchErrorFragment extends Fragment {
 		switch (state) {
 		case MAX_HOTEL_STAY:
 			setErrorText(getString(R.string.hotel_search_range_error_TEMPLATE, getResources().getInteger(R.integer.calendar_max_days_hotel_stay)));
+			break;
+		case SEARCH_ERROR:
+		case ZERO_RESULT:
+			setErrorText(getString(R.string.tablet_search_results_hotels_unavailable));
+			break;
 		}
 	}
 }
