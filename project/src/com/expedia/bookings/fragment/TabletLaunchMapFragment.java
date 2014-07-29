@@ -154,7 +154,9 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
 			if (mClickedLocation != null && isReversed) {
-				mLocations.get(mClickedLocation).setAlpha(1f);
+				if (mLocations.get(mClickedLocation) != null) {
+					mLocations.get(mClickedLocation).setAlpha(1f);
+				}
 			}
 		}
 
