@@ -21,12 +21,12 @@
     <!-- CONTROLLER CONTAINERS -->
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/full_width_flights_controller_container"
+        android:id="@+id/full_width_hotels_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/full_width_hotels_controller_container"
+        android:id="@+id/full_width_flights_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -38,6 +38,7 @@
         android:visibility="gone" />
 
     <!-- TRIP BUCKET -->
+
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_container"
         android:background="@drawable/bg_tablet_portrait_trip_bucket_shadow"
