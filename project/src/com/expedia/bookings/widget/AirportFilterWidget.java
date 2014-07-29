@@ -141,8 +141,14 @@ public class AirportFilterWidget extends TextView {
 				Airport airport = FlightStatsDbUtils.getAirport(code);
 
 				SpannableBuilder sb = new SpannableBuilder();
-				sb.append(airport.mAirportCode + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
-				sb.append(airport.mName, FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
+				if (airport.mName == null) {
+					Log.e("Airport name was null for airport code=" + airport.mAirportCode);
+					sb.append(airport.mAirportCode, FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+				}
+				else {
+					sb.append(airport.mAirportCode + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+					sb.append(airport.mName, FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
+				}
 
 				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
 
