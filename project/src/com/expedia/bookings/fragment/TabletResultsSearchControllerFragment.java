@@ -219,6 +219,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
 		bindSearchBtns();
+
+		Db.loadTripBucket(getActivity());
+		if (!Db.getTripBucket().isEmpty()) {
+			mSearchStateManager.setState(ResultsSearchState.DEFAULT, false);
+	}
 	}
 
 	@Override
