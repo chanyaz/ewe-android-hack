@@ -191,6 +191,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	public void onResume() {
 		super.onResume();
 
+		// We need to load it in onResume incase we mutated it in Checkout
+		Db.loadTripBucket(this);
+
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
