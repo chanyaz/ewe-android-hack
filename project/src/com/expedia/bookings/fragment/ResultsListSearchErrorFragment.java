@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 
 /**
@@ -124,7 +126,12 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			break;
 		case SEARCH_ERROR:
 		case ZERO_RESULT:
-			setErrorText(getString(R.string.tablet_search_results_hotels_unavailable));
+			if (CalendarUtils.isSearchDateTonight(Db.getHotelSearch().getSearchParams())) {
+				setErrorText(getString(R.string.tablet_search_results_hotels_unavailable_tonight));
+			}
+			else {
+				setErrorText(getString(R.string.tablet_search_results_hotels_unavailable));
+			}
 			break;
 		}
 	}

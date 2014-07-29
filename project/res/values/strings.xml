@@ -154,6 +154,8 @@
     <string name="waypoint_suggestion_fail">No waypoint information found! Please alter your query and try again.</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Sorry, no hotels are \n currently available.</string>
+    <!-- Tablet search results, no hotels available TONIGHT -->
+    <string name="tablet_search_results_hotels_unavailable_tonight">Sorry, no hotels are \n available for tonight.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Sorry, no flights are \n currently available.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
