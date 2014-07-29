@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.content.Context;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
@@ -29,8 +30,11 @@ public class LaunchDb {
 	private List<LaunchCollection> mCollections;
 	private LaunchCollection mSelectedCollection;
 	private LaunchLocation mSelectedPin;
+	private static String sYourSearchTitle;
+	private static final String YOUR_SEARCH_TILE_ID = "last-search";
 
 	public static void getCollections(Context context) {
+		sYourSearchTitle = context.getString(R.string.your_search);
 		if (sDb.mCollections == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			// If we are already downloading our singleton is already registered
@@ -100,8 +104,8 @@ public class LaunchDb {
 
 		if (params != null && params.hasEnoughInfoForHotelsSearch()) {
 			LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
-			lastSearch.title = "Your Search";
-			lastSearch.id = "last-search";
+			lastSearch.title = sYourSearchTitle;
+			lastSearch.id = YOUR_SEARCH_TILE_ID;
 			lastSearch.imageCode = Sp.getParams().getDestination().getAirportCode();
 
 			String locSubtitle = null;
@@ -119,12 +123,6 @@ public class LaunchDb {
 
 			LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
 
-			/* We don't hold this info in the launch pin, but we might someday?
-			loc.title = displayName;
-			loc.subtitle = locSubtitle;
-			loc.description = locSubtitle;
-			loc.id = "last-search";
-			*/
 			loc.imageCode = Sp.getParams().getDestination().getAirportCode();
 
 			loc.location = Sp.getParams().getDestination();

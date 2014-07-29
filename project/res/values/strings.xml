@@ -402,6 +402,8 @@
     <string name="google_play_services_unrecoverable_error">This app requires Google Play Services. Please install the latest version of Google Play Services.</string>
     <!-- Label for tablet launch pin button that starts new search -->
     <string name="explore_now">Explore Now</string>
+    <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
+    <string name="your_search">Your Search</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
