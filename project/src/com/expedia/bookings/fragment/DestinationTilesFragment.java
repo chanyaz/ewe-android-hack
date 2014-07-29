@@ -50,6 +50,11 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 	public void onPause() {
 		super.onPause();
 		Events.unregister(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
 		cleanupCollections();
 	}
 
