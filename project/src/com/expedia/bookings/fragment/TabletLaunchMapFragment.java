@@ -45,6 +45,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 public class TabletLaunchMapFragment extends SupportMapFragment {
@@ -309,30 +310,36 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			.position(new LatLng(location.getLatitude(), location.getLongitude()))
 			.icon(BitmapDescriptorFactory.fromBitmap(pinBitmap))
 			.anchor(0.5f, getResources().getDimension(R.dimen.launch_pin_size) / 2 / pin.getMeasuredHeight())
-			.title(launchLocation.id)
-			.alpha(0f);
+			.title(launchLocation.id);
+
+		if (AndroidUtils.getSdkVersion() > 15) {
+			// Setup for the animation
+			options.alpha(0);
+		}
 		Marker marker = getMap().addMarker(options);
 
-		// Fade this marker in
-		ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
+		if (AndroidUtils.getSdkVersion() > 15) {
+			// Fade this marker in
+			ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
 
-		// Remove the existing marker
-		if (mLocations.get(launchLocation) != null) {
-			final Marker oldMarker = mLocations.get(launchLocation);
-			anim.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					oldMarker.remove();
-					oldMarker.setVisible(false);
-				}
-			});
+			// Remove the existing marker
+			if (mLocations.get(launchLocation) != null) {
+				final Marker oldMarker = mLocations.get(launchLocation);
+				anim.addListener(new AnimatorListenerAdapter() {
+					@Override
+					public void onAnimationEnd(Animator animation) {
+						oldMarker.remove();
+						oldMarker.setVisible(false);
+					}
+				});
+			}
+
+			Rect pinRect = getPinRect(marker);
+			anim.setDuration(500);
+			anim.setStartDelay(Math.max(0, 400 + pinRect.left / 5));
+
+			anim.start();
 		}
-
-		Rect pinRect = getPinRect(marker);
-		anim.setDuration(500);
-		anim.setStartDelay(Math.max(0, 400 + pinRect.left / 5));
-
-		anim.start();
 
 		mLocations.put(launchLocation, marker);
 		return marker;
