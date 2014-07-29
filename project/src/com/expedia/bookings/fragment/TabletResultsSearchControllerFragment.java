@@ -461,7 +461,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onYearMonthDisplayedChanged(YearMonth yearMonth) {
-		mGdeFragment.scrollToMonth(yearMonth);
+		// Perhaps GDE is not supported in this POS
+		if (mGdeFragment != null) {
+			mGdeFragment.scrollToMonth(yearMonth);
+		}
 	}
 
 	/*

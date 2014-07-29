@@ -542,9 +542,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
 			}
 			if (enteringHotels) {
-				mFlightsC
-					.setTranslationY(
-						mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
+				mFlightsC.setTranslationY(
+					mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
 			}
 			else if (mFlightsC.getTranslationY() != 0) {
 				mFlightsC.setTranslationY(0f);
