@@ -72,7 +72,12 @@ public class BookingUnavailableFragment extends LobableFragment {
 			switch (v.getId()) {
 			case R.id.remove_sold_out_button:
 				if (mListener != null) {
-					mListener.onTripBucketItemRemoved(lob);
+					if (Db.getTripBucket().isEmpty()) {
+						mListener.onSelectNewTripItem(lob);
+					}
+					else {
+						mListener.onTripBucketItemRemoved(lob);
+					}
 				}
 				break;
 			case R.id.select_new_item_button:
