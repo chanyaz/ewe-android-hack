@@ -277,19 +277,22 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	private void addPin(final LaunchLocation launchLocation) {
-		inflatePinAndAddMarker(launchLocation, null);
+		Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(launchLocation.getImageUrl(), false /*blurred*/ , true /*checkdisk*/);
+		inflatePinAndAddMarker(launchLocation, bitmap);
 
-		UrlBitmapDrawable bitmap = new UrlBitmapDrawable(getResources(), launchLocation.getImageUrl());
-		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				inflatePinAndAddMarker(launchLocation, bitmap);
-			}
+		if (bitmap == null) {
+			L2ImageCache.sGeneralPurpose.loadImage(launchLocation.getImageUrl(), new L2ImageCache.OnBitmapLoaded() {
+				@Override
+				public void onBitmapLoaded(String url, Bitmap bitmap) {
+					inflatePinAndAddMarker(launchLocation, bitmap);
+				}
 
-			@Override
-			public void onBitmapLoadFailed(String url) {
-			}
-		});
+				@Override
+				public void onBitmapLoadFailed(String url) {
+					// ignore
+				}
+			});
+		}
 	}
 
 	private Marker inflatePinAndAddMarker(LaunchLocation launchLocation, Bitmap bitmap) {
