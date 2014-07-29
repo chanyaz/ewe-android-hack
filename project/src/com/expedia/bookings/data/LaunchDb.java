@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.text.Html;
 
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
@@ -99,37 +98,41 @@ public class LaunchDb {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
 		}
 
-		String displayName = Html.fromHtml(params.getDestination().getDisplayName()).toString();
-		LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
-		lastSearch.title = "Your Search";
+		if (params != null && params.hasEnoughInfoForHotelsSearch()) {
+			LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
+			lastSearch.title = "Your Search";
+			lastSearch.id = "last-search";
+			lastSearch.imageCode = Sp.getParams().getDestination().getAirportCode();
 
-		lastSearch.id = "last-search";
-		lastSearch.imageCode = Sp.getParams().getDestination().getAirportCode();
-
-		String locSubtitle = null;
-		if (Db.getTripBucket().isEmpty()) {
-			locSubtitle = displayName;
-		}
-		else {
-			if (Db.getTripBucket().size() == 1) {
-				locSubtitle = "1 item";
+			String locSubtitle = null;
+			if (Db.getTripBucket().isEmpty()) {
+				locSubtitle = "";
 			}
-			else if (Db.getTripBucket().size() == 2) {
-				locSubtitle = "2 items";
+			else {
+				if (Db.getTripBucket().size() == 1) {
+					locSubtitle = "1 item";
+				}
+				else if (Db.getTripBucket().size() == 2) {
+					locSubtitle = "2 items";
+				}
 			}
+
+			LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
+
+			/* We don't hold this info in the launch pin, but we might someday?
+			loc.title = displayName;
+			loc.subtitle = locSubtitle;
+			loc.description = locSubtitle;
+			loc.id = "last-search";
+			*/
+			loc.imageCode = Sp.getParams().getDestination().getAirportCode();
+
+			loc.location = Sp.getParams().getDestination();
+			lastSearch.locations = new ArrayList<LaunchLocation>();
+			lastSearch.locations.add(loc);
+			lastSearch.title += '\n' + locSubtitle;
+			sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, lastSearch);
 		}
-
-		LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
-		loc.title = displayName;
-		loc.subtitle = locSubtitle;
-		loc.description = locSubtitle;
-		loc.id = "last-search";
-		loc.imageCode = Sp.getParams().getDestination().getAirportCode();
-
-		loc.location = Sp.getParams().getDestination();
-		lastSearch.locations = new ArrayList<LaunchLocation>();
-		lastSearch.locations.add(loc);
-		sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, lastSearch);
 	}
 
 	private static OnDownloadComplete<List<LaunchCollection>> mCallback = new OnDownloadComplete<List<LaunchCollection>>() {
