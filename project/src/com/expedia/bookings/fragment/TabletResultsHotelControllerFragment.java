@@ -1547,7 +1547,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					true, FTAG_HOTEL_LIST, manager,
 					transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
 				transaction.commit();
-				manager.executePendingTransactions();
 
 				mHotelListC.setVisibility(View.VISIBLE);
 
@@ -1560,7 +1559,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
 						FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this, R.id.column_one_hotel_search_error, false);
 					transaction.commit();
-					manager.executePendingTransactions();
 				}
 				setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
 			}
