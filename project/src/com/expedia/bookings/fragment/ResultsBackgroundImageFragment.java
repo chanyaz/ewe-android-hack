@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -203,11 +204,12 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	// with every second tile flipped vertically.
 	private void addNewViews(Bitmap bitmap, float alpha) {
 		Point screen = Ui.getScreenSize(getActivity());
-		float scale = (float) screen.x / bitmap.getWidth();
-		int scaledWidth = screen.x;
+		int scaledWidth = calculateTileWidth(screen.x);
+		float scale = (float) scaledWidth / bitmap.getWidth();
 		int scaledHeight = (int) (scale * bitmap.getHeight());
 		boolean flip = false;
-		for (int y = 0; y < screen.y; y += scaledHeight) {
+		int y = calculateTopOffset(scaledWidth);
+		while (y < screen.y) {
 			ImageView image = new ImageView(getActivity());
 			image.setLayoutParams(new ViewGroup.MarginLayoutParams(scaledWidth, scaledHeight));
 			image.setTranslationY(y);
@@ -216,6 +218,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			image.setAlpha(alpha);
 			mRootC.addView(image);
 			flip = !flip;
+			y += scaledHeight;
 		}
 	}
 
@@ -243,4 +246,26 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		set.start();
 	}
 
+	// Possibly upscales the tile so that the top offset isn't below the top of the screen.
+	private int calculateTileWidth(int minimum) {
+		float percentOfImage = 0.29f;
+		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
+
+		int imageWidth = (int)( (percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y) / percentOfImage);
+
+		return Math.max(minimum, imageWidth);
+	}
+
+	// This calculates a top image offset such that the row %{percentOfImage} * {height of image}
+	// down the destination image appears located at %{percentOfScreen} down from the top of this fragment.
+	private int calculateTopOffset(int imageWidth) {
+		float percentOfImage = 0.29f;
+		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
+
+		float imageOffset = imageWidth * percentOfImage;
+
+		float screenOffset = percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y;
+
+		return Math.min(0, (int)(screenOffset - imageOffset));
+	}
 }
