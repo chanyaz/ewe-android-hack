@@ -23,7 +23,9 @@ public class Images {
 	}
 
 	public static String getCarRental(Car car) {
-		final String code = car.getCategory().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String category = car.getCategory().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String type = car.getType().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String code = category + "_" + type;
 		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg";
 	}
 }
