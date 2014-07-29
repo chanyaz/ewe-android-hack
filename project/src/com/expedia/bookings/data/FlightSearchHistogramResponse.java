@@ -60,10 +60,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		Collections.sort(mFlightHistograms, sPriceComparator);
 
 		// Compute min and max
-		mMinIndex = 0;
-		mMaxIndex = mFlightHistograms.size() - 1;
-		mMin = mFlightHistograms.get(mMinIndex).getMinPrice();
-		mMax = mFlightHistograms.get(mMaxIndex).getMinPrice();
+		computeMinAndMax();
 
 		if (mFlightHistograms.size() < 3) {
 			return;
@@ -88,6 +85,9 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 			}
 		}
 
+		// Re-compute the min and max since some may have been removed
+		computeMinAndMax();
+
 		// Log some things
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n");
@@ -107,6 +107,13 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		Collections.sort(mFlightHistograms, sDateComparator);
 
 		Log.d("Quartile computation completed in " + (System.currentTimeMillis() - start) + " ms");
+	}
+
+	private void computeMinAndMax() {
+		mMinIndex = 0;
+		mMaxIndex = mFlightHistograms.size() - 1;
+		mMin = mFlightHistograms.get(mMinIndex).getMinPrice();
+		mMax = mFlightHistograms.get(mMaxIndex).getMinPrice();
 	}
 
 	// much inspiration: http://en.wikipedia.org/wiki/Quartile
