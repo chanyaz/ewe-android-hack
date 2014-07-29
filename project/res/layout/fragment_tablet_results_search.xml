@@ -32,14 +32,17 @@
 
                 <TextView
                     android:id="@+id/origin_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:textSize="16dp"
                     android:textColor="#FFFFFF"
                     android:gravity="center_vertical"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:drawablePadding="8dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:drawableLeft="@drawable/ic_suggest_current_location"
                     android:background="?android:attr/selectableItemBackground"/>
 
