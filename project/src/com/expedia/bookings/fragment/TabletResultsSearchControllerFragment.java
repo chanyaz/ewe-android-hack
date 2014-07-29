@@ -262,7 +262,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		// Origin Button - Note that this comes straight from Params
 		if (mLocalParams.hasOrigin()) {
-			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, mLocalParams.getOrigin().getDisplayName().toString()));
+			String originText = mLocalParams.getOrigin().getLocation().getCity() != null ?
+				mLocalParams.getOrigin().getLocation().getCity() : Html.fromHtml(mLocalParams.getOrigin().getDisplayName()).toString();
+			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, originText));
 		}
 		else {
 			mOrigBtn.setText(getString(R.string.Fly_from_dot_dot_dot));
