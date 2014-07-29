@@ -466,7 +466,10 @@ public class OmnitureTracking {
 
 		// Determine supplier type
 		String supplierType = property.getSupplierType();
-		s.setProducts("Hotel;" + supplierType + " Hotel:" + property.getPropertyId());
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		s.setProducts("Hotel;" + supplierType.toLowerCase() + " Hotel:" + property.getPropertyId());
 	}
 
 	private static void addProducts(ADMS_Measurement s, Property property, int numNights, double totalCost) {
