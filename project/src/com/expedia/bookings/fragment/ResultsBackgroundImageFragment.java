@@ -38,8 +38,6 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ResultsBackgroundImageFragment extends MeasurableFragment implements L2ImageCache.OnBitmapLoaded {
 
-	private static final int HALF_FADE_IN_TIME = 500;
-
 	private static final String ARG_DEST_CODE = "ARG_DEST_CODE";
 	private static final String ARG_BLUR = "ARG_BLUR";
 
@@ -248,24 +246,30 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	// Possibly upscales the tile so that the top offset isn't below the top of the screen.
 	private int calculateTileWidth(int minimum) {
-		float percentOfImage = 0.29f;
-		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
+		return minimum;
 
-		int imageWidth = (int)( (percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y) / percentOfImage);
-
-		return Math.max(minimum, imageWidth);
+// These changes proposed by Chris & Doug
+//		float percentOfImage = 0.29f;
+//		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
+//
+//		int imageWidth = (int)( (percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y) / percentOfImage);
+//
+//		return Math.max(minimum, imageWidth);
 	}
 
 	// This calculates a top image offset such that the row %{percentOfImage} * {height of image}
 	// down the destination image appears located at %{percentOfScreen} down from the top of this fragment.
 	private int calculateTopOffset(int imageWidth) {
-		float percentOfImage = 0.29f;
-		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
+		return 0;
 
-		float imageOffset = imageWidth * percentOfImage;
-
-		float screenOffset = percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y;
-
-		return Math.min(0, (int)(screenOffset - imageOffset));
+// These changes proposed by Chris & Doug
+//		float percentOfImage = 0.29f;
+//		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
+//
+//		float imageOffset = imageWidth * percentOfImage;
+//
+//		float screenOffset = percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y;
+//
+//		return Math.min(0, (int)(screenOffset - imageOffset));
 	}
 }
