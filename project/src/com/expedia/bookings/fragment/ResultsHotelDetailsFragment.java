@@ -59,6 +59,7 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.TimingLogger;
 
 /**
@@ -606,7 +607,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final HashMap<View, int[]> oldCoordinates = new HashMap<>();
 		for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 			View v = mRoomsRatesContainer.getChildAt(i);
-			v.setHasTransientState(true);
+			if (AndroidUtils.getSdkVersion() >= 16) {
+				v.setHasTransientState(true);
+			}
 			if (v instanceof ViewGroup) {
 				((ViewGroup) v).setClipChildren(false);
 			}
@@ -691,7 +694,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 							mRoomsRatesContainer.setClickable(true);
 							for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 								View v = mRoomsRatesContainer.getChildAt(i);
-								v.setHasTransientState(false);
+								if (AndroidUtils.getSdkVersion() >= 16) {
+									v.setHasTransientState(false);
+								}
 							}
 						}
 					});
