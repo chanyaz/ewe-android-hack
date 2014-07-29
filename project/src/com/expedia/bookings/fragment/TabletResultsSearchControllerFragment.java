@@ -147,6 +147,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mLocalParams = savedInstanceState.getParcelable(INSTANCE_LOCAL_PARAMS);
 			}
 		}
+
+		Db.loadTripBucket(getActivity());
+		if (!Db.getTripBucket().isEmpty()) {
+			mSearchStateManager.setState(ResultsSearchState.DEFAULT, false);
+		}
 	}
 
 	@Override
