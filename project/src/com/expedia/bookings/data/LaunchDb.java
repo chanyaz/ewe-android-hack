@@ -94,7 +94,7 @@ public class LaunchDb {
 	public static void injectLastSearch(SearchParams params) {
 		// If there is already a "Last Search" collection,
 		// nuke it.
-		if (sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
+		if (!sDb.mCollections.isEmpty() && sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
 		}
 
