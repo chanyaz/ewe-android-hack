@@ -45,7 +45,7 @@
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Please select a valid date or date range.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">Set dates for flights \nto %s</string>
+    <string name="Set_dates_for_flights_to_X_TEMPLATE">Please select dates for\nflights to %s</string>
     <!-- Clear dates -->
     <string name="clear_dates">Clear dates</string>
     <!-- Search Now -->
