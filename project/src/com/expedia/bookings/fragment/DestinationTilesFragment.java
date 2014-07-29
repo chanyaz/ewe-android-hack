@@ -154,6 +154,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), collectionToAdd.id);
 				if (collectionToAdd.id.equals("last-search")) {
 					Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location, null, true));
 				}
@@ -161,7 +162,6 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 					// Only fire event if the stack isn't already selected
 					Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
 					setCheckedCollection(c);
-					OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), collectionToAdd.id);
 				}
 			}
 		});
