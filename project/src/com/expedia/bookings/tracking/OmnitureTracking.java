@@ -469,7 +469,14 @@ public class OmnitureTracking {
 		if (TextUtils.isEmpty(supplierType)) {
 			supplierType = "";
 		}
-		s.setProducts("Hotel;" + supplierType.toLowerCase() + " Hotel:" + property.getPropertyId());
+		String properCaseSupplierType;
+		if (supplierType.length() > 1) {
+			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase() + supplierType.substring(1).toLowerCase();
+		}
+		else {
+			properCaseSupplierType = supplierType;
+		}
+		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 	}
 
 	private static void addProducts(ADMS_Measurement s, Property property, int numNights, double totalCost) {
