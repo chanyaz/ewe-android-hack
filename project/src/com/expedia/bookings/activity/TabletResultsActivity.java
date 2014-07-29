@@ -327,35 +327,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 	}
 
-
-	/*
-	 Search Params, and the flights fragment
-	 */
-	@Subscribe
-	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		if (mFlightsController == null && Sp.getParams().hasEnoughInfoForFlightsSearch()) {
-			//Now we have enough params for a flight search, lets attach the flights controller
-			FragmentManager manager = getSupportFragmentManager();
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			mFlightsController = FragmentAvailabilityUtils.setFragmentAvailability(
-				true,
-				FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
-				R.id.full_width_flights_controller_container, false);
-			transaction.commit();
-			manager.executePendingTransactions();//These must be finished before we continue..
-
-			//Register our listeners now that flights is attached
-			setListenerState(getState());
-		}
-		else if (mFlightsController != null && mFlightsController.readyToSearch()) {
-			//Now we are ready to start the search, so let's fire up the LOADING state.
-			mFlightsController.setFlightsState(ResultsFlightsState.LOADING, false);
-		}
-		else if (mFlightsController != null) {
-			mFlightsController.setFlightsState(mFlightsController.getBaseState(), false);
-		}
-	}
-
 	/**
 	 * FRAGMENT AVAILABILITY
 	 */
