@@ -117,7 +117,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			assertTrue(shownDateText.contains(expectedNightsString.toLowerCase()));
 			Common.enterLog(TAG, "Nights string in hotel receipt matched the number of nights selected.");
 			Checkout.clickGrandTotalTextView();
-			EspressoUtils.assertTrue(expectedNightsString);
+			EspressoUtils.assertViewWithTextIsDisplayed(expectedNightsString);
 			Common.enterLog(TAG, "Number of nights selected is properly displayed in cost summary fragment.");
 			Common.checkDisplayed(Checkout.costSummaryText());
 			Common.enterLog(TAG, "Cost summary string is shown in cost summary fragment.");

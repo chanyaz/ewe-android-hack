@@ -55,7 +55,7 @@ public class HotelDetailsTests extends PhoneTestCase {
 			}
 			catch (Exception e) {
 				HotelsDetailsScreen.clickVIPImageView();
-				EspressoUtils.assertTrue("At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.");
+				EspressoUtils.assertViewWithTextIsDisplayed("At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.");
 				CVVEntryScreen.clickOkButton();
 				Espresso.pressBack();
 			}

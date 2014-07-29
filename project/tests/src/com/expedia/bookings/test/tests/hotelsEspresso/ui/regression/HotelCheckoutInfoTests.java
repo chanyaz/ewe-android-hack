@@ -217,7 +217,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 					assertEquals(expectedNightsString, shownNightsString);
 					ScreenActions.enterLog(TAG, "Nights string in hotel receipt matched the number of nights selected.");
 					HotelReceiptModel.clickGrandTotalTextView();
-					EspressoUtils.assertTrue(shownNightsString);
+					EspressoUtils.assertViewWithTextIsDisplayed(shownNightsString);
 					ScreenActions.enterLog(TAG, "Number of nights selected is properly displayed in cost summary fragment.");
 					HotelReceiptModel.costSummaryString().check(matches(isDisplayed()));
 					ScreenActions.enterLog(TAG, "Cost summary string is shown in cost summary fragment.");

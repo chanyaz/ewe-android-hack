@@ -60,9 +60,9 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 	private void verifyRulesAndRestrictionsButton() {
 		CommonCheckoutScreen.flightsLegalTextView().perform(click());
-		EspressoUtils.assertTrue("Privacy Policy");
-		EspressoUtils.assertTrue("Terms and Conditions");
-		EspressoUtils.assertTrue("Rules and Restrictions");
+		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
+		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
+		EspressoUtils.assertViewWithTextIsDisplayed("Rules and Restrictions");
 		Espresso.pressBack();
 	}
 
@@ -280,7 +280,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		FlightsCheckoutScreen.clickCheckoutButton();
-		EspressoUtils.assertTrue(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		FlightsCheckoutScreen.clickLogOutButton();
 		onView(withText("Log Out")).perform(click());

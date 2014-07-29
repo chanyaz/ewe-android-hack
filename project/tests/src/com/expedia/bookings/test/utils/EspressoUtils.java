@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.containsString;
 
 public class EspressoUtils {
 
-	public static void assertTrue(String text) {
+	public static void assertViewWithTextIsDisplayed(String text) {
 		onView(withText(text)).check(matches(isDisplayed()));
 	}
 

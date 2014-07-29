@@ -32,7 +32,7 @@ public class FlightSearchTests extends PhoneTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
-		EspressoUtils.assertTrue("Departure and arrival airports must be different.");
+		EspressoUtils.assertViewWithTextIsDisplayed("Departure and arrival airports must be different.");
 		ScreenActions.enterLog(TAG, "Duplicate airport search error message displayed.");
 		SettingsScreen.clickOKString();
 		pressBack();

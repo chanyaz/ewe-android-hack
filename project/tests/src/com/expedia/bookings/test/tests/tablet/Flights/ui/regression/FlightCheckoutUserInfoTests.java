@@ -50,9 +50,9 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 
 	private void verifyRulesAndRestrictionsButton() {
 		Checkout.clickLegalTextView();
-		EspressoUtils.assertTrue("Privacy Policy");
-		EspressoUtils.assertTrue("Terms and Conditions");
-		EspressoUtils.assertTrue("Rules and Restrictions");
+		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
+		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
+		EspressoUtils.assertViewWithTextIsDisplayed("Rules and Restrictions");
 		Common.pressBack();
 	}
 
@@ -259,7 +259,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Results.clickBookFlight();
 
 		//Was able to log in, and the email used is now visible from the checkout screen
-		EspressoUtils.assertTrue(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		Checkout.clickLogOutButton();
 		Checkout.clickLogOutString();
 

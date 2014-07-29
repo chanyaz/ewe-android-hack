@@ -106,9 +106,9 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
-		EspressoUtils.assertTrue(airlineName);
-		EspressoUtils.assertTrue(departureTime);
-		EspressoUtils.assertTrue(arrivalTime);
-		EspressoUtils.assertTrue("Booking Complete");
+		EspressoUtils.assertViewWithTextIsDisplayed(airlineName);
+		EspressoUtils.assertViewWithTextIsDisplayed(departureTime);
+		EspressoUtils.assertViewWithTextIsDisplayed(arrivalTime);
+		EspressoUtils.assertViewWithTextIsDisplayed("Booking Complete");
 	}
 }

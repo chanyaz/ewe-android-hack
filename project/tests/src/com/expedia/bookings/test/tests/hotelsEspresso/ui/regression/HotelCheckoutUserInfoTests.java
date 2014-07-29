@@ -59,10 +59,10 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 
 	private void verifyRulesAndRestrictionsButton() {
 		CommonCheckoutScreen.clickOnLegalInfoButton();
-		EspressoUtils.assertTrue("Privacy Policy");
-		EspressoUtils.assertTrue("Terms and Conditions");
-		EspressoUtils.assertTrue("Best Price Guarantee");
-		EspressoUtils.assertTrue("Cancellation Policy");
+		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
+		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
+		EspressoUtils.assertViewWithTextIsDisplayed("Best Price Guarantee");
+		EspressoUtils.assertViewWithTextIsDisplayed("Cancellation Policy");
 		Espresso.pressBack();
 	}
 
@@ -163,7 +163,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		HotelsCheckoutScreen.clickCheckoutButton();
-		EspressoUtils.assertTrue(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		HotelsCheckoutScreen.clickLogOutButton();
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));

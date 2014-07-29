@@ -66,7 +66,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.enterSearchText(ambiguousSearchString);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.assertTrue("Did you mean…");
+		EspressoUtils.assertViewWithTextIsDisplayed("Did you mean…");
 		ScreenActions.enterLog(TAG, "Did you mean' dialog appeared after search for: " + ambiguousSearchString);
 		onView(withText("Cancel")).perform(click());
 		ScreenActions.enterLog(TAG, "clicked cancel");
@@ -106,7 +106,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.enterSearchText(nonsense);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.assertTrue("Unable to determine search location.");
+		EspressoUtils.assertViewWithTextIsDisplayed("Unable to determine search location.");
 		ScreenActions.enterLog(TAG, "Geocoding error message text was displayed");
 		Espresso.pressBack();
 	}
@@ -164,7 +164,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		selectCalendardates(1, 30);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.assertTrue(searchError);
+		EspressoUtils.assertViewWithTextIsDisplayed(searchError);
 		SettingsScreen.clickOKString();
 		Espresso.pressBack();
 		Espresso.pressBack();

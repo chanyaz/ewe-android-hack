@@ -32,7 +32,7 @@ public class FlightDetailsTests extends PhoneTestCase {
 
 	private void checkBaggageFeeInfoButton() {
 		FlightLegScreen.clickBaggageInfoView();
-		EspressoUtils.assertTrue("Baggage Fees");
+		EspressoUtils.assertViewWithTextIsDisplayed("Baggage Fees");
 		pressBack();
 	}
 

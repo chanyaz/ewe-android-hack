@@ -138,6 +138,6 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
-		EspressoUtils.assertTrue("Booking Complete");
+		EspressoUtils.assertViewWithTextIsDisplayed("Booking Complete");
 	}
 }
