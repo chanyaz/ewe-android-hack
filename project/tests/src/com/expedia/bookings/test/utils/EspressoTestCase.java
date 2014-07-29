@@ -20,6 +20,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
 	static final String TEST_CASE_METHOD = "runMethod";
 	protected MockWebServer mMockWebServer;
+	protected FileOpener mFileOpener;
+
 
 	public void runTest() throws Throwable {
 
@@ -32,7 +34,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		else {
 			mMockWebServer = new MockWebServer();
 			mMockWebServer.play();
-			CustomDispatcher dispatcher = new CustomDispatcher(getInstrumentation());
+			mFileOpener = new AndroidFileOpener(getInstrumentation().getContext());
+			CustomDispatcher dispatcher = new CustomDispatcher(mFileOpener);
 			mMockWebServer.setDispatcher(dispatcher);
 
 			//get mock web server address

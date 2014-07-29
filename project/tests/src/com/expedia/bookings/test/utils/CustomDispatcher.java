@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import android.app.Instrumentation;
-import android.content.Context;
-
-import com.mobiata.android.Log;
 import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
@@ -23,10 +18,10 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest;
  */
 public class CustomDispatcher extends Dispatcher {
 
-	protected static Context mContext;
+	protected FileOpener mFileOpener;
 
-	public CustomDispatcher(Instrumentation instrumentation) {
-		mContext = instrumentation.getContext();
+	public CustomDispatcher(FileOpener fileOpener) {
+		mFileOpener = fileOpener;
 	}
 
 	@Override
@@ -103,7 +98,7 @@ public class CustomDispatcher extends Dispatcher {
 		return query_pairs;
 	}
 
-	public static MockResponse makeResponse(String filePath) {
+	public MockResponse makeResponse(String filePath) {
 		MockResponse resp = new MockResponse();
 		try {
 			String body = getResponse(filePath);
@@ -117,8 +112,8 @@ public class CustomDispatcher extends Dispatcher {
 	}
 
 	//read the json responses from tests/assets/
-	static String getResponse(String filename) throws IOException {
-		InputStream inputStream = mContext.getResources().getAssets().open(filename);
+	public String getResponse(String filename) throws IOException {
+		InputStream inputStream = mFileOpener.openFile(filename);
 		BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 		try {
 			StringBuilder sb = new StringBuilder();
