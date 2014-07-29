@@ -2,10 +2,11 @@ package com.expedia.bookings.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -28,7 +28,6 @@ import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -46,7 +45,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private String mDestinationCode;
 	private boolean mBlur;
 
-	private ImageView mImageView;
+	private ViewGroup mRootC;
 
 	public static ResultsBackgroundImageFragment newInstance(String destination, boolean blur) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
@@ -82,14 +81,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mImageView = new ImageView(getActivity());
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		mImageView.setLayoutParams(params);
-		mImageView.setScaleType(ImageView.ScaleType.MATRIX);
+		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_background_image, null);
 
 		loadImage();
 
-		return mImageView;
+		return mRootC;
 	}
 
 	@Override
@@ -131,8 +127,9 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private void loadImage() {
 		if (getActivity() != null) {
 			Point landscape = Ui.getLandscapeScreenSize(getActivity());
-			final String url = new Akeakamai(Images.getTabletDestination(mDestinationCode)) //
-				.resizeExactly(landscape.x, landscape.y) //
+			final String url = new Akeakamai(Images.getTabletDestination(mDestinationCode))
+				.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
+				.quality(60)
 				.build();
 
 			L2ImageCache.sDestination.clearCallbacksByUrl(url);
@@ -149,7 +146,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			destination = Db.getTripBucket().getHotel().getHotelSearchParams().getCorrespondingAirportCode();
 		}
 		else {
-			destination =  Sp.getParams().getDestination().getAirportCode();
+			destination = Sp.getParams().getDestination().getAirportCode();
 		}
 		return destination;
 	}
@@ -177,44 +174,73 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		Log.e("ResultsBackgroundImageFragment - onBitmapLoadFailed");
 	}
 
-	private void handleBitmap(final Bitmap bitmap, boolean fade) {
-		//TODO: TEMPORARY
-		//mImageView.setImageResource(R.drawable.temporary_paris_backdrop);
-		//mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		//TODO: TEMPORARY
-		if (bitmap != null) {
-			if (mImageView != null && getActivity() != null) {
-				Point screen = Ui.getScreenSize(getActivity());
-				Matrix topCrop = BitmapUtils.createFitWidthMatrix(bitmap.getWidth(), bitmap.getHeight(), screen.x, screen.y);
+	///////////////////////////////////////////////////////////////
+	// private methods
 
-				if (fade) {
-					kickoffCrossfade(bitmap, topCrop);
-				}
-				else {
-					mImageView.setImageMatrix(topCrop);
-					mImageView.setImageBitmap(bitmap);
-				}
-			}
+	private void handleBitmap(final Bitmap bitmap, boolean fade) {
+		if (bitmap == null) {
+			Log.v("bitmap null null null");
+			return;
+		}
+
+		if (mRootC == null || getActivity() == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0) {
+			// Silently don't draw the bitmap
+			return;
+		}
+
+		if (fade) {
+			int split = mRootC.getChildCount();
+			addNewViews(bitmap, 0f);
+			crossfade(split);
 		}
 		else {
-			Log.v("bitmap null null null");
+			mRootC.removeAllViews();
+			addNewViews(bitmap, 1f);
 		}
 	}
 
-	private void kickoffCrossfade(final Bitmap bitmap, final Matrix newMatrix) {
-		mImageView.animate()
-			.alpha(0f)
-			.setDuration(mImageView.getDrawable() == null ? 0 : HALF_FADE_IN_TIME)
-			.setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mImageView.setImageMatrix(newMatrix);
-					mImageView.setImageBitmap(bitmap);
-					mImageView.animate()
-				.alpha(1f)
-				.setDuration(HALF_FADE_IN_TIME)
-				.setListener(null);
-				}
-			});
+	// This adds ImageViews to the base layout (assumed to be a FrameLayout), tiled vertically
+	// with every second tile flipped vertically.
+	private void addNewViews(Bitmap bitmap, float alpha) {
+		Point screen = Ui.getScreenSize(getActivity());
+		float scale = (float) screen.x / bitmap.getWidth();
+		int scaledWidth = screen.x;
+		int scaledHeight = (int) (scale * bitmap.getHeight());
+		boolean flip = false;
+		for (int y = 0; y < screen.y; y += scaledHeight) {
+			ImageView image = new ImageView(getActivity());
+			image.setLayoutParams(new ViewGroup.MarginLayoutParams(scaledWidth, scaledHeight));
+			image.setTranslationY(y);
+			image.setScaleY(flip ? -1f : 1f);
+			image.setImageBitmap(bitmap);
+			image.setAlpha(alpha);
+			mRootC.addView(image);
+			flip = !flip;
+		}
 	}
+
+	// This will fade out the first half of the children (with index in [0, split) ),
+	// and fade in the second half of the children at the same time (with index in [split, childCount) ).
+	private void crossfade(final int split) {
+		final int children = mRootC.getChildCount();
+		PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f);
+		ObjectAnimator[] animators = new ObjectAnimator[children - split];
+		for (int i = split; i < children; i++) {
+			animators[i - split] = ObjectAnimator.ofPropertyValuesHolder(mRootC.getChildAt(i), fadeIn);
+		}
+		AnimatorSet set = new AnimatorSet();
+		set.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (int i = 0; i < split; i++) {
+					ImageView image = (ImageView) mRootC.getChildAt(0);
+					image.setImageBitmap(null);
+					mRootC.removeViewAt(0);
+				}
+			}
+		});
+		set.playTogether(animators);
+		set.start();
+	}
+
 }
