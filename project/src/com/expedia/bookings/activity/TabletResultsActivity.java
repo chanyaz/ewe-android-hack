@@ -908,6 +908,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mShadeView.setVisibility(View.VISIBLE);
 			}
+
+			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
+				mBottomGradient.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			}
 		}
 
 		@Override
@@ -945,6 +949,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else if (stateOne.showsSearchPopup() && !stateTwo.showsSearchPopup()) {
 				mShadeView.setAlpha(1f - percentage);
 			}
+
+			if (!stateOne.showsWaypoint() && stateTwo.showsWaypoint()) {
+				mBottomGradient.setAlpha(1f - percentage);
+			}
+			else if (stateOne.showsWaypoint() && !stateTwo.showsWaypoint()) {
+				mBottomGradient.setAlpha(percentage);
+			}
 		}
 
 		@Override
@@ -953,12 +964,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 
-
 			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
 				mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
 				mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+
+			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
+				mBottomGradient.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 		}
 
