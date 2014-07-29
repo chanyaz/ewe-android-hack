@@ -46,15 +46,14 @@ public class AboutUtils {
 		List<String> items = new ArrayList<String>();
 		final List<Runnable> actions = new ArrayList<Runnable>();
 
-		// Only add phone option if device can make calls
-		if (AndroidUtils.hasTelephonyFeature(mActivity)) {
-			items.add(mActivity.getString(R.string.contact_expedia_phone));
-			actions.add(new Runnable() {
-				public void run() {
-					contactViaPhone();
-				}
-			});
-		}
+		// Let's always show the phone option and have the OS take care of how to handle onClick for tablets without telephony.
+		// In which case it pops up a dialog to show the number and give 2 options i.e. "Close" & "Add to Contacts"
+		items.add(mActivity.getString(R.string.contact_expedia_phone));
+		actions.add(new Runnable() {
+			public void run() {
+				contactViaPhone();
+			}
+		});
 
 		// Always show website option
 		items.add(mActivity.getString(R.string.contact_expedia_website));
