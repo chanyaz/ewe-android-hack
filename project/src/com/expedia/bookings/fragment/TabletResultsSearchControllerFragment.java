@@ -29,7 +29,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
@@ -53,9 +52,9 @@ import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -78,8 +77,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_WAYPOINT = "FTAG_WAYPOINT";
 	private static final String FTAG_ORIGIN_LOCATION = "FTAG_ORIGIN_LOCATION";
 	private static final String FTAG_FLIGHTS_GDE = "FTAG_FLIGHTS_GDE";
-	private static final String FTAG_REDEYE_ITEMS_DIALOG = "FTAG_REDEYE_ITEMS_DIALOG";
-	private static final String FTAG_MISMATCHED_ITEMS_DIALOG = "FTAG_MISMATCHED_ITEMS_DIALOG";
 
 	private static Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
 
@@ -134,8 +131,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ResultsGuestPicker mGuestsFragment;
 	private CurrentLocationFragment mCurrentLocationFragment;
 	private ResultsGdeFlightsFragment mGdeFragment;
-	private SimpleCallbackDialogFragment mRedeyeDialogFrag;
-	private SimpleCallbackDialogFragment mMismatchedDialogFrag;
 
 	public TabletResultsSearchControllerFragment() {
 		importParams();
@@ -1322,35 +1317,4 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		setState(ResultsSearchState.DEFAULT, true);
 	}
 
-	@Subscribe
-	public void onTripBucketHasRedeyeItems(Events.TripBucketHasRedeyeItems event) {
-		mRedeyeDialogFrag = Ui.findSupportFragment(this, FTAG_REDEYE_ITEMS_DIALOG);
-		if (mRedeyeDialogFrag == null) {
-			mRedeyeDialogFrag = SimpleCallbackDialogFragment.newInstance(
-					"" /*title*/, //
-					getString(R.string.tablet_redeye_products_message), //
-					getString(R.string.yes) /*button*/, //
-					SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-					getString(R.string.cancel) /*negativeButton*/);
-		}
-		if (!mRedeyeDialogFrag.isAdded()) {
-			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
-		}
-	}
-
-	@Subscribe
-	public void onTripBucketHasMismatchedItems(Events.TripBucketHasMismatchedItems event) {
-		mMismatchedDialogFrag = Ui.findSupportFragment(this, FTAG_MISMATCHED_ITEMS_DIALOG);
-		if (mMismatchedDialogFrag == null) {
-			mMismatchedDialogFrag = SimpleCallbackDialogFragment.newInstance(
-					"" /*title*/, //
-					getString(R.string.tablet_mismatched_products_message), //
-					getString(R.string.yes) /*button*/, //
-					SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-					getString(R.string.cancel) /*negativeButton*/);
-		}
-		if (!mMismatchedDialogFrag.isAdded()) {
-			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
-		}
-	}
 }
