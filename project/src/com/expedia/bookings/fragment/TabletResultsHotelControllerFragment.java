@@ -468,6 +468,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
 			hotelRoomsAndRatesAvailable = false;
+			hotelListAvailable = false;
 		}
 
 		// TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
