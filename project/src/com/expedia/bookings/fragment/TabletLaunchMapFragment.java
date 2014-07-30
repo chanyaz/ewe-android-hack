@@ -141,13 +141,15 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			for (LaunchLocation location : mLocations.keySet()) {
-				Marker marker = mLocations.get(location);
-				if (mClickedLocation != null && mClickedLocation.equals(location)) {
-					marker.setAlpha(!isReversed || percentage < 1f ? 0f : 1f);
-				}
-				else {
-					marker.setAlpha(1f - percentage);
+			if (mLocations != null) {
+				for (LaunchLocation location : mLocations.keySet()) {
+					Marker marker = mLocations.get(location);
+					if (mClickedLocation != null && mClickedLocation.equals(location)) {
+						marker.setAlpha(!isReversed || percentage < 1f ? 0f : 1f);
+					}
+					else {
+						marker.setAlpha(1f - percentage);
+					}
 				}
 			}
 		}
@@ -181,9 +183,11 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			for (Marker marker : mLocations.values()) {
-				if (marker != null) {
-					marker.setAlpha(1f - percentage);
+			if (mLocations != null) {
+				for (Marker marker : mLocations.values()) {
+					if (marker != null) {
+						marker.setAlpha(1f - percentage);
+					}
 				}
 			}
 		}
@@ -248,9 +252,11 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	private void animateCameraToShowFullCollection() {
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-		for (LaunchLocation location : mLocations.keySet()) {
-			LatLng latlng = new LatLng(location.location.getLocation().getLatitude(), location.location.getLocation().getLongitude());
-			builder.include(latlng);
+		if (mLocations != null) {
+			for (LaunchLocation location : mLocations.keySet()) {
+				LatLng latlng = new LatLng(location.location.getLocation().getLatitude(), location.location.getLocation().getLongitude());
+				builder.include(latlng);
+			}
 		}
 		LatLngBounds bounds = builder.build();
 		int padding = 0; // offset from edges of the map in pixels
