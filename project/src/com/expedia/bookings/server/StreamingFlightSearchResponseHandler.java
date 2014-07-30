@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -26,6 +23,8 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.LoggingInputStream;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -118,11 +117,10 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		expectToken(reader, JsonToken.BEGIN_OBJECT);
 		reader.beginObject();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
-			name = reader.nextName();
+			name = reader.peek().equals(JsonToken.NAME) ? reader.nextName() : reader.nextString();
 
 			if (name.equals("errors")) {
 				ParserUtils.readServerErrors(reader, mResponse, ApiMethod.SEARCH_RESULTS);
-				reader.skipValue();
 			}
 			else if (name.equals("legs")) {
 				expectToken(reader, JsonToken.BEGIN_ARRAY);
@@ -159,7 +157,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 		}
 		reader.endObject();
-
 		// Put in all airline names, weighting towards non-operating names
 		mOperatingAirlineNames.putAll(mAirlineNames);
 		mResponse.setAirlineNames(mOperatingAirlineNames);

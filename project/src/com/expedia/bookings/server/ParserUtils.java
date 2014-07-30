@@ -271,7 +271,7 @@ public class ParserUtils {
 				}
 				reader.beginObject();
 				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
-					String name2 = reader.nextName();
+					String name2 = reader.peek().equals(JsonToken.NAME) ? reader.nextName() : reader.nextString();
 					if (name2.equals("field")) {
 						serverError.addExtra("field", reader.nextString());
 					}
