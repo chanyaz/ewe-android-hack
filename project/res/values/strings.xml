@@ -2246,7 +2246,7 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
     <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
+    <string name="enrolled_in_expedia_rewards">Enrolled in Expedia+ Rewards\u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus Member</string>
     <!-- Label for account name -->

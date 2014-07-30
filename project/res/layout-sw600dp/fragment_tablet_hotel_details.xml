@@ -237,7 +237,7 @@
 
                 <!-- VIP badge -->
 
-                <TextView
+                <ImageView
                     android:id="@+id/vip_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -245,13 +245,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/hotel_details_callout_text_margin_x"
                     android:layout_marginTop="@dimen/hotel_details_callout_text_margin_y"
-                    android:background="@drawable/bg_vip_badge"
-                    android:paddingBottom="@dimen/hotel_details_callout_text_padding_y"
-                    android:paddingLeft="@dimen/hotel_details_callout_text_padding_x"
-                    android:paddingRight="@dimen/hotel_details_callout_text_padding_x"
-                    android:paddingTop="@dimen/hotel_details_callout_text_padding_y"
-                    android:text="@string/VIP"
-                    android:textColor="@android:color/white"
+                    android:src="@drawable/ic_tablet_vip_details"
                     android:visibility="gone" />
 
                 <!-- Sale/discount rate -->

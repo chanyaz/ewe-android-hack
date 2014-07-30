@@ -145,7 +145,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
+    <ImageView
         android:id="@+id/vip_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -153,13 +153,7 @@
         android:layout_alignTop="@id/hotel_background_view"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/bg_vip_badge"
-        android:paddingBottom="1dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="1dp"
-        android:text="@string/VIP"
-        android:textColor="@android:color/white"
+        android:src="@drawable/ic_tablet_vip"
         android:visibility="gone"/>
 
     <TextView

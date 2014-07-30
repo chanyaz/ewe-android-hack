@@ -278,7 +278,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
-		TextView vipText = Ui.findView(view, R.id.vip_badge);
+		View vipView = Ui.findView(view, R.id.vip_badge);
 		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
 		// Hotel Name
@@ -296,7 +296,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		// VIP Badge
 		boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
 			&& property.isVipAccess();
-		vipText.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
+		vipView.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
 
 		// "25% OFF"
 		Rate rate = property.getLowestRate();
