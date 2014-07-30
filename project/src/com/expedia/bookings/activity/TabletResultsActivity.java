@@ -2,6 +2,8 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
+import org.joda.time.LocalDate;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.graphics.Rect;
@@ -23,8 +25,11 @@ import android.view.animation.Interpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -1066,13 +1071,40 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	@Subscribe
 	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
 		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS) {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+
 			Db.getTripBucket().clear(LineOfBusiness.HOTELS);
 			Db.saveTripBucket(this);
 			if (mTripBucketFrag != null) {
 				mTripBucketFrag.bindToDb();
 			}
 
-			//FIXME brennan start hotel search
+			if (mHotelsController != null && hotel != null && flight != null) {
+				if (flight.getFlightSearchParams().isRoundTrip()) {
+					// fit between the flights
+					FlightLeg departingFlight = flight.getFlightTrip().getLeg(0);
+					LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+					Sp.getParams().setStartDate(departingFlightLandingTime);
+
+					FlightLeg returningFlight = flight.getFlightTrip().getLeg(1);
+					LocalDate returningFlightTakeoffTime = new LocalDate(returningFlight.getFirstWaypoint().getMostRelevantDateTime());
+					Sp.getParams().setEndDate(returningFlightTakeoffTime);
+				}
+				else {
+					// fit after + maintain the hotel stay duration
+					FlightLeg departingFlight = flight.getFlightTrip().getLeg(0);
+					LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+					Sp.getParams().setStartDate(departingFlightLandingTime);
+
+					int hotelStay = hotel.getHotelSearchParams().getStayDuration();
+					LocalDate endDate = departingFlightLandingTime.plusDays(hotelStay);
+					Sp.getParams().setEndDate(endDate);
+				}
+
+				// Sp is setup, time to notify
+				mHotelsController.answerSearchParamUpdate(null);
+			}
 		}
 	}
 
