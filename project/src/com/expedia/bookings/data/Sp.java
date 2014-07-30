@@ -42,21 +42,15 @@ public class Sp {
 	}
 
 	public static void reportSpUpdate() {
-		try {
-			getBus().post(new SpUpdateEvent());
-		}
-		catch (Exception ex) {
-			Log.e("Exception posting the Sp event bus.", ex);
-		}
+		getBus().post(new SpUpdateEvent());
 	}
 
+	// Otto Event Objects
 	public static class SpUpdateEvent {
-		public SpUpdateEvent() {
-		}
 	}
 
 	private Sp() {
-
+		// ignore
 	}
 
 	/**
