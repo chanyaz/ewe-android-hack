@@ -26,7 +26,6 @@ public class CustomDispatcher extends Dispatcher {
 
 	@Override
 	public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
-
 		if (request.getPath().contains("hint/es/v3/ac/en_US")) {
 			return makeResponse("MockResponses/hint/es/v3/ac/en_US/suggestion.json");
 		}
@@ -52,50 +51,42 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		else if (request.getPath().contains("/api/flight/search")) {
-			String flightFileName;
-
-			//set filename for one-way and two-way flights
-			if (request.getUtf8Body().contains("returnDate")) {
-				flightFileName = "happy_roundtrip";
-			}
-			else {
-				flightFileName = "happy_oneway";
-			}
-			return makeResponse("MockResponses/api/flight/search/" + flightFileName + ".json");
+			Map<String, String> params = parsePostParams(request);
+			String filename = params.containsKey("returnDate") ? "happy_roundtrip" : "happy_oneway";
+			return makeResponse("MockResponses/api/flight/search/" + filename + ".json");
 		}
 
 		else if (request.getPath().contains("/api/flight/trip/create")) {
-			String productKey = getValueOf("productKey", request.getUtf8Body());
-			return makeResponse("MockResponses/api/flight/trip/create/" + productKey + ".json");
+			Map<String, String> params = parsePostParams(request);
+			return makeResponse("MockResponses/api/flight/trip/create/" + params.get("productKey") + ".json");
 		}
 
 		else if (request.getPath().contains("/api/flight/checkout")) {
-			String productKey = getValueOf("productKey", request.getUtf8Body());
-			return makeResponse("MockResponses/api/flight/checkout/" + productKey + ".json");
+			Map<String, String> params = parsePostParams(request);
+			return makeResponse("MockResponses/api/flight/checkout/" + params.get("productKey") + ".json");
 		}
+
 		return new MockResponse().setResponseCode(404);
 	}
 
+	public static Map<String, String> parsePostParams(RecordedRequest request) {
+		final String body = request.getUtf8Body();
+		Map<String, String> params = new LinkedHashMap<String, String>();
 
-	private String getValueOf(String key, String body) {
-		Map<String, String> map = null;
-		try {
-			map = parseParameters(body);
-		}
-		catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return map.get(key);
-	}
-
-	public static Map<String, String> parseParameters(String body) throws UnsupportedEncodingException {
-		Map<String, String> query_pairs = new LinkedHashMap<String, String>();
 		String[] pairs = body.split("&");
 		for (String pair : pairs) {
-			int idx = pair.indexOf("=");
-			query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+			final int idx = pair.indexOf("=");
+			try {
+				final String key = URLDecoder.decode(pair.substring(0, idx), "UTF-8");
+				final String value = URLDecoder.decode(pair.substring(idx + 1), "UTF-8");
+				params.put(key, value);
+			}
+			catch (UnsupportedEncodingException e) {
+				// ignore - just skip the pair
+			}
 		}
-		return query_pairs;
+
+		return params;
 	}
 
 	public MockResponse makeResponse(String filePath) {
