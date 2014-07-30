@@ -243,11 +243,16 @@ public class TripBucket implements JSONable {
 	}
 
 	private boolean hasRedeyeDates() {
+		if (!getFlight().getFlightSearchParams().isRoundTrip()) {
+			// We don't trigger the redeye case for round trips
+			return false;
+		}
+
 		if (!itemsAreForSameDestination()) {
 			return false;
 		}
 
-		if (hotelCheckinIsDayBeforeFlightLands()) {
+		if (hotelCheckinIsDayBeforeFlightLands() && !hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
 			return true;
 		}
 
