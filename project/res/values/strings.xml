@@ -41,7 +41,7 @@
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message">Set Departure Airport \nfor Flights to %s</string>
     <!-- Missing flight info message -->
-    <string name="missing_flight_info_message_TEMPLATE">Set Departure Airport \nfor Flights to %s</string>
+    <string name="missing_flight_info_message_TEMPLATE">To browse flights to %s, tell us where you\'re flying from.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Please select a valid date or date range.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
@@ -56,6 +56,8 @@
     <string name="trip_ends">Trip ends</string>
     <!-- Denotes that the return date for the trip is optional, in the event of a one-way flight ticket -->
     <string name="trip_end_optional">Optional</string>
+    <!-- Button text for when flight origin is missing -->
+    <string name="missing_flight_info_button_prompt">Select Airport</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
