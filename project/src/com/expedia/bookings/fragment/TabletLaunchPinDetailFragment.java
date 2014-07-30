@@ -92,6 +92,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 				@Override
 				public void onClick(View view) {
 					boolean fromLastSearch = event.launchLocation.id.equals("last-search");
+					event.launchLocation.location.setImageCode(event.launchLocation.imageCode);
 					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null, fromLastSearch));
 				}
 			});

@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -28,7 +30,6 @@ import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -38,18 +39,25 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ResultsBackgroundImageFragment extends MeasurableFragment implements L2ImageCache.OnBitmapLoaded {
 
-	private static final String ARG_DEST_CODE = "ARG_DEST_CODE";
+	private static final String ARG_DEST_CODES = "ARG_DEST_CODES";
 	private static final String ARG_BLUR = "ARG_BLUR";
 
-	private String mDestinationCode;
+	private ArrayList<String> mDestCodes;
+	private int mCodesIndex;
 	private boolean mBlur;
 
 	private ViewGroup mRootC;
 
-	public static ResultsBackgroundImageFragment newInstance(String destination, boolean blur) {
+	public static ResultsBackgroundImageFragment newInstance(String destCode, boolean blur) {
+		ArrayList<String> codes = new ArrayList<>();
+		codes.add(destCode);
+		return newInstance(codes, blur);
+	}
+
+	public static ResultsBackgroundImageFragment newInstance(ArrayList<String> destCodes, boolean blur) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_DEST_CODE, destination);
+		args.putStringArrayList(ARG_DEST_CODES, destCodes);
 		args.putBoolean(ARG_BLUR, blur);
 		fragment.setArguments(args);
 		return fragment;
@@ -61,8 +69,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	public static ResultsBackgroundImageFragment newInstance(LineOfBusiness lob, boolean blur) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
 		Bundle args = new Bundle();
-		String destination = getMostRelevantDestinationCode(lob);
-		args.putString(ARG_DEST_CODE, destination);
+		ArrayList<String> destCodes = getMostRelevantDestinationCodes(lob);
+		args.putStringArrayList(ARG_DEST_CODES, destCodes);
 		args.putBoolean(ARG_BLUR, blur);
 		fragment.setArguments(args);
 		return fragment;
@@ -74,7 +82,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 		// Fragment arguments
 		Bundle args = getArguments();
-		mDestinationCode = args.getString(ARG_DEST_CODE);
+		mDestCodes = args.getStringArrayList(ARG_DEST_CODES);
 		mBlur = args.getBoolean(ARG_BLUR);
 	}
 
@@ -104,10 +112,12 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Subscribe
 	public void onSpChange(Sp.SpUpdateEvent event) {
-		String newCode = Sp.getParams().getDestination().getAirportCode();
-		if (!TextUtils.isEmpty(newCode) && !newCode.equals(mDestinationCode)) {
-			getArguments().putString(ARG_DEST_CODE, newCode);
-			mDestinationCode = newCode;
+		ArrayList<String> newCodes = new ArrayList<>();
+		newCodes.add(Sp.getParams().getDestination().getAirportCode());
+		String newCode = newCodes.get(0);
+		if (!TextUtils.isEmpty(newCode) && !newCodes.equals(mDestCodes)) {
+			getArguments().putStringArrayList(ARG_DEST_CODES, newCodes);
+			mDestCodes = newCodes;
 
 			loadImage();
 		}
@@ -126,7 +136,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private void loadImage() {
 		if (getActivity() != null) {
 			Point landscape = Ui.getLandscapeScreenSize(getActivity());
-			final String url = new Akeakamai(Images.getTabletDestination(mDestinationCode))
+			String destinationCode = mDestCodes.get(mCodesIndex);
+			final String url = new Akeakamai(Images.getTabletDestination(destinationCode))
 				.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
 				.quality(60)
 				.build();
@@ -136,18 +147,21 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		}
 	}
 
-	private static String getMostRelevantDestinationCode(LineOfBusiness lob) {
-		String destination;
+	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
+		ArrayList<String> destCodes = new ArrayList<>();
 		if (lob == LineOfBusiness.FLIGHTS) {
-			destination = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
+			destCodes.add(Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId());
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			destination = Db.getTripBucket().getHotel().getHotelSearchParams().getCorrespondingAirportCode();
+			destCodes.add(Db.getTripBucket().getHotel().getHotelSearchParams().getCorrespondingAirportCode());
 		}
 		else {
-			destination = Sp.getParams().getDestination().getAirportCode();
+			if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
+				destCodes.add(Sp.getParams().getDestination().getImageCode());
+			}
+			destCodes.add(Sp.getParams().getDestination().getAirportCode());
 		}
-		return destination;
+		return destCodes;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -171,6 +185,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	@Override
 	public void onBitmapLoadFailed(String url) {
 		Log.e("ResultsBackgroundImageFragment - onBitmapLoadFailed");
+		if (mCodesIndex + 1 < mDestCodes.size()) {
+			mCodesIndex++;
+			loadImage();
+		}
 	}
 
 	///////////////////////////////////////////////////////////////

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -369,8 +370,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			frag = new TabletResultsSearchControllerFragment();
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
-			String destination = Sp.getParams().getDestination().getAirportCode();
-			frag = ResultsBackgroundImageFragment.newInstance(destination, false);
+			ArrayList<String> codes = new ArrayList<>();
+			if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
+				codes.add(Sp.getParams().getDestination().getImageCode());
+			}
+			codes.add(Sp.getParams().getDestination().getAirportCode());
+			frag = ResultsBackgroundImageFragment.newInstance(codes, false);
 		}
 		else if (tag == FTAG_BUCKET) {
 			frag = new ResultsTripBucketFragment();
