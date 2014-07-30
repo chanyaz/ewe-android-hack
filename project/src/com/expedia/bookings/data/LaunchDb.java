@@ -133,7 +133,9 @@ public class LaunchDb {
 			lastSearch.locations = new ArrayList<LaunchLocation>();
 			lastSearch.locations.add(loc);
 			lastSearch.title += '\n' + locSubtitle;
-			sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, lastSearch);
+			if (sDb.mCollections != null) {
+				sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, lastSearch);
+			}
 		}
 	}
 
