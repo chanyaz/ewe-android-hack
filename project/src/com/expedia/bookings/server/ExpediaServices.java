@@ -970,26 +970,18 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Flights: https://confluence/display/MTTFG/GDE+Flights+API+Documentation
 
-	public FlightSearchHistogramResponse flightSearchHistogram(FlightSearchParams params) {
-		try {
-			List<BasicNameValuePair> query = generateFlightSearchHistogramParams(params);
-			return doBasicGetRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
-		}
-		catch (RuntimeException ex) {
-			Log.e("Runtime Exception in flightSearchHistogram(). Returning null.", ex);
-			return null;
-		}
-	}
-
-	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination) {
-		return flightSearchHistogram(origin, destination, null);
-	}
-
 	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination,
 		LocalDate departureDate) {
+
+		// Special case (see Meeker, CO) if there's no nearby airport
+		if (TextUtils.isEmpty(origin.getDestinationId()) || TextUtils.isEmpty(destination.getDestinationId())) {
+			return null;
+		}
+
 		try {
+			String endpointUrl = getGdeEndpointUrl();
 			List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
-			return doBasicGetRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
+			return doBasicGetRequest(endpointUrl, query, new FlightSearchHistogramResponseHandler());
 		}
 		catch (RuntimeException ex) {
 			Log.e("Runtime Exception in flightSearchHistogram(). Returning null.", ex);
@@ -1018,9 +1010,6 @@ public class ExpediaServices implements DownloadListener {
 			DateTimeFormatter fmt = ISODateTimeFormat.date();
 			query.add(new BasicNameValuePair("departDate", fmt.print(departureDate)));
 		}
-
-		// TODO the API might update and no longer require this field
-		query.add(new BasicNameValuePair("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode()));
 
 		return query;
 	}
