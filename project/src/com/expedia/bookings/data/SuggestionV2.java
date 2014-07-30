@@ -88,6 +88,9 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	// "ll" denotes the latitude and longitude coordinates
 	private Location mLocation;
 
+	// Populated via LaunchLocation. We stuff this into SuggestionV2 for convenience.
+	private String mImageCode;
+
 	public SuggestionV2() {
 		// Default constructor, needed for JSONable
 	}
@@ -172,6 +175,14 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mLocation = location;
 	}
 
+	public void setImageCode(String imageCode) {
+		mImageCode = imageCode;
+	}
+
+	public String getImageCode() {
+		return mImageCode;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof SuggestionV2)) {
@@ -244,6 +255,8 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 			JSONUtils.putJSONable(obj, "location", mLocation);
 
+			obj.putOpt("imageCode", mImageCode);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -268,6 +281,8 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
 
+		mImageCode = obj.optString("imageCode", null);
+
 		return true;
 	}
 
@@ -285,6 +300,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mAirportCode = in.readString();
 		mMultiCityRegionId = in.readInt();
 		mLocation = in.readParcelable(getClass().getClassLoader());
+		mImageCode = in.readString();
 	}
 
 	@Override
@@ -299,6 +315,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		dest.writeString(mAirportCode);
 		dest.writeInt(mMultiCityRegionId);
 		dest.writeParcelable(mLocation, 0);
+		dest.writeString(mImageCode);
 	}
 
 	@Override
