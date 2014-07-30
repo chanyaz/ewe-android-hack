@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
@@ -106,6 +107,9 @@ public class LaunchDb {
 			LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
 			lastSearch.title = sYourSearchTitle;
 			lastSearch.id = YOUR_SEARCH_TILE_ID;
+			if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
+				lastSearch.launchImageCode = Sp.getParams().getDestination().getImageCode();
+			}
 			lastSearch.imageCode = Sp.getParams().getDestination().getAirportCode();
 
 			String locSubtitle = null;
