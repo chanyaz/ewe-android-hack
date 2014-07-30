@@ -42,6 +42,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private static final String ARG_DEST_CODES = "ARG_DEST_CODES";
 	private static final String ARG_BLUR = "ARG_BLUR";
 
+	private static final String INSTANCE_DEST_CODES = "INSTANCE_DEST_CODES";
+	private static final String INSTANCE_CODES_INDEX = "INSTANCE_CODES_INDEX";
+	private static final String INSTANCE_BLUR = "INSTANCE_BLUR";
+
 	private ArrayList<String> mDestCodes;
 	private int mCodesIndex;
 	private boolean mBlur;
@@ -81,9 +85,17 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		super.onCreate(savedInstanceState);
 
 		// Fragment arguments
-		Bundle args = getArguments();
-		mDestCodes = args.getStringArrayList(ARG_DEST_CODES);
-		mBlur = args.getBoolean(ARG_BLUR);
+		if (savedInstanceState == null) {
+			Bundle args = getArguments();
+			mDestCodes = args.getStringArrayList(ARG_DEST_CODES);
+			mCodesIndex = 0;
+			mBlur = args.getBoolean(ARG_BLUR);
+		}
+		else {
+			mDestCodes = savedInstanceState.getStringArrayList(INSTANCE_CODES_INDEX);
+			mCodesIndex = savedInstanceState.getInt(INSTANCE_CODES_INDEX, 0);
+			mBlur = savedInstanceState.getBoolean(INSTANCE_BLUR);
+		}
 	}
 
 	@Override
@@ -105,6 +117,14 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	public void onPause() {
 		super.onPause();
 		Sp.getBus().unregister(this);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putStringArrayList(INSTANCE_DEST_CODES, mDestCodes);
+		outState.putInt(INSTANCE_CODES_INDEX, mCodesIndex);
+		outState.putBoolean(INSTANCE_BLUR, mBlur);
 	}
 
 	///////////////////////////////////////////////////////////////
