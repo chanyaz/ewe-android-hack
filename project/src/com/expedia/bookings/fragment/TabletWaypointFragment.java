@@ -49,7 +49,7 @@ public class TabletWaypointFragment extends Fragment
 
 	private static final String STATE_WAYPOINT_CHOOSER_STATE = "STATE_WAYPOINT_CHOOSER_STATE";
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
-	private static final String STATE_HAS_INVISIBLE_BACKGROUND = "STATE_HAS_INVISIBLE_BACKGROUND";
+	private static final String STATE_HAS_BACKGROUND = "STATE_HAS_BACKGROUND";
 	private static final String STATE_WAYPOINT_EDIT_TEXT = "STATE_WAYPOINT_EDIT_TEXT";
 
 	public static interface ITabletWaypointFragmentListener {
@@ -69,8 +69,14 @@ public class TabletWaypointFragment extends Fragment
 	private TextView mErrorTv;
 	private ProgressBar mLocationProgressBar;
 
-	private boolean mHasInvisibleBackground = true;
+	private boolean mHasBackground = false;
 	private String mWayPointString;
+
+	public static TabletWaypointFragment newInstance(boolean hasBackground) {
+		TabletWaypointFragment f = new TabletWaypointFragment();
+		f.mHasBackground = hasBackground;
+		return f;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -89,14 +95,14 @@ public class TabletWaypointFragment extends Fragment
 		//State
 		if (savedInstanceState != null) {
 			mErrorMessage = savedInstanceState.getString(STATE_ERROR_MESSAGE);
-			mHasInvisibleBackground = savedInstanceState.getBoolean(STATE_HAS_INVISIBLE_BACKGROUND);
+			mHasBackground = savedInstanceState.getBoolean(STATE_HAS_BACKGROUND);
 			mWayPointString = savedInstanceState.getString(STATE_WAYPOINT_EDIT_TEXT);
 		}
 		
 		//The background wont let any touches pass through it...
 		mBg = Ui.findView(view, R.id.bg);
 		mBg.setConsumeTouch(true);
-		if (mHasInvisibleBackground) {
+		if (!mHasBackground) {
 			mBg.setBackgroundDrawable(null);
 		}
 
@@ -168,7 +174,7 @@ public class TabletWaypointFragment extends Fragment
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_ERROR_MESSAGE, mErrorMessage == null ? "" : mErrorMessage);
-		outState.putBoolean(STATE_HAS_INVISIBLE_BACKGROUND, mHasInvisibleBackground);
+		outState.putBoolean(STATE_HAS_BACKGROUND, mHasBackground);
 		outState.putString(STATE_WAYPOINT_EDIT_TEXT, mWaypointEditText.getText().toString());
 	}
 
@@ -180,13 +186,6 @@ public class TabletWaypointFragment extends Fragment
 	public void unsetLoadingAndError() {
 		mLoadingLocation = false;
 		setErrorMessage(null);
-	}
-
-	public void clearBackgroundDrawable() {
-		mHasInvisibleBackground = true;
-		if (mBg != null) {
-			mBg.setBackgroundDrawable(null);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

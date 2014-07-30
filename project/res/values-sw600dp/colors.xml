@@ -11,6 +11,7 @@
     <color name="tablet_bg_tiles_blend">#232c45</color>
     <color name="tablet_collection_back_image_overlay">#e5141d36</color>
     <color name="tablet_collection_middle_image_overlay">#b2141d36</color>
+    <color name="launch_pin_detail_background">#b2070f24</color>
 
     <!-- Tablet Results -->
     <color name="tablet_results_ab_default">@android:color/transparent</color>

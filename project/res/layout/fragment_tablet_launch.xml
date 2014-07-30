@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
-        android:background="#b2070f24"/>
+        android:background="@color/launch_pin_detail_background"/>
 
     <FrameLayout
         android:id="@+id/no_connectivity_container"

@@ -29,7 +29,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
@@ -129,7 +128,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private SearchParams mLocalParams;
 
 	//Frags
-	private ResultsWaypointFragment mWaypointFragment;
+	private TabletWaypointFragment mWaypointFragment;
 	private ResultsDatesFragment mDatesFragment;
 	private ResultsGuestPicker mGuestsFragment;
 	private CurrentLocationFragment mCurrentLocationFragment;
@@ -1015,38 +1014,45 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FTAG_CALENDAR) {
+		switch (tag) {
+		case FTAG_CALENDAR: {
 			return new ResultsDatesFragment();
 		}
-		else if (tag == FTAG_TRAV_PICKER) {
+		case FTAG_TRAV_PICKER: {
 			return ResultsGuestPicker.newInstance(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
 		}
-		else if (tag == FTAG_WAYPOINT) {
-			return new ResultsWaypointFragment();
+		case FTAG_WAYPOINT: {
+			return TabletWaypointFragment.newInstance(false);
 		}
-		else if (tag == FTAG_ORIGIN_LOCATION) {
+		case FTAG_ORIGIN_LOCATION: {
 			return new CurrentLocationFragment();
 		}
-		else if (tag == FTAG_FLIGHTS_GDE) {
+		case FTAG_FLIGHTS_GDE: {
 			return ResultsGdeFlightsFragment.newInstance();
+		}
 		}
 		return null;
 	}
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_CALENDAR) {
+		switch (tag) {
+		case FTAG_CALENDAR: {
 			((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
+			break;
 		}
-		else if (tag == FTAG_ORIGIN_LOCATION) {
+		case FTAG_ORIGIN_LOCATION: {
 			if (!mLocalParams.hasOrigin()) {
 				//Will notify listener
 				((CurrentLocationFragment) frag).getCurrentLocation();
 			}
+			break;
 		}
-		else if (tag == FTAG_FLIGHTS_GDE) {
+		case FTAG_FLIGHTS_GDE: {
 			((ResultsGdeFlightsFragment) frag).setGdeInfo(mLocalParams.getOriginLocation(true),
 				mLocalParams.getDestinationLocation(true), mLocalParams.getStartDate());
+			break;
+		}
 		}
 	}
 
@@ -1327,11 +1333,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mRedeyeDialogFrag = Ui.findSupportFragment(this, FTAG_REDEYE_ITEMS_DIALOG);
 		if (mRedeyeDialogFrag == null) {
 			mRedeyeDialogFrag = SimpleCallbackDialogFragment.newInstance(
-					"" /*title*/, //
-					getString(R.string.tablet_redeye_products_message), //
-					getString(R.string.yes) /*button*/, //
-					SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-					getString(R.string.cancel) /*negativeButton*/);
+				"" /*title*/, //
+				getString(R.string.tablet_redeye_products_message), //
+				getString(R.string.yes) /*button*/, //
+				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
+				getString(R.string.cancel) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
 			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
@@ -1343,11 +1349,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mMismatchedDialogFrag = Ui.findSupportFragment(this, FTAG_MISMATCHED_ITEMS_DIALOG);
 		if (mMismatchedDialogFrag == null) {
 			mMismatchedDialogFrag = SimpleCallbackDialogFragment.newInstance(
-					"" /*title*/, //
-					getString(R.string.tablet_mismatched_products_message), //
-					getString(R.string.yes) /*button*/, //
-					SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-					getString(R.string.cancel) /*negativeButton*/);
+				"" /*title*/, //
+				getString(R.string.tablet_mismatched_products_message), //
+				getString(R.string.yes) /*button*/, //
+				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
+				getString(R.string.cancel) /*negativeButton*/);
 		}
 		if (!mMismatchedDialogFrag.isAdded()) {
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
