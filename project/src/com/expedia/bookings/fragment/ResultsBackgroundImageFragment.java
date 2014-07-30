@@ -136,8 +136,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		newCodes.add(Sp.getParams().getDestination().getAirportCode());
 		String newCode = newCodes.get(0);
 		if (!TextUtils.isEmpty(newCode) && !newCodes.equals(mDestCodes)) {
-			getArguments().putStringArrayList(ARG_DEST_CODES, newCodes);
 			mDestCodes = newCodes;
+			mCodesIndex = 0;
 
 			loadImage();
 		}
