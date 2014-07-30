@@ -36,7 +36,7 @@ public class HotelErrorDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();
-		int messageId = args.getInt(ARG_MESSAGE, R.string.error_hotel_is_now_sold_out);
+		int messageId = args.getInt(ARG_MESSAGE, R.string.error_hotel_is_now_sold_out_expedia);
 		mShouldFinishActivity = args.getBoolean(ARG_SHOULD_FINISH_ACTIVITY, true);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -504,7 +504,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if (response.hasErrors()) {
 				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = R.string.error_hotel_is_now_sold_out;
+					messageResId = R.string.error_hotel_is_now_sold_out_expedia;
 				}
 				else {
 					messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
@@ -514,7 +514,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 					|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
 					&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(R.string.error_hotel_is_now_sold_out);
+				showErrorDialog(R.string.error_hotel_is_now_sold_out_expedia);
 			}
 			else {
 				Db.kickOffBackgroundHotelSearchSave(mContext);

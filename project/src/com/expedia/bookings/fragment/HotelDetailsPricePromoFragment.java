@@ -68,12 +68,12 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			if (params.isDefaultStay()) {
-				mSoldOutTextView.setText(R.string.sold_out_tonight);
+				mSoldOutTextView.setText(R.string.not_currently_available);
 			}
 			else {
 				String dates = JodaUtils.formatDateRange(getActivity(), params.getCheckInDate(),
 						params.getCheckOutDate(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-				mSoldOutTextView.setText(getString(R.string.sold_out_TEMPLATE, dates));
+				mSoldOutTextView.setText(getString(R.string.not_currently_available_TEMPLATE, dates));
 			}
 		}
 		else {

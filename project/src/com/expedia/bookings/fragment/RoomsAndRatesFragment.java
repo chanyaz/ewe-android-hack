@@ -118,7 +118,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			Db.getHotelSearch().removeProperty(selectedId);
 
 			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-			dialog.setMessage(R.string.error_hotel_is_now_sold_out);
+			dialog.setMessage(R.string.error_hotel_is_now_sold_out_expedia);
 			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);
