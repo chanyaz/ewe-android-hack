@@ -92,7 +92,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			mBlur = args.getBoolean(ARG_BLUR);
 		}
 		else {
-			mDestCodes = savedInstanceState.getStringArrayList(INSTANCE_CODES_INDEX);
+			mDestCodes = savedInstanceState.getStringArrayList(INSTANCE_DEST_CODES);
 			mCodesIndex = savedInstanceState.getInt(INSTANCE_CODES_INDEX, 0);
 			mBlur = savedInstanceState.getBoolean(INSTANCE_BLUR);
 		}
