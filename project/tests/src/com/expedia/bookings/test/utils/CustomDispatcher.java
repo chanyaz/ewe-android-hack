@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -52,8 +55,24 @@ public class CustomDispatcher extends Dispatcher {
 
 		else if (request.getPath().contains("/api/flight/search")) {
 			Map<String, String> params = parsePostParams(request);
-			String filename = params.containsKey("returnDate") ? "happy_roundtrip" : "happy_oneway";
-			return makeResponse("MockResponses/api/flight/search/" + filename + ".json");
+			String filename = "happy_oneway";
+
+			Calendar departCalTakeoff = parseYearMonthDay(params.get("departureDate"), 10, 0);
+			Calendar departCalLanding = parseYearMonthDay(params.get("departureDate"), 12+4, 0);
+			params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.getTimeInMillis() / 1000));
+			params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.getTimeInMillis() / 1000));
+
+			if (params.containsKey("returnDate")) {
+				filename = "happy_roundtrip";
+				Calendar returnCalTakeoff = parseYearMonthDay(params.get("returnDate"), 10, 0);
+				Calendar returnCalLanding = parseYearMonthDay(params.get("returnDate"), 12+4, 0);
+				params.put("returnFlightTakeoffTimeEpochSeconds", "" + (returnCalTakeoff.getTimeInMillis() / 1000));
+				params.put("returnFlightLandingTimeEpochSeconds", "" + (returnCalLanding.getTimeInMillis() / 1000));
+			}
+
+			params.put("tzOffsetSeconds", "" + (departCalTakeoff.getTimeZone().getOffset(departCalTakeoff.getTimeInMillis()) / 1000));
+
+			return makeResponse("MockResponses/api/flight/search/" + filename + ".json", params);
 		}
 
 		else if (request.getPath().contains("/api/flight/trip/create")) {
@@ -67,6 +86,16 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		return new MockResponse().setResponseCode(404);
+	}
+
+	public Calendar parseYearMonthDay(String ymd, int hour, int minute) {
+		String[] parts = ymd.split("-");
+		int year = Integer.parseInt(parts[0]);
+		int month = Integer.parseInt(parts[1]) - 1;
+		int day = Integer.parseInt(parts[2]);
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, day, hour, minute);
+		return cal;
 	}
 
 	public static Map<String, String> parsePostParams(RecordedRequest request) {
@@ -90,9 +119,23 @@ public class CustomDispatcher extends Dispatcher {
 	}
 
 	public MockResponse makeResponse(String filePath) {
+		return makeResponse(filePath, null);
+	}
+
+	public MockResponse makeResponse(String filePath, Map<String,String> params) {
 		MockResponse resp = new MockResponse();
 		try {
 			String body = getResponse(filePath);
+			if (params != null) {
+				Iterator it = params.entrySet().iterator();
+				while (it.hasNext()) {
+					Map.Entry<String,String> entry = (Map.Entry<String,String>) it.next();
+					final String key = "${" + entry.getKey() + "}";
+					if (body.contains(entry.getKey())) {
+						body = body.replace(key, entry.getValue());
+					}
+				}
+			}
 			resp.setBody(body);
 			resp.setHeader("Content-Type", "application/json");
 		}

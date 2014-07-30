@@ -142,9 +142,10 @@ public class TabletHappyPath extends TabletTestCase {
 		Results.swipeUpFlightList();
 		screenshot("Flight_Search_Results");
 		Results.clickFlightAtIndex(1);
-		screenshot("Flight_Details");
+		screenshot("Flight_Details_Departure");
 		Results.clickAddFlight();
 		Results.clickFlightAtIndex(1);
+		screenshot("Flight_Details_Return");
 		Results.clickAddFlight();
 
 		screenshot("Trip_Bucket");
