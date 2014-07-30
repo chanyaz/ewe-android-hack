@@ -9,6 +9,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -154,17 +155,29 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	}
 
 	private void loadImage() {
-		if (getActivity() != null) {
-			Point landscape = Ui.getLandscapeScreenSize(getActivity());
-			String destinationCode = mDestCodes.get(mCodesIndex);
-			final String url = new Akeakamai(Images.getTabletDestination(destinationCode))
-				.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
-				.quality(60)
-				.build();
-
-			L2ImageCache.sDestination.clearCallbacksByUrl(url);
-			L2ImageCache.sDestination.loadImage(url, mBlur, this);
+		if (getActivity() == null) {
+			return;
 		}
+
+		Point landscape = Ui.getLandscapeScreenSize(getActivity());
+		String destinationCode = mDestCodes.get(mCodesIndex);
+		final String url = new Akeakamai(Images.getTabletDestination(destinationCode))
+			.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
+			.quality(60)
+			.build();
+
+		L2ImageCache.sDestination.clearCallbacksByUrl(url);
+
+		// Check whether we already have this image cached
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, mBlur /*blurred*/ , true /*checkdisk*/);
+
+		// If the bitmap isn't in cache, throw up the default destination image right away
+		if (bitmap == null) {
+			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_tablet_dest_image_default);
+			onBitmapLoaded(url, bitmap);
+		}
+
+		L2ImageCache.sDestination.loadImage(url, mBlur, this);
 	}
 
 	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
@@ -209,6 +222,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			mCodesIndex++;
 			loadImage();
 		}
+		else {
+			// Fall back to bg_tablet_dest_image_default
+			Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_tablet_dest_image_default);
+			onBitmapLoaded(null, bitmap);
+		}
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -240,28 +258,37 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	// with every second tile flipped vertically.
 	private void addNewViews(Bitmap bitmap, float alpha) {
 		Point screen = Ui.getScreenSize(getActivity());
-		int scaledWidth = calculateTileWidth(screen.x);
-		float scale = (float) scaledWidth / bitmap.getWidth();
-		int scaledHeight = (int) (scale * bitmap.getHeight());
+
+		// Scale should be such that width is >= width and height >= height
+		float width = screen.x;
+		float height = screen.y * (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
+
+		float scale = Math.max(width / bitmap.getWidth(), height / bitmap.getHeight());
+
+		int viewWidth = (int)(scale * bitmap.getWidth());
+		int viewHeight = (int)(scale * bitmap.getHeight());
+
 		boolean flip = false;
-		int y = calculateTopOffset(scaledWidth);
+		int y = 0;
 		while (y < screen.y) {
 			ImageView image = new ImageView(getActivity());
-			image.setLayoutParams(new ViewGroup.MarginLayoutParams(scaledWidth, scaledHeight));
+			image.setLayoutParams(new ViewGroup.MarginLayoutParams(viewWidth, viewHeight));
+			image.setTranslationX((width - viewWidth)/2f);
 			image.setTranslationY(y);
 			image.setScaleY(flip ? -1f : 1f);
 			image.setImageBitmap(bitmap);
 			image.setAlpha(alpha);
 			mRootC.addView(image);
 			flip = !flip;
-			y += scaledHeight;
+			y += height;
 		}
 	}
 
 	// This will fade out the first half of the children (with index in [0, split) ),
 	// and fade in the second half of the children at the same time (with index in [split, childCount) ).
-	private void crossfade(final int split) {
+	private void crossfade(int split) {
 		final int children = mRootC.getChildCount();
+		final int fsplit = split <= children ? split : 0;
 		PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f);
 		ObjectAnimator[] animators = new ObjectAnimator[children - split];
 		for (int i = split; i < children; i++) {
@@ -271,7 +298,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		set.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				for (int i = 0; i < split; i++) {
+				for (int i = 0; i < fsplit; i++) {
 					ImageView image = (ImageView) mRootC.getChildAt(0);
 					image.setImageBitmap(null);
 					mRootC.removeViewAt(0);
@@ -280,34 +307,5 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		});
 		set.playTogether(animators);
 		set.start();
-	}
-
-	// Possibly upscales the tile so that the top offset isn't below the top of the screen.
-	private int calculateTileWidth(int minimum) {
-		return minimum;
-
-// These changes proposed by Chris & Doug
-//		float percentOfImage = 0.29f;
-//		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
-//
-//		int imageWidth = (int)( (percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y) / percentOfImage);
-//
-//		return Math.max(minimum, imageWidth);
-	}
-
-	// This calculates a top image offset such that the row %{percentOfImage} * {height of image}
-	// down the destination image appears located at %{percentOfScreen} down from the top of this fragment.
-	private int calculateTopOffset(int imageWidth) {
-		return 0;
-
-// These changes proposed by Chris & Doug
-//		float percentOfImage = 0.29f;
-//		float percentOfScreen = (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1)) / 2f;
-//
-//		float imageOffset = imageWidth * percentOfImage;
-//
-//		float screenOffset = percentOfScreen * AndroidUtils.getScreenSize(getActivity()).y;
-//
-//		return Math.min(0, (int)(screenOffset - imageOffset));
 	}
 }
