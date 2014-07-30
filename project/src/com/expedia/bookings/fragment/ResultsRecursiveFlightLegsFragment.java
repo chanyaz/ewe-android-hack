@@ -1054,7 +1054,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		}
 
 		mListFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(listAvail, FTAG_LIST, manager, transaction, this, R.id.list_container, false);
+			.setFragmentAvailability(listAvail, FTAG_LIST, manager, transaction, this, R.id.list_container, true);
 		mFilterFrag = FragmentAvailabilityUtils
 			.setFragmentAvailability(filterAvail, FTAG_FILTERS, manager, transaction, this, R.id.filters_container,
 				false);
