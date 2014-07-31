@@ -16,6 +16,18 @@
         android:layout_width="@dimen/destination_search_tile_width"
         android:layout_height="@dimen/destination_search_tile_height" />
 
+    <ImageView
+        android:id="@+id/checkmark"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="@dimen/destination_stack_text_container_height"
+        android:scaleType="center"
+        android:src="@drawable/ic_booking_complete_check"
+        android:alpha="0.5"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/text"
         android:layout_width="@dimen/destination_search_tile_width"
@@ -23,14 +35,5 @@
         android:layout_gravity="center|top"
         android:gravity="center"
         android:layout_marginTop="@dimen/destination_search_tile_text_margin_top" />
-
-    <ImageView
-        android:id="@+id/checkmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_booking_complete_check"
-        android:visibility="gone" />
 
 </merge>
