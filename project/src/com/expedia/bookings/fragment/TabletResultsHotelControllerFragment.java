@@ -917,15 +917,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
-			if (state == ResultsState.FLIGHTS) {
-				mRootC.setVisibility(View.GONE);
-				mRootC.setAlpha(0f);
-			}
-			else {
-				mRootC.setVisibility(View.VISIBLE);
-				mRootC.setAlpha(1f);
-			}
-
 			if (state != ResultsState.HOTELS) {
 				setHotelsState(getBaseState(), false);
 			}

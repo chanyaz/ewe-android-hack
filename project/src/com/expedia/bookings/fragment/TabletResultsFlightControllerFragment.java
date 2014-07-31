@@ -583,6 +583,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
+			// This is done because flights controller sits on top of hotels
+			// controller in the ResultsActivity.
+			if (state == ResultsState.HOTELS) {
+				mRootC.setVisibility(View.GONE);
+				mRootC.setAlpha(0f);
+			}
+			else {
+				mRootC.setVisibility(View.VISIBLE);
+				mRootC.setAlpha(1f);
+			}
+
 			if (state != ResultsState.FLIGHTS) {
 				setFlightsState(getBaseState(), false);
 			}
