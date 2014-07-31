@@ -128,6 +128,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -135,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:includeFontPadding="false"
+                android:layout_marginTop="2dp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/hotel_row_strikethrough_price_text_size"
                 android:visibility="gone"/>
@@ -144,7 +145,6 @@
                 android:id="@+id/price_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_price_size"
