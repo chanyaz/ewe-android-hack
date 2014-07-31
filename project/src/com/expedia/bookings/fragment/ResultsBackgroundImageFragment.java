@@ -175,7 +175,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 		// If the bitmap isn't in cache, throw up the default destination image right away
 		if (bitmap == null) {
-			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_tablet_dest_image_default);
+			bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.bg_tablet_dest_image_default, false /*blurred*/);
 			onBitmapLoaded(url, bitmap);
 		}
 
@@ -226,7 +226,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		}
 		else {
 			// Fall back to bg_tablet_dest_image_default
-			Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_tablet_dest_image_default);
+			Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.bg_tablet_dest_image_default, false /*blurred*/);
 			onBitmapLoaded(null, bitmap);
 		}
 	}
