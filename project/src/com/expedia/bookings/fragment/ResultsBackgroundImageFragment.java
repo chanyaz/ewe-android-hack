@@ -53,6 +53,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	private ViewGroup mRootC;
 
+	private boolean mIsLandscape;
+
 	public static ResultsBackgroundImageFragment newInstance(boolean blur) {
 		ArrayList<String> codes = Sp.getParams().getDestination().getPossibleImageCodes();
 		return newInstance(codes, blur);
@@ -101,6 +103,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			mCodesIndex = savedInstanceState.getInt(INSTANCE_CODES_INDEX, 0);
 			mBlur = savedInstanceState.getBoolean(INSTANCE_BLUR);
 		}
+
+		mIsLandscape = getResources().getBoolean(R.bool.landscape);
 	}
 
 	@Override
@@ -259,23 +263,31 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	// This adds ImageViews to the base layout (assumed to be a FrameLayout), tiled vertically
 	// with every second tile flipped vertically.
 	private void addNewViews(Bitmap bitmap, float alpha) {
-		Point screen = Ui.getScreenSize(getActivity());
-
-		// Scale should be such that width is >= width and height >= height
-		float width = screen.x;
-		float height = screen.y * (1f - getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
-
-		float scale = Math.max(width / bitmap.getWidth(), height / bitmap.getHeight());
+		float scale = 1.0f;
+		float screenWidth;
+		float screenHeight;
+		Point landscape = Ui.getLandscapeScreenSize(getActivity());
+		if (mIsLandscape) {
+			// Fit width in landscape
+			screenWidth = landscape.x;
+			screenHeight = landscape.y;
+			scale = screenWidth / bitmap.getWidth();
+		}
+		else {
+			screenWidth = landscape.y;
+			screenHeight = landscape.x;
+			scale = landscape.x / bitmap.getWidth();
+		}
 
 		int viewWidth = (int) (scale * bitmap.getWidth());
 		int viewHeight = (int) (scale * bitmap.getHeight());
 
 		boolean flip = false;
 		int y = 0;
-		while (y < screen.y) {
+		while (y < screenHeight) {
 			ImageView image = new ImageView(getActivity());
-			image.setLayoutParams(new ViewGroup.MarginLayoutParams(viewWidth, viewHeight));
-			image.setTranslationX((width - viewWidth) / 2f);
+			image.setLayoutParams(new ViewGroup.LayoutParams(viewWidth, viewHeight));
+			image.setTranslationX((screenWidth - viewWidth) / 2f);
 			image.setTranslationY(y);
 			image.setScaleY(flip ? -1f : 1f);
 			image.setImageBitmap(bitmap);
