@@ -531,8 +531,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mFlightsC.setTranslationY(
 					mCenterColumnUpDownInterpolator.getInterpolation(percentage) * flightsHeight);
 			}
-			else if (mFlightsC.getTranslationY() != 0) {
+			else {
 				mFlightsC.setTranslationY(0f);
+				int topSpace = mGrid.isLandscape() ? mGrid.getRowSpanHeight(0, 2) : mGrid.getRowHeight(0) - getActionBar().getHeight();
+				mHotelC.setTranslationY(percentage * -topSpace);
 			}
 			mBottomGradient.setTranslationY(mGrid.getRowSpanHeight(0, 2) * -percentage);
 		}
