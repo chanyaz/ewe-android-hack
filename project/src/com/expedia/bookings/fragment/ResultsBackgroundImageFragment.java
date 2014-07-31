@@ -282,7 +282,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			image.setAlpha(alpha);
 			mRootC.addView(image);
 			flip = !flip;
-			y += height;
+			y += viewHeight;
 		}
 	}
 
