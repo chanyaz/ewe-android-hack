@@ -31,6 +31,7 @@ import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
@@ -112,7 +113,10 @@ public class TabletWaypointFragment extends Fragment
 		mLocationProgressBar = Ui.findView(view, R.id.location_loading_progress);
 		mErrorTv = Ui.findView(view, R.id.error_text_view);
 
-		//Set up clear text button
+		// Fix waypoint EditText font
+		FontCache.setTypeface(mWaypointEditText, FontCache.Font.ROBOTO_LIGHT);
+
+		// Set up clear text button
 		View clearWaypointTextView = Ui.findView(view, R.id.clear_waypoint_text);
 		clearWaypointTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -121,7 +125,7 @@ public class TabletWaypointFragment extends Fragment
 			}
 		});
 
-		//Setup the suggestions fragment
+		// Setup the suggestions fragment
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		mSuggestionsFragment = FragmentAvailabilityUtils.setFragmentAvailability(
