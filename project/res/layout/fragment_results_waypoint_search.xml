@@ -96,10 +96,8 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@id/search_bar_container"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
         android:background="@drawable/bg_place_suggestions"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp" />
+        android:paddingRight="8dp" />
 
 </RelativeLayout>
