@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
@@ -34,8 +35,7 @@ import com.squareup.otto.Subscribe;
  * ResultsGdeFlightsFragment: The GDE calendar/list fragment designed for tablet results 2013
  */
 public class ResultsGdeFlightsFragment extends Fragment implements
-	FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
-	ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
 	private static final String STATE_ORIGIN = "STATE_ORIGIN";
 	private static final String STATE_DESTINATION = "STATE_DESTINATION";
@@ -128,12 +128,14 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		super.onResume();
 		startOrResumeDownload(mGdeDownloadFrag);
 		Sp.getBus().register(this);
+		Events.register(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		Sp.getBus().unregister(this);
+		Events.unregister(this);
 	}
 
 	@Override
@@ -247,22 +249,18 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	}
 
 	/*
-	 * ExpediaServicesFragmentListener
+	 * Otto
 	 */
 
-	@Override
-	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response r) {
+	@Subscribe
+	public void onGdeDataAvailable(Events.GdeDataAvailable event) {
 		if (mGdeProgressBar != null) {
 			mGdeProgressBar.setVisibility(View.GONE);
 		}
 		mMissingFlightInfo.setVisibility(View.GONE);
 		mHistogramC.setVisibility(View.GONE);
 
-		if (type != ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH) {
-			return;
-		}
-
-		FlightSearchHistogramResponse response = (FlightSearchHistogramResponse) r;
+		FlightSearchHistogramResponse response = event.response;
 
 		// Error/unexpected input
 		if (response == null || response.hasErrors()) {

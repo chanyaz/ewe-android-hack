@@ -10,12 +10,14 @@ import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Produce;
 
 public class GdeDownloadFragment extends Fragment {
 
@@ -32,15 +34,11 @@ public class GdeDownloadFragment extends Fragment {
 	private Location mOrigin;
 	private Location mDestination;
 	private LocalDate mDepartureDate;
-	private ExpediaServices mServices;
-	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
-
-	private boolean mStartOrResumeOnAttach = false;
+	private FlightSearchHistogramResponse mCachedResults;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 
 		if (savedInstanceState != null) {
 			try {
@@ -70,39 +68,26 @@ public class GdeDownloadFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mServices = new ExpediaServices(activity);
-		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
+		Events.register(this);
 
-		if (mStartOrResumeOnAttach && mOrigin != null && mDestination != null) {
+		if (mOrigin != null && mDestination != null) {
 			startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
 		}
 	}
 
 	@Override
 	public void onPause() {
+		Events.unregister(this);
 		super.onPause();
+
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(DL_GDE_SEARCH);
 		}
 		else {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(DL_GDE_SEARCH);
 		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		mListener = null;
-		mStartOrResumeOnAttach = false;
-		mServices = null;
 	}
 
 	@Override
@@ -120,49 +105,33 @@ public class GdeDownloadFragment extends Fragment {
 	}
 
 	public void startOrResumeForRoute(Location origin, Location destination, LocalDate departureDate) {
-		if (mListener == null) {
-			setGdeInfo(origin, destination, departureDate);
-			mStartOrResumeOnAttach = true;
-		}
-		else {
-			BackgroundDownloader dl = BackgroundDownloader.getInstance();
-			dl.unregisterDownloadCallback(DL_GDE_SEARCH);
-			if (dl.isDownloading(DL_GDE_SEARCH)) {
-				boolean originNew = mOrigin == null ? origin != null : mOrigin.equals(origin);
-				boolean destNew = mDestination == null ? destination != null : mDestination.equals(destination);
-				boolean dateNew = mDepartureDate == null ? departureDate != null : mDepartureDate.equals(departureDate);
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		dl.unregisterDownloadCallback(DL_GDE_SEARCH);
+		if (dl.isDownloading(DL_GDE_SEARCH)) {
+			boolean originNew = mOrigin == null ? origin != null : mOrigin.equals(origin);
+			boolean destNew = mDestination == null ? destination != null : mDestination.equals(destination);
+			boolean dateNew = mDepartureDate == null ? departureDate != null : mDepartureDate.equals(departureDate);
 
-				if (origin == null || destination == null || originNew || destNew || dateNew) {
-					//Something has changed, so we cancel the previous download
-					dl.cancelDownload(DL_GDE_SEARCH);
+			if (origin == null || destination == null || originNew || destNew || dateNew) {
+				//Something has changed, so we cancel the previous download
+				dl.cancelDownload(DL_GDE_SEARCH);
 
-					setGdeInfo(origin, destination, departureDate);
+				setGdeInfo(origin, destination, departureDate);
 
-					if (origin != null && destination != null && (originNew || destNew || dateNew)) {
-						//Something has changed and we have valid data, so we kick off the new search
-						startOrRestartGdeSearch();
-					}
-				}
-				else {
-					//Our Locations haven't changed so we just resume the existing dl
-					dl.registerDownloadCallback(DL_GDE_SEARCH, mGdeSearchCallback);
+				if (origin != null && destination != null && (originNew || destNew || dateNew)) {
+					//Something has changed and we have valid data, so we kick off the new search
+					startOrRestartGdeSearch();
 				}
 			}
 			else {
-				//We weren't downloading, so we should start
-				setGdeInfo(origin, destination, departureDate);
-				startOrRestartGdeSearch();
+				//Our Locations haven't changed so we just resume the existing dl
+				dl.registerDownloadCallback(DL_GDE_SEARCH, mGdeSearchCallback);
 			}
 		}
-	}
-
-	public void startGdeSearch() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DL_GDE_SEARCH)) {
-			bd.registerDownloadCallback(DL_GDE_SEARCH, mGdeSearchCallback);
-		}
 		else {
-			bd.startDownload(DL_GDE_SEARCH, mGdeSearchDownload, mGdeSearchCallback);
+			//We weren't downloading, so we should start
+			setGdeInfo(origin, destination, departureDate);
+			startOrRestartGdeSearch();
 		}
 	}
 
@@ -179,7 +148,7 @@ public class GdeDownloadFragment extends Fragment {
 		return BackgroundDownloader.getInstance().isDownloading(DL_GDE_SEARCH);
 	}
 
-	protected void setGdeInfo(Location origin, Location destination, LocalDate departureDate) {
+	private void setGdeInfo(Location origin, Location destination, LocalDate departureDate) {
 		mOrigin = origin;
 		mDestination = destination;
 		mDepartureDate = departureDate;
@@ -189,13 +158,9 @@ public class GdeDownloadFragment extends Fragment {
 	private final Download<FlightSearchHistogramResponse> mGdeSearchDownload = new Download<FlightSearchHistogramResponse>() {
 		@Override
 		public FlightSearchHistogramResponse doDownload() {
-			if (mOrigin != null && mDestination != null) {
-				if (mServices == null) {
-					mStartOrResumeOnAttach = true;
-				}
-				else {
-					return mServices.flightSearchHistogram(mOrigin, mDestination, mDepartureDate);
-				}
+			if (mOrigin != null && mDestination != null && getActivity() != null) {
+				ExpediaServices services = new ExpediaServices(getActivity());
+				return services.flightSearchHistogram(mOrigin, mDestination, mDepartureDate);
 			}
 			return null;
 		}
@@ -204,9 +169,13 @@ public class GdeDownloadFragment extends Fragment {
 	private final OnDownloadComplete<FlightSearchHistogramResponse> mGdeSearchCallback = new OnDownloadComplete<FlightSearchHistogramResponse>() {
 		@Override
 		public void onDownload(FlightSearchHistogramResponse results) {
-			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH, results);
+			mCachedResults = results;
+			Events.post(produceGdeDataAvailable());
 		}
 	};
 
-
+	@Produce
+	public Events.GdeDataAvailable produceGdeDataAvailable() {
+		return new Events.GdeDataAvailable(mCachedResults);
+	}
 }

@@ -37,7 +37,6 @@ public class ExpediaServicesFragment extends Fragment {
 		HOTEL_INFO,
 		FLIGHT_SEARCH,
 		HOTEL_AFFINITY_SEARCH,
-		FLIGHT_GDE_SEARCH
 	}
 
 	private Map<ServiceType, ResponseDownload> mToRequest = new ConcurrentHashMap<ServiceType, ResponseDownload>();

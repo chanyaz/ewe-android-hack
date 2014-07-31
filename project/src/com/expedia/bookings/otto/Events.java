@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
@@ -443,6 +444,14 @@ public class Events {
 
 		public GdeItemSelected(WeeklyFlightHistogram week) {
 			this.week = week;
+		}
+	}
+
+	public static class GdeDataAvailable {
+		public final FlightSearchHistogramResponse response;
+
+		public GdeDataAvailable(FlightSearchHistogramResponse response) {
+			this.response = response;
 		}
 	}
 }
