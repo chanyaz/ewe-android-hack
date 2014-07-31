@@ -978,15 +978,9 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		try {
-			String endpointUrl = getGdeEndpointUrl();
-			List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
-			return doBasicGetRequest(endpointUrl, query, new FlightSearchHistogramResponseHandler());
-		}
-		catch (RuntimeException ex) {
-			Log.e("Runtime Exception in flightSearchHistogram(). Returning null.", ex);
-			return null;
-		}
+		String endpointUrl = getGdeEndpointUrl();
+		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
+		return doBasicGetRequest(endpointUrl, query, new FlightSearchHistogramResponseHandler());
 	}
 
 	public List<BasicNameValuePair> generateFlightSearchHistogramParams(FlightSearchParams params) {
