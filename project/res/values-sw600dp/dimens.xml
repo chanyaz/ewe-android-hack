@@ -13,7 +13,7 @@
     <dimen name="tablet_result_corner_radius">2dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">15sp</dimen>
     <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
-    <dimen name="tablet_result_row_price_size">21sp</dimen>
+    <dimen name="tablet_result_row_price_size">16sp</dimen>
     <dimen name="tablet_result_row_price_max_width">170dp</dimen>
 
     <!-- Launch Screen -->
@@ -149,6 +149,8 @@
     <dimen name="hotel_flight_card_width">263dp</dimen>
     <dimen name="hotel_flight_card_padding_x">27dp</dimen>
     <dimen name="hotel_flight_card_padding_y">0dp</dimen>
+    <dimen name="hotel_flight_card_content_margin_x">14dp</dimen>
+    <dimen name="hotel_flight_card_content_margin_y">14dp</dimen>
     <dimen name="tripbucket_bookbutton_height">40dp</dimen>
     <dimen name="trip_bucket_primary_dest_size">46dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">80dp</dimen>

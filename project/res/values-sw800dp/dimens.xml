@@ -27,6 +27,8 @@
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
 
     <!-- Search Results -->
+    <dimen name="tablet_result_row_primary_text_size">16sp</dimen>
+    <dimen name="tablet_result_row_price_size">21sp</dimen>
     <dimen name="results_collapsed_row_height">392dp</dimen>
 
     <!-- Hotel Details Fragment -->
@@ -68,6 +70,8 @@
     <dimen name="hotel_flight_card_width">352dp</dimen>
     <dimen name="hotel_flight_card_padding_x">32dp</dimen>
     <dimen name="hotel_flight_card_padding_y">6dp</dimen>
+    <dimen name="hotel_flight_card_content_margin_x">17dp</dimen>
+    <dimen name="hotel_flight_card_content_margin_y">18dp</dimen>
     <dimen name="tripbucket_bookbutton_height">50dp</dimen>
     <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
