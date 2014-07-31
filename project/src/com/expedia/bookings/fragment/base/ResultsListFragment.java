@@ -170,7 +170,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	};
 
 	public int getMaxDistanceFromTop() {
-		return mListView.getHeaderSpacerHeight();
+		return mListView.getHeaderSpacerHeight() - (int) (9 * getResources().getDisplayMetrics().density);
 	}
 
 	public float getPercentage() {
