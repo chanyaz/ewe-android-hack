@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity;
+import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.HotelFilter;
@@ -122,6 +123,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
 		mAbText2.setText(R.string.Destination);
 		mAbText2.setAlpha(0f);
+
+		SuggestionProvider.enableCurrentLocation(true);
 
 		registerStateListener(mDetailsStateListener, false);
 		registerStateListener(mWaypointStateListener, false);

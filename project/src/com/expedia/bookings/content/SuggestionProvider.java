@@ -98,6 +98,8 @@ public class SuggestionProvider extends ContentProvider {
 
 	private static final int MAX_RECENTS = 10;
 
+	private static boolean sIncludeCurrentLocation = true;
+
 	private RecentList<SuggestionV2> mRecents;
 
 	@Override
@@ -107,8 +109,17 @@ public class SuggestionProvider extends ContentProvider {
 		return true;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Static methods
+
 	public static Uri getContentFilterUri(Context context) {
 		return Uri.parse("content://" + context.getString(R.string.authority_autocomplete_suggestions));
+	}
+
+	public static void enableCurrentLocation(boolean isEnabled) {
+		if (isEnabled != sIncludeCurrentLocation) {
+			sIncludeCurrentLocation = isEnabled;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -136,12 +147,14 @@ public class SuggestionProvider extends ContentProvider {
 		// If the user has no query parameter, then add some special rows; otherwise
 		// depend entirely on the suggestions service.
 		if (TextUtils.isEmpty(query)) {
-			// Add current location
-			SuggestionV2 currentLocationSuggestion = new SuggestionV2();
-			currentLocationSuggestion.setResultType(ResultType.CURRENT_LOCATION);
-			currentLocationSuggestion.setFullName(getContext().getString(R.string.current_location));
-			currentLocationSuggestion.setDisplayName(currentLocationSuggestion.getFullName());
-			addSuggestion(currentLocationSuggestion);
+			if (sIncludeCurrentLocation) {
+				// Add current location
+				SuggestionV2 currentLocationSuggestion = new SuggestionV2();
+				currentLocationSuggestion.setResultType(ResultType.CURRENT_LOCATION);
+				currentLocationSuggestion.setFullName(getContext().getString(R.string.current_location));
+				currentLocationSuggestion.setDisplayName(currentLocationSuggestion.getFullName());
+				addSuggestion(currentLocationSuggestion);
+			}
 
 			// Add recent suggestions
 			for (SuggestionV2 recentSuggestion : mRecents.getList()) {

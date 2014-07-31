@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.enums.LaunchState;
@@ -258,12 +259,16 @@ public class TabletWaypointFragment extends Fragment
 		if (mWaypointEditText != null) {
 			mWaypointEditText.setHint(R.string.origins_hint);
 		}
+		SuggestionProvider.enableCurrentLocation(false);
+		doAfterTextChanged(mWaypointEditText);
 	}
 
 	public void updateViewsForDestination() {
 		if (mWaypointEditText != null) {
 			mWaypointEditText.setHint(R.string.search_all_hint);
 		}
+		SuggestionProvider.enableCurrentLocation(true);
+		doAfterTextChanged(mWaypointEditText);
 	}
 
 	private TextView.OnEditorActionListener mSearchActionListener = new TextView.OnEditorActionListener() {
