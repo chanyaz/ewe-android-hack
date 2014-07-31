@@ -207,9 +207,6 @@ public class L2ImageCache {
 			catch (IOException e) {
 				Log.w(mLogTag, "Could not retrieve url from disk cache: " + url, e);
 			}
-			catch (OutOfMemoryError e) {
-				Log.w(mLogTag, "Tried to decode Bitmap from disk cache but ran out of memory: " + url, e);
-			}
 		}
 
 		return null;
@@ -346,24 +343,18 @@ public class L2ImageCache {
 		String key = getMemCacheKeyForResDrawable(resId, blur);
 		Bitmap bitmap = mMemoryCache.get(key);
 		if (bitmap == null) {
-			try {
-				if (blur) {
-					// Is the regular in memory?
-					Bitmap regBitmap = mMemoryCache.get(getMemCacheKeyForResDrawable(resId, false));
-					if (regBitmap == null) {
-						regBitmap = BitmapFactory.decodeResource(res, resId);
-					}
+			if (blur) {
+				// Is the regular in memory?
+				Bitmap regBitmap = mMemoryCache.get(getMemCacheKeyForResDrawable(resId, false));
+				if (regBitmap == null) {
+					regBitmap = BitmapFactory.decodeResource(res, resId);
+				}
 
-					bitmap = BitmapUtils.stackBlurAndDarken(regBitmap, mContext,
-						BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
-				}
-				else {
-					bitmap = BitmapFactory.decodeResource(res, resId);
-				}
+				bitmap = BitmapUtils.stackBlurAndDarken(regBitmap, mContext,
+					BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
 			}
-			catch (OutOfMemoryError e) {
-				Log.w("Could not load native resource " + resId + ", ran out of memory.", e);
-				return null;
+			else {
+				bitmap = BitmapFactory.decodeResource(res, resId);
 			}
 
 			mMemoryCache.put(key, bitmap);
@@ -946,10 +937,6 @@ public class L2ImageCache {
 				}
 				return null;
 			}
-			catch (OutOfMemoryError e) {
-				Log.e(mLogTag, "Could not blur image, ran out of memory.", e);
-				return null;
-			}
 			finally {
 				if (editor != null) {
 					editor.abortUnlessCommitted();
@@ -1028,10 +1015,6 @@ public class L2ImageCache {
 		catch (FileNotFoundException e) {
 			Log.w(mLogTag, "Ignoring url because it could not be found: " + url);
 			mIgnore.add(url);
-			return null;
-		}
-		catch (OutOfMemoryError e) {
-			Log.e(mLogTag, "Could not fetch image, ran out of memory.", e);
 			return null;
 		}
 		finally {
