@@ -557,6 +557,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
 				startStateTransition(ResultsFlightsState.CHOOSING_FLIGHT, ResultsFlightsState.FLIGHT_LIST_DOWN);
 			}
+
+			if (stateTwo == ResultsState.OVERVIEW) {
+				mRootC.setVisibility(View.VISIBLE);
+				mRootC.setAlpha(1f);
+			}
 		}
 
 		@Override
@@ -824,6 +829,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
 				mCouldShowInfantPrompt = true;
+				mFlightMapC.setVisibility(View.GONE);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				// The loading fragment is about to be removed in onFinalize, but lets reset it beforehand regardless.
