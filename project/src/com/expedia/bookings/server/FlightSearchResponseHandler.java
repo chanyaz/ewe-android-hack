@@ -211,6 +211,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			segment.mAircraftType = segmentJson.optString("equipmentDescription");
+			segment.mOnTimePercentage = (float) segmentJson.optDouble("onTimePercentage", 0.0f);
 
 			leg.addSegment(segment);
 		}

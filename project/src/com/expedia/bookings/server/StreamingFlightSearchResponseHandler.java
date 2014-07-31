@@ -273,6 +273,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("equipmentDescription")) {
 				segment.mAircraftType = reader.nextString();
 			}
+			else if (name.equals("onTimePercentage")) {
+				segment.mOnTimePercentage = Integer.parseInt(reader.nextString()) / 100.0f;
+			}
 			else {
 				reader.skipValue();
 			}
