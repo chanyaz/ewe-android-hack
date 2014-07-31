@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,18 +19,22 @@ import android.content.res.Resources;
 import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class StrUtils {
+
+	private static Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
 
 	/**
 	 * Formats the display of how many adults and children are picked currently.
@@ -403,5 +409,17 @@ public class StrUtils {
 			sb.append(String.format("%02x", b & 0xff));
 		}
 		return sb.toString();
+	}
+
+	public static String formatCity(SuggestionV2 suggestion) {
+		String city = suggestion.getLocation().getCity();
+		if (TextUtils.isEmpty(city)) {
+			city = Html.fromHtml(suggestion.getDisplayName()).toString();
+		}
+		Matcher m = CITY_STATE_PATTERN.matcher(city);
+		if (m.find()) {
+			city = m.group(1);
+		}
+		return city;
 	}
 }

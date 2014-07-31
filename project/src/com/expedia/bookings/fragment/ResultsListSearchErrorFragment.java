@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.sql.Struct;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.TextView;
@@ -112,7 +115,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			setErrorText(getString(R.string.missing_flight_trip_date_message));
 			break;
 		case MISSING_ORIGIN:
-			setErrorText(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
+			setErrorText(getString(R.string.missing_flight_info_message_TEMPLATE, StrUtils.formatCity(Sp.getParams().getDestination())));
 			mActionButton.setVisibility(View.VISIBLE);
 			mActionButton.setText(R.string.missing_flight_info_button_prompt);
 			mActionButton.setOnClickListener(new View.OnClickListener() {

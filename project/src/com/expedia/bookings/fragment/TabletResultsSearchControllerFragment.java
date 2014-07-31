@@ -52,6 +52,7 @@ import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.AndroidUtils;
@@ -80,7 +81,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_REDEYE_ITEMS_DIALOG = "FTAG_REDEYE_ITEMS_DIALOG";
 	private static final String FTAG_MISMATCHED_ITEMS_DIALOG = "FTAG_MISMATCHED_ITEMS_DIALOG";
 
-	private static Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
+
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
@@ -265,7 +266,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mDestBtn.setText(R.string.current_location);
 		}
 		else if (mLocalParams.hasDestination()) {
-			mDestBtn.setText(formatCity(mLocalParams.getDestination()));
+			mDestBtn.setText(StrUtils.formatCity(mLocalParams.getDestination()));
 		}
 		else {
 			mDestBtn.setText("");
@@ -273,7 +274,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		// Origin Button - Note that this comes straight from Params
 		if (mLocalParams.hasOrigin()) {
-			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, formatCity(mLocalParams.getOrigin())));
+			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, StrUtils.formatCity(mLocalParams.getOrigin())));
 		}
 		else {
 			mOrigBtn.setText(getString(R.string.Fly_from_dot_dot_dot));
@@ -284,18 +285,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		//Traveler number stuff
 		bindTravBtn();
-	}
-
-	private String formatCity(SuggestionV2 suggestion) {
-		String city = suggestion.getLocation().getCity();
-		if (TextUtils.isEmpty(city)) {
-			city = Html.fromHtml(suggestion.getDisplayName()).toString();
-		}
-		Matcher m = CITY_STATE_PATTERN.matcher(city);
-		if (m.find()) {
-			city = m.group(1);
-		}
-		return city;
 	}
 
 	private void bindCalBtn() {

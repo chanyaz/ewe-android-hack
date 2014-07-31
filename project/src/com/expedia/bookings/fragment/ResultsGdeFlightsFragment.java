@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -213,7 +214,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		// No need to bother with doing a GDE search if the origin is missing
 		if (mOrigin == null) {
-			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
+			String destination = StrUtils.formatCity(Sp.getParams().getDestination());
 			mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, destination));
 			mMissingFlightInfo.setVisibility(View.VISIBLE);
 			mSelectOriginButton.setVisibility(View.VISIBLE);
