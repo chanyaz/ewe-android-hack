@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -120,6 +121,20 @@ public class CustomMatchers {
 			@Override
 			public boolean matchesSafely(TextView textview) {
 				return TextUtils.isEmpty(textview.getText());
+			}
+		};
+	}
+
+	public static Matcher<View> listLengthGreaterThan(final int count) {
+		return new BoundedMatcher<View, AdapterView>(AdapterView.class) {
+			@Override
+			protected boolean matchesSafely(AdapterView view) {
+				return (view.getCount() > count);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("list count greater than " + count);
 			}
 		};
 	}

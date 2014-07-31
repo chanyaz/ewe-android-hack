@@ -1,16 +1,23 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
+import org.hamcrest.Matcher;
+
+import android.view.View;
+
 import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import static com.expedia.bookings.test.espresso.ViewActions.slowSwipeUp;
+import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.listLengthGreaterThan;
 import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withHotelName;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -27,7 +34,16 @@ public class Results {
 	}
 
 	public static ViewInteraction flightList() {
-		return onView(withContentDescription("Flight Search Results"));
+		return onView(flightListMatcher());
+	}
+
+	public static Matcher<View> flightListMatcher() {
+		return allOf(withId(android.R.id.list), withListColumnContainer(), isDisplayed());
+	}
+
+	//to avoid matching multiple views on round-trip flight search results
+	public static Matcher<View> withListColumnContainer() {
+		return allOf(isDescendantOfA(allOf(withId(R.id.list_column_container), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
 
 	public static void swipeUpHotelList() {
@@ -93,12 +109,16 @@ public class Results {
 
 	public static DataInteraction flightAtIndex(int index) {
 		return onData(anything()) //
-			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withParent(withId(R.id.list_container)))), isDisplayed())) //
+			.inAdapterView(flightListMatcher()) //
 			.atPosition(index);
 	}
 
 	public static void clickFlightAtIndex(int index) {
+		//list with one item has list count of 3,
+		//so check for list length greater than 2 for non empty search result list
+		onView(flightListMatcher()).check(matches(listLengthGreaterThan(2)));
 		flightAtIndex(index).perform(click());
+
 	}
 
 	public static DataInteraction hotelAtIndex(int index) {
