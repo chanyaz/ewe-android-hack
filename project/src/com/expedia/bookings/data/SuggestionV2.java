@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -181,6 +182,15 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 	public String getImageCode() {
 		return mImageCode;
+	}
+
+	public ArrayList<String> getPossibleImageCodes() {
+		ArrayList<String> codes = new ArrayList<>();
+		if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
+			codes.add(Sp.getParams().getDestination().getImageCode());
+		}
+		codes.add(Sp.getParams().getDestination().getAirportCode());
+		return codes;
 	}
 
 	@Override

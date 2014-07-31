@@ -375,12 +375,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			frag = new TabletResultsSearchControllerFragment();
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
-			ArrayList<String> codes = new ArrayList<>();
-			if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
-				codes.add(Sp.getParams().getDestination().getImageCode());
-			}
-			codes.add(Sp.getParams().getDestination().getAirportCode());
-			frag = ResultsBackgroundImageFragment.newInstance(codes, false);
+			frag = ResultsBackgroundImageFragment.newInstance(false);
 		}
 		else if (tag == FTAG_BUCKET) {
 			frag = new ResultsTripBucketFragment();

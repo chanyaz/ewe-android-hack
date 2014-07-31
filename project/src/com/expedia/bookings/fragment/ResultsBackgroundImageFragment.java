@@ -53,6 +53,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	private ViewGroup mRootC;
 
+	public static ResultsBackgroundImageFragment newInstance(boolean blur) {
+		ArrayList<String> codes = Sp.getParams().getDestination().getPossibleImageCodes();
+		return newInstance(codes, blur);
+	}
+
 	public static ResultsBackgroundImageFragment newInstance(String destCode, boolean blur) {
 		ArrayList<String> codes = new ArrayList<>();
 		codes.add(destCode);
@@ -67,7 +72,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		fragment.setArguments(args);
 		return fragment;
 	}
-
 
 	// For Tablet Checkout, where our desired background image does not necessarily correspond
 	// to our current search parameters.
@@ -133,13 +137,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Subscribe
 	public void onSpChange(Sp.SpUpdateEvent event) {
-		ArrayList<String> newCodes = new ArrayList<>();
-		newCodes.add(Sp.getParams().getDestination().getAirportCode());
-		String newCode = newCodes.get(0);
-		if (!TextUtils.isEmpty(newCode) && !newCodes.equals(mDestCodes)) {
+		ArrayList<String> newCodes = Sp.getParams().getDestination().getPossibleImageCodes();
+		if (!newCodes.equals(mDestCodes)) {
 			mDestCodes = newCodes;
 			mCodesIndex = 0;
-
 			loadImage();
 		}
 	}
@@ -161,7 +162,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
 		String destinationCode = mDestCodes.get(mCodesIndex);
-		final String url = new Akeakamai(Images.getTabletDestination(destinationCode))
+		String baseUrl = Images.getTabletDestination(destinationCode);
+		final String url = new Akeakamai(baseUrl)
 			.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
 			.quality(60)
 			.build();
@@ -169,7 +171,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		L2ImageCache.sDestination.clearCallbacksByUrl(url);
 
 		// Check whether we already have this image cached
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, mBlur /*blurred*/ , true /*checkdisk*/);
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, mBlur /*blurred*/, true /*checkdisk*/);
 
 		// If the bitmap isn't in cache, throw up the default destination image right away
 		if (bitmap == null) {
@@ -265,15 +267,15 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 		float scale = Math.max(width / bitmap.getWidth(), height / bitmap.getHeight());
 
-		int viewWidth = (int)(scale * bitmap.getWidth());
-		int viewHeight = (int)(scale * bitmap.getHeight());
+		int viewWidth = (int) (scale * bitmap.getWidth());
+		int viewHeight = (int) (scale * bitmap.getHeight());
 
 		boolean flip = false;
 		int y = 0;
 		while (y < screen.y) {
 			ImageView image = new ImageView(getActivity());
 			image.setLayoutParams(new ViewGroup.MarginLayoutParams(viewWidth, viewHeight));
-			image.setTranslationX((width - viewWidth)/2f);
+			image.setTranslationX((width - viewWidth) / 2f);
 			image.setTranslationY(y);
 			image.setScaleY(flip ? -1f : 1f);
 			image.setImageBitmap(bitmap);
