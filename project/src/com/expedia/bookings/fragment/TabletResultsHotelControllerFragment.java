@@ -875,10 +875,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
 				mRootC.setVisibility(View.VISIBLE);
 				mRootC.setAlpha(0f);
-				mHotelListC.setBlockNewEventsEnabled(true);
-			}
-			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
-				mHotelListC.setBlockNewEventsEnabled(true);
 			}
 		}
 
@@ -905,13 +901,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
 				endStateTransition(ResultsHotelsState.HOTEL_LIST_UP, ResultsHotelsState.HOTEL_LIST_DOWN);
-			}
-			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
-				mHotelListC.setBlockNewEventsEnabled(false);
-			}
-			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
-				mRootC.setVisibility(View.GONE);
-				mHotelListC.setBlockNewEventsEnabled(false);
 			}
 		}
 
