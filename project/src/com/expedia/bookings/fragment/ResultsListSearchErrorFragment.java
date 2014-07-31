@@ -15,8 +15,12 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
+import com.expedia.bookings.enums.ResultsSearchState;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
+import com.expedia.bookings.widget.TextView;
 
 /**
  * ResultsListSearchErrorFragment for Tablet
@@ -31,6 +35,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 	private CenteredCaptionedIcon mErrorView;
 	private CharSequence mErrorText;
+	private TextView mActionButton;
 	private int mErrorImageResId;
 
 	public static ResultsListSearchErrorFragment newInstance() {
@@ -40,8 +45,9 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mErrorView = (CenteredCaptionedIcon) inflater.inflate(R.layout.fragment_results_list_search_error, null);
-
+		View v = inflater.inflate(R.layout.fragment_results_list_search_error, null);
+		mErrorView = Ui.findView(v, R.id.caption_view);
+		mActionButton = Ui.findView(v, R.id.action_button);
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_ERROR_TEXT)) {
 				setErrorText(savedInstanceState.getCharSequence(STATE_ERROR_TEXT));
@@ -56,7 +62,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			setErrorImage(mErrorImageResId);
 		}
 
-		return mErrorView;
+		return v;
 	}
 
 
@@ -90,6 +96,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	}
 
 	public void setState(ResultsFlightsState state) {
+		mActionButton.setVisibility(View.GONE);
 		if (mErrorImageResId == 0) {
 			setErrorImage(R.raw.ic_tablet_sold_out_flight);
 		}
@@ -106,6 +113,14 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			break;
 		case MISSING_ORIGIN:
 			setErrorText(getString(R.string.missing_flight_info_message_TEMPLATE, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
+			mActionButton.setVisibility(View.VISIBLE);
+			mActionButton.setText(R.string.missing_flight_info_button_prompt);
+			mActionButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.ShowSearchFragment(ResultsSearchState.FLIGHT_ORIGIN));
+				}
+			});
 			break;
 		case ZERO_RESULT:
 			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));

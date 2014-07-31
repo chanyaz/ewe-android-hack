@@ -16,6 +16,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.dialog.BirthDateInvalidDialog;
+import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -452,6 +453,16 @@ public class Events {
 
 		public GdeDataAvailable(FlightSearchHistogramResponse response) {
 			this.response = response;
+		}
+	}
+
+	/**
+	 * This event is used to trigger the search fragment to show up.
+	 */
+	public static class ShowSearchFragment {
+		public final ResultsSearchState searchState;
+		public ShowSearchFragment(ResultsSearchState state) {
+			searchState = state;
 		}
 	}
 }

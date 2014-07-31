@@ -113,4 +113,7 @@
     <dimen name="confirmation_button_bar_height">72dp</dimen>
     <dimen name="confirmation_custom_action_textsize">15sp</dimen>
 
+    <!-- Select Airport button top margin (used when no origin is set) -->
+    <dimen name="pick_airport_button_top_margin">20dp</dimen>
+
 </resources>

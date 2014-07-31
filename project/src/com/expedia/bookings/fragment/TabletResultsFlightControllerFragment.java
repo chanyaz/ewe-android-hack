@@ -414,6 +414,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		case ADDING_FLIGHT_TO_TRIP: {
 			break;
 		}
+		case MISSING_ORIGIN:
 		case NO_FLIGHTS_DROPDOWN_POS:
 			touchableViews.add(mSearchErrorC);
 			break;

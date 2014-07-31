@@ -1359,4 +1359,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
+
+	@Subscribe
+	public void onShowSearchFragment(Events.ShowSearchFragment event) {
+		OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+		setState(event.searchState, mAnimateButtonClicks);
+	}
 }

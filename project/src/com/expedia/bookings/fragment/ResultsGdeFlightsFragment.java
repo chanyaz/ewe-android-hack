@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
@@ -47,6 +48,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private FrameLayoutTouchController mHistogramC;
 
 	private CenteredCaptionedIcon mMissingFlightInfo;
+	private TextView mSelectOriginButton;
 	private TextView mGdeHeaderTv;
 	private ProgressBar mGdeProgressBar;
 	private TextView mGdePriceRangeTv;
@@ -105,6 +107,15 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
 		mMissingFlightInfo.setVisibility(View.GONE);
+
+		mSelectOriginButton = Ui.findView(mRootC, R.id.action_button);
+		mSelectOriginButton.setText(R.string.missing_flight_info_button_prompt);
+		mSelectOriginButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.ShowSearchFragment(ResultsSearchState.FLIGHT_ORIGIN));
+			}
+		});
 
 		return mRootC;
 	}
@@ -205,6 +216,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
 			mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, destination));
 			mMissingFlightInfo.setVisibility(View.VISIBLE);
+			mSelectOriginButton.setVisibility(View.VISIBLE);
 			return;
 		}
 
