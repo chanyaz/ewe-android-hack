@@ -164,7 +164,7 @@ public class CollectionStack extends FrameLayout {
 	public void setText(String title) {
 		mTextView.setEllipsize(TextUtils.TruncateAt.END);
 		mTextView.setLines(2);
-		mTextView.setText(title);                                                                                                                                                                                                      );
+		mTextView.setText(title);
 	}
 
 	/**
