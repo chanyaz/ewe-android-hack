@@ -1883,8 +1883,6 @@
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Searching for the Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
-    <string name="progress_search_failed">No Hotels Found</string>
-    <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable_tonight">No hotels available tonight</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">No hotels available</string>

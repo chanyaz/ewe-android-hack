@@ -295,24 +295,6 @@
             android:name="com.expedia.bookings.activity.StubConfigActivity"
             android:theme="@style/Theme.Phone" />
 
-        <!-- NEW Widget components -->
-
-        <receiver
-            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider"
-            android:enabled="@bool/widgetEnabled" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/eb_appwidget_info" />
-        </receiver>
-
-        <service
-            android:name="com.expedia.bookings.appwidget.ExpediaAppWidgetService"
-            android:exported="false" />
-
         <!-- Notifications -->
 
         <receiver

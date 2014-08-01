@@ -16,7 +16,6 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -211,25 +210,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
 			SettingUtils.save(ExpediaBookingApp.this, PREF_UPGRADED_TO_PRODUCTION_PUSH, true);
 		}
-
-		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so,
-		// in that it requires the app to be launched at least once before it can be disabled, but it's
-		// the best we can do for the time being.
-		// #1807. VSC Disable widgets
-		if (AndroidUtils.isHoneycombTablet(this) || ExpediaBookingApp.IS_VSC) {
-			try {
-				PackageManager pm = getPackageManager();
-				ComponentName cn = new ComponentName(this, ExpediaBookingsWidgetProvider.class);
-				pm.setComponentEnabledSetting(cn, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-						PackageManager.DONT_KILL_APP);
-			}
-			catch (Exception e) {
-				// Just in case, PM can be touchy
-				Log.w("PackageManager blew up.", e);
-			}
-		}
-
-		startupTimer.addSplit("Disable ICS Tablet & VSC Widgets");
 
 		// Kick off thread to determine if the Google Wallet promo is still available
 		(new Thread(new Runnable() {
