@@ -1548,7 +1548,11 @@ public class ExpediaServices implements DownloadListener {
 	// Launch data
 
 	private String getLaunchEndpointUrl() {
-		return "http://www.expedia.com/static/mobile/LaunchDestinations/";
+		if (getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
+			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return "http://" + server;
+		}
+		return "http://www.expedia.com/static/mobile/LaunchDestinations";
 	}
 
 	public LaunchDestinationCollections getLaunchCollections(String localeString) {
