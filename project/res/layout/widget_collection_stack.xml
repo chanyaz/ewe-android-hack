@@ -30,6 +30,8 @@
 
     <TextView
         android:id="@+id/text"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
         android:layout_width="@dimen/destination_search_tile_width"
         android:layout_height="@dimen/destination_stack_text_container_height"
         android:layout_gravity="center|top"

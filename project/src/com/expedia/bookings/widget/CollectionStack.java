@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 public class CollectionStack extends FrameLayout {
 	public CollectionStack(Context context) {
@@ -157,13 +161,10 @@ public class CollectionStack extends FrameLayout {
 		return headerBitmapDrawable;
 	}
 
-	public void setText(String upper) {
-		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.DestinationStackUpperTextAppearance);
-
-		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(upper, upperSpan);
-
-		mTextView.setText(sb.build(), TextView.BufferType.SPANNABLE);
+	public void setText(String title) {
+		mTextView.setEllipsize(TextUtils.TruncateAt.END);
+		mTextView.setLines(2);
+		mTextView.setText(title);                                                                                                                                                                                                      );
 	}
 
 	/**
