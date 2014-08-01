@@ -42,6 +42,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -258,6 +259,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
 				&& mHotelSearchDownloadFrag != null) {
 				importSearchParams();
+				AdTracker.trackHotelSearch();
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 			}
 		}

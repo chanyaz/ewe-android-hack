@@ -36,6 +36,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -305,6 +306,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
 				&& mFlightSearchDownloadFrag != null) {
 				importSearchParams();
+				AdTracker.trackFlightSearch();
 				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
 			}
 		}

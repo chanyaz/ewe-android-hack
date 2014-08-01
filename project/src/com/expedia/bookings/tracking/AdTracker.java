@@ -1,12 +1,18 @@
 package com.expedia.bookings.tracking;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.Log;
 
 public class AdTracker {
 
@@ -58,9 +64,32 @@ public class AdTracker {
 		AdX.trackHotelBooked(Db.getHotelSearch(), orderNumber, currency, totalPrice, avgPrice);
 	}
 
-	public static void trackFlightBooked(String currency, double value, int days, String destAirport) {
-		String orderNumber = Db.getFlightCheckout() != null ? Db.getFlightCheckout().getOrderId() : "";
-		AdX.trackFlightBooked(Db.getFlightSearch(), orderNumber, currency, value);
+	public static void trackFlightBooked() {
+		try {
+			if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				int days = 0;
+				if (trip.getLegCount() > 0) {
+					FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
+					DateTime departureCal = new DateTime(firstLeg.getFirstWaypoint().getMostRelevantDateTime());
+					DateTime now = DateTime.now();
+					days = JodaUtils.daysBetween(departureCal, now);
+					if (days < 0) {
+						days = 0;
+					}
+				}
+				Money money = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+				String destAirportCode = Db.getFlightSearch().getSearchParams().getArrivalLocation()
+					.getDestinationId();
+				if (money != null) {
+					String orderNumber = Db.getFlightCheckout() != null ? Db.getFlightCheckout().getOrderId() : "";
+					AdX.trackFlightBooked(Db.getFlightSearch(), orderNumber, money.getCurrency(), money.getAmount().doubleValue());
+				}
+			}
+		}
+		catch (Exception ex) {
+			Log.e("Exception tracking flight checkout", ex);
+		}
 	}
 
 	public static void trackHotelCheckoutStarted() {

@@ -50,6 +50,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FlightUtils;
@@ -297,6 +298,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		if (mBookingUnavailableFragment != null) {
 			mBookingUnavailableFragment.setLob(lob);
+		}
+
+		if (lob == LineOfBusiness.HOTELS) {
+			AdTracker.trackHotelCheckoutStarted();
+		}
+		if (lob == LineOfBusiness.FLIGHTS) {
+			AdTracker.trackFlightCheckoutStarted();
 		}
 	}
 
@@ -1046,6 +1054,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 
 			Db.setFlightCheckout(response);
+			AdTracker.trackFlightBooked();
 
 			if (response == null || response.hasErrors()) {
 				mFlightBookingFrag.handleBookingErrorResponse(response);
@@ -1063,6 +1072,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			Property property = Db.getHotelSearch().getSelectedProperty();
 
 			Db.setBookingResponse(response);
+			AdTracker.trackHotelBooked();
 
 			if (results == null || response.hasErrors()) {
 				response.setProperty(property);
