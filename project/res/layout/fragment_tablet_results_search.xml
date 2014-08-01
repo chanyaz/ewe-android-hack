@@ -30,49 +30,31 @@
                 android:id="@+id/right_buttons_container"
                 style="@style/V2.Widget.LinearLayout.TabletSearchRightButtonsContainer">
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/origin_btn"
+                    style="@style/V2.Widget.TextView.SearchParams"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="16dp"
-                    android:textColor="#FFFFFF"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:drawablePadding="8dp"
-                    android:singleLine="true"
+                    android:drawableLeft="@drawable/ic_param_origin"
                     android:ellipsize="end"
-                    android:drawableLeft="@drawable/ic_suggest_current_location"
-                    android:background="?android:attr/selectableItemBackground"/>
+                    android:singleLine="true" />
 
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/calendar_btn"
+                    style="@style/V2.Widget.TextView.SearchParams"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textSize="16dp"
-                    android:textColor="#FFFFFF"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_calendar"
-                    android:background="?android:attr/selectableItemBackground"/>
+                    android:drawableLeft="@drawable/ic_param_date" />
 
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/traveler_btn"
+                    style="@style/V2.Widget.TextView.SearchParams"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textSize="16dp"
-                    android:textColor="#FFFFFF"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_traveler_white"
-                    android:background="?android:attr/selectableItemBackground"/>
+                    android:drawableLeft="@drawable/ic_param_travelers" />
 
 
             </LinearLayout>

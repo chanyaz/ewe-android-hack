@@ -29,6 +29,10 @@
     <!-- Search Results -->
     <dimen name="tablet_result_row_primary_text_size">16sp</dimen>
     <dimen name="tablet_result_row_price_size">21sp</dimen>
+    <!-- Text size for destination label - search screen, left container element -->
+    <dimen name="search_params_destination_text_size">25sp</dimen>
+    <!-- Text size for search param labels - search screen, right container elements -->
+    <dimen name="search_params_right_container_text_size">17sp</dimen>
 
     <!-- Hotel Details Fragment -->
     <dimen name="tablet_hotel_details_top_padding">64dp</dimen>

@@ -3,7 +3,7 @@
     <!-- Tablet general -->
     <color name="tablet_grey_pane_bg">#f2f2f2</color>
     <color name="tablet_white_pane_bg">#ffffff</color>
-    <color name="trip_bucket_background_color">#dbdada</color>
+    <color name="trip_bucket_background_color">#eaeaea</color>
 
     <!-- Tablet Launch Screen -->
     <color name="tablet_launch_bg">#1b2747</color>
