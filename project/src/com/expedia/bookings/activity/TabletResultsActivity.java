@@ -899,6 +899,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
 				mBottomGradient.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
+
+			mBackgroundImageFrag.setBlur(stateTwo.showsWaypoint());
 		}
 
 		@Override
@@ -969,12 +971,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
 			}
 
-			if (state.showsWaypoint()) {
-				mBackgroundImageFrag.setBlur(true);
-			}
-			else {
-				mBackgroundImageFrag.setBlur(false);
-			}
+			mBackgroundImageFrag.setBlur(state.showsWaypoint());
 
 			// Search popup shade / touch blocking
 			mFlightsC.setBlockNewEventsEnabled(state.showsSearchPopup());
