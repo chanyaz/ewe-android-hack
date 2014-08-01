@@ -1532,6 +1532,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelListC.setVisibility(View.VISIBLE);
 
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+				AdTracker.trackHotelSearch();
 			}
 			else if (isZeroResults) {
 				if (mSearchErrorFrag == null) {
@@ -1547,7 +1548,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
-			AdTracker.trackHotelSearch();
 		}
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
 			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
