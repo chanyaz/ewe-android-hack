@@ -22,9 +22,6 @@
     <integer name="calendar_max_days_flight_search">@integer/calendar_max_selectable_date_range</integer>
 
     <!-- weights -->
-    <integer name="animation_duration">300</integer>
-    <integer name="left_list_pane_weight">3</integer>
-    <integer name="right_content_pane_weight">7</integer>
     <integer name="login_or_lines_weight">1</integer>
     <integer name="login_or_spacers_weight">1</integer>
 

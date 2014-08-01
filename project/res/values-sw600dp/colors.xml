@@ -10,16 +10,12 @@
     <color name="tablet_launch_map_overlay">#66131f40</color>
     <color name="tablet_bg_tiles_blend">#232c45</color>
     <color name="tablet_collection_back_image_overlay">#e5141d36</color>
-    <color name="tablet_collection_middle_image_overlay">#b2141d36</color>
     <color name="launch_pin_detail_background">#b2070f24</color>
 
     <!-- Tablet Results -->
-    <color name="tablet_results_ab_default">@android:color/transparent</color>
-    <color name="tablet_results_ab_flights">#142B42</color>
     <color name="details_ring_red">#bc4649</color>
     <color name="details_ring_blue">#286cb5</color>
     <color name="details_ring_gray">#cbcfd2</color>
-    <color name="details_ring_text">#4b556b</color>
     <color name="sliding_group_text_bright">#f4f5f7</color>
     <color name="sliding_group_text_dim">#4a4f54</color>
     <color name="tablet_results_search_blue">#3d6a99</color>
@@ -39,8 +35,6 @@
     <color name="tablet_flight_details_primary_text_color">#4c4c4c</color>
 
     <!-- Tablet Checkout -->
-    <color name="tablet_checkout_light">#E5E6E5</color>
-    <color name="tablet_checkout_dark">#464D51</color>
     <color name="bg_clickable_trip_bucket_expand_pressed">#E5000000</color>
 
     <!-- Tablet Confirmation -->

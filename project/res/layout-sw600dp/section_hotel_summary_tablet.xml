@@ -15,7 +15,7 @@
         android:id="@+id/urgency_text_view_color_matched"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_row_med_container_height"
-        android:layout_below="@id/hotel_background_view"
+        android:layout_below="@+id/hotel_background_view"
         android:gravity="center"
         android:includeFontPadding="false"
         android:paddingTop="3dp"

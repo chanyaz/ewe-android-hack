@@ -68,7 +68,6 @@
     <dimen name="flight_search_space_between_rows">6dp</dimen>
     <dimen name="flight_search_calendar_height">300dp</dimen>
     <dimen name="flight_search_airport_padding_left">12dp</dimen>
-    <dimen name="flight_search_padding">10dp</dimen>
 
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
@@ -115,9 +114,6 @@
     <dimen name="action_bar_nav_corner_inset_top">12dp</dimen>
     <dimen name="action_bar_nav_corner_inset_right">-24dp</dimen>
     <dimen name="action_bar_nav_corner_inset_bottom">-12dp</dimen>
-
-    <!-- Dimensions for the list header fragment -->
-    <dimen name="sort_view_max_width">250dp</dimen>
 
     <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
     <dimen name="promo_banner_height">89dp</dimen>
@@ -173,16 +169,6 @@
     <dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
     <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
-    <!-- Dimensions for the placeholder progress bar throbber -->
-    <dimen name="placeholder_throbber_size">76dp</dimen>
-    <!-- Offset for placeholder tag -->
-    <dimen name="placeholder_tag_margin_top">44dp</dimen>
-    <dimen name="dialog_view_spacing">16dp</dimen>
-
-    <!-- The child ages button gets animated in height from 5dp to 60dp -->
-    <dimen name="child_ages_button_height_minimized">5dp</dimen>
-    <dimen name="child_ages_button_height_restored">60dp</dimen>
-
     <!-- Account support dimensions -->
     <dimen name="card_icon_padding_left">15dp</dimen>
     <dimen name="card_icon_padding">5dp</dimen>
@@ -195,9 +181,6 @@
 
     <!-- BookingOverviewActivity -->
     <dimen name="slide_to_purchase_price_text_size">16dp</dimen>
-
-    <!-- Left/right padding for receipt in tablet portrait mode -->
-    <dimen name="receipt_portrait_horizontal_margin">30dp</dimen>
 
     <!-- Login screen -->
     <dimen name="login_field_text_size">18sp</dimen>
@@ -220,9 +203,6 @@
     <dimen name="account_button_margin_top">12dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
-
-    <!-- SearchParamsFragment -->
-    <dimen name="child_ages_layout_width">500dp</dimen>
 
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>

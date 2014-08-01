@@ -33,7 +33,6 @@
     <dimen name="destination_stack_text_container_height">48dp</dimen>
     <dimen name="destination_stack_corner_radius">3dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">117dp</dimen>
-    <dimen name="hotels_map_pin_padding">50dp</dimen>
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">40dp</dimen>
     <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>
@@ -47,9 +46,6 @@
     <dimen name="card_icon_padding">6dp</dimen>
     <dimen name="wallet_button_bottom_margin">-2dp</dimen>
 
-    <!-- Special dimensions for 7" tablets -->
-    <dimen name="receipt_portrait_horizontal_margin">0dp</dimen>
-
     <!-- Search Results -->
     <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
     <dimen name="sliding_filter_row_height">44dp</dimen>
@@ -60,13 +56,6 @@
     <dimen name="results_bottom_gradient_offset">32dp</dimen>
     <!-- note: results_column_header_height should be equal to results_list_spacer_height + results_list_margin_top -->
     <dimen name="results_column_header_height">48dp</dimen>
-    <dimen name="results_collapsed_row_height">284dp</dimen>
-
-    <dimen name="results_flight_histogram_horizontal_padding">30dp</dimen>
-    <dimen name="results_flight_histogram_vertical_padding">10dp</dimen>
-    <dimen name="results_flight_histogram_price_horizontal_margin">25dp</dimen>
-    <dimen name="results_flight_histogram_vertical_margin">6dp</dimen>
-    <dimen name="results_flight_histogram_horizontal_margin">@dimen/hotel_flight_card_padding_x</dimen>
 
     <!-- GridManager numbers for Search Results screen -->
     <fraction name="results_grid_bottom_half">54%</fraction>
@@ -91,8 +80,6 @@
     <dimen name="centered_captioned_icon_svg_width">63dp</dimen>
 
     <!-- Hotel Details -->
-    <dimen name="hotel_details_window_margin_x">90dp</dimen>
-    <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">200dp</dimen>
     <dimen name="hotel_row_med_container_height">28dp</dimen>
     <dimen name="hotel_details_horizontal_padding">20dp</dimen>
@@ -103,7 +90,6 @@
     <dimen name="hotel_room_rate_thumbnail_width">189dp</dimen>
     <dimen name="hotel_room_rate_thumbnail_height">125dp</dimen>
     <dimen name="non_refundable_tweak">0dp</dimen>
-    <dimen name="add_rate_button_min_width">48dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>
     <dimen name="tablet_reviews_header_height">112dp</dimen>
     <dimen name="hotel_details_star_rating_margin">15dp</dimen>
@@ -152,12 +138,6 @@
     <dimen name="hotel_flight_card_content_margin_x">14dp</dimen>
     <dimen name="hotel_flight_card_content_margin_y">14dp</dimen>
     <dimen name="tripbucket_bookbutton_height">40dp</dimen>
-    <dimen name="trip_bucket_primary_dest_size">46dp</dimen>
-    <dimen name="trip_bucket_root_layout_padding_top">80dp</dimen>
-    <dimen name="trip_bucket_empty_trip_container_padding_top">-40dp</dimen>
-    <dimen name="trip_bucket_item_horizontal_margin">32dp</dimen>
-    <dimen name="trip_bucket_swipe_out_distance">96dp</dimen>
-    <dimen name="trip_bucket_swipe_out_distance_half">24dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
     <dimen name="trip_bucket_undo_bar_width">265dp</dimen>

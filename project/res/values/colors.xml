@@ -8,9 +8,6 @@
     <color name="launch_tile_overlay">#A6000000</color>
     <color name="low_memory_bg_color">#404040</color>
 
-    <!-- Dates Fragment colors -->
-    <color name="bg_dates_color">#60000000</color>
-
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
@@ -37,7 +34,6 @@
     <color name="data_review_dark">#333333</color>
     <color name="data_review_grey">#676767</color>
     <color name="action_bar_text_yellow">#FEE36C</color>
-    <color name="action_bar_text_green">#7abb00</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
@@ -77,7 +73,6 @@
     <color name="dark_blue">#1C3061</color>
     <color name="dismiss">#72000000</color>
     <color name="calendar_header">#FFF3F3F3</color>
-    <color name="calendar_header_tablet">#60FFFFFF</color>
     <color name="bg_expedia_list">#e7e7e7</color>
 
     <!-- BookingOverviewFragment -->
@@ -91,29 +86,15 @@
     <color name="slide_to_purchase_background">#66000000</color>
     <color name="slide_to_purchase_text">#fcfcfc</color>
 
-    <!--
-    Divider on tablet dialog box (not public accessible)
-	https://github.com/android/platform_frameworks_base/blob/master/core/res/res/drawable-hdpi/divider_strong_holo.9.png
-    -->
-    <color name="divider_strong_holo">#72a3ff</color>
     <color name="suggestion_row_divider">#FF4F4F4F</color>
-    <color name="widget_message_text_color">#214461</color>
     <color name="widget_text_color">#3d4552</color>
     <color name="hotel_cell_primary_color">#3D4552</color>
     <color name="hotel_cell_secondary_color">#a6a6a6</color>
     <color name="hotel_price_text_color">#064192</color>
-    <color name="hotel_price_text_color_vsc">#0088ce</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
-    <color name="hotel_price_sale_text_color_vsc">#cb0044</color>
-    <color name="suggestion_bg_pressed">#e0e0e0</color>
-    <color name="hotel_details_text_color">#494e54</color>
     <color name="bg_row_state_pressed">#dcddde</color>
     <color name="bg_payment_row_state_pressed">#33000000</color>
-    <color name="bg_tablet_content">#e3e4e6</color>
     <color name="text_shadow_color">#a5ffffff</color>
-    <color name="bg_tablet_gallery">#333333</color>
-    <color name="tablet_gallery_actionbar_title">#F4F4F4</color>
-    <color name="tablet_gallery_actionbar_title_shadow">#82000000</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
     <color name="bottom_bar_background">#c000</color>
@@ -125,7 +106,6 @@
     <color name="bg_signin_dialog_button_pressed">#30000000</color>
     <color name="bg_signin_dialog_button_disabled">@android:color/transparent</color>
     <color name="row_background_review">#ffffff</color>
-    <color name="user_review_separator">#dddddd</color>
     <color name="hotel_details_separator">#d1d1d1</color>
     <color name="legal_info_blue">#235285</color>
     <color name="row_background_fade">#00f1f1f1</color>
@@ -145,7 +125,6 @@
     <color name="confirmation_item_divider_flight">#5b646b</color>
     <color name="confirmation_item_divider_hotel">#616871</color>
     <color name="cost_summary_header_text_color">#004582</color>
-    <color name="cost_summary_header_text_color_vsc">#7abb00</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="hotel_list_progress_text_color">#555555</color>
@@ -179,21 +158,6 @@
 
     <!-- About Activity -->
     <color name="AboutRowTextColor">#797979</color>
-    <color name="AboutAppsTitleTextColor">#4b4b4b</color>
-    <color name="AboutTextSelectedStateColor">#d79100</color>
-    <color name="AboutFooterTextColor">#888888</color>
-    <color name="AboutRowTitleTextColor">#121212</color>
-
-    <color name="AboutBackground">#333</color>
-    <color name="AboutTitleTextColor">#dcdcdc</color>
-    <color name="AboutTitleTextShadowColor">#181818</color>
-    <color name="AboutFooterTextShadowColor">#262626</color>
-    <color name="AboutRowTitleTextShadowColor">#fff</color>
-    <color name="AboutRowSelectedColor">#cfcfcf</color>
-    <color name="AboutRowSeparator">#c7c7c7</color>
-    <color name="AboutAppRowSeparator">#9c9c9c</color>
-    <color name="AboutAppsTitleTextShadowColor">#e0e0e0</color>
-    <color name="AboutAppsTextColor">#222222</color>
 
     <!-- AboutSectionFragment -->
     <color name="about_row_bg_normal">#0000</color>

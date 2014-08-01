@@ -2861,11 +2861,6 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	@Override
-	public void onSortButtonClicked() {
-		// Do nothing
-	}
-
-	@Override
 	public void onListItemClicked(Property property, int position) {
 		Db.getHotelSearch().setSelectedProperty(property);
 

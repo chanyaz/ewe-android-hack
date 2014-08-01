@@ -151,9 +151,6 @@
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.expedia.bookings.activity.HotelGalleryActivity"
-            android:theme="@style/Theme.Tablet.Dark" />
-        <activity
             android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
             android:label="@string/booking_complete"
             android:theme="@style/Theme.Phone.Dark" />

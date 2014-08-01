@@ -29,7 +29,6 @@
     <!-- Search Results -->
     <dimen name="tablet_result_row_primary_text_size">16sp</dimen>
     <dimen name="tablet_result_row_price_size">21sp</dimen>
-    <dimen name="results_collapsed_row_height">392dp</dimen>
 
     <!-- Hotel Details Fragment -->
     <dimen name="tablet_hotel_details_top_padding">64dp</dimen>
@@ -41,8 +40,6 @@
     <dimen name="centered_captioned_icon_svg_width">80dp</dimen>
 
     <!-- Hotel Details -->
-    <dimen name="hotel_details_window_margin_x">120dp</dimen>
-    <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">272dp</dimen>
     <dimen name="hotel_details_horizontal_padding">28dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>
@@ -73,9 +70,6 @@
     <dimen name="hotel_flight_card_content_margin_x">17dp</dimen>
     <dimen name="hotel_flight_card_content_margin_y">18dp</dimen>
     <dimen name="tripbucket_bookbutton_height">50dp</dimen>
-    <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
-    <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
-    <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
     <dimen name="trip_bucket_undo_bar_width">362dp</dimen>
 
     <!-- Trip Bucket Fragment -->

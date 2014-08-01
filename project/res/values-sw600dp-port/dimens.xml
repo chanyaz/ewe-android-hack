@@ -3,10 +3,6 @@
 
     <!-- Tweaks for 7" tablets in portrait -->
 
-
-    <!-- SearchParamsFragment -->
-    <dimen name="child_ages_layout_width">280dp</dimen>
-
     <!-- Itin cards -->
     <dimen name="itin_card_collapsed_height">154.5dp</dimen>
     <dimen name="itin_card_summary_collapsed_height">355.5dp</dimen>

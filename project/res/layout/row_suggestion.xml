@@ -33,7 +33,7 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/one_pixel"
+        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
         android:background="@color/suggestion_row_divider" />
 
 </LinearLayout>

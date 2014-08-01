@@ -12,53 +12,6 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
-    <style name="Theme.Tablet" parent="Theme.Expedia" tools:targetApi="11">
-        <item name="android:actionMenuTextColor">#505966</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
-        <item name="android:actionBarStyle">@style/Light.ActionBar</item>
-        <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.Light.ActionButton.Overflow</item>
-        <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
-        <!-- NumberPicker styles -->
-        <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
-        <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
-        <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
-        <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
-        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
-        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
-        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
-    </style>
-
-    <style name="Theme.Tablet.Launcher" parent="@android:style/Theme.Holo.Light.DarkActionBar" tools:targetApi="11">
-        <item name="android:actionBarStyle">@style/TabletLauncherActionBar</item>
-
-        <!-- NumberPicker styles -->
-        <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
-        <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
-        <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
-        <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
-        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
-        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
-        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
-    </style>
-
-    <style name="TabletLauncherActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="11">
-        <item name="android:background">@drawable/bg_action_bar</item>
-        <item name="android:logo">@drawable/ic_action_bar_expedia_logo</item>
-        <item name="android:displayOptions">showHome|useLogo</item>
-    </style>
-
-    <style name="Theme.Tablet.Dark" parent="@style/Theme.Expedia" tools:targetApi="11">
-        <item name="android:actionMenuTextColor">#505966</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
-        <item name="android:actionBarStyle">@style/Widget.ActionBar</item>
-
-        <!-- NumberPicker styles -->
-        <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
-        <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
-        <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
-        <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
-    </style>
-
     <!-- From ABS, Light dialog window -->
     <style name="Theme.Light.Dialog" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowFrame">@null</item>
@@ -101,13 +54,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:padding">8dp</item>
-    </style>
-
-    <style name="ActivityAnimation">
-        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
-        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
-        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
     </style>
 
     <style name="Theme.Expedia" parent="@android:style/Theme.Holo.Light.DarkActionBar">

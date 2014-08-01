@@ -28,12 +28,8 @@
             android:text="@string/no_filter_results"
             android:textColor="#FF666666"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:textStyle="bold" />
 
-        <include
-            android:id="@+id/placeholder_container"
-            layout="@layout/include_placeholder_progress" />
     </LinearLayout>
 
 </FrameLayout>
