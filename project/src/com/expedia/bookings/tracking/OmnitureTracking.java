@@ -51,6 +51,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -1213,12 +1214,13 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, TABLET_LAUNCH_DEST_SELECT);
 	}
 
-	private static void addOriginAndDestinationVars(ADMS_Measurement s, int originId, int destinationId) {
-		String originRegionId = originId != 0 ? Integer.toString(originId) : "No Origin";
+	private static void addOriginAndDestinationVars(ADMS_Measurement s, SuggestionV2 origin, SuggestionV2 destination) {
+		String originRegionId = origin != null && origin.getRegionId() != 0 ?
+			Integer.toString(origin.getRegionId()) : "No Origin";
 		s.setProp(3, originRegionId);
 		s.setEvar(3, "D=c3");
-
-		String destinationRegionId = destinationId != 0 ? Integer.toString(destinationId) : "No Destination";
+		String destinationRegionId = destination != null && destination.getRegionId() != 0 ?
+			Integer.toString(destination.getRegionId()) : "No Destination";
 		s.setProp(4, destinationRegionId);
 		s.setEvar(4, "D=c4");
 	}
@@ -1238,7 +1240,7 @@ public class OmnitureTracking {
 	public static void trackTabletSearchResultsPageLoad(Context context, SearchParams params) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, TABLET_SEARCH_RESULTS);
 		internalSetHotelDateProps(s, params.toHotelSearchParams());
-		addOriginAndDestinationVars(s, params.getOrigin().getRegionId(), params.getDestination().getRegionId());
+		addOriginAndDestinationVars(s, params.getOrigin(), params.getDestination());
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
