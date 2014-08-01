@@ -46,4 +46,8 @@
     <!-- Tablet Confirmation -->
     <color name="tablet_confirmation_actionbutton_pressed">#20000000</color>
 
+    <!-- Tablet Search results, error message action button background -->
+    <color name="tablet_search_result_error_button">#3d6a99</color>
+    <color name="tablet_search_result_error_button_pressed">#294666</color>
+
 </resources>
