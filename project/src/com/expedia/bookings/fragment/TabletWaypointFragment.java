@@ -65,6 +65,7 @@ public class TabletWaypointFragment extends Fragment
 
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBg;
+	private View mCancelButton;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;
 	private EditText mWaypointEditText;
@@ -109,6 +110,7 @@ public class TabletWaypointFragment extends Fragment
 		}
 
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
+		mCancelButton = Ui.findView(view, R.id.cancel_button);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_container);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
 		mLocationProgressBar = Ui.findView(view, R.id.location_loading_progress);
@@ -152,6 +154,19 @@ public class TabletWaypointFragment extends Fragment
 			@Override
 			public void onClick(View view) {
 				requestEditTextFocus(mWaypointEditText);
+			}
+		});
+
+		mCancelButton.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view) {
+				Fragment parent = getParentFragment();
+				if (parent instanceof TabletLaunchControllerFragment) {
+					((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.DEFAULT, true);
+				}
+				else if (parent instanceof TabletResultsSearchControllerFragment) {
+					((TabletResultsSearchControllerFragment)parent).setState(ResultsSearchState.DEFAULT, true);
+				}
 			}
 		});
 
@@ -257,7 +272,7 @@ public class TabletWaypointFragment extends Fragment
 
 	public void updateViewsForOrigin() {
 		if (mWaypointEditText != null) {
-			mWaypointEditText.setHint(R.string.origins_hint);
+			mWaypointEditText.setHint(R.string.Fly_from_dot_dot_dot);
 		}
 		SuggestionProvider.enableCurrentLocation(false);
 		doAfterTextChanged(mWaypointEditText);
@@ -290,40 +305,6 @@ public class TabletWaypointFragment extends Fragment
 			return false;
 		}
 	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Formatting
-
-	private String getSuggestionText(SuggestionV2 suggestion) {
-		String text = null;
-
-		if (suggestion.getResultType() == ResultType.CURRENT_LOCATION) {
-			text = getString(R.string.current_location);
-		}
-
-		if (TextUtils.isEmpty(text)) {
-			text = suggestion.getDisplayName();
-
-			if (!TextUtils.isEmpty(text)) {
-				// Strip HTML from display
-				text = Html.fromHtml(text).toString();
-			}
-		}
-
-		if (TextUtils.isEmpty(text) && suggestion.getLocation() != null) {
-			text = suggestion.getLocation().getCity();
-		}
-
-		if (TextUtils.isEmpty(text)) {
-			text = suggestion.getAirportCode();
-		}
-
-		if (TextUtils.isEmpty(text)) {
-			text = getString(R.string.great_unknown);
-		}
-
-		return text;
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Utils
@@ -437,6 +418,7 @@ public class TabletWaypointFragment extends Fragment
 
 			mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mCancelButton.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 			mSearchBarC.setPivotX(0);
@@ -459,12 +441,14 @@ public class TabletWaypointFragment extends Fragment
 				mSearchBarC.setAlpha(percentage);
 			}
 			mBg.setAlpha(percentage);
+			mCancelButton.setAlpha(percentage);
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
 			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
 			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
+			mCancelButton.setLayerType(View.LAYER_TYPE_NONE, null);
 			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
 		}
 
@@ -475,6 +459,7 @@ public class TabletWaypointFragment extends Fragment
 			}
 
 			if (isReversed) {
+				mCancelButton.setAlpha(0f);
 				mBg.setAlpha(0f);
 				mWaypointEditText.setText("");
 				mLocationProgressBar.setVisibility(View.GONE);
@@ -496,6 +481,7 @@ public class TabletWaypointFragment extends Fragment
 				mSuggestionsC.setTranslationY(0);
 				mSearchBarC.setAlpha(1f);
 				mBg.setAlpha(1f);
+				mCancelButton.setAlpha(1f);
 
 				if (mLoadingLocation) {
 					mLocationProgressBar.setVisibility(View.VISIBLE);

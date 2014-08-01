@@ -9,6 +9,24 @@
         android:layout_height="match_parent"
         android:background="@color/launch_pin_detail_background" />
 
+    <TextView
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tablet_search_header_height"
+        android:layout_margin="23dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:drawableLeft="@drawable/ic_tablet_origin_cancel"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="@string/cancel"
+        android:textSize="12sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:background="?android:attr/selectableItemBackground"/>
+
     <LinearLayout
         android:id="@+id/search_bar_container"
         android:layout_width="@dimen/tablet_search_width"
@@ -45,7 +63,7 @@
                     android:hint="@string/search_all_hint"
                     android:background="@null"
                     android:paddingLeft="16dp"
-                    android:drawableLeft="@drawable/ic_searchbox"
+                    android:drawableLeft="@drawable/ic_tablet_origin_arrow"
                     android:drawablePadding="8dp"
                     android:inputType="textNoSuggestions"
                     android:imeOptions="actionSearch"
