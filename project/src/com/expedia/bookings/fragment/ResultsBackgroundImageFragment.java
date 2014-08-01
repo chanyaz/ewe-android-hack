@@ -9,7 +9,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,13 +46,17 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private static final String INSTANCE_CODES_INDEX = "INSTANCE_CODES_INDEX";
 	private static final String INSTANCE_BLUR = "INSTANCE_BLUR";
 
+	private static final String DEFAULT_IMAGE_PSEUDO_URL = "<default>";
+
 	private ArrayList<String> mDestCodes;
 	private int mCodesIndex;
-	private boolean mBlur;
 
 	private ViewGroup mRootC;
 
 	private boolean mIsLandscape;
+
+	private boolean mBlur;
+	private String mCurrentlyDesiredUrl;
 
 	public static ResultsBackgroundImageFragment newInstance(boolean blur) {
 		ArrayList<String> codes = Sp.getParams().getDestination().getPossibleImageCodes();
@@ -164,23 +167,27 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			return;
 		}
 
+		if (mCurrentlyDesiredUrl != null) {
+			L2ImageCache.sDestination.clearCallbacksByUrl(mCurrentlyDesiredUrl);
+		}
+
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
 		String destinationCode = mDestCodes.get(mCodesIndex);
+
 		String baseUrl = Images.getTabletDestination(destinationCode);
+
 		final String url = new Akeakamai(baseUrl)
 			.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
 			.quality(60)
 			.build();
 
-		L2ImageCache.sDestination.clearCallbacksByUrl(url);
-
 		// Check whether we already have this image cached
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, mBlur /*blurred*/, true /*checkdisk*/);
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, mBlur, true /*checkdisk*/);
 
 		// If the bitmap isn't in cache, throw up the default destination image right away
 		if (bitmap == null) {
-			bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.bg_tablet_dest_image_default, false /*blurred*/);
-			onBitmapLoaded(url, bitmap);
+			bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.bg_tablet_dest_image_default, mBlur);
+			onBitmapLoaded(DEFAULT_IMAGE_PSEUDO_URL, bitmap);
 		}
 
 		L2ImageCache.sDestination.loadImage(url, mBlur, this);
@@ -208,7 +215,24 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Override
 	public void onBitmapLoaded(String url, Bitmap bitmap) {
-		if (bitmap != null && !mBlur) {
+		if (bitmap == null) {
+			Log.v("bitmap null null null");
+			return;
+		}
+
+		if (mRootC == null || getActivity() == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0) {
+			// Silently don't draw the bitmap
+			return;
+		}
+
+		String tag = url + mBlur;
+		if (TextUtils.equals(tag, mCurrentlyDesiredUrl)) {
+			return;
+		}
+
+		mCurrentlyDesiredUrl = url;
+
+		if (!mBlur) {
 			int avgColor = BitmapUtils.getAvgColorOnePixelTrick(bitmap);
 			int transparentAvgColor = new ColorBuilder(avgColor) //
 				.setSaturation(0.2f) //
@@ -218,7 +242,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			Db.setFullscreenAverageColor(transparentAvgColor);
 		}
 
-		handleBitmap(bitmap, true);
+		addNewViews(bitmap);
+		crossfade();
 	}
 
 	@Override
@@ -230,53 +255,29 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		}
 		else {
 			// Fall back to bg_tablet_dest_image_default
-			Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.bg_tablet_dest_image_default, false /*blurred*/);
-			onBitmapLoaded(null, bitmap);
+			Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.bg_tablet_dest_image_default, mBlur);
+			onBitmapLoaded(DEFAULT_IMAGE_PSEUDO_URL, bitmap);
 		}
 	}
 
 	///////////////////////////////////////////////////////////////
 	// private methods
 
-	private void handleBitmap(final Bitmap bitmap, boolean fade) {
-		if (bitmap == null) {
-			Log.v("bitmap null null null");
-			return;
-		}
-
-		if (mRootC == null || getActivity() == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0) {
-			// Silently don't draw the bitmap
-			return;
-		}
-
-		if (fade) {
-			int split = mRootC.getChildCount();
-			addNewViews(bitmap, 0f);
-			crossfade(split);
-		}
-		else {
-			mRootC.removeAllViews();
-			addNewViews(bitmap, 1f);
-		}
-	}
-
 	// This adds ImageViews to the base layout (assumed to be a FrameLayout), tiled vertically
 	// with every second tile flipped vertically.
-	private void addNewViews(Bitmap bitmap, float alpha) {
-		float scale = 1.0f;
+	private void addNewViews(Bitmap bitmap) {
 		float screenWidth;
 		float screenHeight;
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
+		float scale = 1f * landscape.x / bitmap.getWidth();
 		if (mIsLandscape) {
 			// Fit width in landscape
 			screenWidth = landscape.x;
 			screenHeight = landscape.y;
-			scale = screenWidth / bitmap.getWidth();
 		}
 		else {
 			screenWidth = landscape.y;
 			screenHeight = landscape.x;
-			scale = landscape.x / bitmap.getWidth();
 		}
 
 		int viewWidth = (int) (scale * bitmap.getWidth());
@@ -291,35 +292,44 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			image.setTranslationY(y);
 			image.setScaleY(flip ? -1f : 1f);
 			image.setImageBitmap(bitmap);
-			image.setAlpha(alpha);
+			image.setAlpha(0f);
+			String tag = mCurrentlyDesiredUrl + mBlur;
+			image.setTag(tag);
 			mRootC.addView(image);
 			flip = !flip;
 			y += viewHeight;
 		}
 	}
 
-	// This will fade out the first half of the children (with index in [0, split) ),
-	// and fade in the second half of the children at the same time (with index in [split, childCount) ).
-	private void crossfade(int split) {
+	// This will fade in any imageViews whose tags match the url, and then
+	// remove any ImageViews whose tags don't match the url.
+	private void crossfade() {
 		final int children = mRootC.getChildCount();
-		final int fsplit = split <= children ? split : 0;
-		PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f);
-		ObjectAnimator[] animators = new ObjectAnimator[children - split];
-		for (int i = split; i < children; i++) {
-			animators[i - split] = ObjectAnimator.ofPropertyValuesHolder(mRootC.getChildAt(i), fadeIn);
+		PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat(View.ALPHA, 1f);
+		ArrayList<ObjectAnimator> animators = new ArrayList<>();
+		String tag = mCurrentlyDesiredUrl + mBlur;
+		for (int i = 0; i < children; i++) {
+			ImageView image = (ImageView) mRootC.getChildAt(i);
+			if (TextUtils.equals((String) image.getTag(), tag)) {
+				animators.add(ObjectAnimator.ofPropertyValuesHolder(image, fadeIn));
+			}
 		}
 		AnimatorSet set = new AnimatorSet();
 		set.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				for (int i = 0; i < fsplit; i++) {
-					ImageView image = (ImageView) mRootC.getChildAt(0);
-					image.setImageBitmap(null);
-					mRootC.removeViewAt(0);
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					String tag = mCurrentlyDesiredUrl + mBlur;
+					for (int i = mRootC.getChildCount() - 1; i >= 0; i--) {
+						ImageView image = (ImageView) mRootC.getChildAt(i);
+						if (!TextUtils.equals((String) image.getTag(), tag)) {
+							image.setImageBitmap(null);
+							mRootC.removeViewAt(i);
+						}
+					}
 				}
 			}
-		});
-		set.playTogether(animators);
+		);
+		set.playTogether(animators.toArray(new Animator[] {}));
 		set.start();
 	}
 }
