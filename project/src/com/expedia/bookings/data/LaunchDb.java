@@ -26,6 +26,7 @@ public class LaunchDb {
 
 	private LaunchDb() {
 		// Singleton
+		Events.register(this);
 	}
 
 	private List<LaunchCollection> mCollections;
@@ -52,7 +53,6 @@ public class LaunchDb {
 	}
 
 	public static void clear() {
-		Events.unregister(sDb);
 		sDb.mCollections = null;
 	}
 
@@ -147,7 +147,8 @@ public class LaunchDb {
 				sDb.mSelectedCollection = collections.get(0);
 			}
 			injectLastSearch(Sp.getParams());
-			Events.register(sDb);
+
+			Events.post(sDb.produceLaunchCollections());
 		}
 	};
 }
