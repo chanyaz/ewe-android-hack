@@ -306,7 +306,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
 				&& mFlightSearchDownloadFrag != null) {
 				importSearchParams();
-				AdTracker.trackFlightSearch();
 				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
 			}
 		}
@@ -972,6 +971,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
 			}
+			AdTracker.trackFlightSearch();
 		}
 	}
 

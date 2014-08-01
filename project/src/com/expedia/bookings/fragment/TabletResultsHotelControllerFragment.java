@@ -259,7 +259,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
 				&& mHotelSearchDownloadFrag != null) {
 				importSearchParams();
-				AdTracker.trackHotelSearch();
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 			}
 		}
@@ -1548,7 +1547,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
-
+			AdTracker.trackHotelSearch();
 		}
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
 			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
