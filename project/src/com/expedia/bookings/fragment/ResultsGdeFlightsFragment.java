@@ -214,8 +214,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		// No need to bother with doing a GDE search if the origin is missing
 		if (mOrigin == null) {
-			String destination = StrUtils.formatCity(Sp.getParams().getDestination());
-			mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, destination));
+			setMissingFlightInfoCaption();
 			mMissingFlightInfo.setVisibility(View.VISIBLE);
 			mSelectOriginButton.setVisibility(View.VISIBLE);
 			return;
@@ -226,6 +225,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeProgressBar.setVisibility(View.VISIBLE);
 		mGdePriceRangeTv.setText("");
 		mMissingFlightInfo.setVisibility(View.GONE);
+	}
+
+	private void setMissingFlightInfoCaption() {
+		String destination = StrUtils.formatCity(Sp.getParams().getDestination());
+		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, destination));
 	}
 
 	/**
@@ -288,8 +292,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
 			}
 
-			String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
-			mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+			setMissingFlightInfoCaption();
 			mMissingFlightInfo.setVisibility(View.VISIBLE);
 		}
 
@@ -300,8 +303,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			int count = response.getCount();
 
 			if (count == 0) {
-				String destination = Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString();
-				mMissingFlightInfo.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+				setMissingFlightInfoCaption();
 				mMissingFlightInfo.setVisibility(View.VISIBLE);
 			}
 
