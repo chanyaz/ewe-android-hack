@@ -983,11 +983,6 @@ public class ExpediaServices implements DownloadListener {
 		return doBasicGetRequest(endpointUrl, query, new FlightSearchHistogramResponseHandler());
 	}
 
-	public List<BasicNameValuePair> generateFlightSearchHistogramParams(FlightSearchParams params) {
-		return generateFlightHistogramParams(params.getDepartureLocation(), params.getArrivalLocation(),
-			params.getDepartureDate());
-	}
-
 	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination,
 		LocalDate departureDate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -1003,6 +998,7 @@ public class ExpediaServices implements DownloadListener {
 		if (departureDate != null) {
 			DateTimeFormatter fmt = ISODateTimeFormat.date();
 			query.add(new BasicNameValuePair("departDate", fmt.print(departureDate)));
+			query.add(new BasicNameValuePair("key", "returnDate"));
 		}
 
 		return query;

@@ -15,7 +15,6 @@ public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 	private int mCount;
 	private Money mMinPrice;
 	private Money mMaxPrice;
-	private HashMap<String, FlightHistogram> mReturnFlightDateHistograms;
 
 	public LocalDate getKeyDate() {
 		return mKeyDate;
@@ -47,31 +46,6 @@ public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 
 	public void setMaxPrice(Money maxPrice) {
 		mMaxPrice = maxPrice;
-	}
-
-	/**
-	 * This is a HashMap of DateString to ReturnHistogram e.g. "2014-07-01" -> FlightHistogram
-	 *
-	 * @param returnFlightDatePrices
-	 */
-	public void setReturnFlightDateHistograms(HashMap<String, FlightHistogram> returnFlightDatePrices) {
-		mReturnFlightDateHistograms = returnFlightDatePrices;
-	}
-
-	/**
-	 * Thus returns a sorted list of FlightHistogram's for return flights based on this
-	 * FlightHistogram. It purposely returns an empty list if no data is available. Hopefully
-	 * the GDE data will get better.
-	 *
-	 * @return a non-null ArrayList
-	 */
-	public ArrayList<FlightHistogram> getReturnFlightDateHistograms() {
-		if (mReturnFlightDateHistograms == null) {
-			return new ArrayList<>();
-		}
-		ArrayList<FlightHistogram> grams = new ArrayList<>(mReturnFlightDateHistograms.values());
-		Collections.sort(grams);
-		return grams;
 	}
 
 	// TODO better JSONable implementation once types are set

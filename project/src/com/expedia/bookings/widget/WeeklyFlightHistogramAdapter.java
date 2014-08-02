@@ -63,9 +63,9 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 
 			mHistograms = getHistograms();
 
-			if (mHistograms != null) {
-				LocalDate startDate = mSelectedDepartureDate == null ? LocalDate.now() : mSelectedDepartureDate;
-				LocalDate endDate = LocalDate.now().plusDays(mContext.getResources().getInteger(R.integer.calendar_max_selectable_date_range));
+			if (mHistograms != null && mHistograms.size() > 0) {
+				LocalDate startDate = mHistograms.get(0).getKeyDate();
+				LocalDate endDate = mHistograms.get(mHistograms.size() - 1).getKeyDate();
 
 				WeeklyFlightHistogram current = new WeeklyFlightHistogram(startDate);
 				mWeeklyHistograms.add(current);
@@ -108,19 +108,7 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			return new ArrayList<>();
 		}
 
-		// No selected departure date (this is the default)
-		if (mSelectedDepartureDate == null) {
-			return mFlightHistogramResponse.getFlightHistograms();
-		}
-
-		// A departure date is selected, get the return trip histograms instead
-		for (FlightHistogram gram : mFlightHistogramResponse.getFlightHistograms()) {
-			if (gram.getKeyDate().equals(mSelectedDepartureDate)) {
-				return gram.getReturnFlightDateHistograms();
-			}
-		}
-
-		return new ArrayList<>();
+		return mFlightHistogramResponse.getFlightHistograms();
 	}
 
 	@Override

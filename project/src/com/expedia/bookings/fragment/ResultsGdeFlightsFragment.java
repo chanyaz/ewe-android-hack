@@ -220,8 +220,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			return;
 		}
 
-		//We always pass null for the date here, because the one way search has all the information we need
-		frag.startOrResumeForRoute(mOrigin, mDestination, null);
+		frag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
 		mGdeProgressBar.setVisibility(View.VISIBLE);
 		mGdePriceRangeTv.setText("");
 		mMissingFlightInfo.setVisibility(View.GONE);
