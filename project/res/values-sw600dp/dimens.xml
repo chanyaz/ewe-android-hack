@@ -15,6 +15,10 @@
     <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
     <dimen name="tablet_result_row_price_size">16sp</dimen>
     <dimen name="tablet_result_row_price_max_width">170dp</dimen>
+    <dimen name="tablet_result_twoLine_left_margin">2dp</dimen>
+    <dimen name="tablet_result_twoLine_bottom_margin">3dp</dimen>
+    <dimen name="tablet_result_twoLine_right_margin">2dp</dimen>
+    <dimen name="tablet_result_price_text_bottom_margin">9dp</dimen>
 
     <!-- Launch Screen -->
     <!-- The ratio of size to padding between these should stay the same. i.e. 70/4 = 175/10 -->
