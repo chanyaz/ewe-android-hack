@@ -108,9 +108,9 @@ public class GdeDownloadFragment extends Fragment {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		dl.unregisterDownloadCallback(DL_GDE_SEARCH);
 		if (dl.isDownloading(DL_GDE_SEARCH)) {
-			boolean originNew = mOrigin == null ? origin != null : mOrigin.equals(origin);
-			boolean destNew = mDestination == null ? destination != null : mDestination.equals(destination);
-			boolean dateNew = mDepartureDate == null ? departureDate != null : mDepartureDate.equals(departureDate);
+			boolean originNew = mOrigin == null ? origin != null : !mOrigin.equals(origin);
+			boolean destNew = mDestination == null ? destination != null : !mDestination.equals(destination);
+			boolean dateNew = mDepartureDate == null ? departureDate != null : !mDepartureDate.equals(departureDate);
 
 			if (origin == null || destination == null || originNew || destNew || dateNew) {
 				//Something has changed, so we cancel the previous download

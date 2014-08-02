@@ -63,6 +63,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		computeMinAndMax();
 
 		if (mFlightHistograms.size() < 3) {
+			Collections.sort(mFlightHistograms, sDateComparator);
 			return;
 		}
 
