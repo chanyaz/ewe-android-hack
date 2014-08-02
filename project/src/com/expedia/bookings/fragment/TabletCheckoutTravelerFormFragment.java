@@ -193,9 +193,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 			//We only show the passport field if we are buying an international flight.
 			mSectionTraveler.setPassportCountryFieldEnabled(TravelerUtils.travelerFormRequiresPassport(getLob()));
+			mSectionTraveler.setPhoneFieldsEnabled(mTravelerNumber);
 
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
-
 			setHeadingText(mHeaderString);
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mHeaderButtonClickListener);

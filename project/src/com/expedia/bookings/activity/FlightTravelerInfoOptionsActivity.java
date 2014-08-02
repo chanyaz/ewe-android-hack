@@ -685,7 +685,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOneFragment = Ui.findSupportFragment(this, ONE_FRAGMENT_TAG);
 		if (mOneFragment == null) {
-			mOneFragment = FlightTravelerInfoOneFragment.newInstance();
+			mOneFragment = FlightTravelerInfoOneFragment.newInstance(mTravelerIndex);
 		}
 		if (!mOneFragment.isAdded()) {
 			ft.replace(android.R.id.content, mOneFragment, ONE_FRAGMENT_TAG);

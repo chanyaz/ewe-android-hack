@@ -42,6 +42,7 @@
             android:orientation="horizontal">
 
             <FrameLayout
+                android:id="@+id/phone_edit_container"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"

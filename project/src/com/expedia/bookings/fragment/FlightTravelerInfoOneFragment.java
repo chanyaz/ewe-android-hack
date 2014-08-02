@@ -35,8 +35,14 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 
 	boolean mAttemptToLeaveMade = false;
 
-	public static FlightTravelerInfoOneFragment newInstance() {
-		return new FlightTravelerInfoOneFragment();
+	private static final String ARG_TRAVELER_INDEX = "ARG_TRAVELER_INDEX";
+
+	public static FlightTravelerInfoOneFragment newInstance(int travelerIndex) {
+		Bundle args = new Bundle();
+		args.putInt(ARG_TRAVELER_INDEX, travelerIndex);
+		FlightTravelerInfoOneFragment frag = new FlightTravelerInfoOneFragment();
+		frag.setArguments(args);
+		return frag;
 	}
 
 	@Override
@@ -88,6 +94,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 		super.onResume();
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
+		mSectionTravelerInfo.setPhoneFieldsEnabled(getArguments().getInt(ARG_TRAVELER_INDEX));
 
 		// Need to do this after bind() so it isn't hidden through the onChange() listener
 		mNameMatchWarningTextView.setVisibility(View.VISIBLE);

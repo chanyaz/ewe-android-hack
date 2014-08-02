@@ -179,6 +179,21 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	}
 
+	public void setPhoneFieldsEnabled(int travelerIndex) {
+		boolean enabled = travelerIndex == 0;
+		mFields.setFieldEnabled(mEditPhoneNumber, enabled);
+		mFields.setFieldEnabled(mEditPhoneNumberCountryCodeSpinner, enabled);
+		mFields.setFieldEnabled(mDisplayPhoneNumberWithCountryCode, enabled);
+		setPhoneContainerVisibility(enabled ? View.VISIBLE : View.GONE);
+	}
+
+	private void setPhoneContainerVisibility(int visibility) {
+		View container = Ui.findView(this, R.id.phone_edit_container);
+		if (container != null) {
+			container.setVisibility(visibility);
+		}
+	}
+
 	public boolean hasValidInput() {
 		return mFields.hasValidInput();
 	}
