@@ -74,9 +74,6 @@
         <meta-data
             android:name="ADX_CLIENT_ID"
             android:value="exped2345789jo" />
-        <meta-data
-            android:name="NOMACADDRESS"
-            android:value="ON" />
 
         <!-- Google Play Services -->
         <meta-data
