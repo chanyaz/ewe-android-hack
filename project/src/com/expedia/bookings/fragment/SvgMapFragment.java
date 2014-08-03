@@ -34,6 +34,9 @@ public class SvgMapFragment extends MeasurableFragment {
 	private int mPaddingRight = 0;
 	private int mPaddingTop = 0;
 	private int mPaddingBottom = 0;
+	private boolean mCrossesInternationalDateLine = false;
+
+	private Point2D.Double mBottomRight;
 
 	public static SvgMapFragment newInstance() {
 		SvgMapFragment frag = new SvgMapFragment();
@@ -67,7 +70,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		double circumference = mProjection.getEllipsoid().getEquatorRadius() * 2 * Math.PI;
 		mProjection.setFalseEasting(circumference / 2);
 		mProjection.setFalseNorthing(circumference / 2);
-		mProjection.setFromMetres((1 / circumference) * 3000);
+		mProjection.setFromMetres((1 / circumference) * getSvgWidth());
 		mProjection.initialize();
 	}
 
@@ -78,10 +81,19 @@ public class SvgMapFragment extends MeasurableFragment {
 		return root;
 	}
 
+	// WARNING!
+	// This no longer works for n points
 	public void setBounds(double... latlngs) {
 		if (latlngs.length % 2 != 0) {
 			throw new IllegalArgumentException("Must pass lat lng in pairs, found an odd number of arguments");
 		}
+
+		if (latlngs.length != 4) {
+			throw new IllegalArgumentException("Must pass exactly 2 latlng pairs because of the shoddy international date line detection");
+		}
+
+		mCrossesInternationalDateLine = false;
+		mBottomRight = null;
 
 		double maxLat = -java.lang.Double.MAX_VALUE;
 		double minLat = java.lang.Double.MAX_VALUE;
@@ -101,6 +113,21 @@ public class SvgMapFragment extends MeasurableFragment {
 
 		Point2D.Double tl = projectToSvg(maxLat, minLng);
 		Point2D.Double br = projectToSvg(minLat, maxLng);
+
+		if (Math.abs(br.x - tl.x) > Math.abs(tl.x - (br.x - getSvgWidth()))) {
+			// It is shorter to go across the intl date line
+
+			mCrossesInternationalDateLine = true;
+
+			// We are going to shift br to the other side of the map
+			double shifted = br.x - getSvgWidth();
+
+			// br is no longer the right
+			br.x = tl.x;
+			tl.x = shifted;
+		}
+
+		mBottomRight = br;
 
 		final float projectedWidth = (float) (br.x - tl.x);
 		final float projectedHeight = (float) (br.y - tl.y);
@@ -129,7 +156,14 @@ public class SvgMapFragment extends MeasurableFragment {
 	public Point2D.Double projectToSvg(double lat, double lon) {
 		Point2D.Double p = new Point2D.Double();
 		mProjection.transform(lon, lat, p);
-		p.y = 3000 - p.y;
+		p.y = getSvgWidth() - p.y;
+
+		if (mBottomRight != null && crossesInternationalDateLine()) {
+			if (p.x > mBottomRight.x + 0.1d) {
+				// We need to shift the point
+				p.x -= getSvgWidth();
+			}
+		}
 		return p;
 	}
 
@@ -176,6 +210,14 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	public boolean isMapGenerated() {
 		return mViewportMatrix != null;
+	}
+
+	public boolean crossesInternationalDateLine() {
+		return mCrossesInternationalDateLine;
+	}
+
+	public float getSvgWidth() {
+		return 3000.0f;
 	}
 
 	public void setPadding(int left, int top, int right, int bottom) {

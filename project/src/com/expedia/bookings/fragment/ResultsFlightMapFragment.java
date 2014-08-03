@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -137,13 +138,30 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 				mArrivalLat, mArrivalLng
 			);
 
+			Drawable[] drawables;
+
 			mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
 			mapDrawable.setBounds(0, 0, w, h);
 
-			Drawable[] drawables = new Drawable[] {
-				bgColorDrawable,
-				mapDrawable,
-			};
+			if (crossesInternationalDateLine()) {
+				Matrix shifted = new Matrix(getViewportMatrix());
+				shifted.preTranslate(-getSvgWidth(), 0);
+				Drawable shiftedMapDrawable = new SvgDrawable(getSvg(), shifted);
+				shiftedMapDrawable.setBounds(0, 0, w, h);
+
+				drawables = new Drawable[] {
+					bgColorDrawable,
+					mapDrawable,
+					shiftedMapDrawable,
+				};
+			}
+			else {
+				drawables = new Drawable[] {
+					bgColorDrawable,
+					mapDrawable,
+				};
+			}
+
 			mBgDrawable = new LayerDrawable(drawables);
 		}
 		else {
