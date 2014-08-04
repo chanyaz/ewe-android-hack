@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.mobiata.android.Log;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -400,6 +401,14 @@ public class TabletWaypointFragment extends Fragment
 		}
 	}
 
+	// Show the cancel button if there's enough room for it.
+	private boolean showCancelButton() {
+		if (mCancelButton == null || mSuggestionsC == null) {
+			return false;
+		}
+		return mCancelButton.getRight() < mSuggestionsC.getLeft();
+	}
+
 	private class WaypointStateListener implements ISingleStateListener {
 		private Rect mAnimFrom;
 		private float mMultX;
@@ -418,7 +427,13 @@ public class TabletWaypointFragment extends Fragment
 
 			mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			mCancelButton.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			if (showCancelButton()) {
+				mCancelButton.setVisibility(View.VISIBLE);
+				mCancelButton.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			}
+			else {
+				mCancelButton.setVisibility(View.GONE);
+			}
 			mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 			mSearchBarC.setPivotX(0);
@@ -441,15 +456,19 @@ public class TabletWaypointFragment extends Fragment
 				mSearchBarC.setAlpha(percentage);
 			}
 			mBg.setAlpha(percentage);
-			mCancelButton.setAlpha(percentage);
+			if (showCancelButton()) {
+				mCancelButton.setAlpha(percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
 			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
 			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
-			mCancelButton.setLayerType(View.LAYER_TYPE_NONE, null);
 			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
+			if (showCancelButton()) {
+				mCancelButton.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
 		}
 
 		@Override
@@ -458,8 +477,15 @@ public class TabletWaypointFragment extends Fragment
 				return;
 			}
 
+			if (showCancelButton()) {
+				mCancelButton.setVisibility(View.VISIBLE);
+				mCancelButton.setAlpha(isReversed ? 0f : 1f);
+			}
+			else {
+				mCancelButton.setVisibility(View.GONE);
+			}
+
 			if (isReversed) {
-				mCancelButton.setAlpha(0f);
 				mBg.setAlpha(0f);
 				mWaypointEditText.setText("");
 				mLocationProgressBar.setVisibility(View.GONE);
@@ -481,7 +507,6 @@ public class TabletWaypointFragment extends Fragment
 				mSuggestionsC.setTranslationY(0);
 				mSearchBarC.setAlpha(1f);
 				mBg.setAlpha(1f);
-				mCancelButton.setAlpha(1f);
 
 				if (mLoadingLocation) {
 					mLocationProgressBar.setVisibility(View.VISIBLE);
