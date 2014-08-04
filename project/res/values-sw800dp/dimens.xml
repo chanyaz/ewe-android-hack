@@ -87,7 +87,7 @@
     <dimen name="trip_bucket_undo_bar_width">362dp</dimen>
 
     <!-- Trip Bucket Fragment -->
-    <dimen name="bucket_top_margin">14dp</dimen>
+    <dimen name="bucket_top_margin">0dp</dimen>
     <dimen name="bucket_card_divider_size">20dp</dimen>
 
     <!-- Checkout -->
