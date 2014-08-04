@@ -20,6 +20,10 @@
 
     <!-- CONTROLLER CONTAINERS -->
 
+    <!-- NOTE: The z-order of the hotels/flights controllers cannot be changed unless
+                corresponding animation code is updated, otherwise touch handling
+                and visibilities will get wonky -->
+
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/full_width_hotels_controller_container"
         android:layout_width="match_parent"
