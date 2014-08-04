@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Tablet colors -->
+    <color name="results_traveler_picker_bg">#eaeaea</color>
+
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
     <color name="launch_secondary">#b2b2b2</color>
