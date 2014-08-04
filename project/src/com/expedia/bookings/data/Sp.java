@@ -41,6 +41,11 @@ public class Sp {
 		}
 	}
 
+	public static void clear(Context context) {
+		sSearchParams = null;
+		saveSearchParamsToDisk(context);
+	}
+
 	public static void reportSpUpdate() {
 		getBus().post(new SpUpdateEvent());
 	}
