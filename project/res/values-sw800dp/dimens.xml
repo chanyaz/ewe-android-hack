@@ -27,6 +27,9 @@
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
 
     <!-- Search Results -->
+    <dimen name="results_list_header_text_size">19dp</dimen>
+    <dimen name="results_list_header_height">56dp</dimen>
+    <dimen name="results_guest_picker_padding_x">24dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">16sp</dimen>
     <dimen name="tablet_result_row_price_size">21sp</dimen>
     <dimen name="tablet_result_twoLine_left_margin">5dp</dimen>

@@ -51,6 +51,9 @@
     <dimen name="wallet_button_bottom_margin">-2dp</dimen>
 
     <!-- Search Results -->
+    <dimen name="results_list_header_text_size">16dp</dimen>
+    <dimen name="results_list_header_height">43dp</dimen>
+    <dimen name="results_guest_picker_padding_x">19dp</dimen>
     <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
     <dimen name="sliding_filter_row_height">44dp</dimen>
     <dimen name="results_column_spacing">2dp</dimen>
