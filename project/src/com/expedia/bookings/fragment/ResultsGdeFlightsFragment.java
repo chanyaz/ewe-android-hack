@@ -298,11 +298,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 			int count = response.getCount();
 
-			if (count == 0) {
-				setMissingFlightInfoCaption();
-				mMissingFlightInfo.setVisibility(View.VISIBLE);
-			}
-
 			if (count != 0 && mHistogramFrag != null) {
 				mHistogramC.setVisibility(View.VISIBLE);
 				mHistogramFrag.setHistogramData(response);
