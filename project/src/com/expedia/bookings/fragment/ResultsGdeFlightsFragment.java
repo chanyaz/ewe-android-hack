@@ -290,9 +290,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			else if (response.hasErrors()) {
 				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
 			}
-
-			setMissingFlightInfoCaption();
-			mMissingFlightInfo.setVisibility(View.VISIBLE);
 		}
 
 		// Normal/expected GDE response
