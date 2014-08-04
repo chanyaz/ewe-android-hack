@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/results_column_header_height"
+        android:layout_height="@dimen/results_list_header_height"
         android:layout_gravity="top"
         android:background="@color/tablet_white_pane_bg"
         android:paddingLeft="@dimen/hotel_flight_card_padding_x"
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/when_to_fly"
-            android:textSize="18sp"
+            android:textSize="@dimen/results_list_header_text_size"
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.TextView
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
             android:gravity="center_vertical"
-            android:textSize="18sp"
+            android:textSize="@dimen/results_list_header_text_size"
             android:textColor="#666666"
             app:textStyle="light" />
 
@@ -53,7 +53,7 @@
         android:id="@+id/histogram_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/results_column_header_height"
+        android:layout_marginTop="@dimen/results_list_header_height"
         android:paddingTop="8dp"/>
 
     <com.expedia.bookings.widget.CenteredCaptionedIcon

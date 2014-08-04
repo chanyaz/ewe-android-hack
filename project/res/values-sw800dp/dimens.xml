@@ -36,6 +36,9 @@
     <dimen name="tablet_result_twoLine_bottom_margin">6dp</dimen>
     <dimen name="tablet_result_twoLine_right_margin">5dp</dimen>
     <dimen name="tablet_result_price_text_bottom_margin">5dp</dimen>
+    <dimen name="results_list_spacer_height">8dp</dimen>
+    <!-- note: make sure that results_list_margin_top = results_list_header_height - results_list_spacer_height -->
+    <dimen name="results_list_margin_top">48dp</dimen>
     <!-- Text size for destination label - search screen, left container element -->
     <dimen name="search_params_destination_text_size">25sp</dimen>
     <!-- Text size for search param labels - search screen, right container elements -->

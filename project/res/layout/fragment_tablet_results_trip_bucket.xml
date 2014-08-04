@@ -13,12 +13,12 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/trip_bucket_heading"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/results_column_header_height"
+            android:layout_height="@dimen/results_list_header_height"
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
             android:layout_marginTop="@dimen/bucket_heading_top_margin"
             android:gravity="center_vertical|left"
-            android:textSize="18sp"
+            android:textSize="@dimen/results_list_header_text_size"
             android:text="@string/your_trip"
             app:textStyle="light" />
 
@@ -37,7 +37,7 @@
                 android:id="@+id/empty_bucket_view"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="@dimen/results_column_header_height"
+                android:layout_marginBottom="@dimen/results_list_header_height"
                 app:svg="@raw/ic_tablet_trip_bucket_suitcase"
                 app:caption="@string/trip_empty"/>
 

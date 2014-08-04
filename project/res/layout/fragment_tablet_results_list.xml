@@ -27,7 +27,7 @@
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/sticky_header_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/results_column_header_height"
+        android:layout_height="@dimen/results_list_header_height"
         android:background="@color/tablet_white_pane_bg"
         android:gravity="center_vertical"
         android:layout_margin="0dp"
@@ -40,7 +40,7 @@
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
             android:gravity="center_vertical|left"
-            android:textSize="18sp"
+            android:textSize="@dimen/results_list_header_text_size"
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.TextView

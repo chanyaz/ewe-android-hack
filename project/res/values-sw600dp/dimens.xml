@@ -58,11 +58,10 @@
     <dimen name="sliding_filter_row_height">44dp</dimen>
     <dimen name="results_column_spacing">2dp</dimen>
     <dimen name="results_list_spacer_height">8dp</dimen>
-    <dimen name="results_list_margin_top">40dp</dimen>
+    <!-- note: make sure that results_list_margin_top = results_list_header_height - results_list_spacer_height -->
+    <dimen name="results_list_margin_top">35dp</dimen>
     <!-- The height by which the bottom gradient starts above the search bar -->
     <dimen name="results_bottom_gradient_offset">32dp</dimen>
-    <!-- note: results_column_header_height should be equal to results_list_spacer_height + results_list_margin_top -->
-    <dimen name="results_column_header_height">48dp</dimen>
     <!-- Text size for destination label - search screen, left container element -->
     <dimen name="search_params_destination_text_size">19sp</dimen>
     <!-- Text size for search param labels - search screen, right container elements -->
