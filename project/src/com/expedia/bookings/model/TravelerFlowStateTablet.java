@@ -1,7 +1,6 @@
 package com.expedia.bookings.model;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -41,9 +40,10 @@ public class TravelerFlowStateTablet implements ILOBable {
 		return mLob;
 	}
 
-	public boolean isValid(Traveler traveler, boolean emailRequired, boolean passportRequired) {
+	public boolean isValid(Traveler traveler, boolean emailRequired, boolean passportRequired, int travelerNumber) {
 		mSectionTraveler.setEmailFieldEnabled(emailRequired);
 		mSectionTraveler.setPassportCountryFieldEnabled(passportRequired);
+		mSectionTraveler.setPhoneFieldsEnabled(travelerNumber);
 		mSectionTraveler.bind(traveler);
 		return mSectionTraveler.hasValidInput();
 	}

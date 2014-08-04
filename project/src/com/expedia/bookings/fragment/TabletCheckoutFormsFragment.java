@@ -863,7 +863,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			&& mTravelerFlowState != null) {
 			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getLob(), getActivity());
 			boolean needsPassport = TravelerUtils.travelerFormRequiresPassport(getLob());
-			return mTravelerFlowState.isValid(Db.getTravelers().get(travelerNumber), needsEmail, needsPassport);
+			return mTravelerFlowState.isValid(Db.getTravelers().get(travelerNumber), needsEmail, needsPassport, travelerNumber);
 		}
 		return false;
 	}

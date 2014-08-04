@@ -1,9 +1,9 @@
 package com.expedia.bookings.model;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.utils.Ui;
@@ -33,7 +33,8 @@ public class TravelerFlowState {
 	}
 
 	private void bind(Traveler travelerInfo) {
-		mTravelerInfoOne.bind(travelerInfo);
+		int index = Db.getTravelers().indexOf(travelerInfo);
+		mTravelerInfoOne.bind(travelerInfo, index);
 		mTravelerInfoTwo.bind(travelerInfo);
 	}
 
