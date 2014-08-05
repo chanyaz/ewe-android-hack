@@ -114,7 +114,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
 		ResultsHotelsState.LOADING, this);
 	private GridManager mGrid = new GridManager();
-	private boolean mRoomsAndRatesInFront = true;// They start in front
 	private Runnable mSearchParamUpdateRunner;
 
 	@Override
