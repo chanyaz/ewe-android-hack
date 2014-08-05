@@ -955,6 +955,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightLegsC.setVisibility(View.VISIBLE);
 
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+				AdTracker.trackFlightSearch();
 			}
 			else if (isZeroResults) {
 				if (mSearchErrorFrag == null) {
@@ -972,7 +973,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
 			}
-			AdTracker.trackFlightSearch();
 		}
 	}
 
