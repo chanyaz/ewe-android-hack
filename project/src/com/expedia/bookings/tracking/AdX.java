@@ -258,7 +258,7 @@ public class AdX {
 			// Retargeting event
 			AdXConnect.startNewExtendedEvent(sAppContext);
 			addCommonRetargeting();
-			if (search.getSearchResponse().getPropertiesCount() > 0) {
+			if (search.getSearchResponse() != null && search.getSearchResponse().getPropertiesCount() > 0) {
 				Location location = search.getSearchResponse().getProperty(0).getLocation();
 				if (location != null) {
 					addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
