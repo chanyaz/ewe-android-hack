@@ -1286,6 +1286,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
 		importParams();
 		bindSearchBtns();
+		/*
+		 * When users select a destination, the origin defaults to current location.
+		 * GDE fragment will be not shown until the current location (origin) is set.
+		 * On SP update, if we have the origin then let's show the GDE
+		 */
+		if (Sp.getParams().getOriginLocation(true) != null && getState() == ResultsSearchState.CALENDAR) {
+			mGdeC.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Subscribe
