@@ -1215,11 +1215,14 @@ public class OmnitureTracking {
 	}
 
 	private static void addOriginAndDestinationVars(ADMS_Measurement s, SuggestionV2 origin, SuggestionV2 destination) {
-		String originRegionId = origin != null && origin.getRegionId() != 0 ?
+		String originRegionId =
+			(origin != null && origin.getRegionId() != 0) ?
 			Integer.toString(origin.getRegionId()) : "No Origin";
 		s.setProp(3, originRegionId);
 		s.setEvar(3, "D=c3");
-		String destinationRegionId = destination != null && destination.getRegionId() != 0 ?
+
+		String destinationRegionId =
+			(destination != null && destination.getRegionId() != 0) ?
 			Integer.toString(destination.getRegionId()) : "No Destination";
 		s.setProp(4, destinationRegionId);
 		s.setEvar(4, "D=c4");
