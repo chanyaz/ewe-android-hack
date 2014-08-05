@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
@@ -51,6 +52,8 @@ public class ResultsDatesFragment extends Fragment implements
 		View view = inflater.inflate(R.layout.fragment_results_dates, container, false);
 
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
+		mCalendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
+		mCalendarPicker.setDaysOfMonthTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));

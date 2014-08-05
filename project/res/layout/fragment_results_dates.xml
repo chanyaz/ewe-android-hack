@@ -13,7 +13,6 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:padding="2dp"
         app:calendarBaseColor="#000000"
         app:calendarSecondaryColor="#6F6F6F"
         app:calendarHighlightColor="@color/tablet_results_search_blue"
@@ -22,7 +21,8 @@
         app:calendarInvalidDaysColor="#CFCFCF"
         app:calendarDaysOfWeekColor="#000000"
         app:calendarChangeMonthCaretColor="@color/tablet_results_search_blue"
-        app:calendarHeaderTextSize="18dp"
-        app:calendarHeaderTextColor="#000000"/>
+        app:calendarHeaderTextSize="16dp"
+        app:calendarHeaderTextColor="#444444"
+        app:calendarLayoutFile="@layout/widget_calendar_picker_eb"/>
 </LinearLayout>
 
