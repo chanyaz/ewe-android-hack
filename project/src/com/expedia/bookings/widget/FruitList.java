@@ -40,7 +40,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	private int mHeaderSpacerHeight = 0;
 	private int mFooterSpacerHeight = 0;
 
-	//How big is our top spacer - default to half the height
+	//How big is our top spacer - default to 46% of the height
 	private float mTopSpacerPercentage = 0.46f;
 	private float mTopSpacerPixels = -1f;
 
@@ -492,7 +492,8 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			else {
 				retVal = 0f;
 			}
-		}else if(mListLockedToTop){
+		}
+		else if (mListLockedToTop) {
 			return 0f;
 		}
 		retVal = Math.max(Math.min(retVal, 1f), 0f);
@@ -641,7 +642,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	@Override
 	public void updateStateTransition(ResultsListState stateOne, ResultsListState stateTwo,
-		float percentage) {
+									  float percentage) {
 		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 

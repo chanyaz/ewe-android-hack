@@ -134,7 +134,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		super.onResume();
 		mListView.registerStateListener(mListStateHelper, false);
 		IAcceptingListenersListener readyForListeners = Ui.findFragmentListener(this, IAcceptingListenersListener.class, false);
-		if(readyForListeners != null){
+		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
 	}
@@ -143,7 +143,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	public void onPause() {
 		super.onPause();
 		IAcceptingListenersListener readyForListeners = Ui.findFragmentListener(this, IAcceptingListenersListener.class, false);
-		if(readyForListeners != null){
+		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, false);
 		}
 		mListView.unRegisterStateListener(mListStateHelper);
@@ -174,7 +174,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	}
 
 	public float getPercentage() {
-		if(hasList()) {
+		if (hasList()) {
 			return mListView.getScrollDownPercentage();
 		}
 		return 0f;
@@ -232,27 +232,20 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 			}
 			else {
 				mTopRightTextButton.setVisibility(View.VISIBLE);
-				if(percentage == 0) {
+				if (percentage == 0) {
 					mTopRightTextButton.setEnabled(true);
 				}
 			}
 		}
 
 		//position
-		if (percentage == 0) {
-			mStickyHeader.setTranslationY(0);
-		}
-		else {
-			float maxHeaderTransY =
-				mListView.getTop() + mListView.getMaxDistanceFromTop() + mListView.getPaddingTop() - mStickyHeader
-					.getTop() - mStickyHeader.getHeight();
-			if (percentage == 1) {
-				mStickyHeader.setTranslationY(maxHeaderTransY);
-			}
-			else {
-				mStickyHeader.setTranslationY(maxHeaderTransY * percentage);
-			}
-		}
+		float maxHeaderTransY = mListView.getTop()
+			+ mListView.getMaxDistanceFromTop()
+			+ mListView.getPaddingTop()
+			+ mListView.getDividerHeight() // To overlap the divider at the top of the list
+			- mStickyHeader.getTop()
+			- mStickyHeader.getHeight();
+		mStickyHeader.setTranslationY(percentage * maxHeaderTransY);
 	}
 
 	public void clearSelection() {
@@ -294,7 +287,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	@Override
 	public void updateStateTransition(T stateOne, T stateTwo,
-		float percentage) {
+									  float percentage) {
 		mListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
