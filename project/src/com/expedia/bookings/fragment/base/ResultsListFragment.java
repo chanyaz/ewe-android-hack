@@ -21,7 +21,6 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
-import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TextView;
@@ -109,15 +108,14 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	}
 
 	/**
-	 * Updates the top space on this FruitList (taking into account the column header height).
+	 * Updates the top space on this fragment's FruitList.
+	 *
 	 * @param pixels
 	 */
 	public void setTopSpacePixels(int pixels) {
 		mTopSpacePixels = pixels;
 		if (mListView != null) {
-			int topMargin = ((ViewGroup.MarginLayoutParams)mListView.getLayoutParams()).topMargin;
-			int dividerHeight = getResources().getDimensionPixelSize(R.dimen.results_list_spacer_height);
-			mListView.setTopSpacePixels(mTopSpacePixels - topMargin - dividerHeight);
+			mListView.setTopSpacePixels(mTopSpacePixels);
 		}
 	}
 

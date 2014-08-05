@@ -502,7 +502,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		if (mHotelListFrag != null) {
 
 			mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-			mHotelListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+			mHotelListFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 
 			// Button and locking
 			switch (state) {
@@ -638,7 +638,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			break;
 		case FTAG_HOTEL_LIST:
 			ResultsHotelListFragment listFrag = (ResultsHotelListFragment) frag;
-			listFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+			listFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 			break;
 		}
 
@@ -973,7 +973,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				updateMapFragmentPositioningInfo(mMapFragment);
 
 				if (mHotelListFrag != null) {
-					mHotelListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+					mHotelListFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 				}
 			}
 			else {
@@ -1016,7 +1016,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				updateMapFragmentPositioningInfo(mMapFragment);
 
 				if (mHotelListFrag != null) {
-					mHotelListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+					mHotelListFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 				}
 			}
 		}

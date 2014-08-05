@@ -1117,7 +1117,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		case FTAG_LIST:
 			ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
 			listFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-			listFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+			listFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 			break;
 		}
 	}
@@ -1231,7 +1231,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 
 			if (mListFrag != null) {
-				mListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+				mListFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 			}
 		}
 	};

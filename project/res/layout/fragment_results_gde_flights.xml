@@ -53,8 +53,7 @@
         android:id="@+id/histogram_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/results_list_header_height"
-        android:paddingTop="8dp"/>
+        android:layout_marginTop="@dimen/results_list_header_height"/>
 
     <com.expedia.bookings.widget.CenteredCaptionedIcon
         android:id="@+id/missing_flight_info_view"
