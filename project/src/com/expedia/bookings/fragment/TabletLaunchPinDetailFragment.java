@@ -16,6 +16,7 @@ import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoundImageView;
@@ -68,18 +69,27 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	@Subscribe
 	public void onLaunchMapPinClicked(final Events.LaunchMapPinClicked event) {
 		if (event.launchLocation != null) {
-			UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(event.launchLocation.getImageUrl(), mRoundImage);
-			bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					mRoundImage.setImageBitmap(bitmap);
-				}
+			int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+			final String imageUrl = new Akeakamai(event.launchLocation.getImageUrl()) //
+				.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
+				.build();
 
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					mRoundImage.setImageResource(R.drawable.launch_circle_placeholder);
-				}
-			});
+			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, true /*checkDisk*/);
+			mRoundImage.setImageBitmap(bitmap);
+
+			if (bitmap == null) {
+				L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
+					@Override
+					public void onBitmapLoaded(String url, Bitmap bitmap) {
+						mRoundImage.setImageBitmap(bitmap);
+					}
+
+					@Override
+					public void onBitmapLoadFailed(String url) {
+						mRoundImage.setImageResource(R.drawable.launch_circle_placeholder);
+					}
+				});
+			}
 
 			TextView textTitle = Ui.findView(mRootC, R.id.text_title);
 			textTitle.setText(event.launchLocation.title);

@@ -17,6 +17,7 @@ import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.Ui;
 
@@ -130,8 +131,13 @@ public class CollectionStack extends FrameLayout {
 		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
 		headerBitmapDrawable.setCornerRadius(getContext().getResources().getDimensionPixelSize(R.dimen.destination_stack_corner_radius));
 
+		final int width = getContext().getResources().getDimensionPixelSize(R.dimen.destination_search_stack_width);
+		final String imageUrl = new Akeakamai(url) //
+			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
+			.build();
+
 		ArrayList<String> urls = new ArrayList<String>();
-		urls.add(url);
+		urls.add(imageUrl);
 		headerBitmapDrawable.setCallback(new L2ImageCache.OnBitmapLoaded() {
 			@Override
 			public void onBitmapLoaded(String url, Bitmap bitmap) {

@@ -29,6 +29,7 @@ import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.google.android.gms.maps.CameraUpdate;
@@ -284,11 +285,12 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	private void addPin(final LaunchLocation launchLocation) {
-		Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(launchLocation.getImageUrl(), false /*blurred*/ , true /*checkdisk*/);
+		final String imageUrl = getResizeForPinUrl(launchLocation.getImageUrl());
+		Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/ , true /*checkdisk*/);
 		inflatePinAndAddMarker(launchLocation, bitmap);
 
 		if (bitmap == null) {
-			L2ImageCache.sGeneralPurpose.loadImage(launchLocation.getImageUrl(), new L2ImageCache.OnBitmapLoaded() {
+			L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
 				@Override
 				public void onBitmapLoaded(String url, Bitmap bitmap) {
 					inflatePinAndAddMarker(launchLocation, bitmap);
@@ -396,4 +398,13 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			return new Tile(SIZE, SIZE, mBytes);
 		}
 	};
+
+	private String getResizeForPinUrl(String url) {
+		// We request the "detail" size so we don't download duplicates for when you click on a pin
+		int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+		final String ret = new Akeakamai(url) //
+			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
+			.build();
+		return ret;
+	}
 }
