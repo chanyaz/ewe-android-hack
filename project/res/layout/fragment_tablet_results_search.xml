@@ -166,7 +166,6 @@
                     android:layout_height="match_parent"
                     android:visibility="invisible"
                     android:textSize="18dp"
-                    android:background="@android:color/holo_blue_bright"
                     android:layout_gravity="center_vertical" />
 
             </FrameLayout>
