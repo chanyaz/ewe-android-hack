@@ -473,7 +473,7 @@ public class TabletWaypointFragment extends Fragment
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
-			if (mRootC == null) {
+			if (mRootC == null || !isAdded()) {
 				return;
 			}
 
