@@ -151,6 +151,8 @@
     <string name="rating">rating</string>
     <!-- Short label for "sort by distance" button -->
     <string name="distance">distance</string>
+    <!-- Short label for "sort by discounts" button -->
+    <string name="discounts">discounts</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Press to sort by the most popular hotels.</string>
     <!-- Content description for "sort by price" button -->

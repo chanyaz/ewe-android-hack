@@ -120,6 +120,18 @@
                     android:gravity="center"
                     android:text="@string/popular"
                     android:textColor="@color/sliding_group_text" />
+
+                <RadioButton
+                    android:id="@+id/sort_by_deals_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:contentDescription="@string/cd_sort_hotels_by_deals"
+                    android:gravity="center"
+                    android:text="@string/discounts"
+                    android:textColor="@color/sliding_group_text" />
             </com.expedia.bookings.widget.SlidingRadioGroup>
 
             <TextView

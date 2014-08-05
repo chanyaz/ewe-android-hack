@@ -135,6 +135,10 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			checkId = R.id.sort_by_distance_button;
 			break;
 		}
+		case DEALS: {
+			checkId = R.id.sort_by_deals_button;
+			break;
+		}
 		case POPULAR:
 		default: {
 			checkId = R.id.sort_by_popular_button;
@@ -267,6 +271,10 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			}
 			case R.id.sort_by_distance_button: {
 				sort = Sort.DISTANCE;
+				break;
+			}
+			case R.id.sort_by_deals_button: {
+				sort = Sort.DEALS;
 				break;
 			}
 			case R.id.sort_by_popular_button:
@@ -426,6 +434,9 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			case R.id.sort_by_distance_button: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 				break;
+			}
+			case R.id.sort_by_deals_button: {
+				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 			}
 			case R.id.sort_by_popular_button:
 			default: {
