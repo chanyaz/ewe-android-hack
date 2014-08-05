@@ -101,11 +101,9 @@ public class ResultsTripBucketFragment extends Fragment
 
 	private Rect getFakeTopRect() {
 		int paddingX = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_x);
-		int bucketMarginTop = getResources().getDimensionPixelSize(R.dimen.bucket_top_margin);
 		int height = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_height);
 		if (mTripBucketC != null) {
 			Rect rect = ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mTripBucketC);
-			rect.top += bucketMarginTop;
 			rect.left += paddingX;
 			rect.right -= paddingX;
 			rect.bottom = rect.top + height;
