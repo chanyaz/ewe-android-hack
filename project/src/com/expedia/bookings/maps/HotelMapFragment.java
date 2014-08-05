@@ -36,6 +36,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdate;
@@ -48,6 +49,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -605,8 +607,18 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		marker.hideInfoWindow();
 	}
 
-	public void setMapPaddingFromFilterState(boolean filtersShowing) {
-		int width = filtersShowing ? mFilterViewWidth : mResultsViewWidth;
+	public void setMapPaddingFromResultsHotelsState(ResultsHotelsState state) {
+		int width;
+		boolean filtersShowing = state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS;
+		if (filtersShowing) {
+			width = mFilterViewWidth;
+		}
+		else if (state == ResultsHotelsState.MAP) {
+			width = 0;
+		}
+		else {
+			width = mResultsViewWidth;
+		}
 		mFilterOpen = filtersShowing;
 		setPadding(width, 0, 0, 0);
 		mCurrentLeftColWidth = width;
@@ -621,9 +633,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	 * hidden).
 	 */
 	public void showAll() {
-		if (mCurrentLeftColWidth <= 0) {
-			mCurrentLeftColWidth = mResultsViewWidth;
-		}
 		Log.d("showAll Width: " + mCurrentLeftColWidth);
 		setPadding(mCurrentLeftColWidth, 0, 0, 0);
 		if (mProperties != null && mProperties.size() > 0) {
@@ -730,7 +739,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				marker.hideInfoWindow();
 			}
 		}
-		setPadding(mResultsViewWidth,
+		setPadding(mCurrentLeftColWidth,
 			getHeight() - getResources().getDimensionPixelSize(R.dimen.tablet_results_hotel_map_pin_padding)
 				- getResources().getDimensionPixelOffset(R.dimen.tablet_hotel_details_top_padding) + tailOffset, 0,
 			0

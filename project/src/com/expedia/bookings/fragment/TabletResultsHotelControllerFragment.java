@@ -126,6 +126,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				STATE_HOTELS_STATE, getBaseState().name())));
 		}
 		ResultsHotelsState state = mHotelsStateManager.getState();
+
+		// MAP state is a portrait only, just fall back to LIST_UP on rotation
+		if (!getResources().getBoolean(R.bool.portrait) && state == ResultsHotelsState.MAP) {
+			mHotelsStateManager.setState(ResultsHotelsState.HOTEL_LIST_UP, false);
+		}
+
 		if (state != ResultsHotelsState.LOADING && state != ResultsHotelsState.SEARCH_ERROR) {
 			if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db
 				.loadHotelSearchFromDisk(getActivity())) {
@@ -154,6 +160,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mHotelListC = Ui.findView(view, R.id.column_one_hotel_list);
 		mBgHotelMapC = Ui.findView(view, R.id.bg_hotel_map);
+		mBgHotelMapC.setTouchControlListener(mMapTouchListener);
 		mBgHotelMapTouchDelegateC = Ui.findView(view, R.id.bg_hotel_map_touch_delegate);
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
@@ -757,6 +764,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 * HotelMapFragmentListener
 	 */
 
+	public FrameLayoutTouchController.TouchControlListener mMapTouchListener = new FrameLayoutTouchController.TouchControlListener() {
+		@Override
+		public void onTouch() {
+			if (getHotelsState() == ResultsHotelsState.HOTEL_LIST_UP && !mGrid.isLandscape()) {
+				setHotelsState(ResultsHotelsState.MAP, true);
+			}
+		}
+	};
+
 	@Override
 	public void onMapClicked() {
 		// TODO Auto-generated method stub
@@ -1048,6 +1064,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 						setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 						return true;
 					}
+					else if (state == ResultsHotelsState.MAP) {
+						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
+						return true;
+					}
 					else if (state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 						return true;
@@ -1139,6 +1159,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setRoomsAndRatesAnimationVisibilities();
 				setRoomsAndRatesAnimationHardwareRendering(true);
 			}
+			else if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.MAP)
+				|| (stateOne == ResultsHotelsState.MAP && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
+				mHotelListC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				// SHOWING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
@@ -1200,6 +1224,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mBgHotelMapC.setAlpha(1f - percentage);
 				mHotelListFrag.setPercentage(percentage, 0);
 			}
+			else if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.MAP) {
+				mHotelListC.setTranslationX(percentage * -mHotelListC.getWidth());
+			}
+			else if (stateOne == ResultsHotelsState.MAP && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
+				mHotelListC.setTranslationX((1f - percentage) * -mHotelListC.getWidth());
+			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				// SHOWING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(percentage);
@@ -1256,6 +1286,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				// SHOWING/HIDING ROOMS AND RATES
 				setRoomsAndRatesAnimationHardwareRendering(false);
 
+			}
+			else if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.MAP)
+				|| (stateOne == ResultsHotelsState.MAP && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
+				mHotelListC.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				// SHOWING FILTERS
@@ -1324,6 +1358,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				OmnitureTracking.trackTabletHotelListOpen(getActivity(), Db.getHotelSearch().getSearchParams(),
 					Db.getHotelSearch().getSearchResponse());
 				break;
+			case MAP:
+				mHotelListC.setTranslationX(-mHotelListC.getWidth());
+				break;
 			case ROOMS_AND_RATES: {
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
@@ -1358,7 +1395,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			if (mMapFragment != null && !mHotelsStateManager.isChaining() && state != ResultsHotelsState.ROOMS_AND_RATES
 				&& state != ResultsHotelsState.REVIEWS && state != ResultsHotelsState.GALLERY) {
-				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS);
+				mMapFragment.setMapPaddingFromResultsHotelsState(state);
 			}
 			logger.addSplit("mMapFragment.setMapPaddingFromFilterState");
 

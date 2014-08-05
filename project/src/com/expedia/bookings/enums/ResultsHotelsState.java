@@ -5,6 +5,7 @@ public enum ResultsHotelsState {
 	SEARCH_ERROR,
 	HOTEL_LIST_DOWN,
 	HOTEL_LIST_UP,
+	MAP,
 	HOTEL_LIST_AND_FILTERS,
 	ROOMS_AND_RATES,
 	REVIEWS,
@@ -22,6 +23,7 @@ public enum ResultsHotelsState {
 		case ZERO_RESULT:
 			return ResultsState.OVERVIEW;
 		case HOTEL_LIST_UP:
+		case MAP:
 		case HOTEL_LIST_AND_FILTERS:
 		case ROOMS_AND_RATES:
 		case REVIEWS:
