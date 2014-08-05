@@ -3,6 +3,7 @@
 
     <!-- Tablet colors -->
     <color name="results_traveler_picker_bg">#eaeaea</color>
+    <color name="launch_tile_pressed_overlay">#40000000</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>

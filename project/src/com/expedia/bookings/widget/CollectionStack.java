@@ -5,12 +5,9 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,9 +18,7 @@ import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.ColorBuilder;
-import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 public class CollectionStack extends FrameLayout {
 	public CollectionStack(Context context) {
@@ -43,6 +38,7 @@ public class CollectionStack extends FrameLayout {
 
 	private float mBasePadding;
 
+	private FrameLayout mPressedStateView;
 	private ImageView mFrontImageView;
 	private ImageView mMiddleImageView;
 	private ImageView mBackImageView;
@@ -66,6 +62,7 @@ public class CollectionStack extends FrameLayout {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
+		mPressedStateView = Ui.findView(this, R.id.stack_pressed_view);
 		mFrontImageView = Ui.findView(this, R.id.front_image_view);
 		mMiddleImageView = Ui.findView(this, R.id.middle_image_view);
 		mBackImageView = Ui.findView(this, R.id.back_image_view);
@@ -74,6 +71,8 @@ public class CollectionStack extends FrameLayout {
 
 		mFrontImageView.setTranslationX(mBasePadding * 2);
 		mFrontImageView.setTranslationY(mBasePadding * 2);
+		mPressedStateView.setTranslationX(mBasePadding * 2);
+		mPressedStateView.setTranslationY(mBasePadding * 2);
 
 		mMiddleImageView.setTranslationY(mBasePadding);
 	}

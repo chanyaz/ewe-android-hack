@@ -16,6 +16,12 @@
         android:layout_width="@dimen/destination_search_tile_width"
         android:layout_height="@dimen/destination_search_tile_height" />
 
+    <FrameLayout
+        android:id="@+id/stack_pressed_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height"
+        android:foreground="@drawable/fg_tablet_launch_tile" />
+
     <ImageView
         android:id="@+id/checkmark"
         android:layout_width="@dimen/destination_search_tile_width"
