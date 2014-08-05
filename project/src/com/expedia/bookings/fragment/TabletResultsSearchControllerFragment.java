@@ -594,7 +594,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
 				mCalC.setVisibility(View.VISIBLE);
-				mGdeC.setVisibility(View.VISIBLE);
+				mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
 
 				if ((mDatesFragment == null || mDatesFragment.isDetached()) || (mGdeFragment == null || mGdeFragment
 					.isDetached())) {
@@ -906,7 +906,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mSearchBarC.setVisibility(state.showsSearchPopup() ? View.INVISIBLE : View.VISIBLE);
 
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
-			mGdeC.setVisibility(mCalC.getVisibility());
+			mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
 
 			if (!mGrid.isLandscape()) {
 				if (state == ResultsSearchState.TRAVELER_PICKER) {
