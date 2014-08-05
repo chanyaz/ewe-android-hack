@@ -403,10 +403,7 @@ public class TabletWaypointFragment extends Fragment
 
 	// Show the cancel button if there's enough room for it.
 	private boolean showCancelButton() {
-		if (mCancelButton == null || mSuggestionsC == null) {
-			return false;
-		}
-		return mCancelButton.getRight() < mSuggestionsC.getLeft();
+		return getResources().getBoolean(R.bool.show_waypoint_cancel_button);
 	}
 
 	private class WaypointStateListener implements ISingleStateListener {
