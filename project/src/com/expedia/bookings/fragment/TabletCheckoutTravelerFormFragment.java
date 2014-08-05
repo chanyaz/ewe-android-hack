@@ -30,6 +30,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.enums.TravelerFormState;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
@@ -683,6 +684,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				}
 			}
 			else {
+				PassengerCategory category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory();
+				results.getTraveler().setPassengerCategory(category);
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(results.getTraveler());
 				bindToDb(mTravelerNumber);
 			}
