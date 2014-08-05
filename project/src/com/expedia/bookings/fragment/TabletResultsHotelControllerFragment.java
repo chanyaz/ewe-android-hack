@@ -241,14 +241,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
 		else {
-			if (mSearchErrorFrag == null && !readyToSearch()) {
-				FragmentManager manager = getChildFragmentManager();
-				FragmentTransaction transaction = manager.beginTransaction();
-				mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
-					FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this, R.id.column_one_hotel_search_error, false);
-				transaction.commit();
-				manager.executePendingTransactions();
-			}
 			mHotelsStateManager.setState(getBaseState(), true);
 			if (mSearchParamUpdateRunner != null) {
 				mRootC.removeCallbacks(mSearchParamUpdateRunner);
@@ -296,6 +288,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	public void setHotelsState(ResultsHotelsState state, boolean animate) {
+		Log.stackTrace(6, "HERE");
 		mHotelsStateManager.setState(state, animate);
 	}
 
@@ -435,24 +428,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean hotelReviewsAvailable = false;
 		boolean hotelGalleryAvailable = false;
 
-		if (hotelsState == ResultsHotelsState.LOADING || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
-			if (hotelsState == ResultsHotelsState.LOADING) {
-				hotelSearchDownloadAvailable = true;
-				loadingGuiAvailable = true;
-				searchErrorAvailable = false;
-			}
-			else {
-				hotelSearchDownloadAvailable = false;
-				loadingGuiAvailable = false;
-				searchErrorAvailable = true;
-			}
+		if (hotelsState == ResultsHotelsState.LOADING) {
+			hotelSearchDownloadAvailable = true;
+
+			loadingGuiAvailable = true;
+			searchErrorAvailable = true;
 
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
 			hotelRoomsAndRatesAvailable = false;
 		}
-		else if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
+
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
 			hotelRoomsAndRatesAvailable = false;
@@ -466,10 +454,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelGalleryAvailable = true;
 		}
 
-		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY || hotelsState == ResultsHotelsState.ZERO_RESULT) {
+		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY || hotelsState == ResultsHotelsState.ZERO_RESULT || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
 			// We need to have an instance of HotelSearchDownloadFragment so we can ignore download results on new search params.
 			hotelSearchDownloadAvailable = true;
-			loadingGuiAvailable = false;
+			loadingGuiAvailable = true;
 			searchErrorAvailable = true;
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
@@ -1552,37 +1540,24 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH) {
 			Context context = getActivity();
-			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
+
+			HotelSearchResponse hotelResponse = (HotelSearchResponse) response;
+			Db.getHotelSearch().setSearchResponse(hotelResponse);
 			Db.saveHotelSearchTimestamp(context);
 			Db.kickOffBackgroundHotelSearchSave(context);
-			boolean isZeroResults = (response != null && !response.hasErrors() && ((HotelSearchResponse) response).getPropertiesCount() == 0) ? true : false;
-			if (!isZeroResults) {
-				// We need the list fragment to start drawing so we can animate it in
-				FragmentManager manager = getChildFragmentManager();
-				FragmentTransaction transaction = manager.beginTransaction();
-				mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-					true, FTAG_HOTEL_LIST, manager,
-					transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
-				transaction.commit();
 
-				mHotelListC.setVisibility(View.VISIBLE);
+			boolean isBadResponse = response == null || response.hasErrors();
+			boolean isZeroResults = response != null && hotelResponse.getPropertiesCount() == 0;
 
-				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-				AdTracker.trackHotelSearch();
+			if (isBadResponse) {
+				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
 			else if (isZeroResults) {
-				if (mSearchErrorFrag == null) {
-					FragmentManager manager = getChildFragmentManager();
-					FragmentTransaction transaction = manager.beginTransaction();
-					mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
-						FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this, R.id.column_one_hotel_search_error, false);
-					transaction.commit();
-				}
 				setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
 			}
-			else if (!mHotelSearchDownloadFrag.isDownloadingSearchByHotel()) {
-				// If we aren't downloading, and we dont have a valid response, we move to the error state
-				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+			else {
+				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+				AdTracker.trackHotelSearch();
 			}
 		}
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
