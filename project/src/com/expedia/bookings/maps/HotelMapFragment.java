@@ -513,10 +513,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					mTextView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 					final int w = mTextView.getMeasuredWidth();
 					final int h = mTextView.getMeasuredHeight();
-					Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-					Canvas c = new Canvas(bitmap);
 					mTextView.layout(0, 0, w, h);
-					mTextView.draw(c);
+					Bitmap bitmap = Ui.createBitmapFromView(mTextView);
 
 					pin = BitmapDescriptorFactory.fromBitmap(bitmap);
 					mPricePins.put(label, pin);

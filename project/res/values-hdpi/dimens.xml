@@ -6,7 +6,4 @@
     <dimen name="max_height_rating_bar_small">16dp</dimen>
     <dimen name="margin_top_sale_ribbon_room_rates">25dp</dimen>
 
-    <!-- Tablet hotel map price pin -->
-    <dimen name="hotel_map_price_pin_text_size">10dp</dimen>
-
 </resources>

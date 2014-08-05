@@ -40,7 +40,7 @@
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">40dp</dimen>
     <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>
-    <dimen name="hotel_map_price_pin_text_size">12dp</dimen>
+    <dimen name="hotel_map_price_pin_text_size">14px</dimen>
 
     <!-- Account / Login button -->
     <dimen name="account_button_margin_top">0dp</dimen>
