@@ -14,7 +14,13 @@ import com.expedia.bookings.utils.TouchControlHelper;
  */
 public class FrameLayoutTouchController extends FrameLayout {
 
+	public interface TouchControlListener {
+		public void onTouch();
+	}
+
 	TouchControlHelper mTouchHelper = new TouchControlHelper();
+
+	TouchControlListener mTouchControlListener;
 
 	public FrameLayoutTouchController(Context context) {
 		super(context);
@@ -52,6 +58,10 @@ public class FrameLayoutTouchController extends FrameLayout {
 		mTouchHelper.setPreventMashing(enabled, touchCooldownMs);
 	}
 
+	public void setTouchControlListener(TouchControlListener listener) {
+		mTouchControlListener = listener;
+	}
+
 	public void setLoggingEnabled(boolean enabled) {
 		mTouchHelper.setLoggingEnabled(enabled);
 	}
@@ -62,6 +72,10 @@ public class FrameLayoutTouchController extends FrameLayout {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		if (mTouchControlListener != null) {
+			mTouchControlListener.onTouch();
+		}
+
 		Pair<Boolean, Boolean> touchControl = mTouchHelper.onInterceptTouchEvent(ev);
 		if (touchControl.first) {
 			return touchControl.second;
