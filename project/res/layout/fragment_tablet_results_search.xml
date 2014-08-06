@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,49 +15,10 @@
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/search_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        tools:ignore="NewApi">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <LinearLayout style="@style/V2.Widget.LinearLayout.TabletSearchControls">
+        <include layout="@layout/snippet_search_controls" />
 
-            <com.mobiata.android.widget.AutoResizeTextView
-                android:id="@+id/dest_btn"
-                style="@style/V2.Widget.TextView.TabletSearchDestination" />
-
-
-            <LinearLayout
-                android:id="@+id/right_buttons_container"
-                style="@style/V2.Widget.LinearLayout.TabletSearchRightButtonsContainer">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/origin_btn"
-                    style="@style/V2.Widget.TextView.SearchParams"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_param_origin"
-                    android:ellipsize="end"
-                    android:singleLine="true" />
-
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/calendar_btn"
-                    style="@style/V2.Widget.TextView.SearchParams"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ic_param_date" />
-
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/traveler_btn"
-                    style="@style/V2.Widget.TextView.SearchParams"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ic_param_travelers" />
-
-
-            </LinearLayout>
-        </LinearLayout>
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 
     <FrameLayout

@@ -1,8 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
@@ -15,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -95,7 +92,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	//Containers
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mSearchBarC;
-	private ViewGroup mRightButtonsC;
 	private FrameLayoutTouchController mBottomRightC;
 	private FrameLayoutTouchController mBottomCenterC;
 
@@ -163,7 +159,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_container);
-		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
 		mBottomRightC = Ui.findView(view, R.id.bottom_right_container);
 		mBottomCenterC = Ui.findView(view, R.id.bottom_center_container);
 		mWaypointC = Ui.findView(view, R.id.waypoint_container);
@@ -828,11 +823,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				// This is only to ensure the search controls shift left of the overflow menu. This
 				// overflow menu is only present for HockeyApp builds.
 				if (!AndroidUtils.isRelease(getActivity())) {
-					mRightButtonsC.setTranslationX(percentage * -searchBarHeight);
+					float transX = percentage * -searchBarHeight;
+					mOrigBtn.setTranslationX(transX);
+					mCalBtn.setTranslationX(transX);
+					mTravBtn.setTranslationX(transX);
 				}
 			}
 			else {
-				mRightButtonsC.setTranslationY(percentage * searchBarHeight);
+				float transX = percentage * searchBarHeight;
+				mOrigBtn.setTranslationX(transX);
+				mCalBtn.setTranslationX(transX);
+				mTravBtn.setTranslationX(transX);
 			}
 		}
 
@@ -843,6 +844,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
 			mOrigBtn.setAlpha(1f - percentage);
+			if (mLocalParams.getStartDate() == null) {
+				mCalBtn.setAlpha(1f - percentage);
+			}
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
@@ -914,11 +918,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mTravPickWhiteSpace.setVisibility(View.VISIBLE);
 				}
 			}
-
-			mCalBtn.setVisibility(
-				(state == ResultsSearchState.HOTELS_UP && mLocalParams.getStartDate() == null) ? View.GONE
-					: View.VISIBLE
-			);
 		}
 
 		private void resetWidgetTranslations() {
