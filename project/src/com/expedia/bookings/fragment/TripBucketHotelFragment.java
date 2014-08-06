@@ -44,6 +44,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private TextView mBedTypeTv;
 	private TextView mDatesTv;
 	private TextView mNumTravelersTv;
+	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
 
 
@@ -82,8 +83,10 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		mNumTravelersTv = Ui.findView(vg, R.id.num_travelers_text_view);
 
 		// Price
+		mPriceContainer = Ui.findView(vg, R.id.price_expanded_bucket_container);
 		mPriceTv = Ui.findView(vg, R.id.price_expanded_bucket_text_view);
-		mPriceTv.setOnClickListener(new OnClickListener() {
+
+		mPriceContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showBreakdownDialog(LineOfBusiness.HOTELS);

@@ -45,6 +45,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private ViewGroup mExpandedView;
 	private ImageView mDestinationImageView;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
+	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
 	private TextView mNumTravelersTv;
 	private TextView mDatesTv;
@@ -93,9 +94,10 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 		mDatesTv = Ui.findView(mExpandedView, R.id.dates_text_view);
 		mNumTravelersTv = Ui.findView(mExpandedView, R.id.num_travelers_text_view);
+		mPriceContainer = Ui.findView(mExpandedView, R.id.price_expanded_bucket_container);
 		mPriceTv = Ui.findView(mExpandedView, R.id.price_expanded_bucket_text_view);
 
-		mPriceTv.setOnClickListener(new OnClickListener() {
+		mPriceContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showBreakdownDialog(LineOfBusiness.FLIGHTS);
