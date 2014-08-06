@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -34,6 +35,7 @@ public class LaunchDb {
 	private LaunchLocation mSelectedPin;
 	private static String sYourSearchTitle;
 	private static final String YOUR_SEARCH_TILE_ID = "last-search";
+	private static Context sContext;
 
 	public static void getCollections(Context context) {
 		sYourSearchTitle = context.getString(R.string.your_search);
@@ -42,12 +44,12 @@ public class LaunchDb {
 			// If we are already downloading our singleton is already registered
 			if (!bd.isDownloading(LAUNCH_DOWNLOAD_KEY)) {
 				Download download = getDownload(context.getApplicationContext());
+				sContext = context;
 				bd.startDownload(LAUNCH_DOWNLOAD_KEY, download, mCallback);
 			}
 		}
 		else {
-			Db.loadTripBucket(context);
-			injectLastSearch(Sp.getParams());
+			injectLastSearch(context, Sp.getParams());
 			sDb.mSelectedCollection = sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX + 1);
 		}
 	}
@@ -96,7 +98,9 @@ public class LaunchDb {
 		};
 	}
 
-	public static void injectLastSearch(SearchParams params) {
+	public static void injectLastSearch(Context context, SearchParams params) {
+		Db.loadTripBucket(context);
+
 		// If there is already a "Last Search" collection,
 		// nuke it.
 		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
@@ -107,29 +111,25 @@ public class LaunchDb {
 			LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
 			lastSearch.title = sYourSearchTitle;
 			lastSearch.id = YOUR_SEARCH_TILE_ID;
-			if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
-				lastSearch.launchImageCode = Sp.getParams().getDestination().getImageCode();
+			if (!TextUtils.isEmpty(params.getDestination().getImageCode())) {
+				lastSearch.launchImageCode = params.getDestination().getImageCode();
 			}
-			lastSearch.imageCode = Sp.getParams().getDestination().getAirportCode();
+			lastSearch.imageCode = params.getDestination().getAirportCode();
 
 			String locSubtitle = null;
 			if (Db.getTripBucket().isEmpty()) {
-				locSubtitle = "";
+				locSubtitle = StrUtils.formatCity(params.getDestination());
 			}
 			else {
-				if (Db.getTripBucket().size() == 1) {
-					locSubtitle = "1 item";
-				}
-				else if (Db.getTripBucket().size() == 2) {
-					locSubtitle = "2 items";
-				}
+				int tbCount = Db.getTripBucket().size();
+				locSubtitle = context.getResources().getQuantityString(R.plurals.num_items_TEMPLATE, tbCount, tbCount);
 			}
 
 			LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
 
-			loc.imageCode = Sp.getParams().getDestination().getAirportCode();
+			loc.imageCode = params.getDestination().getAirportCode();
 
-			loc.location = Sp.getParams().getDestination();
+			loc.location = params.getDestination();
 			lastSearch.locations = new ArrayList<LaunchLocation>();
 			lastSearch.locations.add(loc);
 			lastSearch.title += '\n' + locSubtitle;
@@ -146,7 +146,7 @@ public class LaunchDb {
 			if (collections != null && collections.size() > 0) {
 				sDb.mSelectedCollection = collections.get(0);
 			}
-			injectLastSearch(Sp.getParams());
+			injectLastSearch(sContext, Sp.getParams());
 
 			Events.post(sDb.produceLaunchCollections());
 		}

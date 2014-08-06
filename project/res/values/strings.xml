@@ -341,6 +341,15 @@
     <string name="explore_now">Explore Now</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Your Search</string>
+    <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
+    <plurals name="num_items_TEMPLATE">
+        <item quantity="zero">%s Items</item>
+        <item quantity="one">%s Item</item>
+        <item quantity="two">%s Items</item>
+        <item quantity="few">%s Items</item>
+        <item quantity="many">%s Items</item>
+        <item quantity="other">%s Items</item>
+    </plurals>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
