@@ -63,8 +63,11 @@ public class BitmapUtils {
 		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
 			return stackBlurAndDarkenRenderscript(shrunk, context, scaledBlurRadius, darkenMultiplier);
 		}
-		else {
+		else if (!AndroidUtils.isGenymotion()) {
 			return stackBlurAndDarkenJava(shrunk, scaledBlurRadius, darkenMultiplier);
+		}
+		else {
+			return shrunk;
 		}
 	}
 
