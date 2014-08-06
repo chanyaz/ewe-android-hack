@@ -157,6 +157,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	}
 
 	private void checkConnectivityAndDisplayMessage() {
+		FrameLayoutTouchController noConnectivityContainer = Ui.findView(getView(), R.id.no_connectivity_container);
+		noConnectivityContainer.setBlockNewEventsEnabled(true);
+
 		if (!NetUtils.isOnline(getActivity())) {
 			int srcColor = Color.WHITE;
 			PorterDuff.Mode mode = PorterDuff.Mode.SRC_ATOP;
@@ -164,10 +167,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			Paint paint = new Paint();
 			paint.setColorFilter(filter);
 			Ui.findView(getView(), R.id.globe_background).setLayerType(View.LAYER_TYPE_SOFTWARE, paint);
-			Ui.findView(getView(), R.id.no_connectivity_container).setVisibility(View.VISIBLE);
+			noConnectivityContainer.setVisibility(View.VISIBLE);
 		}
 		else {
-			Ui.findView(getView(), R.id.no_connectivity_container).setVisibility(View.GONE);
+			noConnectivityContainer.setVisibility(View.GONE);
 		}
 	}
 
