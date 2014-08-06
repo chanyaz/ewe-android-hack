@@ -137,7 +137,7 @@ public class LaunchDb {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
 		}
 		if (collection != null && sDb.mCollections != null) {
-			sDb.mCollections.add(0, collection);
+			sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, collection);
 		}
 	}
 
