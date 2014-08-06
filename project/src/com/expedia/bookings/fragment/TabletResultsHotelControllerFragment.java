@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,7 +57,6 @@ import com.squareup.otto.Subscribe;
  * TabletResultsHotelControllerFragment: designed for tablet results 2013
  * This controls all the fragments relating to HOTELS results
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IFragmentAvailabilityProvider,
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
@@ -354,6 +352,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			? View.VISIBLE
 			: View.INVISIBLE);
 
+		if (hotelsState.isShowMessageState()) {
+			mSearchErrorC.setVisibility(View.VISIBLE);
+		}
+		else {
+			mSearchErrorC.setVisibility(View.INVISIBLE);
+		}
+
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING || hotelsState.isShowMessageState()) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
@@ -504,7 +509,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			case MAX_HOTEL_STAY:
 			case SEARCH_ERROR:
 			case HOTEL_LIST_DOWN:
-				mHotelListFrag.updateAdapter();
 				mHotelListFrag.setPercentage(1f, 0);
 				mHotelListFrag.setListLockedToTop(false);
 				mHotelListFrag.setTopRightTextButtonEnabled(true);
@@ -607,8 +611,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_hotels), Gravity.CENTER,
-				Gravity.RIGHT);
+			frag = ResultsListLoadingFragment.newInstance();
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
 			frag = ResultsListSearchErrorFragment.newInstance();
@@ -1189,11 +1192,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setGalleryAnimationHardwareRendering(true);
 				setGalleryAnimationVisibilities(false);
 			}
+			else if (stateTwo == ResultsHotelsState.LOADING) {
+				mLoadingC.setAlpha(0.0f);
+			}
 			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
-				if (mLoadingGuiFrag != null) {
-					// init the animation
-					mLoadingGuiFrag.initGrowToRowsAnimation();
-				}
+				mLoadingC.setAlpha(1.0f);
 			}
 		}
 
@@ -1259,8 +1262,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				// ADD TO HOTEL
 				setAddToTripPercentage(percentage);
 			}
+			else if (stateTwo == ResultsHotelsState.LOADING) {
+				mLoadingC.setAlpha(percentage);
+			}
 			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
-				mLoadingGuiFrag.setGrowToRowsAnimPercentage(percentage);
+				mLoadingC.setAlpha(1.0f - percentage);
 			}
 
 		}
@@ -1308,9 +1314,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setGalleryAnimationHardwareRendering(false);
 				setGalleryAnimationVisibilities(false);
 			}
+			else if (stateTwo == ResultsHotelsState.LOADING) {
+				mLoadingC.setAlpha(1.0f);
+			}
 			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
-				mLoadingC.setVisibility(View.INVISIBLE);
-				mLoadingGuiFrag.cleanUpGrowToRowsAnim();
+				mLoadingC.setAlpha(0.0f);
 			}
 
 			setTouchable(true, true);
@@ -1331,6 +1339,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			switch (state) {
 			case LOADING:
 			case HOTEL_LIST_DOWN:
+				mLoadingC.setAlpha(1.0f);
 				mBgHotelMapC.setAlpha(0f);
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
@@ -1555,6 +1564,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
 			}
 			else {
+				if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
+					mHotelListFrag.updateAdapter();
+				}
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 				AdTracker.trackHotelSearch();
 			}

@@ -351,8 +351,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
 		}
 		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_flights), Gravity.CENTER,
-				Gravity.LEFT);
+			frag = ResultsListLoadingFragment.newInstance();
 		}
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			frag = ResultsRecursiveFlightLegsFragment.newInstance(0);
@@ -438,6 +437,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		case LOADING: {
 			visibleViews.add(mLoadingC);
+			visibleViews.add(mFlightLegsC);
 			break;
 		}
 		case FLIGHT_LIST_DOWN: {
@@ -485,7 +485,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		boolean flightSearchDownloadAvailable = false;
 		boolean flightMapAvailable = true;
 		boolean flightAddToTripAvailable = true;
-		boolean flightLegsFragAvailable = true;
+		boolean flightLegsFragAvailable = false;
 
 		if (flightsState == ResultsFlightsState.LOADING) {
 			flightSearchDownloadAvailable = true;
@@ -493,6 +493,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			searchErrorAvailable = true;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
+		}
+
+		if (flightsState.isFlightListState()) {
+			flightLegsFragAvailable = true;
 		}
 
 		if (flightsState.isShowMessageState()) {
@@ -772,11 +776,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightMapC.setVisibility(View.VISIBLE);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-
-				if (mLoadingGuiFrag != null) {
-					// init the animation
-					mLoadingGuiFrag.initGrowToRowsAnimation();
-				}
+				mLoadingC.setAlpha(1.0f);
 			}
 			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
@@ -807,7 +807,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mAddToTripShadeView.setAlpha(1f - percentage);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mLoadingGuiFrag.setGrowToRowsAnimPercentage(percentage);
+				mLoadingC.setAlpha(1.0f - percentage);
 			}
 		}
 
@@ -818,9 +818,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightMapC.setVisibility(View.GONE);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				// The loading fragment is about to be removed in onFinalize, but lets reset it beforehand regardless.
-				mLoadingC.setVisibility(View.INVISIBLE);
-				mLoadingGuiFrag.cleanUpGrowToRowsAnim();
+				mLoadingC.setAlpha(0.0f);
 			}
 		}
 
@@ -829,6 +827,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			setFragmentState(state);
 			setTouchState(state);
 			setVisibilityState(state);
+
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mLoadingC.setAlpha(1.0f);
+			}
 
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN
 				|| state.isShowMessageState()) {
@@ -845,10 +847,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (mFlightLegsFrag != null && state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				if (mNeedsQueryReset || mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
-					mFlightLegsFrag.resetQuery();
+				if (mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
 					mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
-					mNeedsQueryReset = false;
 				}
 			}
 
@@ -945,6 +945,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				setFlightsState(ResultsFlightsState.ZERO_RESULT, false);
 			}
 			else {
+				mFlightLegsFrag.resetQuery();
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 				AdTracker.trackFlightSearch();
 			}

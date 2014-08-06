@@ -47,4 +47,16 @@ public enum ResultsFlightsState {
 		}
 	}
 
+	public boolean isFlightListState() {
+		switch(this) {
+		case LOADING:
+		case FLIGHT_LIST_DOWN:
+		case CHOOSING_FLIGHT:
+		case ADDING_FLIGHT_TO_TRIP:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 }

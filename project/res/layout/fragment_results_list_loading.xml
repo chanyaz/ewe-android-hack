@@ -1,51 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="@dimen/results_list_header_height" />
 
     <View
-        android:id="@+id/loading_bg_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF" />
+        android:layout_height="@dimen/hotel_flight_card_height"
+        android:layout_marginBottom="@dimen/hotel_flight_card_padding_y"
+        android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginTop="@dimen/hotel_flight_card_padding_y" />
 
-    <LinearLayout
-        android:id="@+id/content_container"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="@dimen/results_list_spacer_height" />
 
-        <LinearLayout
-            android:id="@+id/loading_bars_container"
-            android:layout_width="48dp"
-            android:layout_height="96dp"
-            android:layout_marginRight="2dp"
-            android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_flight_card_height"
+        android:layout_marginBottom="@dimen/hotel_flight_card_padding_y"
+        android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginTop="@dimen/hotel_flight_card_padding_y" />
 
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="4dp" />
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="4dp" />
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/loading_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/loading_hotels_and_flights" />
-
-    </LinearLayout>
-</FrameLayout>
+</LinearLayout>
