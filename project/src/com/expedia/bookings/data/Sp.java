@@ -79,9 +79,11 @@ public class Sp {
 
 	private static void loadFromDisk(Context context, String fileName) {
 		try {
-			SearchParams params = new SearchParams();
-			params.fromJson(new JSONObject(IoUtils.readStringFromFile(fileName, context)));
-			setParams(params, false);
+			if (context.getFileStreamPath(fileName).exists()) {
+				SearchParams params = new SearchParams();
+				params.fromJson(new JSONObject(IoUtils.readStringFromFile(fileName, context)));
+				setParams(params, false);
+			}
 		}
 		catch (Exception ex) {
 			Log.e("Exception reading Sp testing data from disk", ex);
