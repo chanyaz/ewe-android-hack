@@ -33,23 +33,21 @@ public class LaunchDb {
 	private List<LaunchCollection> mCollections;
 	private LaunchCollection mSelectedCollection;
 	private LaunchLocation mSelectedPin;
-	private static String sYourSearchTitle;
+	private static LastSearchLaunchCollection sYourSearchCollection;
 	private static final String YOUR_SEARCH_TILE_ID = "last-search";
-	private static Context sContext;
 
 	public static void getCollections(Context context) {
-		sYourSearchTitle = context.getString(R.string.your_search);
+		sYourSearchCollection = generateYourSearchCollection(context, Sp.getParams());
 		if (sDb.mCollections == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			// If we are already downloading our singleton is already registered
 			if (!bd.isDownloading(LAUNCH_DOWNLOAD_KEY)) {
 				Download download = getDownload(context.getApplicationContext());
-				sContext = context;
 				bd.startDownload(LAUNCH_DOWNLOAD_KEY, download, mCallback);
 			}
 		}
 		else {
-			injectLastSearch(context, Sp.getParams());
+			injectLastSearch(sYourSearchCollection);
 			sDb.mSelectedCollection = sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX + 1);
 		}
 	}
@@ -98,18 +96,12 @@ public class LaunchDb {
 		};
 	}
 
-	public static void injectLastSearch(Context context, SearchParams params) {
-		Db.loadTripBucket(context);
-
-		// If there is already a "Last Search" collection,
-		// nuke it.
-		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
-			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
-		}
-
+	private static LastSearchLaunchCollection generateYourSearchCollection(Context context, SearchParams params) {
+		LastSearchLaunchCollection lastSearch = null;
 		if (params != null && params.hasEnoughInfoForHotelsSearch()) {
-			LastSearchLaunchCollection lastSearch = new LastSearchLaunchCollection();
-			lastSearch.title = sYourSearchTitle;
+			Db.loadTripBucket(context);
+			lastSearch = new LastSearchLaunchCollection();
+			lastSearch.title = context.getString(R.string.your_search);
 			lastSearch.id = YOUR_SEARCH_TILE_ID;
 			if (!TextUtils.isEmpty(params.getDestination().getImageCode())) {
 				lastSearch.launchImageCode = params.getDestination().getImageCode();
@@ -133,9 +125,19 @@ public class LaunchDb {
 			lastSearch.locations = new ArrayList<LaunchLocation>();
 			lastSearch.locations.add(loc);
 			lastSearch.title += '\n' + locSubtitle;
-			if (sDb.mCollections != null) {
-				sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, lastSearch);
-			}
+		}
+		return lastSearch;
+	}
+
+	private static void injectLastSearch(LastSearchLaunchCollection collection) {
+
+		// If there is already a "Last Search" collection,
+		// nuke it.
+		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
+			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
+		}
+		if (collection != null && sDb.mCollections != null) {
+			sDb.mCollections.add(0, collection);
 		}
 	}
 
@@ -146,8 +148,7 @@ public class LaunchDb {
 			if (collections != null && collections.size() > 0) {
 				sDb.mSelectedCollection = collections.get(0);
 			}
-			injectLastSearch(sContext, Sp.getParams());
-
+			injectLastSearch(sYourSearchCollection);
 			Events.post(sDb.produceLaunchCollections());
 		}
 	};
