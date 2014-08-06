@@ -56,8 +56,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private boolean mHotelInLimbo;
 	private boolean mFlightInLimbo;
 
-	private GridManager mGrid = new GridManager();
-
 	private View mRootC;
 	private ScrollView mScrollC;
 	private LinearLayout mContentC;
@@ -104,18 +102,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		}
 
 		return mRootC;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		mMeasurementHelper.registerWithProvider(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		mMeasurementHelper.unregisterWithProvider(this);
 	}
 
 	/**
@@ -208,26 +194,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		}
 	}
 
-	public Rect getFlightRect() {
-		if (mTripBucketFlightFrag != null && mTripBucketFlightFrag.isResumed()) {
-			return mTripBucketFlightFrag.getTopRect();
-		}
-		else if (mFlightC != null) {
-			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mFlightC);
-		}
-		return new Rect();
-	}
-
-	public Rect getHotelRect() {
-		if (mTripBucketHotelFrag != null && mTripBucketHotelFrag.isResumed()) {
-			return mTripBucketHotelFrag.getTopRect();
-		}
-		else if (mHotelC != null) {
-			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mHotelC);
-		}
-		return new Rect();
-	}
-
 	private class TripBucketSwipeListener implements SwipeOutLayout.ISwipeOutListener {
 
 		private LineOfBusiness mLob;
@@ -252,22 +218,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 				OmnitureTracking.trackTripBucketItemRemoval(getActivity(), mLob);
 			}
 		}
-	}
-
-	;
-
-	/*
-	 * MEASUREMENT LISTENER
-	 */
-
-	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
-
-		@Override
-		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mGrid.setDimensions(totalWidth, totalHeight);
-			//TODO: USE THIS OR NUKE IT
-		}
-
 	};
 
 	/*
