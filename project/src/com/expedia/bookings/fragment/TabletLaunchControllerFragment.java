@@ -2,10 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -161,12 +157,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		noConnectivityContainer.setBlockNewEventsEnabled(true);
 
 		if (!NetUtils.isOnline(getActivity())) {
-			int srcColor = Color.WHITE;
-			PorterDuff.Mode mode = PorterDuff.Mode.SRC_ATOP;
-			PorterDuffColorFilter filter = new PorterDuffColorFilter(srcColor, mode);
-			Paint paint = new Paint();
-			paint.setColorFilter(filter);
-			Ui.findView(getView(), R.id.globe_background).setLayerType(View.LAYER_TYPE_SOFTWARE, paint);
 			noConnectivityContainer.setVisibility(View.VISIBLE);
 		}
 		else {
