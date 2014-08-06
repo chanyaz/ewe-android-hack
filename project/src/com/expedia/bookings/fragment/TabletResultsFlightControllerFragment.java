@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -236,7 +237,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
-		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode())) {
+		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode()) || isOriginDestinationSame()) {
 			return ResultsFlightsState.MISSING_ORIGIN;
 		}
 		else if (Sp.getParams().getStartDate() == null) {
@@ -256,6 +257,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			return ResultsFlightsState.LOADING;
 		}
 
+	}
+
+	/*
+	 * Helper method to check if destination and origin airport are the same.
+	 */
+	public boolean isOriginDestinationSame() {
+		Location destinationLoc = Sp.getParams().getDestinationLocation(true);
+		if (destinationLoc != null) {
+			return Sp.getParams().getOriginAirportCode().equals(destinationLoc.getDestinationId());
+		}
+		return false;
 	}
 
 	/*
