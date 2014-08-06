@@ -136,8 +136,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			FragmentManager manager = getChildFragmentManager();
 			mFlightMapFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_MAP);
 			mAddToTripFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_ADD_TO_TRIP);
-			mFlightSearchDownloadFrag = FragmentAvailabilityUtils
-				.getFrag(manager, FTAG_FLIGHT_SEARCH_DOWNLOAD);
+			mFlightSearchDownloadFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_SEARCH_DOWNLOAD);
 			mLoadingGuiFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_LOADING_INDICATOR);
 			mFlightLegsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_LEGS_CHOOSER);
 			mSearchErrorFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_SEARCH_ERROR);
@@ -279,16 +278,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		if (mFlightsStateManager.getState() != ResultsFlightsState.LOADING && readyToSearch()) {
 			setFlightsState(ResultsFlightsState.LOADING, false);
-
 		}
 		else {
-			if (mSearchErrorFrag == null && !readyToSearch()) {
-				FragmentManager manager = getChildFragmentManager();
-				FragmentTransaction transaction = manager.beginTransaction();
-				mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this, R.id.search_error_container, false);
-				transaction.commit();
-				manager.executePendingTransactions();
-			}
 			mFlightsStateManager.setState(getBaseState(), true);
 			if (mSearchParamUpdateRunner != null) {
 				mRootC.removeCallbacks(mSearchParamUpdateRunner);
@@ -306,7 +297,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
 				&& mFlightSearchDownloadFrag != null) {
 				importSearchParams();
-				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+				if (Db.getFlightSearch().getSearchParams().isFilled()) {
+					mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+				}
 			}
 		}
 	}
@@ -495,19 +488,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		boolean flightAddToTripAvailable = true;
 		boolean flightLegsFragAvailable = true;
 
-		if (flightsState == ResultsFlightsState.LOADING || flightsState == ResultsFlightsState.SEARCH_ERROR) {
-			// This case kicks off the downloads
-			if (flightsState == ResultsFlightsState.LOADING) {
-				flightSearchDownloadAvailable = true;
-				loadingAvailable = true;
-				searchErrorAvailable = false;
-			}
-			else {
-				flightSearchDownloadAvailable = false;
-				loadingAvailable = false;
-				searchErrorAvailable = true;
-			}
-
+		if (flightsState == ResultsFlightsState.LOADING) {
+			flightSearchDownloadAvailable = true;
+			loadingAvailable = true;
+			searchErrorAvailable = true;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
 		}
@@ -944,34 +928,26 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	@Override
 	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
 		if (type == ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH) {
-			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
-			if (response != null) {
+			FlightSearchResponse flightResponse = (FlightSearchResponse) response;
+
+			Db.getFlightSearch().setSearchResponse(flightResponse);
+			if (flightResponse != null) {
 				Db.kickOffBackgroundFlightSearchSave(getActivity());
-				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
+				Db.addAirlineNames(flightResponse.getAirlineNames());
 			}
 
-			boolean isZeroResults = (response != null && !response.hasErrors() && ((FlightSearchResponse) response).getTripCount() == 0) ? true : false;
-			if (!isZeroResults) {
-				mFlightLegsC.setVisibility(View.VISIBLE);
+			boolean isBadResponse = response == null || response.hasErrors();
+			boolean isZeroResults = flightResponse == null || flightResponse.getTripCount() == 0;
 
-				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-				AdTracker.trackFlightSearch();
+			if (isBadResponse) {
+				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
 			}
 			else if (isZeroResults) {
-				if (mSearchErrorFrag == null) {
-					FragmentManager manager = getChildFragmentManager();
-					FragmentTransaction transaction = manager.beginTransaction();
-					mSearchErrorFrag = FragmentAvailabilityUtils
-						.setFragmentAvailability(true, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this,
-							R.id.search_error_container, false);
-					transaction.commit();
-					manager.executePendingTransactions();
-				}
 				setFlightsState(ResultsFlightsState.ZERO_RESULT, false);
 			}
-			else if (!mFlightSearchDownloadFrag.isDownloadingFlightSearch()) {
-				// If we aren't downloading, and we dont have a valid response, we move to the error state
-				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
+			else {
+				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+				AdTracker.trackFlightSearch();
 			}
 		}
 	}

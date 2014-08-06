@@ -7,6 +7,8 @@ import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -160,7 +162,14 @@ public class FlightSearchParams implements JSONable {
 	 * @return true if we can do a search with the data we currently have
 	 */
 	public boolean isFilled() {
-		return getDepartureDate() != null && getDepartureLocation() != null && getArrivalLocation() != null && isValidInfantSearch();
+		boolean ret = true;
+
+		ret &= getDepartureDate() != null;
+		ret &= getDepartureLocation() != null && !TextUtils.isEmpty(getDepartureLocation().getDestinationId());
+		ret &= getArrivalLocation() != null && !TextUtils.isEmpty(getArrivalLocation().getDestinationId());
+		ret &= isValidInfantSearch();
+
+		return ret;
 	}
 
 	private boolean isValidInfantSearch() {

@@ -27,7 +27,6 @@ public class FlightSearchDownloadFragment extends Fragment {
 	}
 
 	private FlightSearchParams mSearchParams;
-	private ExpediaServices mServices;
 	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
 
 	private boolean mStartOrResumeOnAttach = false;
@@ -35,8 +34,6 @@ public class FlightSearchDownloadFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mServices = new ExpediaServices(getActivity());
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PARAMS)) {
 			try {
@@ -162,13 +159,11 @@ public class FlightSearchDownloadFragment extends Fragment {
 	private final Download<FlightSearchResponse> mSearchDownload = new Download<FlightSearchResponse>() {
 		@Override
 		public FlightSearchResponse doDownload() {
-			//TODO: Remove try catch, write good search param validation so we don't kick off if we don't have data.
-			try {
-				return mServices.flightSearch(mSearchParams, 0);
+			if (getActivity() != null) {
+				ExpediaServices services = new ExpediaServices(getActivity());
+				return services.flightSearch(mSearchParams, 0);
 			}
-			catch (Exception ex) {
-				Log.e("Flight search download exception", ex);
-			}
+
 			return null;
 		}
 	};
@@ -186,6 +181,4 @@ public class FlightSearchDownloadFragment extends Fragment {
 
 		}
 	};
-
-
 }

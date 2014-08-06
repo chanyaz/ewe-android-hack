@@ -125,10 +125,8 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 		String name;
 		reader.beginObject();
-		JsonToken token = reader.peek();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
 			name = reader.nextName();
-			token = reader.peek();
 
 			if (name.equals("errors")) {
 				ParserUtils.readServerErrors(reader, searchResponse, ApiMethod.SEARCH_RESULTS);
@@ -173,16 +171,12 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		}
 
 		String name, mediaName;
-		JsonToken token, mediaToken;
+		JsonToken mediaToken;
 		reader.beginObject();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
 			name = reader.nextName();
-			token = reader.peek();
 
-			if (token == JsonToken.NULL) {
-				reader.skipValue();
-			}
-			else if (name.equals("name")) {
+			if (name.equals("name")) {
 				// Property name can sometimes have HTML encoded entities in it (e.g. &amp;)
 				property.setName(Html.fromHtml(reader.nextString()).toString());
 			}
