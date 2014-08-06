@@ -12,8 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
@@ -76,9 +75,14 @@ public class ResultsListLoadingFragment extends Fragment {
 
 	private void updateAnimation(int animNumber) {
 		if (mRootC != null && getActivity() != null && isResumed()) {
+			int found = 0;
 			for (int i = 0; i < mRootC.getChildCount(); i++) {
-				int color = i % 2 == animNumber % 2 ? mLoadingColorDark : mLoadingColorLight;
-				mRootC.getChildAt(i).setBackgroundColor(color);
+				View child = mRootC.getChildAt(i);
+				if (child instanceof FrameLayout) {
+					found ++;
+					int color = found % 2 == animNumber % 2 ? mLoadingColorDark : mLoadingColorLight;
+					child.setBackgroundColor(color);
+				}
 			}
 		}
 	}
