@@ -30,6 +30,7 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
@@ -118,6 +119,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		SuggestionProvider.enableCurrentLocation(true);
 
+		registerStateListener(mNoConnectivityStateListener, false);
 		registerStateListener(mCheckedForServicesListener, false);
 		registerStateListener(mDetailsStateListener, false);
 		registerStateListener(mWaypointStateListener, false);
@@ -157,10 +159,13 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	private void checkConnectivityAndDisplayMessage() {
 		if (!NetUtils.isOnline(getActivity())) {
-			mNoConnectivityContainer.setVisibility(View.VISIBLE);
+			setLaunchState(LaunchState.NO_CONNECTIVITY, false);
 		}
 		else {
-			mNoConnectivityContainer.setVisibility(View.GONE);
+			if (getLaunchState() == LaunchState.NO_CONNECTIVITY) {
+				// We only want to mess around if we we're in a bad state
+				setLaunchState(LaunchState.OVERVIEW, false);
+			}
 		}
 	}
 
@@ -224,7 +229,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean showFrags = true;
-		if (state == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES) {
+		if (state == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES || state == LaunchState.NO_CONNECTIVITY) {
 			showFrags = false;
 		}
 
@@ -284,6 +289,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				return true;
 			}
 			else if (getLaunchState() == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES) {
+				// Just back out of the app
+				return false;
+			}
+			else if (getLaunchState() == LaunchState.NO_CONNECTIVITY) {
 				// Just back out of the app
 				return false;
 			}
@@ -351,10 +360,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		@Override
 		public void onStateFinalized(boolean isReversed) {
 			final boolean isOverview = !isReversed ? true : false;
-			LaunchState state = isOverview ? LaunchState.OVERVIEW : LaunchState.CHECKING_GOOGLE_PLAY_SERVICES;
-
-			setFragmentState(state);
-
 			mSearchBarC.setVisibility(isOverview ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
@@ -472,6 +477,35 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		}
 	}
 	);
+
+	private StateListenerHelper<LaunchState> mNoConnectivityStateListener = new StateListenerHelper<LaunchState>() {
+		@Override
+		public void onStateTransitionStart(LaunchState stateOne, LaunchState stateTwo) {
+			// ignore
+		}
+
+		@Override
+		public void onStateTransitionUpdate(LaunchState stateOne, LaunchState stateTwo, float p) {
+			// ignore
+		}
+
+		@Override
+		public void onStateTransitionEnd(LaunchState stateOne, LaunchState stateTwo) {
+			// ignore
+		}
+
+		@Override
+		public void onStateFinalized(LaunchState state) {
+			setFragmentState(state);
+
+			if (state == LaunchState.NO_CONNECTIVITY) {
+				mNoConnectivityContainer.setVisibility(View.VISIBLE);
+			}
+			else {
+				mNoConnectivityContainer.setVisibility(View.GONE);
+			}
+		}
+	};
 
 	/*
 	 * TabletWaypointFragment.ITabletWaypointFragmentListener

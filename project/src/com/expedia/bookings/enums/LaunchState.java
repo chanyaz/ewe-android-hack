@@ -5,4 +5,5 @@ public enum LaunchState {
 	OVERVIEW,
 	WAYPOINT,
 	DETAILS,
+	NO_CONNECTIVITY,
 }
