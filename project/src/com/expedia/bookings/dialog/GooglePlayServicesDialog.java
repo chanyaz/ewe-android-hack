@@ -14,9 +14,19 @@ import com.mobiata.android.Log;
 
 public class GooglePlayServicesDialog {
 	private Activity mActivity;
+	private GooglePlayServicesConnectionSuccessListener mListener;
+
+	public interface GooglePlayServicesConnectionSuccessListener {
+		public void onGooglePlayServicesConnectionSuccess();
+	}
 
 	public GooglePlayServicesDialog(Activity activity) {
 		mActivity = activity;
+	}
+
+	public GooglePlayServicesDialog(Activity activity, GooglePlayServicesConnectionSuccessListener listener) {
+		mActivity = activity;
+		mListener = listener;
 	}
 
 	private final DialogInterface.OnCancelListener mGooglePlayServicesOnCancelListener = new DialogInterface.OnCancelListener() {
@@ -66,6 +76,9 @@ public class GooglePlayServicesDialog {
 		case ConnectionResult.SUCCESS: {
 			// We are fine - proceed
 			Log.d("Google Play Services: Everything fine, proceeding");
+			if (mListener != null) {
+				mListener.onGooglePlayServicesConnectionSuccess();
+			}
 			break;
 		}
 		default: {

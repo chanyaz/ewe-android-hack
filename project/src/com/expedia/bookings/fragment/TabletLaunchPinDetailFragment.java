@@ -114,7 +114,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	}
 
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
-		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
+		LaunchState.OVERVIEW, LaunchState.DETAILS, true, new ISingleStateListener() {
 
 		private boolean mJustFadeAway = false;
 		private float mMidX;

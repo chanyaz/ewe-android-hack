@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -78,9 +77,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Events.register(this);
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
-		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
-		gpsd.startChecking();
-
 		mHockeyPuck.onResume();
 		OmnitureTracking.onResume(this);
 	}

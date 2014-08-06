@@ -163,7 +163,7 @@ public class TabletWaypointFragment extends Fragment
 			public void onClick(View view) {
 				Fragment parent = getParentFragment();
 				if (parent instanceof TabletLaunchControllerFragment) {
-					((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.DEFAULT, true);
+					((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
 				}
 				else if (parent instanceof TabletResultsSearchControllerFragment) {
 					((TabletResultsSearchControllerFragment)parent).setState(ResultsSearchState.DEFAULT, true);
@@ -384,7 +384,7 @@ public class TabletWaypointFragment extends Fragment
 		if (parent instanceof TabletLaunchControllerFragment) {
 			WaypointStateListener wsl = new WaypointStateListener(false);
 			SingleStateListener waypoint = new SingleStateListener<>(
-				LaunchState.DEFAULT, LaunchState.WAYPOINT, true, wsl);
+				LaunchState.OVERVIEW, LaunchState.WAYPOINT, true, wsl);
 			TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) parent;
 			controller.registerStateListener(waypoint, false);
 		}

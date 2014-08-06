@@ -132,7 +132,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	 */
 
 	SingleStateListener mDetailsStateListener = new SingleStateListener<>(
-		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
+		LaunchState.OVERVIEW, LaunchState.DETAILS, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
 			if (!isReversed) {
@@ -174,7 +174,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	);
 
 	SingleStateListener mWaypointStateListener = new SingleStateListener<>(
-		LaunchState.DEFAULT, LaunchState.WAYPOINT, true, new ISingleStateListener() {
+		LaunchState.OVERVIEW, LaunchState.WAYPOINT, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
 			if (!isReversed) {

@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -32,6 +34,8 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -45,7 +49,8 @@ import com.squareup.otto.Subscribe;
  */
 public class TabletLaunchControllerFragment extends MeasurableFragment
 	implements IBackManageable, IStateProvider<LaunchState>,
-	TabletWaypointFragment.ITabletWaypointFragmentListener {
+	TabletWaypointFragment.ITabletWaypointFragmentListener,
+	IFragmentAvailabilityProvider, GooglePlayServicesDialog.GooglePlayServicesConnectionSuccessListener {
 
 	private static final String STATE_LAUNCH_STATE = "STATE_LAUNCH_STATE";
 
@@ -60,6 +65,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private ViewGroup mWaypointC;
 	private FrameLayoutTouchController mPinDetailC;
 	private ViewGroup mTilesC;
+	private FrameLayoutTouchController mNoConnectivityContainer;
 
 	// Fragments
 	private TabletLaunchMapFragment mMapFragment;
@@ -71,7 +77,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private TextView mAbText2;
 
 	//vars
-	private StateManager<LaunchState> mStateManager = new StateManager<>(LaunchState.DEFAULT, this);
+	private StateManager<LaunchState> mStateManager = new StateManager<>(LaunchState.CHECKING_GOOGLE_PLAY_SERVICES, this);
 
 	/*
 	 * Fragment Lifecycle
@@ -85,30 +91,20 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mSearchBarC = Ui.findView(mRootC, R.id.fake_search_bar_container);
 		mPinDetailC = Ui.findView(mRootC, R.id.pin_detail_container);
 		mTilesC = Ui.findView(mRootC, R.id.tiles_container);
+		mNoConnectivityContainer = Ui.findView(mRootC, R.id.no_connectivity_container);
+		mNoConnectivityContainer.setBlockNewEventsEnabled(true);
 
-		FragmentManager fm = getChildFragmentManager();
-		if (savedInstanceState == null) {
-			mMapFragment = TabletLaunchMapFragment.newInstance();
-			mTilesFragment = DestinationTilesFragment.newInstance();
-			mWaypointFragment = TabletWaypointFragment.newInstance(true);
-			mPinFragment = TabletLaunchPinDetailFragment.newInstance();
 
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.map_container, mMapFragment);
-			ft.add(R.id.tiles_container, mTilesFragment);
-			ft.add(R.id.waypoint_container, mWaypointFragment);
-			ft.add(R.id.pin_detail_container, mPinFragment);
+		if (savedInstanceState != null) {
+			FragmentManager fm = getChildFragmentManager();
 
-			ft.commit();
-		}
-		else {
-			mMapFragment = Ui.findSupportFragment(this, R.id.map_container);
-			mTilesFragment = Ui.findSupportFragment(this, R.id.tiles_container);
-			mWaypointFragment = Ui.findSupportFragment(this, R.id.waypoint_container);
-			mPinFragment = Ui.findSupportFragment(this, R.id.pin_detail_container);
+			mMapFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_MAP);
+			mTilesFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_TILES);
+			mWaypointFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_WAYPOINT);
+			mPinFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_PIN);
 
-			mStateManager.setDefaultState(LaunchState.valueOf(savedInstanceState.getString(
-				STATE_LAUNCH_STATE, LaunchState.DEFAULT.name())));
+			String savedState = savedInstanceState.getString(STATE_LAUNCH_STATE, LaunchState.CHECKING_GOOGLE_PLAY_SERVICES.name());
+			mStateManager.setDefaultState(LaunchState.valueOf(savedState));
 		}
 
 		ActionBar ab = getActivity().getActionBar();
@@ -122,6 +118,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		SuggestionProvider.enableCurrentLocation(true);
 
+		registerStateListener(mCheckedForServicesListener, false);
 		registerStateListener(mDetailsStateListener, false);
 		registerStateListener(mWaypointStateListener, false);
 		registerStateListener(new StateListenerLogger<LaunchState>(), false);
@@ -133,6 +130,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				OmnitureTracking.trackTabletDestinationSearchPageLoad(getActivity());
 			}
 		});
+		mSearchBarC.setVisibility(View.INVISIBLE);
 		return mRootC;
 	}
 
@@ -149,18 +147,20 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		Events.register(this);
 		mBackManager.registerWithParent(this);
 
+		if (getActivity() != null) {
+			GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(getActivity(), this);
+			gpsd.startChecking();
+		}
+
 		checkConnectivityAndDisplayMessage();
 	}
 
 	private void checkConnectivityAndDisplayMessage() {
-		FrameLayoutTouchController noConnectivityContainer = Ui.findView(getView(), R.id.no_connectivity_container);
-		noConnectivityContainer.setBlockNewEventsEnabled(true);
-
 		if (!NetUtils.isOnline(getActivity())) {
-			noConnectivityContainer.setVisibility(View.VISIBLE);
+			mNoConnectivityContainer.setVisibility(View.VISIBLE);
 		}
 		else {
-			noConnectivityContainer.setVisibility(View.GONE);
+			mNoConnectivityContainer.setVisibility(View.GONE);
 		}
 	}
 
@@ -176,6 +176,64 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_LAUNCH_STATE, mStateManager.getState().name());
+	}
+
+	/*
+	 * IFragmentAvailabilityProvider
+	 */
+
+	@Override
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
+		switch (tag) {
+		case FRAG_TAG_MAP:
+			return mMapFragment;
+		case FRAG_TAG_TILES:
+			return mTilesFragment;
+		case FRAG_TAG_WAYPOINT:
+			return mWaypointFragment;
+		case FRAG_TAG_PIN:
+			return mPinFragment;
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
+		switch (tag) {
+		case FRAG_TAG_MAP:
+			return TabletLaunchMapFragment.newInstance();
+		case FRAG_TAG_TILES:
+			return DestinationTilesFragment.newInstance();
+		case FRAG_TAG_WAYPOINT:
+			return TabletWaypointFragment.newInstance(true);
+		case FRAG_TAG_PIN:
+			return TabletLaunchPinDetailFragment.newInstance();
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+		// Ignore
+	}
+
+	private void setFragmentState(LaunchState state) {
+		FragmentManager manager = getChildFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+
+		boolean showFrags = true;
+		if (state == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES) {
+			showFrags = false;
+		}
+
+		mMapFragment = FragmentAvailabilityUtils.setFragmentAvailability(showFrags, FRAG_TAG_MAP, manager, transaction, this, R.id.map_container, false);
+		mTilesFragment = FragmentAvailabilityUtils.setFragmentAvailability(showFrags, FRAG_TAG_TILES, manager, transaction, this, R.id.tiles_container, false);
+		mWaypointFragment = FragmentAvailabilityUtils.setFragmentAvailability(showFrags, FRAG_TAG_WAYPOINT, manager, transaction, this, R.id.waypoint_container, false);
+		mPinFragment = FragmentAvailabilityUtils.setFragmentAvailability(showFrags, FRAG_TAG_PIN, manager, transaction, this, R.id.pin_detail_container, false);
+
+		transaction.commit();
 	}
 
 	/*
@@ -197,12 +255,14 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	}
 
 	public void setLaunchState(LaunchState state, boolean animate) {
-		mPinFragment.setOriginRect(mMapFragment.getClickedPinRect());
+		if (mPinFragment != null && mMapFragment != null) {
+			mPinFragment.setOriginRect(mMapFragment.getClickedPinRect());
+		}
 		mStateManager.setState(state, animate);
 	}
 
 	public boolean shouldDisplayMenu() {
-		return mStateManager.getState() == LaunchState.DEFAULT && !mStateManager.isAnimating();
+		return mStateManager.getState() == LaunchState.OVERVIEW && !mStateManager.isAnimating();
 	}
 
 	/*
@@ -223,8 +283,12 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				setLaunchState(mStateManager.getState(), true);
 				return true;
 			}
-			else if (getLaunchState() != LaunchState.DEFAULT) {
-				setLaunchState(LaunchState.DEFAULT, true);
+			else if (getLaunchState() == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES) {
+				// Just back out of the app
+				return false;
+			}
+			else if (getLaunchState() != LaunchState.OVERVIEW) {
+				setLaunchState(LaunchState.OVERVIEW, true);
 				return true;
 			}
 			return false;
@@ -267,8 +331,37 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mStateListeners.unRegisterStateListener(listener);
 	}
 
+	private SingleStateListener<LaunchState> mCheckedForServicesListener = new SingleStateListener<>(
+		LaunchState.CHECKING_GOOGLE_PLAY_SERVICES, LaunchState.OVERVIEW, true, new ISingleStateListener() {
+		@Override
+		public void onStateTransitionStart(boolean isReversed) {
+			// ignore
+		}
+
+		@Override
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			// ignore
+		}
+
+		@Override
+		public void onStateTransitionEnd(boolean isReversed) {
+			// ignore
+		}
+
+		@Override
+		public void onStateFinalized(boolean isReversed) {
+			final boolean isOverview = !isReversed ? true : false;
+			LaunchState state = isOverview ? LaunchState.OVERVIEW : LaunchState.CHECKING_GOOGLE_PLAY_SERVICES;
+
+			setFragmentState(state);
+
+			mSearchBarC.setVisibility(isOverview ? View.VISIBLE : View.INVISIBLE);
+		}
+	}
+	);
+
 	private SingleStateListener<LaunchState> mWaypointStateListener = new SingleStateListener<>(
-		LaunchState.DEFAULT, LaunchState.WAYPOINT, true, new ISingleStateListener() {
+		LaunchState.OVERVIEW, LaunchState.WAYPOINT, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
 			if (!isReversed) {
@@ -312,7 +405,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	);
 
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
-		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
+		LaunchState.OVERVIEW, LaunchState.DETAILS, true, new ISingleStateListener() {
 
 		private float mSearchBarY;
 
@@ -391,6 +484,18 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		}
 		return new Rect();
 	}
+
+
+	/*
+	 * GooglePlayServicesDialog.GooglePlayServicesConnectionSuccessListener
+	 */
+
+	public void onGooglePlayServicesConnectionSuccess() {
+		if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
+			setLaunchState(LaunchState.OVERVIEW, false);
+		}
+	}
+
 
 	/*
 	 * Otto events

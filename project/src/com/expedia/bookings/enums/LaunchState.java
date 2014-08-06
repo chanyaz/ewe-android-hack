@@ -1,7 +1,8 @@
 package com.expedia.bookings.enums;
 
 public enum LaunchState {
-	DEFAULT,
+	CHECKING_GOOGLE_PLAY_SERVICES,
+	OVERVIEW,
 	WAYPOINT,
-	DETAILS
+	DETAILS,
 }
