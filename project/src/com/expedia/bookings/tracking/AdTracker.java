@@ -93,7 +93,7 @@ public class AdTracker {
 	}
 
 	public static void trackHotelCheckoutStarted() {
-		final Rate rate = Db.getHotelSearch().getSelectedRate();
+		final Rate rate = Db.getHotelSearch().getCheckoutRate();
 		final Money totalPrice = rate.getTotalAmountAfterTax();
 		AdX.trackHotelCheckoutStarted(Db.getHotelSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}
