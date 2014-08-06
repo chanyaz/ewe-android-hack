@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +49,6 @@ import com.squareup.otto.Subscribe;
  * TabletResultsFlightControllerFragment: designed for tablet results 2013
  * This controls all the fragments relating to FLIGHTS results
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements
 	IFragmentAvailabilityProvider, IBackManageable,
 	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener,
@@ -237,7 +236,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
-		else if (Sp.getParams().getOriginLocation(true) == null) {
+		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode())) {
 			return ResultsFlightsState.MISSING_ORIGIN;
 		}
 		else if (Sp.getParams().getStartDate() == null) {

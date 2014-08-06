@@ -94,6 +94,15 @@ public class SearchParams implements Parcelable, JSONable {
 		return null;
 	}
 
+	public String getOriginAirportCode() {
+		Location loc = getOriginLocation(true);
+		if (loc == null) {
+			return null;
+		}
+
+		return loc.getDestinationId();
+	}
+
 	public SearchParams setOrigin(SuggestionV2 origin) {
 		mOrigin = origin;
 		mOriginAirport = null; // Assume this is no longer valid with a new origin
