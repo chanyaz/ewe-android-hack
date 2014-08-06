@@ -437,6 +437,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			}
 			case R.id.sort_by_deals_button: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
+				break;
 			}
 			case R.id.sort_by_popular_button:
 			default: {
