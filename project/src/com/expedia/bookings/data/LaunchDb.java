@@ -33,11 +33,11 @@ public class LaunchDb {
 	private List<LaunchCollection> mCollections;
 	private LaunchCollection mSelectedCollection;
 	private LaunchLocation mSelectedPin;
-	private static LastSearchLaunchCollection sYourSearchCollection;
+	private LastSearchLaunchCollection mYourSearchCollection;
 	private static final String YOUR_SEARCH_TILE_ID = "last-search";
 
 	public static void getCollections(Context context) {
-		sYourSearchCollection = generateYourSearchCollection(context, Sp.getParams());
+		sDb.mYourSearchCollection = generateYourSearchCollection(context, Sp.getParams());
 		if (sDb.mCollections == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			// If we are already downloading our singleton is already registered
@@ -47,7 +47,7 @@ public class LaunchDb {
 			}
 		}
 		else {
-			injectLastSearch(sYourSearchCollection);
+			injectLastSearch(sDb.mYourSearchCollection);
 			sDb.mSelectedCollection = sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX + 1);
 		}
 	}
@@ -148,7 +148,7 @@ public class LaunchDb {
 			if (collections != null && collections.size() > 0) {
 				sDb.mSelectedCollection = collections.get(0);
 			}
-			injectLastSearch(sYourSearchCollection);
+			injectLastSearch(sDb.mYourSearchCollection);
 			Events.post(sDb.produceLaunchCollections());
 		}
 	};
