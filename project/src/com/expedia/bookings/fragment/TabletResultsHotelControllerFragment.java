@@ -288,7 +288,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	public void setHotelsState(ResultsHotelsState state, boolean animate) {
-		Log.stackTrace(6, "HERE");
 		mHotelsStateManager.setState(state, animate);
 	}
 
