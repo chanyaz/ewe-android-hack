@@ -1042,8 +1042,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void refreshTravelerDataToDB() {
 		FlightSearchParams searchParams = getSearchParams(false);
-		mGuestPicker.initializeGuests(searchParams.getNumAdults(), searchParams.getChildren());
-		mGuestPicker.bind();
+		mGuestPicker.bind(searchParams.getNumAdults(), searchParams.getChildren());
 
 		displayRefinementInfo();
 		updateNumTravelersText();

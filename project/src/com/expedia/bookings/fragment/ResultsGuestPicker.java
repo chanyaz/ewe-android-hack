@@ -29,19 +29,10 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 
 	private TextView mInfantAlertTextView;
 
-	private int mInitialAdultCount;
-	private List<ChildTraveler> mInitialChildren;
-
 	private GuestPickerFragmentListener mListener;
 
 	public interface GuestPickerFragmentListener {
 		public void onGuestsChanged(int numAdults, List<ChildTraveler> children);
-	}
-
-	public static ResultsGuestPicker newInstance(int initialAdultCount, List<ChildTraveler> initialChildren) {
-		ResultsGuestPicker frag = new ResultsGuestPicker();
-		frag.initializeGuests(initialAdultCount, initialChildren);
-		return frag;
 	}
 
 	@Override
@@ -56,21 +47,9 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 		mGuestPicker = Ui.findView(mRootC, R.id.guest_picker);
 		mGuestPicker.setListener(this);
 
-		if (mInitialChildren != null) {
-			initializeGuests(mInitialAdultCount, mInitialChildren);
-			mInitialAdultCount = -1;
-			mInitialChildren = null;
-		}
-
 		mInfantAlertTextView = Ui.findView(mRootC, R.id.tablet_lap_infant_alert);
 
 		return mRootC;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		bind();
 	}
 
 	@Override
@@ -79,24 +58,21 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 		mListener.onGuestsChanged(numAdults, children);
 	}
 
-	public void initializeGuests(int initialAdultCount, List<ChildTraveler> initialChildren) {
-		if (mGuestPicker != null) {
-			mGuestPicker.initializeGuests(initialAdultCount, initialChildren);
+	public String getHeaderString() {
+		if (mGuestPicker == null) {
+			return null;
 		}
-		else {
-			mInitialAdultCount = initialAdultCount;
-			mInitialChildren = initialChildren;
-		}
+		return mGuestPicker.getHeaderString();
 	}
 
-	public void bind() {
-		if (mRootC != null) {
-			mGuestPicker.bind();
+	public void bind(int numAdults, List<ChildTraveler> children) {
+		if (mGuestPicker != null) {
+			mGuestPicker.bind(numAdults, children);
 			toggleInfantSeatingStates();
 		}
 	}
 
-	public void toggleInfantSeatingStates() {
+	private void toggleInfantSeatingStates() {
 		// Let's not show the alert if flights is not supported for the current POS
 		if (mGuestPicker.moreInfantsThanAvailableLaps() && PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
 			mInfantAlertTextView.setVisibility(View.VISIBLE);
@@ -104,13 +80,6 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 		else {
 			mInfantAlertTextView.setVisibility(View.GONE);
 		}
-	}
-
-	public String getHeaderString() {
-		if (mGuestPicker == null) {
-			return null;
-		}
-		return mGuestPicker.getHeaderString();
 	}
 
 }

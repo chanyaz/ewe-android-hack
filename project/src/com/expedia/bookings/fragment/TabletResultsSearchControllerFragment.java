@@ -411,8 +411,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mIgnoreGuestChanges = true;
 
 			if (mGuestsFragment != null) {
-				mGuestsFragment.initializeGuests(numAdults, children);
-				mGuestsFragment.bind();
+				mGuestsFragment.bind(numAdults, children);
 			}
 
 			mLocalParams.setNumAdults(numAdults);
@@ -615,7 +614,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					FragmentManager manager = getChildFragmentManager();
 					FragmentTransaction transaction = manager.beginTransaction();
 					mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_TRAV_PICKER, manager,
-						transaction, TabletResultsSearchControllerFragment.this, R.id.traveler_container, false);
+						transaction, TabletResultsSearchControllerFragment.this, R.id.traveler_container, true);
 					transaction.commit();
 				}
 			}
@@ -966,7 +965,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			transaction, this, R.id.gde_container, true);
 
 		mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
-			transaction, this, R.id.traveler_container, false);
+			transaction, this, R.id.traveler_container, true);
 
 		mWaypointFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(mWaypointAvailable, FTAG_WAYPOINT, manager,
@@ -1007,7 +1006,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return new ResultsDatesFragment();
 		}
 		case FTAG_TRAV_PICKER: {
-			return ResultsGuestPicker.newInstance(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
+			return new ResultsGuestPicker();
 		}
 		case FTAG_WAYPOINT: {
 			return TabletWaypointFragment.newInstance(false);
@@ -1027,6 +1026,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		switch (tag) {
 		case FTAG_CALENDAR: {
 			((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
+			break;
+		}
+		case FTAG_TRAV_PICKER: {
+			((ResultsGuestPicker) frag).bind(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
 			break;
 		}
 		case FTAG_ORIGIN_LOCATION: {

@@ -37,7 +37,7 @@ public class GuestPicker extends LinearLayout {
 	private GuestPickerListener mListener;
 
 	private int mAdultCount;
-	private ArrayList<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
+	private List<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
 
 	public GuestPicker(Context context) {
 		super(context, null);
@@ -128,18 +128,6 @@ public class GuestPicker extends LinearLayout {
 		mListener = listener;
 	}
 
-	public void initializeGuests(int initialAdultCount, List<ChildTraveler> initialChildren) {
-		mAdultCount = initialAdultCount;
-		if (initialChildren == null) {
-			mChildren = new ArrayList<ChildTraveler>();
-			return;
-		}
-		mChildren = new ArrayList<ChildTraveler>(initialChildren.size());
-		for (ChildTraveler c : initialChildren) {
-			mChildren.add(c);
-		}
-	}
-
 	public boolean canAddAnotherTraveler() {
 		return mAdultCount + mChildren.size() < MAX_TRAVELERS;
 	}
@@ -148,7 +136,7 @@ public class GuestPicker extends LinearLayout {
 		if (mAdultCount < MAX_ADULTS && canAddAnotherTraveler()) {
 			mAdultCount++;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
-			bind();
+			bindViews();
 		}
 	}
 
@@ -156,7 +144,7 @@ public class GuestPicker extends LinearLayout {
 		if (mAdultCount > 1) {
 			mAdultCount--;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
-			bind();
+			bindViews();
 		}
 	}
 
@@ -164,7 +152,7 @@ public class GuestPicker extends LinearLayout {
 		if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
 			mChildren.add(new ChildTraveler(age, false));
 			mListener.onGuestsChanged(mAdultCount, mChildren);
-			bind();
+			bindViews();
 		}
 	}
 
@@ -172,11 +160,17 @@ public class GuestPicker extends LinearLayout {
 		if (index >= 0 && index < mChildren.size()) {
 			mChildren.remove(index);
 			mListener.onGuestsChanged(mAdultCount, mChildren);
-			bind();
+			bindViews();
 		}
 	}
 
-	public void bind() {
+	public void bind(int adultCount, List<ChildTraveler> children) {
+		mAdultCount = adultCount;
+		mChildren = new ArrayList<>(children);
+		bindViews();
+	}
+
+	private void bindViews() {
 		mAdultText.setText(getResources().getQuantityString(R.plurals.number_of_adults, mAdultCount, mAdultCount));
 		mChildText.setText(getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
 		GuestsPickerUtils.setChildSpinnerPositions(this, mChildren);
