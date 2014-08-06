@@ -90,8 +90,8 @@ public class ChildTraveler implements JSONable, Parcelable, Comparable<ChildTrav
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		TextUtils.writeToParcel(Integer.toString(mAge), dest, flags);
-		TextUtils.writeToParcel(Boolean.toString(mUsingSeat), dest, flags);
+		dest.writeInt(mAge);
+		dest.writeBooleanArray(new boolean[] {mUsingSeat});
 	}
 
 	public static final Parcelable.Creator<ChildTraveler> CREATOR =
