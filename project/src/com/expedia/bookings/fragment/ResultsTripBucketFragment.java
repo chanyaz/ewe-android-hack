@@ -83,35 +83,6 @@ public class ResultsTripBucketFragment extends Fragment
 		}
 	}
 
-	public Rect getAddToTripBucketDestinationRect(LineOfBusiness lob) {
-		Rect rect = null;
-		if (mBucketFrag != null && mBucketFrag.isResumed()) {
-			if (lob == LineOfBusiness.HOTELS) {
-				rect = mBucketFrag.getHotelRect();
-			}
-			else if (lob == LineOfBusiness.FLIGHTS) {
-				rect = mBucketFrag.getFlightRect();
-			}
-		}
-		if (rect == null || rect.isEmpty() || rect.height() <= 0 || rect.width() <= 0) {
-			rect = getFakeTopRect();
-		}
-		return rect;
-	}
-
-	private Rect getFakeTopRect() {
-		int paddingX = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_x);
-		int height = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_height);
-		if (mTripBucketC != null) {
-			Rect rect = ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mTripBucketC);
-			rect.left += paddingX;
-			rect.right -= paddingX;
-			rect.bottom = rect.top + height;
-			return rect;
-		}
-		return new Rect();
-	}
-
 	public boolean hasItemsInUndoState() {
 		return mBucketFrag.hasItemsInUndoState();
 	}

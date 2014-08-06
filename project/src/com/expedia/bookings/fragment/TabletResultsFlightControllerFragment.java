@@ -3,14 +3,11 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +57,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Frag tags
 	private static final String FTAG_FLIGHT_MAP = "FTAG_FLIGHT_MAP";
-	private static final String FTAG_FLIGHT_ADD_TO_TRIP = "FTAG_FLIGHT_ADD_TO_TRIP";
 	private static final String FTAG_FLIGHT_SEARCH_DOWNLOAD = "FTAG_FLIGHT_SEARCH_DOWNLOAD";
 	private static final String FTAG_FLIGHT_SEARCH_ERROR = "FTAG_FLIGHT_SEARCH_ERROR";
 	private static final String FTAG_FLIGHT_LOADING_INDICATOR = "FTAG_FLIGHT_LOADING_INDICATOR";
@@ -73,7 +69,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	// Containers
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mFlightMapC;
-	private FrameLayoutTouchController mAddToTripC;
 	private FrameLayoutTouchController mFlightLegsC;
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
@@ -82,7 +77,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Fragments
 	private ResultsFlightMapFragment mFlightMapFrag;
-	private ResultsFlightAddToTrip mAddToTripFrag;
 	private FlightSearchDownloadFragment mFlightSearchDownloadFrag;
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
@@ -91,13 +85,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private Runnable mSearchParamUpdateRunner;
 
 	// Other
-	private View mAddToTripShadeView;
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
 		getBaseState(), this);
-
-	// When we are downloading new data, we set this to true, so that we remember to resetQuery on our legs chooser.
-	private boolean mNeedsQueryReset = true;
 
 	private boolean mCouldShowInfantPrompt = false;
 
@@ -135,7 +125,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (savedInstanceState != null) {
 			FragmentManager manager = getChildFragmentManager();
 			mFlightMapFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_MAP);
-			mAddToTripFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_ADD_TO_TRIP);
 			mFlightSearchDownloadFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_SEARCH_DOWNLOAD);
 			mLoadingGuiFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_LOADING_INDICATOR);
 			mFlightLegsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_LEGS_CHOOSER);
@@ -146,18 +135,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mFlightMapC = Ui.findView(view, R.id.bg_flight_map);
-		mAddToTripC = Ui.findView(view, R.id.flights_add_to_trip);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mFlightLegsC = Ui.findView(view, R.id.flight_leg_container);
 		mSearchErrorC = Ui.findView(view, R.id.search_error_container);
-		mAddToTripShadeView = Ui.findView(view, R.id.flights_add_to_trip_shade);
 
 		mVisibilityControlledViews.add(mFlightMapC);
-		mVisibilityControlledViews.add(mAddToTripC);
 		mVisibilityControlledViews.add(mLoadingC);
 		mVisibilityControlledViews.add(mFlightLegsC);
 		mVisibilityControlledViews.add(mSearchErrorC);
-		mVisibilityControlledViews.add(mAddToTripShadeView);
 
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 		registerStateListener(mFlightsStateHelper, false);
@@ -166,7 +151,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		// These views should be moved to hardware layers in onStateTransitionStart for relevant transitions and moved off
 		// of hardware layers in onStateTransitionEnd.
 		mFlightMapC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-		mAddToTripShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		return view;
 	}
@@ -210,19 +194,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	public void clearSelection() {
 		if (Ui.isAdded(mFlightLegsFrag)) {
 			mFlightLegsFrag.clearSelection();
-		}
-	}
-
-	public Rect getAddTripRect() {
-		if(mAddToTripFrag != null){
-			return mAddToTripFrag.getCenteredAddToTripRect();
-		}
-		return new Rect();
-	}
-
-	public void setAnimateToBucketRect(Rect globalRect) {
-		if (mAddToTripFrag != null) {
-			mAddToTripFrag.setGlobalDestinationRect(globalRect);
 		}
 	}
 
@@ -331,9 +302,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (tag == FTAG_FLIGHT_MAP) {
 			frag = this.mFlightMapFrag;
 		}
-		else if (tag == FTAG_FLIGHT_ADD_TO_TRIP) {
-			frag = this.mAddToTripFrag;
-		}
 		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
 			frag = mFlightSearchDownloadFrag;
 		}
@@ -355,9 +323,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		Fragment frag = null;
 		if (tag == FTAG_FLIGHT_MAP) {
 			frag = ResultsFlightMapFragment.newInstance();
-		}
-		else if (tag == FTAG_FLIGHT_ADD_TO_TRIP) {
-			frag = ResultsFlightAddToTrip.newInstance();
 		}
 		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
@@ -462,10 +427,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			break;
 		}
 		case ADDING_FLIGHT_TO_TRIP: {
-			visibleViews.add(mAddToTripC);
 			visibleViews.add(mFlightMapC);
 			visibleViews.add(mFlightLegsC);
-			visibleViews.add(mAddToTripShadeView);
 			break;
 		}
 		}
@@ -496,7 +459,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		boolean searchErrorAvailable = false;
 		boolean flightSearchDownloadAvailable = false;
 		boolean flightMapAvailable = true;
-		boolean flightAddToTripAvailable = true;
 		boolean flightLegsFragAvailable = false;
 
 		if (flightsState == ResultsFlightsState.LOADING) {
@@ -504,7 +466,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			loadingAvailable = true;
 			searchErrorAvailable = true;
 			flightMapAvailable = false;
-			flightAddToTripAvailable = false;
 		}
 
 		if (flightsState.isFlightListState()) {
@@ -516,15 +477,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			loadingAvailable = false;
 			searchErrorAvailable = true;
 			flightMapAvailable = false;
-			flightAddToTripAvailable = false;
 		}
 
 		mFlightMapFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightMapAvailable, FTAG_FLIGHT_MAP,
 			manager, transaction, this, R.id.bg_flight_map, false);
-		mAddToTripFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-			flightAddToTripAvailable,
-			FTAG_FLIGHT_ADD_TO_TRIP, manager, transaction, this, R.id.flights_add_to_trip, false);
 		mFlightSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightSearchDownloadAvailable,
 			FTAG_FLIGHT_SEARCH_DOWNLOAD, manager, transaction, this, 0, true);
@@ -710,8 +667,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				return true;
 			}
 			else {
-
-				// TODO add Histogram state in here?
 				if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 					return true;
 				}
@@ -790,13 +745,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingC.setAlpha(1.0f);
 			}
-			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
-				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-				mAddToTripC.setAlpha(0f);
-				mAddToTripC.setVisibility(View.VISIBLE);
-				mAddToTripShadeView.setAlpha(0f);
-				mAddToTripShadeView.setVisibility(View.VISIBLE);
-			}
 		}
 
 		@Override
@@ -808,15 +756,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				float perc = stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN ? percentage : 1f - percentage;
 				mFlightMapC.setAlpha(perc);
 			}
-			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
-				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-				mAddToTripC.setAlpha(percentage);
-				mAddToTripShadeView.setAlpha(percentage);
-			}
 			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightMapC.setAlpha(1f - percentage);
-				mAddToTripShadeView.setAlpha(1f - percentage);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingC.setAlpha(1.0f - percentage);
@@ -862,22 +804,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				if (mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
 					mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
 				}
-			}
-
-			if (mFlightLegsFrag != null && state != ResultsFlightsState.LOADING
-				&& !state.isShowMessageState()) {
-				mFlightLegsFrag.setAddToTripRect(getAddTripRect());
-			}
-
-			if (state == ResultsFlightsState.LOADING) {
-				mNeedsQueryReset = true;
-			}
-
-			if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-				mAddToTripC.setAlpha(1f);
-			}
-			else {
-				mAddToTripC.setAlpha(0f);
 			}
 
 			if (state.isShowMessageState()) {

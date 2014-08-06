@@ -88,7 +88,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private FrameLayoutTouchController mFiltersC;
 	private RelativeLayout mListColumnC;
 	private FrameLayoutTouchController mListC;
-	private FrameLayoutTouchController mAddToTripC;
 	private FrameLayoutTouchController mNextLegC;
 	private FrameLayoutTouchController mLastLegC;
 
@@ -157,14 +156,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mFiltersC = Ui.findView(view, R.id.filters_container);
 		mListColumnC = Ui.findView(view, R.id.list_column_container);
 		mListC = Ui.findView(view, R.id.list_container);
-		mAddToTripC = Ui.findView(view, R.id.add_to_trip);
 		mNextLegC = Ui.findView(view, R.id.next_leg_container);
 		mLastLegC = Ui.findView(view, R.id.last_flight_container);
 		mLastFLightRow = Ui.findView(view, R.id.last_flight_row);
 
 		mContainers.add(mDetailsC);
 		mContainers.add(mFiltersC);
-		mContainers.add(mAddToTripC);
 		mContainers.add(mNextLegC);
 		mContainers.add(mListColumnC);
 
@@ -234,13 +231,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	/**
 	 * General  methods
 	 */
-
-	public void setAddToTripRect(Rect addToTripRect) {
-		mAddToTripAnimRect = addToTripRect;
-		if (mNextLegFrag != null) {
-			mNextLegFrag.setAddToTripRect(mAddToTripAnimRect);
-		}
-	}
 
 	public void resetQuery() {
 		if (mListFrag != null && mListFrag.isAdded()) {
@@ -325,7 +315,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				resetQuery();
 
 				// Change state
-				setState(ResultsFlightLegState.ADDING_TO_TRIP, true);
+				setState(ResultsFlightLegState.ADDING_TO_TRIP, false);
 			}
 			else {
 				if (mNextLegFrag != null) {
@@ -654,8 +644,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				if (!mNextLegFrag.hasValidDataForDetails()) {
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
-				//Always propogate this
-				mNextLegFrag.setAddToTripRect(mAddToTripAnimRect);
 			}
 			else if (mNextLegFrag != null && state != ResultsFlightLegState.ADDING_TO_TRIP) {
 				//If we are showing, the next leg should always be in the filters state.

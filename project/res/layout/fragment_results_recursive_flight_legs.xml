@@ -47,11 +47,4 @@
             android:layout_below="@id/last_flight_container" />
     </RelativeLayout>
 
-    <!-- ADD TO TRIP -->
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/add_to_trip"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </FrameLayout>

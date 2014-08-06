@@ -462,15 +462,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				else if (state == ResultsState.FLIGHTS) {
 					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.FLIGHTS);
 				}
-
-				if (mFlightsController != null) {
-					Rect animDestRect = mTripBucketFrag.getAddToTripBucketDestinationRect(LineOfBusiness.FLIGHTS);
-					if (animDestRect != null && animDestRect.height() > 0 && animDestRect.width() > 0) {
-						mFlightsController
-							.setAnimateToBucketRect(animDestRect);
-					}
-				}
-
 			}
 
 			if (state == ResultsState.OVERVIEW) {
@@ -813,16 +804,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			startStateTransition(stateOne.getResultsState(), stateTwo.getResultsState());
-
-			if (mFlightsController != null && mTripBucketFrag != null
-				&& stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
-				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				Rect animDestRect = mTripBucketFrag.getAddToTripBucketDestinationRect(LineOfBusiness.FLIGHTS);
-				if (animDestRect != null && animDestRect.height() > 0 && animDestRect.width() > 0) {
-					mFlightsController
-						.setAnimateToBucketRect(animDestRect);
-				}
-			}
 		}
 
 		@Override
