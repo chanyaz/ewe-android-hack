@@ -204,6 +204,8 @@
     <string name="departure_airports">Departure Airports</string>
     <!-- Header for a dropdown to select from a list of available arrival airports -->
     <string name="arrival_airports">Arrival Airports</string>
+    <!-- Header for a dropdown to select form a list of airports -->
+    <string name="all_airports">All Airports</string>
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
