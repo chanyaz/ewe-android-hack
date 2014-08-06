@@ -83,6 +83,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mReviewsC;
 	private ScrollView mScrollView;
 	private LinearLayout mRoomsRatesContainer;
+	private ViewGroup mSoldOutContainer;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -115,6 +116,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		mScrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
+		mSoldOutContainer = Ui.findView(mRootC, R.id.rooms_sold_out_container);
 		toggleLoadingState(true);
 		return mRootC;
 	}
@@ -223,7 +225,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			logger.addSplit("setupHeader");
 			setupAmenities(mRootC, property);
 			logger.addSplit("setupAmenities");
-			setupRoomRates(mRootC, property);
+			setupRoomRates();
 			logger.addSplit("setupRoomRates");
 			setupDescriptionSections(mRootC, property);
 			logger.addSplit("setupDescriptionSections");
@@ -471,7 +473,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	};
 
-	private void setupRoomRates(View view, Property property) {
+	private void setupRoomRates() {
 		mRoomsRatesContainer.removeAllViews();
 
 		if (mResponse == null) {
@@ -481,6 +483,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		List<Rate> rates = mResponse.getRates();
 
 		if (rates != null && rates.size() > 0) {
+			mSoldOutContainer.setVisibility(View.GONE);
+			mRoomsRatesContainer.setVisibility(View.VISIBLE);
+
+			LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) descriptionsContainer.getLayoutParams();
+			params.addRule(RelativeLayout.BELOW, mRoomsRatesContainer.getId());
+
 			// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
 			boolean first = true;
 			for (Rate rate : rates) {
@@ -498,12 +507,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 		}
 		else {
-			ViewGroup soldOut = Ui.findView(mRootC, R.id.rooms_sold_out_container);
-			soldOut.setVisibility(View.VISIBLE);
+			mSoldOutContainer.setVisibility(View.VISIBLE);
+			mRoomsRatesContainer.setVisibility(View.GONE);
 
 			LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) descriptionsContainer.getLayoutParams();
-			params.addRule(RelativeLayout.BELOW, soldOut.getId());
+			params.addRule(RelativeLayout.BELOW, mSoldOutContainer.getId());
 		}
 	}
 
