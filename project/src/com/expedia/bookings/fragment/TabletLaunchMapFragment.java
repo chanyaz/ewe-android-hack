@@ -285,22 +285,26 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	private void addPin(final LaunchLocation launchLocation) {
-		final String imageUrl = getResizeForPinUrl(launchLocation.getImageUrl());
-		Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/ , true /*checkdisk*/);
-		inflatePinAndAddMarker(launchLocation, bitmap);
+		if (getActivity() != null) {
+			final String imageUrl = getResizeForPinUrl(launchLocation.getImageUrl());
+			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/ , true /*checkdisk*/);
+			inflatePinAndAddMarker(launchLocation, bitmap);
 
-		if (bitmap == null) {
-			L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					inflatePinAndAddMarker(launchLocation, bitmap);
-				}
+			if (bitmap == null) {
+				L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
+					@Override
+					public void onBitmapLoaded(String url, Bitmap bitmap) {
+						if (getActivity() != null) {
+							inflatePinAndAddMarker(launchLocation, bitmap);
+						}
+					}
 
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					// ignore
-				}
-			});
+					@Override
+					public void onBitmapLoadFailed(String url) {
+						// ignore
+					}
+				});
+			}
 		}
 	}
 
