@@ -1034,55 +1034,59 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onBookingResponse(Events.BookingDownloadResponse event) {
 		Response results = event.response;
-
-		if (!AndroidUtils.isRelease(getActivity())) {
-			if (SettingUtils
-				.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
-				ServerError googleWalletError = new ServerError();
-				googleWalletError.setCode("GOOGLE_WALLET_ERROR");
-				results.addErrorToFront(googleWalletError);
-			}
-			if (SettingUtils.get(getActivity(), R.string.preference_force_passenger_category_error, false)) {
-				ServerError passengerCategoryError = new ServerError();
-				passengerCategoryError.setCode("INVALID_INPUT");
-				passengerCategoryError.addExtra("field", "mainFlightPassenger.birthDate");
-				results.addErrorToFront(passengerCategoryError);
-			}
+		if (results == null) {
+			getCurrentBookingFragment().handleBookingErrorResponse(results, getLob());
 		}
-
-		if (results instanceof FlightCheckoutResponse) {
-			FlightCheckoutResponse response = (FlightCheckoutResponse) results;
-
-			Db.setFlightCheckout(response);
-			AdTracker.trackFlightBooked();
-
-			if (response == null || response.hasErrors()) {
-				mFlightBookingFrag.handleBookingErrorResponse(response);
+		else {
+			if (!AndroidUtils.isRelease(getActivity())) {
+				if (SettingUtils
+					.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
+					ServerError googleWalletError = new ServerError();
+					googleWalletError.setCode("GOOGLE_WALLET_ERROR");
+					results.addErrorToFront(googleWalletError);
+				}
+				if (SettingUtils.get(getActivity(), R.string.preference_force_passenger_category_error, false)) {
+					ServerError passengerCategoryError = new ServerError();
+					passengerCategoryError.setCode("INVALID_INPUT");
+					passengerCategoryError.addExtra("field", "mainFlightPassenger.birthDate");
+					results.addErrorToFront(passengerCategoryError);
+				}
 			}
-			else {
-				Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
-				// TODO tracking ??
-				Db.saveTripBucket(getActivity());
-				setCheckoutState(CheckoutState.CONFIRMATION, true);
-			}
-		}
-		// HotelBookingResponse
-		else if (results instanceof BookingResponse) {
-			BookingResponse response = (BookingResponse) results;
-			Property property = Db.getHotelSearch().getSelectedProperty();
 
-			Db.setBookingResponse(response);
-			AdTracker.trackHotelBooked();
+			if (results instanceof FlightCheckoutResponse) {
+				FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 
-			if (results == null || response.hasErrors()) {
-				response.setProperty(property);
-				mHotelBookingFrag.handleBookingErrorResponse(response);
+				Db.setFlightCheckout(response);
+				AdTracker.trackFlightBooked();
+
+				if (response == null || response.hasErrors()) {
+					mFlightBookingFrag.handleBookingErrorResponse(response);
+				}
+				else {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
+					// TODO tracking ??
+					Db.saveTripBucket(getActivity());
+					setCheckoutState(CheckoutState.CONFIRMATION, true);
+				}
 			}
-			else {
-				Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
-				Db.saveTripBucket(getActivity());
-				response.setProperty(property);
-				setCheckoutState(CheckoutState.CONFIRMATION, true);
+			// HotelBookingResponse
+			else if (results instanceof BookingResponse) {
+				BookingResponse response = (BookingResponse) results;
+				Property property = Db.getHotelSearch().getSelectedProperty();
+
+				Db.setBookingResponse(response);
+				AdTracker.trackHotelBooked();
+
+				if (results == null || response.hasErrors()) {
+					response.setProperty(property);
+					mHotelBookingFrag.handleBookingErrorResponse(response);
+				}
+				else {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
+					Db.saveTripBucket(getActivity());
+					response.setProperty(property);
+					setCheckoutState(CheckoutState.CONFIRMATION, true);
+				}
 			}
 		}
 	}
