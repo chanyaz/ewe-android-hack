@@ -36,7 +36,7 @@ public class FragmentAvailabilityUtils {
 				if (frag == null) {
 					frag = (T) provider.getNewFragmentInstanceFromTag(tag);
 				}
-				if (!frag.isAdded() && !noSeriouslyIsItFuckingAdded(frag)) {
+				if (!frag.isAdded()) {
 					if (noSeriouslyIsItFuckingAdded(frag)) {
 						return frag;
 					}
