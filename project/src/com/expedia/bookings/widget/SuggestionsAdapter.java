@@ -9,13 +9,11 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 
 public class SuggestionsAdapter extends CursorAdapter {
@@ -73,10 +71,7 @@ public class SuggestionsAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		TextView view = Ui.inflate(R.layout.row_suggestion_dropdown, parent, false);
-		// #3119: Use a native TextView and set its font in code
-		FontCache.setTypeface(view, FontCache.Font.ROBOTO_LIGHT);
-		return view;
+		return Ui.inflate(R.layout.row_suggestion_dropdown, parent, false);
 	}
 
 }
