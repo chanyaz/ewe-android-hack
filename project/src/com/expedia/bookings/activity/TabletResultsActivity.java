@@ -93,8 +93,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
 	private static final String FTAG_SEARCH_CONTROLLER = "FTAG_SEARCH_CONTROLLER";
+	private static final String FTAG_BUCKET_CONTROLLER = "FTAG_BUCKET_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
-	private static final String FTAG_BUCKET = "FTAG_BUCKET";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -165,7 +165,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			FTAG_SEARCH_CONTROLLER, manager, transaction, this,
 			R.id.full_width_search_controller_container, false);
 		mTripBucketFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
-			FTAG_BUCKET, manager, transaction, this,
+			FTAG_BUCKET_CONTROLLER, manager, transaction, this,
 			R.id.trip_bucket_container, false);
 		mFlightsController = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
@@ -356,7 +356,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
 		}
-		else if (tag == FTAG_BUCKET) {
+		else if (tag == FTAG_BUCKET_CONTROLLER) {
 			frag = mTripBucketFrag;
 		}
 		return frag;
@@ -377,7 +377,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = ResultsBackgroundImageFragment.newInstance(false);
 		}
-		else if (tag == FTAG_BUCKET) {
+		else if (tag == FTAG_BUCKET_CONTROLLER) {
 			frag = new ResultsTripBucketFragment();
 		}
 		return frag;
