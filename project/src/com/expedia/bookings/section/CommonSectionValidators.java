@@ -1,7 +1,9 @@
 package com.expedia.bookings.section;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -15,9 +17,7 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
 public class CommonSectionValidators {
-	
-	public static final String STRICT_EMAIL_VALIDATION_REGEX = "(?:[a-zA-Z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%\\&'*+/=?\\^_`{|}~-]+)*|\\\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\\\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-	
+
 	public static final Validator<EditText> REQUIRED_FIELD_VALIDATOR_ET = new Validator<EditText>() {
 		TextViewValidator mValidator = new TextViewValidator();
 
@@ -69,32 +69,34 @@ public class CommonSectionValidators {
 		}
 	}
 
-	public static final Validator<EditText> EMAIL_VALIDATOR_ET = new Validator<EditText>() {
-		TextViewValidator mValidator = new TextViewValidator(new EmailValidator());
-
-		@Override
-		public int validate(EditText obj) {
-			return (obj == null) ? ValidationError.ERROR_DATA_MISSING : mValidator.validate(obj);
-		}
-	};
-
 	public static final Validator<EditText> EMAIL_VALIDATOR_STRICT = new Validator<EditText>() {
-
-		//This pattern is borrowed from iOS
-		PatternValidator mValidator = new PatternValidator(
-				Pattern.compile(STRICT_EMAIL_VALIDATION_REGEX));
-
 		@Override
 		public int validate(EditText obj) {
 			if (obj == null) {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
 			else {
-				if (obj.getText().length() >= 132) {
+				return EMAIL_STRING_VALIDATIOR_STRICT.validate(obj.getText().toString());
+			}
+		}
+	};
+
+	public static final Validator<String> EMAIL_STRING_VALIDATIOR_STRICT = new Validator<String>() {
+		//This pattern is borrowed from iOS
+		private static final String STRICT_EMAIL_VALIDATION_REGEX = "(?:[a-zA-Z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%\\&'*+/=?\\^_`{|}~-]+)*|\\\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\\\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+		PatternValidator mValidator = new PatternValidator(Pattern.compile(STRICT_EMAIL_VALIDATION_REGEX));
+
+		@Override
+		public int validate(String text) {
+			if (TextUtils.isEmpty(text)) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				if (text.length() >= 132) {
 					return ValidationError.ERROR_DATA_INVALID;
 				}
 				else {
-					return mValidator.validate(obj.getText());
+					return mValidator.validate(text.toLowerCase(Locale.ENGLISH));
 				}
 			}
 		}
@@ -118,7 +120,7 @@ public class CommonSectionValidators {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
 			else {
-				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.ASCII).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
+				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.ASCII).matcher(obj.getText().toString()).matches() ? ValidationError.NO_ERROR
 						: ValidationError.ERROR_DATA_INVALID;
 			}
 		}

@@ -41,7 +41,7 @@ public class BookingInfoUtils {
 		Traveler traveler, boolean save) {
 
 		//Ensure the correct (and valid) email address makes it to billing info
-		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(context, LineOfBusiness.FLIGHTS);
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(context, lob);
 		if (!TextUtils.isEmpty(checkoutEmail)) {
 			Db.getBillingInfo().setEmail(checkoutEmail);
 		}
@@ -335,7 +335,7 @@ public class BookingInfoUtils {
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				String email = Db.getUser().getPrimaryTraveler().getEmail();
-				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+				if (CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == 0) {
 					Log.d("getCheckoutEmail - found Db.getUser().getPrimaryTraveler().getEmail():" + email);
 					userEmail = email;
 				}
@@ -347,7 +347,7 @@ public class BookingInfoUtils {
 		if (Db.hasBillingInfo()) {
 			if (!TextUtils.isEmpty(Db.getBillingInfo().getEmail())) {
 				String email = Db.getBillingInfo().getEmail();
-				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+				if (CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == 0) {
 					Log.d("getCheckoutEmail - found Db.getBillingInfo().getEmail():" + email);
 					billingInfoEmail = email;
 				}
@@ -359,7 +359,7 @@ public class BookingInfoUtils {
 		if (Db.getTravelers() != null && Db.getTravelers().size() > 0 && Db.getTravelers().get(0) != null
 			&& !TextUtils.isEmpty(Db.getTravelers().get(0).getEmail())) {
 			String email = Db.getTravelers().get(0).getEmail();
-			if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+			if (CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == 0) {
 				Log.d("getCheckoutEmail - found Db.getTravelers().get(0).getEmail():" + email);
 				travelerEmail = email;
 			}
@@ -372,7 +372,7 @@ public class BookingInfoUtils {
 				MaskedWallet wallet = Db.getMaskedWallet();
 				if (wallet != null && !TextUtils.isEmpty(wallet.getEmail())) {
 					String email = wallet.getEmail();
-					if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+					if (CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == 0) {
 						Log.d("getCheckoutEmail - found Db.getMaskedWallet().getEmail():" + email);
 						walletEmail = email;
 					}
