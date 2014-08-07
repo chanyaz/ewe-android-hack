@@ -89,36 +89,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		// point due to how the code is structured.
 		loadCachedData(true);
 
-		boolean hasSelectedProperty = Db.getHotelSearch().getSelectedProperty() != null;
-		boolean hasSelectedFlightTrip = Db.getFlightSearch().getSelectedFlightTrip() != null;
-
-		if (!hasSelectedProperty) {
-			Db.loadHotelSearchFromDisk(this, true); // TODO REMOVE BYPASSTIMEOUT=TRUE before shipping
-			if (Db.getHotelSearch().getSelectedProperty() != null) {
-				hasSelectedProperty = true;
-			}
-			Log.i("TabletCheckoutActivity: loadedHotelSearch=" + hasSelectedProperty);
-		}
-
-		if (!hasSelectedFlightTrip) {
-			Db.loadCachedFlightData(this);
-			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-				hasSelectedFlightTrip = true;
-				Db.loadFlightSearchParamsFromDisk(this);
-			}
-			Log.i("TabletCheckoutActivity: loadedFlightSearch=" + hasSelectedFlightTrip);
-		}
-
-		if (!hasSelectedFlightTrip && !hasSelectedProperty) {
-			Log.i("Failed to load either Flight or Hotel search data. Were you trying to book something?");
-			finish();
-			return;
-		}
-
-		if (Db.getTripBucket().isEmpty()) {
-			Db.loadTripBucket(this);
-		}
-
 		// Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 
