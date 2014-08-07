@@ -81,9 +81,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 
 	private GridManager mGrid = new GridManager();
+
+	// Note: default state gets reset in onCreate using getDefaultBaseState()
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
 		ResultsSearchState.CALENDAR, this);
 	private ResultsSearchState mLastDownState = ResultsSearchState.CALENDAR;
+
 	private boolean mWaypointAnimFromOrigin = true;
 	private boolean mIgnoreDateChanges = false;
 	private boolean mIgnoreGuestChanges = false;
@@ -141,11 +144,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		importParams();
+
+		ResultsSearchState defaultState = getDefaultBaseState(savedInstanceState);
+		mSearchStateManager.setDefaultState(defaultState);
+		mLastDownState = defaultState;
+
 		if (savedInstanceState != null) {
 			mWaypointAnimFromOrigin = savedInstanceState.getBoolean(INSTANCE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
-			mSearchStateManager.setDefaultState(ResultsSearchState.valueOf(savedInstanceState.getString(
-				INSTANCE_RESULTS_SEARCH_STATE,
-				ResultsSearchState.DEFAULT.name())));
 
 			if (savedInstanceState.containsKey(INSTANCE_LOCAL_PARAMS)) {
 				mLocalParams = savedInstanceState.getParcelable(INSTANCE_LOCAL_PARAMS);
@@ -219,10 +224,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
 		bindSearchBtns();
-
-		if (!Db.getTripBucket().isEmpty()) {
-			mSearchStateManager.setState(ResultsSearchState.DEFAULT, false);
-		}
 	}
 
 	@Override
@@ -250,6 +251,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 	}
 
+	private ResultsSearchState getDefaultBaseState(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			return ResultsSearchState.valueOf(savedInstanceState.getString(INSTANCE_RESULTS_SEARCH_STATE));
+		}
+		else if (Db.getTripBucket() != null && !Db.getTripBucket().isEmpty()) {
+			return ResultsSearchState.DEFAULT;
+		}
+		else if (Sp.getParams().getStartDate() != null || Sp.getParams().getEndDate() != null) {
+			return ResultsSearchState.DEFAULT;
+		}
+		else {
+			return ResultsSearchState.CALENDAR;
+		}
+	}
 
 	/**
 	 * BINDING STUFF
@@ -1114,12 +1129,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				return ResultsSearchState.HOTELS_UP;
 			}
 			default: {
-				if (Db.getTripBucket().size() == 0 && mLastDownState != null) {
-					return mLastDownState;
-				}
-				else {
-					return ResultsSearchState.DEFAULT;
-				}
+				return mLastDownState;
 			}
 			}
 		}
