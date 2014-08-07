@@ -31,9 +31,11 @@ public class TelephoneSpinner extends Spinner {
 	}
 
 	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		super.onLayout(changed, l, t, r, b);
+	public void onFinishInflate() {
+		updateText();
+	}
 
+	public void updateText() {
 		View child = getChildAt(0);
 		if (child instanceof TextView) {
 			((TextView) child).setText(String.format("+%d", getSelectedTelephoneCountryCode()));

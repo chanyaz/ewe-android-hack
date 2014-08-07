@@ -1163,6 +1163,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					updateData();
+					TelephoneSpinner spinner = (TelephoneSpinner) getField();
+					spinner.updateText();
 
 					if (!mSetFieldManually) {
 						onChange(SectionTravelerInfo.this);
