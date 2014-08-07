@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,8 @@ public class FragmentAvailabilityUtils {
 
 	public static final int INVISIBLE_FRAG = -1;
 	public static final int DIALOG_FRAG = -2;
+
+	private static final String ARG_IS_IT_FUCKING_ADDED = "ARG_IS_IT_FUCKING_ADDED";
 
 	public interface IFragmentAvailabilityProvider {
 		public Fragment getExistingLocalInstanceFromTag(String tag);
@@ -33,7 +36,14 @@ public class FragmentAvailabilityUtils {
 				if (frag == null) {
 					frag = (T) provider.getNewFragmentInstanceFromTag(tag);
 				}
-				if (!frag.isAdded()) {
+				if (!frag.isAdded() && !noSeriouslyIsItFuckingAdded(frag)) {
+					if (noSeriouslyIsItFuckingAdded(frag)) {
+						return frag;
+					}
+					else {
+						addTrackingArg(frag);
+					}
+
 					if (container == DIALOG_FRAG) {
 						transaction.add(frag, tag);
 					}
@@ -57,6 +67,27 @@ public class FragmentAvailabilityUtils {
 			frag = null;
 		}
 		return frag;
+	}
+
+	private static boolean noSeriouslyIsItFuckingAdded(Fragment frag) {
+		Bundle args = frag.getArguments();
+		if (args != null) {
+			if (args.containsKey(ARG_IS_IT_FUCKING_ADDED)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static void addTrackingArg(Fragment frag) {
+		Bundle args = frag.getArguments();
+		if (args == null) {
+			args = new Bundle();
+		}
+
+		args.putBoolean(ARG_IS_IT_FUCKING_ADDED, true);
+		frag.setArguments(args);
 	}
 
 }

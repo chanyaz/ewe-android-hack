@@ -413,12 +413,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	private void setFragmentState(ResultsHotelsState hotelsState) {
 		FragmentManager manager = getChildFragmentManager();
-
-		// All of the fragment adds/removes come through this method, and we want to make sure our last call
-		// is complete before moving forward, so this is important
-		manager.executePendingTransactions();
-
-		// We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean hotelSearchDownloadAvailable = false;
@@ -469,8 +463,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelRoomsAndRatesAvailable = false;
 			hotelListAvailable = false;
 		}
-
-		// TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
 
 		mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelListAvailable,
 			FTAG_HOTEL_LIST, manager, transaction, this, R.id.column_one_hotel_list, false);

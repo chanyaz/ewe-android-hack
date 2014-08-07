@@ -447,15 +447,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	}
 
 	private void setFragmentState(ResultsFlightsState flightsState) {
-
 		FragmentManager manager = getChildFragmentManager();
-
-		// All of the fragment adds/removes come through this method, and we want to make sure our last call
-		// is complete before moving forward, so this is important
-		manager.executePendingTransactions();
-
-		// We will be adding all of our add/removes to this transaction
-
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean loadingAvailable = false;
