@@ -85,7 +85,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	// Note: default state gets reset in onCreate using getDefaultBaseState()
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
 		ResultsSearchState.CALENDAR, this);
-	private ResultsSearchState mLastDownState = ResultsSearchState.CALENDAR;
 
 	private boolean mWaypointAnimFromOrigin = true;
 	private boolean mIgnoreDateChanges = false;
@@ -147,7 +146,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		ResultsSearchState defaultState = getDefaultBaseState(savedInstanceState);
 		mSearchStateManager.setDefaultState(defaultState);
-		mLastDownState = defaultState;
 
 		if (savedInstanceState != null) {
 			mWaypointAnimFromOrigin = savedInstanceState.getBoolean(INSTANCE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
@@ -774,10 +772,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (!state.showsCalendar() && state != ResultsSearchState.TRAVELER_PICKER) {
 				clearChanges();
 			}
-
-			if (!isUpState(state)) {
-				mLastDownState = state;
-			}
 		}
 
 		private boolean isUpState(ResultsSearchState state) {
@@ -1129,7 +1123,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				return ResultsSearchState.HOTELS_UP;
 			}
 			default: {
-				return mLastDownState;
+				// When returning to Results Overview, show the trip bucket if it has items
+				if (Db.getTripBucket().isEmpty()) {
+					return getDefaultBaseState(null);
+				}
+				else {
+					return ResultsSearchState.DEFAULT;
+				}
 			}
 			}
 		}
