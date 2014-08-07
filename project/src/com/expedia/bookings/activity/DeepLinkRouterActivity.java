@@ -53,6 +53,13 @@ public class DeepLinkRouterActivity extends Activity {
 
 		AdX.trackDeepLinkLaunch(data);
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
+
+		if (ExpediaBookingApp.useTabletInterface(this)) {
+			Intent tabletLaunch = new Intent(this, TabletLaunchActivity.class);
+			startActivity(tabletLaunch);
+			return;
+		}
+
 		if (host.equals("home")) {
 			Log.i(TAG, "Launching home screen from deep link!");
 			NavUtils.goToLaunchScreen(this, true);
