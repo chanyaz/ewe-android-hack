@@ -12,18 +12,10 @@ public enum CheckoutTripBucketState {
 		switch(state) {
 		case CVV:
 		case BOOKING:
+		case FORM_OPEN:
 			return CheckoutTripBucketState.HIDDEN;
 		default:
 			return CheckoutTripBucketState.SHOWING;
-		}
-	}
-
-	public static CheckoutTripBucketState transmogrify(CheckoutFormState state) {
-		switch(state) {
-		case OVERVIEW:
-			return CheckoutTripBucketState.SHOWING;
-		default:
-			return CheckoutTripBucketState.HIDDEN;
 		}
 	}
 }

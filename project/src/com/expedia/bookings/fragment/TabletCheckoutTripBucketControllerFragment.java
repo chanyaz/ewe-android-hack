@@ -310,7 +310,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 	private void setFragmentState(CheckoutTripBucketState state) {
 		FragmentManager manager = getChildFragmentManager();
-		manager.executePendingTransactions();
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean flightBucketItemAvailable = Db.getTripBucket().getFlight() != null;

@@ -2,6 +2,7 @@ package com.expedia.bookings.enums;
 
 public enum CheckoutState {
 	OVERVIEW,
+	FORM_OPEN,
 	READY_FOR_CHECKOUT,
 	CVV,
 	BOOKING,

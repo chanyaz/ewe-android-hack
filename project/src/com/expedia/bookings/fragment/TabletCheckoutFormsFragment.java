@@ -387,9 +387,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mHorizontalFlightFrag = FragmentAvailabilityUtils
 			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, removeFragsTransaction, this,
 				R.id.horizontal_trip_bucket_item, false);
+
 		for (TravelerButtonFragment btnFrag : mTravelerButtonFrags) {
 			removeFragsTransaction.remove(btnFrag);
 		}
+
 		removeFragsTransaction.commit();
 		fragmentManager.executePendingTransactions();
 
@@ -782,6 +784,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		private void setEntryFormShowingPercentage(float percentage) {
 			mFormContainer.setTranslationY(mSlideHeight * (1f - percentage));
 			mFormContainer.setAlpha(percentage);
+			if (mHorizontalTripItemContainer != null) {
+				mHorizontalTripItemContainer.setAlpha(1f - percentage);
+			}
 			mCheckoutRowsC.setAlpha(1f - percentage);
 		}
 	}

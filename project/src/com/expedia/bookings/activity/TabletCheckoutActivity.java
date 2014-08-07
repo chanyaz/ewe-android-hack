@@ -24,7 +24,6 @@ import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
-import com.expedia.bookings.fragment.TabletCheckoutFormsFragment;
 import com.expedia.bookings.fragment.TabletCheckoutTripBucketControllerFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
@@ -330,25 +329,12 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	@Override
 	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
-		final boolean isLandscape = getResources().getBoolean(R.bool.landscape);
-		// We only want to listen to these on landscape for the trip bucket
-		// I hate that this leaks the concern but the way the wiring works I have to do klunky stuff like this
 		if (frag == mFragCheckoutController) {
-			if (acceptingListener && isLandscape) {
+			if (acceptingListener) {
 				mFragCheckoutController.registerStateListener(mCheckoutStateHelper, false);
 			}
 			else {
 				mFragCheckoutController.unRegisterStateListener(mCheckoutStateHelper);
-			}
-		}
-
-		if (frag instanceof TabletCheckoutFormsFragment) {
-			TabletCheckoutFormsFragment f = (TabletCheckoutFormsFragment) frag;
-			if (acceptingListener) {
-				f.registerStateListener(mCheckoutFormStateHelper, false);
-			}
-			else {
-				f.unRegisterStateListener(mCheckoutFormStateHelper);
 			}
 		}
 	}
@@ -377,28 +363,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 		@Override
 		public void onStateFinalized(CheckoutState state) {
-			mFragTripBucketController.setState(CheckoutTripBucketState.transmogrify(state), false);
-		}
-	};
-
-	private StateListenerHelper<CheckoutFormState> mCheckoutFormStateHelper = new StateListenerHelper<CheckoutFormState>() {
-		@Override
-		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
-			mFragTripBucketController.startStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo));
-		}
-
-		@Override
-		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
-			mFragTripBucketController.updateStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo), percentage);
-		}
-
-		@Override
-		public void onStateTransitionEnd(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
-			mFragTripBucketController.endStateTransition(CheckoutTripBucketState.transmogrify(stateOne), CheckoutTripBucketState.transmogrify(stateTwo));
-		}
-
-		@Override
-		public void onStateFinalized(CheckoutFormState state) {
 			mFragTripBucketController.setState(CheckoutTripBucketState.transmogrify(state), false);
 		}
 	};

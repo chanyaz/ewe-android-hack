@@ -124,6 +124,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private boolean mIsDoneLoadingPriceChange = false;
 	private boolean mIsFlightTripDone = false;
 	private boolean mAnimateState = false;
+	private boolean mCheckoutInformationIsValid = false;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<>(CheckoutState.OVERVIEW, this);
@@ -148,7 +149,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability
 		mHotelBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), HotelBookingFragment.TAG);
 
-		if (mHotelBookingFrag == null) {
+		if (mHotelBookingFrag == null && Db.getTripBucket().getHotel() != null) {
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			mHotelBookingFrag = new HotelBookingFragment();
 			ft.add(mHotelBookingFrag, HotelBookingFragment.TAG);
@@ -157,7 +158,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mFlightBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), FlightBookingFragment.TAG);
 
-		if (mFlightBookingFrag == null) {
+		if (mFlightBookingFrag == null && Db.getTripBucket().getFlight() != null) {
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			mFlightBookingFrag = new FlightBookingFragment();
 			ft.add(mFlightBookingFrag, FlightBookingFragment.TAG);
@@ -458,6 +459,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowReadyForCheckoutPercentage(0f);
 				doCreateTrip();
 			}
+			else if (state == CheckoutState.FORM_OPEN) {
+				setShowCvvPercentage(0f);
+				setShowReadyForCheckoutPercentage(0f);
+			}
 			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(1f);
@@ -610,6 +615,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
 		}
+		else if (state == CheckoutState.FORM_OPEN) {
+			mFormContainer.setVisibility(View.VISIBLE);
+			mSlideContainer.setVisibility(View.GONE);
+			mCvvContainer.setVisibility(View.INVISIBLE);
+			mBookingContainer.setVisibility(View.GONE);
+			mBookingUnavailableContainer.setVisibility(View.GONE);
+			mConfirmationContainer.setVisibility(View.GONE);
+		}
 		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 			mFormContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.VISIBLE);
@@ -655,8 +668,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private void doCreateTrip() {
 		LineOfBusiness lob = getLob();
 		if (lob == LineOfBusiness.FLIGHTS) {
-			getFragmentManager().executePendingTransactions();
-
 			if (!mFlightBookingFrag.isDownloadingCreateTrip()
 				&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
 				&& !mIsFlightTripDone
@@ -669,8 +680,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			getFragmentManager().executePendingTransactions();
-
 			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange
 				&& Db.getTripBucket().getHotel() != null
 				&& Db.getTripBucket().getHotel().canBePurchased()) {
@@ -701,13 +710,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void setFragmentState(CheckoutState state) {
 		FragmentManager manager = getChildFragmentManager();
-
-		//All of the fragment adds/removes come through this method, and we want to make sure our last call
-		//is complete before moving forward, so this is important
-		manager.executePendingTransactions();
-
-		//We will be adding all of our add/removes to this transaction
-
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean checkoutFormsAvailable = true;
@@ -1005,6 +1007,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void checkoutInformationIsValid() {
+		mCheckoutInformationIsValid = true;
 		if (mStateManager.getState() == CheckoutState.OVERVIEW) {
 			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
 		}
@@ -1016,6 +1019,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void checkoutInformationIsNotValid() {
+		mCheckoutInformationIsValid = false;
 		if (mStateManager.getState() == CheckoutState.READY_FOR_CHECKOUT) {
 			setCheckoutState(CheckoutState.OVERVIEW, true);
 		}
@@ -1218,12 +1222,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		case SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE:
 		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
-			mCheckoutFragment.setState(CheckoutFormState.EDIT_PAYMENT, false);
-			setCheckoutState(CheckoutState.OVERVIEW, true);
+			mCheckoutFragment.setState(CheckoutFormState.EDIT_PAYMENT, true);
+			// FIXME setCheckoutState(CheckoutState.FORM_OPEN, true);
 			break;
 		case SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER:
-			mCheckoutFragment.setState(CheckoutFormState.EDIT_TRAVELER, false);
-			setCheckoutState(CheckoutState.OVERVIEW, true);
+			mCheckoutFragment.setState(CheckoutFormState.EDIT_TRAVELER, true);
+			// FIXME setCheckoutState(CheckoutState.FORM_OPEN, true);
 			break;
 		case SimpleCallbackDialogFragment.CODE_INVALID_MINOR:
 		case SimpleCallbackDialogFragment.CODE_MINOR:
@@ -1302,11 +1306,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerSlide, true);
 				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerEditPayment, true);
 				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerEditTraveler, true);
+				mCheckoutFragment.registerStateListener(mCheckoutFormStateListenerAny, true);
 			}
 			else {
 				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerSlide);
 				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerEditPayment);
 				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerEditTraveler);
+				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListenerAny);
 			}
 
 			// These wires run deeeeep
@@ -1329,7 +1335,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
 			mValidAtStart = mCheckoutFragment != null && mCheckoutFragment.hasValidCheckoutInfo();
 			if (stateIsReadyForCheckout()) {
-				setShowReadyForCheckoutPercentage(!mValidAtStart || stateIsOpen(stateOne) ? 0f : 1f);
+				setShowReadyForCheckoutPercentage(!mValidAtStart || stateOne.isOpen() ? 0f : 1f);
 				mStartReacted = true;
 			}
 			else {
@@ -1340,7 +1346,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		@Override
 		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
 			if (mValidAtStart && mStartReacted && stateIsReadyForCheckout()) {
-				setShowReadyForCheckoutPercentage(stateIsOpen(stateOne) ? percentage : 1f - percentage);
+				setShowReadyForCheckoutPercentage(stateOne.isOpen() ? percentage : 1f - percentage);
 			}
 		}
 
@@ -1352,7 +1358,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		@Override
 		public void onStateFinalized(CheckoutFormState state) {
 			if (stateIsReadyForCheckout()) {
-				if (!stateIsOpen(state)) {
+				if (!state.isOpen()) {
 					if (mCheckoutFragment != null && !mCheckoutFragment.hasValidCheckoutInfo()) {
 						//So our form is closed and our checkout data is no longer valid, lets be sure
 						//to set the proper state.
@@ -1375,10 +1381,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		private boolean stateIsReadyForCheckout() {
 			return mStateManager.getState() == CheckoutState.READY_FOR_CHECKOUT;
-		}
-
-		private boolean stateIsOpen(CheckoutFormState state) {
-			return state != CheckoutFormState.OVERVIEW;
 		}
 	};
 
@@ -1435,6 +1437,55 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private SingleStateListener mCheckoutFormStateListenerEditTraveler = new SingleStateListener(
 		CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, mCheckoutFormStateListenerAlpha);
+
+	private StateListenerHelper<CheckoutFormState> mCheckoutFormStateListenerAny = new StateListenerHelper<CheckoutFormState>() {
+		@Override
+		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			if (!stateOne.isOpen() && stateTwo.isOpen()) {
+				startStateTransition(mStateManager.getState(), CheckoutState.FORM_OPEN);
+			}
+			if (stateOne.isOpen() && !stateTwo.isOpen()) {
+				startStateTransition(CheckoutState.FORM_OPEN, getOverviewState());
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
+			if (!stateOne.isOpen() && stateTwo.isOpen()) {
+				updateStateTransition(mStateManager.getState(), CheckoutState.FORM_OPEN, percentage);
+			}
+			if (stateOne.isOpen() && !stateTwo.isOpen()) {
+				updateStateTransition(CheckoutState.FORM_OPEN, getOverviewState(), percentage);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			if (!stateOne.isOpen() && stateTwo.isOpen()) {
+				endStateTransition(mStateManager.getState(), CheckoutState.FORM_OPEN);
+			}
+			if (stateOne.isOpen() && !stateTwo.isOpen()) {
+				endStateTransition(CheckoutState.FORM_OPEN, getOverviewState());
+			}
+		}
+
+		@Override
+		public void onStateFinalized(CheckoutFormState state) {
+			if (state.isOpen()) {
+				setCheckoutState(CheckoutState.FORM_OPEN, false);
+			}
+			else {
+				if (mStateManager.getState() != getOverviewState()) {
+					setCheckoutState(getOverviewState(), false);
+				}
+			}
+		}
+
+		private CheckoutState getOverviewState() {
+			return mCheckoutInformationIsValid ? CheckoutState.READY_FOR_CHECKOUT : CheckoutState.OVERVIEW;
+		}
+	};
+
 
 	@Subscribe
 	public void onBookingUnavailable(Events.BookingUnavailable event) {
