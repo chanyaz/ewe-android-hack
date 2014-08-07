@@ -385,6 +385,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		else {
 			travelerSection.setBackgroundResource(R.drawable.bg_checkout_information_middle_tab);
 		}
+		TravelerUtils.setPhoneTextViewVisibility(travelerSection, travelerIndex);
 		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
 		travelerSection.setPadding(padding, padding, padding, padding);
 		travelerSection.setOnClickListener(new OnTravelerClickListener(travelerIndex));

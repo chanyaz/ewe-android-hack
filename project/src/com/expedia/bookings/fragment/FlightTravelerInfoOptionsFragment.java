@@ -33,6 +33,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -147,7 +148,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			travelerInfo.bind(traveler);
 
 			toggleTravelerSection(travelerInfo, !alreadyInUse);
-
+			TravelerUtils.setPhoneTextViewVisibility(travelerInfo, mCurrentTravelerIndex);
 			mAssociatedTravelersContainer.addView(travelerInfo);
 
 			//After we add the view, lets try to update the traveler (to fetch things like phone #)
@@ -165,6 +166,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		}
 
 		mTravelerContact = Ui.findView(v, R.id.current_traveler_contact);
+		TravelerUtils.setPhoneTextViewVisibility(mTravelerContact, mCurrentTravelerIndex);
 		mTravelerPrefs = Ui.findView(v, R.id.current_traveler_prefs);
 		mTravelerPassportCountry = Ui.findView(v, R.id.current_traveler_passport_country);
 		mPartialTraveler = Ui.findView(v, R.id.new_traveler_partial);

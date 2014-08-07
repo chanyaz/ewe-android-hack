@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -128,6 +129,14 @@ public class TravelerUtils {
 				.isInternational();
 		}
 		return false;
+	}
+
+	public static void setPhoneTextViewVisibility(View container, int travelerIndex) {
+		int vis = travelerIndex > 0 ? View.GONE : View.VISIBLE;
+		View phone = container.findViewById(R.id.display_phone_number_with_country_code);
+		if (phone != null) {
+			phone.setVisibility(vis);
+		}
 	}
 }
 

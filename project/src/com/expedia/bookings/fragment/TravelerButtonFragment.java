@@ -13,6 +13,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.utils.TravelerUtils;
 import com.mobiata.android.util.Ui;
 
 public class TravelerButtonFragment extends LobableFragment {
@@ -62,6 +63,8 @@ public class TravelerButtonFragment extends LobableFragment {
 		mEmptyViewContainer = Ui.findView(rootView, R.id.empty_traveler_container);
 
 		mSectionTraveler = addTravelerSectionToLayout(mTravelerSectionContainer);
+		TravelerUtils.setPhoneTextViewVisibility(mTravelerSectionContainer, mTravelerNumber);
+
 		addEmptyTravelerToLayout(mEmptyViewContainer);
 
 		return rootView;
