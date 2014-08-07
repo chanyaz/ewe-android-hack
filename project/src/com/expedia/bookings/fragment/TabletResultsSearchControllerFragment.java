@@ -297,12 +297,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mCalBtn.setText(dateStr);
 		}
 		else {
-			if (PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
-				mCalBtn.setText(R.string.choose_flight_dates);
-			}
-			else {
-				mCalBtn.setText(R.string.choose_dates);
-			}
+			mCalBtn.setText(R.string.select_dates_proper_case);
 		}
 
 		// Popup
