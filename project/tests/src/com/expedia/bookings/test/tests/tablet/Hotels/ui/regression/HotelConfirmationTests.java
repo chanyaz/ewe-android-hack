@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Confirmation;
+import com.expedia.bookings.test.tests.pageModels.tablet.HotelDetails;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Search;
@@ -33,7 +34,7 @@ public class HotelConfirmationTests extends TabletTestCase {
 
 		Results.swipeUpHotelList();
 		Results.clickHotelWithName("happy_path_Hotel_Orchard");
-		Results.clickAddHotel();
+		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 	}
 

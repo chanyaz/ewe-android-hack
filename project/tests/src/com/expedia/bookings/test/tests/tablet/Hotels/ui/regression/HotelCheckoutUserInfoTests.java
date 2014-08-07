@@ -2,6 +2,7 @@ package com.expedia.bookings.test.tests.tablet.Hotels.ui.regression;
 
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
+import com.expedia.bookings.test.tests.pageModels.tablet.HotelDetails;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.utils.TabletTestCase;
@@ -24,7 +25,7 @@ public class HotelCheckoutUserInfoTests extends TabletTestCase {
 
 		Results.swipeUpHotelList();
 		Results.clickHotelWithName("happy_path");
-		Results.clickAddHotel();
+		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 
 		verifyRulesAndRestrictionsButton();

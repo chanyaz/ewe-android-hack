@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
+import com.expedia.bookings.test.tests.pageModels.tablet.HotelDetails;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Search;
@@ -22,7 +23,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Results.swipeUpHotelList();
 		Results.clickHotelWithName("happy_path");
 		screenshot("Details");
-		Results.clickAddHotel();
+		HotelDetails.clickAddHotel();
 		screenshot("Trip_Bucket");
 		Results.clickBookHotel();
 
@@ -136,7 +137,7 @@ public class TabletHappyPath extends TabletTestCase {
 		screenshot("Hotel_Search_Results");
 		Results.clickHotelWithName("happy_path");
 		screenshot("Hotel_Details");
-		Results.clickAddHotel();
+		HotelDetails.clickAddHotel();
 
 		// Add Flight to trip bucket
 		Results.swipeUpFlightList();

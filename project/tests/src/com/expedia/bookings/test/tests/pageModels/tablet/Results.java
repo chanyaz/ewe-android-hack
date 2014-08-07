@@ -83,14 +83,6 @@ public class Results {
 		return onView(withId(android.R.id.home));
 	}
 
-	public static ViewInteraction addHotel() {
-		return onView(allOf(withId(R.id.room_rate_button_add), isDisplayed(), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-	}
-
-	public static void clickAddHotel() {
-		addHotel().perform(scrollTo(), click());
-	}
-
 	public static void clickBookHotel() {
 		onView(allOf(withId(R.id.book_button_text), withText("Book Hotel"))).perform(scrollTo(), click());
 	}

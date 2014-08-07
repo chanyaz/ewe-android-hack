@@ -10,6 +10,7 @@ import android.util.Pair;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
+import com.expedia.bookings.test.tests.pageModels.tablet.HotelDetails;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Search;
@@ -42,10 +43,10 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 
 		Results.clickHotelWithName("happy_path");
 		String hotelName = EspressoUtils.getText(R.id.hotel_header_hotel_name);
-		Results.addHotel().perform(scrollTo());
+		HotelDetails.addHotel().perform(scrollTo());
 		String roomName = EspressoUtils.getTextWithSibling(R.id.text_room_description, R.id.text_bed_type);
 		String bedType = EspressoUtils.getTextWithSibling(R.id.text_bed_type, R.id.text_room_description);
-		Results.clickAddHotel();
+		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 
 		String checkoutHotelName = EspressoUtils.getText(R.id.name_text_view);
@@ -79,7 +80,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			Search.clickSearchPopupDone();
 			Results.swipeUpHotelList();
 			Results.clickHotelWithName("happy_path");
-			Results.clickAddHotel();
+			HotelDetails.clickAddHotel();
 			Results.clickBookHotel();
 
 			String receiptGuestString = EspressoUtils.getText(R.id.num_travelers_text_view);
@@ -111,7 +112,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 
 			Results.clickHotelWithName("happy_path");
 			String expectedNightsString = getActivity().getResources().getQuantityString(R.plurals.number_of_nights, numberOfNights, numberOfNights);
-			Results.clickAddHotel();
+			HotelDetails.clickAddHotel();
 			Results.clickBookHotel();
 			String shownDateText = EspressoUtils.getText(R.id.dates_text_view);
 			assertTrue(shownDateText.contains(expectedNightsString.toLowerCase()));

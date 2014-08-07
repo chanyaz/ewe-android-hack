@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
+import com.expedia.bookings.test.tests.pageModels.tablet.HotelDetails;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Search;
@@ -32,7 +33,7 @@ public class MarketingSweepTablet extends TabletTestCase {
 		screenshot("Hotel_Sort_Filter");
 		Results.clickHotelAtIndex(1);
 		screenshot("Details");
-		Results.clickAddHotel();
+		HotelDetails.clickAddHotel();
 		Results.clickBookButton();
 
 		Checkout.clickGrandTotalTextView();
