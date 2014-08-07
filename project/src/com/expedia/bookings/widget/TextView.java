@@ -133,20 +133,4 @@ public class TextView extends android.widget.TextView {
 		}
 		}
 	}
-
-	private boolean mHasDoneLayout = false;
-
-	@Override
-	public void layout (int l, int t, int r, int b) {
-		super.layout(l, t, r, b);
-		mHasDoneLayout = true;
-	}
-
-	@Override
-	public void requestLayout() {
-		if (mHasDoneLayout) {
-			super.requestLayout();
-			mHasDoneLayout = false;
-		}
-	}
 }
