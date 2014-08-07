@@ -527,8 +527,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				int topSpace = mGrid.isLandscape() ? mGrid.getRowSpanHeight(0, 2) : mGrid.getRowHeight(0) - getActionBar().getHeight();
 				mHotelC.setTranslationY(percentage * -topSpace);
 			}
-			int gradTrans = mGrid.isLandscape() ? mGrid.getRowSpanHeight(0, 2) : mGrid.getRowHeight(0) - getActionBar().getHeight();
-			mBottomGradient.setTranslationY(gradTrans * -percentage);
 		}
 		else {
 			//Reset Y things because they don't change if we are
