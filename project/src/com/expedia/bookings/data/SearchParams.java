@@ -365,7 +365,9 @@ public class SearchParams implements Parcelable, JSONable {
 			params.setCheckInDate(LocalDate.now());
 		}
 
-		if (mEndDate != null) {
+		// Don't set the end date if it equals the start date, otherwise setCheckoutDate
+		// validation will shift the days to the left one erroneously
+		if (mEndDate != null && (mStartDate != null && !mStartDate.equals(mEndDate))) {
 			params.setCheckOutDate(mEndDate);
 		}
 		else {
