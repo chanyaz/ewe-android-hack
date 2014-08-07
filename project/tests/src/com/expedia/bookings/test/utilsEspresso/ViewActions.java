@@ -61,9 +61,10 @@ public final class ViewActions {
 		@Override
 		public void perform(UiController uiController, View view) {
 			CalendarDatePicker cp = (CalendarDatePicker) view;
-			cp.updateStartDate(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth());
+			//since updateStartDate has months [0-11] we need to pass mStartDate.getMonthOfYear()-1
+			cp.updateStartDate(mStartDate.getYear(), mStartDate.getMonthOfYear()-1, mStartDate.getDayOfMonth());
 			if (mEndDate != null) {
-				cp.updateEndDate(mEndDate.getYear(), mEndDate.getMonthOfYear(), mEndDate.getDayOfMonth());
+				cp.updateEndDate(mEndDate.getYear(), mEndDate.getMonthOfYear()-1, mEndDate.getDayOfMonth());
 			}
 		}
 
