@@ -31,12 +31,12 @@ public class FlightSearchResultsSortTests extends TabletTestCase {
 	public void executeAFlightSearch() throws Exception {
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
-		Launch.typeInDestinationEditText("San Francisco, CA");
-		Launch.clickSuggestion("San Francisco, CA");
+		Launch.typeInDestinationEditText("Detroit, MI");
+		Launch.clickSuggestion("Detroit, MI");
 		Common.pressBack();
 		Search.clickOriginButton();
-		Search.typeInOriginEditText("Detroit, MI");
-		Search.clickSuggestion("Detroit, MI");
+		Search.typeInOriginEditText("San Francisco, CA");
+		Search.clickSuggestion("San Francisco, CA");
 		Search.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(1);
 		Search.clickDate(startDate, null);

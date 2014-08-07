@@ -38,7 +38,8 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		else if (request.getPath().contains("/m/api/hotel/offers")) {
-			return makeResponse("MockResponses/m/api/hotel/offers/happy_path.json");
+			Map<String, String> params = parsePostParams(request);
+			return makeResponse("MockResponses/m/api/hotel/offers/" + params.get("hotelId") + ".json", params);
 		}
 
 		else if (request.getPath().contains("/m/api/hotel/product")) {
@@ -50,7 +51,8 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		else if (request.getPath().contains("/m/api/hotel/trip/checkout")) {
-			return makeResponse("MockResponses/m/api/hotel/trip/checkout/happy_path_0.json");
+			Map<String, String> params = parsePostParams(request);
+			return makeResponse("MockResponses/m/api/hotel/trip/checkout/happy_path_0.json", params);
 		}
 
 		else if (request.getPath().contains("/api/flight/search")) {
@@ -58,14 +60,14 @@ public class CustomDispatcher extends Dispatcher {
 			String filename = "happy_oneway";
 
 			Calendar departCalTakeoff = parseYearMonthDay(params.get("departureDate"), 10, 0);
-			Calendar departCalLanding = parseYearMonthDay(params.get("departureDate"), 12+4, 0);
+			Calendar departCalLanding = parseYearMonthDay(params.get("departureDate"), 12 + 4, 0);
 			params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.getTimeInMillis() / 1000));
 			params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.getTimeInMillis() / 1000));
 
 			if (params.containsKey("returnDate")) {
 				filename = "happy_roundtrip";
 				Calendar returnCalTakeoff = parseYearMonthDay(params.get("returnDate"), 10, 0);
-				Calendar returnCalLanding = parseYearMonthDay(params.get("returnDate"), 12+4, 0);
+				Calendar returnCalLanding = parseYearMonthDay(params.get("returnDate"), 12 + 4, 0);
 				params.put("returnFlightTakeoffTimeEpochSeconds", "" + (returnCalTakeoff.getTimeInMillis() / 1000));
 				params.put("returnFlightLandingTimeEpochSeconds", "" + (returnCalLanding.getTimeInMillis() / 1000));
 			}
@@ -122,14 +124,14 @@ public class CustomDispatcher extends Dispatcher {
 		return makeResponse(filePath, null);
 	}
 
-	public MockResponse makeResponse(String filePath, Map<String,String> params) {
+	public MockResponse makeResponse(String filePath, Map<String, String> params) {
 		MockResponse resp = new MockResponse();
 		try {
 			String body = getResponse(filePath);
 			if (params != null) {
 				Iterator it = params.entrySet().iterator();
 				while (it.hasNext()) {
-					Map.Entry<String,String> entry = (Map.Entry<String,String>) it.next();
+					Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
 					final String key = "${" + entry.getKey() + "}";
 					if (body.contains(entry.getKey())) {
 						body = body.replace(key, entry.getValue());

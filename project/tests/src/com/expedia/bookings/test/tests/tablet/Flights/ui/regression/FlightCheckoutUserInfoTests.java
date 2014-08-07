@@ -27,12 +27,12 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		mUser = new HotelsUserData(getInstrumentation());
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
-		Launch.typeInDestinationEditText("San Francisco, CA");
-		Launch.clickSuggestion("San Francisco, CA");
+		Launch.typeInDestinationEditText("Detroit, MI");
+		Launch.clickSuggestion("Detroit, MI");
 		Common.pressBack();
 		Search.clickOriginButton();
-		Search.typeInOriginEditText("Detroit, MI");
-		Search.clickSuggestion("Detroit, MI");
+		Search.typeInOriginEditText("San Francisco, CA");
+		Search.clickSuggestion("San Francisco, CA");
 		Search.clickSelectFlightDates();
 		int randomOffset = 20 + (int) (Math.random() * 100);
 		LocalDate startDate = LocalDate.now().plusDays(randomOffset);
