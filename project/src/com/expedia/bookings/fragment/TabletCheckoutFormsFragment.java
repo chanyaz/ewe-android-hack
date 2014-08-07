@@ -174,15 +174,15 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		onCheckoutDataUpdated();
 
-		setState(mStateManager.getState(), false);
-
-		mSizeCopyView.mimicViewSize(mISlideToPurchaseSizeProvider.getSlideToPurchaseContainer(), true, false, true);
-
 		IAcceptingListenersListener readyForListeners = Ui
 			.findFragmentListener(this, IAcceptingListenersListener.class, false);
 		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
+
+		setState(mStateManager.getState(), false);
+
+		mSizeCopyView.mimicViewSize(mISlideToPurchaseSizeProvider.getSlideToPurchaseContainer(), true, false, true);
 	}
 
 	@Override
