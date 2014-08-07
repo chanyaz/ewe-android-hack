@@ -41,9 +41,15 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	private TextView mActionButton;
 	private int mErrorImageResId;
 
+	private ResultsFlightsState mDefaultFlightsState;
+
 	public static ResultsListSearchErrorFragment newInstance() {
 		ResultsListSearchErrorFragment frag = new ResultsListSearchErrorFragment();
 		return frag;
+	}
+
+	public void setDefaultState(ResultsFlightsState state) {
+		mDefaultFlightsState = state;
 	}
 
 	@Override
@@ -65,9 +71,12 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			setErrorImage(mErrorImageResId);
 		}
 
+		if (mDefaultFlightsState != null) {
+			setState(mDefaultFlightsState);
+		}
+
 		return v;
 	}
-
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {

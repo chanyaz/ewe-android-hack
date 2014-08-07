@@ -86,8 +86,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Other
 	private GridManager mGrid = new GridManager();
-	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
-		getBaseState(), this);
+	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(getBaseState(), this);
 
 	private boolean mCouldShowInfantPrompt = false;
 
@@ -144,8 +143,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mVisibilityControlledViews.add(mFlightLegsC);
 		mVisibilityControlledViews.add(mSearchErrorC);
 
-		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 		registerStateListener(mFlightsStateHelper, false);
+		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 
 		// TODO: This should not be here. We are consuming GPU memory needlessly most of the time.
 		// These views should be moved to hardware layers in onStateTransitionStart for relevant transitions and moved off
@@ -405,16 +404,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	private void setVisibilityState(ResultsFlightsState flightsState) {
 		ArrayList<View> visibleViews = new ArrayList<View>();
-		switch (flightsState) {
-		case MISSING_ORIGIN:
-		case MISSING_STARTDATE:
-		case NO_FLIGHTS_DROPDOWN_POS:
-		case NO_FLIGHTS_POS:
-		case ZERO_RESULT:
-		case SEARCH_ERROR: {
+
+		if (flightsState.isShowMessageState()) {
 			visibleViews.add(mSearchErrorC);
-			break;
 		}
+
+		switch (flightsState) {
 		case LOADING: {
 			visibleViews.add(mLoadingC);
 			visibleViews.add(mFlightLegsC);
@@ -451,7 +446,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean loadingAvailable = false;
-		boolean searchErrorAvailable = false;
+		boolean searchErrorAvailable = true;
 		boolean flightSearchDownloadAvailable = false;
 		boolean flightMapAvailable = true;
 		boolean flightLegsFragAvailable = false;
@@ -459,7 +454,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (flightsState == ResultsFlightsState.LOADING) {
 			flightSearchDownloadAvailable = true;
 			loadingAvailable = true;
-			searchErrorAvailable = true;
 			flightMapAvailable = false;
 		}
 
@@ -470,7 +464,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (flightsState.isShowMessageState()) {
 			flightSearchDownloadAvailable = false;
 			loadingAvailable = false;
-			searchErrorAvailable = true;
 			flightMapAvailable = false;
 		}
 
@@ -490,7 +483,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			.setFragmentAvailability(searchErrorAvailable, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this,
 				R.id.search_error_container, false);
 		transaction.commit();
-
 	}
 
 	/*
@@ -773,9 +765,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsFlightsState state) {
-			setFragmentState(state);
-			setTouchState(state);
 			setVisibilityState(state);
+			setTouchState(state);
+			setFragmentState(state);
 
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingC.setAlpha(1.0f);
@@ -804,6 +796,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (state.isShowMessageState()) {
 				if (mSearchErrorFrag.isAdded()) {
 					mSearchErrorFrag.setState(state);
+				}
+				else {
+					mSearchErrorFrag.setDefaultState(state);
 				}
 			}
 

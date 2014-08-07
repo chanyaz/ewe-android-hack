@@ -109,8 +109,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelGalleryFragment mHotelGalleryFrag;
 
 	// Other
-	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
-		ResultsHotelsState.LOADING, this);
+	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(getBaseState(), this);
 	private GridManager mGrid = new GridManager();
 	private Runnable mSearchParamUpdateRunner;
 
@@ -271,7 +270,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 
 	private ResultsHotelsState getBaseState() {
-		if (Sp.getParams().toHotelSearchParams().getStayDuration() > getResources().getInteger(R.integer.calendar_max_days_hotel_stay)) {
+		if (isAdded() && Sp.getParams().toHotelSearchParams().getStayDuration() > getResources().getInteger(R.integer.calendar_max_days_hotel_stay)) {
 			return ResultsHotelsState.MAX_HOTEL_STAY;
 		}
 		else if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {

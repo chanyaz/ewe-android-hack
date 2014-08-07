@@ -945,12 +945,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	private void setFragmentState(ResultsSearchState state) {
 		FragmentManager manager = getChildFragmentManager();
-
-		//All of the fragment adds/removes come through this method, and we want to make sure our last call
-		//is complete before moving forward, so this is important
-		manager.executePendingTransactions();
-
-		//We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		//We want most of our frags available so they can animate in real nice like
@@ -960,7 +954,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mGdeAvail = PointOfSale.getPointOfSale().isFlightSearchEnabledTablet(); //Always follows the POS
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvailable = mParamFragsAvailable;
-
 
 		mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
 			transaction, this, R.id.calendar_container, true);
