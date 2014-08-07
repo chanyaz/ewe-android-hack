@@ -54,6 +54,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -99,6 +100,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private ViewGroup mTravelerFormC;
 	private ViewGroup mPaymentFormC;
 	private View mPaymentView;
+	private FrameLayoutTouchController mTouchBlocker;
 
 	private CheckoutInformationListener mCheckoutInfoListener;
 
@@ -144,6 +146,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 		mSizeCopyView = Ui.findView(mRootC, R.id.slide_container_size_copy_view);
+		mTouchBlocker = Ui.findView(mRootC, R.id.forms_touch_blocker);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CHECKOUTFORMSTATE)) {
 			String stateName = savedInstanceState.getString(STATE_CHECKOUTFORMSTATE);
@@ -763,6 +766,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mTravelerFormC.setVisibility(View.INVISIBLE);
 			setEntryFormShowingPercentage(isReversed ? 0f : 1f);
 
+			// FrameLayoutTouchController
+			mTouchBlocker.setBlockNewEventsEnabled(!isReversed);
+
 			if (isReversed) {
 				mFormFragment.onFormClosed();
 				bindAll();
@@ -778,7 +784,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mFormContainer.setAlpha(percentage);
 			mCheckoutRowsC.setAlpha(1f - percentage);
 		}
-
 	}
 
 	/*
