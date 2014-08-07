@@ -450,7 +450,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			if (!mGrid.isLandscape()
 				&& (hideTripBucketInPortrait() || mSearchController.getState().showsSearchControls())) {
-				int transY = mGrid.getRowTop(2);
+				int transY = mGrid.getRowTop(4);
 				mTripBucketC.setTranslationY(transY);
 			}
 
@@ -518,7 +518,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
 			}
 			if (enteringHotels) {
-				int flightsHeight = mGrid.isLandscape() ? mGrid.getRowHeight(3) : mGrid.getRowSpanHeight(1, 3);
+				int flightsHeight = mGrid.isLandscape() ? mGrid.getRowHeight(3) : mGrid.getRowSpanHeight(3, 5);
 				mFlightsC.setTranslationY(
 					mCenterColumnUpDownInterpolator.getInterpolation(percentage) * flightsHeight);
 			}
@@ -527,7 +527,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				int topSpace = mGrid.isLandscape() ? mGrid.getRowSpanHeight(0, 2) : mGrid.getRowHeight(0) - getActionBar().getHeight();
 				mHotelC.setTranslationY(percentage * -topSpace);
 			}
-			mBottomGradient.setTranslationY(mGrid.getRowSpanHeight(0, 2) * -percentage);
+			int gradTrans = mGrid.isLandscape() ? mGrid.getRowSpanHeight(0, 2) : mGrid.getRowHeight(0) - getActionBar().getHeight();
+			mBottomGradient.setTranslationY(gradTrans * -percentage);
 		}
 		else {
 			//Reset Y things because they don't change if we are
@@ -646,16 +647,20 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 			else {
 				mGrid.setDimensions(totalWidth, totalHeight);
-				mGrid.setGridSize(3, 3);
+				mGrid.setGridSize(5, 3);
 
-				mGrid.setRowPercentage(1, getResources().getFraction(R.fraction.results_grid_collapsed_lists, 1, 1));
-				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_tripbucket_height, 1, 1));
+				mGrid.setRowSize(1, getResources().getDimensionPixelSize(R.dimen.results_bottom_gradient_offset));
+				mGrid.setRowSize(2, getActionBar().getHeight() * 2);
+				mGrid.setRowPercentage(3, getResources().getFraction(R.fraction.results_grid_collapsed_lists, 1, 1));
+				mGrid.setRowPercentage(4, getResources().getFraction(R.fraction.results_grid_tripbucket_height, 1, 1));
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
 
-				mGrid.setContainerToRow(mTripBucketC, 2);
+				mGrid.setContainerToRow(mTripBucketC, 4);
 				mGrid.setContainerToColumnSpan(mTripBucketC, 0, 2);
+				GridManager.setFrameHeightAndPosition(mBottomGradient,
+					mGrid.getTotalHeight() + mGrid.getRowHeight(1), mGrid.getRowTop(1));
 			}
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
@@ -888,13 +893,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
 			if (isSearchControlsActiveTransition(stateOne, stateTwo)) {
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
-					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(2));
+					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(4));
 
 				}
 			}
 			else if (isSearchControlsInactiveTransition(stateOne, stateTwo)) {
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
-					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(2));
+					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(4));
 				}
 			}
 			else if (stateOne == ResultsSearchState.DEFAULT && stateTwo.showsWaypoint()
