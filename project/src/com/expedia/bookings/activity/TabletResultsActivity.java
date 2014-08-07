@@ -125,10 +125,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if (savedInstanceState == null) {
-			Sp.saveOrLoadForTesting(this);
-		}
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_results);
 

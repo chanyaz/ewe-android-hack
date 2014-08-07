@@ -78,12 +78,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if (savedInstanceState == null) {
-			// We don't want to bother with these on rotation
-			Db.saveOrLoadDbForTesting(this);
-			Sp.saveOrLoadForTesting(this);
-		}
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_checkout);
 
