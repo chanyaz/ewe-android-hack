@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.otto.Events;
@@ -103,11 +101,10 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mRootC = inflater.inflate(R.layout.fragment_results_gde_flights, container, false);
 		mHistogramC = Ui.findView(mRootC, R.id.histogram_container);
 		mGdeHeaderTv = Ui.findView(mRootC, R.id.flight_histogram_header);
+		mGdeHeaderTv.setVisibility(View.GONE);
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
 		mGdePriceRangeTv = Ui.findView(mRootC, R.id.flight_histogram_price_range);
-
 		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
-		mMissingFlightInfo.setVisibility(View.GONE);
 
 		mSelectOriginButton = Ui.findView(mRootC, R.id.action_button);
 		mSelectOriginButton.setText(R.string.missing_flight_info_button_prompt);
@@ -203,15 +200,19 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			else {
 				mGdeHeaderTv.setText(R.string.when_to_fly);
 			}
+			if (mOrigin == null) {
+				mGdeHeaderTv.setVisibility(View.GONE);
+			}
+			else {
+				mGdeHeaderTv.setVisibility(View.VISIBLE);
+			}
 		}
-
 	}
 
 	protected void startOrResumeDownload(GdeDownloadFragment frag) {
 		if (frag == null) {
 			return;
 		}
-
 		// No need to bother with doing a GDE search if the origin is missing
 		if (mOrigin == null) {
 			setMissingFlightInfoCaption();
@@ -273,8 +274,10 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		if (mGdeProgressBar != null) {
 			mGdeProgressBar.setVisibility(View.GONE);
 		}
-		mMissingFlightInfo.setVisibility(View.GONE);
-		mHistogramC.setVisibility(View.GONE);
+		if (mOrigin != null) {
+			mMissingFlightInfo.setVisibility(View.GONE);
+			mHistogramC.setVisibility(View.GONE);
+		}
 
 		FlightSearchHistogramResponse response = event.response;
 

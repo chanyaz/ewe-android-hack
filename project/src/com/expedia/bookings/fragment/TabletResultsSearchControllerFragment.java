@@ -596,8 +596,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
 				mCalC.setVisibility(View.VISIBLE);
-				mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
-
+				if (mGrid.isLandscape()) {
+					mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
+				}
+				else {
+					mGdeC.setVisibility(View.VISIBLE);
+				}
 				if ((mDatesFragment == null || mDatesFragment.isDetached()) || (mGdeFragment == null || mGdeFragment
 					.isDetached())) {
 					FragmentManager manager = getChildFragmentManager();
@@ -913,7 +917,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mSearchBarC.setVisibility(state.showsSearchPopup() ? View.INVISIBLE : View.VISIBLE);
 
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
-			mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
+			/*
+			 * For landscape, let's show GDE based on search params availability.
+			 * For portrait, let's show it ONLY if calendar is shown. In case the search params are not complete, we can still show the missing info message.
+			 */
+			if (mGrid.isLandscape()) {
+				mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
+			}
+			else {
+				mGdeC.setVisibility(mCalC.getVisibility());
+				// Let's make sure that the filler whitespace used while in TRAVELER_PICKER state is gone.
+				if (state.showsCalendar()) {
+					mTravPickWhiteSpace.setVisibility(View.GONE);
+				}
+			}
 
 			if (!mGrid.isLandscape()) {
 				if (state == ResultsSearchState.TRAVELER_PICKER) {
