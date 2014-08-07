@@ -56,6 +56,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.WalletUtils;
@@ -138,6 +139,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return;
+		}
 
 		// We should ALWAYS have an instance of the HotelBookingFragment and FlightBookingFragment.
 		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability

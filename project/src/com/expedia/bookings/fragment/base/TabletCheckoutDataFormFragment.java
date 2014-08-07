@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -50,8 +51,8 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if (getLob() == null) {
-			throw new RuntimeException("We should always have an LOB by the time onCreateView is being called.");
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
 		}
 
 		mRootC = Ui.inflate(R.layout.fragment_tablet_checkout_data_form, container, false);

@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -126,6 +127,10 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return;
+		}
 
 		ListView listView = getListView();
 		if (mHeaderView != null) {

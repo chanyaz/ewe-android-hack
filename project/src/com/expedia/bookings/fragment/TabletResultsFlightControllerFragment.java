@@ -38,6 +38,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -86,36 +87,25 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Other
 	private GridManager mGrid = new GridManager();
-	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(getBaseState(), this);
+	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
+		ResultsFlightsState.LOADING, this);
 
 	private boolean mCouldShowInfantPrompt = false;
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
-				STATE_FLIGHTS_STATE,
-				getBaseState().name())));
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return;
 		}
 
-		// If we are in a state such that we think we should have data, lets try to load it.
-		ResultsFlightsState state = mFlightsStateManager.getState();
-		if (state != ResultsFlightsState.LOADING && !state.isShowMessageState()) {
-			if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
-				if (!Db.loadCachedFlightData(getActivity())) {
-					mFlightsStateManager.setDefaultState(ResultsFlightsState.LOADING);
-				}
-				else {
-					Db.loadFlightSearchParamsFromDisk(getActivity());
-				}
-			}
+		if (savedInstanceState != null) {
+			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
+				STATE_FLIGHTS_STATE, getBaseState().name())));
+		}
+		else {
+			mFlightsStateManager.setDefaultState(getBaseState());
 		}
 	}
 

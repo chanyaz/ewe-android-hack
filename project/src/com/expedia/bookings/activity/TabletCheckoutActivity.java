@@ -76,9 +76,21 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	private HockeyPuck mHockeyPuck;
 	private LineOfBusiness mCurrentLob;
 
+	boolean mIsBailing = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		if (Sp.isEmpty()) {
+			finish();
+			mIsBailing = true;
+		}
+
 		super.onCreate(savedInstanceState);
+
+		if (mIsBailing) {
+			return;
+		}
+
 		setContentView(R.layout.activity_tablet_checkout);
 
 		if (savedInstanceState != null) {
