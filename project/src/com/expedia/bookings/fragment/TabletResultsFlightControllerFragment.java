@@ -386,6 +386,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		case NO_FLIGHTS_DROPDOWN_POS:
 			touchableViews.add(mSearchErrorC);
 			break;
+		case LOADING:
+			touchableViews.add(mFlightLegsC);
+			break;
 		}
 
 		for (View vg : mVisibilityControlledViews) {
