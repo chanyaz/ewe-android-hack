@@ -60,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|right"
+            android:maxWidth="400dp"
             android:drawableLeft="@drawable/ic_param_origin"
             android:ellipsize="end"/>
 
