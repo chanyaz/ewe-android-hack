@@ -486,7 +486,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	private void reRegisterAllBgTravelerDownloads() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		for (String tag : mCurrentTravelerDownloads) {
+		ArrayList<String> currDownloads = new ArrayList<>(mCurrentTravelerDownloads);
+		for (String tag : currDownloads) {
 			dl.registerDownloadCallback(tag, new OnTravelerDownloadComplete(tag));
 		}
 	}
