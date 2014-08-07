@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.mobiata.android.Log;
+
 public class FragmentAvailabilityUtils {
 
 	public static final int INVISIBLE_FRAG = -1;
@@ -36,14 +38,17 @@ public class FragmentAvailabilityUtils {
 				if (frag == null) {
 					frag = (T) provider.getNewFragmentInstanceFromTag(tag);
 				}
+
 				if (!frag.isAdded()) {
 					if (noSeriouslyIsItFuckingAdded(frag)) {
+						Log.v("FragAvailability", tag + " add ignored");
 						return frag;
 					}
 					else {
 						addTrackingArg(frag);
 					}
 
+					Log.v("FragAvailability", tag + " added");
 					if (container == DIALOG_FRAG) {
 						transaction.add(frag, tag);
 					}
@@ -62,6 +67,7 @@ public class FragmentAvailabilityUtils {
 		}
 		else {
 			if (frag != null) {
+				Log.v("FragAvailability", tag + " removed");
 				transaction.remove(frag);
 			}
 			frag = null;
