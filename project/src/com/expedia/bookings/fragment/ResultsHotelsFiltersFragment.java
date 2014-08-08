@@ -168,8 +168,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 		mRadiusButtonGroup.check(checkId);
 		SearchType searchType = search.getSearchParams().getSearchType();
-		mRadiusButtonGroup.setVisibility(searchType == SearchType.ADDRESS || searchType == SearchType.MY_LOCATION
-				|| searchType == SearchType.POI ? View.VISIBLE : View.GONE);
+		// Visibility of SortBy & Filters for "distance" are declared in searchType.
+		mRadiusButtonGroup.setVisibility(searchType.shouldShowDistance() ? View.VISIBLE : View.GONE);
 
 		double minStarRating = filter.getMinimumStarRating();
 		if (minStarRating >= 5) {

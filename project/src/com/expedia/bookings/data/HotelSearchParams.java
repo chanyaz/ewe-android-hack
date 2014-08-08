@@ -25,15 +25,16 @@ import com.mobiata.android.util.SettingUtils;
 public class HotelSearchParams implements JSONable {
 
 	private static final String SEARCH_PARAMS_KEY = "searchParams";
+	private SearchType mSearchType = SearchType.MY_LOCATION;
 
 	public static enum SearchType {
 		MY_LOCATION(true, false),
 		ADDRESS(true, true),
-		POI(true, true),
+		POI(false, true),
 		CITY(false, false),
 		VISIBLE_MAP_AREA(false, false),
 		FREEFORM(false, false),
-		HOTEL(true, true), ;
+		HOTEL(true, true),;
 
 		private boolean mShouldShowDistance;
 		private boolean mShouldShowExactLocation;
@@ -51,8 +52,6 @@ public class HotelSearchParams implements JSONable {
 			return mShouldShowExactLocation;
 		}
 	}
-
-	private SearchType mSearchType = SearchType.MY_LOCATION;
 
 	private String mQuery;
 	private LocalDate mCheckInDate;
