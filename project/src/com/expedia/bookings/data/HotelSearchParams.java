@@ -396,14 +396,6 @@ public class HotelSearchParams implements JSONable {
 		return mRegionId != null && !mRegionId.equals("0");
 	}
 
-	public void setFromWidget() {
-		mIsFromWidget = true;
-	}
-
-	public boolean isFromWidget() {
-		return mIsFromWidget;
-	}
-
 	/**
 	 * Creates a HotelSearchParams which can be used to search for hotels
 	 * related to a flights search.

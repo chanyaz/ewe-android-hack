@@ -311,25 +311,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			// TODO: this doesn't seem to be working, even on JB. But really, we know the one case
-			// when the task stack should be recreated: when we've found this hotel via widget.
-			//boolean shouldUpRecreateTask = NavUtils.shouldUpRecreateTask(this, intent);
-			boolean shouldUpRecreateTask = Db.getHotelSearch().getSearchParams().isFromWidget();
-
-			if (shouldUpRecreateTask) {
-				Intent intent = PhoneSearchActivity.createIntent(this, true);
-				// This activity is not part of the application's task, so create a new task
-				// with a synthesized back stack.
-				TaskStackBuilder.create(this)
-						.addNextIntent(new Intent(this, LaunchActivity.class))
-						.addNextIntent(intent)
-						.startActivities();
-				finish();
-			}
-			else {
-				onBackPressed();
-			}
-
+			onBackPressed();
 			return true;
 		}
 		case R.id.menu_select_hotel: {
