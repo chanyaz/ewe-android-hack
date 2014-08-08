@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -62,7 +61,6 @@ import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchDestinationCollections;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -1770,6 +1768,7 @@ public class ExpediaServices implements DownloadListener {
 	private static Map<String, String> sGdePosUrlMap = new HashMap<String, String>() {
 		{
 			put("AU", "http://deals.expedia.com/beta/deals/flights.json");
+			put("BR", "http://deals.expedia.com.br/beta/deals/flights.json");
 			put("CA", "http://deals.expedia.com/beta/stats/flights.json");
 			put("NZ", "http://deals.expedia.com/beta/stats/flights.json");
 			put("US", "http://deals.expedia.com/beta/stats/flights.json");
