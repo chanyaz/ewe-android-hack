@@ -256,28 +256,13 @@
         <!-- Tablet redesign activities -->
         <activity
             android:name="com.expedia.bookings.activity.TabletResultsActivity"
-            android:label="@string/results"
             android:theme="@style/V2.Theme.Activity.TabletResults"
-            android:windowSoftInputMode="adjustPan" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
-            android:label="@string/CheckOut"
             android:theme="@style/V2.Theme.Activity.TabletCheckout"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.expedia.bookings.invaders.InvaderActivity"
             android:label="INVADERS"
