@@ -43,7 +43,7 @@ public class Sp {
 	}
 
 	public static void clear(Context context) {
-		sSearchParams = null;
+		sSearchParams = new SearchParams();
 		saveSearchParamsToDisk(context);
 	}
 
