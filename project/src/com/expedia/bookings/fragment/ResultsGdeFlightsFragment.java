@@ -198,7 +198,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				mGdeHeaderTv.setText(R.string.when_to_return);
 			}
 			else {
-				mGdeHeaderTv.setText(R.string.when_to_fly);
+				mGdeHeaderTv.setText(R.string.flight_trends);
 			}
 			if (mOrigin == null) {
 				mGdeHeaderTv.setVisibility(View.GONE);
