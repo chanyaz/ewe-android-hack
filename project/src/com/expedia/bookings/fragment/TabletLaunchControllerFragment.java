@@ -526,7 +526,11 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	public void onGooglePlayServicesConnectionSuccess() {
 		if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
-			setLaunchState(LaunchState.OVERVIEW, false);
+			// We check in every onResume
+			// But we only care to change to OVERVIEW if we are still in the checking state
+			if (getLaunchState() == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES) {
+				setLaunchState(LaunchState.OVERVIEW, false);
+			}
 		}
 	}
 
