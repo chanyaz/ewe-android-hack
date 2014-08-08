@@ -152,12 +152,12 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 			// The upperBound can very based upon the size of the phone screen
 			// so this will ensure that we break out of the loop if there
 			// are no more hotel rooms
-			if (mDriver.searchText(mRes.getString(R.string.error_hotel_is_now_sold_out))) {
+			if (mDriver.searchText(mRes.getString(R.string.error_hotel_is_now_sold_out_expedia))) {
 				break;
 			}
 		}
 		String alertText = (String) mDriver.getText(0).getText();
-		String expectedText = mRes.getString(R.string.error_hotel_is_now_sold_out);
+		String expectedText = mRes.getString(R.string.error_hotel_is_now_sold_out_expedia);
 		mDriver.enterLog(TAG, "Expected text: " + expectedText);
 		mDriver.enterLog(TAG, "Alert text: " + alertText);
 		assertEquals(expectedText, alertText);
