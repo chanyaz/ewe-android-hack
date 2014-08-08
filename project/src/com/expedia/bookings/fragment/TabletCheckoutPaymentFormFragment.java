@@ -118,10 +118,14 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				//If we have a saved card we're good to go
 				commitAndLeave();
 			}
-			else if (mSectionBillingInfo != null && mSectionBillingInfo.hasValidInput()
-				&& mSectionLocation != null && mSectionLocation.hasValidInput()) {
-				//If we don't have a saved card, we must validate, if we have valid input, close
-				commitAndLeave();
+			else  {
+				boolean hasValidBillingInfo = mSectionBillingInfo != null && mSectionBillingInfo.hasValidInput();
+				boolean hasValidLocation = mSectionLocation != null && mSectionLocation.hasValidInput();
+
+				if (hasValidBillingInfo && hasValidLocation) {
+					//If we don't have a saved card, we must validate, if we have valid input, close
+					commitAndLeave();
+				}
 			}
 		}
 	};
