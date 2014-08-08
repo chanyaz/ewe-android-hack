@@ -130,7 +130,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 			if (name.equals("errors")) {
 				ParserUtils.readServerErrors(reader, searchResponse, ApiMethod.SEARCH_RESULTS);
-				reader.skipValue();
 			}
 			else if (name.equals("hotelList")) {
 				if (!reader.peek().equals(JsonToken.BEGIN_ARRAY)) {
