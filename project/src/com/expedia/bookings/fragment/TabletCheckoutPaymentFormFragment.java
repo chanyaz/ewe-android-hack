@@ -196,6 +196,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		formContainer.addView(mSectionBillingInfo);
 
 		mSectionLocation = Ui.findView(mSectionBillingInfo, R.id.section_location_address);
+		mSectionLocation.setLineOfBusiness(getLob());
 
 		setUpStoredCards();
 	}

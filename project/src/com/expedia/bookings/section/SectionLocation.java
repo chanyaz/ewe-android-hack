@@ -35,14 +35,6 @@ import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
-/**
- * Important usage note: When using a SectionLocation as a form that requires validation, make sure to use set the LOB
- * using setLineOfBusiness(). This ensures that the validation happens properly.
- * <p/>
- * TODO: improve this class's usability: Extend SectionLocation on a line of business basis to hide this nasty
- * validation logic. Or perhaps declare an attribute that can be set on the SectionLocation via XML so the consumer does
- * not have to remember to use setLineOfBusiness() in code.
- */
 public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable,
 	InvalidCharacterListener {
 
@@ -115,6 +107,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	}
 
 	public boolean hasValidInput() {
+		if (mLineOfBusiness == null) {
+			throw new RuntimeException("Attempting to validate the SectionLocation without knowing the LOB. Proper validation requires a LOB to be set");
+		}
 		return mFields.hasValidInput();
 	}
 
