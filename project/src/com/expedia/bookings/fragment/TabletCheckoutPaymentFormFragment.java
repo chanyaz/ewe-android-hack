@@ -162,7 +162,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					mSectionBillingInfo.hasValidInput();
-					mSectionLocation.hasValidInput();
 				}
 
 				//We attempt to save on change
@@ -201,6 +200,14 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 		mSectionLocation = Ui.findView(mSectionBillingInfo, R.id.section_location_address);
 		mSectionLocation.setLineOfBusiness(getLob());
+		mSectionLocation.addChangeListener(new ISectionEditable.SectionChangeListener() {
+			@Override
+			public void onChange() {
+				if (mAttemptToLeaveMade) {
+					mSectionLocation.hasValidInput();
+				}
+			}
+		});
 
 		setUpStoredCards();
 	}
