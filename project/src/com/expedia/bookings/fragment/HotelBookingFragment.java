@@ -77,6 +77,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	}
 
 	@Override
+	public void clearBookingResponse() {
+		Db.setBookingResponse(null);
+	}
+
+	@Override
 	public Download<BookingResponse> getBookingDownload() {
 		return new Download<BookingResponse>() {
 			@Override

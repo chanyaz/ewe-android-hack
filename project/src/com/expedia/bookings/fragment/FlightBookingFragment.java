@@ -68,6 +68,11 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	}
 
 	@Override
+	public void clearBookingResponse() {
+		Db.setFlightCheckout(null);
+	}
+
+	@Override
 	public Download<FlightCheckoutResponse> getBookingDownload() {
 		return new Download<FlightCheckoutResponse>() {
 			@Override

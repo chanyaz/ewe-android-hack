@@ -48,6 +48,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	public abstract Download<T> getBookingDownload();
 
+	public abstract void clearBookingResponse();
+
 	public abstract Class<T> getBookingResponseClass();
 
 	// Use this method if we need to gather/prepare more information before calling booking download.
@@ -135,8 +137,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	protected void startBookingDownload() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(mDownloadKey)) {
-			// Clear current results (if any)
-			Db.setBookingResponse(null);
+			clearBookingResponse();
 
 			bd.startDownload(mDownloadKey, getBookingDownload(), mCallback);
 		}
