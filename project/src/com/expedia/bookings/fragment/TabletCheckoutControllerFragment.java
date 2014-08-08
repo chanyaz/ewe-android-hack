@@ -634,7 +634,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (state == CheckoutState.CVV) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.VISIBLE);
-			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.GONE);
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
@@ -642,7 +642,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (state == CheckoutState.BOOKING) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
-			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.GONE);
 			mBookingContainer.setVisibility(View.VISIBLE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
@@ -650,7 +650,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (state == CheckoutState.BOOKING_UNAVAILABLE) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
-			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.GONE);
 			mBookingContainer.setVisibility(View.GONE);
 			mBookingUnavailableContainer.setVisibility(View.VISIBLE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
@@ -658,7 +658,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (state == CheckoutState.CONFIRMATION) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
-			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.GONE);
 			mBookingContainer.setVisibility(View.INVISIBLE);
 			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.VISIBLE);
