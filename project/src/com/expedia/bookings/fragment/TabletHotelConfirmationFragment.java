@@ -75,7 +75,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 		}
 
-		mLob = LineOfBusiness.HOTELS;
+		setLob(LineOfBusiness.HOTELS);
 		return v;
 	}
 

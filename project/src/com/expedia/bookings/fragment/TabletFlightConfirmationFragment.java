@@ -79,7 +79,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			.build();
 
 		mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, R.drawable.bg_itin_placeholder));
-		mLob = LineOfBusiness.FLIGHTS;
+		setLob(LineOfBusiness.FLIGHTS);
 
 		return v;
 	}

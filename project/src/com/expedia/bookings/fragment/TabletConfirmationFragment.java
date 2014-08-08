@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,8 +15,8 @@ import android.view.animation.OvershootInterpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
@@ -25,7 +24,7 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 
-public abstract class TabletConfirmationFragment extends Fragment {
+public abstract class TabletConfirmationFragment extends LobableFragment {
 
 	protected abstract String getItinNumber();
 
@@ -40,8 +39,6 @@ public abstract class TabletConfirmationFragment extends Fragment {
 	private ViewGroup mBookNextContainer;
 	private ViewGroup mDoneBookingContainer;
 	private View mImageCard;
-
-	protected LineOfBusiness mLob;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,7 +74,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackBookNextClick(getActivity(), mLob);
+				OmnitureTracking.trackBookNextClick(getActivity(), getLob());
 				LineOfBusiness nextLob = getNextBookingItem();
 				if (nextLob == LineOfBusiness.HOTELS) {
 					Db.getTripBucket().getHotel().setSelected(true);
@@ -101,7 +98,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackDoneBookingClick(getActivity(), mLob);
+				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
 				NavUtils.goToItin(getActivity());
 				getActivity().finish();
 			}
@@ -177,6 +174,11 @@ public abstract class TabletConfirmationFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		Events.unregister(this);
+	}
+
+	@Override
+	public void onLobSet(LineOfBusiness lob) {
+		//We don't need to do anything else.
 	}
 
 }
