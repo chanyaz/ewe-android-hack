@@ -123,11 +123,10 @@ public class LaunchPin extends FrameLayout {
 
 	public void setPinBitmap(Bitmap bitmap) {
 		if (bitmap == null) {
-			mImageView.setImageResource(R.drawable.launch_circle_placeholder);
+			bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), R.drawable.launch_circle_placeholder, false);
 		}
-		else {
-			mImageView.setImageBitmap(bitmap);
-		}
+
+		mImageView.setImageBitmap(bitmap);
 	}
 
 	private void setPinText(String upper) {

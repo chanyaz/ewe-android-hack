@@ -31,11 +31,6 @@ public class RoundImageView extends ImageView {
 	private Paint mPaint;
 
 	@Override
-	public void setImageResource(int resId) {
-		setImageBitmap(BitmapFactory.decodeResource(getResources(), resId));
-	}
-
-	@Override
 	public void setImageBitmap(Bitmap bm) {
 		updateDrawingVars(bm);
 		super.setImageBitmap(bm);

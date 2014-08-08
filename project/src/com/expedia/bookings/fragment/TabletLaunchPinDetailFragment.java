@@ -86,7 +86,8 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 
 					@Override
 					public void onBitmapLoadFailed(String url) {
-						mRoundImage.setImageResource(R.drawable.launch_circle_placeholder);
+						Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), R.drawable.launch_circle_placeholder, false);
+						mRoundImage.setImageBitmap(bitmap);
 					}
 				});
 			}
