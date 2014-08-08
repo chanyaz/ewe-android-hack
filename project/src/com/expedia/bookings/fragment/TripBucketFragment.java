@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,11 +24,8 @@ import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.GridManager;
-import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BucketItemUndoController;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.mobiata.android.json.JSONUtils;
@@ -46,7 +42,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
 
 	private static final float BUCKET_ITEM_SWIPE_THRESHOLD = 0.50f;
-	private static final int UNDO_BAR_DIVIDER_PADDING = 72;
 
 	private TripBucketFlightFragment mTripBucketFlightFrag;
 	private TripBucketHotelFragment mTripBucketHotelFrag;
@@ -90,8 +85,9 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mFlightC.addListener(new TripBucketSwipeListener(LineOfBusiness.FLIGHTS));
 		mFlightC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
 
-		mHotelUndo.setDividerPadding(UNDO_BAR_DIVIDER_PADDING);
-		mFlightUndo.setDividerPadding(UNDO_BAR_DIVIDER_PADDING);
+		int undoDividerPadding = (int) getResources().getDimension(R.dimen.undo_bar_divider_padding);
+		mHotelUndo.setDividerPadding(undoDividerPadding);
+		mFlightUndo.setDividerPadding(undoDividerPadding);
 
 		// Because we share the base XML, I couldn't just set this visibility there.
 		mHotelUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);

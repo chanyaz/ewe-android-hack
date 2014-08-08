@@ -83,6 +83,7 @@
     <dimen name="results_bucket_y_padding">16dp</dimen>
     <dimen name="results_bucket_header_padding">16dp</dimen>
     <dimen name="results_bucket_item_padding">14dp</dimen>
+    <dimen name="undo_bar_divider_padding">36dp</dimen>
 
     <!-- Centered Captioned icon dimensions, used on the Results screen -->
     <dimen name="centered_captioned_icon_svg_height">55dp</dimen>
