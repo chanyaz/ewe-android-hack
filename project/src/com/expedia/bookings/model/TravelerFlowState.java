@@ -40,12 +40,12 @@ public class TravelerFlowState {
 
 	public boolean hasValidTravelerPartOne(Traveler travelerInfo) {
 		mTravelerInfoOne.bind(travelerInfo);
-		return mTravelerInfoOne.hasValidInput();
+		return mTravelerInfoOne.performValidation();
 	}
 
 	public boolean hasValidTravelerPartTwo(Traveler travelerInfo) {
 		mTravelerInfoTwo.bind(travelerInfo);
-		return mTravelerInfoTwo.hasValidInput();
+		return mTravelerInfoTwo.performValidation();
 	}
 
 	public boolean hasValidTravelerPartThree(Traveler travelerInfo) {
@@ -58,15 +58,15 @@ public class TravelerFlowState {
 
 	public boolean allTravelerInfoIsValidForDomesticFlight(Traveler travelerInfo) {
 		bind(travelerInfo);
-		boolean travOne = mTravelerInfoOne.hasValidInput();
-		boolean travTwo = mTravelerInfoTwo.hasValidInput();
+		boolean travOne = mTravelerInfoOne.performValidation();
+		boolean travTwo = mTravelerInfoTwo.performValidation();
 		return travOne && travTwo;
 	}
 
 	public boolean allTravelerInfoIsValidForInternationalFlight(Traveler travelerInfo) {
 		bind(travelerInfo);
-		boolean travOne = mTravelerInfoOne.hasValidInput();
-		boolean travTwo = mTravelerInfoTwo.hasValidInput();
+		boolean travOne = mTravelerInfoOne.performValidation();
+		boolean travTwo = mTravelerInfoTwo.performValidation();
 		boolean hasPassport = hasPassport(travelerInfo);
 		return travOne && travTwo && hasPassport;
 	}

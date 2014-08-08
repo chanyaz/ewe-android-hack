@@ -71,10 +71,10 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					if (mSectionBillingInfo != null) {
-						mSectionBillingInfo.hasValidInput();
+						mSectionBillingInfo.performValidation();
 					}
 					if (mSectionLocation != null) {
-						mSectionLocation.hasValidInput();
+						mSectionLocation.performValidation();
 					}
 				}
 				//Attempt to save on change
@@ -138,8 +138,8 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public boolean attemptToLeave() {
 		mAttemptToLeaveMade = true;
-		boolean hasValidCreditCard = mSectionBillingInfo != null ? mSectionBillingInfo.hasValidInput() : false;
-		boolean hasValidPaymentLocation = mSectionLocation != null ? mSectionLocation.hasValidInput() : true;
+		boolean hasValidCreditCard = mSectionBillingInfo != null ? mSectionBillingInfo.performValidation() : false;
+		boolean hasValidPaymentLocation = mSectionLocation != null ? mSectionLocation.performValidation() : true;
 		return hasValidCreditCard && hasValidPaymentLocation;
 	}
 

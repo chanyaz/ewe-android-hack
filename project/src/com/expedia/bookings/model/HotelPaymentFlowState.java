@@ -1,7 +1,6 @@
 package com.expedia.bookings.model;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -61,11 +60,11 @@ public class HotelPaymentFlowState {
 	 */
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return mSectionLocation.hasValidInput();
+		return mSectionLocation.performValidation();
 	}
 
 	public boolean hasValidCardInfo(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return mSectionBillingInfo.hasValidInput();
+		return mSectionBillingInfo.performValidation();
 	}
 }

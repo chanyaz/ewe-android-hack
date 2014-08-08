@@ -199,7 +199,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	}
 
-	public boolean hasValidInput() {
+	public boolean performValidation() {
 		return mFields.hasValidInput();
 	}
 

@@ -106,13 +106,15 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mLineOfBusiness = lob;
 	}
 
-	public boolean hasValidInput() {
+	@Override
+	public boolean performValidation() {
 		if (mLineOfBusiness == null) {
 			throw new RuntimeException("Attempting to validate the SectionLocation without knowing the LOB. Proper validation requires a LOB to be set");
 		}
 		return mFields.hasValidInput();
 	}
 
+	@Override
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
 			listener.onChange();

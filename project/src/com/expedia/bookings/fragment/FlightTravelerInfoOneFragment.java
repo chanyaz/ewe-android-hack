@@ -63,7 +63,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionTravelerInfo.hasValidInput();
+					mSectionTravelerInfo.performValidation();
 				}
 
 				//We attempt a save on change
@@ -115,7 +115,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	@Override
 	public boolean validate() {
 		mAttemptToLeaveMade = true;
-		return mSectionTravelerInfo != null ? mSectionTravelerInfo.hasValidInput() : false;
+		return mSectionTravelerInfo != null ? mSectionTravelerInfo.performValidation() : false;
 	}
 
 	public boolean isBirthdateAligned() {

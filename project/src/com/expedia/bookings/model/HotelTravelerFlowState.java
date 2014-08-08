@@ -1,7 +1,6 @@
 package com.expedia.bookings.model;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
@@ -34,6 +33,6 @@ public class HotelTravelerFlowState {
 
 	public boolean hasValidTraveler(Traveler travelerInfo) {
 		mTravelerInfoOne.bind(travelerInfo);
-		return mTravelerInfoOne.hasValidInput();
+		return mTravelerInfoOne.performValidation();
 	}
 }

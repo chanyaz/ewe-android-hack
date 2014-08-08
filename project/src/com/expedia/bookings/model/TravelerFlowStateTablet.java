@@ -45,6 +45,6 @@ public class TravelerFlowStateTablet implements ILOBable {
 		mSectionTraveler.setPassportCountryFieldEnabled(passportRequired);
 		mSectionTraveler.setPhoneFieldsEnabled(travelerNumber);
 		mSectionTraveler.bind(traveler);
-		return mSectionTraveler.hasValidInput();
+		return mSectionTraveler.performValidation();
 	}
 }

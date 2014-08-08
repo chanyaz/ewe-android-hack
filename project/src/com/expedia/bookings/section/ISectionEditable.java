@@ -5,7 +5,13 @@ public interface ISectionEditable {
 		public void onChange();
 	}
 
-	public boolean hasValidInput();
+	/**
+	 * Perform validation on the fields of this ISectionEditable. This will
+	 * fire exclamation marks if configured and invalid.
+	 *
+	 * @return whether or not this SectionEditable is valid
+	 */
+	public boolean performValidation();
 
 	public void addChangeListener(SectionChangeListener listener);
 

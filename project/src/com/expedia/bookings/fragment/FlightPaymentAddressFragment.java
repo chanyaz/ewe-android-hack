@@ -54,7 +54,7 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionLocation.hasValidInput();
+					mSectionLocation.performValidation();
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
@@ -95,6 +95,6 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 	@Override
 	public boolean attemptToLeave() {
 		mAttemptToLeaveMade = true;
-		return mSectionLocation != null ? mSectionLocation.hasValidInput() : false;
+		return mSectionLocation != null ? mSectionLocation.performValidation() : false;
 	}
 }

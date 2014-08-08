@@ -255,7 +255,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 
 		mAttemptToLeaveMade = true;
-		if (mSectionTraveler != null && mSectionTraveler.hasValidInput()) {
+		if (mSectionTraveler != null && mSectionTraveler.performValidation()) {
 			Context context = getActivity();
 			if (context == null) {
 				return;
@@ -439,7 +439,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionTraveler.hasValidInput();
+					mSectionTraveler.performValidation();
 				}
 
 				//We attempt a save on change

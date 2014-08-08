@@ -50,7 +50,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionTravelerInfo.hasValidInput();
+					mSectionTravelerInfo.performValidation();
 				}
 				//We attempt a save on change
 				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
@@ -95,6 +95,6 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	@Override
 	public boolean validate() {
 		mAttemptToLeaveMade = true;
-		return mSectionTravelerInfo != null ? mSectionTravelerInfo.hasValidInput() : false;
+		return mSectionTravelerInfo != null ? mSectionTravelerInfo.performValidation() : false;
 	}
 }

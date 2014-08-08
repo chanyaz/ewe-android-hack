@@ -172,7 +172,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	}
 
-	public boolean hasValidInput() {
+	public boolean performValidation() {
 		return mFields.hasValidInput();
 	}
 

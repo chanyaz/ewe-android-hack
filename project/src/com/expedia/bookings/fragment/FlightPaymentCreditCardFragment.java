@@ -76,7 +76,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionCreditCard.hasValidInput();
+					mSectionCreditCard.performValidation();
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
@@ -164,7 +164,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	@Override
 	public boolean attemptToLeave() {
 		mAttemptToLeaveMade = true;
-		return mSectionCreditCard != null ? mSectionCreditCard.hasValidInput() : false;
+		return mSectionCreditCard != null ? mSectionCreditCard.performValidation() : false;
 	}
 
 	public void bindAll() {

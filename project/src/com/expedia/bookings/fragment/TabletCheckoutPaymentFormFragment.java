@@ -119,11 +119,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				commitAndLeave();
 			}
 			else  {
-				boolean hasValidBillingInfo = mSectionBillingInfo != null && mSectionBillingInfo.hasValidInput();
-				boolean hasValidLocation = mSectionLocation != null && mSectionLocation.hasValidInput();
+				//If we don't have a saved card, we must validate, if we have valid input, close
+				boolean hasValidBillingInfo = mSectionBillingInfo != null && mSectionBillingInfo.performValidation();
+				boolean hasValidLocation = mSectionLocation != null && mSectionLocation.performValidation();
 
 				if (hasValidBillingInfo && hasValidLocation) {
-					//If we don't have a saved card, we must validate, if we have valid input, close
 					commitAndLeave();
 				}
 			}
@@ -161,7 +161,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			@Override
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
-					mSectionBillingInfo.hasValidInput();
+					mSectionBillingInfo.performValidation();
 				}
 
 				//We attempt to save on change
@@ -204,7 +204,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			@Override
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
-					mSectionLocation.hasValidInput();
+					mSectionLocation.performValidation();
 				}
 			}
 		});

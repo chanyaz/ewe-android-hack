@@ -63,12 +63,12 @@ public class FlightPaymentFlowState {
 
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return !PointOfSale.getPointOfSale().requiresBillingAddressFlights() || mBillingAddress.hasValidInput();
+		return !PointOfSale.getPointOfSale().requiresBillingAddressFlights() || mBillingAddress.performValidation();
 	}
 
 	public boolean hasValidCardInfo(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return mCardInfo.hasValidInput();
+		return mCardInfo.performValidation();
 	}
 
 }
