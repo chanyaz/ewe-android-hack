@@ -56,6 +56,7 @@ public class DeepLinkRouterActivity extends Activity {
 
 		if (ExpediaBookingApp.useTabletInterface(this)) {
 			Intent tabletLaunch = new Intent(this, TabletLaunchActivity.class);
+			tabletLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(tabletLaunch);
 			return;
 		}
