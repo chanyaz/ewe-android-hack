@@ -837,10 +837,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 			else {
-				float transX = percentage * searchBarHeight;
-				mOrigBtn.setTranslationX(transX);
-				mCalBtn.setTranslationX(transX);
-				mTravBtn.setTranslationX(transX);
+				float transY = percentage * searchBarHeight;
+				mOrigBtn.setTranslationY(transY);
+				mCalBtn.setTranslationY(transY);
+				mTravBtn.setTranslationY(transY);
 			}
 		}
 
