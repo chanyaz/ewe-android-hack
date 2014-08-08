@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
@@ -406,12 +406,12 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 	@Subscribe
 	public void onBookingResponse(Events.BookingDownloadResponse event) {
 		Response results = event.response;
-		BookingResponse response = (BookingResponse) results;
+		HotelBookingResponse response = (HotelBookingResponse) results;
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		dismissProgressDialog();
 
-		Db.setBookingResponse(response);
+		Db.setHotelBookingResponse(response);
 		setCvvErrorMode(false);
 
 		if (results == null) {

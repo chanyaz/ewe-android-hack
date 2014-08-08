@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -77,7 +77,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 		Ui.setText(v, R.id.hotel_name_text_view, property.getName());
 
 		// Construct the hotel card
@@ -233,7 +233,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	@Override
 	protected String getItinNumber() {
-		return Db.getBookingResponse().getItineraryId();
+		return Db.getHotelBookingResponse().getItineraryId();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -272,7 +272,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 		flightSearchParams.reset();
 
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 
 		Location loc = new Location();
 		loc.setDestinationId(property.getLocation().toLongFormattedString());
@@ -295,13 +295,13 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Context context = getActivity();
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
 		LocalDate checkIn = searchParams.getCheckInDate();
 		LocalDate checkOut = searchParams.getCheckOutDate();
 		String address = StrUtils.formatAddress(property.getLocation());
-		String phone = Db.getBookingResponse().getPhoneNumber();
+		String phone = Db.getHotelBookingResponse().getPhoneNumber();
 
 		//In this screen isShared & travelerName would not be relevant. So just set to false and null and pass it on to ShareUtils.
 		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false,
@@ -326,10 +326,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 		LocalDate date = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
 				.getSearchParams().getCheckOutDate();
-		BookingResponse bookingResponse = Db.getBookingResponse();
+		HotelBookingResponse bookingResponse = Db.getHotelBookingResponse();
 		String confNumber = bookingResponse.getHotelConfNumber();
 		String itinNumber = bookingResponse.getItineraryId();
 

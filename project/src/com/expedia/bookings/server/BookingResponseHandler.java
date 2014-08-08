@@ -5,11 +5,11 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 
-public class BookingResponseHandler extends JsonResponseHandler<BookingResponse> {
+public class BookingResponseHandler extends JsonResponseHandler<HotelBookingResponse> {
 
 	private Context mContext;
 
@@ -18,8 +18,8 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 	}
 
 	@Override
-	public BookingResponse handleJson(JSONObject response) {
-		BookingResponse bookingResponse = new BookingResponse();
+	public HotelBookingResponse handleJson(JSONObject response) {
+		HotelBookingResponse bookingResponse = new HotelBookingResponse();
 		try {
 			// Check for errors
 			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CHECKOUT, response));

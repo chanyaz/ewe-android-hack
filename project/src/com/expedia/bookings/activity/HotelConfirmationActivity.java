@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.User;
@@ -42,14 +42,14 @@ public class HotelConfirmationActivity extends FragmentActivity {
 		mKillReceiver.onCreate();
 
 		if (savedInstanceState == null) {
-			if (Db.getBookingResponse().succeededWithErrors()) {
+			if (Db.getHotelBookingResponse().succeededWithErrors()) {
 				showSucceededWithErrorsDialog();
 			}
 
 			// Add guest itin to itin manager
-			if (Db.getBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
+			if (Db.getHotelBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
 				String email = Db.getBillingInfo().getEmail();
-				String tripId = Db.getBookingResponse().getItineraryId();
+				String tripId = Db.getHotelBookingResponse().getItineraryId();
 				ItineraryManager.getInstance().addGuestTrip(email, tripId);
 			}
 
@@ -57,7 +57,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Rate selectedRate = Db.getHotelSearch().getBookingRate();
 			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getHotelSearch().getSearchParams(),
 					Db.getHotelSearch().getSelectedProperty(), Db.getBillingInfo(),
-					selectedRate, Db.getBookingResponse());
+					selectedRate, Db.getHotelBookingResponse());
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);
@@ -76,14 +76,14 @@ public class HotelConfirmationActivity extends FragmentActivity {
 
 		if (isFinishing()) {
 			// #953: Kick off deep refresh for newly booked hotel
-			BookingResponse response = Db.getBookingResponse();
+			HotelBookingResponse response = Db.getHotelBookingResponse();
 			if (response != null) {
 				ItineraryManager.getInstance().deepRefreshTrip(response.getItineraryId(), true);
 			}
 
 			// Clear out data
 			Db.setBillingInfo(null);
-			Db.setBookingResponse(null);
+			Db.setHotelBookingResponse(null);
 			Db.getHotelSearch().setCreateTripResponse(null);
 			Db.getHotelSearch().resetSearchData();
 			Db.getHotelSearch().resetSearchParams();
@@ -154,7 +154,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 		String dialogTag = getString(R.string.tag_simple_dialog);
 		if (fm.findFragmentByTag(dialogTag) == null) {
 			String title = getString(R.string.error_booking_title);
-			String message = getString(R.string.error_booking_succeeded_with_errors, Db.getBookingResponse()
+			String message = getString(R.string.error_booking_succeeded_with_errors, Db.getHotelBookingResponse()
 					.gatherErrorMessage(this));
 
 			SimpleSupportDialogFragment.newInstance(title, message).show(getSupportFragmentManager(), dialogTag);

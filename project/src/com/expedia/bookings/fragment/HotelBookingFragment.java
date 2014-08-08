@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
@@ -41,7 +41,7 @@ import com.mobiata.android.util.SettingUtils;
  * It is separated into its own Fragment so that it can use the lifecycle on its own (and
  * can be derived from a Fragment, which will help with Google Wallet compatibility)
  */
-public class HotelBookingFragment extends BookingFragment<BookingResponse> implements RetryErrorDialogFragmentListener {
+public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> implements RetryErrorDialogFragmentListener {
 
 	public static final String TAG = HotelBookingFragment.class.toString();
 
@@ -78,14 +78,14 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	@Override
 	public void clearBookingResponse() {
-		Db.setBookingResponse(null);
+		Db.setHotelBookingResponse(null);
 	}
 
 	@Override
-	public Download<BookingResponse> getBookingDownload() {
-		return new Download<BookingResponse>() {
+	public Download<HotelBookingResponse> getBookingDownload() {
+		return new Download<HotelBookingResponse>() {
 			@Override
-			public BookingResponse doDownload() {
+			public HotelBookingResponse doDownload() {
 				ExpediaServices services = new ExpediaServices(getActivity());
 				HotelSearch search = Db.getHotelSearch();
 				String userId = null;
@@ -104,7 +104,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 				}
 
 				Rate selectedRate = search.getBookingRate();
-				BookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
+				HotelBookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
 					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId);
 
 				notifyWalletTransactionStatus(response);
@@ -115,8 +115,8 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	}
 
 	@Override
-	public Class<BookingResponse> getBookingResponseClass() {
-		return BookingResponse.class;
+	public Class<HotelBookingResponse> getBookingResponseClass() {
+		return HotelBookingResponse.class;
 	}
 
 	@Override

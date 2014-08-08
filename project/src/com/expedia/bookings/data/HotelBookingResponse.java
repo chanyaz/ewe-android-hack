@@ -7,7 +7,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class BookingResponse extends Response implements JSONable {
+public class HotelBookingResponse extends Response implements JSONable {
 
 	private String mHotelConfNumber;
 
@@ -86,7 +86,7 @@ public class BookingResponse extends Response implements JSONable {
 			return obj;
 		}
 		catch (JSONException e) {
-			Log.e("Could not convert BookingResponse object to JSON.", e);
+			Log.e("Could not convert HotelBookingResponse object to JSON.", e);
 			return null;
 		}
 	}

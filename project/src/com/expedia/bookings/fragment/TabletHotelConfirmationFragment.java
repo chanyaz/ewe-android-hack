@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -54,7 +54,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		mShareButtonText = Ui.findView(v, R.id.share_action_text_view);
 		mShareButtonText.setText(R.string.tablet_confirmation_share_hotel);
 
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 
 		// Construct the hotel card
 		ImageView hotelImageView = Ui.findView(v, R.id.confirmation_image_view);
@@ -84,7 +84,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 	@Override
 	protected String getItinNumber() {
-		return Db.getBookingResponse().getItineraryId();
+		return Db.getHotelBookingResponse().getItineraryId();
 	}
 
 	@Override
@@ -101,13 +101,13 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		Context context = getActivity();
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
 		LocalDate checkIn = searchParams.getCheckInDate();
 		LocalDate checkOut = searchParams.getCheckOutDate();
 		String address = StrUtils.formatAddress(property.getLocation());
-		String phone = Db.getBookingResponse().getPhoneNumber();
+		String phone = Db.getHotelBookingResponse().getPhoneNumber();
 
 		//In this screen isShared & travelerName would not be relevant. So just set to false and null and pass it on to ShareUtils.
 		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false,
@@ -130,10 +130,10 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Property property = Db.getBookingResponse().getProperty();
+		Property property = Db.getHotelBookingResponse().getProperty();
 		LocalDate date = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
 				.getSearchParams().getCheckOutDate();
-		BookingResponse bookingResponse = Db.getBookingResponse();
+		HotelBookingResponse bookingResponse = Db.getHotelBookingResponse();
 		String confNumber = bookingResponse.getHotelConfNumber();
 		String itinNumber = bookingResponse.getItineraryId();
 

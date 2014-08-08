@@ -60,7 +60,7 @@ public class AdTracker {
 				.doubleValue() : 0;
 
 		// Other
-		String orderNumber = Db.getBookingResponse() != null ? Db.getBookingResponse().getOrderNumber() : "";
+		String orderNumber = Db.getHotelBookingResponse() != null ? Db.getHotelBookingResponse().getOrderNumber() : "";
 		AdX.trackHotelBooked(Db.getHotelSearch(), orderNumber, currency, totalPrice, avgPrice);
 	}
 

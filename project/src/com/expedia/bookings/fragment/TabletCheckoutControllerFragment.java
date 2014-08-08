@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -1073,17 +1073,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				}
 				else {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
-					// TODO tracking ??
 					Db.saveTripBucket(getActivity());
 					setCheckoutState(CheckoutState.CONFIRMATION, true);
 				}
 			}
 			// HotelBookingResponse
-			else if (results instanceof BookingResponse) {
-				BookingResponse response = (BookingResponse) results;
+			else if (results instanceof HotelBookingResponse) {
+				HotelBookingResponse response = (HotelBookingResponse) results;
 				Property property = Db.getHotelSearch().getSelectedProperty();
 
-				Db.setBookingResponse(response);
+				Db.setHotelBookingResponse(response);
 				AdTracker.trackHotelBooked();
 
 				if (results == null || response.hasErrors()) {

@@ -41,7 +41,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
@@ -847,7 +847,7 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
+	public HotelBookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
 		String tripId, String userId, Long tuid, String tealeafId) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId, tuid);
 

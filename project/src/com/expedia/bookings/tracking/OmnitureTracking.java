@@ -31,7 +31,7 @@ import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -359,7 +359,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppHotelsCheckoutConfirmation(Context context, HotelSearchParams searchParams,
-			Property property, BillingInfo billingInfo, Rate rate, BookingResponse response) {
+			Property property, BillingInfo billingInfo, Rate rate, HotelBookingResponse response) {
 		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
@@ -1514,9 +1514,9 @@ public class OmnitureTracking {
 				Property property = Db.getTripBucket().getHotel().getProperty();
 				addProducts(s, property, params.getStayDuration(), rate.getTotalAmountAfterTax().getAmount().doubleValue());
 
-				String itinId = Db.getBookingResponse().getItineraryId();
+				String itinId = Db.getHotelBookingResponse().getItineraryId();
 				s.setProp(71, itinId);
-				String orderNumber = Db.getBookingResponse().getOrderNumber();
+				String orderNumber = Db.getHotelBookingResponse().getOrderNumber();
 				s.setPurchaseID("onum" + orderNumber);
 				s.setProp(72, orderNumber);
 			}

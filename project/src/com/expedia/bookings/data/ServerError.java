@@ -242,7 +242,7 @@ public class ServerError implements JSONable {
 	/**
 	 * We are defining "succeeded" in this case as itineraryBooked == true. There are other flags
 	 * we could use: "itenerarySaved", "emailSent". Also, this really only applies to
-	 * results from BookingResponse.
+	 * results from HotelBookingResponse.
 	 * @return
 	 */
 	public boolean succeededWithErrors() {
