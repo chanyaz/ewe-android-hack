@@ -707,10 +707,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		}
 	}
 
-	public interface IRemoveTBItemListener {
-		public void tripBucketItemRemoved(TripBucketItem item);
-	};
-
 	/*
 	ABSTRACT METHODS
 	*/
