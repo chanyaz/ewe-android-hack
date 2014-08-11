@@ -43,8 +43,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	//UI
 	private ViewGroup mExpandedView;
-	private ImageView mDestinationImageView;
-	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
 	private TextView mNumTravelersTv;
@@ -135,30 +133,21 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
-		mHeaderBitmapDrawable = headerBitmapDrawable;
-		mDestinationImageView = imageView;
+	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable drawable) {
+		imageView.setImageDrawable(drawable);
 
-		mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
+		final int width = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_width);
+		final int height = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_height);
 
-		mHeaderBitmapDrawable.disableOverlay();
-		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
-		mDestinationImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				// Let's listen for just one time
-				mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		mPreviousDestination = mNewDestination;
 
-				mPreviousDestination = mNewDestination;
-				mHeaderBitmapDrawable.enableOverlay();
+		final String url = new Akeakamai(Images.getFlightDestination(mNewDestination)) //
+			.resizeExactly(width, height) //
+			.build();
 
-				final String url = new Akeakamai(Images.getFlightDestination(mNewDestination)) //
-					.resizeExactly(mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight()) //
-					.build();
-
-				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, R.drawable.bg_itin_placeholder));
-			}
-		});
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
+		UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(getResources(), url, placeholderResId);
+		drawable.setUrlBitmapDrawable(urlBitmapDrawable);
 	}
 
 	@Override
