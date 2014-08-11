@@ -1794,6 +1794,11 @@ public class ExpediaServices implements DownloadListener {
 	};
 
 	public String getGdeEndpointUrl() {
+		if (getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
+			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return "http://" + server;
+		}
+
 		String key = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase();
 		String url = sGdePosUrlMap.get(key);
 		if (url == null) {

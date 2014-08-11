@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -18,7 +19,12 @@ public class AdTracker {
 
 	public static void initialize(Context context) {
 		// AdX
-		AdX.initialize(context, true);
+		if (ExpediaBookingApp.IS_AUTOMATION) {
+			AdX.initialize(context, false);
+		}
+		else {
+			AdX.initialize(context, true);
+		}
 	}
 
 	public static void trackFirstLaunch() {
