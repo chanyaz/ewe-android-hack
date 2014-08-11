@@ -1267,10 +1267,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
-	@Subscribe
-	public void onFlightTripPriceChange(Events.FlightPriceChange event) {
-		setCheckoutState(CheckoutState.OVERVIEW, true);
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// BirthDateInvalidDialog

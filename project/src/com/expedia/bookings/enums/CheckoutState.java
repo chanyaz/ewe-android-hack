@@ -11,6 +11,6 @@ public enum CheckoutState {
 	;
 
 	public static boolean shouldShowPriceChange(CheckoutState state) {
-		return !(state == READY_FOR_CHECKOUT || state == CVV || state == BOOKING || state == CONFIRMATION);
+		return !(state == CVV || state == BOOKING || state == CONFIRMATION);
 	}
 }
