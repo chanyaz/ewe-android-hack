@@ -19,6 +19,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
@@ -42,6 +43,10 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
+		}
+
 		View v = inflater.inflate(R.layout.fragment_tablet_confirmation, container, false);
 
 		Ui.setText(v, R.id.confirmation_summary_text, getConfirmationSummaryText());

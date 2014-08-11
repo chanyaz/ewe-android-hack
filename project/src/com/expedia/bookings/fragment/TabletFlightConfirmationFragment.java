@@ -27,6 +27,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ShareUtils;
 import com.mobiata.android.SocialUtils;
@@ -51,6 +52,10 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
+		}
+
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
 		mConfirmationTitleText = Ui.findView(v, R.id.confirmation_title_text);

@@ -26,6 +26,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -46,6 +47,10 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
+		}
+
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
 		mConfirmationTitleText = Ui.findView(v, R.id.confirmation_title_text);
