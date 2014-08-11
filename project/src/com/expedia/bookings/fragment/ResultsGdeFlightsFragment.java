@@ -48,7 +48,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private View mRootC;
 	private FrameLayoutTouchController mHistogramC;
 
-	private CenteredCaptionedIcon mMissingFlightInfo;
+	private CenteredCaptionedIcon mGdeErrorMessageView;
 	private TextView mSelectOriginButton;
 	private TextView mGdeHeaderTv;
 	private ProgressBar mGdeProgressBar;
@@ -106,8 +106,8 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
 		mGdePriceRangeTv = Ui.findView(mRootC, R.id.flight_histogram_price_range);
 
-		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
-		mMissingFlightInfo.setVisibility(View.GONE);
+		mGdeErrorMessageView = Ui.findView(mRootC, R.id.gde_error_message_view);
+		mGdeErrorMessageView.setVisibility(View.GONE);
 
 		mSelectOriginButton = Ui.findView(mRootC, R.id.action_button);
 		mSelectOriginButton.setText(R.string.missing_flight_info_button_prompt);
@@ -212,23 +212,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			return;
 		}
 
-		// No need to bother with doing a GDE search if the origin is missing
-		if (mOrigin == null) {
-			setMissingFlightInfoCaption();
-			mMissingFlightInfo.setVisibility(View.VISIBLE);
-			mSelectOriginButton.setVisibility(View.VISIBLE);
-			return;
-		}
-
 		frag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
 		mGdeProgressBar.setVisibility(View.VISIBLE);
 		mGdePriceRangeTv.setText("");
-		mMissingFlightInfo.setVisibility(View.GONE);
-	}
-
-	private void setMissingFlightInfoCaption() {
-		String destination = StrUtils.formatCity(Sp.getParams().getDestination());
-		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message_TEMPLATE, destination));
+		mGdeErrorMessageView.setVisibility(View.GONE);
+		mGdeHeaderTv.setVisibility(View.INVISIBLE);
 	}
 
 	/**
@@ -273,8 +261,9 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		if (mGdeProgressBar != null) {
 			mGdeProgressBar.setVisibility(View.GONE);
 		}
-		mMissingFlightInfo.setVisibility(View.GONE);
+		mGdeErrorMessageView.setVisibility(View.GONE);
 		mHistogramC.setVisibility(View.GONE);
+		mGdeHeaderTv.setVisibility(View.VISIBLE);
 
 		FlightSearchHistogramResponse response = event.response;
 
@@ -290,6 +279,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			else if (response.hasErrors()) {
 				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
 			}
+
+			String destination = StrUtils.formatCity(Sp.getParams().getDestination());
+			mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+			mGdeErrorMessageView.setVisibility(View.VISIBLE);
+			mGdeHeaderTv.setVisibility(View.INVISIBLE);
 		}
 
 		// Normal/expected GDE response
@@ -298,7 +292,13 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 			int count = response.getCount();
 
-			if (count != 0 && mHistogramFrag != null) {
+			if (count == 0) {
+				String destination = StrUtils.formatCity(Sp.getParams().getDestination());
+				mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+				mGdeErrorMessageView.setVisibility(View.VISIBLE);
+				mGdeHeaderTv.setVisibility(View.INVISIBLE);
+			}
+			else if (mHistogramFrag != null) {
 				mHistogramC.setVisibility(View.VISIBLE);
 				mHistogramFrag.setHistogramData(response);
 			}

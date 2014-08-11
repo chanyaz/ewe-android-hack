@@ -166,7 +166,8 @@ public class GdeDownloadFragment extends Fragment {
 		}
 	};
 
-	private final OnDownloadComplete<FlightSearchHistogramResponse> mGdeSearchCallback = new OnDownloadComplete<FlightSearchHistogramResponse>() {
+	private final OnDownloadComplete<FlightSearchHistogramResponse> mGdeSearchCallback
+		= new OnDownloadComplete<FlightSearchHistogramResponse>() {
 		@Override
 		public void onDownload(FlightSearchHistogramResponse results) {
 			mCachedResults = results;

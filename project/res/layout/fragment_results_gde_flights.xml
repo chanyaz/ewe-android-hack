@@ -56,7 +56,7 @@
         android:layout_marginTop="@dimen/results_list_header_height"/>
 
     <com.expedia.bookings.widget.CenteredCaptionedIcon
-        android:id="@+id/missing_flight_info_view"
+        android:id="@+id/gde_error_message_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:svg="@raw/ic_tablet_sold_out_flight"/>
