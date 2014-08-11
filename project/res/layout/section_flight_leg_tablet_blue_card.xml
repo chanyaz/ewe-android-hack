@@ -83,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/flight_trip_view_height"
             android:layout_marginLeft="@dimen/hotel_flight_card_content_margin_x"
+            android:layout_marginTop="3dp"
             android:layout_marginRight="@dimen/hotel_flight_card_content_margin_x"
             android:layout_gravity="center"
             app:flightLineColor="#ffffff"
