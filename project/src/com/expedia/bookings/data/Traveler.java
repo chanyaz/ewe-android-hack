@@ -772,6 +772,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Birth date
+		if (getBirthDate() == null || another.getBirthDate() == null) {
+			return diff;
+		}
 		diff = getBirthDate().compareTo(another.getBirthDate());
 		if (diff != 0) {
 			return diff;
