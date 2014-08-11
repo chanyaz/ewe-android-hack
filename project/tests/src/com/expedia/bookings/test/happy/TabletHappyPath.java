@@ -72,8 +72,9 @@ public class TabletHappyPath extends TabletTestCase {
 		Search.clickDate(startDate, null);
 		screenshot("Search");
 		Search.clickSearchPopupDone();
-		Results.swipeUpFlightList();
 		screenshot("Search_Results");
+		Results.swipeUpFlightList();
+		screenshot("Flight_Search_Results");
 		Results.clickFlightAtIndex(1);
 		screenshot("Details");
 		Results.clickAddFlight();
@@ -131,6 +132,7 @@ public class TabletHappyPath extends TabletTestCase {
 		Search.clickDate(startDate, endDate);
 		screenshot("Search");
 		Search.clickSearchPopupDone();
+		screenshot("Search_Results");
 
 		// Add Hotel to trip bucket
 		Results.swipeUpHotelList();
