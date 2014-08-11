@@ -1789,7 +1789,7 @@ public class ExpediaServices implements DownloadListener {
 			put("JP", "http://deals.expedia.co.jp/beta/stats/flights.json");
 			put("MY", "http://deals.expedia.com.my/beta/stats/flights.json");
 			put("SG", "http://deals.expedia.com.sg/beta/stats/flights.json");
-			put("TH", "http://deals.expedia.co.th/beta/stats/flights.json");
+			put("HK", "http://deals.expedia.com.hk/beta/stats/flights.json");
 		}
 	};
 
