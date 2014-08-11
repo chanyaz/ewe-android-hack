@@ -15,6 +15,7 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
@@ -132,5 +133,9 @@ public class Search {
 			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
 			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
 			.perform(click());
+	}
+
+	public static ViewInteraction selectAirportButton() {
+		return onView(allOf(withId(R.id.action_button), isDisplayed()));
 	}
 }

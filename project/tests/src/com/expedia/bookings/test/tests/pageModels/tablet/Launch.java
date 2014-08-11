@@ -9,7 +9,6 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -31,6 +30,10 @@ public class Launch {
 		return onView(withId(R.id.waypoint_edit_text));
 	}
 
+	public static ViewInteraction destinationSearchButton() {
+		return onView(withId(R.id.dest_btn));
+	}
+
 	// Object interaction
 
 	public static void clickSearchButton() {
@@ -43,6 +46,10 @@ public class Launch {
 
 	public static void clearDestinationEditText() {
 		destinationEditText().perform(clearText());
+	}
+
+	public static void clickDestinationSearchButton() {
+		destinationSearchButton().perform(click());
 	}
 
 	public static void typeInDestinationEditText(String text) {
