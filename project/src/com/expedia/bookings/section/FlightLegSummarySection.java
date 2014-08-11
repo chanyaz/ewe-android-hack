@@ -189,17 +189,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 			String time = res.getString(R.string.date_range_TEMPLATE, departure, arrival);
 			builder.append(time);
 
-			// +1 day
-			int daySpan = leg.getDaySpan();
-			if (daySpan != 0) {
-				String quantityStr = sDaySpanFormatter.format(daySpan);
-				String daySpanString = res.getQuantityString(R.plurals.day_span, daySpan, quantityStr);
-				builder.append(' ');
-				builder.append(daySpanString);
-				builder.setSpan(new ForegroundColorSpan(Color.GRAY),
-					builder.length() - daySpanString.length(), builder.length(), 0);
-			}
-
 			mFlightTimeTextView.setText(builder);
 		}
 		else if (mFlightTimeTextView != null && legTwo != null) {
