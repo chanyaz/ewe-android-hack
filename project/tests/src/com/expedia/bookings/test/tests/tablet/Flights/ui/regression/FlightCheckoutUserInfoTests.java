@@ -180,8 +180,8 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Common.checkErrorIconDisplayed(Checkout.expirationDate());
 		Common.checkErrorIconDisplayed(Checkout.creditCardNumber());
 		Common.checkErrorIconDisplayed(Checkout.nameOnCard());
-		Common.checkErrorIconNotDisplayed(Checkout.address1());
-		Common.checkErrorIconNotDisplayed(Checkout.addressCity());
+		Common.checkErrorIconDisplayed(Checkout.address1());
+		Common.checkErrorIconDisplayed(Checkout.addressCity());
 
 		//CC edittext has a max capacity of 19 chars
 		String nineteenChars = twentyChars.substring(0, 19);
