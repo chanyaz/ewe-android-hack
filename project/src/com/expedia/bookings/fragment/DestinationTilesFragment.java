@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -123,6 +124,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 			CollectionStack stack = (CollectionStack) mItemsContainer.getChildAt(i);
 			LaunchCollection launchCollection = (LaunchCollection) stack.getTag();
 			if (launchCollection.equals(event.launchCollection)) {
+				LaunchDb.setSelectedCollection(launchCollection);
 				setCheckedCollection(stack);
 			}
 		}

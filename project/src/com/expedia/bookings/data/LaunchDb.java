@@ -48,12 +48,18 @@ public class LaunchDb {
 		}
 		else {
 			injectLastSearch(sDb.mYourSearchCollection);
-			sDb.mSelectedCollection = sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX + 1);
+			if (sDb.mSelectedCollection == null) {
+				sDb.mSelectedCollection = sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX + 1);
+			}
 		}
 	}
 
 	public static void clear() {
 		sDb.mCollections = null;
+	}
+
+	public static void setSelectedCollection(LaunchCollection collection) {
+		sDb.mSelectedCollection = collection;
 	}
 
 	@Produce
