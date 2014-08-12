@@ -28,11 +28,14 @@ public class Sp {
 	}
 
 	public static SearchParams getParams() {
+		if (sSearchParams == null) {
+			sSearchParams = new SearchParams();
+		}
 		return sSearchParams;
 	}
 
 	public static boolean isEmpty() {
-		return sSearchParams == null;
+		return !getParams().hasDestination();
 	}
 
 	public static void setParams(SearchParams params, boolean report) {
