@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -125,6 +126,7 @@ public class RingedCountView extends View {
 		setCaptionTextSize(captionTextSize);
 		setCountTextStyle(countTextStyle);
 		setCaptionTextStyle(captionTextStyle);
+		setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
 
 		super.setBackgroundDrawable(mRingDrawable);
 	}
@@ -272,6 +274,12 @@ public class RingedCountView extends View {
 		return mRingDrawable.getCaption();
 	}
 
+	@Override
+	public void setPadding(int left, int top, int right, int bottom) {
+		super.setPadding(left, top, right, bottom);
+		mRingDrawable.setPadding(left, top, right, bottom);
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////
 	// RingDrawable
 	// A circular drawable with a ring that is a partially "filled"
@@ -284,7 +292,8 @@ public class RingedCountView extends View {
 		// Ring properties
 		private Paint mPrimaryArcPaint;
 		private Paint mSecondaryArcPaint;
-		float mRadius, mCx, mCy;
+		private float mRadius, mCx, mCy;
+		private Rect mPadding = new Rect();
 		private RectF mOval;
 		private float mFilledPercent = 0f;
 
@@ -323,11 +332,24 @@ public class RingedCountView extends View {
 		@Override
 		public void setBounds(int left, int top, int right, int bottom) {
 			super.setBounds(left, top, right, bottom);
+			generateOval();
+		}
 
-			int minHeightWidth = Math.min(right - left, bottom - top);
-			mRadius = minHeightWidth * 0.9f / 2f;
-			mCx = (right + left) / 2;
-			mCy = (bottom + top) / 2;
+		public void setPadding(int left, int top, int right, int bottom) {
+			mPadding.left = left;
+			mPadding.top = top;
+			mPadding.right = right;
+			mPadding.bottom = bottom;
+			generateOval();
+		}
+
+		private void generateOval() {
+			Rect bounds = getBounds();
+			int width = bounds.width() - mPadding.left - mPadding.right;
+			int height = bounds.height() - mPadding.top - mPadding.bottom;
+			mRadius = Math.min(width, height) * 0.9f / 2f;
+			mCx = mPadding.left + width / 2;
+			mCy = mPadding.top + height / 2;
 			mOval = new RectF(mCx - mRadius, mCy - mRadius, mCx + mRadius, mCy + mRadius);
 		}
 
