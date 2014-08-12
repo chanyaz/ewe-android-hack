@@ -38,7 +38,6 @@
             style="@style/V2.Widget.TextView.SearchParams"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:drawableLeft="@drawable/ic_param_origin"
             android:ellipsize="end"
             android:singleLine="true" />
