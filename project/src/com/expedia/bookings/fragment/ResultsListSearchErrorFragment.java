@@ -38,7 +38,6 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 	private CenteredCaptionedIcon mErrorView;
 	private CharSequence mErrorText;
-	private TextView mActionButton;
 	private int mErrorImageResId;
 
 	private ResultsFlightsState mDefaultFlightsState;
@@ -56,7 +55,6 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_results_list_search_error, null);
 		mErrorView = Ui.findView(v, R.id.caption_view);
-		mActionButton = Ui.findView(v, R.id.action_button);
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_ERROR_TEXT)) {
 				setErrorText(savedInstanceState.getCharSequence(STATE_ERROR_TEXT));
@@ -108,7 +106,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	}
 
 	public void setState(ResultsFlightsState state) {
-		mActionButton.setVisibility(View.GONE);
+		mErrorView.clearActionButton();
 		if (mErrorImageResId == 0) {
 			setErrorImage(R.raw.ic_tablet_sold_out_flight);
 		}
@@ -125,9 +123,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			break;
 		case MISSING_ORIGIN:
 			setErrorText(getString(R.string.missing_flight_info_message_TEMPLATE, StrUtils.formatCity(Sp.getParams().getDestination())));
-			mActionButton.setVisibility(View.VISIBLE);
-			mActionButton.setText(R.string.missing_flight_info_button_prompt);
-			mActionButton.setOnClickListener(new View.OnClickListener() {
+			mErrorView.setActionButton(R.string.missing_flight_info_button_prompt, new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					Events.post(new Events.ShowSearchFragment(ResultsSearchState.FLIGHT_ORIGIN));

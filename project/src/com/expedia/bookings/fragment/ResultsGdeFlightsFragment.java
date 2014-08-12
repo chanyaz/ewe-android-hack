@@ -49,7 +49,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private FrameLayoutTouchController mHistogramC;
 
 	private CenteredCaptionedIcon mGdeErrorMessageView;
-	private TextView mSelectOriginButton;
 	private TextView mGdeHeaderTv;
 	private ProgressBar mGdeProgressBar;
 	private TextView mGdePriceRangeTv;
@@ -108,10 +107,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		mGdeErrorMessageView = Ui.findView(mRootC, R.id.gde_error_message_view);
 		mGdeErrorMessageView.setVisibility(View.GONE);
-
-		mSelectOriginButton = Ui.findView(mRootC, R.id.action_button);
-		mSelectOriginButton.setText(R.string.missing_flight_info_button_prompt);
-		mSelectOriginButton.setOnClickListener(new View.OnClickListener() {
+		mGdeErrorMessageView.setActionButton(R.string.missing_flight_info_button_prompt, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Events.post(new Events.ShowSearchFragment(ResultsSearchState.FLIGHT_ORIGIN));

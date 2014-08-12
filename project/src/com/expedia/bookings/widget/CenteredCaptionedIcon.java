@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.enums.ResultsSearchState;
+import com.expedia.bookings.otto.Events;
 import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -20,6 +22,7 @@ import com.mobiata.android.util.Ui;
 public class CenteredCaptionedIcon extends RelativeLayout {
 	SVGView mSvg;
 	TextView mCaption;
+	TextView mActionButton;
 
 	public CenteredCaptionedIcon(Context context) {
 		super(context);
@@ -42,6 +45,7 @@ public class CenteredCaptionedIcon extends RelativeLayout {
 
 		mSvg = Ui.findView(widget, R.id.svg);
 		mCaption = Ui.findView(widget, R.id.caption);
+		mActionButton = Ui.findView(widget, R.id.action_button);
 
 		if (attr != null) {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.CenteredCaptionedIcon, 0, 0);
@@ -83,6 +87,17 @@ public class CenteredCaptionedIcon extends RelativeLayout {
 
 	public void setSVG(int rawResId) {
 		mSvg.setSVG(rawResId);
+	}
+
+	public void setActionButton(int resId, OnClickListener listener) {
+		mActionButton.setVisibility(View.VISIBLE);
+		mActionButton.setText(R.string.missing_flight_info_button_prompt);
+		mActionButton.setOnClickListener(listener);
+	}
+
+	public void clearActionButton() {
+		mActionButton.setVisibility(View.GONE);
+		mActionButton.setOnClickListener(null);
 	}
 
 }
