@@ -1471,7 +1471,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else {
 				CheckoutState currentState = mStateManager.getState();
-				if (currentState != getOverviewState() && currentState != CheckoutState.CONFIRMATION) {
+				if (currentState != getOverviewState() && !currentState.validCheckoutInfoHasBeenEntered()) {
 					setCheckoutState(getOverviewState(), false);
 				}
 			}

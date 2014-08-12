@@ -13,4 +13,13 @@ public enum CheckoutState {
 	public static boolean shouldShowPriceChange(CheckoutState state) {
 		return !(state == CVV || state == BOOKING || state == CONFIRMATION);
 	}
+
+	/**
+	 * If the CheckoutState is one of these states, it means we have already validated checkout information
+	 * and have allowed the user to move forward in states.
+	 */
+	public boolean validCheckoutInfoHasBeenEntered() {
+		return this == CVV || this == BOOKING || this == CONFIRMATION;
+	}
+
 }
