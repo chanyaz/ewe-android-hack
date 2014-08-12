@@ -773,10 +773,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 		}
 
-		private boolean isUpState(ResultsSearchState state) {
-			return state == ResultsSearchState.FLIGHTS_UP || state == ResultsSearchState.HOTELS_UP;
-		}
-
 		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			boolean goingUp = goingUp(stateOne, stateTwo);
 			boolean goingDown = goingDown(stateOne, stateTwo);
@@ -785,11 +781,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private boolean goingUp(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return !isUpState(stateOne) && isUpState(stateTwo);
+			return !stateOne.isUpState() && stateTwo.isUpState();
 		}
 
 		private boolean goingDown(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return isUpState(stateOne) && !isUpState(stateTwo);
+			return stateOne.isUpState() && !stateTwo.isUpState();
 		}
 
 		private boolean isHotelsUpTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {

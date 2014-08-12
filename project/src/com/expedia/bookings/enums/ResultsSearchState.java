@@ -21,6 +21,10 @@ public enum ResultsSearchState {
 		return this == CALENDAR || this == CALENDAR_WITH_POPUP;
 	}
 
+	public boolean isUpState() {
+		return this == HOTELS_UP || this == FLIGHTS_UP;
+	}
+
 	/**
 	 * @return whether or not the search knobs are shown on screen
 	 */
