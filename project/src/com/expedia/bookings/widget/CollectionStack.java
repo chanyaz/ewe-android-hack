@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -146,11 +148,21 @@ public class CollectionStack extends FrameLayout {
 					.darkenBy(0.4f)
 					.setAlpha(224)
 					.build();
-				mTextView.setBackgroundColor(textColor);
+
+				GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.bg_collection_title);
+				d.setColor(textColor);
+				if (Build.VERSION.SDK_INT < 16) {
+					mTextView.setBackgroundDrawable(d);
+				}
+				else {
+					mTextView.setBackground(d);
+				}
+
 				int fullColor = new ColorBuilder(color)
 					.darkenBy(0.3f)
 					.setAlpha(217)
 					.build();
+
 				mCheckView.setBackgroundColor(fullColor);
 			}
 
