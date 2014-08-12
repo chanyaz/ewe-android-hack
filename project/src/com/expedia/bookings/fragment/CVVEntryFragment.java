@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,29 +148,25 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		CreditCardType cardType = getCurrentCCType();
 
-		char personFirstInitial;
-		String personLastName, cardNumber, cardName;
+		String personFirstInitial = null;
+		String personLastName = null;
+		String cardNumber = null;
+		String cardName = null;
 		if (billingInfo.getStoredCard() != null) {
 			StoredCreditCard storedCard = billingInfo.getStoredCard();
 			Traveler traveler = Db.getTravelers().get(0);
-			personFirstInitial = traveler.getFirstName().charAt(0);
+			personFirstInitial = getFirstCharacter(traveler.getFirstName());
 			personLastName = traveler.getLastName();
 			cardNumber = storedCard.getCardNumber();
 			cardName = storedCard.getDescription();
 		}
 		else if (billingInfo.getNumber() != null && billingInfo.getNumber().length() >= 4) {
 			final String nameOnCard = billingInfo.getNameOnCard();
-			personFirstInitial = nameOnCard.charAt(0);
+			personFirstInitial = getFirstCharacter(nameOnCard);
 			final int lastNameIndex = nameOnCard.indexOf(' ') + 1;
 			personLastName = nameOnCard.substring(lastNameIndex);
 			cardNumber = billingInfo.getNumber();
 			cardName = getString(R.string.card_ending_TEMPLATE, cardNumber.substring(cardNumber.length() - 4));
-		}
-		else {
-			personFirstInitial = '\0';
-			personLastName = null;
-			cardName = null;
-			cardNumber = null;
 		}
 
 		resetCVVText();
@@ -188,7 +185,15 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		}
 
 		updateActionBar();
-		String signatureName = personFirstInitial + ". " + personLastName;
+		StringBuilder signatureNameBuilder = new StringBuilder();
+		if (!TextUtils.isEmpty(personFirstInitial)) {
+			signatureNameBuilder.append(personFirstInitial);
+			signatureNameBuilder.append(". ");
+		}
+		if (!TextUtils.isEmpty(personLastName)) {
+			signatureNameBuilder.append(personLastName);
+		}
+		String signatureName = signatureNameBuilder.toString();
 		mCreditCardSection.bind(signatureName, cardType, cardNumber);
 
 		// A few minor UI tweaks on phone, depending on if amex
@@ -206,6 +211,14 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		// Configuration vars that drive this fragment (on phone or tablet)
 		mMinCvvLen = amex ? 4 : 3;
+	}
+
+	private String getFirstCharacter(String input) {
+		if (!TextUtils.isEmpty(input)) {
+			return input.substring(0, 1);
+		}
+
+		return null;
 	}
 
 	// Special case for the subprompt ("see back of card"), if it's in the ActionBar (for phone)
