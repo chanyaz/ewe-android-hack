@@ -163,7 +163,8 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		setGdeInfo(Sp.getParams().getOriginLocation(true), Sp.getParams().getDestinationLocation(true),
+		setGdeInfo(Sp.getParams().getOriginLocation(true),
+			Sp.getParams().getDestinationLocation(true),
 			Sp.getParams().getStartDate());
 	}
 
@@ -200,7 +201,34 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				mGdeHeaderTv.setText(R.string.flight_trends);
 			}
 		}
+	}
 
+	private void setErrorNoResults() {
+		String destination = StrUtils.formatCity(Sp.getParams().getDestination());
+		mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+		mGdeErrorMessageView.setVisibility(View.VISIBLE);
+		mGdeErrorMessageView.clearActionButton();
+		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+	}
+
+	private void setErrorNoOrigin() {
+		mGdeErrorMessageView.setCaption(getString(R.string.flight_trends_missing_origin));
+		mGdeErrorMessageView.setVisibility(View.VISIBLE);
+		mGdeErrorMessageView.setActionButton(R.string.missing_flight_info_button_prompt, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.ShowSearchFragment(ResultsSearchState.FLIGHT_ORIGIN));
+			}
+		});
+		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+	}
+
+	private void setStateLoading() {
+		mGdeProgressBar.setVisibility(View.VISIBLE);
+		mGdePriceRangeTv.setText("");
+		mGdeErrorMessageView.setVisibility(View.GONE);
+		mGdeErrorMessageView.clearActionButton();
+		mGdeHeaderTv.setVisibility(View.INVISIBLE);
 	}
 
 	protected void startOrResumeDownload(GdeDownloadFragment frag) {
@@ -209,10 +237,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		}
 
 		frag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
-		mGdeProgressBar.setVisibility(View.VISIBLE);
-		mGdePriceRangeTv.setText("");
-		mGdeErrorMessageView.setVisibility(View.GONE);
-		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+		setStateLoading();
 	}
 
 	/**
@@ -276,10 +301,12 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
 			}
 
-			String destination = StrUtils.formatCity(Sp.getParams().getDestination());
-			mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
-			mGdeErrorMessageView.setVisibility(View.VISIBLE);
-			mGdeHeaderTv.setVisibility(View.INVISIBLE);
+			if (mOrigin == null) {
+				setErrorNoOrigin();
+			}
+			else {
+				setErrorNoResults();
+			}
 		}
 
 		// Normal/expected GDE response
@@ -289,10 +316,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			int count = response.getCount();
 
 			if (count == 0) {
-				String destination = StrUtils.formatCity(Sp.getParams().getDestination());
-				mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
-				mGdeErrorMessageView.setVisibility(View.VISIBLE);
-				mGdeHeaderTv.setVisibility(View.INVISIBLE);
+				setErrorNoResults();
 			}
 			else if (mHistogramFrag != null) {
 				mHistogramC.setVisibility(View.VISIBLE);
