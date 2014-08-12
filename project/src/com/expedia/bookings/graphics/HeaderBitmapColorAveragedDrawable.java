@@ -49,7 +49,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		super.onBitmapLoaded(url, bitmap);
 		if (bitmap != null) {
-			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
+			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.2f);
 			mOverlay = new ColorDrawable(builder.build());
 			setOverlayAlpha(mOverlayAlpha);
 			setOverlayDrawable(mOverlayEnabled ? mOverlay : null);

@@ -141,7 +141,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 		mPreviousDestination = mNewDestination;
 
-		final String url = new Akeakamai(Images.getFlightDestination(mNewDestination)) //
+		final String url = new Akeakamai(Images.getTabletDestination(mNewDestination)) //
 			.resizeExactly(width, height) //
 			.build();
 
