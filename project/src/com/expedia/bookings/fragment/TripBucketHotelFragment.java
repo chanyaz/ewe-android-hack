@@ -38,7 +38,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		return frag;
 	}
 
-	private TextView mNowBookingTv;;
+	private TextView mNowBookingTv;
 	private TextView mRoomAndBedTv;
 	private TextView mRoomTypeTv;
 	private TextView mBedTypeTv;

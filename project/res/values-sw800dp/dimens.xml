@@ -116,7 +116,7 @@
     <dimen name="tablet_checkout_trip_bucket_expanded_image_width">276dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_x">18dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_major_y">24dp</dimen>
-    <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">16dp</dimen>
+    <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">10dp</dimen>
 
     <!-- Confirmation Fragment -->
     <dimen name="confirmation_width">605dp</dimen>
