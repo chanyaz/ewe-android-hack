@@ -29,7 +29,11 @@ public class CustomDispatcher extends Dispatcher {
 
 	@Override
 	public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
-		if (request.getPath().contains("hint/es/v3/ac/en_US")) {
+		if (request.getPath().startsWith("/b/ss")) {
+			return makeEmptyResponse();
+		}
+
+		else if (request.getPath().contains("hint/es/v3/ac/en_US")) {
 			return makeResponse("MockResponses/hint/es/v3/ac/en_US/suggestion.json");
 		}
 
@@ -118,6 +122,12 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		return params;
+	}
+
+	public MockResponse makeEmptyResponse() {
+		MockResponse resp = new MockResponse();
+		resp.setResponseCode(200);
+		return resp;	
 	}
 
 	public MockResponse makeResponse(String filePath) {

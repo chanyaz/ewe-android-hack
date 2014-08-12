@@ -62,6 +62,8 @@ import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.EndPoint;
 import com.expedia.bookings.utils.AdvertisingIdUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -92,8 +94,11 @@ public class OmnitureTracking {
 
 	public static void init(Context context) {
 		Log.d(TAG, "init");
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
-		s.configureMeasurement(getReportSuiteIds(context), getTrackingServer());
+
+		if (!ExpediaBookingApp.IS_AUTOMATION) {
+			ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+			s.configureMeasurement(getReportSuiteIds(context), getTrackingServer(context));
+		}
 
 		sMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_marketing_date),
 				sMarketingDate);
@@ -2400,7 +2405,13 @@ public class OmnitureTracking {
 		}
 
 		// Add offline tracking, so user doesn't have to be online to be tracked
-		s.setOfflineTrackingEnabled(true);
+		if (ExpediaBookingApp.IS_AUTOMATION) {
+			s.setOfflineTrackingEnabled(false);
+			s.clearTrackingQueue();
+		}
+		else {
+			s.setOfflineTrackingEnabled(true);
+		}
 
 		// account
 		s.setReportSuiteIDs(getReportSuiteIds(context));
@@ -2412,7 +2423,7 @@ public class OmnitureTracking {
 		addDeepLinkData(s);
 
 		// Server
-		s.setTrackingServer(getTrackingServer());
+		s.setTrackingServer(getTrackingServer(context));
 		s.setSSL(false);
 
 		// Add the country locale
@@ -2602,13 +2613,15 @@ public class OmnitureTracking {
 		return id;
 	}
 
-	private static String getTrackingServer() {
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+	private static String getTrackingServer(Context context) {
+		if (ExpediaServices.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
+			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
+		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			return "om.travelocity.com";
 		}
-		else {
-			return "om.expedia.com";
-		}
+
+		return "om.expedia.com";
 	}
 
 	private static String md5(String s) {
