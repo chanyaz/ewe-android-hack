@@ -78,8 +78,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_REDEYE_ITEMS_DIALOG = "FTAG_REDEYE_ITEMS_DIALOG";
 	private static final String FTAG_MISMATCHED_ITEMS_DIALOG = "FTAG_MISMATCHED_ITEMS_DIALOG";
 
-
-
 	private GridManager mGrid = new GridManager();
 
 	// Note: default state gets reset in onCreate using getDefaultBaseState()
@@ -596,7 +594,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
 				mCalC.setVisibility(View.VISIBLE);
-				mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
+				mGdeC.setVisibility(View.VISIBLE);
 
 				if ((mDatesFragment == null || mDatesFragment.isDetached()) || (mGdeFragment == null || mGdeFragment
 					.isDetached())) {
@@ -752,24 +750,25 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpHotelsOnlyAnimationPercentage(0f);
 				break;
 			}
+			case CALENDAR: {
+				if (mGdeFragment != null) {
+					mGdeFragment.setGdeInfo(mLocalParams.getOriginLocation(true),
+						mLocalParams.getDestinationLocation(true),
+						mLocalParams.getStartDate());
+				}
+				break;
+			}
+			case TRAVELER_PICKER: {
+				bindTravBtn();
+				break;
+			}
 			default: {
 				setSlideUpAnimationPercentage(0f);
 				setSlideUpHotelsOnlyAnimationPercentage(0f);
 			}
 			}
 
-			if (state == ResultsSearchState.CALENDAR) {
-				if (mGdeFragment != null) {
-					mGdeFragment.setGdeInfo(mLocalParams.getOriginLocation(true), mLocalParams.getDestinationLocation(true),
-						mLocalParams.getStartDate());
-				}
-			}
-
-			if (state == ResultsSearchState.TRAVELER_PICKER) {
-				bindTravBtn();
-			}
-
-			if (!state.showsCalendar() && state != ResultsSearchState.TRAVELER_PICKER) {
+			if (!state.showsSearchControls()) {
 				clearChanges();
 			}
 		}
@@ -896,31 +895,72 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setVisibilitiesForState(ResultsSearchState state) {
-			mWaypointC.setVisibility(state.showsWaypoint() ? View.VISIBLE : View.INVISIBLE);
-			mTravC.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.INVISIBLE);
-			mCalC.setVisibility(state.showsCalendar() ? View.VISIBLE : View.INVISIBLE);
-			mBottomRightC.setVisibility(
-				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE ? View.VISIBLE
+			mWaypointC.setVisibility(
+				state.showsWaypoint()
+					? View.VISIBLE
 					: View.INVISIBLE
 			);
 
-			mCalContentC.setVisibility(state.showsCalendar() ? View.VISIBLE : View.GONE);
-			mPopupTravTv.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.GONE);
-			mPopupC.setVisibility(state.showsSearchPopup() ? View.VISIBLE : View.INVISIBLE);
+			mTravC.setVisibility(
+				state == ResultsSearchState.TRAVELER_PICKER
+					? View.VISIBLE
+					: View.INVISIBLE
+			);
+
+			mCalC.setVisibility(
+				state.showsCalendar()
+					? View.VISIBLE
+					: View.INVISIBLE
+			);
+
+			// GDE visibility should always follow the calendar visibility
+			mGdeC.setVisibility(mCalC.getVisibility());
+
+			mBottomRightC.setVisibility(
+				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE
+					? View.VISIBLE
+					: View.INVISIBLE
+			);
+
+			mCalContentC.setVisibility(
+				state.showsCalendar()
+					? View.VISIBLE
+					: View.GONE
+			);
+
+			mPopupTravTv.setVisibility(
+				state == ResultsSearchState.TRAVELER_PICKER
+					? View.VISIBLE
+					: View.GONE
+			);
+
+			mPopupC.setVisibility(
+				state.showsSearchPopup()
+					? View.VISIBLE
+					: View.INVISIBLE
+			);
 
 			// If the search controls are active, that means the popup is showing and we want to hide
 			// the search bar!
-			mSearchBarC.setVisibility(state.showsSearchPopup() ? View.INVISIBLE : View.VISIBLE);
+			mSearchBarC.setVisibility(
+				state.showsSearchPopup()
+					? View.INVISIBLE
+					: View.VISIBLE
+			);
 
-			mBottomCenterC.setVisibility(mCalC.getVisibility());
-			mGdeC.setVisibility(Sp.getParams().getOriginLocation(true) == null ? View.INVISIBLE: View.VISIBLE);
+			mTravPickWhiteSpace.setVisibility(
+				!mGrid.isLandscape() && state == ResultsSearchState.TRAVELER_PICKER
+					? View.VISIBLE
+					: View.INVISIBLE
+			);
 
-			if (!mGrid.isLandscape()) {
-				if (state == ResultsSearchState.TRAVELER_PICKER) {
-					mBottomCenterC.setVisibility(View.VISIBLE);
-					mTravPickWhiteSpace.setVisibility(View.VISIBLE);
-				}
-			}
+			// BottomCenterContainer houses GDE and traveler picker whitespace. So if either one of
+			// those is visible, make this one visible too.
+			mBottomCenterC.setVisibility(
+				mTravPickWhiteSpace.getVisibility() == View.VISIBLE || mGdeC.getVisibility() == View.VISIBLE
+					? View.VISIBLE
+					: View.INVISIBLE
+			);
 		}
 
 		private void resetWidgetTranslations() {
@@ -1286,14 +1326,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
 		importParams();
 		bindSearchBtns();
-		/*
-		 * When users select a destination, the origin defaults to current location.
-		 * GDE fragment will be not shown until the current location (origin) is set.
-		 * On SP update, if we have the origin then let's show the GDE
-		 */
-		if (Sp.getParams().getOriginLocation(true) != null && getState() == ResultsSearchState.CALENDAR) {
-			mGdeC.setVisibility(View.VISIBLE);
-		}
 	}
 
 	@Subscribe
