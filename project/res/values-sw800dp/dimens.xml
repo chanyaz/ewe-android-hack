@@ -61,7 +61,7 @@
     <dimen name="hotel_details_hotel_name_margin">10dp</dimen>
     <dimen name="hotel_details_reviews_section_height">86dp</dimen>
     <dimen name="hotel_details_reviews_section_top_padding">3dp</dimen>
-    <dimen name="hotel_details_ring_size">36dp</dimen>
+    <dimen name="hotel_details_ring_size">40dp</dimen>
     <dimen name="hotel_details_amenities_section_height">80dp</dimen>
     <dimen name="hotel_details_amenities_section_top_margin">0dp</dimen>
 

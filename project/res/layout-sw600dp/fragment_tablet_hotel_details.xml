@@ -76,6 +76,7 @@
                         android:id="@+id/rooms_left_ring"
                         android:layout_width="@dimen/hotel_details_ring_size"
                         android:layout_height="@dimen/hotel_details_ring_size"
+                        android:padding="2dp"
                         app:percent="0"
                         app:primaryColor="@color/details_ring_red"
                         app:ringThickness="4dp"
