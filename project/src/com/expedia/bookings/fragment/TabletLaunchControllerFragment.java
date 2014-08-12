@@ -379,11 +379,13 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mSearchBarC.setVisibility(View.INVISIBLE);
 			mWaypointC.setVisibility(View.VISIBLE);
 			mTilesC.setVisibility(View.VISIBLE);
+			mWaypointC.getBackground().setAlpha(isReversed ? 255 : 0);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
 			mTilesC.setAlpha(1f - percentage);
+			mWaypointC.getBackground().setAlpha((int) (255f * percentage));
 		}
 
 		@Override
@@ -405,6 +407,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				mSearchBarC.setVisibility(View.VISIBLE);
 				mWaypointC.setVisibility(View.INVISIBLE);
 			}
+
+			mWaypointC.getBackground().setAlpha(isReversed ? 0 : 255);
 		}
 	}
 	);
@@ -443,7 +447,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mTilesC.setTranslationY(percentage * mSearchBarY);
 			mAbText1.setAlpha(1f - percentage);
 			mAbText2.setAlpha(percentage);
-			mPinDetailC.getBackground().setAlpha((int)(255f * percentage));
+			mPinDetailC.getBackground().setAlpha((int) (255f * percentage));
 		}
 
 		@Override
