@@ -842,9 +842,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 
 	@Subscribe
 	public void onInvalidBirthdateEdit(Events.BirthDateInvalidEditSearch event) {
-		NavUtils.goToFlights(this, true, null, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		Ui.hideKeyboard(this);
-		finish();
+		NavUtils.goToFlights(this, true, null, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	}
 
 

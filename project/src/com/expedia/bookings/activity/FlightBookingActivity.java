@@ -403,7 +403,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	@Subscribe
 	public void onInvalidBirthdateEditSearch(Events.BirthDateInvalidEditSearch event) {
 		NavUtils.goToFlights(this, true, null, Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		finish();
 	}
 
 	@Subscribe
