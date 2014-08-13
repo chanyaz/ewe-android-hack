@@ -167,7 +167,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
-			if (isReversed) {
+			if (isAdded() && isReversed) {
 				adjustMapPadding(true);
 			}
 		}
@@ -201,7 +201,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
-			if (isReversed) {
+			if (isAdded() && isReversed) {
 				adjustMapPadding(true);
 			}
 		}
