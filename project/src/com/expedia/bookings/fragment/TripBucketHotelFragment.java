@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -168,9 +170,15 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
 		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (hotel != null && hotel.getProperty() != null && hotel.getProperty().getThumbnail() != null) {
-			hotel.getProperty().getThumbnail()
-				.fillHeaderBitmapDrawable(imageView, headerBitmapDrawable, placeholderResId);
+		if (hotel != null && hotel.getProperty() != null) {
+			if (hotel.getProperty().getThumbnail() != null) {
+				hotel.getProperty().getThumbnail().fillHeaderBitmapDrawable(imageView, headerBitmapDrawable, placeholderResId);
+			}
+			else {
+				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), placeholderResId, false /*blurred*/);
+				headerBitmapDrawable.setBitmap(bitmap);
+				imageView.setImageDrawable(headerBitmapDrawable);
+			}
 		}
 	}
 

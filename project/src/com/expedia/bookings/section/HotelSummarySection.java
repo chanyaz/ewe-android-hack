@@ -329,7 +329,8 @@ public class HotelSummarySection extends RelativeLayout {
 				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId);
 			}
 			else {
-				mThumbnailView.setImageResource(placeholderResId);
+				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(context.getResources(), placeholderResId, false /*blurred*/);
+				mThumbnailView.setImageBitmap(bitmap);
 			}
 		}
 
@@ -342,7 +343,7 @@ public class HotelSummarySection extends RelativeLayout {
 		boolean useSelectedBackground = mSelectedBackground != null;
 		boolean useHeaderGradient = !useSelectedBackground;
 
-		if (mHotelBackgroundView != null && property.getThumbnail() != null) {
+		if (mHotelBackgroundView != null) {
 			final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 
 			if (isSoldOut) {
@@ -366,7 +367,14 @@ public class HotelSummarySection extends RelativeLayout {
 			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
 
 			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
-			property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, mHeaderBitmapLoadedCallback);
+			if (property.getThumbnail() != null) {
+				property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, mHeaderBitmapLoadedCallback);
+			}
+			else {
+				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(context.getResources(), placeholderResId, false /*blurred*/);
+				headerBitmapDrawable.setBitmap(bitmap);
+				mHotelBackgroundView.setImageDrawable(headerBitmapDrawable);
+			}
 		}
 
 		// Set the background based on whether the row is selected or not
