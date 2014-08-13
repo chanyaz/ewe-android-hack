@@ -842,6 +842,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	@Subscribe
 	public void onInvalidBirthdateEdit(Events.BirthDateInvalidEditSearch event) {
 		NavUtils.goToFlights(this, true, null);
+		finish();
 	}
 
 
