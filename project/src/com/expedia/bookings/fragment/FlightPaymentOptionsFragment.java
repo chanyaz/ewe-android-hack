@@ -168,7 +168,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
@@ -244,7 +244,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mValidationState = FlightPaymentFlowState.getInstance(getActivity());
 
 		BillingInfo billingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		mSectionCurrentBillingAddress.bind(billingInfo.getLocation());
 		mSectionCurrentCreditCard.bind(billingInfo, trip);

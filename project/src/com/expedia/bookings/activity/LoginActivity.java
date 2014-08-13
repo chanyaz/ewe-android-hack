@@ -137,7 +137,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 
 		// Set the background (based on mode)
 		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
-			final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 			if (ExpediaBookingApp.useTabletInterface(this)) {
 				ResultsBackgroundImageFragment frag = Ui.findSupportFragment(this, FRAG_TAG_IMAGE_FRAG);
 				if (frag == null) {

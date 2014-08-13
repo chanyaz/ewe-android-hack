@@ -58,7 +58,7 @@ public class FlightRulesFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 
 	}
 

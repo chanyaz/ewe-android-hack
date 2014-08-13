@@ -274,10 +274,8 @@ public class BreakdownDialogFragment extends DialogFragment {
 		return builder.build();
 	}
 
-	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, FlightSearch search,
+	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, FlightTrip trip,
 																	 BillingInfo billingInfo) {
-		FlightTrip trip = search.getSelectedFlightTrip();
-
 		Builder builder = new Builder();
 
 		// Title

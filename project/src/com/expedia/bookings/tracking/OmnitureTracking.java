@@ -761,10 +761,10 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
 
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
-		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
 		String origin = searchParams.getDepartureLocation().getDestinationId();
 		String dest = searchParams.getArrivalLocation().getDestinationId();
 
@@ -784,7 +784,7 @@ public class OmnitureTracking {
 		eVar30 += ":N";
 		s.setEvar(30, eVar30);
 
-		addProducts(s, trip);
+		addProducts(s);
 
 		s.setCurrencyCode(trip.getTotalFare().getCurrency());
 		s.setEvents("purchase");
@@ -803,11 +803,12 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void addProducts(ADMS_Measurement s, FlightTrip trip) {
+	private static void addProducts(ADMS_Measurement s) {
 		// products variable, described here: http://confluence/display/Omniture/Product+string+format
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
-		String numTravelers = Integer.toString(Db.getFlightSearch().getSearchParams().getNumAdults());
+		String numTravelers = Integer.toString(Db.getTripBucket().getFlight().getFlightSearchParams().getNumAdults());
 		String price = trip.getTotalFare().getAmount().toString();
 
 		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
@@ -872,7 +873,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_INFO);
 		addStandardFields(context, s);
 		s.setEvents("event74");
-		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		s.setEvar(47, getEvar47String(params));
 
 		String origin = params.getDepartureLocation().getDestinationId();
@@ -882,7 +883,7 @@ public class OmnitureTracking {
 		s.setEvar(4, dest);
 		s.setProp(4, dest);
 
-		addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
+		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
 
@@ -1437,7 +1438,7 @@ public class OmnitureTracking {
 			s.setEvar(4, dest);
 			s.setProp(4, dest);
 
-			addProducts(s, Db.getFlightSearch().getSelectedFlightTrip());
+			addProducts(s);
 			internalSetFlightDateProps(s, params);
 			addStandardFlightFields(s);
 		}
@@ -1497,7 +1498,7 @@ public class OmnitureTracking {
 
 			if (isConfirmation) {
 				s.setEvents("purchase");
-				addProducts(s, trip);
+				addProducts(s);
 				String itinId = trip.getItineraryNumber();
 				s.setProp(71, itinId);
 				String orderNumber = Db.getFlightCheckout().getOrderId();
@@ -2363,7 +2364,7 @@ public class OmnitureTracking {
 	private static ADMS_Measurement createTrackPageLoadEventPriceChange(Context context, String pageName) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		// This is only to be included when there is a price change shown on the page. This should be the % increase or
 		// decrease in price. Round to whole integers.

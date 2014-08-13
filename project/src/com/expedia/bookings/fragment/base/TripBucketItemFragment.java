@@ -276,7 +276,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		if (mBreakdownFrag == null) {
 			if (lob == LineOfBusiness.FLIGHTS) {
 				mBreakdownFrag = BreakdownDialogFragment
-					.buildFlightBreakdownDialog(getActivity(), Db.getFlightSearch(), Db.getBillingInfo());
+					.buildFlightBreakdownDialog(getActivity(), Db.getTripBucket().getFlight().getFlightTrip(), Db.getBillingInfo());
 			}
 			else if (lob == LineOfBusiness.HOTELS) {
 				mBreakdownFrag = BreakdownDialogFragment

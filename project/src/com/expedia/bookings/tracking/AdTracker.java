@@ -72,24 +72,12 @@ public class AdTracker {
 
 	public static void trackFlightBooked() {
 		try {
-			if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-				int days = 0;
-				if (trip.getLegCount() > 0) {
-					FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
-					DateTime departureCal = new DateTime(firstLeg.getFirstWaypoint().getMostRelevantDateTime());
-					DateTime now = DateTime.now();
-					days = JodaUtils.daysBetween(departureCal, now);
-					if (days < 0) {
-						days = 0;
-					}
-				}
-				Money money = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
-				String destAirportCode = Db.getFlightSearch().getSearchParams().getArrivalLocation()
-					.getDestinationId();
+			if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+				Money money = trip.getTotalFare();
 				if (money != null) {
 					String orderNumber = Db.getFlightCheckout() != null ? Db.getFlightCheckout().getOrderId() : "";
-					AdX.trackFlightBooked(Db.getFlightSearch(), orderNumber, money.getCurrency(), money.getAmount().doubleValue());
+					AdX.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber, money.getCurrency(), money.getAmount().doubleValue());
 				}
 			}
 		}
@@ -105,9 +93,9 @@ public class AdTracker {
 	}
 
 	public static void trackFlightCheckoutStarted() {
-		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
-			Money totalPrice = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
-			AdX.trackFlightCheckoutStarted(Db.getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
+			AdX.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		}
 	}
 

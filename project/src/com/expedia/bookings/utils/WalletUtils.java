@@ -568,7 +568,7 @@ public class WalletUtils {
 	}
 
 	public static Cart buildFlightCart(Context context) {
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		FlightLeg firstLeg = trip.getLeg(0);
 		Money totalBeforeTax = trip.getBaseFare();
 		Money totalAfterTax = trip.getTotalFare();

@@ -150,7 +150,7 @@ public class BookingInfoUtils {
 			}
 			else if (lob == LineOfBusiness.FLIGHTS) {
 				TravelerFlowState state = TravelerFlowState.getInstance(context);
-				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
 					// International
 					useNewTraveler = !state.allTravelerInfoIsValidForInternationalFlight(currentFirstTraveler)
 						&& state.allTravelerInfoIsValidForInternationalFlight(traveler);
@@ -180,9 +180,9 @@ public class BookingInfoUtils {
 		final int travelerSize = travelers.size();
 		int numTravelersNeeded;
 		if (lob == LineOfBusiness.FLIGHTS) {
-			numTravelersNeeded = Db.getFlightSearch().getSearchParams().getNumTravelers();
+			numTravelersNeeded = Db.getTripBucket().getFlight().getFlightSearchParams().getNumTravelers();
 			TravelerListGenerator gen = new TravelerListGenerator(
-				Db.getFlightSearch().getSelectedFlightTrip().getPassengers(), travelers);
+				Db.getTripBucket().getFlight().getFlightTrip().getPassengers(), travelers);
 			Db.setTravelers(gen.generateTravelerList());
 		}
 		else {
@@ -251,12 +251,12 @@ public class BookingInfoUtils {
 
 				if (lob == LineOfBusiness.FLIGHTS) {
 					// Make sure the card is supported by this flight trip before automatically selecting it
-					if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null &&
-						Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(scc.getType())) {
+					if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null &&
+						Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(scc.getType())) {
 
 						info.setStoredCard(scc);
 
-						Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+						Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(true);
 						//mListener.onBillingInfoChange();
 						return true;
 					}

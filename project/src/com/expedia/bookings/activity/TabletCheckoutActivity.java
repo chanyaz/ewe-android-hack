@@ -170,15 +170,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 				Log.e("Exception parsing lob from intent.", ex);
 			}
 		}
-		else if (!AndroidUtils.isRelease(this)) {
-			//TODO: This is only here so we can launch to this activity, this else if block can be deleted prior to release
-			if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
-				updateLob(LineOfBusiness.FLIGHTS);
-			}
-			else {
-				updateLob(LineOfBusiness.HOTELS);
-			}
-		}
 	}
 
 	@Override

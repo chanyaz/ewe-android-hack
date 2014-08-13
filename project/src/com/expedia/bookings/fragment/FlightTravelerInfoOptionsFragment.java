@@ -298,7 +298,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 						onTravelerDetailsReceived(mCurrentTraveler);
 					}
 					else if (!state.allTravelerInfoValid(mCurrentTraveler,
-						Db.getFlightSearch().getSelectedFlightTrip().isInternational())) {
+						Db.getTripBucket().getFlight().getFlightTrip().isInternational())) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(mCurrentTraveler);
 						mListener.setMode(YoYoMode.EDIT);
 						mListener.displayTravelerEntryOne();
@@ -349,7 +349,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
 			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
-				boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+				boolean flightIsInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
 				if (!flightIsInternational) {
 					mListener.displayCheckout();
 				}
@@ -390,7 +390,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	private void refreshCurrentTraveler() {
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+		boolean international = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
 		boolean validDomesticTraveler = (state != null)
 			&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
 		boolean validInternationalTraveler = validDomesticTraveler && state.hasValidTravelerPartThree(mCurrentTraveler);

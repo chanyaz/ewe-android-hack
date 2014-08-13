@@ -94,7 +94,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private MenuItem mCheckoutMenuItem;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
-	private String mTripKey;
 
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
@@ -130,6 +129,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		mKillReceiver.onCreate();
 
 		// Recover data if it was flushed from memory
+		// FIXME cached data loading
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
@@ -138,7 +138,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		mBgImageView = Ui.findView(this, R.id.background_bg_view);
 		Point portrait = Ui.getPortraitScreenSize(this);
-		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
@@ -166,8 +166,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
 			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		}
-
-		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
 		addOverviewFragment();
 
@@ -247,7 +245,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		// When leaving the activity, we want to ensure that if the user returns, they do not see the card fee on the
 		// overview, even if we have a card selected for them in the background.
 		if (isFinishing()) {
-			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			if (flightTrip != null) {
 				flightTrip.setShowFareWithCardFee(false);
 			}
@@ -293,11 +291,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			//Sometimes this will be called on rotation, so our instance may exist, but be otherwise un-initialized for this orientation.
 			checkoutFrag = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 		}
-		if (checkoutFrag != null && Db.getFlightSearch() != null
-			&& Db.getFlightSearch().getSelectedFlightTrip() != null
-			&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())) {
+		if (checkoutFrag != null && Db.getTripBucket() != null
+			&& Db.getTripBucket().getFlight() != null
+			&& !TextUtils.isEmpty(Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber())) {
 			// Disable Google Wallet if not a valid payment type
-			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			if (!trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				checkoutFrag.disableGoogleWallet();
@@ -337,7 +335,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private void addOverviewFragment() {
 		mOverviewFragment = Ui.findSupportFragment(this, TAG_OVERVIEW_FRAG);
 		if (mOverviewFragment == null) {
-			mOverviewFragment = FlightTripOverviewFragment.newInstance(mTripKey, mDisplayMode);
+			mOverviewFragment = FlightTripOverviewFragment.newInstance(mDisplayMode);
 		}
 		if (!mOverviewFragment.isAdded()) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -352,7 +350,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 			mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 			if (mSlideToPurchaseFragment == null) {
-				String text = FlightUtils.getSlideToPurchaseString(this, Db.getFlightSearch().getSelectedFlightTrip());
+				String text = FlightUtils.getSlideToPurchaseString(this, Db.getTripBucket().getFlight().getFlightTrip());
 				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
 			}
 			if (!mSlideToPurchaseFragment.isAdded()) {
@@ -462,7 +460,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 	private void modeChangeComplete() {
 		// In checkout mode, we always want to show the price at bottom with the card fee
-		Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+		Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(true);
 
 		// We only want to update the price bottom fragment if it is added to the content right now, otherwise
 		// it will attempt to find a context (that doesn't exist) and blow up, despite having a reference to it.
@@ -610,12 +608,12 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	}
 
 	private void setActionBarCheckoutMode() {
-		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		int numTravelers = params.getNumAdults() + params.getNumChildren();
 		String travelers = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
 			numTravelers);
 
-		FlightTrip trip = Db.getFlightSearch().getFlightTrip(mTripKey);
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
@@ -709,7 +707,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 				Intent intent = new Intent(this, FlightSearchResultsActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, trip.getLeg(trip.getLegCount() - 1)
 					.getLegId());
 				startActivity(intent);

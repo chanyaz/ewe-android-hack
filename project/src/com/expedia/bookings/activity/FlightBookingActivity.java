@@ -25,6 +25,7 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -93,7 +94,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 		mBgImageView = Ui.findView(this, R.id.background_bg_view);
 		Point portrait = Ui.getPortraitScreenSize(this);
-		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
@@ -135,7 +136,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
 			if (!AndroidUtils.isRelease(mContext)) {
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 				BigDecimal fakePriceChange = getFakePriceChangeAmount();
 				BigDecimal fakeObFees = getFakeObFeesAmount();

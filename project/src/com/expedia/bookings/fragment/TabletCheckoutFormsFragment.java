@@ -417,8 +417,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		// HEADING
 		String headingArg = "";
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+			if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 				headingArg = getString(R.string.flights_to_TEMPLATE, cityName);
 			}

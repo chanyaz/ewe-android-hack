@@ -325,8 +325,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = passengerCategory;
 	}
 
-	public void setPassengerCategory(LocalDate birthdate) {
-		LocalDate endOfTrip = Db.getFlightSearch().getSearchParams().getReturnDate() != null ? Db.getFlightSearch().getSearchParams().getReturnDate() : Db.getFlightSearch().getSearchParams().getDepartureDate();
+	public void determinePassengerCategory() {
+		LocalDate endOfTrip = Db.getTripBucket().getFlight().getFlightSearchParams().getReturnDate() != null ?
+			Db.getTripBucket().getFlight().getFlightSearchParams().getReturnDate() :
+			Db.getTripBucket().getFlight().getFlightSearchParams().getDepartureDate();
 		if (endOfTrip != null && mBirthDate != null) {
 			int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
 			mPassengerCategory = yearsToPassengerCategory(yearsOld);
@@ -337,14 +339,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
 		// Passenger category is determine by their max age during the duration of their trip
 		if (mPassengerCategory == null) {
-			setPassengerCategory(mBirthDate);
+			determinePassengerCategory();
 		}
 		return mPassengerCategory;
 	}
 
 	private PassengerCategory yearsToPassengerCategory(int years) {
 		if (years < MIN_CHILD_AGE) {
-			if (Db.getFlightSearch().getSearchParams().getInfantSeatingInLap()) {
+			if (Db.getTripBucket().getFlight().getFlightSearchParams().getInfantSeatingInLap()) {
 				return PassengerCategory.INFANT_IN_LAP;
 			}
 			else {

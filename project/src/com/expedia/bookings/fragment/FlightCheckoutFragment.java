@@ -122,6 +122,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		View v = inflater.inflate(R.layout.fragment_flight_checkout, container, false);
 
 		// Recover data if it was flushed from memory
+		// FIXME data recovery
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(getActivity())) {
 				NavUtils.onDataMissing(getActivity());
@@ -306,7 +307,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.setTravelers(travelers);
 		}
 
-		List<PassengerCategoryPrice> passengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengers();
+		List<PassengerCategoryPrice> passengers = Db.getTripBucket().getFlight().getFlightTrip().getPassengers();
 		TravelerListGenerator travelerListGenerator = new TravelerListGenerator(passengers, travelers);
 		List<Traveler> newTravelerList = travelerListGenerator.generateTravelerList();
 		Db.setTravelers(newTravelerList);
@@ -319,7 +320,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 
-		List<PassengerCategoryPrice> passengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengers();
+		List<PassengerCategoryPrice> passengers = Db.getTripBucket().getFlight().getFlightTrip().getPassengers();
 		Collections.sort(passengers);
 
 		List<Traveler> travelers = Db.getTravelers();
@@ -334,7 +335,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		final int numTravelers = travelers.size();
 
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-		boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+		boolean isInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
 		ArrayList<String> travelerBoxLabels = TravelerUtils.generateTravelerBoxLabels(getActivity(), travelers);
 
 		if (travelerBoxLabels.size() != travelers.size()) {
@@ -441,7 +442,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				for (int i = 0; i < travelers.size(); i++) {
 					SectionTravelerInfo travSection = mTravelerSections.get(i);
 					boolean currentTravelerValid = false;
-					if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
 						currentTravelerValid = (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
 					}
 					else {
@@ -504,7 +505,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mListener.checkoutInformationIsNotValid();
 		}
 
-		Money cardFee = Db.getFlightSearch().getSelectedFlightTrip().getCardFee(mBillingInfo);
+		Money cardFee = Db.getTripBucket().getFlight().getFlightTrip().getCardFee(mBillingInfo);
 		if (hasValidCard && cardFee != null) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
@@ -568,7 +569,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	@Override
 	public void accountLoginClicked() {
-		String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
+		String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 		String tripId = Db.getItinerary(itinNum).getTripId();
 		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
 			tripId));
@@ -615,7 +616,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		// Update card fee logic
 		if (Db.getBillingInfo().hasStoredCard()) {
-			Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(false);
+			Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(false);
 		}
 		mListener.onBillingInfoChange();
 	}
@@ -676,7 +677,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	@Override
 	protected Money getEstimatedTotal() {
-		return Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+		return Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 	}
 
 	@Override

@@ -171,7 +171,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				if (getLob() == LineOfBusiness.FLIGHTS) {
 					mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 					if (mBillingInfo.getCardType() != null) {
-						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+						FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 						if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
 							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
 								.getCardType().getHumanReadableName(getActivity()));

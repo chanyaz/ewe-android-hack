@@ -129,7 +129,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		String dateRange;
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
 			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
 			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();

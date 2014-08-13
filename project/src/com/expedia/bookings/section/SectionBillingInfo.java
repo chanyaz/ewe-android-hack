@@ -1038,9 +1038,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	public static boolean hasValidFlightCardType(BillingInfo info) {
-		return info != null && info.getCardType() != null && Db.getFlightSearch() != null
-			&& Db.getFlightSearch().getSelectedFlightTrip() != null
-			&& Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(info.getCardType());
+		return info != null && info.getCardType() != null && Db.getTripBucket().getFlight() != null
+			&& Db.getTripBucket().getFlight().getFlightTrip() != null
+			&& Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(info.getCardType());
 	}
 
 }

@@ -34,6 +34,10 @@ public class TripBucketItemFlight extends TripBucketItem {
 		return mFlightSearch.getSelectedFlightTrip();
 	}
 
+	public FlightSearch getFlightSearch() {
+		return mFlightSearch;
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable

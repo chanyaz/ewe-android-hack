@@ -214,7 +214,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 			Bundle args = null;
 			if (getLob() == LineOfBusiness.FLIGHTS) {
-				String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
+				String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 				String tripId = Db.getItinerary(itinNum).getTripId();
 				args = LoginActivity.createArgumentsBundle(getLob(), new UserToTripAssocLoginExtender(
 					tripId));
@@ -312,7 +312,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		LineOfBusiness lob = getLob();
 		Money estimatedTotal = null;
 		if (lob == LineOfBusiness.FLIGHTS) {
-			estimatedTotal = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+			estimatedTotal = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
 			estimatedTotal = Db.getHotelSearch().getCheckoutRate().getTotalAmountAfterTax();

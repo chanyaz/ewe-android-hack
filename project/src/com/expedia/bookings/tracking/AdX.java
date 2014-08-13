@@ -276,7 +276,7 @@ public class AdX {
 
 	public static void trackFlightSearch(FlightSearch flightSearch) {
 		if (sEnabled) {
-			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+			FlightSearchParams params = flightSearch.getSearchParams();
 			String destinationAirport = params.getArrivalLocation().getDestinationId();
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", destinationAirport, "Flight");
 			Log.i("AdX flight search destination=" + destinationAirport);

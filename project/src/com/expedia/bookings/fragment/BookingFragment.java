@@ -267,7 +267,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		switch (firstError.getErrorCode()) {
 		// We get this error for ONLY flights.
 		case PRICE_CHANGE:
-			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip currentOffer = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightTrip newOffer = ((FlightCheckoutResponse) response).getNewOffer();
 
 			// If the debug setting is made to fake a price change, then fake the price here too
@@ -421,7 +421,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private void showBookingUnhandledErrorDialog(LineOfBusiness lob) {
 		String caseNumber;
 		if (lob == LineOfBusiness.FLIGHTS) {
-			caseNumber = Db.getFlightSearch().getSelectedFlightTrip()
+			caseNumber = Db.getTripBucket().getFlight().getFlightTrip()
 				.getItineraryNumber();
 		}
 		else {
@@ -434,7 +434,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private void showBookingUnavailableErrorDialog(LineOfBusiness lob) {
 		boolean isPlural = false;
 		if (lob == LineOfBusiness.FLIGHTS) {
-			isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+			isPlural = (Db.getTripBucket().getFlight().getFlightSearchParams().getQueryLegCount() != 1);
 		}
 		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, lob);
 		df.show(getFragmentManager(), "unavailableErrorDialog");

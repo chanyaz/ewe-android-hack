@@ -72,6 +72,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 		super.onCreate(savedInstanceState);
 
 		// Recover data if it was flushed from memory
+		// FIXME separate cached flight data loading
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
@@ -350,7 +351,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
-					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+					Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(true);
 					if (User.isLoggedIn(this)) {
 						displaySaveDialog();
 					}
@@ -386,7 +387,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
-					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+					Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(true);
 					if (User.isLoggedIn(this)
 							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
 							&& workingBillingInfoChanged()) {

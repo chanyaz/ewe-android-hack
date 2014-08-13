@@ -57,7 +57,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	}
 
 	public FlightBookingFragment() {
-		this.mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		this.mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 	}
 
 	// BookingFragment
@@ -82,7 +82,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 
 				BillingInfo billingInfo = Db.getBillingInfo();
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
 
 				//So at this point, billing info has the correct email address, but the api considers the email
@@ -271,7 +271,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 					Events.post(new Events.BookingUnavailable(LineOfBusiness.FLIGHTS));
 				}
 				else {
-					boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+					boolean isPlural = (Db.getTripBucket().getFlight().getFlightSearchParams().getQueryLegCount() != 1);
 					BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, LineOfBusiness.FLIGHTS);
 					df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), FLIGHT_UNAVAILABLE_DIALOG);
 				}

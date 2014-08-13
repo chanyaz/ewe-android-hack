@@ -75,7 +75,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 
-		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		int imageWidth = getResources().getDimensionPixelSize(R.dimen.confirmation_width);
 		int imageHeight = getResources().getDimensionPixelSize(R.dimen.confirmation_image_height);
 		// FIXME tablet destination image
@@ -94,15 +94,14 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 	@Override
 	protected String getItinNumber() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
 		return itinerary.getItineraryNumber();
 	}
 
 	@Override
 	protected String getConfirmationSummaryText() {
-		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		String duration = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_ABBREV_MONTH);
 		String fromTo = getString(R.string.tablet_confirmation_flights_from_to,
@@ -112,8 +111,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 	@Override
 	protected void shareItinerary() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		int travelerCount = Db.getTravelers() == null ? 1 : Db.getTravelers().size();
 		ShareUtils shareUtils = new ShareUtils(getActivity());
@@ -127,7 +125,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 	@Override
 	protected void addItineraryToCalendar() {
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		for (int a = 0; a < trip.getLegCount(); a++) {
 			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
 			startActivity(intent);
@@ -139,7 +137,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 	@SuppressLint("NewApi")
 	private Intent generateCalendarInsertIntent(FlightLeg leg) {
 		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
-		String itineraryNumber = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
+		String itineraryNumber = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 		return AddToCalendarUtils.generateFlightAddToCalendarIntent(getActivity(), pointOfSale, itineraryNumber, leg);
 	}
 

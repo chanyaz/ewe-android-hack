@@ -163,13 +163,8 @@ public class TravelerListGenerator {
 	}
 
 	public void assignAgesToChildTravelers() {
-		List<ChildTraveler> children;
-		if (Db.getTripBucket().getFlight() != null) {
-			children = Db.getTripBucket().getFlight().getFlightSearchParams().getChildren();
-		}
-		else {
-			children = Db.getFlightSearch().getSearchParams().getChildren();
-		}
+		List<ChildTraveler> children = Db.getTripBucket().getFlight().getFlightSearchParams().getChildren();
+
 		Collections.sort(children, Collections.reverseOrder());
 		Collections.sort(mTravelerList, byPassengerCategory);
 		int firstChildIndex = 0;

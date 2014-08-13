@@ -40,7 +40,7 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 		mSectionTravelerInfo = Ui.findView(v, R.id.traveler_info);
 
 		//We don't need to show redress number field if we aren't passing through the US
-		if (!Db.getFlightSearch().getSelectedFlightTrip().passesThroughCountry("US")) {
+		if (!Db.getTripBucket().getFlight().getFlightTrip().passesThroughCountry("US")) {
 			View redressEntry = Ui.findView(mSectionTravelerInfo, R.id.edit_redress_number);
 			if (redressEntry != null) {
 				redressEntry.setVisibility(View.GONE);

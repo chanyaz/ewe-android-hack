@@ -80,8 +80,8 @@ public class FlightTripPriceFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar, container, false);
 		mTripSection = Ui.findView(mFragmentContent, R.id.price_section);
-		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			mTrip = Db.getTripBucket().getFlight().getFlightTrip();
 		}
 
 		mPriceChangeContainer = Ui.findView(mFragmentContent, R.id.price_change_notification_container);
@@ -108,7 +108,7 @@ public class FlightTripPriceFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				BreakdownDialogFragment dialog = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(),
-					Db.getFlightSearch(), Db.getBillingInfo());
+					Db.getTripBucket().getFlight().getFlightTrip(), Db.getBillingInfo());
 				dialog.show(getFragmentManager(), BreakdownDialogFragment.TAG);
 			}
 		});
@@ -120,8 +120,8 @@ public class FlightTripPriceFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			mTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			bind();
 		}
 	}
@@ -163,7 +163,7 @@ public class FlightTripPriceFragment extends Fragment {
 		if (CheckoutDataLoader.getInstance().isLoading()) {
 			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
 		}
-		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		mTrip = Db.getTripBucket().getFlight().getFlightTrip();
 		mTripSection.bind(mTrip, Db.getBillingInfo());
 	}
 
@@ -213,8 +213,8 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 
 	private String getPriceChangeString() {
-		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
 			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
 		}

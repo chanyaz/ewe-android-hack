@@ -49,8 +49,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 
 		if (savedInstanceState == null) {
 			// Get data
-			final FlightSearch search = Db.getFlightSearch();
-			final String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
+			final String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 
 			// Add guest itin to ItinManager
 			if (!User.isLoggedIn(this)) {
@@ -66,7 +65,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		mBgImageView = Ui.findView(this, R.id.background_bg_view);
 
 		Point portrait = Ui.getPortraitScreenSize(this);
-		final String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
@@ -111,7 +110,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		// #953: Kick off deep refresh for newly booked flight
 		final FlightCheckoutResponse response = Db.getFlightCheckout();
 		if (response != null) {
-			final String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
+			final String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 			String tripId = Db.getItinerary(itinNum).getItineraryNumber();
 			ItineraryManager.getInstance().deepRefreshTrip(tripId, true);
 		}

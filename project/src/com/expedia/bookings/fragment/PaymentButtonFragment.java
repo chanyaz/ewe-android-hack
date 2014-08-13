@@ -91,12 +91,12 @@ public class PaymentButtonFragment extends LobableFragment {
 				FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
 				hasValidCardSelected = state.hasAValidCardSelected(bi);
 				// Set show CC fee to true, so that it can be eligible to be shown in cost breakdown.
-				Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+				Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(true);
 			}
 
 			// LCC Fees callout
 			if (getLob() == LineOfBusiness.FLIGHTS) {
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				Money cardFee = trip.getCardFee(bi);
 				if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
 					mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,

@@ -106,7 +106,8 @@ public class PriceChangeDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// Update our flight trip info
-				Db.getFlightSearch().getSelectedFlightTrip().updateFrom(newOffer);
+				Db.getTripBucket().getFlight().getFlightTrip().updateFrom(newOffer);
+				// FIXME data caching
 				Db.kickOffBackgroundFlightSearchSave(getActivity());
 
 				Events.post(new Events.PriceChangeDialogAccept());

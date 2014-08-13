@@ -88,7 +88,7 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 		@Override
 		public void onDownload(AssociateUserToTripResponse results) {
 			if (results != null && results.isSuccess() && !TextUtils.isEmpty(results.getRewardsPoints())) {
-				Db.getFlightSearch().getSelectedFlightTrip().setRewardsPoints(results.getRewardsPoints());
+				Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints(results.getRewardsPoints());
 			}
 			else {
 				Log.w("Failed to associate user to trip");

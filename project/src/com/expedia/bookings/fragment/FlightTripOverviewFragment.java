@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,11 +17,9 @@ import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 
 public class FlightTripOverviewFragment extends Fragment {
 
-	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
 	private static final int ID_START_RANGE = Integer.MAX_VALUE - 100;
 
@@ -44,10 +41,9 @@ public class FlightTripOverviewFragment extends Fragment {
 		CHECKOUT, OVERVIEW
 	}
 
-	public static FlightTripOverviewFragment newInstance(String tripKey, DisplayMode mode) {
+	public static FlightTripOverviewFragment newInstance(DisplayMode mode) {
 		FlightTripOverviewFragment fragment = new FlightTripOverviewFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_TRIP_KEY, tripKey);
 		args.putString(ARG_DISPLAY_MODE, mode.name());
 		fragment.setArguments(args);
 		return fragment;
@@ -72,10 +68,9 @@ public class FlightTripOverviewFragment extends Fragment {
 		mFlightContainer = Ui.findView(mRootView, R.id.flight_legs_container);
 		mFlightDateAndTravCount = Ui.findView(mRootView, R.id.date_and_travlers);
 
-		String tripKey = getArguments().getString(ARG_TRIP_KEY);
-		mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
+		mTrip = Db.getTripBucket().getFlight().getFlightTrip();
 
-		mFlightDateAndTravCount.bindTripOverview(mTrip, Db.getFlightSearch().getSearchParams().getNumTravelers());
+		mFlightDateAndTravCount.bindTripOverview(mTrip, Db.getTripBucket().getFlight().getFlightSearchParams().getNumTravelers());
 
 		buildCards(inflater);
 

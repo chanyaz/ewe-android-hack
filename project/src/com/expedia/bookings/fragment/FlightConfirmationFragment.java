@@ -25,6 +25,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Itinerary;
@@ -59,8 +60,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		String destinationCity = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 
 		// Format the flight cards
@@ -209,8 +209,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	@Override
 	protected String getItinNumber() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
 		return itinerary.getItineraryNumber();
 	}
@@ -219,11 +218,11 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Search for hotels
 
 	private void searchForHotels() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		FlightLeg firstLeg = trip.getLeg(0);
 		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
-		int numTravelers = search.getSearchParams().getNumAdults() + search.getSearchParams().getNumChildren();
+		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
+		int numTravelers = params.getNumAdults() + params.getNumChildren();
 		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers);
 
 		NavUtils.goToHotels(getActivity(), sp);
@@ -247,8 +246,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Share booking
 
 	private void share() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		int travelerCount = Db.getTravelers() == null ? 1 : Db.getTravelers().size();
 		ShareUtils shareUtils = new ShareUtils(getActivity());
@@ -264,7 +262,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Add to Calendar
 
 	private void addToCalendar() {
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		for (int a = 0; a < trip.getLegCount(); a++) {
 			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
 			startActivity(intent);
@@ -276,7 +274,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	@SuppressLint("NewApi")
 	private Intent generateCalendarInsertIntent(FlightLeg leg) {
 		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
-		String itineraryNumber = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
+		String itineraryNumber = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 		return AddToCalendarUtils.generateFlightAddToCalendarIntent(getActivity(), pointOfSale, itineraryNumber, leg);
 	}
 
@@ -284,7 +282,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// FlightTrack integration
 
 	public Intent getFlightTrackIntent() {
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 		List<Flight> flights = new ArrayList<Flight>();
 		for (int a = 0; a < trip.getLegCount(); a++) {
 			flights.addAll(trip.getLeg(a).getSegments());

@@ -97,6 +97,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		mContext = this;
 
 		// Recover data if it was flushed from memory
+		// FIXME better cached data loading
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
@@ -288,7 +289,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				setShowDoneButton(false);
 				break;
 			case TWO:
-				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
 					setShowNextButton(true);
 					setShowDoneButton(false);
 				}
@@ -393,7 +394,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				break;
 			case TWO:
 				if (validate(mTwoFragment)) {
-					if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
 						displayTravelerEntryThree();
 					}
 					else {

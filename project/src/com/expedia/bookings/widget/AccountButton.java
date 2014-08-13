@@ -185,7 +185,7 @@ public class AccountButton extends LinearLayout {
 
 			String points = "";
 			if (isFlights) {
-				FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 				points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 			}
 			else {
@@ -215,7 +215,7 @@ public class AccountButton extends LinearLayout {
 				: R.string.enrolled_in_expedia_rewards;
 			bottom.setText(mContext.getString(resId));
 
-			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			String points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 			boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 			if (mRewardsContainer != null && flightTrip != null && !TextUtils.isEmpty(points) && USA) {

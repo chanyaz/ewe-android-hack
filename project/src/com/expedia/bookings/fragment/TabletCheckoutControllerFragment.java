@@ -669,7 +669,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		LineOfBusiness lob = getLob();
 		if (lob == LineOfBusiness.FLIGHTS) {
 			if (!mFlightBookingFrag.isDownloadingCreateTrip()
-				&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
+				&& TextUtils.isEmpty(Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber())
 				&& !mIsFlightTripDone
 				&& Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().canBePurchased()) {
@@ -875,7 +875,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			LineOfBusiness lob = getLob();
 			f.setLob(lob);
 			if (lob == LineOfBusiness.FLIGHTS) {
-				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				f.setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
 			}
 			else if (lob == LineOfBusiness.HOTELS) {

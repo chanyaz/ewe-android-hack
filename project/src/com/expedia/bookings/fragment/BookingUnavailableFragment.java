@@ -106,7 +106,7 @@ public class BookingUnavailableFragment extends LobableFragment {
 			mSelectNewItemButton.setText(getString(R.string.tablet_sold_out_select_hotel));
 		}
 		else {
-			boolean isPlural = Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1;
+			boolean isPlural = Db.getTripBucket().getFlight().getFlightSearchParams().getQueryLegCount() != 1;
 			if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.EXPIRED) {
 				if (isPlural) {
 					mSoldOutText.setText(getString(R.string.error_flights_hold_expired));
