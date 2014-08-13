@@ -109,7 +109,7 @@ public class CollectionStack extends FrameLayout {
 			mBackImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 			drawable = makeHeaderBitmapDrawable(url);
-			gradColor = getContext().getResources().getColor(R.color.tablet_collection_back_image_overlay);
+			gradColor = getContext().getResources().getColor(R.color.tablet_collection_middle_image_overlay);
 			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mMiddleImageView.setImageDrawable(drawable);
 			mMiddleImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
