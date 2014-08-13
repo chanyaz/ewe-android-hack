@@ -51,6 +51,13 @@ public class CreateTripResponse extends Response implements JSONable {
 		return mTealeafId;
 	}
 
+	public CreateTripResponse clone() {
+		CreateTripResponse response = new CreateTripResponse();
+		JSONObject json = toJson();
+		response.fromJson(json);
+		return response;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 

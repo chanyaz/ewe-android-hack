@@ -106,13 +106,12 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Adds a Hotel to the trip bucket. Must specify the property and room rate.
-	 * @param params
+	 * @param hotelSearch
 	 * @param rate
-	 * @param property
 	 * @param availability
 	 */
-	public void add(HotelSearchParams params, Rate rate, Property property, HotelAvailability availability) {
-		add(new TripBucketItemHotel(property, rate, params, availability));
+	public void add(HotelSearch hotelSearch, Rate rate, HotelAvailability availability) {
+		add(new TripBucketItemHotel(hotelSearch, rate, availability));
 	}
 
 	public void add(TripBucketItemFlight flight) {
@@ -200,7 +199,7 @@ public class TripBucket implements JSONable {
 			Db.getHotelSearch().setSearchParams(item.getHotelSearchParams());
 			Db.getHotelSearch().setSelectedProperty(item.getProperty());
 			Db.getHotelSearch().setSelectedHotelAvailability(item.getHotelAvailability());
-			Db.getHotelSearch().setSelectedRate(item.getRate(), item.getHotelAvailability());
+			HotelSearch.setSelectedRate(item.getRate(), item.getHotelAvailability());
 		}
 	}
 

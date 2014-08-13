@@ -309,7 +309,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			rate = property.getLowestRate();
 		}
 		Db.getTripBucket().clearHotel();
-		Db.getTripBucket().add(search.getSearchParams(), rate, property, search.getAvailability(property.getPropertyId()));
+		Db.getTripBucket().add(search, rate, search.getAvailability(property.getPropertyId()));
 		Db.saveTripBucket(getActivity());
 
 		mAddToBucketListener.onItemAddedToBucket();

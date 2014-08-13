@@ -6,30 +6,24 @@ import org.json.JSONObject;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
-/**
- * Store just enough information to populate Db.getHotelSearch() with the chosen room.
- *
- * @author doug
- */
 public class TripBucketItemHotel extends TripBucketItem {
 
-	Property mProperty;
-	Rate mOldRate;
-	Rate mRate;
+	HotelSearch mHotelSearch;
 	HotelAvailability mAvailability;
+	Rate mRate;
+	Rate mOldRate;
+
 	Rate mCouponRate;
-	HotelSearchParams mSearchParams;
 	boolean mIsCouponApplied;
 
 	public TripBucketItemHotel() {
 		// ignore
 	}
 
-	public TripBucketItemHotel(Property property, Rate rate, HotelSearchParams searchParams, HotelAvailability availability) {
-		mProperty = property;
-		mAvailability = availability;
-		mRate = rate;
-		mSearchParams = searchParams.clone();
+	public TripBucketItemHotel(HotelSearch hotelSearch, Rate rate, HotelAvailability availability) {
+		mHotelSearch = hotelSearch.generateForTripBucket();
+		mAvailability = availability.clone();
+		mRate = rate.clone();
 	}
 
 	@Override
@@ -38,7 +32,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public Property getProperty() {
-		return mProperty;
+		return mHotelSearch.getSelectedProperty();
 	}
 
 	public Rate getRate() {
@@ -58,8 +52,12 @@ public class TripBucketItemHotel extends TripBucketItem {
 		return mAvailability;
 	}
 
+	public HotelSearch getHotelSearch() {
+		return mHotelSearch;
+	}
+
 	public HotelSearchParams getHotelSearchParams() {
-		return mSearchParams;
+		return mHotelSearch.getSearchParams();
 	}
 
 	public void setNewRate(Rate rate) {
@@ -87,10 +85,9 @@ public class TripBucketItemHotel extends TripBucketItem {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = super.toJson();
-			JSONUtils.putJSONable(obj, "property", mProperty);
+			JSONUtils.putJSONable(obj, "hotelSearch", mHotelSearch);
 			JSONUtils.putJSONable(obj, "rate", mRate);
 			JSONUtils.putJSONable(obj, "oldRate", mOldRate);
-			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			obj.put("type", "hotel");
 			obj.put("couponApplied", mIsCouponApplied);
 			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
@@ -106,13 +103,12 @@ public class TripBucketItemHotel extends TripBucketItem {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
+		mHotelSearch = JSONUtils.getJSONable(obj, "hotelSearch", HotelSearch.class);
 		mRate = JSONUtils.getJSONable(obj, "rate", Rate.class);
 		mOldRate = JSONUtils.getJSONable(obj, "oldRate", Rate.class);
 		mIsCouponApplied = obj.optBoolean("couponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);
-		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class);
 		return true;
 	}
 }

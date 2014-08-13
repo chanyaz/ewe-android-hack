@@ -540,6 +540,13 @@ public class Property implements JSONable {
 		mIsVipAccess |= property.isVipAccess();
 	}
 
+	public Property clone() {
+		Property property = new Property();
+		JSONObject propertyJson = toJson();
+		property.fromJson(propertyJson);
+		return property;
+	}
+
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();

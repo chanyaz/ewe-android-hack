@@ -31,8 +31,9 @@ public class HotelSearch implements JSONable {
 	private HotelSearchResponse mSearchResponse;
 
 	// Tablet flow.
-	private Property mSelectedProperty;
 	private HotelAvailability mSelectedHotelAvailability;
+
+	private Property mSelectedProperty;
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -137,7 +138,7 @@ public class HotelSearch implements JSONable {
 		return getSelectedRate(getAvailability(mSelectedProperty.getPropertyId()));
 	}
 
-	public Rate getSelectedRate(HotelAvailability availability) {
+	private static Rate getSelectedRate(HotelAvailability availability) {
 		if (availability != null) {
 			return availability.getSelectedRate();
 		}
@@ -150,6 +151,7 @@ public class HotelSearch implements JSONable {
 	 * that availability object. The HotelSearch object may no longer
 	 * have the same HotelAvailability map (i.e. a new search with different params was kicked off.)
 	 */
+	// TODO remove this concept once we no longer have to store separate availabilities
 	public Rate getCheckoutRate() {
 		return (getSelectedHotelAvailability() != null ? getSelectedRate(getSelectedHotelAvailability()) : getSelectedRate());
 
@@ -162,7 +164,7 @@ public class HotelSearch implements JSONable {
 	 * @param hotelAvailability
 	 */
 
-	public void setSelectedRate(Rate rate, HotelAvailability hotelAvailability) {
+	public static void setSelectedRate(Rate rate, HotelAvailability hotelAvailability) {
 		hotelAvailability.setSelectedRate(rate);
 		Events.post(new Events.HotelRateSelected());
 	}
@@ -290,6 +292,18 @@ public class HotelSearch implements JSONable {
 			return mReviewsResponses.get(id);
 		}
 		return null;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Booking / Checkout / Trip bucket conversion
+
+	public HotelSearch generateForTripBucket() {
+		HotelSearch hotelSearch = new HotelSearch();
+
+		hotelSearch.mSelectedProperty = mSelectedProperty.clone();
+		hotelSearch.mSearchParams = mSearchParams.clone();
+
+		return hotelSearch;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

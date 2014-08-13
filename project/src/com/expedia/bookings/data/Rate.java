@@ -605,6 +605,13 @@ public class Rate implements JSONable {
 		return display;
 	}
 
+	public Rate clone() {
+		Rate rate = new Rate();
+		JSONObject json = toJson();
+		rate.fromJson(json);
+		return rate;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSON Stuff
 
