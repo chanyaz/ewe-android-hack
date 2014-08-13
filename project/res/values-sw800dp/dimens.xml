@@ -32,10 +32,6 @@
     <dimen name="results_guest_picker_padding_x">24dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">16sp</dimen>
     <dimen name="tablet_result_row_price_size">21sp</dimen>
-    <dimen name="tablet_result_twoLine_left_margin">5dp</dimen>
-    <dimen name="tablet_result_twoLine_bottom_margin">6dp</dimen>
-    <dimen name="tablet_result_twoLine_right_margin">5dp</dimen>
-    <dimen name="tablet_result_price_text_bottom_margin">5dp</dimen>
     <dimen name="results_list_spacer_height">8dp</dimen>
     <!-- note: make sure that results_list_margin_top = results_list_header_height - results_list_spacer_height -->
     <dimen name="results_list_margin_top">48dp</dimen>
