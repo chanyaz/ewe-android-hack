@@ -188,6 +188,7 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onPause() {
 		super.onPause();
+		mLoadingLocation = false;
 		getActivity().getActionBar().show();
 	}
 
