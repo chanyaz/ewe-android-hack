@@ -2,8 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.math.BigDecimal;
 
-import org.joda.time.DateTime;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +22,6 @@ import com.expedia.bookings.bitmaps.BitmapDrawable;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
@@ -40,10 +37,8 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -407,7 +402,8 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 	@Subscribe
 	public void onInvalidBirthdateEditSearch(Events.BirthDateInvalidEditSearch event) {
-		NavUtils.goToFlights(this, true, null);
+		NavUtils.goToFlights(this, true, null, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		finish();
 	}
 
 	@Subscribe

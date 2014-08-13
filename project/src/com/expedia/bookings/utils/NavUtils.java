@@ -152,15 +152,21 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions) {
+		goToFlights(context, usePresetSearchParams, animOptions, 0);
+	}
+
+	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags) {
 		if (!PointOfSale.getPointOfSale().supportsFlights()) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);
+			intent.addFlags(flags);
 			startActivity(context, intent, animOptions);
 		}
 		else {
 			sendKillActivityBroadcast(context);
 			Intent intent = new Intent(context, FlightSearchActivity.class);
+			intent.addFlags(flags);
 			if (usePresetSearchParams) {
 				intent.putExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, true);
 			}

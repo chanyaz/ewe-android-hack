@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -841,7 +842,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 
 	@Subscribe
 	public void onInvalidBirthdateEdit(Events.BirthDateInvalidEditSearch event) {
-		NavUtils.goToFlights(this, true, null);
+		NavUtils.goToFlights(this, true, null, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		Ui.hideKeyboard(this);
 		finish();
 	}
 
