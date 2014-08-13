@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -268,7 +269,7 @@ public class TripBucket implements JSONable {
 			return true;
 		}
 
-		if (hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
+		if (daysBetweenFlights() > 0 && hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
 			return true;
 		}
 
@@ -300,6 +301,15 @@ public class TripBucket implements JSONable {
 		}
 
 		return false;
+	}
+
+	private int daysBetweenFlights() {
+		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
+		LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+		FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
+		LocalDate returnFlightTakeoffTime = new LocalDate(returnFlight.getFirstWaypoint().getMostRelevantDateTime());
+
+		return JodaUtils.daysBetween(departingFlightLandingTime, returnFlightTakeoffTime);
 	}
 
 	private boolean itemsAreForSameDestination() {
