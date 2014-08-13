@@ -269,7 +269,7 @@ public class TripBucket implements JSONable {
 			return true;
 		}
 
-		if (daysBetweenFlights() > 0 && hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
+		if (daysBetweenFlights() && hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
 			return true;
 		}
 
@@ -303,13 +303,17 @@ public class TripBucket implements JSONable {
 		return false;
 	}
 
-	private int daysBetweenFlights() {
+	private boolean daysBetweenFlights() {
+		if (!getFlight().getFlightSearchParams().isRoundTrip()) {
+			return true;
+		}
+
 		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
 		LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
 		FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
 		LocalDate returnFlightTakeoffTime = new LocalDate(returnFlight.getFirstWaypoint().getMostRelevantDateTime());
 
-		return JodaUtils.daysBetween(departingFlightLandingTime, returnFlightTakeoffTime);
+		return JodaUtils.daysBetween(departingFlightLandingTime, returnFlightTakeoffTime) > 0;
 	}
 
 	private boolean itemsAreForSameDestination() {
