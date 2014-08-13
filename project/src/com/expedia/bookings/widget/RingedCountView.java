@@ -65,7 +65,7 @@ public class RingedCountView extends View {
 	private static final int THIN = 128;
 
 	private Animator mAnimator;
-	private RingDrawable mRingDrawable = new RingDrawable();
+	private RingDrawable mRingDrawable;
 
 	public RingedCountView(Context context) {
 		super(context);
@@ -113,6 +113,7 @@ public class RingedCountView extends View {
 			a.recycle();
 		}
 
+		mRingDrawable = new RingDrawable();
 		setBackgroundColor(backgroundColor);
 		setPrimaryColor(primaryColor);
 		setSecondaryColor(secondaryColor);
@@ -276,7 +277,9 @@ public class RingedCountView extends View {
 	@Override
 	public void setPadding(int left, int top, int right, int bottom) {
 		super.setPadding(left, top, right, bottom);
-		mRingDrawable.setPadding(left, top, right, bottom);
+		if (mRingDrawable != null) {
+			mRingDrawable.setPadding(left, top, right, bottom);
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
