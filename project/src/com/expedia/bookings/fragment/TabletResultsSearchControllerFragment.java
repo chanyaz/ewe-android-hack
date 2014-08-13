@@ -596,13 +596,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalC.setVisibility(View.VISIBLE);
 				mGdeC.setVisibility(View.VISIBLE);
 
-				if ((mDatesFragment == null || mDatesFragment.isDetached()) || (mGdeFragment == null || mGdeFragment
-					.isDetached())) {
+				if (mDatesFragment == null || mDatesFragment.isDetached()
+					|| mGdeFragment == null || mGdeFragment.isDetached()) {
 					FragmentManager manager = getChildFragmentManager();
 					FragmentTransaction transaction = manager.beginTransaction();
 					mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_CALENDAR, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.calendar_container, true);
-					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(PointOfSale.getPointOfSale().isFlightSearchEnabledTablet(), FTAG_FLIGHTS_GDE, manager,
+					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_FLIGHTS_GDE, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.gde_container, true);
 					transaction.commit();
 				}
@@ -909,6 +909,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					: View.INVISIBLE
 			);
 
+			mCalContentC.setVisibility(mCalC.getVisibility());
+
 			// GDE visibility should always follow the calendar visibility
 			mGdeC.setVisibility(mCalC.getVisibility());
 
@@ -916,12 +918,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE
 					? View.VISIBLE
 					: View.INVISIBLE
-			);
-
-			mCalContentC.setVisibility(
-				state.showsCalendar()
-					? View.VISIBLE
-					: View.GONE
 			);
 
 			mPopupTravTv.setVisibility(
@@ -987,7 +983,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mParamFragsAvailable = state != ResultsSearchState.HOTELS_UP && state != ResultsSearchState.FLIGHTS_UP;
 
 		boolean mCalAvail = mParamFragsAvailable;
-		boolean mGdeAvail = PointOfSale.getPointOfSale().isFlightSearchEnabledTablet(); //Always follows the POS
+		boolean mGdeAvail = mCalAvail; // GDE will display an error message if POS isn't supported
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvailable = mParamFragsAvailable;
 
@@ -1007,7 +1003,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mCurrentLocationFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(!mLocalParams.hasOrigin() && mGdeAvail, FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
 				true);
-
 
 		transaction.commit();
 	}

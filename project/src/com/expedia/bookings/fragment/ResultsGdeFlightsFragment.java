@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -203,12 +204,28 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		}
 	}
 
+	private void setErrorNoPos() {
+		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
+			String posURL = PointOfSale.getPointOfSale().getWebsiteUrl();
+			mGdeErrorMessageView.setCaption(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable_TEMPLATE, posURL)), posURL);
+		}
+		else {
+			mGdeErrorMessageView.setCaption(getString(R.string.invalid_flights_pos));
+		}
+		mGdeErrorMessageView.setVisibility(View.VISIBLE);
+		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+		mGdeProgressBar.setVisibility(View.INVISIBLE);
+		mGdePriceRangeTv.setText("");
+	}
+
 	private void setErrorNoResults() {
 		String destination = StrUtils.formatCity(Sp.getParams().getDestination());
 		mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
 		mGdeErrorMessageView.setVisibility(View.VISIBLE);
 		mGdeErrorMessageView.clearActionButton();
 		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+		mGdeProgressBar.setVisibility(View.INVISIBLE);
+		mGdePriceRangeTv.setText("");
 	}
 
 	private void setErrorNoOrigin() {
@@ -221,14 +238,16 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			}
 		});
 		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+		mGdeProgressBar.setVisibility(View.INVISIBLE);
+		mGdePriceRangeTv.setText("");
 	}
 
 	private void setStateLoading() {
-		mGdeProgressBar.setVisibility(View.VISIBLE);
-		mGdePriceRangeTv.setText("");
 		mGdeErrorMessageView.setVisibility(View.GONE);
 		mGdeErrorMessageView.clearActionButton();
 		mGdeHeaderTv.setVisibility(View.INVISIBLE);
+		mGdeProgressBar.setVisibility(View.VISIBLE);
+		mGdePriceRangeTv.setText("");
 	}
 
 	protected void startOrResumeDownload(GdeDownloadFragment frag) {
@@ -301,7 +320,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
 			}
 
-			if (mOrigin == null) {
+			if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
+				|| !PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
+				setErrorNoPos();
+			}
+			else if (mOrigin == null) {
 				setErrorNoOrigin();
 			}
 			else {

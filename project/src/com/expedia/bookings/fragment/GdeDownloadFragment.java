@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
@@ -158,11 +159,20 @@ public class GdeDownloadFragment extends Fragment {
 	private final Download<FlightSearchHistogramResponse> mGdeSearchDownload = new Download<FlightSearchHistogramResponse>() {
 		@Override
 		public FlightSearchHistogramResponse doDownload() {
-			if (mOrigin != null && mDestination != null && getActivity() != null) {
-				ExpediaServices services = new ExpediaServices(getActivity());
-				return services.flightSearchHistogram(mOrigin, mDestination, mDepartureDate);
+			if (!PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
+				return null;
 			}
-			return null;
+
+			if (mOrigin == null || mDestination == null) {
+				return null;
+			}
+
+			if (getActivity() == null) {
+				return null;
+			}
+
+			ExpediaServices services = new ExpediaServices(getActivity());
+			return services.flightSearchHistogram(mOrigin, mDestination, mDepartureDate);
 		}
 	};
 
