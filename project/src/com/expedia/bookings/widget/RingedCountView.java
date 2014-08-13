@@ -65,7 +65,7 @@ public class RingedCountView extends View {
 	private static final int THIN = 128;
 
 	private Animator mAnimator;
-	private RingDrawable mRingDrawable;
+	private RingDrawable mRingDrawable = new RingDrawable();
 
 	public RingedCountView(Context context) {
 		super(context);
@@ -113,7 +113,6 @@ public class RingedCountView extends View {
 			a.recycle();
 		}
 
-		mRingDrawable = new RingDrawable();
 		setBackgroundColor(backgroundColor);
 		setPrimaryColor(primaryColor);
 		setSecondaryColor(secondaryColor);
