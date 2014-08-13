@@ -124,7 +124,6 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 			CollectionStack stack = (CollectionStack) mItemsContainer.getChildAt(i);
 			LaunchCollection launchCollection = (LaunchCollection) stack.getTag();
 			if (launchCollection.equals(event.launchCollection)) {
-				LaunchDb.setSelectedCollection(launchCollection);
 				setCheckedCollection(stack);
 			}
 		}
