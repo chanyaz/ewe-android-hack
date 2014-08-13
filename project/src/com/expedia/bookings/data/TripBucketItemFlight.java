@@ -11,16 +11,14 @@ import com.mobiata.android.json.JSONUtils;
  */
 public class TripBucketItemFlight extends TripBucketItem {
 
-	FlightSearchParams mFlightSearchParams;
-	FlightTrip mFlightTrip;
+	FlightSearch mFlightSearch;
 
 	public TripBucketItemFlight() {
 
 	}
 
-	public TripBucketItemFlight(FlightSearchParams params, FlightTrip flightTrip) {
-		mFlightSearchParams = params.clone();
-		mFlightTrip = flightTrip.clone();
+	public TripBucketItemFlight(FlightSearch flightSearch) {
+		mFlightSearch = flightSearch.generateForTripBucket();
 	}
 
 	@Override
@@ -29,11 +27,11 @@ public class TripBucketItemFlight extends TripBucketItem {
 	}
 
 	public FlightSearchParams getFlightSearchParams() {
-		return mFlightSearchParams;
+		return mFlightSearch.getSearchParams();
 	}
 
 	public FlightTrip getFlightTrip() {
-		return mFlightTrip;
+		return mFlightSearch.getSelectedFlightTrip();
 	}
 
 
@@ -44,8 +42,7 @@ public class TripBucketItemFlight extends TripBucketItem {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = super.toJson();
-			JSONUtils.putJSONable(obj, "flightSearchParams", mFlightSearchParams);
-			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
+			JSONUtils.putJSONable(obj, "flightSearch", mFlightSearch);
 			obj.putOpt("type", "flight");
 			return obj;
 		}
@@ -58,8 +55,7 @@ public class TripBucketItemFlight extends TripBucketItem {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mFlightSearchParams = JSONUtils.getJSONable(obj, "flightSearchParams", FlightSearchParams.class);
-		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
+		mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
 		return true;
 	}
 }

@@ -126,8 +126,8 @@ public class TripBucket implements JSONable {
 	/**
 	 * Adds a Flight to the trip bucket.
 	 */
-	public void add(FlightSearchParams params, FlightTrip flightTrip) {
-		add(new TripBucketItemFlight(params, flightTrip));
+	public void add(FlightSearch flightSearch) {
+		add(new TripBucketItemFlight(flightSearch));
 	}
 
 	/**

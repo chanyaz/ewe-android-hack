@@ -620,6 +620,21 @@ public class FlightSearch implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Booking / Checkout / Trip bucket conversion
+
+	/**
+	 * A stripped down version of the FlightSearch used only for checkout
+	 */
+	public FlightSearch generateForTripBucket() {
+		FlightSearch flightSearch = new FlightSearch();
+
+		flightSearch.mSearchParams = mSearchParams.clone();
+		flightSearch.mSelectedFlightTrip = getSelectedFlightTrip().clone();
+
+		return flightSearch;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
