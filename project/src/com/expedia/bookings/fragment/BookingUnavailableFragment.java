@@ -69,6 +69,7 @@ public class BookingUnavailableFragment extends LobableFragment {
 		public void onClick(View v) {
 			LineOfBusiness lob = getLob();
 			Db.getTripBucket().clear(lob);
+			Db.saveTripBucket(getActivity());
 			switch (v.getId()) {
 			case R.id.remove_sold_out_button:
 				if (mListener != null) {
@@ -90,6 +91,10 @@ public class BookingUnavailableFragment extends LobableFragment {
 	};
 
 	private void updateViews() {
+		// Hide the "remove item" button if there is just one item in the trip bucket.
+		if (Db.getTripBucket().size() == 1) {
+			mRemoveItemButton.setVisibility(View.GONE);
+		}
 		if (getLob() == LineOfBusiness.HOTELS) {
 			if (Db.getTripBucket().getHotel().getState() == TripBucketItemState.EXPIRED) {
 				mSoldOutText.setText(getString(R.string.tablet_expired_summary_text_hotel));
