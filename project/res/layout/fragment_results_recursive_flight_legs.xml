@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -33,6 +34,7 @@
             android:id="@+id/last_flight_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/tablet_white_pane_bg"
             android:visibility="gone">
 
             <LinearLayout
@@ -40,10 +42,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/results_list_spacer_height"
-                    android:background="@color/tablet_white_pane_bg" />
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/last_flight_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/results_list_header_height"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/hotel_flight_card_padding_x"
+                    android:textSize="@dimen/results_list_header_text_size"
+                    app:textStyle="light" />
 
                 <include
                     android:id="@+id/last_flight_row"

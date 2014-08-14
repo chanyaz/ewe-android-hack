@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -90,6 +91,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private FrameLayoutTouchController mListC;
 	private FrameLayoutTouchController mNextLegC;
 	private FrameLayoutTouchController mLastLegC;
+	private TextView mLastLegHeader;
 
 	//Views
 	private FlightLegSummarySectionTablet mLastFlightRow;
@@ -158,6 +160,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mListC = Ui.findView(view, R.id.list_container);
 		mNextLegC = Ui.findView(view, R.id.next_leg_container);
 		mLastLegC = Ui.findView(view, R.id.last_flight_container);
+		mLastLegHeader = Ui.findView(mLastLegC, R.id.last_flight_header);
 		mLastFlightRow = Ui.findView(view, R.id.last_flight_row);
 
 		mContainers.add(mDetailsC);
@@ -166,7 +169,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mContainers.add(mListColumnC);
 
 		if (!isFirstLeg()) {
-			mLastLegC.setVisibility(View.VISIBLE);
+			showLastLeg();
 		}
 
 		//We just cant have people mashing the list
@@ -753,6 +756,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	protected void showLastLeg() {
 		if (mLastLegC != null) {
 			mLastLegC.setVisibility(View.VISIBLE);
+			String city = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
+			mLastLegHeader.setText(getString(R.string.your_flight_to_x_TEMPLATE, city));
 		}
 	}
 
@@ -932,7 +937,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				}
 
 				//This is the previous leg row that should always be visible if we aren't leg == 0
-				mLastLegC.setVisibility(View.VISIBLE);
+				showLastLeg();
 			}
 
 			// Sort and Filter button

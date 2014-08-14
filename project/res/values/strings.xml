@@ -96,6 +96,15 @@
         <item quantity="many">%s Flights</item>
         <item quantity="other">%s Flights</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s Return Flights</item>
+        <item quantity="one">%s Return Flight</item>
+        <item quantity="two">%s Return Flights</item>
+        <item quantity="few">%s Return Flights</item>
+        <item quantity="many">%s Return Flights</item>
+        <item quantity="other">%s Return Flights</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Your trip is empty.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
