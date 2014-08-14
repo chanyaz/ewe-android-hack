@@ -95,8 +95,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	public void bindToDb() {
 		if (mSectionBillingInfo != null) {
-			BillingInfo info = new BillingInfo(Db.getBillingInfo());
-			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info);
+			BillingInfo workingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(workingInfo);
 			mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 		}
 		setHeadingText(getString(R.string.payment_method));
