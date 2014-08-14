@@ -2,11 +2,17 @@ package com.expedia.bookings.test.utils;
 
 import java.net.URL;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
+
+import static com.expedia.bookings.test.utils.SpoonScreenshotUtils.getCurrentActivity;
 
 /**
  * Created by dmadan on 7/15/14.
@@ -19,15 +25,18 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
 	static final String TEST_CASE_METHOD = "runMethod";
+	static final int PORTRAIT = 0;
+	static final int LANDSCAPE = 1;
+
 	protected MockWebServer mMockWebServer;
 	protected FileOpener mFileOpener;
-
 
 	public void runTest() throws Throwable {
 
 		Settings.clearPrivateData(getInstrumentation());
 
-		//get server value from config file deployed in devices
+		// Get server value from config file deployed in devices,
+		// if not defined in config defaults to MockWebServer.
 		if (ConfigFileUtils.doesConfigFileExist()) {
 			Settings.setServer(getInstrumentation(), new ConfigFileUtils().getConfigValue("Server"));
 		}
@@ -84,6 +93,28 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			// ignore
 		}
 		SpoonScreenshotUtils.screenshot(tag, getInstrumentation());
+	}
+
+	public void rotateScreenTwice() throws Throwable {
+		rotateScreen();
+
+		//to rotate it back to original orientation
+		rotateScreen();
+	}
+
+	public void rotateScreen() throws Throwable {
+		Activity currentActivity = getCurrentActivity(getInstrumentation());
+		Display display = ((WindowManager) currentActivity.getSystemService(getInstrumentation().getTargetContext().WINDOW_SERVICE)).getDefaultDisplay();
+		int orientation = display.getOrientation();
+
+		switch (orientation) {
+		case PORTRAIT:
+			currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			break;
+		case LANDSCAPE:
+			currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			break;
+		}
 	}
 
 	protected void tearDown() throws Exception {

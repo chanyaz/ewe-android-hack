@@ -15,8 +15,8 @@ import com.mobiata.android.Log;
 
 /*
  * Test configurations should be stored on test devices in
- * a file named 'config.data'. Config data stored in this file
- * should include things like mock proxy IP and port
+ * a file named 'config.json'. Config data stored in this file
+ * should include things like api server and screen orientation
  */
 
 public class ConfigFileUtils {

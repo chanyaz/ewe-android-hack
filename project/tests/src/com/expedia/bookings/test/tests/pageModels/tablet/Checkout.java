@@ -226,7 +226,7 @@ public class Checkout {
 	}
 
 	public static void clickGrandTotalTextView() {
-		onView(withId(R.id.price_expanded_bucket_text_view)).perform(click());
+		onView(allOf(withId(R.id.price_expanded_bucket_text_view), isDisplayed())).perform(click());
 	}
 
 	public static ViewInteraction costSummaryText() {
