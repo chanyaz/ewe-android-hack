@@ -92,7 +92,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private FrameLayoutTouchController mLastLegC;
 
 	//Views
-	private FlightLegSummarySectionTablet mLastFLightRow;
+	private FlightLegSummarySectionTablet mLastFlightRow;
 
 	//Other
 	private int mLegNumber;
@@ -158,7 +158,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mListC = Ui.findView(view, R.id.list_container);
 		mNextLegC = Ui.findView(view, R.id.next_leg_container);
 		mLastLegC = Ui.findView(view, R.id.last_flight_container);
-		mLastFLightRow = Ui.findView(view, R.id.last_flight_row);
+		mLastFlightRow = Ui.findView(view, R.id.last_flight_row);
 
 		mContainers.add(mDetailsC);
 		mContainers.add(mFiltersC);
@@ -651,13 +651,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 
 			//Last leg state
-			if (mLegNumber > 0 && mLastFLightRow != null) {
+			if (mLegNumber > 0 && mLastFlightRow != null) {
 				int lastFlightIndex = mLegNumber - 1;
 				if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedLegs() != null
 					&& Db.getFlightSearch().getSelectedLegs().length > lastFlightIndex
 					&& Db.getFlightSearch().getSelectedLegs()[lastFlightIndex] != null
 					&& Db.getFlightSearch().getSelectedLegs()[lastFlightIndex].getFlightTrip() != null) {
-					mLastFLightRow.bind(Db.getFlightSearch(), lastFlightIndex);
+					mLastFlightRow.bind(Db.getFlightSearch(), lastFlightIndex);
 				}
 			}
 		}
@@ -738,8 +738,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 
 	protected Rect getColumnHeaderRect() {
-		if (mLastFLightRow != null) {
-			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mLastFLightRow);
+		if (mLastFlightRow != null) {
+			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mLastFlightRow);
 		}
 		return null;
 	}
