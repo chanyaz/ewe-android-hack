@@ -19,10 +19,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_flight_card_height"
-        android:layout_marginBottom="@dimen/hotel_flight_card_padding_y"
         android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
         android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
-        android:layout_marginTop="@dimen/hotel_flight_card_padding_y"
         android:background="#5c6874" >
 
         <View
@@ -46,10 +44,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_flight_card_height"
-        android:layout_marginBottom="@dimen/hotel_flight_card_padding_y"
         android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
         android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
-        android:layout_marginTop="@dimen/hotel_flight_card_padding_y"
         android:background="#5c6874" >
 
         <View

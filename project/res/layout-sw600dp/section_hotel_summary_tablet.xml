@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/tablet_white_pane_bg"
-    android:paddingBottom="@dimen/hotel_flight_card_padding_y"
     android:paddingLeft="@dimen/hotel_flight_card_padding_x"
     android:paddingRight="@dimen/hotel_flight_card_padding_x"
-    android:paddingTop="@dimen/hotel_flight_card_padding_y"
     app:priceTextColor="?attr/hotelPriceStandardColor"
     app:salePriceTextColor="?attr/hotelPriceSaleColor">
 

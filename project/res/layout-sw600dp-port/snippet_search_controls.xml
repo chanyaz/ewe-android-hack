@@ -6,23 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mobiata.android.widget.AutoResizeTextView
+    <com.expedia.bookings.widget.AutoResizeTextView
         android:id="@+id/dest_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:textSize="@dimen/search_params_destination_text_size"
-        android:textColor="@color/tablet_search_params_text"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@drawable/ic_action_bar_magnifying_glass"
+        android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:drawablePadding="8dp"
-        android:layout_gravity="center"
         android:singleLine="true"
-        android:drawableLeft="@drawable/ic_action_bar_magnifying_glass"
-        android:background="?android:attr/selectableItemBackground"
+        android:textAllCaps="true"
+        android:textColor="@color/tablet_search_params_text"
+        android:textSize="@dimen/search_params_destination_text_size"
         app:minTextSize="14sp"
-        app:textStyle="light"/>
+        app:textStyle="condensed"/>
 
     <LinearLayout
         android:id="@+id/right_buttons_container"

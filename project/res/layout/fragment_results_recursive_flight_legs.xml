@@ -35,9 +35,21 @@
             android:layout_height="wrap_content"
             android:visibility="gone">
 
-            <include
-                android:id="@+id/last_flight_row"
-                layout="@layout/section_flight_leg_tablet_blue_card_checked" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/results_list_spacer_height"
+                    android:background="@color/tablet_white_pane_bg" />
+
+                <include
+                    android:id="@+id/last_flight_row"
+                    layout="@layout/section_flight_leg_tablet_blue_card_checked" />
+
+            </LinearLayout>
         </com.expedia.bookings.widget.FrameLayoutTouchController>
 
         <com.expedia.bookings.widget.FrameLayoutTouchController
