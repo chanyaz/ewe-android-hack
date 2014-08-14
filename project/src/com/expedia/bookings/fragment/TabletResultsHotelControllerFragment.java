@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
@@ -1334,6 +1335,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			switch (state) {
 			case LOADING:
+				mLoadingGuiFrag.setLob(LineOfBusiness.HOTELS);
 			case HOTEL_LIST_DOWN:
 				mLoadingC.setAlpha(1.0f);
 				mBgHotelMapC.setAlpha(0f);

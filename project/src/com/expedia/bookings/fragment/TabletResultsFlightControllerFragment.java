@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
@@ -800,6 +801,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				if (mFlightLegsFrag.isFirstLeg()) {
 					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
 				}
+			}
+
+			if (state == ResultsFlightsState.LOADING) {
+				mLoadingGuiFrag.setLob(LineOfBusiness.FLIGHTS);
 			}
 		}
 	};

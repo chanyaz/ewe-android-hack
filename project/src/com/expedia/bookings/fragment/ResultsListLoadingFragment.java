@@ -15,14 +15,18 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
 
 /**
  * Results loading fragment for Tablet
  */
-public class ResultsListLoadingFragment extends Fragment {
+public class ResultsListLoadingFragment extends LobableFragment {
 
 	private ViewGroup mRootC;
+	private TextView mLoadingTextView;
 
 	//loading anim vars
 	private int mLoadingColorDark = Color.DKGRAY;
@@ -42,8 +46,21 @@ public class ResultsListLoadingFragment extends Fragment {
 	}
 
 	@Override
+	public void onLobSet(LineOfBusiness lob) {
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_results_list_loading, null);
+		mLoadingTextView = com.mobiata.android.util.Ui.findView(mRootC, R.id.loading_textview);
+
+		if (getLob() == LineOfBusiness.HOTELS) {
+			mLoadingTextView.setText(getString(R.string.loading_hotels));
+		}
+		else if (getLob() == LineOfBusiness.FLIGHTS) {
+			mLoadingTextView.setText(getString(R.string.loading_flights));
+		}
+
 		return mRootC;
 	}
 
