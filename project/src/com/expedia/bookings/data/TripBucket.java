@@ -186,7 +186,6 @@ public class TripBucket implements JSONable {
 	 */
 	public void selectHotelAndFlight() {
 		selectHotel();
-		selectFlight();
 	}
 
 	/**
@@ -200,18 +199,6 @@ public class TripBucket implements JSONable {
 			Db.getHotelSearch().setSelectedProperty(item.getProperty());
 			Db.getHotelSearch().setSelectedHotelAvailability(item.getHotelAvailability());
 			HotelSearch.setSelectedRate(item.getRate(), item.getHotelAvailability());
-		}
-	}
-
-	/**
-	 * Populates Db so that Db.getFlightSearch() and friends will reflect
-	 * the flight that's stored in the bucket here at getFlight()
-	 */
-	private void selectFlight() {
-		if (getFlight() != null) {
-			Db.getFlightSearch().clearSelectedLegs();
-			Db.getFlightSearch().setSearchParams(getFlight().getFlightSearchParams());
-			Db.getFlightSearch().setSelectedFlightTrip(getFlight().getFlightTrip());
 		}
 	}
 
