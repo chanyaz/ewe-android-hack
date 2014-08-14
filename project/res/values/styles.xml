@@ -914,21 +914,6 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
-    <style name="CvvScreenCreditCard">
-        <item name="android:layout_above">@id/center</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginRight">55dp</item>
-    </style>
-
-    <style name="CvvScreenInput">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_below">@+id/center</item>
-        <item name="android:layout_margin">24dp</item>
-    </style>
-
     <style name="CvvScreenCreditCardSignature">
         <item name="android:layout_alignBottom">@+id/credit_card_signature_bg_view</item>
         <item name="android:layout_alignRight">@+id/credit_card_signature_bg_view</item>
