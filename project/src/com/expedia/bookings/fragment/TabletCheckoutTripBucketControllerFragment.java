@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
@@ -537,7 +538,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	@Override
 	public void onTripBucketItemRemoved(LineOfBusiness lob) {
 		if (lob == LineOfBusiness.FLIGHTS) {
-			if (Db.getTripBucket().getHotel() != null) {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			if (hotel != null && !hotel.hasBeenPurchased()) {
 				updateViews();
 				mBucketHotelFrag.triggerTripBucketBookAction(LineOfBusiness.HOTELS);
 				setFragmentState(mStateManager.getState());
@@ -547,7 +549,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			}
 		}
 		else {
-			if (Db.getTripBucket().getFlight() != null) {
+			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+			if (flight != null && !flight.hasBeenPurchased()) {
 				updateViews();
 				mBucketFlightFrag.triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
 				setFragmentState(mStateManager.getState());

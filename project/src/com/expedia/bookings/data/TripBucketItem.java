@@ -61,6 +61,10 @@ public abstract class TripBucketItem implements JSONable {
 		return mState != TripBucketItemState.PURCHASED && mState != TripBucketItemState.BOOKING_UNAVAILABLE && mState != TripBucketItemState.EXPIRED;
 	}
 
+	public boolean hasBeenPurchased() {
+		return mState == TripBucketItemState.PURCHASED;
+	}
+
 	//////////////////////////////////////////////////////////////////
 	// JSONable
 
