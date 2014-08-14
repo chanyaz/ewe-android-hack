@@ -19,6 +19,7 @@ import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.SectionFlightTrip;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.squareup.otto.Subscribe;
@@ -78,6 +79,9 @@ public class FlightTripPriceFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
+		}
 		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar, container, false);
 		mTripSection = Ui.findView(mFragmentContent, R.id.price_section);
 		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {

@@ -53,6 +53,8 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
 	private YoYoPosition mBeforeSaveDialogPos;
 
+	private boolean mIsBailing = false;
+
 	//Define the states of navigation
 	public enum YoYoMode {
 		NONE, YOYO, EDIT
@@ -69,12 +71,24 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		// Recover data if it was flushed from memory
+		if (Db.getTripBucket().isEmpty()) {
+			boolean wasSuccess = Db.loadTripBucket(this);
+			if (!wasSuccess || Db.getTripBucket().getFlight() == null) {
+				finish();
+				mIsBailing = true;
+			}
+		}
+
 		super.onCreate(savedInstanceState);
 
+		if (mIsBailing) {
+			return;
+		}
+
 		// Recover data if it was flushed from memory
-		// FIXME separate cached flight data loading
-		if (Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(this)) {
+		if (Db.getTripBucket().isEmpty()) {
+			if (!Db.loadTripBucket(this)) {
 				NavUtils.onDataMissing(this);
 			}
 		}

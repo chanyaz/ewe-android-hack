@@ -81,6 +81,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	private String mStartFirstName = "";
 	private String mStartLastName = "";
 
+	private boolean mIsBailing = false;
+
 	//Where we want to return to after our action
 	private enum YoYoPosition {
 		OPTIONS, ONE, TWO, THREE, SAVE, SAVING, OVERWRITE_TRAVELER
@@ -92,17 +94,22 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		mContext = this;
-
 		// Recover data if it was flushed from memory
-		// FIXME better cached data loading
-		if (Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(this)) {
-				NavUtils.onDataMissing(this);
+		if (Db.getTripBucket().isEmpty()) {
+			boolean wasSuccess = Db.loadTripBucket(this);
+			if (!wasSuccess || Db.getTripBucket().getFlight() == null) {
+				finish();
+				mIsBailing = true;
 			}
 		}
+
+		super.onCreate(savedInstanceState);
+
+		if (mIsBailing) {
+			return;
+		}
+
+		mContext = this;
 
 		//Which traveler are we working with
 		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
@@ -742,6 +749,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
+		// TODO consider background kill / resume scenario, this code crashes out because Db.getTravelers() is not valid
 		PassengerCategory passengerCategoryToSave = Db.getTravelers().get(mTravelerIndex).getPassengerCategory();
 		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
 		// If we're going back to checkout without the working traveler having a birthdate,

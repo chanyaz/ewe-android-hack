@@ -83,12 +83,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 			mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 		}
 
-		if (savedInstanceState == null && getIntent().getBooleanExtra(EXTRA_DATA_EXPIRED, false)) {
-			SimpleSupportDialogFragment df = SimpleSupportDialogFragment.newInstance(null,
-					getString(R.string.error_data_expired));
-			df.show(getSupportFragmentManager(), "dataExpiredDf");
-		}
-
 		//Actionbar
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(R.string.search_flights);

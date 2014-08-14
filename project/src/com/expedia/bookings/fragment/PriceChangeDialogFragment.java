@@ -107,8 +107,7 @@ public class PriceChangeDialogFragment extends DialogFragment {
 			public void onClick(DialogInterface dialog, int which) {
 				// Update our flight trip info
 				Db.getTripBucket().getFlight().getFlightTrip().updateFrom(newOffer);
-				// FIXME data caching
-				Db.kickOffBackgroundFlightSearchSave(getActivity());
+				Db.saveTripBucket(getActivity());
 
 				Events.post(new Events.PriceChangeDialogAccept());
 			}

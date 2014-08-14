@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -119,22 +118,29 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	// Go to a mode on resume, if we need to change state during an unsafe time
 	private BottomBarMode mBottomBarMode;
 
+	private boolean mIsBailing = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		// Recover data if it was flushed from memory
+		if (Db.getTripBucket().isEmpty()) {
+			boolean wasSuccess = Db.loadTripBucket(this);
+			if (!wasSuccess || Db.getTripBucket().getFlight() == null) {
+				finish();
+				mIsBailing = true;
+			}
+		}
+
 		super.onCreate(savedInstanceState);
+
+		if (mIsBailing) {
+			return;
+		}
 
 		setContentView(R.layout.activity_flight_overview_and_checkout);
 
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
-
-		// Recover data if it was flushed from memory
-		// FIXME cached data loading
-		if (Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(this)) {
-				NavUtils.onDataMissing(this);
-			}
-		}
 
 		mBgImageView = Ui.findView(this, R.id.background_bg_view);
 		Point portrait = Ui.getPortraitScreenSize(this);
@@ -244,7 +250,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		// When leaving the activity, we want to ensure that if the user returns, they do not see the card fee on the
 		// overview, even if we have a card selected for them in the background.
-		if (isFinishing()) {
+		if (isFinishing() && Db.getTripBucket().getFlight() != null) {
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			if (flightTrip != null) {
 				flightTrip.setShowFareWithCardFee(false);

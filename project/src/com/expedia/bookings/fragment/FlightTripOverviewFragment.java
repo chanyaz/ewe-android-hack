@@ -14,8 +14,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightTripOverviewFragment extends Fragment {
@@ -63,6 +65,10 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
+		}
+
 		mRootView = Ui.inflate(inflater, R.layout.fragment_flight_trip_overview, container, false);
 
 		mFlightContainer = Ui.findView(mRootView, R.id.flight_legs_container);

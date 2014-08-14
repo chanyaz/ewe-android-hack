@@ -42,6 +42,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TravelerListGenerator;
 import com.expedia.bookings.utils.TravelerUtils;
@@ -119,15 +120,11 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_checkout, container, false);
-
-		// Recover data if it was flushed from memory
-		// FIXME data recovery
-		if (Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(getActivity())) {
-				NavUtils.onDataMissing(getActivity());
-			}
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return null;
 		}
+
+		View v = inflater.inflate(R.layout.fragment_flight_checkout, container, false);
 
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);

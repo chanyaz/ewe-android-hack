@@ -988,8 +988,6 @@
         <item quantity="many">%s days</item>
         <item quantity="other">%s days</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Select a flight to %1$s</string>
     <!-- Select a flight back to (city name) -->

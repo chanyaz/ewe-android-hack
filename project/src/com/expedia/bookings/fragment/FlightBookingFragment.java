@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
@@ -45,8 +46,6 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_FLIGHT_CREATE_TRIP_DIALOG";
 	private static final String FLIGHT_UNAVAILABLE_DIALOG = "FLIGHT_UNAVAILABLE_DIALOG";
 
-	private FlightBookingState mState = FlightBookingState.DEFAULT;
-
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
 	private FlightTrip mFlightTrip;
@@ -56,11 +55,15 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		CREATE_TRIP
 	}
 
-	public FlightBookingFragment() {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return;
+		}
+
 		this.mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 	}
-
-	// BookingFragment
 
 	@Override
 	public String getBookingDownloadKey() {
@@ -159,7 +162,6 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		mFragmentModLock.runWhenSafe(new Runnable() {
 			@Override
 			public void run() {
-				mState = state;
 				switch (state) {
 				case CREATE_TRIP:
 					startCreateTripDownload();
@@ -242,8 +244,8 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null && mFlightTrip.notifyPriceChanged()) {
 			Db.getTripBucket().getFlight().setHasPriceChanged(true);
 		}
+		Db.saveTripBucket(getActivity());
 
-		Db.kickOffBackgroundFlightSearchSave(getActivity());
 		Events.post(new Events.FlightPriceChange());
 		Events.post(new Events.CreateTripDownloadSuccess(response));
 	}
