@@ -461,7 +461,8 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			response.addErrorToFront(passengerCategoryError);
 		}
 
-		Db.setFlightCheckout(response);
+		Db.getTripBucket().getFlight().setCheckoutResponse(response);
+		// TODO save TripBucket to disk for better persistence?
 
 		if (response == null || response.hasErrors()) {
 			mBookingFragment.handleBookingErrorResponse(response);

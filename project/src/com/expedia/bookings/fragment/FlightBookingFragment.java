@@ -72,7 +72,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	@Override
 	public void clearBookingResponse() {
-		Db.setFlightCheckout(null);
+		Db.getTripBucket().getFlight().setCheckoutResponse(null);
 	}
 
 	@Override

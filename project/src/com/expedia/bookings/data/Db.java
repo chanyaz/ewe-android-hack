@@ -104,9 +104,6 @@ public class Db {
 	private Map<String, String> mAirlineNames = new HashMap<String, String>();
 	private boolean mAirlineNamesDirty = false;
 
-	// Flight booking response
-	private FlightCheckoutResponse mFlightCheckout;
-
 	// Trip Bucket
 	private TripBucket mTripBucket = new TripBucket();
 
@@ -303,14 +300,6 @@ public class Db {
 		}
 
 		return airline;
-	}
-
-	public static void setFlightCheckout(FlightCheckoutResponse response) {
-		sDb.mFlightCheckout = response;
-	}
-
-	public static FlightCheckoutResponse getFlightCheckout() {
-		return sDb.mFlightCheckout;
 	}
 
 	public static TripBucket getTripBucket() {
@@ -1067,7 +1056,6 @@ public class Db {
 			putJsonable(obj, "flightSearch", sDb.mFlightSearch);
 			putJsonable(obj, "tripBucket", sDb.mTripBucket);
 			JSONUtils.putStringMap(obj, "airlines", sDb.mAirlineNames);
-			putJsonable(obj, "flightCheckout", sDb.mFlightCheckout);
 			putJsonable(obj, "user", sDb.mUser);
 			putList(obj, "travelers", sDb.mTravelers);
 
@@ -1103,7 +1091,6 @@ public class Db {
 			sDb.mFlightSearch = getJsonable(obj, "flightSearch", FlightSearch.class, sDb.mFlightSearch);
 			sDb.mTripBucket = getJsonable(obj, "tripBucket", TripBucket.class, sDb.mTripBucket);
 			sDb.mAirlineNames = JSONUtils.getStringMap(obj, "airlines");
-			sDb.mFlightCheckout = getJsonable(obj, "flightCheckout", FlightCheckoutResponse.class, sDb.mFlightCheckout);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
 			sDb.mTravelers = getList(obj, "travelers", Traveler.class, sDb.mTravelers);
 		}

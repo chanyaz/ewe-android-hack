@@ -790,7 +790,7 @@ public class OmnitureTracking {
 		s.setEvents("purchase");
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
-		final String orderId = Db.getFlightCheckout().getOrderId();
+		final String orderId = Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId();
 		s.setPurchaseID("onum" + orderId);
 
 		// TRL
@@ -1501,7 +1501,7 @@ public class OmnitureTracking {
 				addProducts(s);
 				String itinId = trip.getItineraryNumber();
 				s.setProp(71, itinId);
-				String orderNumber = Db.getFlightCheckout().getOrderId();
+				String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId();
 				s.setPurchaseID("onum" + orderNumber);
 				s.setProp(72, orderNumber);
 			}

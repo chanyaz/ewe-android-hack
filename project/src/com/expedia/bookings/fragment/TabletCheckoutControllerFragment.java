@@ -1065,7 +1065,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			if (results instanceof FlightCheckoutResponse) {
 				FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 
-				Db.setFlightCheckout(response);
+				Db.getTripBucket().getFlight().setCheckoutResponse(response);
+				// TODO save the TripBucket to disk for better persistence?
 				AdTracker.trackFlightBooked();
 
 				if (response == null || response.hasErrors()) {

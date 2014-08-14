@@ -76,8 +76,10 @@ public class AdTracker {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				Money money = trip.getTotalFare();
 				if (money != null) {
-					String orderNumber = Db.getFlightCheckout() != null ? Db.getFlightCheckout().getOrderId() : "";
-					AdX.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber, money.getCurrency(), money.getAmount().doubleValue());
+					String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse() != null ?
+						Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId() : "";
+					AdX.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
+						money.getCurrency(), money.getAmount().doubleValue());
 				}
 			}
 		}

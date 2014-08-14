@@ -37,7 +37,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 
 		// The app will get in to this state if being restored after background kill. In this case let's just be a good
 		// guy and send them to the itin screen.
-		if (Db.getFlightCheckout() == null) {
+		if (Db.getTripBucket().getFlight().getCheckoutResponse() == null) {
 			Log.d("FlightConfirmationActivity launched without confirmation data, sending to itin");
 			NavUtils.goToItin(this);
 			finish();
@@ -105,7 +105,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 	@Override
 	public void finish() {
 		// #953: Kick off deep refresh for newly booked flight
-		final FlightCheckoutResponse response = Db.getFlightCheckout();
+		final FlightCheckoutResponse response = Db.getTripBucket().getFlight().getCheckoutResponse();
 		if (response != null) {
 			String tripId = Db.getTripBucket().getFlight().getItinerary().getItineraryNumber();
 			ItineraryManager.getInstance().deepRefreshTrip(tripId, true);
