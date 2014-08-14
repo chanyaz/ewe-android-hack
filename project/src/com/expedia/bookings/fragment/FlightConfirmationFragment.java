@@ -209,9 +209,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	@Override
 	protected String getItinNumber() {
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
-		return itinerary.getItineraryNumber();
+		return Db.getTripBucket().getFlight().getItinerary().getItineraryNumber();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

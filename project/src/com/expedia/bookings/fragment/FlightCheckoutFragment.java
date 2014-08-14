@@ -566,8 +566,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	@Override
 	public void accountLoginClicked() {
-		String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
-		String tripId = Db.getItinerary(itinNum).getTripId();
+		String tripId = Db.getTripBucket().getFlight().getItinerary().getTripId();
 		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
 			tripId));
 		User.signIn(getActivity(), args);

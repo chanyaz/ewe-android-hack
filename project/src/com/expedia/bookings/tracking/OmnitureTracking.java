@@ -794,7 +794,7 @@ public class OmnitureTracking {
 		s.setPurchaseID("onum" + orderId);
 
 		// TRL
-		Itinerary itin = Db.getItinerary(trip.getItineraryNumber());
+		Itinerary itin = Db.getTripBucket().getFlight().getItinerary();
 		s.setProp(71, itin.getItineraryNumber());
 
 		// order #

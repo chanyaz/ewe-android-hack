@@ -12,6 +12,8 @@ import com.mobiata.android.json.JSONUtils;
 public class TripBucketItemFlight extends TripBucketItem {
 
 	FlightSearch mFlightSearch;
+	CreateItineraryResponse mItineraryResponse;
+	FlightCheckoutResponse mCheckoutResponse;
 
 	public TripBucketItemFlight() {
 
@@ -38,6 +40,26 @@ public class TripBucketItemFlight extends TripBucketItem {
 		return mFlightSearch;
 	}
 
+	public CreateItineraryResponse getItineraryResponse() {
+		return mItineraryResponse;
+	}
+
+	public Itinerary getItinerary() {
+		return mItineraryResponse.getItinerary();
+	}
+
+	public void setItineraryResponse(CreateItineraryResponse itineraryResponse) {
+		mItineraryResponse = itineraryResponse;
+	}
+
+	public FlightCheckoutResponse getCheckoutResponse() {
+		return mCheckoutResponse;
+	}
+
+	public void setCheckoutResponse(FlightCheckoutResponse checkoutResponse) {
+		mCheckoutResponse = checkoutResponse;
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
@@ -47,6 +69,8 @@ public class TripBucketItemFlight extends TripBucketItem {
 		try {
 			JSONObject obj = super.toJson();
 			JSONUtils.putJSONable(obj, "flightSearch", mFlightSearch);
+			JSONUtils.putJSONable(obj, "itineraryResponse", mItineraryResponse);
+			JSONUtils.putJSONable(obj, "checkoutResponse", mCheckoutResponse);
 			obj.putOpt("type", "flight");
 			return obj;
 		}
@@ -60,6 +84,8 @@ public class TripBucketItemFlight extends TripBucketItem {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 		mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
+		mItineraryResponse = JSONUtils.getJSONable(obj, "itineraryResponse", CreateItineraryResponse.class);
+		mCheckoutResponse = JSONUtils.getJSONable(obj, "checkoutResponse", FlightCheckoutResponse.class);
 		return true;
 	}
 }

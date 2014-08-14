@@ -110,9 +110,6 @@ public class Db {
 	// Trip Bucket
 	private TripBucket mTripBucket = new TripBucket();
 
-	// Itineraries (for flights and someday hotels)
-	private Map<String, Itinerary> mItineraries = new HashMap<String, Itinerary>();
-
 	// Flight Travelers (this is the list of travelers going on the trip, these must be valid for checking out)
 	private List<Traveler> mTravelers = new ArrayList<Traveler>();
 	private boolean mTravelersAreDirty = false;
@@ -318,14 +315,6 @@ public class Db {
 
 	public static TripBucket getTripBucket() {
 		return sDb.mTripBucket;
-	}
-
-	public static void addItinerary(Itinerary itinerary) {
-		sDb.mItineraries.put(itinerary.getItineraryNumber(), itinerary);
-	}
-
-	public static Itinerary getItinerary(String itineraryNumber) {
-		return sDb.mItineraries.get(itineraryNumber);
 	}
 
 	public static List<Traveler> getTravelers() {
@@ -709,9 +698,6 @@ public class Db {
 				JSONObject obj = new JSONObject();
 				JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
 
-				List<Itinerary> itineraryList = new ArrayList<Itinerary>(sDb.mItineraries.values());
-				JSONUtils.putJSONableList(obj, "itineraries", itineraryList);
-
 				String json = obj.toString();
 				IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, json, context);
 
@@ -787,12 +773,6 @@ public class Db {
 
 			if (obj.has("flightSearch")) {
 				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
-			}
-			if (obj.has("itineraries")) {
-				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
-				for (Itinerary itinerary : itineraries) {
-					addItinerary(itinerary);
-				}
 			}
 
 			JSONObject obj2 = new JSONObject(IoUtils.readStringFromFile(SAVED_FLIGHT_DATA_FILE, context));
@@ -1088,7 +1068,6 @@ public class Db {
 			putJsonable(obj, "tripBucket", sDb.mTripBucket);
 			JSONUtils.putStringMap(obj, "airlines", sDb.mAirlineNames);
 			putJsonable(obj, "flightCheckout", sDb.mFlightCheckout);
-			putMap(obj, "itineraries", sDb.mItineraries);
 			putJsonable(obj, "user", sDb.mUser);
 			putList(obj, "travelers", sDb.mTravelers);
 
@@ -1125,7 +1104,6 @@ public class Db {
 			sDb.mTripBucket = getJsonable(obj, "tripBucket", TripBucket.class, sDb.mTripBucket);
 			sDb.mAirlineNames = JSONUtils.getStringMap(obj, "airlines");
 			sDb.mFlightCheckout = getJsonable(obj, "flightCheckout", FlightCheckoutResponse.class, sDb.mFlightCheckout);
-			sDb.mItineraries = getMap(obj, "itineraries", Itinerary.class, sDb.mItineraries);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
 			sDb.mTravelers = getList(obj, "travelers", Traveler.class, sDb.mTravelers);
 		}

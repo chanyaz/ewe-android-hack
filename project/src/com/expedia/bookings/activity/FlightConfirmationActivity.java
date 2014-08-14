@@ -48,13 +48,10 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		mKillReceiver.onCreate();
 
 		if (savedInstanceState == null) {
-			// Get data
-			final String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
-
 			// Add guest itin to ItinManager
 			if (!User.isLoggedIn(this)) {
 				String email = Db.getBillingInfo().getEmail();
-				String tripId = Db.getItinerary(itinNum).getItineraryNumber();
+				String tripId = Db.getTripBucket().getFlight().getItinerary().getItineraryNumber();
 				ItineraryManager.getInstance().addGuestTrip(email, tripId);
 			}
 		}
@@ -110,8 +107,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		// #953: Kick off deep refresh for newly booked flight
 		final FlightCheckoutResponse response = Db.getFlightCheckout();
 		if (response != null) {
-			final String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
-			String tripId = Db.getItinerary(itinNum).getItineraryNumber();
+			String tripId = Db.getTripBucket().getFlight().getItinerary().getItineraryNumber();
 			ItineraryManager.getInstance().deepRefreshTrip(tripId, true);
 		}
 

@@ -86,7 +86,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 				BillingInfo billingInfo = Db.getBillingInfo();
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
+				Itinerary itinerary = Db.getTripBucket().getFlight().getItinerary();
 
 				//So at this point, billing info has the correct email address, but the api considers the email
 				//address of the first traveler the top priority. We dont want to change the email information
@@ -239,7 +239,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			}
 		}
 
-		Db.addItinerary(response.getItinerary());
+		Db.getTripBucket().getFlight().setItineraryResponse(response);
 		mFlightTrip.updateFrom(response.getOffer());
 		if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null && mFlightTrip.notifyPriceChanged()) {
 			Db.getTripBucket().getFlight().setHasPriceChanged(true);

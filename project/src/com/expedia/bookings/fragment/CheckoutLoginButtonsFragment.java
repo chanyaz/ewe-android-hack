@@ -214,8 +214,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 			Bundle args = null;
 			if (getLob() == LineOfBusiness.FLIGHTS) {
-				String itinNum = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
-				String tripId = Db.getItinerary(itinNum).getTripId();
+				String tripId = Db.getTripBucket().getFlight().getItinerary().getTripId();
 				args = LoginActivity.createArgumentsBundle(getLob(), new UserToTripAssocLoginExtender(
 					tripId));
 				OmnitureTracking.trackPageLoadFlightLogin(getActivity());
