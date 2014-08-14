@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/tablet_flight_details_primary_text_color"
+            android:layout_marginTop="18dp"
+            android:textColor="#666666"
             android:textSize="@dimen/tablet_flight_details_flight_trip_view_text_size"
             app:textStyle="light" />
 

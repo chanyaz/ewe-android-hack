@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.FlightSegmentAttributes;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
@@ -42,13 +43,21 @@ public class FlightSegmentSection extends LinearLayout {
 		String duration = DateTimeUtils.formatDuration(r, flight.getTripTime());
 		String cabin = r.getString(attrs.getCabinCode().getResId());
 
+		CharSequence text;
 		if (TextUtils.isEmpty(flight.mAircraftType)) {
-			mDetailsTextView.setText(Html.fromHtml(r.getString(R.string.flight_details_no_plane_info_TEMPLATE,
-					duration, cabin, attrs.getBookingCode())));
+			text = Html.fromHtml(r.getString(R.string.flight_details_no_plane_info_TEMPLATE,
+					duration, cabin, attrs.getBookingCode()));
 		}
 		else {
-			mDetailsTextView.setText(Html.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
-					attrs.getBookingCode(), flight.mAircraftType)));
+			text = Html.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
+					attrs.getBookingCode(), flight.mAircraftType));
 		}
+
+		if (ExpediaBookingApp.useTabletInterface(getContext())) {
+			// Strip the bold formatting for tablets
+			text = text.toString();
+		}
+
+		mDetailsTextView.setText(text);
 	}
 }

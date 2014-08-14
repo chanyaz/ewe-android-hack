@@ -124,6 +124,9 @@
     <dimen name="flight_search_calendar_height">380dp</dimen>
     <dimen name="tablet_flight_details_statistic_textsize">15sp</dimen>
     <dimen name="tablet_flight_details_divider_margin">7dp</dimen>
+    <dimen name="tablet_flight_details_layover_textsize">16sp</dimen>
+    <dimen name="tablet_flight_details_flight_trip_view_text_size">15sp</dimen>
+    <dimen name="tablet_flight_details_airline_textsize">16sp</dimen>
 
     <dimen name="hotel_checkout_overview_image_height">240dp</dimen>
 

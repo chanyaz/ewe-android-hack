@@ -12,6 +12,9 @@
     <dimen name="plane_window_text_offset">-50dp</dimen>
     <dimen name="tablet_flight_details_statistic_textsize">18sp</dimen>
     <dimen name="tablet_flight_details_divider_margin">13dp</dimen>
+    <dimen name="tablet_flight_details_layover_textsize">18sp</dimen>
+    <dimen name="tablet_flight_details_flight_trip_view_text_size">17sp</dimen>
+    <dimen name="tablet_flight_details_airline_textsize">18sp</dimen>
 
     <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
 
