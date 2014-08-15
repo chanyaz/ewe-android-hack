@@ -2,7 +2,7 @@ package com.expedia.bookings.test.utils;
 
 import com.expedia.bookings.test.espresso.IdlingResources;
 import com.expedia.bookings.test.espresso.IdlingResources.SuggestionResource;
-import com.expedia.bookings.test.tests.pageModels.tablet.Common;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
 
 public class TabletTestCase extends EspressoTestCase {
 

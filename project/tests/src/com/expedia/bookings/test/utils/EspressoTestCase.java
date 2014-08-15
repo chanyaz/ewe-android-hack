@@ -9,7 +9,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
+import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import static com.expedia.bookings.test.utils.SpoonScreenshotUtils.getCurrentActivity;

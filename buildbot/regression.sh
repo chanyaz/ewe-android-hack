@@ -13,14 +13,14 @@ else
 fi
 
 TESTS=""
-TESTS+="com.expedia.bookings.test.tests.tablet.Hotels.ui.regression.HotelSearchFilterTests,"
-TESTS+="com.expedia.bookings.test.tests.tablet.Hotels.ui.regression.HotelSearchSortTests,"
+TESTS+="com.expedia.bookings.test.tablet.tests.hotels.HotelSearchFilterTests,"
+TESTS+="com.expedia.bookings.test.tablet.tests.hotels.HotelSearchSortTests,"
 
-TESTS+="com.expedia.bookings.test.tests.tablet.Flights.ui.regression.FlightCheckoutUserInfoTests,"
-TESTS+="com.expedia.bookings.test.tests.tablet.Flights.ui.regression.FlightDetailsTests,"
-TESTS+="com.expedia.bookings.test.tests.tablet.Flights.ui.regression.FlightSearchResultsSortTests,"
+TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightCheckoutUserInfoTests,"
+TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightDetailsTests,"
+TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightSearchResultsSortTests,"
 
-TESTS+="com.expedia.bookings.test.tests.hotelsEspresso.ui.regression.HotelRoomsAndRatesTests,"
+TESTS+="com.expedia.bookings.test.phone.tests.hotels.HotelRoomsAndRatesTests,"
 
 java \
     -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \

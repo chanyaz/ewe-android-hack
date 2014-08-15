@@ -2,12 +2,12 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
-import com.expedia.bookings.test.tests.pageModels.tablet.Common;
-import com.expedia.bookings.test.tests.pageModels.tablet.HotelDetails;
-import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
-import com.expedia.bookings.test.tests.pageModels.tablet.Results;
-import com.expedia.bookings.test.tests.pageModels.tablet.Search;
+import com.expedia.bookings.test.tablet.pagemodels.Checkout;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.tablet.pagemodels.HotelDetails;
+import com.expedia.bookings.test.tablet.pagemodels.Launch;
+import com.expedia.bookings.test.tablet.pagemodels.Results;
+import com.expedia.bookings.test.tablet.pagemodels.Search;
 import com.expedia.bookings.test.utils.TabletTestCase;
 
 public class TabletHappyPath extends TabletTestCase {

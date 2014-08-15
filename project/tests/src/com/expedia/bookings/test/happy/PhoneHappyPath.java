@@ -2,23 +2,23 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.test.tests.pageModels.tablet.Common;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.BillingAddressScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.CVVEntryScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.CardInfoScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightLegScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsCheckoutScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsConfirmationScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchResultsScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsTravelerInfoScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmationScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
+import com.expedia.bookings.test.phone.pagemodels.flights.FlightsCheckoutScreen;
+import com.expedia.bookings.test.phone.pagemodels.flights.FlightsConfirmationScreen;
+import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
+import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
+import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.PhoneTestCase;
 
 public class PhoneHappyPath extends PhoneTestCase {

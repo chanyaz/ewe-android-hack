@@ -5,10 +5,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getChildCount;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getCount;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getString;
+import static com.expedia.bookings.test.espresso.ViewActions.getChildCount;
+import static com.expedia.bookings.test.espresso.ViewActions.getCount;
+import static com.expedia.bookings.test.espresso.ViewActions.getRating;
+import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
