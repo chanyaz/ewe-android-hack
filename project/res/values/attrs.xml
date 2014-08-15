@@ -18,6 +18,7 @@
             <enum name="thin" value="128" />
             <enum name="condensed_bold" value="256" />
             <enum name="condensed_light" value="512" />
+            <enum name="expedia_light" value="1024" />
         </attr>
         <attr name="textAllCaps" format="boolean" />
     </declare-styleable>

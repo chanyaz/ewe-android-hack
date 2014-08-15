@@ -20,6 +20,7 @@ public class TextView extends android.widget.TextView {
 	private static final int THIN = 128;
 	private static final int CONDENSED_BOLD = 256;
 	private static final int CONDENSED_LIGHT = 512;
+	private static final int EXPEDIASANS_LIGHT = 1024;
 
 	private boolean mAllCaps = false;
 
@@ -129,6 +130,10 @@ public class TextView extends android.widget.TextView {
 		}
 		case CONDENSED_LIGHT: {
 			FontCache.setTypeface(view, Font.ROBOTO_CONDENSED_LIGHT);
+			break;
+		}
+		case EXPEDIASANS_LIGHT: {
+			FontCache.setTypeface(view, Font.EXPEDIASANS_LIGHT);
 			break;
 		}
 		}

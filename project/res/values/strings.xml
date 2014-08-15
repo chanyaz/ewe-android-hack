@@ -1840,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
+    <string name="vip_access_message">At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Only VIP Access Hotels</string>
+    <string name="filter_vip_access">Only +VIP Access Hotels</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">VIP Access Only</string>
+    <string name="VIP_Access_Only">+VIP Access Only</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">ON</string>
     <string name="switch_off">OFF</string>
