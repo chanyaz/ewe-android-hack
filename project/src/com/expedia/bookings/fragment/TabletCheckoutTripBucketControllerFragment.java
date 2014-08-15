@@ -519,15 +519,11 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 	@Subscribe
 	public void onCouponApplySuccess(Events.CouponApplyDownloadSuccess event) {
-		Db.getTripBucket().getHotel().setIsCouponApplied(true);
-		Db.getTripBucket().getHotel().setCouponRate(event.newRate);
 		mBucketHotelFrag.refreshRate();
 	}
 
 	@Subscribe
 	public void onCouponRemoveSuccess(Events.CouponRemoveDownloadSuccess event) {
-		Db.getTripBucket().getHotel().setIsCouponApplied(false);
-		Db.getTripBucket().getHotel().setCouponRate(null);
 		mBucketHotelFrag.refreshRate();
 	}
 

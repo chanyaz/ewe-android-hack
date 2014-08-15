@@ -443,6 +443,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			break;
 		case COUPON_REMOVE:
 			Db.getTripBucket().getHotel().setIsCouponApplied(false);
+			Db.getTripBucket().getHotel().setCouponRate(null);
+			Db.saveTripBucket(getActivity());
+
 			OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			mCouponCode = null;
 			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
@@ -597,6 +600,8 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 				Db.getTripBucket().getHotel().setIsCouponApplied(true);
 				Db.getTripBucket().getHotel().setCreateTripResponse(response);
+				Db.getTripBucket().getHotel().setCouponRate(response.getNewRate());
+				Db.saveTripBucket(getActivity());
 
 				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
 				Events.post(new Events.CouponApplyDownloadSuccess(response.getNewRate()));
