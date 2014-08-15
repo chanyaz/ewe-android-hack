@@ -625,6 +625,7 @@ public class Rate implements JSONable {
 
 			JSONUtils.putJSONableList(obj, "rateBreakdown", mRateBreakdown);
 			obj.putOpt("rateChange", mRateChange);
+			JSONUtils.putJSONable(obj, "nightlyRateTotal", mNightlyRateTotal);
 
 			JSONUtils.putJSONable(obj, "dailyAmountBeforeTax", mDailyAmountBeforeTax);
 			JSONUtils.putJSONable(obj, "totalAmountBeforeTax", mTotalAmountBeforeTax);
@@ -679,6 +680,7 @@ public class Rate implements JSONable {
 
 		mRateBreakdown = JSONUtils.getJSONableList(obj, "rateBreakdown", RateBreakdown.class);
 		mRateChange = obj.optBoolean("rateChange", false);
+		mNightlyRateTotal = JSONUtils.getJSONable(obj, "nightlyRateTotal", Money.class);
 		mHasFreeCancellation = obj.optBoolean("hasFreeCancellation", false);
 		if (obj.has("freeCancellationWindowDate")) {
 			mFreeCancellationWindowDate = new DateTime(obj.optLong("freeCancellationWindowDate"));
