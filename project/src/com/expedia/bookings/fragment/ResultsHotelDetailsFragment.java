@@ -131,7 +131,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private OnClickListener mGalleryButtonClickedListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mHotelGalleryClickedListener.onHotelGalleryClicked();
+			Property property = Db.getHotelSearch().getSelectedProperty();
+			if (property != null && property.getMediaCount() > 0) {
+				mHotelGalleryClickedListener.onHotelGalleryClicked();
+			}
 		}
 	};
 
