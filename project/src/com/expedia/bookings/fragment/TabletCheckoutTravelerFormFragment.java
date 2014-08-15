@@ -85,6 +85,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
 
+
 	private StateManager<TravelerFormState> mStateManager = new StateManager<TravelerFormState>(
 		TravelerFormState.EDITING, this);
 
@@ -534,6 +535,16 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 		if (!isFormOpen()) {
 			mStateManager.setState(TravelerFormState.EDITING, false);
+		}
+	}
+
+	@Override
+	public boolean showBoardingMessage() {
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 

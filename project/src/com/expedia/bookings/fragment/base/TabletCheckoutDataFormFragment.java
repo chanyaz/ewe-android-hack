@@ -36,6 +36,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	private TextView mHeadingText;
 	private TextView mHeadingButton;
 	private TextView mCreditCardMessageTv;
+	private TextView mBoardingMessageTv;
 
 	//Animation vars for the card message
 	private ObjectAnimator mLastCardMessageAnimator;
@@ -60,6 +61,11 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		mHeadingText = Ui.findView(mRootC, R.id.header_tv);
 		mHeadingButton = Ui.findView(mRootC, R.id.header_text_button_tv);
 		mCreditCardMessageTv = Ui.findView(mRootC,R.id.credit_card_fees_message);
+		mBoardingMessageTv = Ui.findView(mRootC,R.id.header_name_match_message);
+
+		if (showBoardingMessage()) {
+			mBoardingMessageTv.setVisibility(View.VISIBLE);
+		}
 
 		setUpFormContent(mFormContentC);
 
@@ -225,4 +231,6 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	public abstract void onFormClosed();
 
 	public abstract void onFormOpened();
+
+	public abstract boolean showBoardingMessage();
 }

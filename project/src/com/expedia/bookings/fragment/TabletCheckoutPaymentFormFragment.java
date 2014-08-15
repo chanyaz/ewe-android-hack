@@ -239,6 +239,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mFormOpen = true;
 	}
 
+	@Override
+	public boolean showBoardingMessage() {
+		return false;
+	}
+
 	public boolean isFormOpen() {
 		return mFormOpen;
 	}
