@@ -40,6 +40,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	private CVVTextView mCVVTextView;
 	private TextView mCVVPromptTextView;
 	private TextView mCVVSubpromptTextView;
+	private View mBookButton;
 
 	private CreditCardInputSection mCreditCardInputSection;
 
@@ -75,9 +76,18 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		mCreditCardInputSection = Ui.findView(v, R.id.credit_card_input_section);
 		mCVVPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
 		mCVVSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
+		mBookButton = Ui.findView(v, R.id.finish_booking_button);
 
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
+
+		// Setup a listener for the finish booking button
+		mBookButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mListener.onBook(mCVVTextView.getCvv());
+			}
+		});
 
 		return v;
 	}
@@ -95,7 +105,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	private void syncBookButtonState() {
-		mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
+		mBookButton.setEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
 	}
 
 	private void syncCVVTextFilter() {
@@ -248,13 +258,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	@Override
 	public void onKeyPress(int code) {
-		if (code == CreditCardInputSection.CODE_BOOK) {
-			mListener.onBook(mCVVTextView.getCvv());
-		}
-		else {
-			mCVVTextView.onKeyPress(code);
-			syncBookButtonState();
-		}
+		mCVVTextView.onKeyPress(code);
+		syncBookButtonState();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
