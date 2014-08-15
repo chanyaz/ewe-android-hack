@@ -182,27 +182,6 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
-	 * Populate Db.getHotelSearch()/getFlightSearch() with the Hotel/Flight from the TripBucket.
-	 */
-	public void selectHotelAndFlight() {
-		selectHotel();
-	}
-
-	/**
-	 * Populates Db so that Db.getHotelSearch() and friends will reflect
-	 * the hotel that's stored in the bucket here at getHotel()
-	 */
-	private void selectHotel() {
-		TripBucketItemHotel item = getHotel();
-		if (item != null) {
-			Db.getHotelSearch().setSearchParams(item.getHotelSearchParams());
-			Db.getHotelSearch().setSelectedProperty(item.getProperty());
-			Db.getHotelSearch().setSelectedHotelAvailability(item.getHotelAvailability());
-			HotelSearch.setSelectedRate(item.getRate(), item.getHotelAvailability());
-		}
-	}
-
-	/**
 	 * Removes the trip bucket item at position [index]. Silently ignores an out of range index.
 	 * @param index
 	 */
