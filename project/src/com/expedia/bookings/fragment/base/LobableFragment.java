@@ -41,7 +41,9 @@ public abstract class LobableFragment extends Fragment implements ILOBable {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString(STATE_LOB, mLob.name());
+		if (mLob != null) {
+			outState.putString(STATE_LOB, mLob.name());
+		}
 	}
 
 	public void setLob(LineOfBusiness lob) {
