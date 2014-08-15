@@ -186,7 +186,7 @@
 
     <!-- CVV Screen -->
     <dimen name="cvv_keypad_text_size">30sp</dimen>
-    <dimen name="cvv_keypad_book_text_size">18dp</dimen>
+    <dimen name="cvv_keypad_book_text_size">19sp</dimen>
 
     <!-- Confirmation Fragment -->
     <dimen name="confirmation_width">450dp</dimen>

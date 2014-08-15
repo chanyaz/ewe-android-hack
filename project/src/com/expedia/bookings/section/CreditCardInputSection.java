@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TableLayout;
 
@@ -31,6 +32,13 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 
 	public CreditCardInputSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		init(context);
+	}
+
+	private void init(Context context) {
+		setStretchAllColumns(true);
+		LayoutInflater inflater = LayoutInflater.from(context);
+		inflater.inflate(R.layout.section_credit_card_input, this, true);
 	}
 
 	@Override
@@ -51,19 +59,16 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 		mDeleteView = Ui.findView(this, R.id.delete_button);
 		mBookView = Ui.findView(this, R.id.book_button);
 
-		// Set every click listener to this
-		mZeroView.setOnClickListener(this);
-		mOneView.setOnClickListener(this);
-		mTwoView.setOnClickListener(this);
-		mThreeView.setOnClickListener(this);
-		mFourView.setOnClickListener(this);
-		mFiveView.setOnClickListener(this);
-		mSixView.setOnClickListener(this);
-		mSevenView.setOnClickListener(this);
-		mEightView.setOnClickListener(this);
-		mNineView.setOnClickListener(this);
-		mDeleteView.setOnClickListener(this);
-		mBookView.setOnClickListener(this);
+		setMeAsClickListener(mZeroView, mOneView, mTwoView, mThreeView, mFourView, mFiveView,
+			mSixView, mSevenView, mEightView, mNineView, mDeleteView, mBookView);
+	}
+
+	private void setMeAsClickListener(View... children) {
+		for (View child : children) {
+			if (child != null) {
+				child.setOnClickListener(this);
+			}
+		}
 	}
 
 	public void setListener(CreditCardInputListener listener) {
@@ -71,7 +76,9 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 	}
 
 	public void setBookButtonEnabled(boolean enabled) {
-		mBookView.setEnabled(enabled);
+		if (mBookView != null) {
+			mBookView.setEnabled(enabled);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

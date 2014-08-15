@@ -4,15 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- This is a dummy center view, from which we can align things above/below -->
-
-    <View
-        android:id="@+id/center"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
-
     <!-- "Security Code for Doug's VISA" prompt -->
 
     <com.mobiata.android.widget.AutoResizeTextView
@@ -42,156 +33,92 @@
         android:textColor="@android:color/white"
         app:textStyle="light" />
 
-    <!-- Credit card to the left -->
+    <!-- External "Finish Booking" button -->
 
     <FrameLayout
-        android:id="@+id/credit_card_section_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/finish_booking_button_holder"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@id/center">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
 
-        <!-- Credit card with logo and signature -->
-
-        <include
-            android:id="@+id/credit_card_section"
-            android:layout_width="302dp"
-            android:layout_height="190dp"
-            android:layout_gravity="center_vertical|right"
-            layout="@layout/section_credit_card" />
-
-        <!-- CVV text entry -->
-
-        <com.expedia.bookings.widget.CVVTextView
-            android:id="@+id/cvv_text_view"
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/div_cvv"
-            android:freezesText="true"
-            android:gravity="center_horizontal"
-            android:maxLength="4"
-            android:paddingTop="4dp"
-            android:textColor="@color/cvv_normal"
-            android:textSize="20dp" />
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/finish_booking_button"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:gravity="center"
+            android:background="?attr/cvvBookButtonKeypadDrawable"
+            android:text="@string/Finish_Booking"
+            android:textColor="?attr/cvvBookButtonTextColor"
+            android:textSize="@dimen/cvv_keypad_book_text_size"
+            app:textStyle="light"/>
 
     </FrameLayout>
 
-    <!-- Input buttons on the right -->
+    <!-- Credit card plus cvv digit entry -->
 
-    <com.expedia.bookings.section.CreditCardInputSection
-        android:id="@+id/credit_card_input_section"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_toRightOf="@id/center"
-        android:stretchColumns="*" >
+        android:layout_above="@id/finish_booking_button_holder"
+        android:layout_below="@id/cvv_subprompt_text_view"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:orientation="@integer/vertical_in_portrait">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
+        <!-- Credit card to the left -->
 
-            <Button
-                android:id="@+id/one_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_one_btn"
-                android:text="@string/one" />
+        <FrameLayout
+            android:id="@+id/credit_card_section_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
-            <Button
-                android:id="@+id/two_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_two_btn"
-                android:text="@string/two" />
+            <!-- Credit card with logo and signature -->
 
-            <Button
-                android:id="@+id/three_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_three_btn"
-                android:text="@string/three" />
-        </TableRow>
+            <include
+                android:id="@+id/credit_card_section"
+                android:layout_width="302dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center"
+                layout="@layout/section_credit_card" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
+            <!-- CVV text entry -->
 
-            <Button
-                android:id="@+id/four_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_four_btn"
-                android:text="@string/four" />
+            <com.expedia.bookings.widget.CVVTextView
+                android:id="@+id/cvv_text_view"
+                android:layout_width="84dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/div_cvv"
+                android:freezesText="true"
+                android:gravity="center_horizontal"
+                android:maxLength="4"
+                android:paddingTop="4dp"
+                android:textColor="@color/cvv_normal"
+                android:textSize="20dp" />
 
-            <Button
-                android:id="@+id/five_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_five_btn"
-                android:text="@string/five" />
+        </FrameLayout>
 
-            <Button
-                android:id="@+id/six_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_six_btn"
-                android:text="@string/six" />
-        </TableRow>
+        <!-- Spacer: 48dp width for landscape and 48dp height for portrait -->
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
 
-            <Button
-                android:id="@+id/seven_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_seven_btn"
-                android:text="@string/seven" />
+        <!-- Input buttons on the right -->
 
-            <Button
-                android:id="@+id/eight_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_eight_btn"
-                android:text="@string/eight" />
+        <com.expedia.bookings.section.CreditCardInputSection
+            android:id="@+id/credit_card_input_section"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"/>
 
-            <Button
-                android:id="@+id/nine_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_nine_btn"
-                android:text="@string/nine" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-
-            <ImageButton
-                android:id="@+id/delete_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_delete_btn"
-                android:src="@drawable/ic_keypad_delete" />
-
-            <Button
-                android:id="@+id/zero_button"
-                style="@style/CreditCardButton"
-                android:contentDescription="@string/cd_zero_btn"
-                android:text="@string/zero" />
-
-            <Button
-                android:id="@+id/book_button"
-                style="@style/CreditCardButton"
-                android:background="?attr/cvvBookButtonKeypadDrawable"
-                android:includeFontPadding="true"
-                android:text="@string/book"
-                android:textColor="?attr/cvvBookButtonTextColor"
-                android:textSize="@dimen/cvv_keypad_book_text_size" />
-        </TableRow>
-
-    </com.expedia.bookings.section.CreditCardInputSection>
+    </LinearLayout>
 
 </RelativeLayout>
