@@ -794,7 +794,7 @@
         <item name="android:textSize">@dimen/cvv_keypad_text_size</item>
         <item name="textStyle">medium</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/btn_cvv_keypad</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="ActionBarButton">
