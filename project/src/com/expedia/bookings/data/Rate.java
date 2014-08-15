@@ -647,6 +647,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
+			JSONUtils.putJSONable(obj, "totalPriceAdjustments", mTotalPriceAdjustments);
 			obj.putOpt("userPriceType", getUserPriceType().ordinal());
 			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
 			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
@@ -717,6 +718,7 @@ public class Rate implements JSONable {
 		}
 		mTotalMandatoryFees = JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
+		mTotalPriceAdjustments = JSONUtils.getJSONable(obj, "totalPriceAdjustments", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
 		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
 		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
