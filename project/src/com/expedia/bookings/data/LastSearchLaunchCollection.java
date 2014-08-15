@@ -14,7 +14,7 @@ public class LastSearchLaunchCollection extends LaunchCollection {
 			return Images.getTabletLaunch(launchImageCode);
 		}
 		else {
-			return Images.getFlightDestination(imageCode);
+			return Images.getTabletDestination(imageCode);
 		}
 	}
 }
