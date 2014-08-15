@@ -17,7 +17,7 @@
         app:calendarSecondaryColor="#6F6F6F"
         app:calendarHighlightColor="@color/tablet_results_search_blue"
         app:calendarHighlightInverseColor="#FFFFFF"
-        app:calendarTodayColor="#FF4F4F"
+        app:calendarTodayColor="#007dff"
         app:calendarInvalidDaysColor="#CFCFCF"
         app:calendarDaysOfWeekColor="#000000"
         app:calendarChangeMonthCaretColor="@color/tablet_results_search_blue"
