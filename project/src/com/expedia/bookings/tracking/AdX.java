@@ -17,6 +17,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
@@ -110,32 +111,29 @@ public class AdX {
 		}
 	}
 
-	public static void trackHotelBooked(HotelSearch search, String orderNumber, String currency, double totalPrice, double avgPrice) {
+	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber, String currency, double totalPrice, double avgPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
 
 			// Retargeting event
-			HotelSearchParams params = search.getSearchParams();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
 			AdXConnect.startNewExtendedEvent(sAppContext);
 			addCommonRetargeting();
-			if (search.getSearchResponse().getPropertiesCount() > 0) {
-				Location location = search.getSelectedProperty().getLocation();
-				if (location != null) {
-					addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
-					AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
-				}
+
+			Location location = property.getLocation();
+			if (location != null) {
+				addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+				AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
 			}
+
 			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
 			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
 			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getCheckInDate()));
 			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
 
-			if (search.getSelectedProperty() != null) {
-				AdXConnect.addProductToList(search.getSelectedProperty().getPropertyId(), avgPrice, params.getStayDuration());
-			}
+			AdXConnect.addProductToList(property.getPropertyId(), avgPrice, params.getStayDuration());
 			AdXConnect.setEventParameterOfName("currency", currency);
 			AdXConnect.setEventParameterOfName("id", orderNumber);
 
@@ -178,32 +176,29 @@ public class AdX {
 		}
 	}
 
-	public static void trackHotelCheckoutStarted(HotelSearch search, String currency, double totalPrice) {
+	public static void trackHotelCheckoutStarted(HotelSearchParams params, Property property, String currency, double totalPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel checkout started currency=" + currency + " total=" + totalPrice);
 
 			// Retargeting event
-			HotelSearchParams params = search.getSearchParams();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
 			AdXConnect.startNewExtendedEvent(sAppContext);
 			addCommonRetargeting();
-			if (search.getSearchResponse() != null && search.getSearchResponse().getPropertiesCount() > 0) {
-				Location location = search.getSelectedProperty().getLocation();
-				if (location != null) {
-					addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
-					AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
-				}
+
+			Location location = property.getLocation();
+			if (location != null) {
+				addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+				AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
 			}
+
 			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
 			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
 			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getCheckInDate()));
 			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
 
-			if (search.getSelectedProperty() != null) {
-				AdXConnect.setEventParameter(AdXConnect.ADX_PRODUCT, search.getSelectedProperty().getPropertyId());
-			}
+			AdXConnect.setEventParameter(AdXConnect.ADX_PRODUCT, property.getPropertyId());
 			AdXConnect.setEventParameterOfName("pr", String.valueOf(totalPrice));
 			AdXConnect.setEventParameterOfName("currency", currency);
 

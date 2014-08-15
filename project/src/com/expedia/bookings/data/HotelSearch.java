@@ -30,21 +30,12 @@ public class HotelSearch implements JSONable {
 	private HotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;
 
-	// Tablet flow.
-	private HotelAvailability mSelectedHotelAvailability;
-
 	private Property mSelectedProperty;
-
-	// The result of a call to e3 for a coupon code discount
-	private CreateTripResponse mCreateTripResponse;
 
 	// Each map keyed off of propertyId
 	private Map<String, Property> mPropertyMap;
 	private Map<String, HotelAvailability> mAvailabilityMap;
 	private Map<String, ReviewsResponse> mReviewsResponses;
-
-	// Keep track if coupon is applied at checkout or not.
-	private boolean mIsCouponApplied;
 
 	public HotelSearch() {
 		mSearchParams = new HotelSearchParams();
@@ -58,7 +49,6 @@ public class HotelSearch implements JSONable {
 		mAvailabilityMap = null;
 		mReviewsResponses = null;
 		mSelectedProperty = null;
-		mSelectedHotelAvailability = null;
 	}
 
 	public void resetSearchParams() {
@@ -93,32 +83,12 @@ public class HotelSearch implements JSONable {
 		return mSearchResponse;
 	}
 
-	public void setCreateTripResponse(CreateTripResponse createTripResponse) {
-		mCreateTripResponse = createTripResponse;
-	}
-
-	public CreateTripResponse getCreateTripResponse() {
-		return mCreateTripResponse;
-	}
-
 	public void clearSelectedProperty() {
 		mSelectedProperty = null;
 	}
 
 	public void setSelectedProperty(Property property) {
 		mSelectedProperty = property;
-	}
-
-	public void clearSelectedHotelAvailability() {
-		mSelectedHotelAvailability = null;
-	}
-
-	public void setSelectedHotelAvailability(HotelAvailability availability) {
-		mSelectedHotelAvailability = availability;
-	}
-
-	public HotelAvailability getSelectedHotelAvailability() {
-		return mSelectedHotelAvailability;
 	}
 
 	public Property getSelectedProperty() {
@@ -147,17 +117,6 @@ public class HotelSearch implements JSONable {
 	}
 
 	/**
-	 * If there is a selectedHotelAvailability (Tablet, only, right now.), we grab the rate from
-	 * that availability object. The HotelSearch object may no longer
-	 * have the same HotelAvailability map (i.e. a new search with different params was kicked off.)
-	 */
-	// TODO remove this concept once we no longer have to store separate availabilities
-	public Rate getCheckoutRate() {
-		return (getSelectedHotelAvailability() != null ? getSelectedRate(getSelectedHotelAvailability()) : getSelectedRate());
-
-	}
-
-	/**
 	 * Helper method to set the selected rate of the currently selected hotel.
 	 *
 	 * @param rate
@@ -171,45 +130,6 @@ public class HotelSearch implements JSONable {
 
 	public void setSelectedRate(Rate rate) {
 		setSelectedRate(rate, getAvailability(mSelectedProperty.getPropertyId()));
-	}
-
-	/**
-	 * Helper method to grab the new rate from the CreateTripResponse
-	 *
-	 * @return the new Rate from the application of a coupon, null if no coupon has been applied
-	 */
-	public Rate getCouponRate() {
-		if (isCouponApplied()) {
-			return mCreateTripResponse.getNewRate();
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns the rate that we expect to book with, which will either be
-	 * the coupon rate (if a coupon is applied) or the selected rate.
-	 * <p/>
-	 * This should be the preferred method for retrieving the current rate,
-	 * unless you are specifically trying to get the original or coupon
-	 * rate.
-	 */
-	public Rate getBookingRate() {
-		if (isCouponApplied()) {
-			return getCouponRate();
-		}
-		else {
-			return getCheckoutRate();
-		}
-	}
-
-	public boolean isCouponApplied() {
-		return mIsCouponApplied;
-	}
-
-	public void setCouponApplied(boolean isCouponApplied) {
-		this.mIsCouponApplied = isCouponApplied;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -316,7 +236,6 @@ public class HotelSearch implements JSONable {
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
 			JSONUtils.putJSONable(obj, "selectedProperty", mSelectedProperty);
-			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
 			JSONUtils.putJSONableStringMap(obj, "reviewsResponses", mReviewsResponses);
@@ -335,7 +254,6 @@ public class HotelSearch implements JSONable {
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
 		mSelectedProperty = JSONUtils.getJSONable(obj, "selectedProperty", Property.class);
-		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
 		Map<String, HotelAvailability> availabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap",
 			HotelAvailability.class, mAvailabilityMap);

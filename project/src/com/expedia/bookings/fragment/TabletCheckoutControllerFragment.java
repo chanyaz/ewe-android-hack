@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -879,9 +880,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				f.setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
 			}
 			else if (lob == LineOfBusiness.HOTELS) {
-				HotelSearch search = Db.getHotelSearch();
-				Property property = search.getSelectedProperty();
-				Rate rate = search.getBookingRate();
+				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+				Property property = hotel.getProperty();
+				Rate rate = hotel.getRate();
 				f.setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate));
 			}
 		}
@@ -1081,9 +1082,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			// HotelBookingResponse
 			else if (results instanceof HotelBookingResponse) {
 				HotelBookingResponse response = (HotelBookingResponse) results;
-				Property property = Db.getHotelSearch().getSelectedProperty();
+				Property property = Db.getTripBucket().getHotel().getProperty();
 
-				Db.setHotelBookingResponse(response);
+				Db.getTripBucket().getHotel().setBookingResponse(response);
 				AdTracker.trackHotelBooked();
 
 				if (results == null || response.hasErrors()) {
@@ -1091,9 +1092,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					mHotelBookingFrag.handleBookingErrorResponse(response);
 				}
 				else {
+					response.setProperty(property);
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
 					Db.saveTripBucket(getActivity());
-					response.setProperty(property);
 					setCheckoutState(CheckoutState.CONFIRMATION, true);
 				}
 			}

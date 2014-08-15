@@ -81,9 +81,6 @@ public class Db {
 	// Google Masked Wallet; kept separate from BillingInfo as it is more transient
 	private MaskedWallet mMaskedWallet;
 
-	// The booking response.  Make sure to properly clear this out after finishing booking.
-	private HotelBookingResponse mHotelBookingResponse;
-
 	// The currently logged in User profile
 	private User mUser;
 
@@ -202,14 +199,6 @@ public class Db {
 
 	public static MaskedWallet getMaskedWallet() {
 		return sDb.mMaskedWallet;
-	}
-
-	public static void setHotelBookingResponse(HotelBookingResponse bookingResponse) {
-		sDb.mHotelBookingResponse = bookingResponse;
-	}
-
-	public static HotelBookingResponse getHotelBookingResponse() {
-		return sDb.mHotelBookingResponse;
 	}
 
 	public static void loadUser(Context context) {
@@ -380,7 +369,6 @@ public class Db {
 		getHotelSearch().resetSearchData();
 		getHotelSearch().resetSearchParams();
 
-		sDb.mHotelBookingResponse = null;
 		sDb.mUser = null;
 		sDb.mLaunchHotelData = null;
 		sDb.mLaunchHotelFallbackData = null;
@@ -1052,7 +1040,6 @@ public class Db {
 			putJsonable(obj, "hotelSearch", sDb.mHotelSearch);
 			putJsonable(obj, "filter", sDb.mFilter);
 			putJsonable(obj, "billingInfo", sDb.mBillingInfo);
-			putJsonable(obj, "bookingResponse", sDb.mHotelBookingResponse);
 			putJsonable(obj, "flightSearch", sDb.mFlightSearch);
 			putJsonable(obj, "tripBucket", sDb.mTripBucket);
 			JSONUtils.putStringMap(obj, "airlines", sDb.mAirlineNames);
@@ -1087,7 +1074,6 @@ public class Db {
 			sDb.mHotelSearch = getJsonable(obj, "hotelSearch", HotelSearch.class, sDb.mHotelSearch);
 			sDb.mFilter = getJsonable(obj, "filter", HotelFilter.class, sDb.mFilter);
 			sDb.mBillingInfo = getJsonable(obj, "billingInfo", BillingInfo.class, sDb.mBillingInfo);
-			sDb.mHotelBookingResponse = getJsonable(obj, "bookingResponse", HotelBookingResponse.class, sDb.mHotelBookingResponse);
 			sDb.mFlightSearch = getJsonable(obj, "flightSearch", FlightSearch.class, sDb.mFlightSearch);
 			sDb.mTripBucket = getJsonable(obj, "tripBucket", TripBucket.class, sDb.mTripBucket);
 			sDb.mAirlineNames = JSONUtils.getStringMap(obj, "airlines");

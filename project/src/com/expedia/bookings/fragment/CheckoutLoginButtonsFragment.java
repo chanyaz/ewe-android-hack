@@ -81,7 +81,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		super.onCreate(savedInstanceState);
 
 		// Disable Google Wallet on non-merchant hotels
-		if (getLob() == LineOfBusiness.HOTELS && !Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+		if (getLob() == LineOfBusiness.HOTELS && !Db.getTripBucket().getHotel().getProperty().isMerchant()) {
 			disableGoogleWallet();
 		}
 
@@ -314,7 +314,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			estimatedTotal = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			estimatedTotal = Db.getHotelSearch().getCheckoutRate().getTotalAmountAfterTax();
+			estimatedTotal = Db.getTripBucket().getHotel().getRate().getTotalAmountAfterTax();
 		}
 		return estimatedTotal;
 	}

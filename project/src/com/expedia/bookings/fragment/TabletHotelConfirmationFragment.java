@@ -59,7 +59,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		mShareButtonText = Ui.findView(v, R.id.share_action_text_view);
 		mShareButtonText.setText(R.string.tablet_confirmation_share_hotel);
 
-		Property property = Db.getHotelBookingResponse().getProperty();
+		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
 
 		// Construct the hotel card
 		ImageView hotelImageView = Ui.findView(v, R.id.confirmation_image_view);
@@ -69,7 +69,8 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		hotelImageView.setImageDrawable(headerBitmapDrawable);
-		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+
+		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
 			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
@@ -89,12 +90,12 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 	@Override
 	protected String getItinNumber() {
-		return Db.getHotelBookingResponse().getItineraryId();
+		return Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();
 	}
 
 	@Override
 	protected String getConfirmationSummaryText() {
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		String hotelName = Db.getTripBucket().getHotel().getProperty().getName();
 		String duration = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_ABBREV_MONTH);
@@ -105,14 +106,14 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	protected void shareItinerary() {
 		Context context = getActivity();
 
-		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		Property property = Db.getHotelBookingResponse().getProperty();
+		HotelSearchParams searchParams = Db.getTripBucket().getHotel().getHotelSearchParams();
+		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
 		LocalDate checkIn = searchParams.getCheckInDate();
 		LocalDate checkOut = searchParams.getCheckOutDate();
 		String address = StrUtils.formatAddress(property.getLocation());
-		String phone = Db.getHotelBookingResponse().getPhoneNumber();
+		String phone = Db.getTripBucket().getHotel().getBookingResponse().getPhoneNumber();
 
 		//In this screen isShared & travelerName would not be relevant. So just set to false and null and pass it on to ShareUtils.
 		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false,
@@ -135,10 +136,10 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Property property = Db.getHotelBookingResponse().getProperty();
-		LocalDate date = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
-				.getSearchParams().getCheckOutDate();
-		HotelBookingResponse bookingResponse = Db.getHotelBookingResponse();
+		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
+		LocalDate date = checkIn ? Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate() :
+			Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
+		HotelBookingResponse bookingResponse = Db.getTripBucket().getHotel().getBookingResponse();
 		String confNumber = bookingResponse.getHotelConfNumber();
 		String itinNumber = bookingResponse.getItineraryId();
 

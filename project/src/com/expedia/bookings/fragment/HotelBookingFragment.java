@@ -14,11 +14,14 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
@@ -78,7 +81,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	@Override
 	public void clearBookingResponse() {
-		Db.setHotelBookingResponse(null);
+		Db.getTripBucket().getHotel().setBookingResponse(null);
 	}
 
 	@Override
@@ -87,24 +90,25 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			@Override
 			public HotelBookingResponse doDownload() {
 				ExpediaServices services = new ExpediaServices(getActivity());
-				HotelSearch search = Db.getHotelSearch();
+				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+
 				String userId = null;
 				String tripId = null;
 				String tealeafId = null;
 				Long tuid = null;
 
-				if (search.getCreateTripResponse() != null) {
-					tripId = search.getCreateTripResponse().getTripId();
-					userId = search.getCreateTripResponse().getUserId();
-					tealeafId = search.getCreateTripResponse().getTealeafId();
+				if (hotel.getCreateTripResponse() != null) {
+					tripId = hotel.getCreateTripResponse().getTripId();
+					userId = hotel.getCreateTripResponse().getUserId();
+					tealeafId = hotel.getCreateTripResponse().getTealeafId();
 				}
 
 				if (Db.getUser() != null) {
 					tuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
 
-				Rate selectedRate = search.getBookingRate();
-				HotelBookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
+				Rate selectedRate = hotel.getRate();
+				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(), hotel.getProperty(),
 					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId);
 
 				notifyWalletTransactionStatus(response);
@@ -182,7 +186,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		 * If not then let's call that first.
 		 * Else let's start the booking.
 		 */
-		if (Db.getHotelSearch().getCreateTripResponse() == null) {
+		if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
 			startCreateTripDownload();
 		}
 		else {
@@ -202,7 +206,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			break;
 		case COUPON_APPLY:
 			if (mCouponCode == null) {
-				Log.w("Coupon Code is null or not set. Please call startDownload(HotelBookingState, String) instead and pass the coupon code.");
+				throw new RuntimeException("Coupon Code is null or not set. Please call startDownload(HotelBookingState, String) instead and pass the coupon code.");
 			}
 			else {
 				applyCoupon(mCouponCode);
@@ -213,7 +217,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			break;
 		case CHECKOUT:
 			Events.post(new Events.BookingDownloadStarted());
-			if (Db.getHotelSearch().getCreateTripResponse() == null) {
+			if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
 				startCreateTripDownload();
 			}
 			else {
@@ -277,9 +281,12 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		public HotelProductResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
-			Rate selectedRate = Db.getHotelSearch().getCheckoutRate();
-			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
-				.getSelectedProperty(), selectedRate);
+
+			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			Property property = Db.getTripBucket().getHotel().getProperty();
+
+			return services.hotelProduct(params, property, selectedRate);
 		}
 	};
 
@@ -290,12 +297,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				handleHotelProductError(response);
 			}
 			else {
-				final String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-				Rate selectedRate = Db.getHotelSearch().getCheckoutRate();
+				Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
-					onHotelProductSuccess(response, selectedId, selectedRate, newRate);
+					onHotelProductSuccess(response, selectedRate, newRate);
 				}
 				else {
 					handleHotelProductError(response);
@@ -310,7 +316,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	 * which is common for most cases.
 	 * If we want to add more UI functionality, then Subscribe to Events.HotelProductDownloadSuccess class.
 	 */
-	private void onHotelProductSuccess(HotelProductResponse response, final String selectedId, Rate selectedRate, Rate newRate) {
+	private void onHotelProductSuccess(HotelProductResponse response, Rate selectedRate, Rate newRate) {
 		if (!AndroidUtils.isRelease(getActivity())) {
 			String priceChangeString = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_hotel_price_change),
@@ -348,16 +354,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 		}
 
-		HotelAvailability selectedAvailability = Db.getHotelSearch().getSelectedHotelAvailability();
-		// On Tablet, we want to update use the selectedHotelAvailability set from TripBucket.
-		if (selectedAvailability != null) {
-			selectedAvailability.updateFrom(selectedRate.getRateKey(), response);
-			selectedAvailability.setSelectedRate(newRate);
-		}
-		else {
-			Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
-			Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
-		}
+		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
+		availability.updateFrom(selectedRate.getRateKey(), response);
+		availability.setSelectedRate(newRate);
 
 		Events.post(new Events.HotelProductDownloadSuccess(response));
 	}
@@ -368,15 +367,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		if (response != null && response.getErrors() != null) {
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
-					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
-					HotelAvailability selectedAvailability = Db.getHotelSearch().getSelectedHotelAvailability();
-					if (selectedAvailability != null) {
-						selectedAvailability.removeRate(response.getOriginalProductKey());
-					}
-					else {
-						Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
-					}
+					HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
+					availability.removeRate(response.getOriginalProductKey());
+
 					// Post event for tablets to show the BookingUnavailableFragment
 					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
 				}
@@ -419,8 +413,12 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_CREATE_TRIP, services);
-			return services
-				.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
+
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			Property property = Db.getTripBucket().getHotel().getProperty();
+			Rate rate = Db.getTripBucket().getHotel().getRate();
+
+			return services.createTrip(params, property, rate);
 		}
 	};
 
@@ -438,13 +436,13 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	};
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
-		Db.getHotelSearch().setCreateTripResponse(response);
+		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		switch (mState) {
 		case COUPON_APPLY:
 			startApplyCouponDownloader(mCouponCode);
 			break;
 		case COUPON_REMOVE:
-			Db.getHotelSearch().setCouponApplied(false);
+			Db.getTripBucket().getHotel().setIsCouponApplied(false);
 			OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			mCouponCode = null;
 			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
@@ -537,7 +535,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	 */
 	private void applyCoupon(String couponCode) {
 		mCouponCode = couponCode;
-		if (Db.getHotelSearch().getCreateTripResponse() == null) {
+		if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
 			startCreateTripDownload();
 		}
 		else {
@@ -578,8 +576,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_APPLY_COUPON, services);
-			return services.applyCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
-					.getHotelSearch().getSelectedProperty());
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			Property property = Db.getTripBucket().getHotel().getProperty();
+			return services.applyCoupon(mCouponCode, params, property);
 		}
 	};
 
@@ -596,8 +595,8 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
 
-				Db.getHotelSearch().setCouponApplied(true);
-				Db.getHotelSearch().setCreateTripResponse(response);
+				Db.getTripBucket().getHotel().setIsCouponApplied(true);
+				Db.getTripBucket().getHotel().setCreateTripResponse(response);
 
 				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
 				Events.post(new Events.CouponApplyDownloadSuccess(response.getNewRate()));

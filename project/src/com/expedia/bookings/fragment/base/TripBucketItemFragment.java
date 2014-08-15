@@ -280,7 +280,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			}
 			else if (lob == LineOfBusiness.HOTELS) {
 				mBreakdownFrag = BreakdownDialogFragment
-					.buildHotelRateBreakdownDialog(getActivity(), Db.getHotelSearch());
+					.buildHotelRateBreakdownDialog(getActivity(), Db.getTripBucket().getHotel());
 			}
 			else {
 				throw new UnsupportedOperationException(

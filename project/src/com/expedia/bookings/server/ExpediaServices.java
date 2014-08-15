@@ -815,15 +815,15 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public CreateTripResponse createTrip(HotelSearchParams params, Property property) {
-		List<BasicNameValuePair> query = generateCreateTripParams(property, params);
+	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate) {
+		List<BasicNameValuePair> query = generateCreateTripParams(rate, params);
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
 		return doE3Request("m/api/hotel/trip/create", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateCreateTripParams(Property property, HotelSearchParams params) {
+	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("productKey", Db.getHotelSearch().getCheckoutRate().getRateKey()));
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 		query.add(
 			new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
 
@@ -841,7 +841,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("tripId", Db.getHotelSearch().getCreateTripResponse().getTripId()));
+		query.add(new BasicNameValuePair("tripId", Db.getTripBucket().getHotel().getCreateTripResponse().getTripId()));
 		query.add(new BasicNameValuePair("coupon.code", couponCode));
 
 		return query;

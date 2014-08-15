@@ -31,7 +31,7 @@ public class HotelRulesFragment extends Fragment {
 
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.cancellation_policy_header_text_view));
 
-		Rate rate = Db.getHotelSearch().getSelectedRate();
+		Rate rate = Db.getTripBucket().getHotel().getRate();
 		if (rate != null) {
 			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
 

@@ -140,8 +140,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		}
 		else {
 			// Hotels
-			LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
-			LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
+			LocalDate checkIn = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate();
+			LocalDate checkOut = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
 			dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
 		}

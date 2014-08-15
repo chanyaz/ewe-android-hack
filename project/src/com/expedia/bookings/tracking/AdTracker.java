@@ -8,6 +8,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -52,22 +53,18 @@ public class AdTracker {
 
 	public static void trackHotelBooked() {
 		// Values
-		final HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams().copy();
-		final Property property = Db.getHotelSearch().getSelectedProperty();
-		final Rate rate = Db.getHotelSearch().getBookingRate();
+		final Rate rate = Db.getTripBucket().getHotel().getRate();
 
-		final String propertyId = property.getPropertyId();
-		final String propertyName = property.getName();
 		final String currency = rate.getDisplayPrice().getCurrency();
-		final Integer duration = searchParams.getStayDuration();
 		final Double avgPrice = rate.getAverageRate().getAmount().doubleValue();
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
-		final Double totalTax = rate.getTaxesAndFeesPerRoom() != null ? rate.getTaxesAndFeesPerRoom().getAmount()
-				.doubleValue() : 0;
 
 		// Other
-		String orderNumber = Db.getHotelBookingResponse() != null ? Db.getHotelBookingResponse().getOrderNumber() : "";
-		AdX.trackHotelBooked(Db.getHotelSearch(), orderNumber, currency, totalPrice, avgPrice);
+		HotelBookingResponse response = Db.getTripBucket().getHotel().getBookingResponse();
+		String orderNumber = response != null ? response.getOrderNumber() : "";
+		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+		Property property = Db.getTripBucket().getHotel().getProperty();
+		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 	}
 
 	public static void trackFlightBooked() {
@@ -89,9 +86,11 @@ public class AdTracker {
 	}
 
 	public static void trackHotelCheckoutStarted() {
-		final Rate rate = Db.getHotelSearch().getCheckoutRate();
+		final Rate rate = Db.getTripBucket().getHotel().getRate();
 		final Money totalPrice = rate.getTotalAmountAfterTax();
-		AdX.trackHotelCheckoutStarted(Db.getHotelSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+		Property property = Db.getTripBucket().getHotel().getProperty();
+		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {

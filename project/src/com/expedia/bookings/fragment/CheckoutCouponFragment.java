@@ -144,10 +144,9 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	}
 
 	private void updateViews() {
-		Rate rate = Db.getHotelSearch().getSelectedRate();
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().isCouponApplied()) {
-			rate = Db.getHotelSearch().getCouponRate();
+			Rate rate = Db.getTripBucket().getHotel().getCouponRate();
 
 			// Show off the savings!
 			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE, rate

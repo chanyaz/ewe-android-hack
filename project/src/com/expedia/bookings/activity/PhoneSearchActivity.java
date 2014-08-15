@@ -445,7 +445,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			showDialog(DIALOG_LOCATION_SUGGESTIONS);
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
-			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
+			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 		else {
 			handleError();
@@ -638,7 +638,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (Db.getHotelSearch().getSearchResponse() != null
 			&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
-			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
+			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
@@ -1812,7 +1812,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (!handledError) {
 			OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
-			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext));
+			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 	}
 

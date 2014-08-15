@@ -151,7 +151,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 	}
 
 	private void verifyConfirmationTexts() {
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		int cachedNumberOfGuests = params.getNumAdults() + params.getNumChildren();
 		assertEquals(mNumberOfGuests, cachedNumberOfGuests);
 		ScreenActions.enterLog(TAG, "no guest  " + mNumberOfGuests + "," + cachedNumberOfGuests);

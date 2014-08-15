@@ -27,6 +27,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
@@ -94,7 +95,7 @@ public class WalletUtils {
 
 	public static boolean offerGoogleWalletCoupon(Context context) {
 		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
-				&& Db.getHotelSearch().getSelectedProperty().isMerchant();
+				&& Db.getTripBucket().getHotel().getProperty().isMerchant();
 	}
 
 	public static String getWalletCouponCode(Context context) {
@@ -453,11 +454,11 @@ public class WalletUtils {
 	}
 
 	public static Cart buildHotelCart(Context context) {
-		HotelSearch search = Db.getHotelSearch();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 
-		Property property = search.getSelectedProperty();
-		Rate originalRate = search.getCheckoutRate();
-		Rate couponRate = search.getCouponRate();
+		Property property = hotel.getProperty();
+		Rate originalRate = hotel.getRateNoCoupon();
+		Rate couponRate = hotel.getCouponRate();
 		Money total = couponRate == null ? originalRate.getTotalAmountAfterTax() : couponRate.getTotalAmountAfterTax();
 
 		Money nightlyRate = null;

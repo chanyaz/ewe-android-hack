@@ -515,10 +515,10 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 		s.setEvents("event70");
 
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		s.setEvar(47, getEvar47String(params));
 		addHotelRegionId(s, params);
-		addProducts(s, Db.getHotelSearch().getSelectedProperty());
+		addProducts(s, Db.getTripBucket().getHotel().getProperty());
 		addStandardHotelFields(s, params);
 
 		s.track();
@@ -1520,9 +1520,9 @@ public class OmnitureTracking {
 				Property property = Db.getTripBucket().getHotel().getProperty();
 				addProducts(s, property, params.getStayDuration(), rate.getTotalAmountAfterTax().getAmount().doubleValue());
 
-				String itinId = Db.getHotelBookingResponse().getItineraryId();
+				String itinId = Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();
 				s.setProp(71, itinId);
-				String orderNumber = Db.getHotelBookingResponse().getOrderNumber();
+				String orderNumber = Db.getTripBucket().getHotel().getBookingResponse().getOrderNumber();
 				s.setPurchaseID("onum" + orderNumber);
 				s.setProp(72, orderNumber);
 			}

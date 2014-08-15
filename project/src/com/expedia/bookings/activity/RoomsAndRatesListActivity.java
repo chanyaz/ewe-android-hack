@@ -22,6 +22,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -250,7 +251,10 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	public void onRateSelected(Rate rate) {
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
-		Db.kickOffBackgroundHotelSearchSave(RoomsAndRatesListActivity.this);
+
+		Db.getTripBucket().clearHotel();
+		Db.getTripBucket().add(Db.getHotelSearch(), rate, Db.getHotelSearch().getAvailability(selectedId));
+		Db.saveTripBucket(this);
 
 		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);

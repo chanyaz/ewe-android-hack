@@ -265,7 +265,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Db.getTripBucket().selectHotelAndFlight();
 			triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
 		}
 	};

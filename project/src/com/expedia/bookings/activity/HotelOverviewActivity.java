@@ -19,6 +19,7 @@ import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
@@ -59,7 +60,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 			}
 		}
 
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
+		if (Db.getTripBucket().getHotel() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
@@ -93,7 +94,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		OmnitureTracking.onPause();
 
 		if (isFinishing()) {
-			Db.getHotelSearch().setCreateTripResponse(null);
+			Db.getTripBucket().getHotel().setCreateTripResponse(null);
 		}
 	}
 
@@ -145,11 +146,15 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 
 		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
 
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		if (property == null) {
+		Property property;
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return false;
+		}
+		else {
+			property = hotel.getProperty();
 		}
 
 		((TextView) titleView.findViewById(R.id.title)).setText(property.getName());

@@ -16,6 +16,9 @@ public class TripBucketItemHotel extends TripBucketItem {
 	Rate mCouponRate;
 	boolean mIsCouponApplied;
 
+	CreateTripResponse mCreateTripResponse;
+	HotelBookingResponse mBookingResponse;
+
 	public TripBucketItemHotel() {
 		// ignore
 	}
@@ -42,6 +45,10 @@ public class TripBucketItemHotel extends TripBucketItem {
 		else {
 			return mRate;
 		}
+	}
+
+	public Rate getRateNoCoupon() {
+		return mRate;
 	}
 
 	public Rate getOldRate() {
@@ -78,6 +85,26 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mCouponRate = couponRate;
 	}
 
+	public Rate getCouponRate() {
+		return mCouponRate;
+	}
+
+	public void setCreateTripResponse(CreateTripResponse response) {
+		mCreateTripResponse = response;
+	}
+
+	public CreateTripResponse getCreateTripResponse() {
+		return mCreateTripResponse;
+	}
+
+	public HotelBookingResponse getBookingResponse() {
+		return mBookingResponse;
+	}
+
+	public void setBookingResponse(HotelBookingResponse bookingResponse) {
+		mBookingResponse = bookingResponse;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -92,6 +119,8 @@ public class TripBucketItemHotel extends TripBucketItem {
 			obj.put("couponApplied", mIsCouponApplied);
 			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
 			JSONUtils.putJSONable(obj, "availability", mAvailability);
+			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
+			JSONUtils.putJSONable(obj, "bookingResponse", mBookingResponse);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -109,6 +138,8 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mIsCouponApplied = obj.optBoolean("couponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);
+		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
+		mBookingResponse = JSONUtils.getJSONable(obj, "bookingResponse", HotelBookingResponse.class);
 		return true;
 	}
 }

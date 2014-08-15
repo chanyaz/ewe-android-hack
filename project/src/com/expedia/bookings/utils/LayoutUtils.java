@@ -36,6 +36,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
@@ -216,9 +217,9 @@ public class LayoutUtils {
 		amenitiesTable.addView(amenityLayout);
 	}
 
-	public static String noHotelsFoundMessage(Context context) {
+	public static String noHotelsFoundMessage(Context context, HotelSearchParams params) {
 		StringBuilder sb = new StringBuilder();
-		if (CalendarUtils.isSearchDateTonight(Db.getHotelSearch().getSearchParams())) {
+		if (CalendarUtils.isSearchDateTonight(params)) {
 			sb.append(context.getResources().getString(R.string.no_hotels_availiable_tonight));
 		}
 		else {

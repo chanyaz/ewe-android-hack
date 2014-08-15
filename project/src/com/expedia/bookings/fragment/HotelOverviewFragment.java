@@ -43,6 +43,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
@@ -188,7 +189,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		// #1715: Disable Google Wallet on non-merchant hotels
-		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+		if (!Db.getTripBucket().getHotel().getProperty().isMerchant()) {
 			disableGoogleWallet();
 		}
 
@@ -377,7 +378,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
 			// Since we are exiting the screen, let's reset coupon.
-			Db.getHotelSearch().setCouponApplied(false);
+			Db.getTripBucket().getHotel().setIsCouponApplied(false);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
@@ -593,14 +594,14 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void updateViews() {
 		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
-		HotelSearch search = Db.getHotelSearch();
-		HotelSearchParams searchParams = search.getSearchParams();
-		Property property = search.getSelectedProperty();
-		Rate rate = search.getSelectedRate();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		HotelSearchParams searchParams = hotel.getHotelSearchParams();
+		Property property = hotel.getProperty();
+		Rate rate = hotel.getRate();
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
-		if (search.isCouponApplied()) {
-			rate = search.getCouponRate();
+		if (hotel.isCouponApplied()) {
+			rate = hotel.getCouponRate();
 
 			// Show off the savings!
 			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE,
@@ -636,7 +637,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		// Show/hide either the coupon button or the coupon applied layout
 		View couponShow;
-		if (Db.getHotelSearch().isCouponApplied()) {
+		if (Db.getTripBucket().getHotel().isCouponApplied()) {
 			couponShow = mCouponAppliedContainer;
 			mCouponButton.setVisibility(View.GONE);
 		}
@@ -1050,7 +1051,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		@Override
 		public void onClick(View v) {
 			BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
-					Db.getHotelSearch());
+					Db.getTripBucket().getHotel());
 			dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
 		}
 	};
@@ -1222,8 +1223,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	protected Money getEstimatedTotal() {
-		Rate selectedRate = Db.getHotelSearch().getBookingRate();
-		return selectedRate.getTotalAmountAfterTax();
+		return Db.getTripBucket().getHotel().getRate().getTotalAmountAfterTax();
 	}
 
 	@Override
@@ -1291,7 +1291,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
 		boolean codeIsPromo = usingWalletPromoCoupon();
 		boolean applyingCoupon = mHotelBookingFragment.isDownloadingCoupon();
-		boolean appliedCoupon = Db.getHotelSearch().isCouponApplied();
+		boolean appliedCoupon = Db.getTripBucket().getHotel().isCouponApplied();
 		if (mCouponButton.getVisibility() == View.VISIBLE) {
 			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
 					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
@@ -1341,12 +1341,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private boolean appliedWalletPromoCoupon() {
 		return mBillingInfo.isUsingGoogleWallet() && WalletUtils.offerGoogleWalletCoupon(getActivity())
-				&& usingWalletPromoCoupon() && Db.getHotelSearch().isCouponApplied();
+				&& usingWalletPromoCoupon() && Db.getTripBucket().getHotel().isCouponApplied();
 	}
 
 	private void applyWalletCoupon() {
 		// If the user already has a coupon applied, clear it (and tell the user)
-		boolean hadCoupon = Db.getHotelSearch().isCouponApplied();
+		boolean hadCoupon = Db.getTripBucket().getHotel().isCouponApplied();
 
 		onApplyCoupon(WalletUtils.getWalletCouponCode(getActivity()));
 
@@ -1366,7 +1366,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
 		mHotelBookingFragment.cancelDownload(HotelBookingState.COUPON_APPLY);
-		Db.getHotelSearch().setCreateTripResponse(null);
+		Db.getTripBucket().getHotel().setCreateTripResponse(null);
 
 		if (mWalletPromoThrobberDialog != null) {
 			mWalletPromoThrobberDialog.dismiss();
@@ -1381,7 +1381,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				public void run() {
 					// #1722: If the user tried to book a hotel outside of 2013,
 					// then state that as the reason for failure
-					LocalDate checkOutDate = Db.getHotelSearch().getSearchParams().getCheckOutDate();
+					LocalDate checkOutDate = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
 					int errorStrId = checkOutDate.getYear() >= 2014 ? R.string.wallet_promo_expired
 							: R.string.error_wallet_promo_cannot_apply;
 					SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,

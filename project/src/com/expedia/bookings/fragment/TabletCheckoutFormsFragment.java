@@ -424,10 +424,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
-			if (Db.getHotelSearch() != null
-				&& Db.getHotelSearch().getSelectedProperty() != null
-				&& Db.getHotelSearch().getSelectedProperty().getName() != null) {
-				headingArg = Db.getHotelSearch().getSelectedProperty().getName();
+			if (Db.getTripBucket().getHotel() != null
+				&& Db.getTripBucket().getHotel().getProperty() != null
+				&& Db.getTripBucket().getHotel().getProperty().getName() != null) {
+				headingArg = Db.getTripBucket().getHotel().getProperty().getName();
 			}
 		}
 		if (getResources().getBoolean(R.bool.show_now_booking_heading)) {

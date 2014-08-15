@@ -407,11 +407,12 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 	public void onBookingResponse(Events.BookingDownloadResponse event) {
 		Response results = event.response;
 		HotelBookingResponse response = (HotelBookingResponse) results;
-		Property property = Db.getHotelSearch().getSelectedProperty();
+		Property property = Db.getTripBucket().getHotel().getProperty();
 
 		dismissProgressDialog();
 
-		Db.setHotelBookingResponse(response);
+		Db.getTripBucket().getHotel().setBookingResponse(response);
+		// TODO save trip bucket for better state persistence?
 		setCvvErrorMode(false);
 
 		if (results == null) {

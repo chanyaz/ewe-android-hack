@@ -129,10 +129,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 					mRoomAndBedTv.setText(Html.fromHtml(getString(R.string.room_and_bed_type_TEMPLATE, rate.getRoomDescription(), rate.getFormattedBedNames())));
 				}
 				if (mNowBookingTv != null) {
-					if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
-						String hotelName = Db.getHotelSearch().getSelectedProperty().getName();
-						mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase()));
-					}
+					String hotelName = itemHotel.getProperty().getName();
+					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase()));
 				}
 
 				String price = rate.getDisplayTotalPrice().getFormattedMoney();
@@ -251,7 +249,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Db.getTripBucket().selectHotelAndFlight();
 			triggerTripBucketBookAction(LineOfBusiness.HOTELS);
 		}
 	};

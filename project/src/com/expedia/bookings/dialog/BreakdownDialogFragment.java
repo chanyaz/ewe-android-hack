@@ -30,6 +30,8 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.TripBucket;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -129,15 +131,13 @@ public class BreakdownDialogFragment extends DialogFragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Convenience buildres
+	// Convenience builders
 
-	public static BreakdownDialogFragment buildHotelRateBreakdownDialog(Context context, HotelSearch search) {
+	public static BreakdownDialogFragment buildHotelRateBreakdownDialog(Context context, TripBucketItemHotel hotel) {
 		Resources res = context.getResources();
-		TripBucketItemHotel tripBucketHotel = Db.getTripBucket().getHotel();
-		boolean hasTripBucketHotel = tripBucketHotel != null;
-		HotelSearchParams params = (hasTripBucketHotel) ? tripBucketHotel.getHotelSearchParams() : search.getSearchParams();
-		Rate originalRate = search.getCheckoutRate();
-		Rate couponRate = search.getCouponRate();
+		HotelSearchParams params = hotel.getHotelSearchParams();
+		Rate originalRate = hotel.getRateNoCoupon();
+		Rate couponRate = hotel.getCouponRate();
 
 		Builder builder = new Builder();
 

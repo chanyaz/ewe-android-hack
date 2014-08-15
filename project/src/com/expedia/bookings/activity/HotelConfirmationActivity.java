@@ -11,6 +11,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -31,7 +33,8 @@ public class HotelConfirmationActivity extends FragmentActivity {
 
 		// The app will get in to this state if being restored after background kill. In this case let's just be a good
 		// guy and send them to the itin screen.
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
+		HotelBookingResponse bookingResponse = Db.getTripBucket().getHotel().getBookingResponse();
+		if (bookingResponse == null) {
 			Log.d("HotelConfirmationActivity launched without confirmation data, sending to itin");
 			NavUtils.goToItin(this);
 			finish();
@@ -42,22 +45,23 @@ public class HotelConfirmationActivity extends FragmentActivity {
 		mKillReceiver.onCreate();
 
 		if (savedInstanceState == null) {
-			if (Db.getHotelBookingResponse().succeededWithErrors()) {
+			if (bookingResponse.succeededWithErrors()) {
 				showSucceededWithErrorsDialog();
 			}
 
 			// Add guest itin to itin manager
-			if (Db.getHotelBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
+			if (Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
 				String email = Db.getBillingInfo().getEmail();
-				String tripId = Db.getHotelBookingResponse().getItineraryId();
+				String tripId = bookingResponse.getItineraryId();
 				ItineraryManager.getInstance().addGuestTrip(email, tripId);
 			}
 
 			// Track page load
-			Rate selectedRate = Db.getHotelSearch().getBookingRate();
-			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getHotelSearch().getSearchParams(),
-					Db.getHotelSearch().getSelectedProperty(), Db.getBillingInfo(),
-					selectedRate, Db.getHotelBookingResponse());
+			Property property = Db.getTripBucket().getHotel().getProperty();
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
+			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, Db.getBillingInfo(),
+					selectedRate, bookingResponse);
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);
@@ -76,15 +80,13 @@ public class HotelConfirmationActivity extends FragmentActivity {
 
 		if (isFinishing()) {
 			// #953: Kick off deep refresh for newly booked hotel
-			HotelBookingResponse response = Db.getHotelBookingResponse();
+			HotelBookingResponse response = Db.getTripBucket().getHotel().getBookingResponse();
 			if (response != null) {
 				ItineraryManager.getInstance().deepRefreshTrip(response.getItineraryId(), true);
 			}
 
 			// Clear out data
 			Db.setBillingInfo(null);
-			Db.setHotelBookingResponse(null);
-			Db.getHotelSearch().setCreateTripResponse(null);
 			Db.getHotelSearch().resetSearchData();
 			Db.getHotelSearch().resetSearchParams();
 
@@ -154,8 +156,8 @@ public class HotelConfirmationActivity extends FragmentActivity {
 		String dialogTag = getString(R.string.tag_simple_dialog);
 		if (fm.findFragmentByTag(dialogTag) == null) {
 			String title = getString(R.string.error_booking_title);
-			String message = getString(R.string.error_booking_succeeded_with_errors, Db.getHotelBookingResponse()
-					.gatherErrorMessage(this));
+			String err = Db.getTripBucket().getHotel().getBookingResponse().gatherErrorMessage(this);
+			String message = getString(R.string.error_booking_succeeded_with_errors, err);
 
 			SimpleSupportDialogFragment.newInstance(title, message).show(getSupportFragmentManager(), dialogTag);
 		}

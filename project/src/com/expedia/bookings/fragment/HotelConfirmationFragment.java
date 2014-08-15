@@ -32,6 +32,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SamsungWalletResponse;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
@@ -77,7 +78,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		Property property = Db.getHotelBookingResponse().getProperty();
+		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
 		Ui.setText(v, R.id.hotel_name_text_view, property.getName());
 
 		// Construct the hotel card
@@ -88,7 +89,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		hotelImageView.setImageDrawable(headerBitmapDrawable);
-		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+
+		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
 			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
@@ -99,7 +101,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 		}
 
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		int numGuests = params.getNumAdults() + params.getNumChildren();
 		String guests = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
 		String duration = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
@@ -233,7 +235,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	@Override
 	protected String getItinNumber() {
-		return Db.getHotelBookingResponse().getItineraryId();
+		return Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -272,7 +274,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 		flightSearchParams.reset();
 
-		Property property = Db.getHotelBookingResponse().getProperty();
+		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
 
 		Location loc = new Location();
 		loc.setDestinationId(property.getLocation().toLongFormattedString());
@@ -294,14 +296,14 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private void share() {
 		Context context = getActivity();
 
-		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		Property property = Db.getHotelBookingResponse().getProperty();
+		HotelSearchParams searchParams = Db.getTripBucket().getHotel().getHotelSearchParams();
+		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
 		LocalDate checkIn = searchParams.getCheckInDate();
 		LocalDate checkOut = searchParams.getCheckOutDate();
 		String address = StrUtils.formatAddress(property.getLocation());
-		String phone = Db.getHotelBookingResponse().getPhoneNumber();
+		String phone = Db.getTripBucket().getHotel().getBookingResponse().getPhoneNumber();
 
 		//In this screen isShared & travelerName would not be relevant. So just set to false and null and pass it on to ShareUtils.
 		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false,
@@ -326,10 +328,11 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Property property = Db.getHotelBookingResponse().getProperty();
-		LocalDate date = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
-				.getSearchParams().getCheckOutDate();
-		HotelBookingResponse bookingResponse = Db.getHotelBookingResponse();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		HotelBookingResponse bookingResponse = Db.getTripBucket().getHotel().getBookingResponse();
+		Property property = bookingResponse.getProperty();
+		LocalDate date = checkIn ? hotel.getHotelSearchParams().getCheckInDate() :
+			hotel.getHotelSearchParams().getCheckOutDate();
 		String confNumber = bookingResponse.getHotelConfNumber();
 		String itinNumber = bookingResponse.getItineraryId();
 
