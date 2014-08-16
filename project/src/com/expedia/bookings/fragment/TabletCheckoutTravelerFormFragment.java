@@ -51,6 +51,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -455,6 +456,16 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			}
 		});
 
+		// Add focus change listeners only for 7inch portrait mode and only if we want to show the name match message.
+		if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait) && showBoardingMessage()) {
+			EditText editFirstName = Ui.findView(mSectionTraveler, R.id.edit_first_name);
+			EditText editMiddleName = Ui.findView(mSectionTraveler, R.id.edit_middle_name);
+			EditText editLastName = Ui.findView(mSectionTraveler, R.id.edit_last_name);
+			editFirstName.setOnFocusChangeListener(mAllNamesFocusListener);
+			editMiddleName.setOnFocusChangeListener(mAllNamesFocusListener);
+			editLastName.setOnFocusChangeListener(mAllNamesFocusListener);
+		}
+
 		//We set up the AutoComplete view such that it will be the first name or last name field depending on POS.
 		//We leave the remainder of the AutoComplete's setup to onFormOpen and onFocus.
 		EditText editName = Ui.findView(mSectionTraveler,
@@ -558,6 +569,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				if (hasFocus) {
 					mTravelerAutoComplete.setAdapter(mTravelerAdapter);
 					mTravelerAutoComplete.showDropDown();
+					/*
+					 * mTravelerAutoComplete is based on POS and hence the previously set mAllNamesFocusListener might be overwritten by this.
+					 */
+					if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait) && showBoardingMessage()) {
+						showNameMatchHeaderText(hasFocus);
+					}
 				}
 				else {
 					mTravelerAutoComplete.dismissDropDown();
@@ -568,7 +585,20 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 	};
 
+	private View.OnFocusChangeListener mAllNamesFocusListener = new View.OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			switch (v.getId()) {
+			case R.id.edit_first_name:
+			case R.id.edit_middle_name:
+			case R.id.edit_last_name:
+				showNameMatchHeaderText(hasFocus);
+			}
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////
+
 	// InputFilter
 
 	@Override

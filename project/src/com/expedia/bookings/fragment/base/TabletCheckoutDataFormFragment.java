@@ -100,6 +100,11 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		}
 	}
 
+	public void showNameMatchHeaderText(boolean show) {
+		mHeadingText.setVisibility(show ? View.GONE : View.VISIBLE);
+		mBoardingMessageTv.setVisibility(show ? View.VISIBLE : View.GONE);
+	}
+
 	public TextView getHeadingTextView() {
 		return mHeadingText;
 	}
