@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
@@ -23,7 +24,7 @@ import com.mobiata.android.util.ViewUtils;
  *
  * NOTE:
  * This version differs from com.mobiata.android.widget.TextView in that it extends the local
- * TextView instead of android.widget.TextView. It also measures text in all caps if TextView.isAllCaps().
+ * TextView instead of android.widget.TextView
  *
  * @author Chase Colburn (original)
  * @since Apr 4, 2011
@@ -167,7 +168,10 @@ public class AutoResizeTextView extends com.expedia.bookings.widget.TextView {
 		}
 
 		// Respect uppercase if requested
-		if (isAllCaps()) {
+		// This appears to be the only way to check if android:textAllCaps was set in xml
+		TransformationMethod method = getTransformationMethod();
+		if (method != null && "android.text.method.AllCapsTransformationMethod".equals(method.getClass().getName())) {
+			// How much more fragile can I make this check?
 			text = ViewUtils.toUpper(getContext(), text);
 		}
 

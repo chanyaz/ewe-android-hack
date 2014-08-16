@@ -34,9 +34,9 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textAllCaps="true"
                 android:textColor="@color/itin_white_text"
                 android:textSize="12dp"
-                app:textAllCaps="true"
                 app:textStyle="bold" />
         </LinearLayout>
 
@@ -66,9 +66,9 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textAllCaps="true"
                 android:textColor="@color/itin_white_text"
                 android:textSize="12dp"
-                app:textAllCaps="true"
                 app:textStyle="bold" />
         </LinearLayout>
     </com.expedia.bookings.widget.NoPressLinearLayout>

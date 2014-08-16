@@ -14,9 +14,9 @@
         android:drawableLeft="@drawable/ic_copy"
         android:drawablePadding="8dp"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textColor="@color/itin_white_text"
         android:textSize="14dp"
-        app:textAllCaps="true"
         app:textStyle="bold" />
 
 </LinearLayout>

@@ -37,9 +37,9 @@
             android:maxLines="1"
             android:gravity="center"
             android:textColor="@color/itin_white_text"
+            android:textAllCaps="true"
             android:textSize="48sp"
-            android:textStyle="normal"
-            app:textAllCaps="true" />
+            android:textStyle="normal" />
 
         <com.expedia.bookings.widget.AutoResizeTextView
             android:layout_width="wrap_content"

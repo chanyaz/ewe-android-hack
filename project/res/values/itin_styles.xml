@@ -16,9 +16,9 @@
         <item name="android:paddingLeft">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">true</item>
         <item name="android:textSize">14sp</item>
         <item name="textStyle">medium</item>
-        <item name="textAllCaps">true</item>
     </style>
 
     <style name="TextView.Itin.SectionHeader.Padded">

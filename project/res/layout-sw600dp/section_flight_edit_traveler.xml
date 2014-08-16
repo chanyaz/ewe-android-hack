@@ -121,11 +121,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/seating_preference"
-                app:textAllCaps="true"
-                app:textStyle="medium"
+                android:textAllCaps="true"
                 android:textColor="#2A4367"
                 android:textStyle="bold"
-                android:textSize="14dp"/>
+                android:textSize="14dp"
+                app:textStyle="medium" />
 
             <Spinner
                 android:id="@+id/edit_seat_preference_spinner"
@@ -143,11 +143,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/special_assistance"
-                app:textAllCaps="true"
-                app:textStyle="medium"
+                android:textAllCaps="true"
                 android:textColor="#2A4367"
                 android:textStyle="bold"
-                android:textSize="14dp"/>
+                android:textSize="14dp"
+                app:textStyle="medium" />
 
             <Spinner
                 android:id="@+id/edit_assistance_preference_spinner"
@@ -164,11 +164,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/add_redress_num"
-                app:textAllCaps="true"
-                app:textStyle="medium"
+                android:textAllCaps="true"
                 android:textColor="#2A4367"
                 android:textStyle="bold"
-                android:textSize="14dp"/>
+                android:textSize="14dp"
+                app:textStyle="medium" />
 
             <EditText
                 android:id="@+id/edit_redress_number"
