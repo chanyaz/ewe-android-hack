@@ -792,6 +792,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">@dimen/cvv_keypad_text_size</item>
+        <item name="android:padding">@dimen/cvv_keypad_text_padding</item>
         <item name="textStyle">medium</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>

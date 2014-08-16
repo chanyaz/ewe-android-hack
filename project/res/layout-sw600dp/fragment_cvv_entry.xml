@@ -38,7 +38,7 @@
     <FrameLayout
         android:id="@+id/finish_booking_button_holder"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="@dimen/cvv_finish_booking_container_height"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true">
