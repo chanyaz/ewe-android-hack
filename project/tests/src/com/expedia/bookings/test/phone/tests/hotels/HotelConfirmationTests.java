@@ -163,7 +163,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 
 		HotelsConfirmationScreen.hotelNameTextView().check(matches(withText(mHotelName)));
 
-		String expectedItineraryNumber = Db.getHotelBookingResponse().getItineraryId();
+		String expectedItineraryNumber = Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();
 		String expectedItineraryConfirmationText = getActivity().getResources().getString(R.string.itinerary_confirmation_TEMPLATE, expectedItineraryNumber);
 		HotelsConfirmationScreen.itineraryTextView().check(matches(withText(expectedItineraryConfirmationText)));
 

@@ -75,7 +75,7 @@ public class HotelConfirmationTests extends TabletTestCase {
 		EspressoUtils.assertContains(Confirmation.confirmationSummary(), mDateRange);
 
 		//verify itinerary #
-		String expectedItineraryNumber = Db.getHotelBookingResponse().getItineraryId();
+		String expectedItineraryNumber = Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();
 		EspressoUtils.assertContains(Confirmation.confirmationItinerary(), expectedItineraryNumber);
 
 		//verify login email
