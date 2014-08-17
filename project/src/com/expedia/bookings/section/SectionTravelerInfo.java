@@ -43,6 +43,7 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.section.PassportCountrySpinnerAdapter;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -991,9 +992,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				mCountryAdapter = new CountrySpinnerAdapter(mContext,
-					CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
-					android.R.layout.simple_list_item_1);
+				mCountryAdapter = new PassportCountrySpinnerAdapter(mContext);
 				getField().setAdapter(mCountryAdapter);
 			}
 		}

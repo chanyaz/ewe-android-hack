@@ -5,17 +5,23 @@ import java.util.Comparator;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
 
-public class CountrySpinnerAdapter extends ArrayAdapter<String> {
+public class CountrySpinnerAdapter extends BaseAdapter {
 	private CountryNameData[] mCountries;
 	private CountryDisplayType mDisplayType;
 
 	private Context mContext;
+	private int mItemResId = View.NO_ID;
+	private int mDropDownResId = View.NO_ID;
 
 	public enum CountryDisplayType {
 		FULL_NAME,
@@ -24,30 +30,29 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 	}
 
 	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType) {
-		super(context, R.layout.simple_spinner_item);
-		init(context, displayType, R.layout.simple_spinner_dropdown_item);
+		this(context, displayType, R.layout.simple_spinner_item);
 	}
 
-	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resourceBoth) {
-		super(context, resourceBoth);
-		init(context, displayType, resourceBoth);
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId) {
+		this(context, displayType, itemResId, View.NO_ID);
 	}
 
-	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resource, int dropdownresource) {
-		super(context, resource);
-		init(context, displayType, dropdownresource);
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId, int dropdownresource) {
+		super();
+		init(context, displayType, itemResId, dropdownresource);
 	}
 
-	private void init(Context context, CountryDisplayType displayType, int dropDownResId) {
+	private void init(Context context, CountryDisplayType displayType, int itemResId, int dropDownResId) {
 		mContext = context;
-		setDropDownViewResource(dropDownResId);
-		setDisplayType(displayType, context);
+		mItemResId = itemResId;
+		mDropDownResId = dropDownResId;
+		setDisplayType(displayType);
 	}
 
-	private void setDisplayType(CountryDisplayType displayType, Context context) {
+	private void setDisplayType(CountryDisplayType displayType) {
 		mDisplayType = displayType;
 
-		final Resources res = context.getResources();
+		final Resources res = mContext.getResources();
 		String[] countryNames = res.getStringArray(R.array.country_names);
 		String[] twoLetterCountryCodes = res.getStringArray(R.array.country_codes);
 		String[] threeLetterCountryCodes = new String[twoLetterCountryCodes.length];
@@ -71,7 +76,49 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
-		return mCountries[position].getValue(mDisplayType);
+		return getItemValue(position, mDisplayType);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		return getViewImpl(getItem(position), convertView, parent, mItemResId);
+	}
+
+	@Override
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		if (mDropDownResId == View.NO_ID) {
+			return getView(position, convertView, parent);
+		}
+
+		return getViewImpl(getItem(position), convertView, parent, mDropDownResId);
+	}
+
+	protected View getViewImpl(CharSequence text, View convertView, ViewGroup parent, int layoutId) {
+		ViewHolder holder;
+		if (convertView == null) {
+			convertView = Ui.inflate(layoutId, parent, false);
+			holder = new ViewHolder(convertView);
+			convertView.setTag(holder);
+		}
+		else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+
+		holder.text.setText(text);
+		return convertView;
+	}
+
+	private static class ViewHolder {
+		public TextView text;
+
+		public ViewHolder(View view) {
+			text = Ui.findView(view, android.R.id.text1);
+		}
 	}
 
 	public String getItemValue(int position, CountryDisplayType displayType) {
@@ -96,7 +143,7 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 		return -1;
 	}
 
-	private class CountryNameData {
+	private static class CountryNameData {
 		String mName;
 		String mTwoLetter;
 		String mThreeLetter;
@@ -115,7 +162,6 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 			case TWO_LETTER:
 				return mTwoLetter;
 			case FULL_NAME:
-				return mName;
 			default:
 				return mName;
 
@@ -123,7 +169,7 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 		}
 	}
 
-	private class CountryNameDataComparator implements Comparator<CountryNameData> {
+	private static class CountryNameDataComparator implements Comparator<CountryNameData> {
 
 		private CountryDisplayType mDisplayType;
 
