@@ -62,6 +62,8 @@
     <dimen name="search_params_destination_text_size">19sp</dimen>
     <!-- Text size for search param labels - search screen, right container elements -->
     <dimen name="search_params_right_container_text_size">15sp</dimen>
+    <dimen name="calender_header_height">42dp</dimen>
+    <dimen name="calender_month_advance_padding">10dp</dimen>
 
     <!-- GridManager numbers for Search Results screen -->
     <fraction name="results_grid_bottom_half">54%</fraction>

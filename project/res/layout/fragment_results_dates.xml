@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:background="#FFF">
+    android:background="@color/results_traveler_picker_bg">
 
     <com.mobiata.android.time.widget.CalendarPicker
         android:id="@+id/calendar_picker"
@@ -23,6 +23,6 @@
         app:calendarChangeMonthCaretColor="@color/tablet_results_search_blue"
         app:calendarHeaderTextSize="16dp"
         app:calendarHeaderTextColor="#444444"
-        app:calendarLayoutFile="@layout/widget_calendar_picker_eb"/>
+        app:calendarLayout="@layout/widget_calendar_picker_eb"/>
 </LinearLayout>
 

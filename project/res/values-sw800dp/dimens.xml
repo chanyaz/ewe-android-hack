@@ -44,6 +44,8 @@
     <dimen name="search_params_destination_text_size">25sp</dimen>
     <!-- Text size for search param labels - search screen, right container elements -->
     <dimen name="search_params_right_container_text_size">17sp</dimen>
+    <dimen name="calender_header_height">56dp</dimen>
+    <dimen name="calender_month_advance_padding">16dp</dimen>
 
     <!-- Hotel Details Fragment -->
     <dimen name="tablet_hotel_details_top_padding">64dp</dimen>
