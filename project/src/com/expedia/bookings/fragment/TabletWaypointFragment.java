@@ -275,6 +275,7 @@ public class TabletWaypointFragment extends Fragment
 	public void updateViewsForOrigin() {
 		if (mWaypointEditText != null) {
 			mWaypointEditText.setHint(R.string.Fly_from_dot_dot_dot);
+			mWaypointEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tablet_origin_arrow, 0, 0, 0);
 		}
 		SuggestionProvider.enableCurrentLocation(false);
 		doAfterTextChanged(mWaypointEditText);
@@ -283,6 +284,7 @@ public class TabletWaypointFragment extends Fragment
 	public void updateViewsForDestination() {
 		if (mWaypointEditText != null) {
 			mWaypointEditText.setHint(R.string.search_all_hint);
+			mWaypointEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_searchbox, 0, 0, 0);
 		}
 		SuggestionProvider.enableCurrentLocation(true);
 		doAfterTextChanged(mWaypointEditText);

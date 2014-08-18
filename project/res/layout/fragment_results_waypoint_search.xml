@@ -63,7 +63,7 @@
                     android:hint="@string/search_all_hint"
                     android:background="@null"
                     android:paddingLeft="16dp"
-                    android:drawableLeft="@drawable/ic_tablet_origin_arrow"
+                    android:drawableLeft="@drawable/ic_searchbox"
                     android:drawablePadding="8dp"
                     android:inputType="textNoSuggestions"
                     android:imeOptions="actionSearch"
