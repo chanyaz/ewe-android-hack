@@ -148,22 +148,23 @@ public class CollectionStack extends FrameLayout {
 					.darkenBy(0.4f)
 					.setAlpha(224)
 					.build();
-
-				GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.bg_collection_title);
-				d.setColor(textColor);
-				if (Build.VERSION.SDK_INT < 16) {
-					mTextView.setBackgroundDrawable(d);
-				}
-				else {
-					mTextView.setBackground(d);
-				}
-
 				int fullColor = new ColorBuilder(color)
 					.darkenBy(0.3f)
 					.setAlpha(217)
 					.build();
 
-				mCheckView.setBackgroundColor(fullColor);
+				GradientDrawable textViewBackground = (GradientDrawable) getResources().getDrawable(R.drawable.bg_collection_title);
+				textViewBackground.setColor(textColor);
+				GradientDrawable checkMarkViewBackground = (GradientDrawable) getResources().getDrawable(R.drawable.selected_tile_overlay);
+				checkMarkViewBackground.setColor(fullColor);
+				if (Build.VERSION.SDK_INT < 16) {
+					mTextView.setBackgroundDrawable(textViewBackground);
+					mCheckView.setBackgroundDrawable(checkMarkViewBackground);
+				}
+				else {
+					mTextView.setBackground(textViewBackground);
+					mCheckView.setBackground(checkMarkViewBackground);
+				}
 			}
 
 			@Override
