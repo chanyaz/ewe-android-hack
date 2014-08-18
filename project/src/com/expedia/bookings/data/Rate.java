@@ -543,18 +543,7 @@ public class Rate implements JSONable {
 	}
 
 	public void setTaxStatusType(String taxStatusType) {
-		if ("ESTIMATED".equals(taxStatusType)) {
-			mTaxStatusType = TaxStatusType.ESTIMATED;
-		}
-		else if ("UNKNOWN".equals(taxStatusType)) {
-			mTaxStatusType = TaxStatusType.UNKNOWN;
-		}
-		else if ("INCLUDED".equals(taxStatusType)) {
-			mTaxStatusType = TaxStatusType.INCLUDED;
-		}
-		else if ("NONE".equals(taxStatusType)) {
-			mTaxStatusType = TaxStatusType.NONE;
-		}
+		mTaxStatusType = TaxStatusType.valueOf(taxStatusType);
 	}
 //////////////////////////////////////////////////////////////////////////
 	// Prices to show users
@@ -650,6 +639,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "totalPriceAdjustments", mTotalPriceAdjustments);
 			obj.putOpt("userPriceType", getUserPriceType().ordinal());
 			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
+			JSONUtils.putEnum(obj, "taxStatusType", mTaxStatusType);
 			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
 			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
@@ -721,6 +711,7 @@ public class Rate implements JSONable {
 		mTotalPriceAdjustments = JSONUtils.getJSONable(obj, "totalPriceAdjustments", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
 		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
+		mTaxStatusType = JSONUtils.getEnum(obj, "taxStatusType", TaxStatusType.class);
 		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
 		mStrikethroughPriceToShowUsers = JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
 				Money.class);
