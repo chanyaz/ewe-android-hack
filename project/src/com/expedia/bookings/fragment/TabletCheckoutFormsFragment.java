@@ -632,7 +632,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		return TRAV_BTN_ID_START + travNumber;
 	}
 
-	protected void openTravelerEntry(int travelerNumber) {
+	public void openTravelerEntry(int travelerNumber) {
 		//finding index
 		View travSection = mTravelerViews.get(travelerNumber);
 		int viewNumber = -1;

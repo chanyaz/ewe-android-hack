@@ -16,11 +16,10 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity;
-import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -1212,8 +1211,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onBookingErrorDialogClick(Events.SimpleCallBackDialogOnClick event) {
+		setCheckoutState(CheckoutState.OVERVIEW, true);
 		if (bookingWithGoogleWallet()) {
-			setCheckoutState(CheckoutState.OVERVIEW, true);
 			return;
 		}
 		int callBackId = event.callBackId;
@@ -1223,12 +1222,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		case SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE:
 		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
+			setCheckoutState(CheckoutState.FORM_OPEN, true);
 			mCheckoutFragment.setState(CheckoutFormState.EDIT_PAYMENT, true);
-			// FIXME setCheckoutState(CheckoutState.FORM_OPEN, true);
 			break;
 		case SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER:
-			mCheckoutFragment.setState(CheckoutFormState.EDIT_TRAVELER, true);
-			// FIXME setCheckoutState(CheckoutState.FORM_OPEN, true);
+			setCheckoutState(CheckoutState.FORM_OPEN, true);
+			mCheckoutFragment.openTravelerEntry(0);
 			break;
 		case SimpleCallbackDialogFragment.CODE_INVALID_MINOR:
 		case SimpleCallbackDialogFragment.CODE_MINOR:
