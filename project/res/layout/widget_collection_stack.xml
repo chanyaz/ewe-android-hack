@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/back_image_view"
@@ -31,17 +32,17 @@
         android:paddingBottom="@dimen/destination_stack_text_container_height"
         android:scaleType="center"
         android:src="@drawable/ic_booking_complete_check"
-        android:alpha="0.5"
         android:visibility="gone" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/text"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
         android:layout_width="@dimen/destination_search_tile_width"
         android:layout_height="@dimen/destination_stack_text_container_height"
         android:layout_gravity="center|top"
+        android:layout_marginTop="@dimen/destination_search_tile_text_margin_top"
         android:gravity="center"
-        android:layout_marginTop="@dimen/destination_search_tile_text_margin_top" />
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:textStyle="light" />
 
 </merge>
