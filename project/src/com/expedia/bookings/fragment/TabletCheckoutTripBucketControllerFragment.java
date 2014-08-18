@@ -12,6 +12,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -393,6 +394,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	}
 
 	private final ISingleStateListener mLandscapeBucketHidden = new ISingleStateListener() {
+		DecelerateInterpolator mInterpolator = new DecelerateInterpolator();
+
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
 			mBucketContainer.setTranslationX(0.0f);
@@ -401,7 +404,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float p) {
-			mBucketContainer.setTranslationX(p * -mBucketContainer.getWidth());
+			mBucketContainer.setTranslationX(mInterpolator.getInterpolation(p) * -mBucketContainer.getWidth());
 		}
 
 		@Override

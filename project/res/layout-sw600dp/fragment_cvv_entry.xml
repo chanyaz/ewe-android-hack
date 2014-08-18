@@ -83,8 +83,8 @@
 
             <include
                 android:id="@+id/credit_card_section"
-                android:layout_width="302dp"
-                android:layout_height="190dp"
+                android:layout_width="@dimen/cvv_credit_card_section_width"
+                android:layout_height="@dimen/cvv_credit_card_section_height"
                 android:layout_gravity="center"
                 layout="@layout/section_credit_card" />
 
@@ -109,14 +109,14 @@
         <!-- Spacer: 48dp width for landscape and 48dp height for portrait -->
 
         <View
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="@dimen/cvv_credit_card_spacer"
+            android:layout_height="@dimen/cvv_credit_card_spacer" />
 
         <!-- Input buttons on the right -->
 
         <com.expedia.bookings.section.CreditCardInputSection
             android:id="@+id/credit_card_input_section"
-            android:layout_width="350dp"
+            android:layout_width="@dimen/cvv_digits_section_width"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

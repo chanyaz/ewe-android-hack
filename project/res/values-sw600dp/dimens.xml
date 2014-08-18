@@ -191,6 +191,10 @@
     <dimen name="cvv_keypad_text_padding">12dp</dimen>
     <dimen name="cvv_keypad_book_text_size">19sp</dimen>
     <dimen name="cvv_finish_booking_container_height">150dp</dimen>
+    <dimen name="cvv_credit_card_section_width">302dp</dimen>
+    <dimen name="cvv_credit_card_section_height">190dp</dimen>
+    <dimen name="cvv_credit_card_spacer">48dp</dimen>
+    <dimen name="cvv_digits_section_width">350dp</dimen>
 
     <!-- Confirmation Fragment -->
     <dimen name="confirmation_width">450dp</dimen>

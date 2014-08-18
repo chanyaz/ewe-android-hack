@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -583,8 +584,18 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void setShowCvvPercentage(float percentage) {
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
-		// Translate CVV container from -70% to 0%
-		mCvvContainer.setTranslationX(-.7f * (1f - percentage) * mCvvContainer.getWidth());
+		Resources res = getResources();
+		float startx = -mRootC.getWidth();
+		if (!res.getBoolean(R.bool.portrait)) {
+			// Adjust for trip bucket taking up left 1/3 of screen
+			startx += mRootC.getWidth() / 3;
+
+			// Adjust for empty horizontal padding between edge of screen and cc digits
+			float padding = mRootC.getWidth() - (res.getDimensionPixelSize(R.dimen.cvv_credit_card_section_width) + res.getDimensionPixelSize(R.dimen.cvv_credit_card_spacer) + res.getDimensionPixelSize(R.dimen.cvv_digits_section_width));
+			startx += padding / 2;
+		}
+		float endx = 0f;
+		mCvvContainer.setTranslationX(startx + (endx - startx) * percentage);
 	}
 
 	private void setShowReadyForCheckoutPercentage(float percentage) {
