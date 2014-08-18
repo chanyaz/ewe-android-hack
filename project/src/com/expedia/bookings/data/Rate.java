@@ -543,7 +543,18 @@ public class Rate implements JSONable {
 	}
 
 	public void setTaxStatusType(String taxStatusType) {
-		mTaxStatusType = TaxStatusType.valueOf(taxStatusType);
+		if ("ESTIMATED".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.ESTIMATED;
+		}
+		else if ("UNKNOWN".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.UNKNOWN;
+		}
+		else if ("INCLUDED".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.INCLUDED;
+		}
+		else if ("NONE".equals(taxStatusType)) {
+			mTaxStatusType = TaxStatusType.NONE;
+		}
 	}
 //////////////////////////////////////////////////////////////////////////
 	// Prices to show users
