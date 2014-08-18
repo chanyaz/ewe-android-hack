@@ -206,7 +206,7 @@ public class Checkout {
 	}
 
 	public static void clickBookButton() {
-		onView(allOf(withId(R.id.book_button))).perform(click());
+		onView(allOf(withId(R.id.finish_booking_button))).perform(click());
 	}
 
 	public static void clickDoneBooking() {
