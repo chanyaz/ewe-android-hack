@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
@@ -215,7 +216,8 @@ public class AccountButton extends LinearLayout {
 				: R.string.enrolled_in_expedia_rewards;
 			bottom.setText(mContext.getString(resId));
 
-			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+			FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
 			String points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 			boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 			if (mRewardsContainer != null && flightTrip != null && !TextUtils.isEmpty(points) && USA) {
