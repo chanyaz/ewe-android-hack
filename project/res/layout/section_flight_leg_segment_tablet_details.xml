@@ -83,7 +83,7 @@
     <com.expedia.bookings.widget.FlightTripView
             android:id="@+id/flight_trip_view"
             android:layout_width="wrap_content"
-            android:layout_height="46dp"
+            android:layout_height="44dp"
             android:layout_alignTop="@id/departure_time_text_view"
             android:layout_below="@+id/operating_carrier_text_view"
             android:layout_marginLeft="10dp"
@@ -92,8 +92,8 @@
             android:layout_toLeftOf="@+id/arrival_time_text_view"
             android:layout_toRightOf="@+id/departure_time_text_view"
             app:flightLineColor="#287cb9"
-            app:waypointTextColor="@color/tablet_flight_details_primary_text_color"
-            app:waypointTextSize="16dp"
+            app:waypointTextColor="#777777"
+            app:waypointTextSize="14dp"
             app:waypointTextTopMargin="4dp"
             app:waypointTextTypeface="medium" />
 
