@@ -60,12 +60,14 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		}
 		catch (Throwable t) {
 			StackTraceElement testClass = findTestClassTraceElement(t);
-			String failedTestMethodName = testClass.getMethodName().replaceAll("[^A-Za-z0-9._-]", "_");
-			String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
-			String tag = failedTestMethodName + "--FAILURE";
+			if (testClass != null) {
+				String failedTestMethodName = testClass.getMethodName().replaceAll("[^A-Za-z0-9._-]", "_");
+				String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+				String tag = failedTestMethodName + "--FAILURE";
 
-			//takes a screenshot on test failure
-			SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), className, failedTestMethodName);
+				//takes a screenshot on test failure
+				SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), className, failedTestMethodName);
+			}
 			throw t;
 		}
 	}
@@ -81,7 +83,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			}
 		}
 
-		throw new IllegalArgumentException("Could not find test class!", throwable);
+		return null;
 	}
 
 	public void screenshot(final String tag) throws Throwable {
