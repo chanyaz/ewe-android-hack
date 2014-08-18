@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,9 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -79,6 +83,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
+
+		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() {}.getType();
 	}
 
 	@Override
@@ -86,20 +92,10 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		//Restore state
 		if (savedInstanceState != null) {
 			mCurrentTravelerDownloads = savedInstanceState.getStringArrayList(INSTANCE_TRAV_CURRENT_DLS);
-			ArrayList<String> serializedUpdateTimes = savedInstanceState.getStringArrayList(INSTANCE_TRAV_UPDATE_TIMES);
-			for (String serialized : serializedUpdateTimes) {
-				String[] parts = serialized.split("|");
-				if (parts.length != 2) {
-					continue;
-				}
-				else {
-					Long tuid = Long.parseLong(parts[0]);
-					Long time = Long.parseLong(parts[1]);
-					mTuidDownloadTimes.put(tuid, time);
-				}
-			}
-		}
 
+			Gson gson = new GsonBuilder().create();
+			mTuidDownloadTimes = gson.fromJson(savedInstanceState.getString(INSTANCE_TRAV_UPDATE_TIMES), mTuidDownloadTimesType);
+		}
 
 		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_options, container, false);
 
@@ -247,13 +243,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 		outState.putStringArrayList(INSTANCE_TRAV_CURRENT_DLS, mCurrentTravelerDownloads);
 
-		//This is sort of dumb but here it goes: we serialize the dl times map like <key>|<value> e.g. 1234|5342
-		ArrayList<String> dlTimesMapStrings = new ArrayList<String>();
-		for (Long key : mTuidDownloadTimes.keySet()) {
-			String serialized = key + "|" + mTuidDownloadTimes.get(key);
-			dlTimesMapStrings.add(serialized);
-		}
-		outState.putStringArrayList(INSTANCE_TRAV_UPDATE_TIMES, dlTimesMapStrings);
+		Gson gson = new GsonBuilder().create();
+		String times = gson.toJson(mTuidDownloadTimes, mTuidDownloadTimesType);
+		outState.putString(INSTANCE_TRAV_UPDATE_TIMES, times);
 	}
 
 	public interface TravelerInfoYoYoListener {
@@ -432,6 +424,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	//This stores the last successful update time for tuids - this way if we rotate or something we dont kick off fresh dls.
 	private HashMap<Long, Long> mTuidDownloadTimes = new HashMap<Long, Long>();
+	private Type mTuidDownloadTimesType;
 	//This list contains the keys of our downloads, since we are generating our download keys we need to keep track.
 	private ArrayList<String> mCurrentTravelerDownloads = new ArrayList<String>();
 	//If a traveler's last update was older than this, don't hesitate to refresh again (this would be an app backgrounded case)
