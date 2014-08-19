@@ -19,7 +19,7 @@
         app:calendarHighlightInverseColor="#FFFFFF"
         app:calendarTodayColor="#007dff"
         app:calendarInvalidDaysColor="#CFCFCF"
-        app:calendarDaysOfWeekColor="#000000"
+        app:calendarDaysOfWeekColor="#777777"
         app:calendarChangeMonthCaretColor="@color/tablet_results_search_blue"
         app:calendarHeaderTextSize="16dp"
         app:calendarHeaderTextColor="#444444"

@@ -53,7 +53,8 @@ public class ResultsDatesFragment extends Fragment implements
 
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 		mCalendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
-		mCalendarPicker.setDaysOfMonthTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		mCalendarPicker.setDaysOfWeekTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
+		mCalendarPicker.setMonthViewTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
