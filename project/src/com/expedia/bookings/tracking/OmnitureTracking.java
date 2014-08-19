@@ -976,8 +976,6 @@ public class OmnitureTracking {
 
 		s.setEvar(47, getEvar47String(searchParams));
 
-		// Success event for 'Search'
-
 		s.track();
 	}
 
