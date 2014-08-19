@@ -8,6 +8,7 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -31,7 +32,7 @@ public class HotelDetails {
 	}
 
 	public static ViewInteraction addHotel() {
-		return onView(allOf(withId(R.id.room_rate_button_add), isDisplayed(), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		return onView(allOf(withId(R.id.room_rate_button_add), isDescendantOfA(hasSibling(allOf(withId(R.id.room_rate_detail_container), isDisplayed()))), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	public static void clickAddHotel() {
