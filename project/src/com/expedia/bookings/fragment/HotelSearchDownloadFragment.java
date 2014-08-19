@@ -240,7 +240,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 			ExpediaServices services = new ExpediaServices(getActivity());
 
 			Property selectedProperty = new Property();
-			selectedProperty.setPropertyId(Db.getTripBucket().getHotel().getHotelSearchParams().getRegionId());
+			selectedProperty.setPropertyId(mSearchParams.getRegionId());
 
 			return services.availability(mSearchParams, selectedProperty);
 		}
@@ -264,7 +264,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 		public HotelOffersResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			Property selectedProperty = new Property();
-			selectedProperty.setPropertyId(Db.getTripBucket().getHotel().getHotelSearchParams().getRegionId());
+			selectedProperty.setPropertyId(mSearchParams.getRegionId());
 			return services.hotelInformation(selectedProperty);
 		}
 	};
