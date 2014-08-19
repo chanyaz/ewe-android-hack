@@ -396,11 +396,9 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		CheckoutState state;
 		if (lob == LineOfBusiness.FLIGHTS && !Db.getTripBucket().getFlight().canBePurchased()) {
 			state = CheckoutState.BOOKING_UNAVAILABLE;
-			OmnitureTracking.trackItemSoldOutOnCheckoutLink(this, lob);
 		}
 		else if (lob == LineOfBusiness.HOTELS && !Db.getTripBucket().getHotel().canBePurchased()) {
 			state = CheckoutState.BOOKING_UNAVAILABLE;
-			OmnitureTracking.trackItemSoldOutOnCheckoutLink(this, lob);
 		}
 		else {
 			state = CheckoutState.OVERVIEW;

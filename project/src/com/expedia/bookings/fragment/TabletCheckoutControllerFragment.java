@@ -1511,7 +1511,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else {
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
 		}
-
+		OmnitureTracking.trackItemSoldOutOnCheckoutLink(getActivity(), getLob());
 		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 	}
 
