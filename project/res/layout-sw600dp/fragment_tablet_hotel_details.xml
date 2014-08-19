@@ -251,6 +251,7 @@
                     android:paddingRight="8dp"
                     android:paddingTop="8dp"
                     android:text="@string/vip_access"
+                    android:textAllCaps="true"
                     android:visibility="gone"
                     app:textStyle="expedia_light" />
 
