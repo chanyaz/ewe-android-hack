@@ -725,7 +725,15 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				}
 			}
 			else {
-				PassengerCategory category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory();
+				PassengerCategory category;
+				// The traveler MUST be an adult if he or she is the traveler on
+				// a hotel booking.
+				if (getLob() == LineOfBusiness.HOTELS) {
+					category = PassengerCategory.ADULT;
+				}
+				else {
+					category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory();
+				}
 				results.getTraveler().setPassengerCategory(category);
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(results.getTraveler());
 				bindToDb(mTravelerNumber);
