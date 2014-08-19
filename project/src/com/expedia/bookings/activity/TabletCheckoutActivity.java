@@ -19,7 +19,6 @@ import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
@@ -32,7 +31,6 @@ import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
@@ -73,7 +71,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	//Other
 	private boolean mBackButtonLocked = false;
 	private HockeyPuck mHockeyPuck;
-	private LineOfBusiness mCurrentLob;
 
 	boolean mIsBailing = false;
 
@@ -110,10 +107,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		// Args
 		if (savedInstanceState == null) {
 			updateLobFromIntent(getIntent());
-
-			//This is the first time we are arriving at this activity, so lets try to autopopulate our traveler/payment data.
-			BookingInfoUtils.populateTravelerDataFromUser(this, mCurrentLob);
-			BookingInfoUtils.populatePaymentDataFromUser(this, mCurrentLob);
 		}
 		else {
 			updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
@@ -146,8 +139,9 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mCurrentLob != null) {
-			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
+		LineOfBusiness lob = mFragCheckoutController.getLob();
+		if (lob != null) {
+			outState.putString(INSTANCE_CURRENT_LOB, lob.name());
 		}
 		outState.putBoolean(INSTANCE_LOADED_CACHED_DATA, mLoadedDbInfo);
 	}
@@ -187,8 +181,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	}
 
 	private void updateLob(LineOfBusiness lob) {
-		mCurrentLob = lob;
-
 		mFragCheckoutController.setLob(lob);
 		mFragTripBucketController.setLob(lob);
 	}
