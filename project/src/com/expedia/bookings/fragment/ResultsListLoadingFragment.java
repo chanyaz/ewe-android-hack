@@ -14,13 +14,14 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 
 /**
  * Results loading fragment for Tablet
  */
-public class ResultsListLoadingFragment extends Fragment {
+public class ResultsListLoadingFragment extends LobableFragment {
 
 	private ViewGroup mRootC;
 	private TextView mLoadingTextView;
@@ -29,11 +30,9 @@ public class ResultsListLoadingFragment extends Fragment {
 	private int mLoadingColorDark = Color.DKGRAY;
 	private int mLoadingColorLight = Color.LTGRAY;
 
-	private static LineOfBusiness mLob;
-
 	public static ResultsListLoadingFragment newInstance(LineOfBusiness lob) {
 		ResultsListLoadingFragment frag = new ResultsListLoadingFragment();
-		mLob = lob;
+		frag.setLob(lob);
 		return frag;
 	}
 
@@ -50,10 +49,10 @@ public class ResultsListLoadingFragment extends Fragment {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_results_list_loading, null);
 		mLoadingTextView = Ui.findView(mRootC, R.id.loading_textview);
 
-		if (mLob == LineOfBusiness.HOTELS) {
+		if (getLob() == LineOfBusiness.HOTELS) {
 			mLoadingTextView.setText(getString(R.string.loading_hotels));
 		}
-		else if (mLob == LineOfBusiness.FLIGHTS) {
+		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mLoadingTextView.setText(getString(R.string.loading_flights));
 		}
 
@@ -84,6 +83,10 @@ public class ResultsListLoadingFragment extends Fragment {
 	public void onPause() {
 		unRegisterForAnimUpdates(this);
 		super.onPause();
+	}
+
+	@Override
+	public void onLobSet(LineOfBusiness lob) {
 	}
 
 	private void updateAnimation(int animNumber) {
