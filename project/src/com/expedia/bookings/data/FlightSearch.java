@@ -36,9 +36,6 @@ public class FlightSearch implements JSONable {
 	private FlightSearchResponse mSearchResponse;
 	private FlightSearchState mSearchState = new FlightSearchState();
 
-	// For use in tablet flow. Corresponds to a FlightTrip from TripBucket
-	private FlightTrip mSelectedFlightTrip;
-
 	private Map<Flight, FlightStatsRating> mFlightStatsRatings = new HashMap<Flight, FlightStatsRating>();
 
 	// Not to be saved - transitory states!
@@ -174,32 +171,16 @@ public class FlightSearch implements JSONable {
 		}
 	}
 
-	public void setSelectedFlightTrip(FlightTrip flightTrip) {
-		mSelectedFlightTrip = flightTrip;
-	}
-
-	/**
-	 * Returns the selected FlightTrip.
-
-	 * On Tablet, we set mSelectedFlightTrip when the flight is added to
-	 * the TripBucket. This FlightTrip is then independent from the
-	 * search it was spawned out of. We can simply return mSelectedFlightTrip
-
-	 * In the case that the FlightTrip was not set in this object (i.e. on phone),
-	 * we must grab the FlightTrip from the search response.
-	 */
 	public FlightTrip getSelectedFlightTrip() {
-		return mSelectedFlightTrip == null ? getSelectedFlightTrip(getSelectedLegs(), mSearchResponse) : mSelectedFlightTrip;
-	}
+		FlightTripLeg[] legs = getSelectedLegs();
 
-	public static FlightTrip getSelectedFlightTrip(FlightTripLeg[] legs, FlightSearchResponse response) {
 		for (int a = 0; a < legs.length; a++) {
 			if (legs[a] == null) {
 				return null;
 			}
 		}
 
-		final List<FlightTrip> trips = response.getTrips();
+		final List<FlightTrip> trips = mSearchResponse.getTrips();
 		final int tripCount = trips.size();
 		for (int a = 0; a < tripCount; a++) {
 			FlightTrip candidate = trips.get(a);
@@ -629,7 +610,6 @@ public class FlightSearch implements JSONable {
 		FlightSearch flightSearch = new FlightSearch();
 
 		flightSearch.mSearchParams = mSearchParams.clone();
-		flightSearch.mSelectedFlightTrip = getSelectedFlightTrip().clone();
 
 		return flightSearch;
 	}
@@ -644,7 +624,6 @@ public class FlightSearch implements JSONable {
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
 			JSONUtils.putJSONable(obj, "searchState", mSearchState);
-			JSONUtils.putJSONable(obj, "selectedFlightTrip", mSelectedFlightTrip);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -657,7 +636,6 @@ public class FlightSearch implements JSONable {
 		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class));
 		mSearchState = JSONUtils.getJSONable(obj, "searchState", FlightSearchState.class);
-		mSelectedFlightTrip = JSONUtils.getJSONable(obj, "selectedFlightTrip", FlightTrip.class);
 		return true;
 	}
 }

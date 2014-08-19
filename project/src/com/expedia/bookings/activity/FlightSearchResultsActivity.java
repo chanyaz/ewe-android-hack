@@ -1028,8 +1028,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				showResultsListFragment(1);
 			}
 			else {
-				FlightTrip flightTrip = flightSearch.getSelectedFlightTrip();
-				flightSearch.setSelectedFlightTrip(flightTrip);
 				Db.getTripBucket().clearFlight();
 				Db.getTripBucket().add(flightSearch);
 				Db.saveTripBucket(FlightSearchResultsActivity.this);
