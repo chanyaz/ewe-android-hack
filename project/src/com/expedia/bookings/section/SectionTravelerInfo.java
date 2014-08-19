@@ -237,8 +237,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	public String phoneToStringHelper(Phone phone) {
 		if (phone != null) {
-			String number = (phone.getAreaCode() == null ? "" : phone.getAreaCode())
-				+ (phone.getNumber() == null ? "" : phone.getNumber());
+			String number = phone.getNumber() == null ? "" : phone.getNumber();
 			return number;
 		}
 		return "";
@@ -884,16 +883,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void afterTextChanged(Editable s) {
 					if (hasBoundData()) {
-						//TODO:This is assuming that the first 3 digits are the area code. This may or may not cause issues down the  line.
 						String numbersOnly = getNumbersOnly(s.toString());
-						if (numbersOnly.length() <= 3) {
-							getData().getOrCreatePrimaryPhoneNumber().setAreaCode(numbersOnly);
-							getData().getOrCreatePrimaryPhoneNumber().setNumber("");
-						}
-						else {
-							getData().getOrCreatePrimaryPhoneNumber().setAreaCode(numbersOnly.substring(0, 3));
-							getData().getOrCreatePrimaryPhoneNumber().setNumber(numbersOnly.substring(3));
-						}
+						getData().getOrCreatePrimaryPhoneNumber().setNumber(numbersOnly);
 					}
 					onChange(SectionTravelerInfo.this);
 				}

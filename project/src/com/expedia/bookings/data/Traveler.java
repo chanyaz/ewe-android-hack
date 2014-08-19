@@ -91,24 +91,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		// Default constructor
 	}
 
-	public BillingInfo toBillingInfo() {
-		BillingInfo b = new BillingInfo();
-		b.setFirstName(mFirstName);
-		b.setLastName(mLastName);
-		Phone p = getPrimaryPhoneNumber();
-		if (p != null) {
-			b.setTelephoneCountryCode(p.getCountryCode());
-			b.setTelephone(p.getAreaCode() + p.getNumber());
-		}
-
-		b.setEmail(mEmail);
-		b.setLocation(mHomeAddress);
-
-		// TODO: CC info
-
-		return b;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Getters
 
@@ -539,14 +521,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public String getPhoneNumber() {
 		return getOrCreatePrimaryPhoneNumber().getNumber();
-	}
-
-	public void setPhoneAreaCode(String areaCode) {
-		getOrCreatePrimaryPhoneNumber().setAreaCode(areaCode);
-	}
-
-	public String getPhoneAreaCode() {
-		return getOrCreatePrimaryPhoneNumber().getAreaCode();
 	}
 
 	public void setPhoneCountryCode(String phoneCountryCode) {

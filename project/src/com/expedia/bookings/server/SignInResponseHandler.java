@@ -75,13 +75,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					JSONArray phoneArr = response.optJSONArray("phoneNumbers");
 					int size = phoneArr.length();
 					for (int a = 0; a < size; a++) {
-						JSONObject phoneJson = phoneArr.optJSONObject(a);
-						Phone phone = new Phone();
-						phone.setNumber(phoneJson.optString("number", null));
-						phone.setAreaCode(phoneJson.optString("areaCode", null));
-						phone.setCategory(UserPreference.parseCategoryString(phoneJson.optString("category", null)));
-						phone.setCountryCode(phoneJson.optString("countryCode", null));
-						phone.setExtensionNumber(phoneJson.optString("extensionNumber", null));
+						Phone phone = parsePhone(phoneArr.optJSONObject(a));
 						traveler.addPhoneNumber(phone);
 					}
 				}
@@ -164,7 +158,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		return signInResponse;
 	}
 
-	private Traveler parseBasicTraveler(JSONObject obj) {
+	private static Traveler parseBasicTraveler(JSONObject obj) {
 		Traveler traveler = new Traveler();
 		traveler.setTuid(obj.optLong("tuid"));
 		traveler.setFirstName(obj.optString("firstName", null));
@@ -175,5 +169,30 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
 		traveler.setMembershipTierName(obj.optString("membershipTierName", null));
 		return traveler;
+	}
+
+	private static Phone parsePhone(JSONObject phoneJson) {
+		Phone phone = new Phone();
+
+		// Historically the API has returned phone numbers in two fields, areaCode and number. They are in the
+		// process of phasing out 'areaCode'; some of the newer services (user/profile) exhibit this new
+		// behavior, although, not all do (such as user/sign-in). We want to unify and simplify our phone number
+		// storage and parsing and this method covers all the cases.
+		StringBuilder phoneNumberBuilder = new StringBuilder();
+		String areaCode = phoneJson.optString("areaCode", null);
+		if (!TextUtils.isEmpty(areaCode)) {
+			phoneNumberBuilder.append(areaCode);
+		}
+		String phoneNumber = phoneJson.optString("number", null);
+		if (!TextUtils.isEmpty(phoneNumber)) {
+			phoneNumberBuilder.append(phoneNumber);
+		}
+		phone.setNumber(phoneNumberBuilder.toString());
+
+		phone.setCategory(UserPreference.parseCategoryString(phoneJson.optString("category", null)));
+		phone.setCountryCode(phoneJson.optString("countryCode", null));
+		phone.setExtensionNumber(phoneJson.optString("extensionNumber", null));
+
+		return phone;
 	}
 }

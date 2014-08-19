@@ -9,7 +9,6 @@ import com.mobiata.android.json.JSONable;
 
 public class Phone implements JSONable {
 	private String mNumber;
-	private String mAreaCode;
 	private UserPreference.Category mCategory;
 	private String mCountryCode;
 	private String mCountryName;
@@ -35,14 +34,6 @@ public class Phone implements JSONable {
 
 	public String getNumber() {
 		return mNumber;
-	}
-
-	public void setAreaCode(String areaCode) {
-		mAreaCode = areaCode;
-	}
-
-	public String getAreaCode() {
-		return mAreaCode;
 	}
 
 	public void setCategory(Category category) {
@@ -83,7 +74,6 @@ public class Phone implements JSONable {
 
 		try {
 			obj.putOpt("number", mNumber);
-			obj.putOpt("areaCode", mAreaCode);
 			obj.putOpt("category", mCategory.toString());
 			obj.putOpt("countryCode", mCountryCode);
 			obj.putOpt("countryName", mCountryName);
@@ -100,7 +90,6 @@ public class Phone implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mNumber = obj.optString("number", null);
-		mAreaCode = obj.optString("areaCode", null);
 		mCategory = UserPreference.parseCategoryString(obj.optString("category", null));
 		mCountryCode = obj.optString("countryCode", null);
 		mCountryName = obj.optString("countryName");

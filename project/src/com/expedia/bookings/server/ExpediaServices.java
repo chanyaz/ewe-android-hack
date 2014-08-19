@@ -1312,9 +1312,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair(prefix + "phoneCountryCode", traveler.getPhoneCountryCode()));
 		}
 		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
-
-			query.add(new BasicNameValuePair(prefix + "phone", traveler.getPrimaryPhoneNumber().getAreaCode()
-				+ traveler.getPrimaryPhoneNumber().getNumber()));
+			query.add(new BasicNameValuePair(prefix + "phone", traveler.getPrimaryPhoneNumber().getNumber()));
 		}
 
 		//Email is required (but there is no traveler email entry)
