@@ -1182,6 +1182,8 @@
     <string name="airline_card_fee_select_TEMPLATE">The airline charges a fee of %1$s to use %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">The airline does not support %1$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
+    <string name="airline_card_not_supported_generic">The airline does not support this credit card brand.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
