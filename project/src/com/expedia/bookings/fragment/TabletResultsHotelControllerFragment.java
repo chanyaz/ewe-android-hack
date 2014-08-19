@@ -1579,6 +1579,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_INFO) {
 			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
 			loadHotelOffersResponse(offersResponse);
+			if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
+				mHotelListFrag.updateAdapter();
+			}
 		}
 	}
 
