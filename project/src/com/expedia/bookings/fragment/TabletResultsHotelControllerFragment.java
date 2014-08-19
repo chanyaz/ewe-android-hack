@@ -608,7 +608,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance();
+			frag = ResultsListLoadingFragment.newInstance(LineOfBusiness.HOTELS);
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
 			frag = ResultsListSearchErrorFragment.newInstance();
@@ -1334,8 +1334,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			logger.addSplit("setListState");
 
 			switch (state) {
-			case LOADING:
-				mLoadingGuiFrag.setLob(LineOfBusiness.HOTELS);
 			case HOTEL_LIST_DOWN:
 				mLoadingC.setAlpha(1.0f);
 				mBgHotelMapC.setAlpha(0f);

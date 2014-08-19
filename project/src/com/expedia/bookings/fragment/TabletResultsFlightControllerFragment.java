@@ -318,7 +318,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
 		}
 		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance();
+			frag = ResultsListLoadingFragment.newInstance(LineOfBusiness.FLIGHTS);
 		}
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			frag = ResultsRecursiveFlightLegsFragment.newInstance(0);
@@ -801,10 +801,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				if (mFlightLegsFrag.isFirstLeg()) {
 					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
 				}
-			}
-
-			if (state == ResultsFlightsState.LOADING && mLoadingGuiFrag != null) {
-				mLoadingGuiFrag.setLob(LineOfBusiness.FLIGHTS);
 			}
 		}
 	};

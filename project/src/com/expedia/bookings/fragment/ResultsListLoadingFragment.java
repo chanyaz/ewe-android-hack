@@ -3,11 +3,9 @@ package com.expedia.bookings.fragment;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +14,13 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 
 /**
  * Results loading fragment for Tablet
  */
-public class ResultsListLoadingFragment extends LobableFragment {
+public class ResultsListLoadingFragment extends Fragment {
 
 	private ViewGroup mRootC;
 	private TextView mLoadingTextView;
@@ -32,8 +29,11 @@ public class ResultsListLoadingFragment extends LobableFragment {
 	private int mLoadingColorDark = Color.DKGRAY;
 	private int mLoadingColorLight = Color.LTGRAY;
 
-	public static ResultsListLoadingFragment newInstance() {
+	private static LineOfBusiness mLob;
+
+	public static ResultsListLoadingFragment newInstance(LineOfBusiness lob) {
 		ResultsListLoadingFragment frag = new ResultsListLoadingFragment();
+		mLob = lob;
 		return frag;
 	}
 
@@ -46,18 +46,14 @@ public class ResultsListLoadingFragment extends LobableFragment {
 	}
 
 	@Override
-	public void onLobSet(LineOfBusiness lob) {
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_results_list_loading, null);
-		mLoadingTextView = com.mobiata.android.util.Ui.findView(mRootC, R.id.loading_textview);
+		mLoadingTextView = Ui.findView(mRootC, R.id.loading_textview);
 
-		if (getLob() == LineOfBusiness.HOTELS) {
+		if (mLob == LineOfBusiness.HOTELS) {
 			mLoadingTextView.setText(getString(R.string.loading_hotels));
 		}
-		else if (getLob() == LineOfBusiness.FLIGHTS) {
+		else if (mLob == LineOfBusiness.FLIGHTS) {
 			mLoadingTextView.setText(getString(R.string.loading_flights));
 		}
 
