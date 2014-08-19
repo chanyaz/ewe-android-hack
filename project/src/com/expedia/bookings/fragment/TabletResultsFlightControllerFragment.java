@@ -803,7 +803,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				}
 			}
 
-			if (state == ResultsFlightsState.LOADING) {
+			if (state == ResultsFlightsState.LOADING && mLoadingGuiFrag != null) {
 				mLoadingGuiFrag.setLob(LineOfBusiness.FLIGHTS);
 			}
 		}
