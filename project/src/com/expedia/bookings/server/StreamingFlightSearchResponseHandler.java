@@ -117,7 +117,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		expectToken(reader, JsonToken.BEGIN_OBJECT);
 		reader.beginObject();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
-			name = reader.peek().equals(JsonToken.NAME) ? reader.nextName() : reader.nextString();
+			name = reader.nextName();
 
 			if (name.equals("errors")) {
 				ParserUtils.readServerErrors(reader, mResponse, ApiMethod.SEARCH_RESULTS);
