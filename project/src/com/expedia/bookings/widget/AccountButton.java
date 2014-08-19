@@ -186,7 +186,8 @@ public class AccountButton extends LinearLayout {
 
 			String points = "";
 			if (isFlights) {
-				FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+				TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+				FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
 				points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 			}
 			else {
