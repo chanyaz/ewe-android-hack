@@ -20,6 +20,7 @@ import com.expedia.bookings.test.utils.TabletTestCase;
 public class HotelConfirmationTests extends TabletTestCase {
 
 	String mDateRange;
+	String mHotelName;
 
 	private void getToCheckout() throws Exception {
 		Launch.clickSearchButton();
@@ -33,7 +34,8 @@ public class HotelConfirmationTests extends TabletTestCase {
 		Search.clickSearchPopupDone();
 
 		Results.swipeUpHotelList();
-		Results.clickHotelWithName("happy_path_Hotel_Orchard");
+		Results.clickHotelAtIndex(1);
+		mHotelName =EspressoUtils.getText(R.id.hotel_header_hotel_name);
 		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 	}
@@ -69,7 +71,7 @@ public class HotelConfirmationTests extends TabletTestCase {
 
 	private void verifyConfirmationTexts() {
 		//verify hotel name
-		EspressoUtils.assertContains(Confirmation.confirmationSummary(), "happy_path_Hotel_Orchard");
+		EspressoUtils.assertContains(Confirmation.confirmationSummary(), mHotelName);
 
 		//verify date range
 		EspressoUtils.assertContains(Confirmation.confirmationSummary(), mDateRange);

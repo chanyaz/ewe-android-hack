@@ -41,7 +41,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 		Search.clickSearchPopupDone();
 		Results.swipeUpHotelList();
 
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelAtIndex(1);
 		String hotelName = EspressoUtils.getText(R.id.hotel_header_hotel_name);
 		HotelDetails.addHotel().perform(scrollTo());
 		String roomName = EspressoUtils.getTextWithSibling(R.id.text_room_description, R.id.text_bed_type);
@@ -79,7 +79,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			setGuests(currentPair.first, currentPair.second);
 			Search.clickSearchPopupDone();
 			Results.swipeUpHotelList();
-			Results.clickHotelWithName("happy_path");
+			Results.clickHotelAtIndex(1);
 			HotelDetails.clickAddHotel();
 			Results.clickBookHotel();
 
@@ -110,7 +110,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 			Results.swipeUpHotelList();
 			Common.enterLog(TAG, "Testing for hotels for a stay of " + numberOfNights + " nights.");
 
-			Results.clickHotelWithName("happy_path");
+			Results.clickHotelAtIndex(1);
 			String expectedNightsString = getActivity().getResources().getQuantityString(R.plurals.number_of_nights, numberOfNights, numberOfNights);
 			HotelDetails.clickAddHotel();
 			Results.clickBookHotel();

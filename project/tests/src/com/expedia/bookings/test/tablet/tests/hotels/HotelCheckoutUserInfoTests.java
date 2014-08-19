@@ -24,7 +24,7 @@ public class HotelCheckoutUserInfoTests extends TabletTestCase {
 		Launch.clickSuggestion("Detroit, MI");
 
 		Results.swipeUpHotelList();
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelAtIndex(1);
 		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 
