@@ -1,7 +1,10 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +20,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
+import com.mobiata.android.Log;
 
 /**
  * Results loading fragment for Tablet
@@ -29,6 +33,9 @@ public class ResultsListLoadingFragment extends LobableFragment {
 	//loading anim vars
 	private int mLoadingColorDark = Color.DKGRAY;
 	private int mLoadingColorLight = Color.LTGRAY;
+
+	private boolean mIsAnimating = false;
+	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
 
 	public static ResultsListLoadingFragment newInstance(LineOfBusiness lob) {
 		ResultsListLoadingFragment frag = new ResultsListLoadingFragment();
@@ -82,51 +89,77 @@ public class ResultsListLoadingFragment extends LobableFragment {
 	@Override
 	public void onPause() {
 		unRegisterForAnimUpdates(this);
+		cleanup();
 		super.onPause();
 	}
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
+		// Ignore
 	}
 
-	private void updateAnimation(int animNumber) {
-		if (mRootC != null && getActivity() != null && isResumed()) {
+	private void updateAnimation() {
+		if (mRootC != null && getActivity() != null && isResumed() && !mIsAnimating) {
+			mIsAnimating = true;
 			int found = 0;
 			for (int i = 0; i < mRootC.getChildCount(); i++) {
 				View child = mRootC.getChildAt(i);
 				if (child instanceof FrameLayout) {
 					found ++;
-					int color = found % 2 == animNumber % 2 ? mLoadingColorDark : mLoadingColorLight;
-					child.setBackgroundColor(color);
+					if (found % 2 == 0) {
+						animateBackground(child, mLoadingColorDark, mLoadingColorLight);
+					}
+					else {
+						animateBackground(child, mLoadingColorLight, mLoadingColorDark);
+					}
 				}
 			}
 		}
+	}
+
+	private void animateBackground(final View view, int startColor, int endColor) {
+		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				view.setBackgroundColor((Integer) animator.getAnimatedValue());
+			}
+
+		});
+		animation.setRepeatMode(ValueAnimator.REVERSE);
+		animation.setRepeatCount(ValueAnimator.INFINITE);
+		animation.setDuration(350);
+		animation.start();
+		mAnimations.add(animation);
+	}
+
+	private void cleanup() {
+		for (ValueAnimator animation : mAnimations) {
+			animation.cancel();
+		}
+		mAnimations.clear();
+		mIsAnimating = false;
 	}
 
 	/**
 	 * BELOW LIES THE STATIC CODE WE USE TO COORDINATE OUR ANIMATIONS BETWEEN INSTANCES OF THIS LIST CLASS
 	 * <p/>
 	 * The basic way that this works is that we have a single instance of a Runnable loop. We run the loop if any
-	 * listeners are registered, otherwise it dies. The loop simply increments the sAnimNumber. This basically just
-	 * acts as the number of animation ticks.
+	 * listeners are registered, otherwise it dies.
 	 * <p/>
-	 * The loop then posts a runnable that handles converting sAnimNumber into something useful for our instances.
-	 * This way we can change the behavior of the individual instances, but in a coordinated way.
 	 */
 
 	private static final int ANIM_UPDATE_TIME = 350;
 
 	private static final Handler sHandler = new Handler();
 	private static CopyOnWriteArrayList<ResultsListLoadingFragment> sLoadingFrags = new CopyOnWriteArrayList<ResultsListLoadingFragment>();
-	private static int sAnimNumber = 0;
 	private static Runnable sAnimRunner = new Runnable() {
 		@Override
 		public void run() {
 			if (sLoadingFrags.size() > 0) {
 				for (int i = 0; i < sLoadingFrags.size(); i++) {
-					sLoadingFrags.get(i).updateAnimation(sAnimNumber);
+					sLoadingFrags.get(i).updateAnimation();
 				}
-				sAnimNumber++;
 				sHandler.postDelayed(sAnimRunner, ANIM_UPDATE_TIME);
 			}
 		}
