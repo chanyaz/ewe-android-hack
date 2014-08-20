@@ -46,7 +46,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 		getToCheckout();
 
 		//setup traveler info
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -99,7 +99,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 		Common.closeSoftKeyboard(Checkout.postalCode());
 		Checkout.clickOnDone();
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterEmailAddress("aaa@aaa.com");

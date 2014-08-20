@@ -57,7 +57,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 	}
 
 	private void verifyMissingTravelerInformationAlerts() {
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Common.closeSoftKeyboard(Checkout.firstName());
 		Checkout.clickOnDone();
 

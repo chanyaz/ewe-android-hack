@@ -15,8 +15,12 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static org.hamcrest.Matchers.allOf;
 
 public class Checkout {
-	public static void clickOnTravelerDetails() {
+	public static void clickOnEmptyTravelerDetails() {
 		onView(withId(R.id.empty_traveler_container)).perform(click());
+	}
+
+	public static void clickOnTravelerDetails() {
+		onView(withId(R.id.traveler_section_container)).perform(click());
 	}
 
 	public static ViewInteraction loginButton() {

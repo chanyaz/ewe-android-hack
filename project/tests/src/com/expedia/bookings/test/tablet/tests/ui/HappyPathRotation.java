@@ -42,7 +42,7 @@ public class HappyPathRotation extends TabletTestCase {
 		rotateScreenTwice();
 		Common.pressBack();
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -126,7 +126,7 @@ public class HappyPathRotation extends TabletTestCase {
 		Results.clickBookFlight();
 
 		rotateScreenTwice();
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -210,7 +210,7 @@ public class HappyPathRotation extends TabletTestCase {
 		screenshot("Start_Hotel_Checkout");
 		rotateScreenTwice();
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -245,7 +245,7 @@ public class HappyPathRotation extends TabletTestCase {
 		screenshot("Start_Flight_Checkout");
 		rotateScreenTwice();
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");

@@ -44,7 +44,7 @@ public class HotelCheckoutUserInfoTests extends TabletTestCase {
 
 	private void verifyMissingTravelerInformationAlerts() {
 		//Starting testing of traveler info screen response when fields are left empty
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Common.closeSoftKeyboard(Checkout.firstName());
 		Checkout.clickOnDone();
 

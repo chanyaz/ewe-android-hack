@@ -43,7 +43,7 @@ public class HotelConfirmationTests extends TabletTestCase {
 	//Testing confirmation screen
 	public void testConfirmation() throws Exception {
 		getToCheckout();
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Common.closeSoftKeyboard(Checkout.firstName());
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");

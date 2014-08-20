@@ -27,7 +27,7 @@ public class TabletHappyPath extends TabletTestCase {
 		screenshot("Trip_Bucket");
 		Results.clickBookHotel();
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -81,7 +81,7 @@ public class TabletHappyPath extends TabletTestCase {
 		screenshot("Trip_Bucket");
 		Results.clickBookFlight();
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -158,7 +158,7 @@ public class TabletHappyPath extends TabletTestCase {
 
 		screenshot("Start_Hotel_Checkout");
 
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
@@ -191,11 +191,6 @@ public class TabletHappyPath extends TabletTestCase {
 		screenshot("Start_Flight_Checkout");
 
 		Checkout.clickOnTravelerDetails();
-		Checkout.enterFirstName("Mobiata");
-		Checkout.enterLastName("Auto");
-		Checkout.enterPhoneNumber("1112223333");
-		Checkout.enterEmailAddress("aaa@aaa.com");
-		Common.closeSoftKeyboard(Checkout.emailAddress());
 		Checkout.enterDateOfBirth(1970, 1, 1);
 		screenshot("Checkout_Traveler_Entered");
 		Checkout.clickOnDone();

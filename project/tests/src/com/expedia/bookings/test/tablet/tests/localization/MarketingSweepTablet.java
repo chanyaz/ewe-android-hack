@@ -41,7 +41,7 @@ public class MarketingSweepTablet extends TabletTestCase {
 		Common.pressBack();
 
 		screenshot("Checkout1");
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Common.closeSoftKeyboard(Checkout.firstName());
 		screenshot("Traveler_Details");
 		Checkout.enterFirstName("Mobiata");
@@ -140,7 +140,7 @@ public class MarketingSweepTablet extends TabletTestCase {
 		Common.pressBack();
 
 		screenshot("Checkout1");
-		Checkout.clickOnTravelerDetails();
+		Checkout.clickOnEmptyTravelerDetails();
 		Common.closeSoftKeyboard(Checkout.firstName());
 		screenshot("Traveler_Details");
 		Checkout.enterFirstName("Mobiata");
