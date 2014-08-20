@@ -390,14 +390,20 @@ public class TabletWaypointFragment extends Fragment
 		}
 		else if (parent instanceof TabletResultsSearchControllerFragment) {
 			WaypointStateListener wsl = new WaypointStateListener(true);
-			SingleStateListener flightOrigin = new SingleStateListener<>(
+			SingleStateListener defaultFlightOrigin = new SingleStateListener<>(
 				ResultsSearchState.DEFAULT, ResultsSearchState.FLIGHT_ORIGIN, true, wsl);
-			SingleStateListener destination = new SingleStateListener<>(
+			SingleStateListener defaultDestination = new SingleStateListener<>(
 				ResultsSearchState.DEFAULT, ResultsSearchState.DESTINATION, true, wsl);
+			SingleStateListener calendarFlightOrigin = new SingleStateListener<>(
+				ResultsSearchState.CALENDAR, ResultsSearchState.FLIGHT_ORIGIN, true, wsl);
+			SingleStateListener calendarDestination = new SingleStateListener<>(
+				ResultsSearchState.CALENDAR, ResultsSearchState.DESTINATION, true, wsl);
 
 			TabletResultsSearchControllerFragment controller = (TabletResultsSearchControllerFragment) parent;
-			controller.registerStateListener(flightOrigin, false);
-			controller.registerStateListener(destination, false);
+			controller.registerStateListener(defaultFlightOrigin, false);
+			controller.registerStateListener(defaultDestination, false);
+			controller.registerStateListener(calendarFlightOrigin, false);
+			controller.registerStateListener(calendarDestination, false);
 		}
 	}
 

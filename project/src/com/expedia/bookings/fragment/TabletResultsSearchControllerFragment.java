@@ -572,7 +572,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpAnimationHardwareLayers(true);
 				if (stateOne == ResultsSearchState.HOTELS_UP
 					|| stateTwo == ResultsSearchState.HOTELS_UP) {
-					//For hotels we also fade
+					// For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(true);
 				}
 
@@ -581,12 +581,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (stateOne.showsWaypoint() || stateTwo.showsWaypoint()) {
 				mWaypointC.setVisibility(View.VISIBLE);
 
-				//Here we set up where the search bar animation will originate from
+				// Here we set up where the search bar animation will originate from
 				mWaypointAnimFromOrigin = stateOne == ResultsSearchState.FLIGHT_ORIGIN
 					|| stateTwo == ResultsSearchState.FLIGHT_ORIGIN;
 			}
 
-			if (performingPopupAnimation(stateOne, stateTwo)) {
+			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
 				setPopupAnimationHardwareLayers(true);
 			}
 
@@ -668,55 +668,42 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					setSlideUpHotelsOnlyAnimationPercentage(perc);
 				}
 			}
-			else {
-				int dist = mGrid.isLandscape() ? 1 : 2;
-				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
-					setSearchControlsAnimationPercentage(percentage, dist);
-				}
-				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR_WITH_POPUP) {
-					setSearchControlsAnimationPercentage(percentage, dist);
-					setPopupAnimationPercentage(percentage, true);
-				}
-				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.CALENDAR_WITH_POPUP) {
-					setPopupAnimationPercentage(percentage, true);
-				}
-				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
-					setSearchControlsAnimationPercentage(1f - percentage, dist);
-				}
-				else if (stateOne == ResultsSearchState.CALENDAR_WITH_POPUP && stateTwo == ResultsSearchState.DEFAULT) {
-					setSearchControlsAnimationPercentage(1f - percentage, dist);
-					setPopupAnimationPercentage(percentage, false);
-				}
-				else if (stateOne == ResultsSearchState.CALENDAR_WITH_POPUP && stateTwo == ResultsSearchState.CALENDAR) {
-					setPopupAnimationPercentage(1f - percentage, true);
-				}
-				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
-					mCalC.setTranslationX(percentage * -mCalC.getWidth());
-					if (mGrid.isLandscape()) {
-						mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
-					}
-					else {
-						mGdeC.setTranslationX(percentage * -mBottomCenterC.getWidth());
-						mTravPickWhiteSpace.setTranslationX((1f - percentage) * mBottomCenterC.getWidth());
-					}
-					setPopupAnimationPercentage(percentage, true);
-				}
-				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					setSearchControlsAnimationPercentage(percentage, dist);
-					setPopupAnimationPercentage(percentage, true);
-				}
-				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
-					setSearchControlsAnimationPercentage(1f - percentage, dist);
-					setPopupAnimationPercentage(percentage, false);
-				}
-				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo.showsWaypoint()
-					|| stateOne.showsWaypoint() && stateTwo == ResultsSearchState.DEFAULT) {
-					float p = stateOne == ResultsSearchState.DEFAULT ? 1f - percentage : percentage;
 
-					mBottomRightC.setAlpha(p);
-					mBottomCenterC.setAlpha(p);
-					mSearchBarC.setAlpha(p);
+			// There are 2 ways to hide the bottom containers
+			// Way 1: fade them out
+			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
+				float p = stateTwo.showsWaypoint() ? 1f - percentage : percentage;
+				mBottomRightC.setAlpha(p);
+				mBottomCenterC.setAlpha(p);
+				mSearchBarC.setAlpha(p);
+			}
+			// Way 2: slide them down
+			else if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
+				float p = stateTwo.showsSearchControls() ? 1f - percentage : percentage;
+				int dist = mGrid.isLandscape() ? 1 : 2;
+				mBottomRightC.setTranslationY(p * dist * mBottomRightC.getHeight());
+				mBottomCenterC.setTranslationY(p * dist * mBottomCenterC.getHeight());
+
+			}
+
+			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
+				setPopupAnimationPercentage(percentage, stateTwo.showsSearchPopup());
+			}
+
+			// Special animation for switching between CALENDAR and TRAVEL_PICKER
+			if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER
+				|| stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
+
+				float p = stateTwo == ResultsSearchState.TRAVELER_PICKER ? percentage : 1f - percentage;
+
+				mTravC.setTranslationX((1f - p) * mTravC.getWidth());
+				mCalC.setTranslationX(p * -mCalC.getWidth());
+				if (mGrid.isLandscape()) {
+					mGdeC.setTranslationY(p * mBottomCenterC.getHeight());
+				}
+				else {
+					mGdeC.setTranslationX(p * -mBottomCenterC.getWidth());
+					mTravPickWhiteSpace.setTranslationX((1f - p) * mBottomCenterC.getWidth());
 				}
 			}
 		}
@@ -727,12 +714,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpAnimationHardwareLayers(false);
 				if (stateOne == ResultsSearchState.HOTELS_UP
 					|| stateTwo == ResultsSearchState.HOTELS_UP) {
-					//For hotels we also fade
+					// For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(false);
 				}
 			}
 
-			if (performingPopupAnimation(stateOne, stateTwo)) {
+			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
 				setPopupAnimationHardwareLayers(false);
 			}
 		}
@@ -826,18 +813,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		// Popup anim helper methods
 
-		private boolean performingPopupAnimation(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne.showsSearchPopup() || stateTwo.showsSearchPopup();
-		}
-
 		private void setPopupAnimationHardwareLayers(boolean enabled) {
 			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mPopupC.setLayerType(layerType, null);
-		}
-
-		private void setSearchControlsAnimationPercentage(float percentage, int dist) {
-			mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
-			mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
 		}
 
 		private void setPopupAnimationPercentage(float percentage, boolean active) {

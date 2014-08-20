@@ -6,14 +6,12 @@ import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -892,23 +890,20 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+			if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
+				float p = stateTwo.showsSearchControls() ? percentage : 1f - percentage;
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
-					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(4));
+					mTripBucketC.setTranslationY(p * mGrid.getRowTop(4));
 				}
 			}
-			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
-				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
-					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(4));
-				}
-			}
-			else if (stateOne == ResultsSearchState.DEFAULT && stateTwo.showsWaypoint()
-				|| stateOne.showsWaypoint() && stateTwo == ResultsSearchState.DEFAULT) {
-				float p = stateOne == ResultsSearchState.DEFAULT ? 1f - percentage : percentage;
+
+			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
+				float p = stateTwo.showsWaypoint() ? 1f - percentage : percentage;
 
 				mHotelC.setAlpha(p);
 				mFlightsC.setAlpha(p);
 				mTripBucketC.setAlpha(p);
+				mBottomGradient.setAlpha(p);
 			}
 
 			if (isActionBarAppearing(stateOne, stateTwo)) {
@@ -923,13 +918,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 			else if (stateOne.showsSearchPopup() && !stateTwo.showsSearchPopup()) {
 				mShadeView.setAlpha(1f - percentage);
-			}
-
-			if (!stateOne.showsWaypoint() && stateTwo.showsWaypoint()) {
-				mBottomGradient.setAlpha(1f - percentage);
-			}
-			else if (stateOne.showsWaypoint() && !stateTwo.showsWaypoint()) {
-				mBottomGradient.setAlpha(percentage);
 			}
 		}
 
