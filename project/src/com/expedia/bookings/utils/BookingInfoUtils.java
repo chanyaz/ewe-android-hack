@@ -15,6 +15,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.CommonSectionValidators;
@@ -190,7 +191,9 @@ public class BookingInfoUtils {
 			numTravelersNeeded = 1;
 			if (travelerSize < numTravelersNeeded) {
 				for (int i = travelerSize; i < numTravelersNeeded; i++) {
-					travelers.add(new Traveler());
+					Traveler traveler = new Traveler();
+					traveler.setPassengerCategory(PassengerCategory.ADULT);
+					travelers.add(traveler);
 				}
 			}
 
