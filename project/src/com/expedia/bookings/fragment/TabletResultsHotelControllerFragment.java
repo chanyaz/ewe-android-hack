@@ -82,7 +82,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_GALLERY = "FTAG_HOTEL_GALLERY";
 
 	// Settings
-	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
 
 	// Containers
 	private ViewGroup mRootC;
@@ -113,7 +112,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	// Other
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(getBaseState(), this);
 	private GridManager mGrid = new GridManager();
-	private Runnable mSearchParamUpdateRunner;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -245,23 +243,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else {
 			mHotelsStateManager.setState(getBaseState(), true);
-			if (mSearchParamUpdateRunner != null) {
-				mRootC.removeCallbacks(mSearchParamUpdateRunner);
-			}
-			mSearchParamUpdateRunner = new SearchParamUpdateRunner();
-			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
-		}
-	}
-
-	private class SearchParamUpdateRunner implements Runnable {
-		@Override
-		public void run() {
-			if (mSearchParamUpdateRunner == this && getActivity() != null
-				&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
-				&& mHotelSearchDownloadFrag != null) {
-				importSearchParams();
-				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
-			}
 		}
 	}
 

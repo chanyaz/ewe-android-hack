@@ -65,9 +65,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private static final String FTAG_FLIGHT_LEGS_CHOOSER = "FTAG_FLIGHT_LEGS_CHOOSER";
 	private static final String FTAG_FLIGHT_INFANT_CHOOSER = "FTAG_FLIGHT_INFANT_CHOOSER";
 
-	// Settings
-	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
-
 	// Containers
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mFlightMapC;
@@ -253,26 +250,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		else {
 			mFlightsStateManager.setState(getBaseState(), true);
-			if (mSearchParamUpdateRunner != null) {
-				mRootC.removeCallbacks(mSearchParamUpdateRunner);
-			}
-			mSearchParamUpdateRunner = new SearchParamUpdateRunner();
-			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
-		}
-	}
-
-
-	private class SearchParamUpdateRunner implements Runnable {
-		@Override
-		public void run() {
-			if (mSearchParamUpdateRunner == this && getActivity() != null
-				&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
-				&& mFlightSearchDownloadFrag != null) {
-				importSearchParams();
-				if (Db.getFlightSearch().getSearchParams().isFilled()) {
-					mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
-				}
-			}
 		}
 	}
 
