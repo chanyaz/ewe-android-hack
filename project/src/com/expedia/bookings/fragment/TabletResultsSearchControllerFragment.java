@@ -662,10 +662,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
 				float perc = goingUp(stateOne, stateTwo) ? percentage : (1f - percentage);
 				setSlideUpAnimationPercentage(perc);
-				if (isHotelsUpTransition(stateOne, stateTwo)) {
-					//For hotels we also fade
-					setSlideUpHotelsOnlyAnimationPercentage(perc);
-				}
 			}
 			else {
 				int dist = mGrid.isLandscape() ? 1 : 2;
@@ -742,12 +738,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			switch (state) {
 			case HOTELS_UP: {
 				setSlideUpAnimationPercentage(1f);
-				setSlideUpHotelsOnlyAnimationPercentage(1f);
 				break;
 			}
 			case FLIGHTS_UP: {
 				setSlideUpAnimationPercentage(1f);
-				setSlideUpHotelsOnlyAnimationPercentage(0f);
 				break;
 			}
 			case CALENDAR: {
@@ -764,7 +758,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			default: {
 				setSlideUpAnimationPercentage(0f);
-				setSlideUpHotelsOnlyAnimationPercentage(0f);
 			}
 			}
 
@@ -816,6 +809,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			mDestBtn.setTranslationY(percentage * searchBarHeight);
 			mDestBtn.setAlpha(1f - percentage);
+			mOrigBtn.setAlpha(1f - percentage);
+			mCalBtn.setAlpha(1f - percentage);
+			mTravBtn.setAlpha(1f - percentage);
 
 			if (mGrid.isLandscape()) {
 				// This is only to ensure the search controls shift left of the overflow menu. This
@@ -838,13 +834,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		private void setSlideUpHotelsOnlyHardwareLayers(boolean enabled) {
 			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mWaypointC.setLayerType(layerType, null);
-		}
-
-		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
-			mOrigBtn.setAlpha(1f - percentage);
-			if (mLocalParams.getStartDate() == null) {
-				mCalBtn.setAlpha(1f - percentage);
-			}
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
