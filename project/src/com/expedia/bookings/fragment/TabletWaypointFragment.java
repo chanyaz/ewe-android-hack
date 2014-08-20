@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,7 +36,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.Log;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -166,7 +164,7 @@ public class TabletWaypointFragment extends Fragment
 					((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
 				}
 				else if (parent instanceof TabletResultsSearchControllerFragment) {
-					((TabletResultsSearchControllerFragment)parent).setState(ResultsSearchState.DEFAULT, true);
+					((TabletResultsSearchControllerFragment)parent).setStateToBaseState(true);
 				}
 			}
 		});

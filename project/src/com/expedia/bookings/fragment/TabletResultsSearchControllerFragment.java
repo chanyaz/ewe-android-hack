@@ -247,6 +247,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 	}
 
+	public void setStateToBaseState(boolean animated) {
+		setState(getDefaultBaseState(null), animated);
+	}
+
 	private ResultsSearchState getDefaultBaseState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			return ResultsSearchState.valueOf(savedInstanceState.getString(INSTANCE_RESULTS_SEARCH_STATE));
@@ -536,7 +540,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (copyTempValuesToParams()) {
 					doSpUpdate();
 				}
-				setState(ResultsSearchState.DEFAULT, true);
+				setStateToBaseState(true);
 			}
 		}
 	};
@@ -553,7 +557,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void setState(ResultsSearchState state, boolean animate) {
 		ResultsSearchState curState = mSearchStateManager.getState();
 		if (animate && curState.showsSearchControls() && state.showsWaypoint()) {
-			mSearchStateManager.animateThroughStates(200, false, ResultsSearchState.DEFAULT, state);
+			mSearchStateManager.animateThroughStates(200, false, getDefaultBaseState(null), state);
 		}
 		else {
 			mSearchStateManager.setState(state, animate);
@@ -683,6 +687,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					setSearchControlsAnimationPercentage(1f - percentage, dist);
 					setPopupAnimationPercentage(percentage, false);
 				}
+				else if (stateOne == ResultsSearchState.CALENDAR_WITH_POPUP && stateTwo == ResultsSearchState.CALENDAR) {
+					setPopupAnimationPercentage(1f - percentage, true);
+				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
 					mCalC.setTranslationX(percentage * -mCalC.getWidth());
@@ -766,7 +773,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setSlideUpAnimationPercentage(float percentage) {
-			//Grid manager dimensions work before onMeasure
+			// Grid manager dimensions work before onMeasure
 			int searchBarHeight = mGrid.getRowHeight(3);
 			int barTransDistance = mGrid.getRowSpanHeight(0, 3);
 
@@ -1196,8 +1203,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (state.isUpState()) {
 				return false;
 			}
-			else if (state != ResultsSearchState.DEFAULT) {
-				setState(ResultsSearchState.DEFAULT, true);
+
+			ResultsSearchState base = getDefaultBaseState(null);
+			if (state != base) {
+				setState(base, true);
 				return true;
 			}
 
@@ -1309,7 +1318,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				doSpUpdate();
 			}
 		}
-		setState(ResultsSearchState.DEFAULT, true);
+		setStateToBaseState(true);
 	}
 
 	@Subscribe
