@@ -340,6 +340,8 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 		int priceChange = selectedRate.compareForPriceChange(newRate);
 		if (priceChange != 0) {
+			Db.getTripBucket().getHotel().setNewRate(newRate);
+
 			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
 			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
 				boolean isPriceHigher = priceChange < 0;
@@ -350,8 +352,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			else {
 				Events.post(new Events.HotelProductRateUp(newRate));
 			}
-
-
 		}
 
 		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();

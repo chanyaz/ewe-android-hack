@@ -505,11 +505,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 	@Subscribe
 	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
-		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (hotel != null) {
-			Db.getTripBucket().getHotel().setNewRate(event.newRate);
-		}
-
 		mBucketHotelFrag.refreshRate();
 		setBucketState(true);
 	}
