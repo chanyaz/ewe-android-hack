@@ -67,8 +67,4 @@ public class Common {
 			Log.v("Pressed back a bunch of times: ", e);
 		}
 	}
-
-	public static void clear(ViewInteraction view) {
-		view.perform(clearText());
-	}
 }

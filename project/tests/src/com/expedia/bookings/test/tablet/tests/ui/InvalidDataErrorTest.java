@@ -62,7 +62,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 
 		//checkout using invalid CC
 		for (int i = 0; i < BAD_CREDIT_CARDS.length; i++) {
-			Common.clear(Checkout.creditCardNumber());
+			EspressoUtils.clear(Checkout.creditCardNumber());
 			Checkout.enterCreditCardNumber(BAD_CREDIT_CARDS[i]);
 			Common.closeSoftKeyboard(Checkout.creditCardNumber());
 			Checkout.clickOnDone();
@@ -76,7 +76,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 		}
 
 		//complete checkout using valid CC after error popup
-		Common.clear(Checkout.creditCardNumber());
+		EspressoUtils.clear(Checkout.creditCardNumber());
 		Checkout.enterCreditCardNumber("4111111111111111");
 		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.clickOnDone();
@@ -107,7 +107,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 
 		//checkout using invalid phone number
 		for (int i = 0; i < BAD_PHONE_NUMBERS.length; i++) {
-			Common.clear(Checkout.phoneNumber());
+			EspressoUtils.clear(Checkout.phoneNumber());
 			Checkout.enterPhoneNumber(BAD_PHONE_NUMBERS[i]);
 			Checkout.clickOnDone();
 			Checkout.slideToPurchase();
@@ -120,7 +120,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 		}
 
 		//complete checkout using valid phone after error popup
-		Common.clear(Checkout.phoneNumber());
+		EspressoUtils.clear(Checkout.phoneNumber());
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.clickOnDone();
 		Checkout.slideToPurchase();

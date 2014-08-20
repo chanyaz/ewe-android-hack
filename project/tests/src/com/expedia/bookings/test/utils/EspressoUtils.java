@@ -10,6 +10,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.getCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getRating;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
@@ -19,6 +20,10 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
 public class EspressoUtils {
+
+	public static void clear(ViewInteraction view) {
+		view.perform(clearText());
+	}
 
 	public static void assertViewWithTextIsDisplayed(String text) {
 		onView(withText(text)).check(matches(isDisplayed()));
