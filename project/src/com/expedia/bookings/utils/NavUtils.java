@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -85,14 +86,22 @@ public class NavUtils {
 	public static void goToItin(Context context) {
 		Intent intent;
 		if (ExpediaBookingApp.useTabletInterface(context)) {
+			TaskStackBuilder builder = TaskStackBuilder.create(context);
+			intent = new Intent(context, TabletLaunchActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			builder.addNextIntent(intent);
+
 			intent = new Intent(context, ItineraryActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			builder.addNextIntent(intent);
+			builder.startActivities();
 		}
 		else {
 			intent = new Intent(context, LaunchActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+			context.startActivity(intent);
 		}
-		context.startActivity(intent);
 	}
 
 	public static void goToHotels(Context context, HotelSearchParams params) {

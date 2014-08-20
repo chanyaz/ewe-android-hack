@@ -54,6 +54,37 @@ public class DeepLinkRouterActivity extends Activity {
 		AdX.trackDeepLinkLaunch(data);
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
 
+		/*
+		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!
+		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
+		 * We intercept this uri too, extract the link and then send to fetch the itin.
+		 */
+		if (host.equals("addSharedItinerary") && data.toString().contains("m/trips/shared")) {
+			goFetchSharedItin(data.getQueryParameter("url"));
+			finish();
+			return;
+		}
+		else if (data.toString().contains("m/trips/shared")) {
+			goFetchSharedItin(data.toString());
+			finish();
+			return;
+		}
+		else if ("e.xpda.co".equalsIgnoreCase(host)) {
+			final String shortUrl = data.toString();
+			final ExpediaServices services = new ExpediaServices(this);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					String longUrl = services.getLongUrl(shortUrl);
+					if (null != longUrl) {
+						goFetchSharedItin(longUrl);
+					}
+				}
+			}).start();
+			finish();
+			return;
+		}
+
 		if (ExpediaBookingApp.useTabletInterface(this)) {
 			Intent tabletLaunch = new Intent(this, TabletLaunchActivity.class);
 			tabletLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -209,30 +240,6 @@ public class DeepLinkRouterActivity extends Activity {
 				Log.i(TAG, "Launching flight search params activity from deep link!");
 				NavUtils.goToFlights(this, true);
 			}
-		}
-		/*
-		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!
-		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
-		 * We intercept this uri too, extract the link and then send to fetch the itin.
-		 */
-		else if (host.equals("addSharedItinerary") && data.toString().contains("m/trips/shared")) {
-			goFetchSharedItin(data.getQueryParameter("url"));
-		}
-		else if (data.toString().contains("m/trips/shared")) {
-			goFetchSharedItin(data.toString());
-		}
-		else if ("e.xpda.co".equalsIgnoreCase(host)) {
-			final String shortUrl = data.toString();
-			final ExpediaServices services = new ExpediaServices(this);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					String longUrl = services.getLongUrl(shortUrl);
-					if (null != longUrl) {
-						goFetchSharedItin(longUrl);
-					}
-				}
-			}).start();
 		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);
