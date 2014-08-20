@@ -36,4 +36,19 @@ public enum ResultsSearchState {
 		return this == CALENDAR_WITH_POPUP || this == TRAVELER_PICKER;
 	}
 
+	public boolean showsActionBar() {
+		switch (this) {
+		case DESTINATION:
+		case FLIGHT_ORIGIN:
+			return false;
+		case HOTELS_UP:
+		case FLIGHTS_UP:
+		case DEFAULT:
+		case CALENDAR:
+		case CALENDAR_WITH_POPUP:
+		case TRAVELER_PICKER:
+		default:
+			return true;
+		}
+	}
 }

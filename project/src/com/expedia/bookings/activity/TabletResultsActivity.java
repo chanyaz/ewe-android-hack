@@ -874,11 +874,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
+			if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 
-			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
+			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
 				mShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mShadeView.setVisibility(View.VISIBLE);
 			}
@@ -892,13 +892,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-			if (isSearchControlsActiveTransition(stateOne, stateTwo)) {
+			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(4));
-
 				}
 			}
-			else if (isSearchControlsInactiveTransition(stateOne, stateTwo)) {
+			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
 				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(4));
 				}
@@ -919,7 +918,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
 			}
 
-			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
+			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
 				mShadeView.setAlpha(percentage);
 			}
 			else if (stateOne.showsSearchPopup() && !stateTwo.showsSearchPopup()) {
@@ -936,14 +935,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
+			if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
 				mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 
-			if (!stateOne.showsSearchControls() && stateTwo.showsSearchControls()) {
-				mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
-			}
-			else if (stateOne.showsSearchControls() && !stateTwo.showsSearchControls()) {
+			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
 				mShadeView.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 
@@ -955,7 +951,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
 			if (mSearchC != null) {
-				mSearchC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+				mSearchC.findViewById(R.id.action_bar_background).setAlpha(state.showsActionBar() ? 1f : 0f);
 			}
 
 			mBackgroundImageFrag.setBlur(state.showsWaypoint());
@@ -967,35 +963,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		private boolean isActionBarAppearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
+			return !stateOne.showsActionBar() && stateTwo.showsActionBar();
 		}
 
 		private boolean isActionBarDisappearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return isActionBarVisibleFor(stateOne) && !isActionBarVisibleFor(stateTwo);
-		}
-
-		private boolean isActionBarVisibleFor(ResultsSearchState state) {
-			switch (state) {
-			case HOTELS_UP:
-			case FLIGHTS_UP:
-			case DESTINATION:
-			case FLIGHT_ORIGIN:
-				return false;
-			case DEFAULT:
-			case CALENDAR:
-			case CALENDAR_WITH_POPUP:
-			case TRAVELER_PICKER:
-			default:
-				return true;
-			}
-		}
-
-		private boolean isSearchControlsActiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne == ResultsSearchState.DEFAULT && (stateTwo.showsCalendar() || stateTwo == ResultsSearchState.TRAVELER_PICKER);
-		}
-
-		private boolean isSearchControlsInactiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return (stateOne.showsCalendar() || stateOne == ResultsSearchState.TRAVELER_PICKER) && stateTwo == ResultsSearchState.DEFAULT;
+			return stateOne.showsActionBar() && !stateTwo.showsActionBar();
 		}
 	};
 

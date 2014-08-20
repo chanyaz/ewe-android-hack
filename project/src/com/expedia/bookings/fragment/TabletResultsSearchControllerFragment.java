@@ -564,26 +564,22 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
+			if (stateOne.isUpState() != stateTwo.isUpState()) {
 				setSlideUpAnimationHardwareLayers(true);
-				if (isHotelsUpTransition(stateOne, stateTwo)) {
+				if (stateOne == ResultsSearchState.HOTELS_UP
+					|| stateTwo == ResultsSearchState.HOTELS_UP) {
 					//For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(true);
 				}
 
 			}
-			else {
-				if (stateOne.showsWaypoint() || stateTwo.showsWaypoint()) {
-					mWaypointC.setVisibility(View.VISIBLE);
 
-					//Here we set up where the search bar animation will originate from
-					if (stateOne == ResultsSearchState.FLIGHT_ORIGIN || stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
-						mWaypointAnimFromOrigin = true;
-					}
-					else {
-						mWaypointAnimFromOrigin = false;
-					}
-				}
+			if (stateOne.showsWaypoint() || stateTwo.showsWaypoint()) {
+				mWaypointC.setVisibility(View.VISIBLE);
+
+				//Here we set up where the search bar animation will originate from
+				mWaypointAnimFromOrigin = stateOne == ResultsSearchState.FLIGHT_ORIGIN
+					|| stateTwo == ResultsSearchState.FLIGHT_ORIGIN;
 			}
 
 			if (performingPopupAnimation(stateOne, stateTwo)) {
@@ -641,7 +637,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				bindTravBtn();
 			}
 
-			if (stateTwo == ResultsSearchState.DEFAULT) {
+			if (stateTwo.showsSearchControls()) {
 				mSearchBarC.setVisibility(View.VISIBLE);
 			}
 
@@ -659,9 +655,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
 											float percentage) {
 
-			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
-				float perc = goingUp(stateOne, stateTwo) ? percentage : (1f - percentage);
+			if (stateOne.isUpState() != stateTwo.isUpState()) {
+				float perc = stateTwo.isUpState() ? percentage : (1f - percentage);
 				setSlideUpAnimationPercentage(perc);
+				if (stateOne == ResultsSearchState.HOTELS_UP
+					|| stateTwo == ResultsSearchState.HOTELS_UP) {
+					//For hotels we also fade
+					setSlideUpHotelsOnlyAnimationPercentage(perc);
+				}
 			}
 			else {
 				int dist = mGrid.isLandscape() ? 1 : 2;
@@ -715,9 +716,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
+			if (stateOne.isUpState() != stateTwo.isUpState()) {
 				setSlideUpAnimationHardwareLayers(false);
-				if (isHotelsUpTransition(stateOne, stateTwo)) {
+				if (stateOne == ResultsSearchState.HOTELS_UP
+					|| stateTwo == ResultsSearchState.HOTELS_UP) {
 					//For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(false);
 				}
@@ -735,54 +737,24 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			setVisibilitiesForState(state);
 			resetWidgetTranslations();
 
-			switch (state) {
-			case HOTELS_UP: {
-				setSlideUpAnimationPercentage(1f);
-				break;
+			setSlideUpAnimationPercentage(state.isUpState() ? 1f : 0f);
+			setSlideUpHotelsOnlyAnimationPercentage(state == ResultsSearchState.HOTELS_UP ? 1f : 0f);
+
+			if (state == ResultsSearchState.TRAVELER_PICKER) {
+				bindTravBtn();
 			}
-			case FLIGHTS_UP: {
-				setSlideUpAnimationPercentage(1f);
-				break;
-			}
-			case CALENDAR: {
+
+			if (state.showsCalendar()) {
 				if (mGdeFragment != null) {
 					mGdeFragment.setGdeInfo(mLocalParams.getOriginLocation(true),
 						mLocalParams.getDestinationLocation(true),
 						mLocalParams.getStartDate());
 				}
-				break;
-			}
-			case TRAVELER_PICKER: {
-				bindTravBtn();
-				break;
-			}
-			default: {
-				setSlideUpAnimationPercentage(0f);
-			}
 			}
 
 			if (!state.showsSearchControls()) {
 				clearChanges();
 			}
-		}
-
-		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			boolean goingUp = goingUp(stateOne, stateTwo);
-			boolean goingDown = goingDown(stateOne, stateTwo);
-
-			return goingUp || goingDown;
-		}
-
-		private boolean goingUp(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return !stateOne.isUpState() && stateTwo.isUpState();
-		}
-
-		private boolean goingDown(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne.isUpState() && !stateTwo.isUpState();
-		}
-
-		private boolean isHotelsUpTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne == ResultsSearchState.HOTELS_UP || stateTwo == ResultsSearchState.HOTELS_UP;
 		}
 
 		private void setSlideUpAnimationHardwareLayers(boolean enabled) {
@@ -837,11 +809,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
-			if (state.showsWaypoint()) {
-				getActivity().getActionBar().hide();
+			if (state.showsActionBar()) {
+				getActivity().getActionBar().show();
 			}
 			else {
-				getActivity().getActionBar().show();
+				getActivity().getActionBar().hide();
 			}
 		}
 
@@ -968,30 +940,34 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		//We want most of our frags available so they can animate in real nice like
-		boolean mParamFragsAvailable = state != ResultsSearchState.HOTELS_UP && state != ResultsSearchState.FLIGHTS_UP;
+		// We want most of our frags available so they can animate in real nice like
+		boolean mParamFragsAvailable = !state.isUpState();
 
 		boolean mCalAvail = mParamFragsAvailable;
 		boolean mGdeAvail = mCalAvail; // GDE will display an error message if POS isn't supported
 		boolean mTravAvail = mParamFragsAvailable;
-		boolean mWaypointAvailable = mParamFragsAvailable;
+		boolean mWaypointAvail = mParamFragsAvailable;
+		boolean mLocAvail =  mGdeAvail && !mLocalParams.hasOrigin();
 
-		mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
-			transaction, this, R.id.calendar_container, true);
+		mDatesFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
+				transaction, this, R.id.calendar_container, true);
 
-		mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(mGdeAvail, FTAG_FLIGHTS_GDE, manager,
-			transaction, this, R.id.gde_container, true);
+		mGdeFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(mGdeAvail, FTAG_FLIGHTS_GDE, manager,
+				transaction, this, R.id.gde_container, true);
 
-		mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
-			transaction, this, R.id.traveler_container, true);
+		mGuestsFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
+				transaction, this, R.id.traveler_container, true);
 
 		mWaypointFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(mWaypointAvailable, FTAG_WAYPOINT, manager,
+			.setFragmentAvailability(mWaypointAvail, FTAG_WAYPOINT, manager,
 				transaction, this, R.id.waypoint_container, false);
 
 		mCurrentLocationFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(!mLocalParams.hasOrigin() && mGdeAvail, FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
-				true);
+			.setFragmentAvailability(mLocAvail, FTAG_ORIGIN_LOCATION, manager,
+				transaction, this, 0, true);
 
 		transaction.commit();
 	}
@@ -1100,10 +1076,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onStateFinalized(ResultsState state) {
 			ResultsSearchState lastState = mSearchStateManager.getState();
 			ResultsSearchState newState = translateState(state);
-			boolean lastStateUp = (lastState == ResultsSearchState.FLIGHTS_UP
-				|| lastState == ResultsSearchState.HOTELS_UP);
-			boolean newStateUp = (newState == ResultsSearchState.FLIGHTS_UP
-				|| newState == ResultsSearchState.HOTELS_UP);
+			boolean lastStateUp = lastState.isUpState();
+			boolean newStateUp = newState.isUpState();
 
 			//If we have not yet set a state, or if the Results state is moving between modes, we update our state, otherwise
 			//results state doesnt matter to us.
@@ -1219,13 +1193,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public boolean handleBackPressed() {
 			ResultsSearchState state = mSearchStateManager.getState();
-			if (state == ResultsSearchState.FLIGHTS_UP || state == ResultsSearchState.HOTELS_UP) {
+			if (state.isUpState()) {
 				return false;
 			}
 			else if (state != ResultsSearchState.DEFAULT) {
 				setState(ResultsSearchState.DEFAULT, true);
 				return true;
 			}
+
 			return false;
 		}
 
