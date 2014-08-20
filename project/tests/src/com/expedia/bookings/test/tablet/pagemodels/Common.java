@@ -10,6 +10,7 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.mobiata.android.Log;
 
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static org.hamcrest.CoreMatchers.not;
@@ -65,5 +66,9 @@ public class Common {
 		catch (Exception e) {
 			Log.v("Pressed back a bunch of times: ", e);
 		}
+	}
+
+	public static void clear(ViewInteraction view) {
+		view.perform(clearText());
 	}
 }

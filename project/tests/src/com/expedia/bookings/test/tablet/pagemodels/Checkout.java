@@ -198,11 +198,39 @@ public class Checkout {
 	}
 
 	public static void enterCvv(String text) {
-		// TODO use cvv passed to us
-		// Right now this just enters 111
-		onView(withId(R.id.one_button)).perform(click());
-		onView(withId(R.id.one_button)).perform(click());
-		onView(withId(R.id.one_button)).perform(click());
+		for (int i = 0; i < text.length(); i++) {
+			switch (text.charAt(i)) {
+			case '1':
+				onView(withId(R.id.one_button)).perform(click());
+				break;
+			case '2':
+				onView(withId(R.id.two_button)).perform(click());
+				break;
+			case '3':
+				onView(withId(R.id.three_button)).perform(click());
+				break;
+			case '4':
+				onView(withId(R.id.four_button)).perform(click());
+				break;
+			case '5':
+				onView(withId(R.id.five_button)).perform(click());
+				break;
+			case '6':
+				onView(withId(R.id.six_button)).perform(click());
+				break;
+			case '7':
+				onView(withId(R.id.seven_button)).perform(click());
+				break;
+			case '8':
+				onView(withId(R.id.eight_button)).perform(click());
+				break;
+			case '9':
+				onView(withId(R.id.nine_button)).perform(click());
+				break;
+			default:
+				throw new NumberFormatException();
+			}
+		}
 	}
 
 	public static void clickBookButton() {
@@ -235,6 +263,10 @@ public class Checkout {
 
 	public static void clickIAcceptButton() {
 		onView(withId(R.id.layout_i_accept)).perform(click());
+	}
+
+	public static void clickOKButton() {
+		onView(withId(android.R.id.button3)).perform(click());
 	}
 
 }
