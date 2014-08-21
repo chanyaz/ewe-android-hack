@@ -35,6 +35,11 @@ public class HotelDetails {
 		return onView(allOf(withId(R.id.room_rate_button_add), isDescendantOfA(hasSibling(allOf(withId(R.id.room_rate_detail_container), isDisplayed()))), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
+	//add hotel button in Hotel reviews
+	public static ViewInteraction reviewsAddHotel() {
+		return onView(allOf(withId(R.id.room_rate_button_add), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
 	public static void clickAddHotel() {
 		addHotel().perform(scrollTo(), click());
 	}

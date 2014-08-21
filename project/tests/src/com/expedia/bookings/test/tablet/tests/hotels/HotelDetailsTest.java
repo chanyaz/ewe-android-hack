@@ -61,7 +61,7 @@ public class HotelDetailsTest extends TabletTestCase {
 		HotelDetails.clickRecentTab();
 
 		//Add hotel button displayed on Reviews screen
-		Common.checkDisplayed(HotelDetails.addHotel());
+		Common.checkDisplayed(HotelDetails.reviewsAddHotel());
 		Common.pressBack();
 	}
 }
