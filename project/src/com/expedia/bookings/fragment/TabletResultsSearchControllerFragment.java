@@ -802,6 +802,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mWaypointC.setLayerType(layerType, null);
 		}
 
+		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
+			//TODO: do we need this?
+			mWaypointC.setAlpha(percentage);
+		}
+
 		private void setActionbarShowingState(ResultsSearchState state) {
 			if (state.showsActionBar()) {
 				getActivity().getActionBar().show();
@@ -932,7 +937,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mGdeAvail = mCalAvail; // GDE will display an error message if POS isn't supported
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvail = mParamFragsAvailable;
-		boolean mLocAvail =  mGdeAvail && !mLocalParams.hasOrigin();
+		boolean mLocAvail = mGdeAvail && !mLocalParams.hasOrigin();
 
 		mDatesFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
