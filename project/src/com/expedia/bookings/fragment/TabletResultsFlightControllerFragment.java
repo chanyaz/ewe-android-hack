@@ -739,7 +739,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			// Make sure we are loading using the most recent params
-			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING && readyToSearch()) {
+			if (Ui.isAdded(mFlightSearchDownloadFrag) && state == ResultsFlightsState.LOADING && readyToSearch()) {
 				importSearchParams();
 				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
 			}

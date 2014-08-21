@@ -50,6 +50,10 @@ public class HotelSearchDownloadFragment extends Fragment {
 		if (mSearchParams == null) {
 			throw new RuntimeException("SearchParams must be set.");
 		}
+
+		if (!isDownloading()) {
+			startOrResumeForParams(mSearchParams);
+		}
 	}
 
 	@Override
@@ -96,6 +100,18 @@ public class HotelSearchDownloadFragment extends Fragment {
 		if (dl.isDownloading(DL_SEARCH_HOTEL)) {
 			dl.cancelDownload(DL_SEARCH_HOTEL);
 		}
+	}
+
+	private boolean isDownloading() {
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		if (dl.isDownloading(DL_SEARCH)) {
+			return true;
+		}
+		if (dl.isDownloading(DL_SEARCH_HOTEL)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private void registerAllCallbacks() {

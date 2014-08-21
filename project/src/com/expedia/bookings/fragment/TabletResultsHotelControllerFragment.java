@@ -50,10 +50,10 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.HotelUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.TimingLogger;
-import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -580,6 +580,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = ResultsHotelDetailsFragment.newInstance();
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
+			importSearchParams();
 			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
@@ -1367,7 +1368,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 
 			// Ensure we are downloading the correct data.
-			if (mHotelSearchDownloadFrag != null && state == ResultsHotelsState.LOADING && readyToSearch()) {
+			if (Ui.isAdded(mHotelSearchDownloadFrag) && state == ResultsHotelsState.LOADING && readyToSearch()) {
 				importSearchParams();
 				logger.addSplit("importSearchParams()");
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
