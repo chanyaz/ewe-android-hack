@@ -4,6 +4,7 @@ import java.net.URL;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.view.WindowManager;
@@ -30,6 +31,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	protected MockWebServer mMockWebServer;
 	protected FileOpener mFileOpener;
+	protected Resources mRes;
 
 	public void runTest() throws Throwable {
 
@@ -52,6 +54,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			String server = mockUrl.getHost() + ":" + mockUrl.getPort();
 			Settings.setCustomServer(getInstrumentation(), server);
 		}
+
+		mRes = getInstrumentation().getTargetContext().getResources();
 
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
 		getActivity();

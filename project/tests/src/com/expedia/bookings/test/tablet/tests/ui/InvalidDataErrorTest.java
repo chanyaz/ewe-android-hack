@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.tablet.tests.ui;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.tablet.pagemodels.Common;
 import com.expedia.bookings.test.tablet.pagemodels.HotelDetails;
@@ -26,8 +27,8 @@ public class InvalidDataErrorTest extends TabletTestCase {
 	};
 
 	private static final String[] BAD_PHONE_NUMBERS = {
-		"1111",
-		"951231",
+		"111",
+		"951-",
 	};
 
 	private void getToCheckout() throws Exception {
@@ -71,7 +72,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 			Checkout.clickBookButton();
 
 			//error popup
-			EspressoUtils.assertViewWithTextIsDisplayed("The credit card number you entered is invalid, please try again.");
+			EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_invalid_card_number));
 			Checkout.clickOKButton();
 		}
 
@@ -115,7 +116,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 			Checkout.clickBookButton();
 
 			//error popup
-			EspressoUtils.assertViewWithTextIsDisplayed("Please enter a valid phone number");
+			EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.ean_error_invalid_phone_number));
 			Checkout.clickOKButton();
 		}
 
@@ -125,6 +126,45 @@ public class InvalidDataErrorTest extends TabletTestCase {
 		Checkout.clickOnDone();
 		Checkout.slideToPurchase();
 		Checkout.enterCvv("1111");
+		Checkout.clickBookButton();
+		Checkout.clickDoneBooking();
+	}
+
+	public void testInvalidCardHolderName() throws Throwable {
+		getToCheckout();
+
+		Checkout.clickOnEmptyTravelerDetails();
+		Checkout.enterFirstName("Mobiata");
+		Checkout.enterLastName("Auto");
+		Checkout.enterPhoneNumber("1112223333");
+		Checkout.enterEmailAddress("aaa@aaa.com");
+		Common.closeSoftKeyboard(Checkout.firstName());
+		Checkout.clickOnDone();
+
+		Checkout.clickOnEnterPaymentInformation();
+		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
+		Checkout.setExpirationDate(2020, 12);
+		Checkout.enterNameOnCard("Expedia");
+		Checkout.enterPostalCode("95104");
+		Common.closeSoftKeyboard(Checkout.postalCode());
+		Checkout.clickOnDone();
+		Checkout.slideToPurchase();
+		Checkout.enterCvv("111");
+		Checkout.clickBookButton();
+
+		//error popup
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_name_on_card_mismatch));
+		Checkout.clickOKButton();
+
+		//back to payment details
+		EspressoUtils.clear(Checkout.nameOnCard());
+		Checkout.enterNameOnCard("Mobiata Auto");
+		Common.closeSoftKeyboard(Checkout.postalCode());
+		Checkout.clickOnDone();
+
+		Checkout.slideToPurchase();
+		Checkout.enterCvv("111");
 		Checkout.clickBookButton();
 		Checkout.clickDoneBooking();
 	}
