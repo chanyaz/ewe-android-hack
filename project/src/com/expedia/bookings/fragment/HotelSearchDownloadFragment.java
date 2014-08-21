@@ -11,6 +11,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -21,7 +22,6 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private static final String STATE_PARAMS = "STATE_PARAMS";
 	private static final String DL_SEARCH = "DL_HOTEL_SEARCH";
 	private static final String DL_SEARCH_HOTEL = "DL_HOTEL_SEARCH_HOTEL";
-	private static final String DL_HOTEL_INFO = "DL_HOTEL_INFO";
 
 	public static HotelSearchDownloadFragment newInstance(HotelSearchParams params) {
 		HotelSearchDownloadFragment frag = new HotelSearchDownloadFragment();
@@ -30,9 +30,6 @@ public class HotelSearchDownloadFragment extends Fragment {
 	}
 
 	private HotelSearchParams mSearchParams;
-	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
-
-	private boolean mStartOrResumeOnAttach = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,32 +53,9 @@ public class HotelSearchDownloadFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
-
-		if (mStartOrResumeOnAttach && mSearchParams != null) {
-			// Reset filter on param change
-			Db.resetFilter();
-			startOrResumeForParams(mSearchParams);
-		}
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DL_SEARCH)) {
-			bd.registerDownloadCallback(DL_SEARCH, mSearchCallback);
-		}
-		if (bd.isDownloading(DL_SEARCH_HOTEL)) {
-			bd.registerDownloadCallback(DL_SEARCH_HOTEL, mSearchHotelCallback);
-		}
-		if (bd.isDownloading(DL_HOTEL_INFO)) {
-			bd.registerDownloadCallback(DL_HOTEL_INFO, mHotelInfoCallback);
-		}
+		registerAllCallbacks();
 	}
 
 	@Override
@@ -96,85 +70,22 @@ public class HotelSearchDownloadFragment extends Fragment {
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		mListener = null;
-		mStartOrResumeOnAttach = false;
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
-	public void ignoreNextDownload() {
-		unregisterAllCallbacks();
-	}
-
 	public void startOrResumeForParams(HotelSearchParams params) {
-		if (mListener == null) {
-			setSearchParams(params);
-			mStartOrResumeOnAttach = true;
+		setSearchParams(params);
+		unregisterAllCallbacks();
+		cancelAllDownloads();
+
+		if (mSearchParams.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
+			BackgroundDownloader.getInstance().startDownload(DL_SEARCH_HOTEL, mSearchHotelDownload, mSearchHotelCallback);
 		}
 		else {
-			// Unregister all callbacks at first because we might not need them
-			unregisterAllCallbacks();
-
-			BackgroundDownloader dl = BackgroundDownloader.getInstance();
-			boolean areNewParams = mSearchParams != null && !mSearchParams.equals(params);
-
-			if (dl.isDownloading(DL_SEARCH)) {
-				if (areNewParams) {
-					//We're in the middle of a download and we just got new (and different) params.
-					setSearchParams(params);
-					startOrRestartSearch();
-				}
-				else {
-					dl.registerDownloadCallback(DL_SEARCH, mSearchCallback);
-				}
-			}
-			else if (dl.isDownloading(DL_SEARCH_HOTEL)) {
-				if (areNewParams) {
-					//We're in the middle of a download and we just got new (and different) params.
-					setSearchParams(params);
-					startOrRestartSearchByHotel();
-				}
-				else {
-					dl.registerDownloadCallback(DL_SEARCH_HOTEL, mSearchHotelCallback);
-				}
-			}
-			else {
-				setSearchParams(params);
-
-				if (mSearchParams.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
-					startOrRestartSearchByHotel();
-				}
-				else {
-					startOrRestartSearch();
-				}
-			}
-
+			BackgroundDownloader.getInstance().startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
 		}
-	}
-
-	private void startOrRestartSearch() {
-		cancelAllDownloads();
-		unregisterAllCallbacks();
-		BackgroundDownloader.getInstance().startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
-	}
-
-	private void startOrRestartSearchByHotel() {
-		cancelAllDownloads();
-		unregisterAllCallbacks();
-		BackgroundDownloader.getInstance().startDownload(DL_SEARCH_HOTEL, mSearchHotelDownload, mSearchHotelCallback);
-	}
-
-	public void startOrRestartHotelInfo() {
-		cancelAllDownloads();
-		unregisterAllCallbacks();
-		BackgroundDownloader.getInstance().startDownload(DL_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 	}
 
 	private void cancelAllDownloads() {
@@ -185,8 +96,15 @@ public class HotelSearchDownloadFragment extends Fragment {
 		if (dl.isDownloading(DL_SEARCH_HOTEL)) {
 			dl.cancelDownload(DL_SEARCH_HOTEL);
 		}
-		if (dl.isDownloading(DL_HOTEL_INFO)) {
-			dl.cancelDownload(DL_HOTEL_INFO);
+	}
+
+	private void registerAllCallbacks() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(DL_SEARCH)) {
+			bd.registerDownloadCallback(DL_SEARCH, mSearchCallback);
+		}
+		if (bd.isDownloading(DL_SEARCH_HOTEL)) {
+			bd.registerDownloadCallback(DL_SEARCH_HOTEL, mSearchHotelCallback);
 		}
 	}
 
@@ -194,19 +112,10 @@ public class HotelSearchDownloadFragment extends Fragment {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		dl.unregisterDownloadCallback(DL_SEARCH);
 		dl.unregisterDownloadCallback(DL_SEARCH_HOTEL);
-		dl.unregisterDownloadCallback(DL_HOTEL_INFO);
 	}
 
 	public boolean isDownloadingSearch() {
 		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH);
-	}
-
-	public boolean isDownloadingSearchByHotel() {
-		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH_HOTEL);
-	}
-
-	public boolean isDownloadingHotelInfo() {
-		return BackgroundDownloader.getInstance().isDownloading(DL_HOTEL_INFO);
 	}
 
 	protected void setSearchParams(HotelSearchParams params) {
@@ -216,20 +125,20 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			return services.search(mSearchParams, ExpediaServices.F_HOTELS);
+			if (getActivity() != null) {
+				ExpediaServices services = new ExpediaServices(getActivity());
+				return services.search(mSearchParams, ExpediaServices.F_HOTELS);
+			}
+
+			return null;
 		}
 	};
 
 	private final BackgroundDownloader.OnDownloadComplete<HotelSearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<HotelSearchResponse>() {
 		@Override
 		public void onDownload(HotelSearchResponse results) {
-			if (mListener != null && getActivity() != null) {
-				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH, results);
-			}
-			else {
-				Log.e("Our HotelSearch returned, but we cannot use it. mListener == null:" + (mListener == null)
-					+ " getActivity() == null:" + (getActivity() == null));
+			if (getActivity() != null) {
+				Events.post(new Events.HotelSearchResponseAvailable(results));
 			}
 		}
 	};
@@ -237,49 +146,31 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<HotelOffersResponse> mSearchHotelDownload = new BackgroundDownloader.Download<HotelOffersResponse>() {
 		@Override
 		public HotelOffersResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
+			if (getActivity() != null) {
+				ExpediaServices services = new ExpediaServices(getActivity());
 
-			Property selectedProperty = new Property();
-			selectedProperty.setPropertyId(mSearchParams.getRegionId());
+				Property selectedProperty = new Property();
+				selectedProperty.setPropertyId(mSearchParams.getRegionId());
 
-			return services.availability(mSearchParams, selectedProperty);
+				HotelOffersResponse response = services.availability(mSearchParams, selectedProperty);
+
+				if (response != null && response.isHotelUnavailable()) {
+					response = services.hotelInformation(selectedProperty);
+				}
+
+				return response;
+			}
+
+			return null;
 		}
 	};
 
 	private final BackgroundDownloader.OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new BackgroundDownloader.OnDownloadComplete<HotelOffersResponse>() {
 		@Override
 		public void onDownload(HotelOffersResponse results) {
-			if (mListener != null && getActivity() != null) {
-				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL, results);
-			}
-			else {
-				Log.e("Search by hotel returned but we can't use it. mListener == null:" + (mListener == null)
-					+ " getActivity() == null:" + (getActivity() == null));
+			if (getActivity() != null) {
+				Events.post(new Events.HotelOffersResponseAvailable(results));
 			}
 		}
 	};
-
-	private final BackgroundDownloader.Download<HotelOffersResponse> mHotelInfoDownload = new BackgroundDownloader.Download<HotelOffersResponse>() {
-		@Override
-		public HotelOffersResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			Property selectedProperty = new Property();
-			selectedProperty.setPropertyId(mSearchParams.getRegionId());
-			return services.hotelInformation(selectedProperty);
-		}
-	};
-
-	private final BackgroundDownloader.OnDownloadComplete<HotelOffersResponse> mHotelInfoCallback = new BackgroundDownloader.OnDownloadComplete<HotelOffersResponse>() {
-		@Override
-		public void onDownload(HotelOffersResponse offersResponse) {
-			if (mListener != null && getActivity() != null) {
-				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_INFO, offersResponse);
-			}
-			else {
-				Log.e("Hotel info returned but we can't use it. mListener == null:" + (mListener == null)
-					+ " getActivity() == null:" + (getActivity() == null));
-			}
-		}
-	};
-
 }

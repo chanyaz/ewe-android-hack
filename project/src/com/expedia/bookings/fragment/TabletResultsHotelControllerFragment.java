@@ -42,6 +42,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -200,6 +201,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
+		Events.register(this);
 		IAcceptingListenersListener readyForListeners = Ui
 			.findFragmentListener(this, IAcceptingListenersListener.class, false);
 		if (readyForListeners != null) {
@@ -216,6 +218,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			readyForListeners.acceptingListenersUpdated(this, false);
 		}
 		Sp.getBus().unregister(this);
+		Events.unregister(this);
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
@@ -234,10 +237,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		if (mHotelSearchDownloadFrag != null) {
-			// Let's ignore the results of the current download.
-			mHotelSearchDownloadFrag.ignoreNextDownload();
-		}
 		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING && readyToSearch()) {
 			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
@@ -401,7 +400,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		boolean hotelSearchDownloadAvailable = false;
 		boolean loadingGuiAvailable = false;
 		boolean searchErrorAvailable = false;
 		boolean hotelListAvailable = true;
@@ -413,8 +411,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean hotelGalleryAvailable = false;
 
 		if (hotelsState == ResultsHotelsState.LOADING) {
-			hotelSearchDownloadAvailable = true;
-
 			loadingGuiAvailable = true;
 			searchErrorAvailable = true;
 
@@ -439,8 +435,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY || hotelsState == ResultsHotelsState.ZERO_RESULT || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
-			// We need to have an instance of HotelSearchDownloadFragment so we can ignore download results on new search params.
-			hotelSearchDownloadAvailable = true;
 			loadingGuiAvailable = true;
 			searchErrorAvailable = true;
 			hotelMapAvailable = false;
@@ -464,7 +458,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			FTAG_HOTEL_REVIEWS, manager, transaction, this, R.id.hotel_reviews, false);
 		mHotelGalleryFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelGalleryAvailable,
 			FTAG_HOTEL_GALLERY, manager, transaction, this, R.id.hotel_gallery, false);
-		mHotelSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelSearchDownloadAvailable,
+		mHotelSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_HOTEL_SEARCH_DOWNLOAD, manager, transaction, this, 0, false);
 		mLoadingGuiFrag = FragmentAvailabilityUtils.setFragmentAvailability(loadingGuiAvailable,
 			FTAG_HOTEL_LOADING_INDICATOR, manager, transaction, this, R.id.loading_container, false);
@@ -1373,11 +1367,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 
 			// Ensure we are downloading the correct data.
-			if (state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null) {
+			if (mHotelSearchDownloadFrag != null && state == ResultsHotelsState.LOADING && readyToSearch()) {
 				importSearchParams();
+				logger.addSplit("importSearchParams()");
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
+				logger.addSplit("mHotelSearchDownloadFrag.startOrResumeForParams");
 			}
-			logger.addSplit("importSearchParams() && mHotelSearchDownloadFrag.startOrResumeForParams");
 			logger.dumpToLog();
 		}
 
@@ -1517,12 +1512,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	};
 
 	/*
-	EXPEDIA SERVICES FRAG LISTENER
+	 * EXPEDIA SERVICES FRAG LISTENER
 	 */
+
+	@Subscribe
+	public void onHotelSearchResponseAvailable(Events.HotelSearchResponseAvailable event) {
+		onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH, event.response);
+	}
+
+	@Subscribe
+	public void onHotelOffersResponseAvailable(Events.HotelOffersResponseAvailable event) {
+		onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL, event.response);
+	}
 
 	@Override
 	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-
 		if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH) {
 			Context context = getActivity();
 
@@ -1550,40 +1554,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
 			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
-			loadHotelOffersResponse(offersResponse);
-			if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
-				mHotelListFrag.updateAdapter();
-			}
-		}
-		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_INFO) {
-			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
-			loadHotelOffersResponse(offersResponse);
-			if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
-				mHotelListFrag.updateAdapter();
-			}
-		}
-	}
 
-	private void loadHotelOffersResponse(HotelOffersResponse offersResponse) {
-		if (offersResponse == null) {
-			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
-		}
-		else if (offersResponse.isHotelUnavailable()) {
-			mHotelSearchDownloadFrag.startOrRestartHotelInfo();
-		}
-		else if (offersResponse.hasErrors()) {
-			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
-		}
-		else if (offersResponse.getProperty() != null) {
-			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
-			Property property = offersResponse.getProperty();
-			Db.getHotelSearch().setSelectedProperty(property);
+			if (offersResponse == null || offersResponse.hasErrors()) {
+				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+			}
+			else if (offersResponse.getProperty() != null) {
+				HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
+				Property property = offersResponse.getProperty();
+				Db.getHotelSearch().setSelectedProperty(property);
 
-			mHotelListC.setVisibility(View.VISIBLE);
-			setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-		}
-		else if (!mHotelSearchDownloadFrag.isDownloadingSearchByHotel() || !mHotelSearchDownloadFrag.isDownloadingHotelInfo()) {
-			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+				if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
+					mHotelListFrag.updateAdapter();
+				}
+
+				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+			}
 		}
 	}
 

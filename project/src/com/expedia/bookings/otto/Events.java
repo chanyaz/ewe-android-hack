@@ -6,7 +6,10 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
+import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -463,6 +466,27 @@ public class Events {
 		public final ResultsSearchState searchState;
 		public ShowSearchFragment(ResultsSearchState state) {
 			searchState = state;
+		}
+	}
+
+	public static class FlightSearchResponseAvailable {
+		public final FlightSearchResponse response;
+		public FlightSearchResponseAvailable(FlightSearchResponse response) {
+			this.response = response;
+		}
+	}
+
+	public static class HotelSearchResponseAvailable {
+		public final HotelSearchResponse response;
+		public HotelSearchResponseAvailable(HotelSearchResponse response) {
+			this.response = response;
+		}
+	}
+
+	public static class HotelOffersResponseAvailable {
+		public final HotelOffersResponse response;
+		public HotelOffersResponseAvailable(HotelOffersResponse response) {
+			this.response = response;
 		}
 	}
 }

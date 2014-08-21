@@ -8,12 +8,12 @@ import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
 
 public class FlightSearchDownloadFragment extends Fragment {
 
@@ -27,9 +27,6 @@ public class FlightSearchDownloadFragment extends Fragment {
 	}
 
 	private FlightSearchParams mSearchParams;
-	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
-
-	private boolean mStartOrResumeOnAttach = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,22 +50,6 @@ public class FlightSearchDownloadFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
-
-		if (mStartOrResumeOnAttach && mSearchParams != null) {
-			startOrResumeForParams(mSearchParams);
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 		if (getActivity().isFinishing()) {
@@ -80,79 +61,22 @@ public class FlightSearchDownloadFragment extends Fragment {
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		mListener = null;
-		mStartOrResumeOnAttach = false;
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
-	public void ignoreNextDownload(){
-		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		dl.unregisterDownloadCallback(DL_SEARCH);
-	}
-
-	public void startSearch() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DL_SEARCH)) {
-			bd.registerDownloadCallback(DL_SEARCH, mSearchCallback);
-		}
-		else {
-			bd.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
-		}
-	}
-
 	public void startOrResumeForParams(FlightSearchParams params) {
-		if (mListener == null) {
-			setSearchParams(params);
-			mStartOrResumeOnAttach = true;
-		}
-		else {
-			BackgroundDownloader dl = BackgroundDownloader.getInstance();
-			dl.unregisterDownloadCallback(DL_SEARCH);
-			if (dl.isDownloading(DL_SEARCH)) {
-				if (mSearchParams != null && !mSearchParams.equals(params)) {
-					//We're in the middle of a download and we just got new (and different) params.
-					dl.cancelDownload(DL_SEARCH);
-
-					setSearchParams(params);
-
-					startOrRestartSearch();
-				}
-				else {
-					//Our params haven't changed so just listen for the existing download
-					dl.registerDownloadCallback(DL_SEARCH, mSearchCallback);
-				}
-			}
-			else {
-				//We weren't downloading, so we should start
-				setSearchParams(params);
-				startOrRestartSearch();
-			}
-		}
-	}
-
-	public void startOrRestartSearch() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		dl.unregisterDownloadCallback(DL_SEARCH);
 		if (dl.isDownloading(DL_SEARCH)) {
 			dl.cancelDownload(DL_SEARCH);
 		}
+		setSearchParams(params);
 		dl.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
-
-	public boolean isDownloadingFlightSearch() {
-		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH);
-	}
-
-	protected void setSearchParams(FlightSearchParams params) {
+	private void setSearchParams(FlightSearchParams params) {
 		mSearchParams = params;
 	}
 
@@ -171,14 +95,12 @@ public class FlightSearchDownloadFragment extends Fragment {
 	private final OnDownloadComplete<FlightSearchResponse> mSearchCallback = new OnDownloadComplete<FlightSearchResponse>() {
 		@Override
 		public void onDownload(FlightSearchResponse results) {
-			if (mListener != null && getActivity() != null) {
-				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH, results);
+			if (getActivity() != null) {
+				Events.post(new Events.FlightSearchResponseAvailable(results));
 			}
 			else {
-				Log.e("Our FlightSearch returned, but we cannot use it. mListener == null:" + (mListener == null)
-					+ " getActivity() == null:" + (getActivity() == null));
+				Log.e("Our FlightSearch returned, but we cannot use it. getActivity() == null:" + (getActivity() == null));
 			}
-
 		}
 	};
 }

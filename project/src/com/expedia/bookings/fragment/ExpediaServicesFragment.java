@@ -34,7 +34,6 @@ public class ExpediaServicesFragment extends Fragment {
 		SUGGEST_NEARBY,
 		HOTEL_SEARCH,
 		HOTEL_SEARCH_HOTEL,
-		HOTEL_INFO,
 		FLIGHT_SEARCH,
 		HOTEL_AFFINITY_SEARCH,
 	}
@@ -116,19 +115,6 @@ public class ExpediaServicesFragment extends Fragment {
 			}
 		});
 	}
-
-	public void startFlightSearch(final SearchParams searchParams, boolean continueIfInProgress) {
-		startFlightSearch(searchParams.toFlightSearchParams(), continueIfInProgress);
-	}
-
-	public void startFlightSearch(final FlightSearchParams searchParams, boolean continueIfInProgress) {
-		doDownload(ServiceType.FLIGHT_SEARCH, continueIfInProgress, new ResponseDownload() {
-			public Response execute(ExpediaServices services) {
-				return services.flightSearch(searchParams, 0);
-			}
-		});
-	}
-
 
 	public boolean isDownloading(ServiceType type) {
 		return mRequesting.containsKey(type);

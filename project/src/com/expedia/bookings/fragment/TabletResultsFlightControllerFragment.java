@@ -45,14 +45,15 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.squareup.otto.Subscribe;
 
+import com.mobiata.android.Log;
+
 /**
  * TabletResultsFlightControllerFragment: designed for tablet results 2013
  * This controls all the fragments relating to FLIGHTS results
  */
 public class TabletResultsFlightControllerFragment extends Fragment implements
 	IFragmentAvailabilityProvider, IBackManageable,
-	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener,
-	IAcceptingListenersListener {
+	IStateProvider<ResultsFlightsState>, IAcceptingListenersListener {
 
 	// State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
@@ -240,11 +241,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		if (mFlightSearchDownloadFrag != null) {
-			// We dont care if our last search finished, we are waiting for our cooldown period before we want to
-			// commit to doing a full search.
-			mFlightSearchDownloadFrag.ignoreNextDownload();
-		}
 		if (mFlightsStateManager.getState() != ResultsFlightsState.LOADING && readyToSearch()) {
 			setFlightsState(ResultsFlightsState.LOADING, false);
 		}
@@ -375,6 +371,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		if (flightsState.isShowMessageState()) {
 			visibleViews.add(mSearchErrorC);
+			visibleViews.add(mLoadingC);
 		}
 
 		switch (flightsState) {
@@ -415,22 +412,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		boolean loadingAvailable = false;
 		boolean searchErrorAvailable = true;
-		boolean flightSearchDownloadAvailable = false;
 		boolean flightMapAvailable = true;
-		boolean flightLegsFragAvailable = false;
 
 		if (flightsState == ResultsFlightsState.LOADING) {
-			flightSearchDownloadAvailable = true;
 			loadingAvailable = true;
 			flightMapAvailable = false;
 		}
 
-		if (flightsState.isFlightListState()) {
-			flightLegsFragAvailable = true;
-		}
-
 		if (flightsState.isShowMessageState()) {
-			flightSearchDownloadAvailable = false;
 			loadingAvailable = false;
 			flightMapAvailable = false;
 		}
@@ -439,13 +428,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightMapAvailable, FTAG_FLIGHT_MAP,
 			manager, transaction, this, R.id.bg_flight_map, false);
 		mFlightSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-			flightSearchDownloadAvailable,
+			true,
 			FTAG_FLIGHT_SEARCH_DOWNLOAD, manager, transaction, this, 0, true);
 		mLoadingGuiFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			loadingAvailable,
 			FTAG_FLIGHT_LOADING_INDICATOR, manager, transaction, this, R.id.loading_container, true);
 		mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-			flightLegsFragAvailable,
+			true,
 			FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, this, R.id.flight_leg_container, false);
 		mSearchErrorFrag = FragmentAvailabilityUtils
 			.setFragmentAvailability(searchErrorAvailable, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this,
@@ -750,7 +739,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			// Make sure we are loading using the most recent params
-			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING) {
+			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING && readyToSearch()) {
 				importSearchParams();
 				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
 			}
@@ -816,35 +805,29 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 	}
 
-	/*
-	EXPEDIA SERVICES FRAG LISTENER
-	 */
+	@Subscribe
+	public void onFlightSearchResponseAvailable(Events.FlightSearchResponseAvailable event) {
+		FlightSearchResponse flightResponse = event.response;
 
-	@Override
-	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-		if (type == ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH) {
-			FlightSearchResponse flightResponse = (FlightSearchResponse) response;
+		Db.getFlightSearch().setSearchResponse(flightResponse);
+		if (flightResponse != null) {
+			Db.kickOffBackgroundFlightSearchSave(getActivity());
+			Db.addAirlineNames(flightResponse.getAirlineNames());
+		}
 
-			Db.getFlightSearch().setSearchResponse(flightResponse);
-			if (flightResponse != null) {
-				Db.kickOffBackgroundFlightSearchSave(getActivity());
-				Db.addAirlineNames(flightResponse.getAirlineNames());
-			}
+		boolean isBadResponse = flightResponse == null || flightResponse.hasErrors();
+		boolean isZeroResults = flightResponse == null || flightResponse.getTripCount() == 0;
 
-			boolean isBadResponse = response == null || response.hasErrors();
-			boolean isZeroResults = flightResponse == null || flightResponse.getTripCount() == 0;
-
-			if (isBadResponse) {
-				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
-			}
-			else if (isZeroResults) {
-				setFlightsState(ResultsFlightsState.ZERO_RESULT, false);
-			}
-			else {
-				mFlightLegsFrag.resetQuery();
-				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-				AdTracker.trackFlightSearch();
-			}
+		if (isBadResponse) {
+			setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
+		}
+		else if (isZeroResults) {
+			setFlightsState(ResultsFlightsState.ZERO_RESULT, false);
+		}
+		else {
+			mFlightLegsFrag.resetQuery();
+			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			AdTracker.trackFlightSearch();
 		}
 	}
 
