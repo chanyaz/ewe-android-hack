@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header_container"
@@ -26,7 +26,7 @@
             android:textAllCaps="true"
             android:textSize="14dp"
             android:textStyle="bold"
-            app:textStyle="medium" />
+            app:textStyle="medium"/>
 
         <View
             android:layout_width="1dp"
@@ -35,7 +35,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="0"
-            android:background="@color/divider_grey" />
+            android:background="@color/divider_grey"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/traveler_num_and_category_TEMPLATE"
                 android:textSize="16dp"
-                app:textStyle="medium" />
+                app:textStyle="medium"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/header_name_match_message"
@@ -59,14 +59,14 @@
                 android:text="@string/name_must_match_warning"
                 android:textSize="14dp"
                 android:visibility="gone"
-                app:textStyle="light" />
+                app:textStyle="light"/>
 
         </LinearLayout>
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <FrameLayout
             android:id="@+id/extra_heading_container"
@@ -78,15 +78,13 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/credit_card_fees_message"
-            android:layout_alignParentTop="true">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/content_container"
@@ -94,21 +92,20 @@
                 android:layout_height="wrap_content"
                 android:background="#E5E5E5"
                 android:orientation="vertical"
-                android:padding="16dp" />
-        </ScrollView>
+                android:padding="16dp"/>
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/credit_card_fees_message"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:background="#282828"
-            android:bufferType="spannable"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="17sp"
-            android:visibility="gone" />
-
-    </RelativeLayout>
-
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/credit_card_fees_message"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/content_container"
+                android:layout_gravity="bottom"
+                android:background="#282828"
+                android:bufferType="spannable"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>
