@@ -245,12 +245,7 @@ public class HappyPathRotation extends TabletTestCase {
 		screenshot("Start_Flight_Checkout");
 		rotateScreenTwice();
 
-		Checkout.clickOnEmptyTravelerDetails();
-		Checkout.enterFirstName("Mobiata");
-		Checkout.enterLastName("Auto");
-		Checkout.enterPhoneNumber("1112223333");
-		Checkout.enterEmailAddress("aaa@aaa.com");
-		Common.closeSoftKeyboard(Checkout.emailAddress());
+		Checkout.clickOnTravelerDetails();
 		Checkout.enterDateOfBirth(1970, 1, 1);
 		screenshot("Checkout_Traveler_Entered");
 		rotateScreenTwice();
