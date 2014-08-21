@@ -645,8 +645,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			else if (stateTwo == ResultsSearchState.DESTINATION) {
 				mWaypointFragment.updateViewsForDestination();
 			}
-
-			setActionbarShowingState(stateTwo);
 		}
 
 		@Override
@@ -710,7 +708,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-			setActionbarShowingState(state);
 			setFragmentState(state);
 			setVisibilitiesForState(state);
 			resetWidgetTranslations();
@@ -777,15 +774,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mOrigBtn.setTranslationY(transY);
 				mCalBtn.setTranslationY(transY);
 				mTravBtn.setTranslationY(transY);
-			}
-		}
-
-		private void setActionbarShowingState(ResultsSearchState state) {
-			if (state.showsActionBar()) {
-				getActivity().getActionBar().show();
-			}
-			else {
-				getActivity().getActionBar().hide();
 			}
 		}
 

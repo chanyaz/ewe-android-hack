@@ -47,4 +47,25 @@ public enum ResultsHotelsState {
 			return false;
 		}
 	}
+
+	public boolean showsActionBar() {
+		switch (this) {
+		case LOADING:
+		case SEARCH_ERROR:
+		case HOTEL_LIST_DOWN:
+		case MAX_HOTEL_STAY:
+		case ZERO_RESULT:
+			return false;
+		case HOTEL_LIST_UP:
+		case MAP:
+		case HOTEL_LIST_AND_FILTERS:
+		case ROOMS_AND_RATES:
+		case REVIEWS:
+		case GALLERY:
+		case ADDING_HOTEL_TO_TRIP:
+		default:
+			return true;
+		}
+	}
+
 }

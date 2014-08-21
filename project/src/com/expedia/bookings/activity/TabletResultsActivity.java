@@ -549,7 +549,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 	}
 
-
 	/**
 	 * STATE PROVIDER
 	 */
@@ -738,11 +737,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 											float percentage) {
 			updateStateTransition(stateOne.getResultsState(), stateTwo.getResultsState(), percentage);
 
-			if (isActionBarAppearing(stateOne, stateTwo)) {
-				mHotelC.findViewById(R.id.action_bar_background).setAlpha(percentage);
-			}
-			else if (isActionBarDisappearing(stateOne, stateTwo)) {
-				mHotelC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
+			if (stateOne.showsActionBar() != stateTwo.showsActionBar()) {
+				float p = stateTwo.showsActionBar() ? percentage : 1f - percentage;
+				mHotelC.findViewById(R.id.action_bar_background).setAlpha(p);
 			}
 		}
 
@@ -771,24 +768,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 
 			if (mHotelC != null) {
-				mHotelC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+				mHotelC.findViewById(R.id.action_bar_background).setAlpha(state.showsActionBar() ? 1f : 0f);
 			}
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
-
-		private boolean isActionBarAppearing(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
-		}
-
-		private boolean isActionBarDisappearing(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			return isActionBarVisibleFor(stateOne) && !isActionBarVisibleFor(stateTwo);
-		}
-
-		private boolean isActionBarVisibleFor(ResultsHotelsState state) {
-			return state.getResultsState() == ResultsState.HOTELS;
-		}
-
 	};
 
 	/*
@@ -816,11 +800,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			updateStateTransition(stateOne.getResultsState(), stateTwo.getResultsState(), percentage);
 
-			if (isActionBarAppearing(stateOne, stateTwo)) {
-				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(percentage);
-			}
-			else if (isActionBarDisappearing(stateOne, stateTwo)) {
-				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
+			if (stateOne.showsActionBar() != stateTwo.showsActionBar()) {
+				float p = stateTwo.showsActionBar() ? percentage : 1f - percentage;
+				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(p);
 			}
 		}
 
@@ -844,22 +826,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 
 			if (mFlightsC != null) {
-				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(state.showsActionBar() ? 1f : 0f);
 			}
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
-		}
-
-		private boolean isActionBarAppearing(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
-		}
-
-		private boolean isActionBarDisappearing(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			return isActionBarVisibleFor(stateOne) && !isActionBarVisibleFor(stateTwo);
-		}
-
-		private boolean isActionBarVisibleFor(ResultsFlightsState state) {
-			return state.getResultsState() == ResultsState.FLIGHTS;
 		}
 
 	};
@@ -869,7 +839,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	 */
 
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
-
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
@@ -884,6 +853,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
 				mBottomGradient.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
+
+			setActionbarShowingState(stateTwo);
 
 			mBackgroundImageFrag.setBlur(stateTwo.showsWaypoint());
 		}
@@ -906,18 +877,14 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mBottomGradient.setAlpha(p);
 			}
 
-			if (isActionBarAppearing(stateOne, stateTwo)) {
-				mSearchC.findViewById(R.id.action_bar_background).setAlpha(percentage);
-			}
-			else if (isActionBarDisappearing(stateOne, stateTwo)) {
-				mSearchC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
+			if (stateOne.showsActionBar() != stateTwo.showsActionBar()) {
+				float p = stateTwo.showsActionBar() ? percentage : 1f - percentage;
+				mSearchC.findViewById(R.id.action_bar_background).setAlpha(p);
 			}
 
-			if (!stateOne.showsSearchPopup() && stateTwo.showsSearchPopup()) {
-				mShadeView.setAlpha(percentage);
-			}
-			else if (stateOne.showsSearchPopup() && !stateTwo.showsSearchPopup()) {
-				mShadeView.setAlpha(1f - percentage);
+			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
+				float p = stateTwo.showsSearchPopup() ? percentage : 1f - percentage;
+				mShadeView.setAlpha(p);
 			}
 		}
 
@@ -942,6 +909,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mSearchC.findViewById(R.id.action_bar_background).setAlpha(state.showsActionBar() ? 1f : 0f);
 			}
 
+			setActionbarShowingState(state);
+
 			mBackgroundImageFrag.setBlur(state.showsWaypoint());
 
 			// Search popup shade / touch blocking
@@ -950,13 +919,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mShadeView.setVisibility(state.showsSearchPopup() ? View.VISIBLE : View.GONE);
 		}
 
-		private boolean isActionBarAppearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return !stateOne.showsActionBar() && stateTwo.showsActionBar();
+		private void setActionbarShowingState(ResultsSearchState state) {
+			if (state.showsWaypoint()) {
+				getActionBar().hide();
+			}
+			else {
+				getActionBar().show();
+			}
 		}
 
-		private boolean isActionBarDisappearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return stateOne.showsActionBar() && !stateTwo.showsActionBar();
-		}
 	};
 
 	/*

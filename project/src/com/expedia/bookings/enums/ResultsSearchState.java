@@ -40,9 +40,9 @@ public enum ResultsSearchState {
 		switch (this) {
 		case DESTINATION:
 		case FLIGHT_ORIGIN:
-			return false;
 		case HOTELS_UP:
 		case FLIGHTS_UP:
+			return false;
 		case DEFAULT:
 		case CALENDAR:
 		case CALENDAR_WITH_POPUP:

@@ -59,4 +59,22 @@ public enum ResultsFlightsState {
 		}
 	}
 
+	public boolean showsActionBar() {
+		switch (this) {
+		case LOADING:
+		case MISSING_ORIGIN:
+		case MISSING_STARTDATE:
+		case NO_FLIGHTS_DROPDOWN_POS:
+		case NO_FLIGHTS_POS:
+		case FLIGHT_LIST_DOWN:
+		case ZERO_RESULT:
+		case SEARCH_ERROR:
+			return false;
+		case CHOOSING_FLIGHT:
+		case ADDING_FLIGHT_TO_TRIP:
+		default:
+			return true;
+		}
+	}
+
 }
