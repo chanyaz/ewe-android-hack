@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.tests.hotels;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Random;
 
 import org.joda.time.LocalDate;
@@ -181,13 +180,11 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 			HotelsSearchScreen.clickSearchEditText();
 			HotelsSearchScreen.clickToClearSearchEditText();
 			HotelsSearchScreen.enterSearchText("Boston, MA");
-			Calendar cal = Calendar.getInstance();
-			int year = cal.get(cal.YEAR);
-			int month = cal.get(cal.MONTH) + 1;
-			LocalDate mStartDate = new LocalDate(year, month, 5);
-			LocalDate mEndDate = new LocalDate(year, month, 5 + numberOfNights);
+			LocalDate startDate = LocalDate.now().plusDays(35);
+			LocalDate endDate = LocalDate.now().plusDays(35 + numberOfNights);
 			HotelsSearchScreen.clickOnCalendarButton();
-			HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+			HotelsSearchScreen.clickDate(startDate, endDate);
+
 			HotelsSearchScreen.clickOnGuestsButton();
 			HotelsSearchScreen.guestPicker().clickOnSearchButton();
 			ScreenActions.enterLog(TAG, "Testing for hotels for a stay of " + numberOfNights + " nights.");
@@ -230,6 +227,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 		}
 		ScreenActions.enterLog(TAG, "END: HOTEL RECEIPT NIGHTS NUMBER TESTS");
 	}
+
 
 	public void testUIElementsPresent() throws Exception {
 		ScreenActions.enterLog(TAG, "START: UI ELEMENTS PRESENT TESTS");
