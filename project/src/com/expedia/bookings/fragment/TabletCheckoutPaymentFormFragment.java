@@ -217,6 +217,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
 			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());
+			mListener.onCheckoutDataUpdated();
 			if (mStoredCardPopup != null) {
 				mStoredCardPopup.dismiss();
 				mStoredCardPopup.setAdapter(null);
