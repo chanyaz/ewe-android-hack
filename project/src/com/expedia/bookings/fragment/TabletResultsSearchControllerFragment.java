@@ -570,12 +570,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			if (stateOne.isUpState() != stateTwo.isUpState()) {
 				setSlideUpAnimationHardwareLayers(true);
-				if (stateOne == ResultsSearchState.HOTELS_UP
-					|| stateTwo == ResultsSearchState.HOTELS_UP) {
-					// For hotels we also fade
-					setSlideUpHotelsOnlyHardwareLayers(true);
-				}
-
 			}
 
 			if (stateOne.showsWaypoint() || stateTwo.showsWaypoint()) {
@@ -662,11 +656,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (stateOne.isUpState() != stateTwo.isUpState()) {
 				float perc = stateTwo.isUpState() ? percentage : (1f - percentage);
 				setSlideUpAnimationPercentage(perc);
-				if (stateOne == ResultsSearchState.HOTELS_UP
-					|| stateTwo == ResultsSearchState.HOTELS_UP) {
-					//For hotels we also fade
-					setSlideUpHotelsOnlyAnimationPercentage(perc);
-				}
 			}
 
 			// There are 2 ways to hide the bottom containers
@@ -712,11 +701,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			if (stateOne.isUpState() != stateTwo.isUpState()) {
 				setSlideUpAnimationHardwareLayers(false);
-				if (stateOne == ResultsSearchState.HOTELS_UP
-					|| stateTwo == ResultsSearchState.HOTELS_UP) {
-					// For hotels we also fade
-					setSlideUpHotelsOnlyHardwareLayers(false);
-				}
 			}
 
 			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
@@ -732,7 +716,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			resetWidgetTranslations();
 
 			setSlideUpAnimationPercentage(state.isUpState() ? 1f : 0f);
-			setSlideUpHotelsOnlyAnimationPercentage(state == ResultsSearchState.HOTELS_UP ? 1f : 0f);
 
 			if (state == ResultsSearchState.TRAVELER_PICKER) {
 				bindTravBtn();
@@ -795,16 +778,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalBtn.setTranslationY(transY);
 				mTravBtn.setTranslationY(transY);
 			}
-		}
-
-		private void setSlideUpHotelsOnlyHardwareLayers(boolean enabled) {
-			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-			mWaypointC.setLayerType(layerType, null);
-		}
-
-		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
-			//TODO: do we need this?
-			mWaypointC.setAlpha(percentage);
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
