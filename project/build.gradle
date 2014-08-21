@@ -56,7 +56,9 @@ android {
         buildConfigField "boolean", "IS_EXPEDIA", "false"
         buildConfigField "boolean", "IS_VSC", "false"
         buildConfigField "boolean", "IS_TRAVELOCITY", "false"
+        buildConfigField "boolean", "IS_AAG", "false"
         buildConfigField "boolean", "IS_AUTOMATION", "false"
+
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
     }
 
@@ -79,6 +81,14 @@ android {
             buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.travelocitycustomercare.com\""
             packageName "com.travelocity.android"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        AirAsiaGo {
+            buildConfigField "boolean", "IS_AAG", "true"
+            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            packageName "com.airasiago.android"
             versionCode 1
             versionName "1.0"
         }
@@ -176,6 +186,10 @@ android {
         Travelocity {
             manifest.srcFile 'AndroidManifest-travelocity.xml'
             res.srcDirs 'res_travelocity'
+        }
+
+        AirAsiaGo {
+            res.srcDirs 'res_airasiago'
         }
 
         ExpediaAutomation {

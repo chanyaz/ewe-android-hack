@@ -16,6 +16,9 @@ class AppNameLabels {
 
             'com.travelocity.android.debug' : 'Travelocity Debug',
             'com.travelocity.android.latest' : 'Travelocity Latest',
+
+            'com.airasiago.android.debug' : 'AirAsiaGo Debug',
+            'com.airasiago.android.latest' : 'AirAsiaGo Latest',
     ]
 
     static def getAppName(buildVariant) {

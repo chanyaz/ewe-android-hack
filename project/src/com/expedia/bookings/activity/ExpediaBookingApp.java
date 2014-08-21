@@ -59,6 +59,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	public static final boolean IS_EXPEDIA = BuildConfig.IS_EXPEDIA;
 	public static final boolean IS_VSC = BuildConfig.IS_VSC;
 	public static final boolean IS_TRAVELOCITY = BuildConfig.IS_TRAVELOCITY;
+	public static final boolean IS_AAG = BuildConfig.IS_AAG;
+
 	public static final boolean IS_AUTOMATION = BuildConfig.IS_AUTOMATION;
 
 	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
