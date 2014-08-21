@@ -104,7 +104,6 @@ public class MarketingSweepTablet extends TabletTestCase {
 		Launch.clickDestinationEditText();
 		Launch.clickSuggestionAtPosition(0);
 
-		Common.pressBack();
 		Search.clickOriginButton();
 		Search.typeInOriginEditText("London, England, UK");
 		getInstrumentation().sendCharacterSync(KeyEvent.KEYCODE_SPACE);

@@ -24,7 +24,6 @@ public class SearchTests extends TabletTestCase {
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("San Francisco, CA");
 		Launch.clickSuggestion("San Francisco, CA");
-		Common.pressBack();
 		Search.clickOriginButton();
 		Search.typeInOriginEditText("San Francisco, CA");
 		Search.clickSuggestion("San Francisco, CA");
@@ -36,7 +35,6 @@ public class SearchTests extends TabletTestCase {
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		Common.pressBack();
 		Search.clickOriginButton();
 		Search.typeInOriginEditText("San Francisco, CA");
 		Search.clickSuggestion("San Francisco, CA");
@@ -53,7 +51,6 @@ public class SearchTests extends TabletTestCase {
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		Common.pressBack();
 		Search.clickOriginButton();
 		Search.typeInOriginEditText("San Francisco, CA");
 		Search.clickSuggestion("San Francisco, CA");
