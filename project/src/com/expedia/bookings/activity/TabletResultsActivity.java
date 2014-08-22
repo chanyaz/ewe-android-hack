@@ -252,17 +252,27 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		if (!AndroidUtils.isRelease(this)) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Results State");
-			subMen.add(ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.ordinal() + 1,
-				ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.name());
 
-			SubMenu hotelSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 1, ResultsState.HOTELS.name());
-			SubMenu flightSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 2, ResultsState.FLIGHTS.name());
+			SubMenu searchSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 1, ResultsState.OVERVIEW.name());
+			SubMenu hotelSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 2, ResultsState.HOTELS.name());
+			SubMenu flightSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 3, ResultsState.FLIGHTS.name());
+
+			for (ResultsSearchState searchState : ResultsSearchState.values()) {
+				searchSubMen.add(ResultsState.OVERVIEW.ordinal() + 1,
+					searchState.ordinal() + 1,
+					searchState.ordinal() + 1,
+					searchState.name());
+			}
+
 			for (ResultsHotelsState hotelState : ResultsHotelsState.values()) {
-				hotelSubMen.add(ResultsState.HOTELS.ordinal() + 1, hotelState.ordinal() + 1, hotelState.ordinal() + 1,
+				hotelSubMen.add(ResultsState.HOTELS.ordinal() + 1,
+					hotelState.ordinal() + 1,
+					hotelState.ordinal() + 1,
 					hotelState.name());
 			}
 			for (ResultsFlightsState flightState : ResultsFlightsState.values()) {
-				flightSubMen.add(ResultsState.FLIGHTS.ordinal() + 1, flightState.ordinal() + 1,
+				flightSubMen.add(ResultsState.FLIGHTS.ordinal() + 1,
+					flightState.ordinal() + 1,
 					flightState.ordinal() + 1,
 					flightState.name());
 			}
@@ -308,25 +318,24 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			int groupId = item.getGroupId() - 1;
 			int id = item.getItemId() - 1;
 
-			if (groupId == ResultsState.OVERVIEW.ordinal() && id == ResultsState.OVERVIEW.ordinal()) {
-				Log.d("JumpTo: OVERVIEW");
+			if (groupId == ResultsState.OVERVIEW.ordinal()) {
+				Log.d("JumpTo: OVERVIEW - state:" + ResultsSearchState.values()[id].name());
 				setState(ResultsState.OVERVIEW, false);
+				mSearchController.setState(ResultsSearchState.values()[id], false);
 				return true;
 			}
 			else if (groupId == ResultsState.HOTELS.ordinal()) {
 				Log.d("JumpTo: HOTELS - state:" + ResultsHotelsState.values()[id].name());
-				if (getState() != ResultsState.HOTELS) {
-					setState(ResultsState.HOTELS, false);
-				}
+				setState(ResultsState.HOTELS, false);
 				mHotelsController.setHotelsState(ResultsHotelsState.values()[id], false);
+				mSearchController.setState(ResultsSearchState.HOTELS_UP, false);
 				return true;
 			}
 			else if (groupId == ResultsState.FLIGHTS.ordinal()) {
 				Log.d("JumpTo: FLIGHTS - state:" + ResultsFlightsState.values()[id].name());
-				if (getState() != ResultsState.FLIGHTS) {
-					setState(ResultsState.FLIGHTS, false);
-				}
+				setState(ResultsState.FLIGHTS, false);
 				mFlightsController.setFlightsState(ResultsFlightsState.values()[id], false);
+				mSearchController.setState(ResultsSearchState.FLIGHTS_UP, false);
 				return true;
 			}
 		}
