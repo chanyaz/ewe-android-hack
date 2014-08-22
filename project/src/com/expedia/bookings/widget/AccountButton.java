@@ -164,9 +164,10 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob, boolean isElitePlusMember) {
-		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
-		boolean isTablet = AndroidUtils.isTablet(getContext());
-		boolean hasLoyaltyMembership = traveler.getLoyaltyMembershipNumber() != null;
+		final boolean isFlights = lob == LineOfBusiness.FLIGHTS;
+		final boolean isTablet = AndroidUtils.isTablet(getContext());
+		final boolean hasLoyaltyMembership = traveler.getLoyaltyMembershipNumber() != null;
+		final boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 
 		mLogoutContainer.setBackgroundResource(
 			isTablet ? R.drawable.bg_checkout_information_single
@@ -194,11 +195,19 @@ public class AccountButton extends LinearLayout {
 				//TODO: do we know points for hotel stays?
 			}
 
-			bottom.setText(!TextUtils.isEmpty(points)
-				? String.format(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE), points)
-				: isElitePlusMember
-				? mContext.getString(R.string.youll_earn_bonus_points_for_this_booking)
-				: mContext.getString(R.string.enrolled_in_expedia_rewards));
+			CharSequence bottomText = "";
+			if (!TextUtils.isEmpty(points)) {
+				bottomText = mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, points);
+			}
+			else if (isElitePlusMember) {
+				bottomText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
+			}
+			else {
+				bottomText = mContext.getString(R.string.enrolled_in_expedia_rewards);
+			}
+
+			bottom.setText(bottomText);
+			bottom.setVisibility(USA ? View.VISIBLE : View.GONE);
 
 			mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
 		}
@@ -220,7 +229,6 @@ public class AccountButton extends LinearLayout {
 			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 			FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
 			String points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
-			boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 			if (mRewardsContainer != null && flightTrip != null && !TextUtils.isEmpty(points) && USA) {
 				String str = String.format(mContext.getString(R.string.youll_earn_points_TEMPLATE), points);
 				TextView rewards = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
