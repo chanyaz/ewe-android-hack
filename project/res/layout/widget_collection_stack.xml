@@ -42,7 +42,7 @@
         android:layout_marginTop="@dimen/destination_search_tile_text_margin_top"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:textSize="20dp"
+        android:textSize="@dimen/destination_stack_text_size"
         app:textStyle="light" />
 
 </merge>

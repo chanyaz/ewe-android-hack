@@ -24,6 +24,7 @@
     <dimen name="destination_search_tile_width">259dp</dimen>
     <dimen name="destination_search_tile_height">220dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
+    <dimen name="destination_stack_text_size">20sp</dimen>
     <dimen name="destination_stack_text_container_height">56dp</dimen>
 
     <!-- Account / Login button -->

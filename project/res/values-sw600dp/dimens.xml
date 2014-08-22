@@ -33,6 +33,7 @@
     <dimen name="destination_stack_text_container_height">48dp</dimen>
     <dimen name="destination_stack_corner_radius">3dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">117dp</dimen>
+    <dimen name="destination_stack_text_size">17sp</dimen>
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">40dp</dimen>
     <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>
