@@ -89,11 +89,20 @@ public class TravelerButtonFragment extends LobableFragment {
 		//We do everything at bind time
 	}
 
+	private void bindTravelerSection() {
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			mSectionTraveler.bind(getDbTraveler(), Db.getTripBucket().getFlight().getFlightSearchParams());
+		}
+		else {
+			mSectionTraveler.bind(getDbTraveler());
+		}
+	}
+
 	public void bindToDb() {
 		if (mSectionTraveler != null && hasDbTraveler()) {
 			if (isValid()) {
 				//Valid traveler
-				mSectionTraveler.bind(getDbTraveler());
+				bindTravelerSection();
 				setShowTravelerView(true);
 				setShowValidMarker(mShowValidMarker, true);
 

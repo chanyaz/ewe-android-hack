@@ -3,6 +3,7 @@ package com.expedia.bookings.model;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.interfaces.ILOBable;
@@ -40,6 +41,13 @@ public class TravelerFlowStateTablet implements ILOBable {
 		return mLob;
 	}
 
+	public boolean isValid(Traveler traveler, FlightSearchParams params, boolean emailRequired, boolean passportRequired, int travelerNumber) {
+		mSectionTraveler.setEmailFieldEnabled(emailRequired);
+		mSectionTraveler.setPassportCountryFieldEnabled(passportRequired);
+		mSectionTraveler.setPhoneFieldsEnabled(travelerNumber);
+		mSectionTraveler.bind(traveler, params);
+		return mSectionTraveler.performValidation();
+	}
 	public boolean isValid(Traveler traveler, boolean emailRequired, boolean passportRequired, int travelerNumber) {
 		mSectionTraveler.setEmailFieldEnabled(emailRequired);
 		mSectionTraveler.setPassportCountryFieldEnabled(passportRequired);

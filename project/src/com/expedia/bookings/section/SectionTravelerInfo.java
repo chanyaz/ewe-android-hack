@@ -33,7 +33,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
@@ -43,7 +42,6 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
-import com.expedia.bookings.section.PassportCountrySpinnerAdapter;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -63,6 +61,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	Context mContext;
 
 	private Traveler mTraveler;
+
+	private FlightSearchParams mFlightSearchParams;
 
 	boolean mAutoChoosePassportCountry = true;
 
@@ -147,6 +147,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	public void bind(Traveler traveler, int travelerIndex) {
 		setPhoneFieldsEnabled(travelerIndex);
 		bind(traveler);
+	}
+
+	public void bind(Traveler traveler, FlightSearchParams params) {
+		mFlightSearchParams = params;
+		bind(traveler);
+	}
+
+	public void bind(Traveler traveler, int travelerIndex, FlightSearchParams params) {
+		mFlightSearchParams = params;
+		bind(traveler, travelerIndex);
 	}
 
 	protected void preFinishInflate() {
@@ -733,10 +743,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	}
 
-	private static FlightSearchParams getFlightSearchParams() {
-		return Db.getTripBucket().getFlight() != null ?
-			Db.getTripBucket().getFlight().getFlightSearchParams() :
-			Db.getFlightSearch().getSearchParams();
+	private FlightSearchParams getFlightSearchParams() {
+		if (mFlightSearchParams == null) {
+			throw new RuntimeException("Tried to get nonexistent FlightSearchParams. Should have been set in the bind() method!");
+		}
+		return mFlightSearchParams;
 	}
 
 	private boolean mIsBirthdateAligned = true;

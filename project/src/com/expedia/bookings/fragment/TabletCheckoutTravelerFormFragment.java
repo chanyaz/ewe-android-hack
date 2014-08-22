@@ -198,7 +198,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mSectionTraveler.setPassportCountryFieldEnabled(TravelerUtils.travelerFormRequiresPassport(getLob()));
 			mSectionTraveler.setPhoneFieldsEnabled(mTravelerNumber);
 
-			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler(), Db.getTripBucket().getFlight().getFlightSearchParams());
+			}
+			else {
+				mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
+			}
 			setHeadingText(mHeaderString);
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mHeaderButtonClickListener);

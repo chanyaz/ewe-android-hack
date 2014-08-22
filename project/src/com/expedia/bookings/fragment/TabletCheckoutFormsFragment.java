@@ -25,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
@@ -873,7 +874,15 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			&& mTravelerFlowState != null) {
 			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getLob(), getActivity());
 			boolean needsPassport = TravelerUtils.travelerFormRequiresPassport(getLob());
-			return mTravelerFlowState.isValid(Db.getTravelers().get(travelerNumber), needsEmail, needsPassport, travelerNumber);
+			Traveler traveler = Db.getTravelers().get(travelerNumber);
+
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
+				return mTravelerFlowState.isValid(traveler, params, needsEmail, needsPassport, travelerNumber);
+			}
+			else {
+				return mTravelerFlowState.isValid(traveler, needsEmail, needsPassport, travelerNumber);
+			}
 		}
 		return false;
 	}

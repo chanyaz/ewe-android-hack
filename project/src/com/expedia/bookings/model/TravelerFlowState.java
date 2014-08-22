@@ -34,7 +34,7 @@ public class TravelerFlowState {
 
 	private void bind(Traveler travelerInfo) {
 		int index = Db.getTravelers().indexOf(travelerInfo);
-		mTravelerInfoOne.bind(travelerInfo, index);
+		mTravelerInfoOne.bind(travelerInfo, index, Db.getTripBucket().getFlight().getFlightSearchParams());
 		mTravelerInfoTwo.bind(travelerInfo);
 	}
 

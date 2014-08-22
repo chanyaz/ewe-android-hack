@@ -93,7 +93,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	public void onResume() {
 		super.onResume();
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-		mSectionTravelerInfo.bind(mTraveler);
+		mSectionTravelerInfo.bind(mTraveler, Db.getTripBucket().getFlight().getFlightSearchParams());
 		mSectionTravelerInfo.setPhoneFieldsEnabled(getArguments().getInt(ARG_TRAVELER_INDEX));
 
 		// Need to do this after bind() so it isn't hidden through the onChange() listener
