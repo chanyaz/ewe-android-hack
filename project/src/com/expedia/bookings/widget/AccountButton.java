@@ -202,12 +202,17 @@ public class AccountButton extends LinearLayout {
 			else if (isElitePlusMember) {
 				bottomText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
 			}
-			else {
+			else if (hasLoyaltyMembership) {
 				bottomText = mContext.getString(R.string.enrolled_in_expedia_rewards);
 			}
 
-			bottom.setText(bottomText);
-			bottom.setVisibility(USA ? View.VISIBLE : View.GONE);
+			if (!TextUtils.isEmpty(bottomText)) {
+				bottom.setText(bottomText);
+				bottom.setVisibility(USA ? View.VISIBLE : View.GONE);
+			}
+			else {
+				bottom.setVisibility(View.GONE);
+			}
 
 			mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
 		}
