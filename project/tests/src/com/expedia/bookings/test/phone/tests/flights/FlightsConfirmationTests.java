@@ -19,6 +19,7 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.PhoneTestCase;
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 
 /**
  * Created by dmadan on 4/30/14.
@@ -67,6 +68,8 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
 		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
 		LogInScreen.clickOnLoginButton();
+		Espresso.pressBack();
+		FlightsCheckoutScreen.clickCheckoutButton();
 
 		// Enter payment as logged in user
 		HotelsCheckoutScreen.clickSelectPaymentButton();
