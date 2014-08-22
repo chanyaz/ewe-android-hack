@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">บินจาก%1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">บินจาก…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">เลือกวันที่ของเที่ยวบิน</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">เลือกวันที่</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">เลือกวันที่</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">โปรดเลือกวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">โปรดเลือกวันที่สำหรับ\nเที่ยวบินไปยัง%s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">บอกเราว่าคุณจะออกเดินทางจากไหน\nเพื่อดูแนวโน้มราคาเที่ยวบิน</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">วันเริ่มออกเดินทาง</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s เที่ยวบิน</item>
         <item quantity="other">%s เที่ยวบิน</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s เที่ยวบินขากลับ</item>
+        <item quantity="one">%s เที่ยวบินขากลับ</item>
+        <item quantity="two">%s เที่ยวบินขากลับ</item>
+        <item quantity="few">%s เที่ยวบินขากลับ</item>
+        <item quantity="many">%s เที่ยวบินขากลับ</item>
+        <item quantity="other">%s เที่ยวบินขากลับ</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">ทริปของคุณว่างเปล่า</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,8 +123,10 @@
     <string name="loading_hotels_and_flights">กำลังโหลดโรงแรมและเที่ยวบิน…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">ต้องการบินเมื่อไหร่</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">แนวโน้มราคาเที่ยวบิน</string>
     <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">ต้องการกลับเมื่อไหร่</string>
+    <string name="when_to_return">วันเดินทางกลับ</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">ไม่พบข้อมูลสถานที่ตั้ง โปรดปรับการค้นหาของคุณแล้วลองใหม่</string>
     <!-- Tablet search results, no hotels available -->
@@ -977,8 +990,6 @@
         <item quantity="many">%s วัน</item>
         <item quantity="other">%s วัน</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">แก้จุดบกพร่อง: มีการลบข้อมูลการค้นหาไปแล้ว โปรดรายงานข้อผิดพลาดนี้ต่อ DLew</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">เลือกเที่ยวบินไปยัง %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1831,13 +1842,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">ที่โรงแรม VIP Access สมาชิก Expedia Elite Plus จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
+    <string name="vip_access_message">ที่โรงแรม +VIP Access สมาชิก +silver และ +gold จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">โรงแรม VIP Access เท่านั้น</string>
+    <string name="filter_vip_access">โรงแรม +VIP Access เท่านั้น</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">เฉพาะ VIP Access เท่านั้น</string>
+    <string name="VIP_Access_Only">+VIP Access เท่านั้น</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">เปิด</string>
     <string name="switch_off">ปิด</string>

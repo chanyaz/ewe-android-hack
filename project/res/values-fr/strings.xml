@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">Partez de %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Au départ de…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">Choisir les dates de votre voyage</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">Sélectionner les dates</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Choisir des dates</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">Veuillez sélectionner une date ou une période valide.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Veuillez sélectionner les dates pour des \nvols pour %s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">Pour découvrir une tendance des prix des vols,\ndites-nous d\&apos;où vous partez.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Début du voyage</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s vols</item>
         <item quantity="other">%s vols</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s vols retour</item>
+        <item quantity="one">%s vol retour</item>
+        <item quantity="two">%s vols retour</item>
+        <item quantity="few">%s vols retour</item>
+        <item quantity="many">%s vols retour</item>
+        <item quantity="other">%s vols retour</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Votre voyage est vide.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,8 +123,10 @@
     <string name="loading_hotels_and_flights">Chargement des hôtels et vols…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Date du vol</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">Tendance des vols</string>
     <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Date du vol retour</string>
+    <string name="when_to_return">Vol retour</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Aucune information trouvable sur cette destination ! Veuillez modifier votre recherche et essayer à nouveau.</string>
     <!-- Tablet search results, no hotels available -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s jours</item>
         <item quantity="other">%s jours</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG : les données de la recherche ont été supprimées. Veuillez signaler cette erreur à DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Choisir un vol vers %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">Accès VIP</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Les hôtels Accès VIP offrent le surclassement sans frais en catégorie supérieure aux membres Élite Plus, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
+    <string name="vip_access_message">Les hôtels +VIP Access offrent le surclassement sans frais en catégorie supérieure aux membres +silver et +gold, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Seulement les hôtels Accès VIP</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">VIP Access uniquement</string>
+    <string name="VIP_Access_Only">+VIP Access uniquement</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">MARCHE</string>
     <string name="switch_off">ARRÊT</string>

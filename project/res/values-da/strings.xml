@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">Flyv fra %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Flyv fra…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">Vælg datoer for flyrejse</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">Vælg datoer</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Vælg datoer</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">Vælg en gyldig dato eller datointerval.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Vælg datoer for\nflyrejser til %s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">Angiv hvor du rejser fra\nfor at se flypristendenser.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Rejsen starter</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s fly</item>
         <item quantity="other">%s fly</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s hjemrejser</item>
+        <item quantity="one">%s hjemrejse</item>
+        <item quantity="two">%s hjemrejser</item>
+        <item quantity="few">%s hjemrejser</item>
+        <item quantity="many">%s hjemrejser</item>
+        <item quantity="other">%s hjemrejser</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Din rejse er tom.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,6 +123,8 @@
     <string name="loading_hotels_and_flights">Henter hoteller og flyrejser…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Udrejse</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">Flytendenser</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Hjemrejse</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s dage</item>
         <item quantity="other">%s dage</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">Fejlfinding: Søgeoplysninger blev desværre ryddet.  Rapporter denne fejl til DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Vælg et fly til %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">På VIP Access-hoteller kan Expedia Elite Plus-medlemmer få gratis værelsesopgraderinger og andre fordele, der er tilgængelige ved indtjekning.</string>
+    <string name="vip_access_message">På +VIP Access-hoteller kan +silver- og +gold-medlemmer få gratis værelsesopgraderinger og andre fordele, der er tilgængelige ved indtjekning.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Kun VIP Access-hoteller</string>
+    <string name="filter_vip_access">Kun +VIP Access-hoteller</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Kun VIP Access</string>
+    <string name="VIP_Access_Only">Kun +VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">TIL</string>
     <string name="switch_off">FRA</string>

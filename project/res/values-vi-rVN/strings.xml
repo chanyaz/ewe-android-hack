@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">Bay từ %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Bay từ…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">Chọn ngày của chuyến bay</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">Chọn ngày</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Chọn ngày</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">Vui lòng chọn ngày hoặc chuỗi ngày hợp lệ.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Vui lòng chọn ngày cho\nchuyến bay đến %s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">Để xem xu hướng giá chuyến bay,\nhãy cho chúng tôi biết quý vị bay từ đâu.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Khởi hành</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s Chuyến\nbay</item>
         <item quantity="other">%s Chuyến\nbay</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s C.bay trở về</item>
+        <item quantity="one">%s C.bay trở về</item>
+        <item quantity="two">%s C.bay trở về</item>
+        <item quantity="few">%s C.bay trở về</item>
+        <item quantity="many">%s C.bay trở về</item>
+        <item quantity="other">%s C.bay trở về</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Không có chuyến đi.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,6 +123,8 @@
     <string name="loading_hotels_and_flights">Đang tải Khách sạn và chuyến bay…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Ngày bay</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">Xu hướng giá chuyến bay</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Trở về</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s ngày</item>
         <item quantity="other">%s ngày</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG: Thông tin tìm kiếm đã bị xóa.  Vui lòng báo lỗi với DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Chọn chuyến bay đến %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Tại các khách sạn VIP Access, thành viên Expedia Elite Plus sẽ được miễn phí nâng hạng phòng và nhận nhiều ưu đãi khác tùy theo khả năng đáp ứng thực tế của khách sạn vào thời điểm nhận phòng.</string>
+    <string name="vip_access_message">Tại khách sạn +VIP Access, +silver và +gold, thành viên sẽ được nâng hạng phòng miễn phí và nhận những ưu đãi khác tùy tình hình thực tế khi nhận phòng.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Chỉ các khách sạn VIP Access</string>
+    <string name="filter_vip_access">Chỉ các khách sạn +VIP access</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Chỉ VIP Access</string>
+    <string name="VIP_Access_Only">Chỉ dành cho +VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">BẬT</string>
     <string name="switch_off">TẮT</string>

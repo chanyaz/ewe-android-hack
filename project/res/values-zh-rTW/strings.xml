@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">出發地：%1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">出發地…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">選擇班機日期</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">選擇日期</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">選擇日期</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">請選擇有效的日期或日期範圍。</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">請選擇\n前往%s的班機日期</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">如需查詢機票價格趨勢，\n請輸入您的出發地。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">行程開始日期</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s 個班機</item>
         <item quantity="other">%s 個班機</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s 個回程班機</item>
+        <item quantity="one">%s 個回程班機</item>
+        <item quantity="two">%s 個回程班機</item>
+        <item quantity="few">%s 個回程班機</item>
+        <item quantity="many">%s 個回程班機</item>
+        <item quantity="other">%s 個回程班機</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">您的行程是空的。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,8 +123,10 @@
     <string name="loading_hotels_and_flights">正在載入飯店和班機…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">出發時間</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">機票價格趨勢</string>
     <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">回程時間</string>
+    <string name="when_to_return">回程日期</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">找不到位置資訊！請修改查詢，然後再試一次。</string>
     <!-- Tablet search results, no hotels available -->
@@ -127,11 +140,11 @@
     <!-- Label indicating how many items are being booked for the current trip -->
     <plurals name="items_in_trip">
         <item quantity="zero">行程項目</item>
-        <item quantity="one">個項目在行程中</item>
-        <item quantity="two">個項目在行程中</item>
-        <item quantity="few">個項目在行程中</item>
-        <item quantity="many">個項目在行程中</item>
-        <item quantity="other">個項目在行程中</item>
+        <item quantity="one">行程項目</item>
+        <item quantity="two">行程項目</item>
+        <item quantity="few">行程項目</item>
+        <item quantity="many">行程項目</item>
+        <item quantity="other">行程項目</item>
     </plurals>
 
     <!-- Tablet hotel filters -->
@@ -472,25 +485,25 @@
     <!-- Booking info label -->
     <string name="booking_info">預訂資訊</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="Terminal_X_Gate_Y_TEMPLATE">航廈：%1$s，閘門：%2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">航廈：%1$s，登機門：%2$s</string>
     <!-- Itin flight international terminal and gate template -->
-    <string name="International_Terminal_Gate_X_TEMPLATE">國際航廈，閘門：%1$s</string>
+    <string name="International_Terminal_Gate_X_TEMPLATE">國際航廈，登機門：%1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">抵達航廈：%1$s，閘門：%2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">抵達航廈：%1$s，登機門：%2$s</string>
     <!-- Itin flight arrival international terminal and gate template -->
-    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">抵達國際航廈，閘門：%1$s</string>
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">抵達國際航廈，登機門：%1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">出發航廈：%1$s，閘門：%2$s</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">出發航廈：%1$s，登機門：%2$s</string>
     <!-- Itin flight departure international terminal and gate template -->
-    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">出發國際航廈，閘門：%1$s</string>
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">出發國際航廈，登機門：%1$s</string>
     <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
-    <string name="Gate_To_Be_Determined_abbrev">閘門待確定</string>
+    <string name="Gate_To_Be_Determined_abbrev">登機門待確定</string>
     <!-- Itin flight gate only template -->
-    <string name="Gate_X_TEMPLATE">閘門：%1$s</string>
+    <string name="Gate_X_TEMPLATE">登機門：%1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="Arrive_Gate_X_TEMPLATE">抵達閘門：%1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">抵達登機門：%1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="Depart_Gate_X_TEMPLATE">出發閘門：%1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">出發登機門：%1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">航廈：%1$s</string>
     <!-- Special case for name of International Terminal -->
@@ -582,9 +595,9 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">複製%1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
-    <string name="hours_minutes_future_TEMPLATE">剩下%1$s又%2$s</string>
+    <string name="hours_minutes_future_TEMPLATE">剩下%1$s %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
-    <string name="hours_minutes_past_TEMPLATE">%1$s又%2$s前</string>
+    <string name="hours_minutes_past_TEMPLATE">%1$s %2$s前</string>
     <!-- Message to show when the user tried to ingest a cancelled itin -->
     <string name="viewing_cancelled_itineraries_not_yet_supported">尚未支援查看已取消的行程。</string>
     <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s 天</item>
         <item quantity="other">%s 天</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">除錯：搜尋資料因不明原因已被清除。請將此錯誤回報給 DLew。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">選擇前往%1$s的班機</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">入住 VIP Access 飯店時，Expedia Elite Plus 的會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
+    <string name="vip_access_message">+silver 及 +gold 會員入住 +VIP Access 飯店時可享有免費客房升級及其他優惠 (視入住時的供應情況)。</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">僅限 VIP Access 飯店</string>
+    <string name="filter_vip_access">僅限 +VIP Access 飯店</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">僅限 VIP Access</string>
+    <string name="VIP_Access_Only">僅限 +VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">開</string>
     <string name="switch_off">關</string>

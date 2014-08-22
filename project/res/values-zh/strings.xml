@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">出发城市：%1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">出发…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">选择航班日期</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">选择日期</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">选择日期</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">请选择有效的日期或日期范围</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">请选择飞往%s的\n航班的日期</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">如需了解机票价格变化趋势，\n请告诉我们您要飞往哪里。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">旅行开始</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s 个航班</item>
         <item quantity="other">%s 个航班</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s 个返程航班</item>
+        <item quantity="one">%s 个返程航班</item>
+        <item quantity="two">%s 个返程航班</item>
+        <item quantity="few">%s 个返程航班</item>
+        <item quantity="many">%s 个返程航班</item>
+        <item quantity="other">%s 个返程航班</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行计划是空的。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,8 +123,10 @@
     <string name="loading_hotels_and_flights">正在加载酒店和航班…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">出发日期</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">票价趋势</string>
     <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">返程日期</string>
+    <string name="when_to_return">返回日期</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">未找到航点信息！请修改查询，然后再试一次。</string>
     <!-- Tablet search results, no hotels available -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s 天</item>
         <item quantity="other">%s 天</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">程序调试：搜索数据因故被清除。请将这个错误报告给 DLew。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">选择飞往 %1$s 的航班</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">在 VIP Access 酒店，Expedia Elite Plus 会员可免费享受客房升级及其他尊享礼遇，具体取决于入住时的供应情况。</string>
+    <string name="vip_access_message">选择 +VIP Access 酒店，+silver 和 +gold 会员可享受免费客房升级及其他礼遇（具体取决于入住时的供应情况）。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">仅限 VIP Access 酒店</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">仅限 VIP 客户</string>
+    <string name="VIP_Access_Only">仅限 +VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">打开</string>
     <string name="switch_off">关闭</string>

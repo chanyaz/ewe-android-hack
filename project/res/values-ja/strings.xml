@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">出発地 %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">出発地…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">フライト日を選択</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">日付を選択</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">日付を選択</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">有効な日付または期間を選択してください。</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">%sへのフライトを検索するには、\n日付を選択してください</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">航空券の料金を表示するには、\n出発地を入力してください。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">旅行開始日</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s 便</item>
         <item quantity="other">%s 便</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">復路 (帰り) 便 %s 便</item>
+        <item quantity="one">復路 (帰り) 便 %s 便</item>
+        <item quantity="two">復路 (帰り) 便 %s 便</item>
+        <item quantity="few">復路 (帰り) 便 %s 便</item>
+        <item quantity="many">復路 (帰り) 便 %s 便</item>
+        <item quantity="other">復路 (帰り) 便 %s 便</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行のデータがありません。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,6 +123,8 @@
     <string name="loading_hotels_and_flights">ホテルとフライトを読み込み中…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">往路 (行き) 出発日</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">航空券の料金</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">復路 (帰り) 出発日</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -154,13 +167,13 @@
     <!-- Short label for "sort by discounts" button -->
     <string name="discounts">割引</string>
     <!-- Content description for "sort by popular" button -->
-    <string name="cd_sort_by_popular">タップして人気の高い順にホテルを並び替えてください。</string>
+    <string name="cd_sort_by_popular">タップして人気の高い順にホテルを並び替え。</string>
     <!-- Content description for "sort by price" button -->
-    <string name="cd_sort_by_price">タップして料金の低い順にホテルを並び替えてください。</string>
+    <string name="cd_sort_by_price">タップして料金の低い順にホテルを並び替え。</string>
     <!-- Content description for "sort by rating" button -->
-    <string name="cd_sort_by_rating">タップして評価の高い順にホテルを並び替えてください。</string>
+    <string name="cd_sort_by_rating">タップして評価の高い順にホテルを並び替え。</string>
     <!-- Content description for "sort by distance" button -->
-    <string name="cd_sort_by_distance">タップして距離の近い順にホテルを並び替えてください。</string>
+    <string name="cd_sort_by_distance">タップして距離の近い順にホテルを並び替え。</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s ～</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s 日</item>
         <item quantity="other">%s 日</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">デバック : 検索データが削除されました。エラーを報告してください。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">%1$s へのフライトを選択</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">IP Access ホテルでは、Expedia Elite Plus メンバーは、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <string name="vip_access_message">+VIP Accessホテルでは、+silver および +gold メンバーは、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">VIP Access ホテルのみ</string>
+    <string name="filter_vip_access">+VIP Access ホテルのみ</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">VIP Access のみ</string>
+    <string name="VIP_Access_Only">+VIP Access のみ</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">オン</string>
     <string name="switch_off">オフ</string>

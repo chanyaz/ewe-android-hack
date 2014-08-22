@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">Quiero volar desde %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Vuelos desde…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">Elegir fechas de vuelo</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">Selecciona las fechas</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Elegir fechas</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">Selecciona una fecha o rango de fechas válido.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Selecciona una fecha para los\n vuelos a %s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">Si deseas ver la tendencia de precios de vuelos \n, dinos desde dónde quieres volar.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">El viaje empieza el</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s vuelos</item>
         <item quantity="other">%s vuelos</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s vuelos de vuelta</item>
+        <item quantity="one">%s vuelo de vuelta</item>
+        <item quantity="two">%s vuelos de vuelta</item>
+        <item quantity="few">%s vuelos de vuelta</item>
+        <item quantity="many">%s vuelos de vuelta</item>
+        <item quantity="other">%s vuelos de vuelta</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Tu viaje está vacío.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,8 +123,10 @@
     <string name="loading_hotels_and_flights">Cargando hoteles y vuelos…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Cuándo volar</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">Tendencias de precios</string>
     <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Vuelta</string>
+    <string name="when_to_return">Vuelos de vuelta</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">No se ha encontrado información sobre la ubicación. Modifica tu búsqueda e inténtalo de nuevo.</string>
     <!-- Tablet search results, no hotels available -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s días</item>
         <item quantity="other">%s días</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG: Los datos de búsqueda se han borrado.  Informa de este error a DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Selecciona un vuelo a %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">Acceso VIP</string>
+    <string name="vip_access">Acceso VIP+</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Los hoteles con acceso VIP ofrecen a los miembros Elite Plus de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
+    <string name="vip_access_message">Los hoteles con acceso VIP+ ofrecen a los miembros +silver y +gold de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Solo hoteles con acceso VIP</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Solo Acceso VIP</string>
+    <string name="VIP_Access_Only">Solo Acceso VIP+</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">ENCENDER</string>
     <string name="switch_off">APAGAR</string>

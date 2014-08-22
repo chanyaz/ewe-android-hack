@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">Flug ab %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Flug ab…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">Flugdaten auswählen</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case">Daten auswählen</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Reisedaten auswählen</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">Bitte wählen Sie ein Datum oder einen Zeitraum aus.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Bitte wählen Sie eine Zeitraum für\nFlüge nach %s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">Für Flugpreistrends\nbrauchen wir Ihren Abflughafen.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Reise beginnt am</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s Flüge</item>
         <item quantity="other">%s Flüge</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s Rückflüge</item>
+        <item quantity="one">%s Rückflug</item>
+        <item quantity="two">%s Rückflüge</item>
+        <item quantity="few">%s Rückflüge</item>
+        <item quantity="many">%s Rückflüge</item>
+        <item quantity="other">%s Rückflüge</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Ihr Reiseplan ist leer.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,8 +123,10 @@
     <string name="loading_hotels_and_flights">Hotels und Flüge werden geladen…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Datum des Hinflugs</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends">Flugtrends</string>
     <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Datum des Rückflugs</string>
+    <string name="when_to_return">Datum des Rückfluges</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Keine Standortinformationen gefunden! Bitte ändern Sie Ihren Suchauftrag und versuchen Sie es noch mal.</string>
     <!-- Tablet search results, no hotels available -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s Tage</item>
         <item quantity="other">%s Tage</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG: Suchdaten wurden gelöscht.  Bitte Fehler an DLew weiterleiten.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Ihr Hinflug nach %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1830,13 +1841,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Expedia-Elite-Plus-Mitglieder erhalten in VIP-Access-Hotels je nach Verfügbarkeit bei Check-in kostenlose Zimmerupgrades und weitere Extras.</string>
+    <string name="vip_access_message">+silver- und +gold-Mitglieder erhalten in +VIP Access-Hotels je nach Verfügbarkeit bei Check-in kostenlose Zimmerupgrades und weitere Extras.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Nur VIP-Access-Hotels</string>
+    <string name="filter_vip_access">Nur +VIP-Access-Hotels</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Nur VIP Access</string>
+    <string name="VIP_Access_Only">Nur +VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">AN</string>
     <string name="switch_off">AUS</string>

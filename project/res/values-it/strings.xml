@@ -12,8 +12,8 @@
     <string name="fly_from_TEMPLATE">Vola da %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Vola da…</string>
-    <!-- Choose flight dates -->
-    <string name="choose_flight_dates">Scegli le date del volo</string>
+    <!-- Select dates - used for the Calendar. Must be "proper case" -->
+    <string name="select_dates_proper_case"></string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Scegli le date</string>
     <!-- Hotels Tonight -->
@@ -24,6 +24,8 @@
     <string name="missing_flight_trip_date_message">Inserisci una data o una combinazione di date valide.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Inserisci date per\nvoli a %s</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
+    <string name="flight_trends_missing_origin">\n</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Inizio del viaggio</string>
     <!-- Denotes the end date of the trip -->
@@ -94,6 +96,15 @@
         <item quantity="many">%s voli</item>
         <item quantity="other">%s voli</item>
     </plurals>
+    <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Return_Flights_TEMPLATE">
+        <item quantity="zero">%s voli di ritorno</item>
+        <item quantity="one">%s</item>
+        <item quantity="two">%s voli di ritorno</item>
+        <item quantity="few">%s voli di ritorno</item>
+        <item quantity="many">%s voli di ritorno</item>
+        <item quantity="other">%s voli di ritorno</item>
+    </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Il tuo viaggio è vuoto.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -112,6 +123,8 @@
     <string name="loading_hotels_and_flights">Caricamento di hotel e voli in corso…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Andata</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="flight_trends"></string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Ritorno</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -975,8 +988,6 @@
         <item quantity="many">%s giorni</item>
         <item quantity="other">%s giorni</item>
     </plurals>
-    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG: Dati di ricerca eliminati. Segnala questo errore a DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Seleziona volo per %1$s.</string>
     <!-- Select a flight back to (city name) -->
@@ -1829,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">VIP Access</string>
+    <string name="vip_access"></string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Presso gli hotel VIP Access, gli iscritti a Expedia Elite Plus ricevono l\&apos;upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
+    <string name="vip_access_message"></string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Solo hotel VIP Access</string>
+    <string name="filter_vip_access">Solo hotel +VIP Access</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Solo Accesso VIP</string>
+    <string name="VIP_Access_Only"></string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">ON</string>
     <string name="switch_off">OFF</string>
