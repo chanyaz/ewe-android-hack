@@ -6,10 +6,13 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.style.TextAppearanceSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -98,40 +101,45 @@ public class LaunchDb {
 	private static LastSearchLaunchCollection generateYourSearchCollection(Context context, SearchParams params) {
 		LastSearchLaunchCollection lastSearch = null;
 		if (params != null && params.hasEnoughInfoForHotelsSearch()) {
-			Db.loadTripBucket(context);
 			lastSearch = new LastSearchLaunchCollection();
-			lastSearch.title = context.getString(R.string.your_search);
 			lastSearch.id = YOUR_SEARCH_TILE_ID;
 			if (!TextUtils.isEmpty(params.getDestination().getImageCode())) {
 				lastSearch.launchImageCode = params.getDestination().getImageCode();
 			}
 			lastSearch.imageCode = params.getDestination().getAirportCode();
 
-			String locSubtitle = null;
+			LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
+			loc.imageCode = params.getDestination().getAirportCode();
+			loc.location = params.getDestination();
+
+			lastSearch.locations = new ArrayList<LaunchLocation>();
+			lastSearch.locations.add(loc);
+
+			Db.loadTripBucket(context);
+			String title = "";
 			if (Db.getTripBucket().isEmpty()) {
-				locSubtitle = StrUtils.formatCity(params.getDestination());
+				title = StrUtils.formatCity(params.getDestination());
 			}
 			else {
 				int tbCount = Db.getTripBucket().size();
-				locSubtitle = context.getResources().getQuantityString(R.plurals.num_items_TEMPLATE, tbCount, tbCount);
+				title = context.getResources().getQuantityString(R.plurals.num_items_TEMPLATE, tbCount, tbCount);
 			}
 
-			LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
+			SpannableBuilder span = new SpannableBuilder();
+			span.append(title);
+			span.append("\n");
 
-			loc.imageCode = params.getDestination().getAirportCode();
+			TextAppearanceSpan subtitleSpan = new TextAppearanceSpan(context, R.style.V2_TextAppearance_Launch_YourSearchSubtitle);
+			span.append(context.getString(R.string.your_search).toUpperCase(), subtitleSpan, FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM));
 
-			loc.location = params.getDestination();
-			lastSearch.locations = new ArrayList<LaunchLocation>();
-			lastSearch.locations.add(loc);
-			lastSearch.title += '\n' + locSubtitle;
+			lastSearch.stylizedTitle = span.build();
+			lastSearch.title = lastSearch.stylizedTitle.toString();
 		}
 		return lastSearch;
 	}
 
 	private static void injectLastSearch(LastSearchLaunchCollection collection) {
-
-		// If there is already a "Last Search" collection,
-		// nuke it.
+		// If there is already a "Last Search" collection, nuke it.
 		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
 		}

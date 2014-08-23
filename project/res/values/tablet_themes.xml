@@ -346,4 +346,14 @@
 
     <style name="V2.Fragment.Tablet" />
 
+    <!-- TextAppearance styles -->
+    <style name="V2.TextAppearance" />
+
+    <style name="V2.TextAppearance.Launch" />
+
+    <style name="V2.TextAppearance.Launch.YourSearchSubtitle">
+        <item name="android:textColor">#b2ffffff</item>
+        <item name="android:textSize">@dimen/launch_your_search_subtitle_size</item>
+    </style>
+
 </resources>

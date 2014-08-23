@@ -40,7 +40,9 @@
         android:layout_height="@dimen/destination_stack_text_container_height"
         android:layout_gravity="center|top"
         android:layout_marginTop="@dimen/destination_search_tile_text_margin_top"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="2"
         android:textColor="#ffffff"
         android:textSize="@dimen/destination_stack_text_size"
         app:textStyle="light" />

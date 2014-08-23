@@ -22,6 +22,7 @@
     <dimen name="launch_pin_padding">4dp</dimen>
     <dimen name="launch_pin_detail_size">175dp</dimen>
     <dimen name="launch_pin_detail_padding">10dp</dimen>
+    <dimen name="launch_your_search_subtitle_size">13sp</dimen>
 
     <!-- For map pins on tablet launch screen -->
     <dimen name="destination_search_stack_width">220dp</dimen>
@@ -33,7 +34,7 @@
     <dimen name="destination_stack_text_container_height">48dp</dimen>
     <dimen name="destination_stack_corner_radius">3dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">117dp</dimen>
-    <dimen name="destination_stack_text_size">17sp</dimen>
+    <dimen name="destination_stack_text_size">16sp</dimen>
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">40dp</dimen>
     <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>

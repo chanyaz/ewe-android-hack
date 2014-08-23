@@ -179,9 +179,7 @@ public class CollectionStack extends FrameLayout {
 		return headerBitmapDrawable;
 	}
 
-	public void setText(String title) {
-		mTextView.setEllipsize(TextUtils.TruncateAt.END);
-		mTextView.setLines(2);
+	public void setText(CharSequence title) {
 		mTextView.setText(title);
 	}
 

@@ -150,7 +150,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 	private void addCollection(LayoutInflater inflater, final LaunchCollection collectionToAdd) {
 		final CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
 		c.setStackDrawable(collectionToAdd.getImageUrl());
-		c.setText(collectionToAdd.title);
+		c.setText(collectionToAdd.getTitle());
 		c.setTag(collectionToAdd);
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
