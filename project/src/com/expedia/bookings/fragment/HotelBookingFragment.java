@@ -368,8 +368,18 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
 					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
-					HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
+					HotelAvailability availability;
+
+					// Cleanup trip bucket
+					availability = Db.getTripBucket().getHotel().getHotelAvailability();
 					availability.removeRate(response.getOriginalProductKey());
+
+					// Cleanup search data
+					String id = Db.getTripBucket().getHotel().getProperty().getPropertyId();
+					availability = Db.getHotelSearch().getAvailability(id);
+					if (availability != null) {
+						availability.removeRate(response.getOriginalProductKey());
+					}
 
 					// Post event for tablets to show the BookingUnavailableFragment
 					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
