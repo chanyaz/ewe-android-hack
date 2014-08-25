@@ -144,6 +144,10 @@ public class GridManager {
 		return mCols.getTotalSize() > mRows.getTotalSize();
 	}
 
+	public boolean isPortrait() {
+		return !isLandscape();
+	}
+
 	/**
 	 * Set the container so it is positioned to fill the provided column
 	 *

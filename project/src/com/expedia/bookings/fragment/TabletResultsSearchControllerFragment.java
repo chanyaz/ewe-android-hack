@@ -536,7 +536,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mSearchNowClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (getState().showsSearchControls()) {
+			if (getState().showsSearchControls() || getState().showsSearchPopup()) {
 				if (copyTempValuesToParams()) {
 					doSpUpdate();
 				}
@@ -665,8 +665,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mSearchBarC.setAlpha(p);
 			}
 			// Way 2: slide them down
-			else if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
-				float p = stateTwo.showsSearchControls() ? 1f - percentage : percentage;
+			else if ((stateOne.showsSearchControls() || stateOne.showsSearchPopup())
+				!= (stateTwo.showsSearchControls() || stateTwo.showsSearchPopup())) {
+				float p = stateTwo.showsSearchControls() || stateTwo.showsSearchPopup() ? 1f - percentage : percentage;
 				int dist = mGrid.isLandscape() ? 1 : 2;
 				mBottomRightC.setTranslationY(p * dist * mBottomRightC.getHeight());
 				mBottomCenterC.setTranslationY(p * dist * mBottomCenterC.getHeight());
@@ -726,7 +727,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 
-			if (!state.showsSearchControls()) {
+			if (!state.showsSearchControls() && !state.showsSearchPopup()) {
 				clearChanges();
 			}
 		}
@@ -844,12 +845,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					: View.INVISIBLE
 			);
 
-			// If the search controls are active, that means the popup is showing and we want to hide
-			// the search bar!
 			mSearchBarC.setVisibility(
-				state.showsSearchPopup()
-					? View.INVISIBLE
-					: View.VISIBLE
+				state.showsSearchControls()
+					? View.VISIBLE
+					: View.INVISIBLE
 			);
 
 			mTravPickWhiteSpace.setVisibility(

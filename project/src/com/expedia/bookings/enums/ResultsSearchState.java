@@ -26,10 +26,11 @@ public enum ResultsSearchState {
 	}
 
 	/**
-	 * @return whether or not the search knobs are shown on screen
+	 * @return whether or not the search knobs (i.e. destination,
+	 * flight origin, dates, travelers) are shown on screen.
 	 */
 	public boolean showsSearchControls() {
-		return this == CALENDAR || this == CALENDAR_WITH_POPUP || this == TRAVELER_PICKER;
+		return this == DEFAULT || this == CALENDAR;
 	}
 
 	public boolean showsSearchPopup() {

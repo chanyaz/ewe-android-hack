@@ -463,8 +463,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateFinalized(ResultsState state) {
 			setListenerState(state);
 
-			if (!mGrid.isLandscape()
-				&& (hideTripBucketInPortrait() || mSearchController.getState().showsSearchControls())) {
+			if (mGrid.isPortrait()
+				&& (hideTripBucketInPortrait() || !mSearchController.getState().showsSearchControls())) {
 				int transY = mGrid.getRowTop(4);
 				mTripBucketC.setTranslationY(transY);
 			}
@@ -677,7 +677,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	private boolean hideTripBucketInPortrait() {
-		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty() && !mTripBucketFrag.hasItemsInUndoState();
+		return mGrid.isPortrait() && Db.getTripBucket().isEmpty() && !mTripBucketFrag.hasItemsInUndoState();
 	}
 
 	@Override
@@ -861,6 +861,19 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
 				mBottomGradient.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mHotelC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mFlightsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+				float alpha = stateOne.showsWaypoint() ? 0f : 1f;
+				mHotelC.setVisibility(View.VISIBLE);
+				mHotelC.setAlpha(alpha);
+				mFlightsC.setVisibility(View.VISIBLE);
+				mFlightsC.setAlpha(alpha);
+				mTripBucketC.setVisibility(View.VISIBLE);
+				mTripBucketC.setAlpha(alpha);
+				mBottomGradient.setVisibility(View.VISIBLE);
+				mBottomGradient.setAlpha(alpha);
 			}
 
 			setActionbarShowingState(stateTwo);
@@ -871,15 +884,14 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
 			if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
-				float p = stateTwo.showsSearchControls() ? percentage : 1f - percentage;
-				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
+				float p = stateTwo.showsSearchControls() ? 1f - percentage : percentage;
+				if (mGrid.isPortrait() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY(p * mGrid.getRowTop(4));
 				}
 			}
 
 			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
 				float p = stateTwo.showsWaypoint() ? 1f - percentage : percentage;
-
 				mHotelC.setAlpha(p);
 				mFlightsC.setAlpha(p);
 				mTripBucketC.setAlpha(p);
@@ -909,6 +921,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			if (stateOne.showsWaypoint() != stateTwo.showsWaypoint()) {
 				mBottomGradient.setLayerType(View.LAYER_TYPE_NONE, null);
+				mHotelC.setLayerType(View.LAYER_TYPE_NONE, null);
+				mFlightsC.setLayerType(View.LAYER_TYPE_NONE, null);
+				mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 		}
 
@@ -926,6 +941,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mFlightsC.setBlockNewEventsEnabled(state.showsSearchPopup());
 			mHotelC.setBlockNewEventsEnabled(state.showsSearchPopup());
 			mShadeView.setVisibility(state.showsSearchPopup() ? View.VISIBLE : View.GONE);
+
+			// Many things are gone if the waypoint is showing
+			int visibility = state.showsWaypoint() ? View.GONE : View.VISIBLE;
+			mHotelC.setVisibility(visibility);
+			mFlightsC.setVisibility(visibility);
+			mTripBucketC.setVisibility(visibility);
+			mBottomGradient.setVisibility(visibility);
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
