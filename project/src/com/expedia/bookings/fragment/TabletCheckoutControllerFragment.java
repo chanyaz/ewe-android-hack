@@ -728,7 +728,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		boolean checkoutFormsAvailable = true;
+		boolean checkoutFormsAvailable = state != CheckoutState.BOOKING_UNAVAILABLE;
 		boolean slideToPurchaseAvailable = true;
 		boolean isBookingUnvailable = state == CheckoutState.BOOKING_UNAVAILABLE;
 		boolean cvvAvailable =
