@@ -75,14 +75,11 @@
         android:visibility="visible"
         android:background="#070f24">
 
-        <com.larvalabs.svgandroid.widget.SVGView
+        <View
             android:id="@+id/globe_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="-40dp"
-            android:alpha=".1"
-            app:zoomMode="fitWidth"
-            app:src="@raw/map_tablet_launch"/>
+            android:alpha="0.1" />
 
         <LinearLayout
             android:layout_width="wrap_content"

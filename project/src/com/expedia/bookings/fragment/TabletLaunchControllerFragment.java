@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -41,6 +44,8 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
@@ -73,6 +78,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private DestinationTilesFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
 	private TabletLaunchPinDetailFragment mPinFragment;
+	private View mGlobeBackground;
 
 	private TextView mAbText1;
 	private TextView mAbText2;
@@ -92,9 +98,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mSearchBarC = Ui.findView(mRootC, R.id.fake_search_bar_container);
 		mPinDetailC = Ui.findView(mRootC, R.id.pin_detail_container);
 		mTilesC = Ui.findView(mRootC, R.id.tiles_container);
+		mGlobeBackground = Ui.findView(mRootC, R.id.globe_background);
 		mNoConnectivityContainer = Ui.findView(mRootC, R.id.no_connectivity_container);
 		mNoConnectivityContainer.setBlockNewEventsEnabled(true);
-
 
 		if (savedInstanceState != null) {
 			FragmentManager fm = getChildFragmentManager();
@@ -116,6 +122,16 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
 		mAbText2.setText(R.string.Destination);
 		mAbText2.setAlpha(0f);
+
+		// Fit width
+		Matrix viewport = new Matrix();
+		Point screen = Ui.getScreenSize(getActivity());
+		float scale = screen.x / 3000.0f;
+		viewport.preScale(scale, scale);
+
+		SVG globeSvg = SVGParser.getSVGFromResource(getResources(), R.raw.map_tablet_launch);
+		SvgDrawable globeSvgDrawable = new SvgDrawable(globeSvg, viewport);
+		mGlobeBackground.setBackgroundDrawable(globeSvgDrawable);
 
 		SuggestionProvider.enableCurrentLocation(true);
 
