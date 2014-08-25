@@ -1765,10 +1765,10 @@ public class ExpediaServices implements DownloadListener {
 	// TODO move to ESD, make more like E3 URL construction
 	private static Map<String, String> sGdePosUrlMap = new HashMap<String, String>() {
 		{
-			put("AU", "http://deals.expedia.com/beta/deals/flights.json");
-			put("BR", "http://deals.expedia.com.br/beta/deals/flights.json");
-			put("CA", "http://deals.expedia.com/beta/stats/flights.json");
-			put("NZ", "http://deals.expedia.com/beta/stats/flights.json");
+			put("AU", "http://deals.expedia.com.au/beta/stats/flights.json");
+			put("BR", "http://deals.expedia.com.br/beta/stats/flights.json");
+			put("CA", "http://deals.expedia.ca/beta/stats/flights.json");
+			put("NZ", "http://deals.expedia.co.nz/beta/stats/flights.json");
 			put("US", "http://deals.expedia.com/beta/stats/flights.json");
 			put("AT", "http://deals.expedia.at/beta/stats/flights.json");
 			put("BE", "http://deals.expedia.be/beta/stats/flights.json");
