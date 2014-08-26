@@ -549,9 +549,11 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					}
 				}
 				String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
-				// Do not change the case of the first letter. This isn't ideal but it works for now
-				ratePlanName = ratePlanName.substring(0, 1)
-					+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
+				if (!TextUtils.isEmpty(ratePlanName)) {
+					// Do not change the case of the first letter. This isn't ideal but it works for now
+					ratePlanName = ratePlanName.substring(0, 1)
+						+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
+				}
 				rate.setRatePlanName(ratePlanName);
 			}
 		}
