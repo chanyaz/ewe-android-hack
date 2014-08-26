@@ -43,7 +43,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TravelerListGenerator;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
@@ -483,7 +482,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mCreditCardSectionButton.setVisibility(View.GONE);
 			setValidationViewVisibility(mStoredCreditCard, R.id.validation_checkmark, true);
 		}
-		else if (state.hasAValidCardSelected(mBillingInfo)) {
+		else if (hasValidCard) {
 			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.VISIBLE);
@@ -517,12 +516,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mLccTriangle.setVisibility(View.GONE);
 		}
 
-		if (User.isLoggedIn(getActivity())) {
-			mAccountLabel.setVisibility(View.VISIBLE);
-		}
-		else {
-			mAccountLabel.setVisibility(View.GONE);
-		}
+		mAccountLabel.setVisibility(User.isLoggedIn(getActivity()) ? View.VISIBLE : View.GONE);
 
 		updateWalletViewVisibilities();
 	}
