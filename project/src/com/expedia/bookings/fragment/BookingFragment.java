@@ -265,26 +265,29 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		ServerError firstError = errors.get(0);
 		// Check for special errors; return if we handled it
 		switch (firstError.getErrorCode()) {
-		// We get this error for ONLY flights.
 		case PRICE_CHANGE:
-			FlightTrip currentOffer = Db.getTripBucket().getFlight().getFlightTrip();
-			FlightTrip newOffer = ((FlightCheckoutResponse) response).getNewOffer();
+			// We get this error for ONLY flights, but we need to be extra defensive
+			// due to issues like #3383
+			if (lob == LineOfBusiness.FLIGHTS) {
+				FlightTrip currentOffer = Db.getTripBucket().getFlight().getFlightTrip();
+				FlightTrip newOffer = ((FlightCheckoutResponse) response).getNewOffer();
 
-			// If the debug setting is made to fake a price change, then fake the price here too
-			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
-			if (!AndroidUtils.isRelease(getActivity())) {
-				String val = SettingUtils.get(getActivity(),
-					getString(R.string.preference_fake_flight_price_change),
-					getString(R.string.preference_fake_price_change_default));
-				currentOffer.getTotalFare().add(new BigDecimal(val));
-				newOffer.getTotalFare().add(new BigDecimal(val));
+				// If the debug setting is made to fake a price change, then fake the price here too
+				// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
+				if (!AndroidUtils.isRelease(getActivity())) {
+					String val = SettingUtils.get(getActivity(),
+						getString(R.string.preference_fake_flight_price_change),
+						getString(R.string.preference_fake_price_change_default));
+					currentOffer.getTotalFare().add(new BigDecimal(val));
+					newOffer.getTotalFare().add(new BigDecimal(val));
+				}
+
+				PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
+				fragment.show(getFragmentManager(), PriceChangeDialogFragment.TAG);
+				OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(getActivity());
+				return;
 			}
-
-			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
-			fragment.show(getFragmentManager(), PriceChangeDialogFragment.TAG);
-
-			OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(getActivity());
-			return;
+			break;
 		case BOOKING_FAILED: {
 			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
