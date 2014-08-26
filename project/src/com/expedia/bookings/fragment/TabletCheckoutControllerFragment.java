@@ -725,6 +725,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void setFragmentState(CheckoutState state) {
+		if (!isAdded()) {
+			return;
+		}
+
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 
@@ -980,7 +984,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onSlideAbort() {
 		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
 		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
-		setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, false);
+		// 3371: Don't try to finish this state transition if we're offscreen
+		if (isAdded() && isResumed()) {
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, false);
+		}
 	}
 
 	/*

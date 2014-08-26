@@ -241,6 +241,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	};
 
 	private void setFragmentState(TravelerFormState state) {
+		if (!isAdded()) {
+			return;
+		}
+
 		boolean showSaveDialog = (state == TravelerFormState.SAVE_PROMPT);
 		boolean showOverwriteDialog = (state == TravelerFormState.OVERWRITE_PROMPT);
 
