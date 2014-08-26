@@ -312,6 +312,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		mExpirationDate = null;
 		mExistsOnDisk = false;
 		mSaveCardToExpediaAccount = false;
+		mStoredCard = null;
 
 		// Check that the saved billing info file exists before trying to delete
 		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
