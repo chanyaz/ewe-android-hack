@@ -109,7 +109,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					}
 
 					String dateOfBirth = tsaDetails.optString("dateOfBirth", null);
-					if (dateOfBirth != null) {
+					if (!TextUtils.isEmpty(dateOfBirth)) {
 						traveler.setBirthDate(LocalDate.parse(dateOfBirth));
 					}
 
