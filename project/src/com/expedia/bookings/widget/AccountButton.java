@@ -17,6 +17,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
@@ -73,6 +74,7 @@ public class AccountButton extends LinearLayout {
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
 				if (mListener != null) {
+					clearHotelCheckoutData();
 					mListener.accountLogoutClicked();
 				}
 			}
@@ -278,6 +280,13 @@ public class AccountButton extends LinearLayout {
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
 		bind(isLoading, isLoggedIn, u, LineOfBusiness.FLIGHTS);
+	}
+
+	private void clearHotelCheckoutData() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			hotel.clearCheckoutData();
+		}
 	}
 
 	public void error() {

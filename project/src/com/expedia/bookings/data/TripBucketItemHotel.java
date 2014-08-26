@@ -105,6 +105,13 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mBookingResponse = bookingResponse;
 	}
 
+	public void clearCheckoutData() {
+		mCreateTripResponse = null;
+		mCouponRate = null;
+		mIsCouponApplied = false;
+		mBookingResponse = null;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
