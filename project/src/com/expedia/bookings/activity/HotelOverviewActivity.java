@@ -94,7 +94,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		OmnitureTracking.onPause();
 
 		if (isFinishing()) {
-			Db.getTripBucket().getHotel().setCreateTripResponse(null);
+			Db.getTripBucket().getHotel().clearCheckoutData();
 		}
 	}
 
