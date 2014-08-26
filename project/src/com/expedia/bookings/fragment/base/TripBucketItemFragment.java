@@ -262,12 +262,15 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	public CharSequence getSoldOutText() {
-		if (getItem().getState() == TripBucketItemState.EXPIRED) {
-			return getString(R.string.trip_bucket_expired);
+		if (isAdded() && getItem() != null) {
+			if (getItem().getState() == TripBucketItemState.EXPIRED) {
+				return getString(R.string.trip_bucket_expired);
+			}
+			else {
+				return getString(R.string.trip_bucket_sold_out);
+			}
 		}
-		else {
-			return getString(R.string.trip_bucket_sold_out);
-		}
+		return null;
 	}
 
 	protected void showBreakdownDialog(LineOfBusiness lob) {

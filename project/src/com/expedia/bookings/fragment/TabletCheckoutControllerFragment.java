@@ -270,6 +270,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				Db.getTripBucket().getFlight().setSelected(false);
 			}
 		}
+		Db.saveTripBucket(getActivity());
 	}
 
 	public CheckoutState getCheckoutState() {
@@ -1518,6 +1519,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else {
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
 		}
+		Db.saveTripBucket(getActivity());
 		OmnitureTracking.trackItemSoldOutOnCheckoutLink(getActivity(), getLob());
 		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 	}
