@@ -13,7 +13,6 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelProductResponse;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
@@ -589,9 +588,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_APPLY_COUPON, services);
-			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
-			Property property = Db.getTripBucket().getHotel().getProperty();
-			return services.applyCoupon(mCouponCode, params, property);
+			return services.applyCoupon(mCouponCode, Db.getTripBucket().getHotel());
 		}
 	};
 

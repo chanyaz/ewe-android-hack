@@ -58,6 +58,7 @@ import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
@@ -84,6 +85,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.WalletPromoResponseHandler;
@@ -830,18 +832,20 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public CreateTripResponse applyCoupon(String couponCode, HotelSearchParams params, Property property) {
-		List<BasicNameValuePair> query = generateApplyCouponParams(couponCode);
+	public CreateTripResponse applyCoupon(String couponCode, TripBucketItemHotel hotel) {
+		List<BasicNameValuePair> query = generateApplyCouponParams(couponCode, hotel);
+		Property property = hotel.getProperty();
+		HotelSearchParams params = hotel.getHotelSearchParams();
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
 		return doE3Request("api/m/trip/coupon", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateApplyCouponParams(String couponCode) {
+	public List<BasicNameValuePair> generateApplyCouponParams(String couponCode, TripBucketItemHotel hotel) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("tripId", Db.getTripBucket().getHotel().getCreateTripResponse().getTripId()));
+		query.add(new BasicNameValuePair("tripId", hotel.getCreateTripResponse().getTripId()));
 		query.add(new BasicNameValuePair("coupon.code", couponCode));
 
 		return query;
