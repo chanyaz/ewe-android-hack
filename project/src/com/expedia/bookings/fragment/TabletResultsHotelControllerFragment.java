@@ -63,7 +63,7 @@ import com.squareup.otto.Subscribe;
 public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IFragmentAvailabilityProvider,
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
-	ExpediaServicesFragment.ExpediaServicesFragmentListener, IAddToBucketListener,
+	IAddToBucketListener,
 	IResultsHotelReviewsClickedListener, IAcceptingListenersListener, IResultsHotelReviewsBackClickedListener,
 	IResultsHotelGalleryClickedListener, IResultsHotelGalleryBackClickedListener {
 
@@ -131,13 +131,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		// MAP state is a portrait only, just fall back to LIST_UP on rotation
 		if (!getResources().getBoolean(R.bool.portrait) && state == ResultsHotelsState.MAP) {
 			mHotelsStateManager.setState(ResultsHotelsState.HOTEL_LIST_UP, false);
-		}
-
-		if (state != ResultsHotelsState.LOADING && state != ResultsHotelsState.SEARCH_ERROR) {
-			if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db
-				.loadHotelSearchFromDisk(getActivity())) {
-				mHotelsStateManager.setDefaultState(ResultsHotelsState.LOADING);
-			}
 		}
 	}
 
@@ -1518,58 +1511,46 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void onHotelSearchResponseAvailable(Events.HotelSearchResponseAvailable event) {
-		onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH, event.response);
+		Context context = getActivity();
+
+		HotelSearchResponse response = event.response;
+		Db.getHotelSearch().setSearchResponse(response);
+
+		boolean isBadResponse = response == null || response.hasErrors();
+		boolean isZeroResults = response != null && response.getPropertiesCount() == 0;
+
+		if (isBadResponse) {
+			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+		}
+		else if (isZeroResults) {
+			setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
+		}
+		else {
+			if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
+				mHotelListFrag.updateAdapter();
+			}
+			setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+			AdTracker.trackHotelSearch();
+		}
 	}
 
 	@Subscribe
 	public void onHotelOffersResponseAvailable(Events.HotelOffersResponseAvailable event) {
-		onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL, event.response);
-	}
+		HotelOffersResponse response = event.response;
 
-	@Override
-	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-		if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH) {
-			Context context = getActivity();
-
-			HotelSearchResponse hotelResponse = (HotelSearchResponse) response;
-			Db.getHotelSearch().setSearchResponse(hotelResponse);
-			Db.saveHotelSearchTimestamp(context);
-			Db.kickOffBackgroundHotelSearchSave(context);
-
-			boolean isBadResponse = response == null || response.hasErrors();
-			boolean isZeroResults = response != null && hotelResponse.getPropertiesCount() == 0;
-
-			if (isBadResponse) {
-				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
-			}
-			else if (isZeroResults) {
-				setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
-			}
-			else {
-				if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
-					mHotelListFrag.updateAdapter();
-				}
-				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-				AdTracker.trackHotelSearch();
-			}
+		if (response == null || response.hasErrors()) {
+			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 		}
-		else if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH_HOTEL) {
-			HotelOffersResponse offersResponse = (HotelOffersResponse) response;
+		else if (response.getProperty() != null) {
+			HotelUtils.loadHotelOffersAsSearchResponse(response);
+			Property property = response.getProperty();
+			Db.getHotelSearch().setSelectedProperty(property);
 
-			if (offersResponse == null || offersResponse.hasErrors()) {
-				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
+			if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
+				mHotelListFrag.updateAdapter();
 			}
-			else if (offersResponse.getProperty() != null) {
-				HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
-				Property property = offersResponse.getProperty();
-				Db.getHotelSearch().setSelectedProperty(property);
 
-				if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
-					mHotelListFrag.updateAdapter();
-				}
-
-				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-			}
+			setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 		}
 	}
 

@@ -20,6 +20,8 @@ import com.mobiata.android.util.Ui;
 public class HotelSearchDownloadFragment extends Fragment {
 
 	private static final String STATE_PARAMS = "STATE_PARAMS";
+	private static final String STATE_DELIVERED_SEARCH = "STATE_DELIVERED_SEARCH";
+	private static final String STATE_DELIVERED_SEARCH_BY_HOTEL = "STATE_DELIVERED_SEARCH_BY_HOTEL";
 	private static final String DL_SEARCH = "DL_HOTEL_SEARCH";
 	private static final String DL_SEARCH_HOTEL = "DL_HOTEL_SEARCH_HOTEL";
 
@@ -30,28 +32,35 @@ public class HotelSearchDownloadFragment extends Fragment {
 	}
 
 	private HotelSearchParams mSearchParams;
+	private boolean mSearchDelivered = false;
+	private boolean mSearchByHotelDelivered = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PARAMS)) {
-			try {
-				String searchParamsStr = savedInstanceState.getString(STATE_PARAMS);
-				JSONObject searchParamsJson = new JSONObject(searchParamsStr);
-				HotelSearchParams params = new HotelSearchParams();
-				params.fromJson(searchParamsJson);
-				mSearchParams = params;
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(STATE_PARAMS)) {
+				try {
+					String searchParamsStr = savedInstanceState.getString(STATE_PARAMS);
+					JSONObject searchParamsJson = new JSONObject(searchParamsStr);
+					HotelSearchParams params = new HotelSearchParams();
+					params.fromJson(searchParamsJson);
+					mSearchParams = params;
+				}
+				catch (Exception ex) {
+					Log.w("Exception trying to parse saved search params", ex);
+				}
 			}
-			catch (Exception ex) {
-				Log.w("Exception trying to parse saved search params", ex);
-			}
+
+			mSearchDelivered = savedInstanceState.getBoolean(STATE_DELIVERED_SEARCH, false);
+			mSearchByHotelDelivered = savedInstanceState.getBoolean(STATE_DELIVERED_SEARCH_BY_HOTEL, false);
 		}
 		if (mSearchParams == null) {
 			throw new RuntimeException("SearchParams must be set.");
 		}
 
-		if (!isDownloading()) {
+		if (!isDownloading() && !isDelivered()) {
 			startOrResumeForParams(mSearchParams);
 		}
 	}
@@ -77,6 +86,8 @@ public class HotelSearchDownloadFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
+		outState.putBoolean(STATE_DELIVERED_SEARCH, mSearchDelivered);
+		outState.putBoolean(STATE_DELIVERED_SEARCH_BY_HOTEL, mSearchByHotelDelivered);
 	}
 
 	public void startOrResumeForParams(HotelSearchParams params) {
@@ -84,7 +95,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 		unregisterAllCallbacks();
 		cancelAllDownloads();
 
-		if (mSearchParams.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
+		if (params.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
 			BackgroundDownloader.getInstance().startDownload(DL_SEARCH_HOTEL, mSearchHotelDownload, mSearchHotelCallback);
 		}
 		else {
@@ -114,6 +125,10 @@ public class HotelSearchDownloadFragment extends Fragment {
 		return false;
 	}
 
+	private boolean isDelivered() {
+		return mSearchDelivered || mSearchByHotelDelivered;
+	}
+
 	private void registerAllCallbacks() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DL_SEARCH)) {
@@ -136,6 +151,8 @@ public class HotelSearchDownloadFragment extends Fragment {
 
 	protected void setSearchParams(HotelSearchParams params) {
 		mSearchParams = params;
+		mSearchDelivered = false;
+		mSearchByHotelDelivered = false;
 	}
 
 	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
@@ -154,6 +171,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 		@Override
 		public void onDownload(HotelSearchResponse results) {
 			if (getActivity() != null) {
+				mSearchDelivered = true;
 				Events.post(new Events.HotelSearchResponseAvailable(results));
 			}
 		}
@@ -185,6 +203,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 		@Override
 		public void onDownload(HotelOffersResponse results) {
 			if (getActivity() != null) {
+				mSearchByHotelDelivered = true;
 				Events.post(new Events.HotelOffersResponseAvailable(results));
 			}
 		}
