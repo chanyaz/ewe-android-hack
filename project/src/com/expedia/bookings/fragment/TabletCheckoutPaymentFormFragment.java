@@ -231,22 +231,20 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mFormOpen = false;
 	}
 
-	@Override
-	public void onFormOpened() {
-		if (isResumed()) {
-			setUpStoredCards();
-			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
-				showStoredCardContainer();
-			}
-			else if (Db.getBillingInfo().isUsingGoogleWallet()) {
-				showStoredCardContainerGoogleWallet();
-			}
-			else {
-				showNewCardContainer();
-			}
-		}
-		mFormOpen = true;
-	}
+    @Override
+    public void onFormOpened() {
+        setUpStoredCards();
+        if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+            showStoredCardContainer();
+        }
+        else if (Db.getBillingInfo().isUsingGoogleWallet()) {
+            showStoredCardContainerGoogleWallet();
+        }
+        else {
+            showNewCardContainer();
+        }
+        mFormOpen = true;
+    }
 
 	@Override
 	public boolean showBoardingMessage() {
@@ -266,7 +264,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		int count = mStoredCreditCardAdapter.getCount();
 		clearExtraHeadingView();
 		if (count != 0) {
-			TextView storedCardButton = Ui.inflate(this, R.layout.include_stored_card_spinner, null);
+			TextView storedCardButton = Ui.inflate(getParentFragment(), R.layout.include_stored_card_spinner, null);
 			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
 			attachExtraHeadingView(storedCardButton);
 		}
@@ -286,10 +284,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	}
 
 	private void showStoredCardContainer(String cardName, CreditCardType cardType) {
-		Ui.findView(getActivity(), R.id.stored_card_container).setVisibility(View.VISIBLE);
-		Ui.findView(getActivity(), R.id.new_card_container).setVisibility(View.GONE);
+		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.GONE);
+        View storedCardContainer = Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container);
+        storedCardContainer.setVisibility(View.VISIBLE);
 
-		TextView cardNameView = Ui.findView(mSectionBillingInfo, R.id.stored_card_name);
+        TextView cardNameView = Ui.findView(storedCardContainer, R.id.stored_card_name);
 		cardNameView.setText(cardName);
 
 		ImageView cardTypeIcon = Ui.findView(mSectionBillingInfo, R.id.display_credit_card_brand_icon_tablet);
@@ -300,7 +299,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			cardTypeIcon.setImageResource(R.drawable.ic_tablet_checkout_generic_credit_card);
 		}
 
-		Ui.findView(mSectionBillingInfo, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
+		Ui.findView(storedCardContainer, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
@@ -321,8 +320,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	}
 
 	private void showNewCardContainer() {
-		Ui.findView(mSectionBillingInfo, R.id.stored_card_container).setVisibility(View.GONE);
-		Ui.findView(mSectionBillingInfo, R.id.new_card_container).setVisibility(View.VISIBLE);
+		Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container).setVisibility(View.GONE);
+		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.VISIBLE);
 		mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 	}
 
