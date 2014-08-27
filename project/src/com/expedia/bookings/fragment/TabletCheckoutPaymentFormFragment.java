@@ -233,6 +233,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
 				showStoredCardContainer();
 			}
+			else if (Db.getBillingInfo().isUsingGoogleWallet()) {
+				showStoredCardContainerGoogleWallet();
+			}
 			else {
 				showNewCardContainer();
 			}
@@ -265,17 +268,26 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	}
 
 	private void showStoredCardContainer() {
+		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		String cardName = card.getDescription();
+		CreditCardType cardType = card.getType();
+		showStoredCardContainer(cardName, cardType);
+	}
+
+	private void showStoredCardContainerGoogleWallet() {
+		String cardName = getString(R.string.google_wallet);
+		CreditCardType cardType = CreditCardType.GOOGLE_WALLET;
+		showStoredCardContainer(cardName, cardType);
+	}
+
+	private void showStoredCardContainer(String cardName, CreditCardType cardType) {
 		Ui.findView(getActivity(), R.id.stored_card_container).setVisibility(View.VISIBLE);
 		Ui.findView(getActivity(), R.id.new_card_container).setVisibility(View.GONE);
 
-		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
-			.getStoredCard();
-
-		TextView cardName = Ui.findView(mSectionBillingInfo, R.id.stored_card_name);
-		cardName.setText(card.getDescription());
+		TextView cardNameView = Ui.findView(mSectionBillingInfo, R.id.stored_card_name);
+		cardNameView.setText(cardName);
 
 		ImageView cardTypeIcon = Ui.findView(mSectionBillingInfo, R.id.display_credit_card_brand_icon_tablet);
-		CreditCardType cardType = card.getType();
 		if (cardType != null) {
 			cardTypeIcon.setImageResource(BookingInfoUtils.getTabletCardIcon(cardType));
 		}
