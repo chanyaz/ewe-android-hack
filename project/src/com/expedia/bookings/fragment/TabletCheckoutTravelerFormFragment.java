@@ -708,7 +708,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(DL_FETCH_TRAVELER_INFO, services);
-			return services.updateTraveler(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
+			return services.travelerDetails(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
 		}
 	};
 

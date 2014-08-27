@@ -499,7 +499,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(genDlTag(mTrav.getTuid()), services);
-			return services.updateTraveler(mTrav, 0);
+			return services.travelerDetails(mTrav, 0);
 		}
 	}
 
@@ -555,7 +555,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(TRAVELER_DETAILS_DOWNLOAD, services);
-			return services.updateTraveler(mCurrentTraveler, 0);
+			return services.travelerDetails(mCurrentTraveler, 0);
 		}
 	};
 

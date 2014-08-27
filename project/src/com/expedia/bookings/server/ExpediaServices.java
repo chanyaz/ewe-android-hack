@@ -1140,7 +1140,14 @@ public class ExpediaServices implements DownloadListener {
 			F_SECURE_REQUEST);
 	}
 
-	public SignInResponse updateTraveler(Traveler traveler, int flags) {
+	/**
+	 * Retrieve the full traveler details information, used to fetch full associated traveler data that
+	 * does not get returned in the sign-in call.
+	 * @param traveler
+	 * @param flags
+	 * @return
+	 */
+	public SignInResponse travelerDetails(Traveler traveler, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
