@@ -1766,53 +1766,24 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	// TODO move to ESD, make more like E3 URL construction
-	private static Map<String, String> sGdePosUrlMap = new HashMap<String, String>() {
-		{
-			// AR: gdeFlightsEnabled: false
-			put("AT", "http://deals.expedia.at/beta/stats/flights.json");
-			put("AU", "http://deals.expedia.com.au/beta/stats/flights.json");
-			put("BE", "http://deals.expedia.be/beta/stats/flights.json");
-			put("BR", "http://deals.expedia.com.br/beta/stats/flights.json");
-			put("CA", "http://deals.expedia.ca/beta/stats/flights.json");
-			put("DE", "http://deals.expedia.de/beta/stats/flights.json");
-			put("DK", "http://deals.expedia.dk/beta/stats/flights.json");
-			put("ES", "http://deals.expedia.es/beta/stats/flights.json");
-			put("FR", "http://deals.expedia.fr/beta/stats/flights.json");
-			put("GB", "http://deals.expedia.co.uk/beta/stats/flights.json");
-			put("HK", "http://deals.expedia.com.hk/beta/stats/flights.json");
-			// ID: gdeFlightsEnabled: false
-			put("IE", "http://deals.expedia.ie/beta/stats/flights.json");
-			put("IN", "http://deals.expedia.co.in/beta/stats/flights.json");
-			put("IT", "http://deals.expedia.it/beta/stats/flights.json");
-			put("JP", "http://deals.expedia.co.jp/beta/stats/flights.json");
-			// KR: gdeFlightsEnabled: false
-			put("MX", "http://deals.expedia.mx/beta/stats/flights.json");
-			put("MY", "http://deals.expedia.com.my/beta/stats/flights.json");
-			put("NL", "http://deals.expedia.nl/beta/stats/flights.json");
-			put("NO", "http://deals.expedia.no/beta/stats/flights.json");
-			put("NZ", "http://deals.expedia.co.nz/beta/stats/flights.json");
-			// PH: gdeFlightsEnabled: false
-			put("SE", "http://deals.expedia.se/beta/stats/flights.json");
-			put("SG", "http://deals.expedia.com.sg/beta/stats/flights.json");
-			put("TH", "http://deals.expedia.co.th/beta/stats/flights.json");
-			// TW: gdeFlightsEnabled: false
-			put("US", "http://deals.expedia.com/beta/stats/flights.json");
-			// VN: gdeFlightsEnabled: false
-		}
-	};
-
+	/**
+	 * Returns the proper base GDE URL for the current POS. This will throw a runtime exception
+	 * if !pos.supportsGDE(), so be sure to check that before making a request.
+	 * @return
+	 */
 	public String getGdeEndpointUrl() {
 		if (getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
 			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 			return "http://" + server;
 		}
 
-		String key = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase();
-		String url = sGdePosUrlMap.get(key);
-		if (url == null) {
-			throw new RuntimeException("No GDE url for pos=" + key);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		if (!pos.supportsGDE()) {
+			throw new RuntimeException("GDE not supported for pos=" + pos.getTwoLetterCountryCode());
 		}
+
+		// https not supported here
+		String url = "http://deals." + pos.getUrl() + "/beta/stats/flights.json";
 		return url;
 	}
 

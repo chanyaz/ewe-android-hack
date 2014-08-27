@@ -20,7 +20,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -339,7 +338,13 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			int count = response.getCount();
 
 			if (count == 0) {
-				setErrorNoResults();
+				if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
+					|| !PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
+					setErrorNoPos();
+				}
+				else {
+					setErrorNoResults();
+				}
 			}
 			else if (mHistogramFrag != null) {
 				mHistogramC.setVisibility(View.VISIBLE);
