@@ -105,14 +105,10 @@ public class HotelSearch implements JSONable {
 	 * @return the currently selected rate, selected from the rooms and rates screen
 	 */
 	public Rate getSelectedRate() {
-		return getSelectedRate(getAvailability(mSelectedProperty.getPropertyId()));
-	}
-
-	private static Rate getSelectedRate(HotelAvailability availability) {
+		HotelAvailability availability = getAvailability(mSelectedProperty.getPropertyId());
 		if (availability != null) {
 			return availability.getSelectedRate();
 		}
-
 		return null;
 	}
 
@@ -120,16 +116,13 @@ public class HotelSearch implements JSONable {
 	 * Helper method to set the selected rate of the currently selected hotel.
 	 *
 	 * @param rate
-	 * @param hotelAvailability
 	 */
-
-	public static void setSelectedRate(Rate rate, HotelAvailability hotelAvailability) {
-		hotelAvailability.setSelectedRate(rate);
-		Events.post(new Events.HotelRateSelected());
-	}
-
 	public void setSelectedRate(Rate rate) {
-		setSelectedRate(rate, getAvailability(mSelectedProperty.getPropertyId()));
+		HotelAvailability availability = getAvailability(mSelectedProperty.getPropertyId());
+		if (availability != null) {
+			availability.setSelectedRate(rate);
+			Events.post(new Events.HotelRateSelected());
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
