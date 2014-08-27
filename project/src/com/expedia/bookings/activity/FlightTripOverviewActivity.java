@@ -783,6 +783,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		}
 	}
 
+	@Override
+	public void onLogout() {
+		// Don't care, already handled elsewhere
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// FlightTripPriceFragmentListener
 

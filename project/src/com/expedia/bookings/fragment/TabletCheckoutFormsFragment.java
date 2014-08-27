@@ -29,6 +29,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.TripBucketItemState;
@@ -831,6 +832,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onLoginStateChanged() {
 		mTravelerForm.onLoginStateChanged();
 		mPaymentForm.onLoginStateChanged();
+
+		if (!User.isLoggedIn(getActivity())) {
+			mCheckoutInfoListener.onLogout();
+		}
 
 		// This calls bindAll() and changes the state if needed
 		onCheckoutDataUpdated();

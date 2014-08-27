@@ -74,7 +74,7 @@ public class AccountButton extends LinearLayout {
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
 				if (mListener != null) {
-					clearHotelCheckoutData();
+					clearCheckoutData();
 					mListener.accountLogoutClicked();
 				}
 			}
@@ -282,10 +282,22 @@ public class AccountButton extends LinearLayout {
 		bind(isLoading, isLoggedIn, u, LineOfBusiness.FLIGHTS);
 	}
 
+	private void clearCheckoutData() {
+		clearHotelCheckoutData();
+		clearFlightCheckoutData();
+	}
+
 	private void clearHotelCheckoutData() {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			hotel.clearCheckoutData();
+		}
+	}
+
+	private void clearFlightCheckoutData() {
+		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+		if (flight != null) {
+			flight.clearCheckoutData();
 		}
 	}
 

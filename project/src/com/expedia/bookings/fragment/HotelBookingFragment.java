@@ -316,6 +316,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	 * If we want to add more UI functionality, then Subscribe to Events.HotelProductDownloadSuccess class.
 	 */
 	private void onHotelProductSuccess(HotelProductResponse response, Rate selectedRate, Rate newRate) {
+		Db.getTripBucket().getHotel().setHotelProductResponse(response);
 		if (!AndroidUtils.isRelease(getActivity())) {
 			String priceChangeString = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_hotel_price_change),
