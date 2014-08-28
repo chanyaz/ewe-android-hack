@@ -323,6 +323,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 	}
 
+	public void setListTouchable(boolean touchable) {
+		mHotelListC.setBlockNewEventsEnabled(!touchable);
+	}
+
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
 		mHotelListC.setVisibility(View.VISIBLE);
 		mLoadingC.setVisibility(

@@ -438,6 +438,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_HARDWARE,
 				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 
+			if (stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS) {
+				mFlightsController.setListTouchable(false);
+			}
+			else if (stateOne == ResultsState.FLIGHTS || stateTwo == ResultsState.FLIGHTS) {
+				mHotelsController.setListTouchable(false);
+			}
 		}
 
 		@Override
@@ -457,6 +463,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_NONE,
 				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
+
+			// It's ok to set both lists touchable here, since one of them won't be visible
+			// at all anyway. Consider this a failsafe technique.
+			if (mFlightsController != null) {
+				mFlightsController.setListTouchable(true);
+			}
+			if (mHotelsController != null) {
+				mHotelsController.setListTouchable(true);
+			}
 		}
 
 		@Override
@@ -489,6 +504,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else {
 				//Make sure everything is off screen
 				setEnteringProductPercentage(1f, state == ResultsState.HOTELS, true);
+			}
+
+			// It's ok to set both lists touchable here, since one of them won't be visible
+			// at all anyway. Consider this a failsafe technique.
+			if (mFlightsController != null) {
+				mFlightsController.setListTouchable(true);
+			}
+			if (mHotelsController != null) {
+				mHotelsController.setListTouchable(true);
 			}
 		}
 	};

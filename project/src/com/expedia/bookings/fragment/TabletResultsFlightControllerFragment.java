@@ -366,6 +366,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 	}
 
+	public void setListTouchable(boolean touchable) {
+		mFlightLegsC.setBlockNewEventsEnabled(!touchable);
+	}
+
 	private void setVisibilityState(ResultsFlightsState flightsState) {
 		ArrayList<View> visibleViews = new ArrayList<View>();
 
