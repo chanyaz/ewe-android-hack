@@ -641,7 +641,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			//Next Leg State
 			if (state == ResultsFlightLegState.LATER_LEG) {
 				showNextLegPercentage(1f);
-				if (!mNextLegFrag.hasValidDataForDetails()) {
+				if (mNextLegFrag.hasValidDataForDetails()) {
+					mNextLegFrag.setState(ResultsFlightLegState.DETAILS, false);
+				}
+				else {
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
 			}
@@ -1216,6 +1219,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 			if (mListFrag != null) {
 				mListFrag.setTopSpacePixels(mGrid.getRowHeight(1));
+			}
+			// Race condition band-aid. the 0th-leg will invoke showDetailsAnimUpdate(1f)
+			// on rotation (if it is in details state), but this method depends upon mGrid
+			// being initialized.
+			if (getState() == ResultsFlightLegState.DETAILS) {
+				showDetailsAnimUpdate(1f);
 			}
 		}
 	};
