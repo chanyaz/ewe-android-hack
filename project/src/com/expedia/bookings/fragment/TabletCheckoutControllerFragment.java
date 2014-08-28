@@ -300,7 +300,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 			boolean isValidCard = flightTrip.isCardTypeSupported(billingInfo.getCardType());
 			if (!isValidCard) {
-				billingInfo.delete(getActivity());
+				// We should probably be calling billingInfo.delete(getActivity()) instead, but due
+				// to race conditions, getActivity() can return null here. This is a less comprehensive
+				// but less crashy fix.
+				billingInfo.setStoredCard(null);
+				billingInfo.setNumber(null);
+				billingInfo.setSecurityCode(null);
 			}
 		}
 
