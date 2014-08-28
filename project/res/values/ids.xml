@@ -64,4 +64,7 @@
     <!-- Tvly tvly itin label text -->
     <item name="tvly_itinerary" type="string"/>
 
+    <!-- adding tvly_hotel_error string id, to avoid errors in Expedia app compilation -->
+    <item name="e3_error_hotel_offers_hotel_service_failure_tvly" type="string"/>
+
  </resources>
