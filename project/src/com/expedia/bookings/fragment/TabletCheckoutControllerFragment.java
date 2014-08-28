@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -108,10 +109,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private TabletHotelConfirmationFragment mHotelConfFrag;
 	private ResultsBackgroundImageFragment mBlurredBgFrag;
 	private BookingUnavailableFragment mBookingUnavailableFragment;
-
-	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
-	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
-	private static final int DIALOG_CALLBACK_MINOR = 3;
 
 	private static final String TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG = "TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG";
 	private static final String TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG";
@@ -295,6 +292,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 		}
 		mCurrentLob = lob;
+
+		// Remove invalid credit cards when going from hotels -> flights
+		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
+			BillingInfo billingInfo = Db.getBillingInfo();
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+
+			boolean isValidCard = flightTrip.isCardTypeSupported(billingInfo.getCardType());
+			if (!isValidCard) {
+				billingInfo.delete(getActivity());
+			}
+		}
 
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);

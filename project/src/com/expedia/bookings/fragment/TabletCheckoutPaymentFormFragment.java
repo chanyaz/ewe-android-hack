@@ -69,7 +69,12 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			}
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity());
+
+		FlightTrip flightTrip = null;
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		}
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity(), flightTrip);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -331,10 +336,19 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 						if (card != null) {
-							Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
-							commitAndLeave();
-							showStoredCardContainer();
-							mStoredCardPopup.dismiss();
+							// For flights, don't allow selection of invalid card types.
+							boolean isValidCard = true;
+							if (getLob() == LineOfBusiness.FLIGHTS &&
+								!Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(card.getType())) {
+								isValidCard = false;
+							}
+
+							if (isValidCard) {
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
+								commitAndLeave();
+								showStoredCardContainer();
+								mStoredCardPopup.dismiss();
+							}
 						}
 					}
 				});

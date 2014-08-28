@@ -14,14 +14,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
 public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
 
-	public StoredCreditCardSpinnerAdapter(Context context) {
+	private FlightTrip mFlightTrip;
+
+	public StoredCreditCardSpinnerAdapter(Context context, FlightTrip flightTrip) {
 		super(context, R.layout.traveler_autocomplete_row);
+		mFlightTrip = flightTrip;
 	}
 
 	@Override
@@ -55,6 +60,16 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		ImageView icon = Ui.findView(retView, android.R.id.icon);
 		tv.setText(card.getDescription());
 		icon.setImageResource(BookingInfoUtils.getTabletCardIcon(card.getType()));
+
+		// Show a special icon for an invalid credit card (can happen in flights mode)
+		boolean isValidCard = true;
+		if (mFlightTrip != null) {
+			isValidCard = mFlightTrip.isCardTypeSupported(card.getType());
+		}
+
+		int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(card.getType()) :
+			R.drawable.ic_tablet_checkout_disabled_credit_card;
+		icon.setImageResource(imgRes);
 
 		return retView;
 	}
