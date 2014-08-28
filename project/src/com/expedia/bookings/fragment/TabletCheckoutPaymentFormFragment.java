@@ -335,6 +335,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 						if (card != null) {
+                            Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 							// For flights, don't allow selection of invalid card types.
 							boolean isValidCard = true;
 							if (getLob() == LineOfBusiness.FLIGHTS &&
