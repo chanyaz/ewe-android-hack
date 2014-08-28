@@ -401,7 +401,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			state = CheckoutState.BOOKING_UNAVAILABLE;
 		}
 		else {
-			state = CheckoutState.OVERVIEW;
+           state = mFragCheckoutController.getCheckoutInformationIsValid() ? CheckoutState.READY_FOR_CHECKOUT : CheckoutState.OVERVIEW;
 		}
 
 		updateBucketItems(true);

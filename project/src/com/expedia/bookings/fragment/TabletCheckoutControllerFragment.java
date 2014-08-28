@@ -1053,6 +1053,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
+    public boolean getCheckoutInformationIsValid() {
+        return mCheckoutInformationIsValid;
+    }
+
 	@Override
 	public void onBillingInfoChange() {
 		if (mCvvFrag != null && mCvvFrag.isAdded()) {
