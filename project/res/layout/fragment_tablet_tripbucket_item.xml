@@ -46,11 +46,12 @@
                 android:background="@drawable/bg_btn_trip_bucket_book_now"
                 android:orientation="horizontal">
 
-                <com.expedia.bookings.widget.TextView
+                <com.expedia.bookings.widget.AutoResizeTextView
                     android:id="@+id/book_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_book_bucket_arrow"
                     android:drawablePadding="10dp"
                     android:gravity="left|center_vertical"
@@ -60,10 +61,9 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/trip_bucket_price_text"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="21sp"
