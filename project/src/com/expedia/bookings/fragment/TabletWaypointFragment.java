@@ -275,6 +275,7 @@ public class TabletWaypointFragment extends Fragment
 			mWaypointEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tablet_origin_arrow, 0, 0, 0);
 		}
 		SuggestionProvider.enableCurrentLocation(false);
+		SuggestionProvider.setShowNearbyAiports(true);
 		doAfterTextChanged(mWaypointEditText);
 	}
 
@@ -284,6 +285,7 @@ public class TabletWaypointFragment extends Fragment
 			mWaypointEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_searchbox, 0, 0, 0);
 		}
 		SuggestionProvider.enableCurrentLocation(true);
+		SuggestionProvider.setShowNearbyAiports(false);
 		doAfterTextChanged(mWaypointEditText);
 	}
 

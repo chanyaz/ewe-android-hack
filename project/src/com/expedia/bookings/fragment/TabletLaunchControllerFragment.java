@@ -133,8 +133,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		SvgDrawable globeSvgDrawable = new SvgDrawable(globeSvg, viewport);
 		mGlobeBackground.setBackgroundDrawable(globeSvgDrawable);
 
-		SuggestionProvider.enableCurrentLocation(true);
-
 		registerStateListener(mNoConnectivityStateListener, false);
 		registerStateListener(mCheckedForServicesListener, false);
 		registerStateListener(mDetailsStateListener, false);
@@ -164,6 +162,13 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		Events.register(this);
 		mBackManager.registerWithParent(this);
+
+		// Because we enable/disable suggestion list type in a global manner, we must reset our
+		// desired behavior in onResume otherwise we could go back and forth with
+		// TODO shove special casing into SuggestionsAdapter (so we can modify instances and have
+		// TODO more sane management of such configuration)
+		SuggestionProvider.enableCurrentLocation(true);
+		SuggestionProvider.setShowNearbyAiports(false);
 
 		if (getActivity() != null) {
 			GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(getActivity(), this);

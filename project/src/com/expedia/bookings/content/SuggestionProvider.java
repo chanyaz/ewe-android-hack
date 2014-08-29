@@ -1,5 +1,7 @@
 package com.expedia.bookings.content;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +26,7 @@ import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.data.SuggestionV2.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.SuggestionUtils;
 
 public class SuggestionProvider extends ContentProvider {
 
@@ -98,7 +101,11 @@ public class SuggestionProvider extends ContentProvider {
 
 	private static final int MAX_RECENTS = 10;
 
+	private static final int MAX_NUM_NEARBY_AIRPORTS = 5;
+
 	private static boolean sIncludeCurrentLocation = true;
+
+	private static boolean sShowNearbyAirports = false;
 
 	private RecentList<SuggestionV2> mRecents;
 
@@ -120,6 +127,10 @@ public class SuggestionProvider extends ContentProvider {
 		if (isEnabled != sIncludeCurrentLocation) {
 			sIncludeCurrentLocation = isEnabled;
 		}
+	}
+
+	public static void setShowNearbyAiports(boolean showNearbyAirports) {
+		sShowNearbyAirports = showNearbyAirports;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -154,6 +165,13 @@ public class SuggestionProvider extends ContentProvider {
 				currentLocationSuggestion.setFullName(getContext().getString(R.string.current_location));
 				currentLocationSuggestion.setDisplayName(currentLocationSuggestion.getFullName());
 				addSuggestion(currentLocationSuggestion);
+			}
+
+			if (sShowNearbyAirports) {
+				List<SuggestionV2> airportSuggestions = SuggestionUtils.getNearbyAirportSuggestions(getContext(), MAX_NUM_NEARBY_AIRPORTS);
+				for (SuggestionV2 suggestion : airportSuggestions) {
+					addSuggestion(suggestion);
+				}
 			}
 
 			// Add recent suggestions
