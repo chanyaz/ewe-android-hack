@@ -56,11 +56,9 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.FragmentBailUtils;
-import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -899,18 +897,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
 			TabletCheckoutSlideFragment f = (TabletCheckoutSlideFragment) frag;
-			LineOfBusiness lob = getLob();
-			f.setLob(lob);
-			if (lob == LineOfBusiness.FLIGHTS) {
-				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				f.setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
-			}
-			else if (lob == LineOfBusiness.HOTELS) {
-				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-				Property property = hotel.getProperty();
-				Rate rate = hotel.getRate();
-				f.setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate));
-			}
+			f.setLob(getLob());
+			f.setPriceFromTripBucket();
 		}
 	}
 
