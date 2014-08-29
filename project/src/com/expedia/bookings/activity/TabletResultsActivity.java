@@ -468,13 +468,17 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_NONE,
 				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 
-			// It's ok to set both lists touchable here, since one of them won't be visible
-			// at all anyway. Consider this a failsafe technique.
+			// It's ok to set these touchable here, since they're already obscured by other
+			// views at times when when we want them non-touchable.
+			// Consider this a failsafe technique.
 			if (mFlightsController != null) {
 				mFlightsController.setListTouchable(true);
 			}
 			if (mHotelsController != null) {
 				mHotelsController.setListTouchable(true);
+			}
+			if (mTripBucketC != null) {
+				mTripBucketC.setBlockNewEventsEnabled(false);
 			}
 		}
 
@@ -510,17 +514,17 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				setEnteringProductPercentage(1f, state == ResultsState.HOTELS, true);
 			}
 
-			if (state.supportsTouchingTripBucket()) {
-				mTripBucketC.setBlockNewEventsEnabled(false);
-			}
-
-			// It's ok to set both lists touchable here, since one of them won't be visible
-			// at all anyway. Consider this a failsafe technique.
+			// It's ok to set these touchable here, since they're already obscured by other
+			// views at times when when we want them non-touchable.
+			// Consider this a failsafe technique.
 			if (mFlightsController != null) {
 				mFlightsController.setListTouchable(true);
 			}
 			if (mHotelsController != null) {
 				mHotelsController.setListTouchable(true);
+			}
+			if (mTripBucketC != null) {
+				mTripBucketC.setBlockNewEventsEnabled(false);
 			}
 		}
 	};
