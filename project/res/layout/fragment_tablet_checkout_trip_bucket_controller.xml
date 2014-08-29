@@ -29,8 +29,7 @@
                 android:paddingRight="24dp"
                 android:paddingTop="@dimen/results_bucket_y_padding">
 
-                <FrameLayout
-                    android:id="@+id/trip_bucket_header_container"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/results_bucket_header_padding">
@@ -39,7 +38,6 @@
                         android:id="@+id/your_trip_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
                         android:text="@string/your_trip"
                         android:textSize="18dp"/>
 
@@ -47,9 +45,12 @@
                         android:id="@+id/trip_date_range"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textSize="18dp"/>
-                </FrameLayout>
+                </LinearLayout>
 
                 <FrameLayout
                     android:id="@+id/bucket_flight_frag_container"
