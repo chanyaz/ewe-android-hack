@@ -273,6 +273,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		return mLegNumber == 0;
 	}
 
+	public void setListTouchable(boolean touchable) {
+		if (mListC != null) {
+			mListC.setBlockNewEventsEnabled(!touchable);
+		}
+	}
+
 	/*
 	 * IResultsFlightSelectedListener
 	 */

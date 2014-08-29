@@ -803,6 +803,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//DO WORK
 			setState(state.getResultsState(), false);
 
+			// TODO this is dependent upon being called after ResultsStateListener.onStateFinalized (which
+			// TODO resets the lists to touchable, just in case)
+			mHotelsController.setListTouchable(state != ResultsHotelsState.LOADING);
+
 			if (state == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
 				mSearchController.hideSearchBtns();
@@ -865,6 +869,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			setState(state.getResultsState(), false);
+
+			// TODO this is dependent upon being called after ResultsStateListener.onStateFinalized (which
+			// TODO resets the lists to touchable, just in case)
+			mFlightsController.setListTouchable(state != ResultsFlightsState.LOADING);
 
 			if (state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mDoingFlightsAddToBucket = false;
