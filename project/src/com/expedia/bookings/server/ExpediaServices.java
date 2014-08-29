@@ -1003,6 +1003,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("key", "returnDate"));
 		}
 
+		query.add(new BasicNameValuePair("akey", "andapprm2908"));
+
 		return query;
 	}
 
