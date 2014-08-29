@@ -71,7 +71,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	//Other
 	private boolean mBackButtonLocked = false;
 	private HockeyPuck mHockeyPuck;
-    private LineOfBusiness mLob;
+	private LineOfBusiness mLob;
 
 	boolean mIsBailing = false;
 
@@ -101,13 +101,13 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		// Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 
-        // Args
-        if (savedInstanceState == null) {
-            updateLobFromIntent(getIntent());
-        }
-        else {
-            updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
-        }
+		// Args
+		if (savedInstanceState == null) {
+			updateLobFromIntent(getIntent());
+		}
+		else {
+			updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
+		}
 
 		// Fragments
 		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.checkout_controller_root, TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
@@ -182,14 +182,14 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	}
 
 	private void updateLob(LineOfBusiness lob) {
-        mLob = lob;
-        if (mFragCheckoutController != null) {
-            mFragCheckoutController.setLob(lob);
-        }
-        if (mFragTripBucketController != null) {
-            mFragTripBucketController.setLob(lob);
-        }
-    }
+		mLob = lob;
+		if (mFragCheckoutController != null) {
+			mFragCheckoutController.setLob(lob);
+		}
+		if (mFragTripBucketController != null) {
+			mFragTripBucketController.setLob(lob);
+		}
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -312,9 +312,9 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 	}
 
-    public LineOfBusiness getLob() {
-        return mLob;
-    }
+	public LineOfBusiness getLob() {
+		return mLob;
+	}
 
 	/*
 	IAcceptingListenersListener
@@ -411,7 +411,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			state = CheckoutState.BOOKING_UNAVAILABLE;
 		}
 		else {
-           state = mFragCheckoutController.getCheckoutInformationIsValid() ? CheckoutState.READY_FOR_CHECKOUT : CheckoutState.OVERVIEW;
+			state = mFragCheckoutController.getCheckoutInformationIsValid() ? CheckoutState.READY_FOR_CHECKOUT : CheckoutState.OVERVIEW;
 		}
 
 		updateBucketItems(true);

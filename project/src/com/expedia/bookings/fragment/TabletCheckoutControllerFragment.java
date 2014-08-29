@@ -139,12 +139,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return;
 		}
 
-        if (savedInstanceState != null) {
-            setLob(LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB)));
-        }
-        else {
-            setLob(((TabletCheckoutActivity) getActivity()).getLob());
-        }
+		if (savedInstanceState == null) {
+			setLob(((TabletCheckoutActivity) getActivity()).getLob());
+		}
 
 		// We should ALWAYS have an instance of the HotelBookingFragment and FlightBookingFragment.
 		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability
@@ -281,9 +278,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-        if (mCheckoutFragment != null) {
-            mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
-        }
+		if (mCheckoutFragment != null) {
+			mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+		}
 		if (getCurrentBookingFragment() != null) {
 			getCurrentBookingFragment().onActivityResult(requestCode, resultCode, data);
 		}
@@ -303,7 +300,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		// Remove invalid credit cards when going from hotels -> flights
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
-            Db.loadBillingInfo(getActivity());
+			Db.loadBillingInfo(getActivity());
 			BillingInfo billingInfo = Db.getBillingInfo();
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 
@@ -1052,9 +1049,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
-    public boolean getCheckoutInformationIsValid() {
-        return mCheckoutInformationIsValid;
-    }
+	public boolean getCheckoutInformationIsValid() {
+		return mCheckoutInformationIsValid;
+	}
 
 	@Override
 	public void onBillingInfoChange() {

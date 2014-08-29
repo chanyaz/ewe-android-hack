@@ -123,6 +123,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
 	private boolean mIsLandscape;
 
+	private SingleStateListener<CheckoutFormState> mPaymentOpenCloseListener;
+	private SingleStateListener<CheckoutFormState> mTravelerOpenCloseListener;
+
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
 		CheckoutFormState.OVERVIEW, this);
 
@@ -180,8 +183,15 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
 
-        registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm)), false);
-        registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm)), false);
+		if (mPaymentOpenCloseListener == null) {
+			mPaymentOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm));
+		}
+		if (mTravelerOpenCloseListener == null) {
+			mTravelerOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm));
+		}
+
+		registerStateListener(mPaymentOpenCloseListener, false);
+		registerStateListener(mTravelerOpenCloseListener, false);
 
 		setState(mStateManager.getState(), false);
 
@@ -207,6 +217,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			Db.kickOffBackgroundBillingInfoSave(getActivity());
 		}
 
+		unRegisterStateListener(mPaymentOpenCloseListener);
+		unRegisterStateListener(mTravelerOpenCloseListener);
 		mBackManager.unregisterWithParent(this);
 	}
 
@@ -516,17 +528,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalTripItemContainer.setVisibility(View.VISIBLE);
 			final boolean lobIsHotels = getLob() == LineOfBusiness.HOTELS;
 			final boolean lobIsFlights = getLob() == LineOfBusiness.FLIGHTS;
-			
+
 			if (lobIsHotels) {
 				mHorizontalHotelFrag = FragmentAvailabilityUtils
 					.setFragmentAvailability(true, FRAG_TAG_HORIZONTAL_ITEM_HOTEL, fragmentManager, transaction, this,
-					R.id.horizontal_trip_bucket_item, true);
+						R.id.horizontal_trip_bucket_item, true);
 			}
 
 			if (lobIsFlights) {
 				mHorizontalFlightFrag = FragmentAvailabilityUtils
 					.setFragmentAvailability(true, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, transaction, this,
-					R.id.horizontal_trip_bucket_item, true);
+						R.id.horizontal_trip_bucket_item, true);
 			}
 		}
 		transaction.commit();
@@ -743,7 +755,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		private TabletCheckoutDataFormFragment mFormFragment;
 		private int mSlideHeight;
 
-		public OpenCloseListener (View container, TabletCheckoutDataFormFragment fragment) {
+		public OpenCloseListener(View container, TabletCheckoutDataFormFragment fragment) {
 			mFormContainer = container;
 			mFormFragment = fragment;
 		}
