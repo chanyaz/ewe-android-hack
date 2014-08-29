@@ -138,4 +138,8 @@ public class Search {
 	public static ViewInteraction selectAirportButton() {
 		return onView(allOf(withId(R.id.action_button), isDisplayed()));
 	}
+
+	public static ViewInteraction tripBucketDuration() {
+		return onView(allOf(withId(R.id.trip_duration_text_view), isDisplayed()));
+	}
 }

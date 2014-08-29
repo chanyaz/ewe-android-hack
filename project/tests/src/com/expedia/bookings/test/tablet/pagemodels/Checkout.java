@@ -273,4 +273,9 @@ public class Checkout {
 		onView(withId(android.R.id.button3)).perform(click());
 	}
 
+	public static ViewInteraction tripDateRange() {
+		return onView(withId(R.id.trip_date_range));
+	}
+
+
 }
