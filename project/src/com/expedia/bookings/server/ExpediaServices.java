@@ -90,6 +90,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.WalletPromoResponseHandler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
@@ -1748,7 +1749,12 @@ public class ExpediaServices implements DownloadListener {
 				domain = TextUtils.join("", domain.split("\\."));
 			}
 
-			return String.format(urlTemplate, protocol, domain);
+			String serverURL = String.format(urlTemplate, protocol, domain);
+			//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
+			if(ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
+				serverURL = serverURL.replaceFirst("w{3}\\.?", "");
+			}
+			return serverURL;
 		}
 		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
 			return "http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
