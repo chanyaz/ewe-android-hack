@@ -275,7 +275,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+        if (mCheckoutFragment != null) {
+            mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+        }
 		if (getCurrentBookingFragment() != null) {
 			getCurrentBookingFragment().onActivityResult(requestCode, resultCode, data);
 		}
