@@ -107,10 +107,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		setContentView(R.layout.activity_launch);
 		getWindow().setBackgroundDrawable(null);
 
-		// Clear mem caches
-		L2ImageCache.sGeneralPurpose.clearMemoryCache();
-		L2ImageCache.sDestination.clearMemoryCache();
-
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		mViewPager = Ui.findView(this, R.id.viewpager);
@@ -175,6 +171,10 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// Clear mem caches
+		L2ImageCache.sGeneralPurpose.clearMemoryCache();
+		L2ImageCache.sDestination.clearMemoryCache();
 
 		//HockeyApp crash
 		mHockeyPuck.onResume();
