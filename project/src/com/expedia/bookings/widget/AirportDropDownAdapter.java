@@ -32,6 +32,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SuggestionUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
@@ -102,33 +103,9 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			int a = 0;
 			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
 
-			// Add nearby airports if we know the user's recent location
-			android.location.Location loc = mCurrentLocation;
-			if (loc == null) {
-				long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
-				loc = LocationServices.getLastBestLocation(mContext, minTime);
-			}
-
-			if (mShowNearbyAirports && loc != null) {
-				ExpediaServices expediaServices = new ExpediaServices(mContext);
-				SuggestionResponse response = expediaServices.suggestionsNearby(loc.getLatitude(), loc.getLongitude(),
-						SuggestionSort.POPULARITY, 0);
-
-				List<SuggestionV2> airportSuggestions = new ArrayList<SuggestionV2>();
+			if (mShowNearbyAirports) {
+				List<SuggestionV2> airportSuggestions = SuggestionUtils.getNearbyAirportSuggestions(mContext, mMaxNearby);
 				Airport airport;
-
-				if (!response.hasErrors() && !response.getSuggestions().isEmpty()) {
-					for (SuggestionV2 suggestion : response.getSuggestions()) {
-						airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
-						if (airport.mClassification <= MAX_CLASSIFICATION) {
-							airportSuggestions.add(suggestion);
-
-							if (airportSuggestions.size() == mMaxNearby) {
-								break;
-							}
-						}
-					}
-				}
 
 				for (SuggestionV2 suggestion : airportSuggestions) {
 					airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
