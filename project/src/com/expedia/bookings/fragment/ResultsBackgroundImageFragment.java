@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ColorBuilder;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -220,7 +221,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			return;
 		}
 
-		if (mRootC == null || getActivity() == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0) {
+		if (FragmentBailUtils.shouldBail(getActivity()) || mRootC == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0) {
 			// Silently don't draw the bitmap
 			return;
 		}
@@ -248,7 +249,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Override
 	public void onBitmapLoadFailed(String url) {
-		if (getActivity() == null) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
 			return;
 		}
 
