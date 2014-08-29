@@ -214,9 +214,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 		List<ServerError> errors = response.getErrors();
 
-		boolean hasCVVError = false;
-		boolean hasExpirationDateError = false;
-		boolean hasCreditCardNumberError = false;
+		boolean hasPaymentError = false;
 		boolean hasPhoneError = false;
 		boolean hasPostalCodeError = false;
 		boolean hasFlightMinorError = false;
@@ -234,13 +232,13 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			}
 
 			if (field.equals("creditCardNumber")) {
-				hasCreditCardNumberError = true;
+				hasPaymentError = true;
 			}
 			else if (field.equals("expirationDate")) {
-				hasExpirationDateError = true;
+				hasPaymentError = true;
 			}
 			else if (field.equals("cvv")) {
-				hasCVVError = true;
+				hasPaymentError = true;
 			}
 			else if (field.equals("phone")) {
 				hasPhoneError = true;
@@ -305,7 +303,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(getActivity());
 			}
 
-			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
+			if (hasPaymentError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 					getString(R.string.e3_error_checkout_payment_failed), getString(R.string.ok),
 					SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT);
@@ -314,20 +312,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				if (lob == LineOfBusiness.FLIGHTS) {
 					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
 				}
-				return;
-			}
-			else if (hasCVVError) {
-				Events.post(new Events.BookingResponseErrorCVV(true));
-				if (lob == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
-				}
-				return;
-			}
-			else if (hasCreditCardNumberError) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.error_invalid_card_number), getString(R.string.ok),
-					SimpleCallbackDialogFragment.CODE_INVALID_CC);
-				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
 			}
 			else if (hasPhoneError) {
@@ -342,13 +326,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 					getString(R.string.invalid_postal_code), getString(R.string.ok),
 					SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE);
 				frag.show(getFragmentManager(), "badPostalCodeDialog");
-				return;
-			}
-			else if (hasExpirationDateError) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.error_expired_payment), getString(R.string.ok),
-					SimpleCallbackDialogFragment.CODE_EXPIRED_CC);
-				frag.show(getFragmentManager(), "expiredCcDialog");
 				return;
 			}
 			else if (hasNameOnCardMismatchError) {
