@@ -71,6 +71,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	//Other
 	private boolean mBackButtonLocked = false;
 	private HockeyPuck mHockeyPuck;
+    private LineOfBusiness mLob;
 
 	boolean mIsBailing = false;
 
@@ -100,17 +101,17 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		// Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 
+        // Args
+        if (savedInstanceState == null) {
+            updateLobFromIntent(getIntent());
+        }
+        else {
+            updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
+        }
+
 		// Fragments
 		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.checkout_controller_root, TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
 		mFragTripBucketController = Ui.findOrAddSupportFragment(this, R.id.trip_bucket_controller_root, TabletCheckoutTripBucketControllerFragment.class, TRIP_BUCKET_FRAG_TAG);
-
-		// Args
-		if (savedInstanceState == null) {
-			updateLobFromIntent(getIntent());
-		}
-		else {
-			updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
-		}
 
 		// Actionbar
 		ActionBar ab = getActionBar();
@@ -181,9 +182,14 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	}
 
 	private void updateLob(LineOfBusiness lob) {
-		mFragCheckoutController.setLob(lob);
-		mFragTripBucketController.setLob(lob);
-	}
+        mLob = lob;
+        if (mFragCheckoutController != null) {
+            mFragCheckoutController.setLob(lob);
+        }
+        if (mFragTripBucketController != null) {
+            mFragTripBucketController.setLob(lob);
+        }
+    }
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -305,6 +311,10 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			mFragTripBucketController.updateBucketItems(animate);
 		}
 	}
+
+    public LineOfBusiness getLob() {
+        return mLob;
+    }
 
 	/*
 	IAcceptingListenersListener

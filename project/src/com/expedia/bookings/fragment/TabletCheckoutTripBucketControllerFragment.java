@@ -54,6 +54,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
 
 	private static final String SAVED_STATE = "SAVED_STATE";
+    private static final String SAVED_LOB = "SAVED_LOB";
 
 	private TripBucketFlightFragment mBucketFlightFrag;
 	private TripBucketHotelFragment mBucketHotelFrag;
@@ -90,15 +91,17 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mIsLandscape = getResources().getBoolean(R.bool.landscape);
+        mIsLandscape = getResources().getBoolean(R.bool.landscape);
 
 		CheckoutTripBucketState state;
 		if (savedInstanceState != null) {
 			state = parseState(savedInstanceState, SAVED_STATE, CheckoutTripBucketState.SHOWING);
+            setLob(LineOfBusiness.valueOf(savedInstanceState.getString(SAVED_LOB)));
 		}
 		else {
 			state = CheckoutTripBucketState.SHOWING;
-		}
+            setLob(((TabletCheckoutActivity) getActivity()).getLob());
+        }
 
 		if (mIsLandscape && state == CheckoutTripBucketState.OPEN) {
 			// OPEN doesn't mean anything in landscape
@@ -138,15 +141,16 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 			dateRange = DateUtils.formatDateRange(getActivity(), start, end,
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
-		}
-		else {
+            mBucketDateRange.setText(dateRange);
+        }
+		else if (getLob() == LineOfBusiness.HOTELS) {
 			// Hotels
 			LocalDate checkIn = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate();
 			LocalDate checkOut = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
 			dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
-		}
-		mBucketDateRange.setText(dateRange);
+            mBucketDateRange.setText(dateRange);
+        }
 
 		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
 		mPortraitShowHideContainer = Ui.findView(mRootC, R.id.trip_bucket_show_hide_container);
@@ -203,6 +207,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(SAVED_STATE, mStateManager.getState().name());
+        outState.putString(SAVED_LOB, getLob().name());
 	}
 
 	public void updateViews() {

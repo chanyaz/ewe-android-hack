@@ -160,8 +160,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			buildCheckoutForm();
 		}
 
-		registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm)), false);
-		registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm)), false);
 		registerStateListener(new StateListenerLogger<CheckoutFormState>(), false);
 
 		return mRootC;
@@ -181,6 +179,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
+
+        registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm)), false);
+        registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm)), false);
 
 		setState(mStateManager.getState(), false);
 

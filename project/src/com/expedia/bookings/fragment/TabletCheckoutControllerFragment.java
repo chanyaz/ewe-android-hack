@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -137,6 +138,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (FragmentBailUtils.shouldBail(getActivity())) {
 			return;
 		}
+
+        if (savedInstanceState != null) {
+            setLob(LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB)));
+        }
+        else {
+            setLob(((TabletCheckoutActivity) getActivity()).getLob());
+        }
 
 		// We should ALWAYS have an instance of the HotelBookingFragment and FlightBookingFragment.
 		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability
@@ -295,6 +303,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		// Remove invalid credit cards when going from hotels -> flights
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
+            Db.loadBillingInfo(getActivity());
 			BillingInfo billingInfo = Db.getBillingInfo();
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 
