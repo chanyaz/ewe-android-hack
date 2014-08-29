@@ -248,6 +248,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	@Override
 	public void onBitmapLoadFailed(String url) {
+		if (getActivity() == null || getResources() == null || mRootC == null) {
+			return;
+		}
+
 		Log.e("ResultsBackgroundImageFragment - onBitmapLoadFailed");
 		if (mCodesIndex + 1 < mDestCodes.size()) {
 			mCodesIndex++;
