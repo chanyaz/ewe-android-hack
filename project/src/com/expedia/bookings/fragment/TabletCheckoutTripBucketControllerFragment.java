@@ -54,7 +54,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
 
 	private static final String SAVED_STATE = "SAVED_STATE";
-	private static final String SAVED_LOB = "SAVED_LOB";
 
 	private TripBucketFlightFragment mBucketFlightFrag;
 	private TripBucketHotelFragment mBucketHotelFrag;
@@ -205,7 +204,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(SAVED_STATE, mStateManager.getState().name());
-		outState.putString(SAVED_LOB, getLob().name());
 	}
 
 	public void updateViews() {
