@@ -168,24 +168,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		}
 
 		if (price != null) {
-			final String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-			TypefaceSpan typefaceSpan = new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
-			ForegroundColorSpan colorSpan = new ForegroundColorSpan(res.getColor(R.color.hotel_room_rate_select_room_button));
-
-			if (rate.getUserPriceType() == UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
-				String built = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
-				int rateOffset = built.indexOf(formattedRoomRate);
-				int rateLength = formattedRoomRate.length();
-				SpannableStringBuilder builder = new SpannableStringBuilder(built);
-				builder.setSpan(typefaceSpan, rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-				builder.setSpan(colorSpan, rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-				price.setText(builder);
-			}
-			else {
-				SpannableBuilder span = new SpannableBuilder();
-				span.append(formattedRoomRate, typefaceSpan, colorSpan);
-				price.setText(span.build());
-			}
+			price.setText(getStyledPrice(res, rate));
 		}
 
 		// Show renovation fees notice
@@ -423,6 +406,27 @@ public class RowRoomRateLayout extends FrameLayout {
 			.setTheme(R.style.V2_Theme_Activity_TabletWeb)
 			.getIntent();
 		context.startActivity(intent);
+	}
+
+	public static CharSequence getStyledPrice(Resources res, Rate rate) {
+		final String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+		TypefaceSpan typefaceSpan = new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
+		ForegroundColorSpan colorSpan = new ForegroundColorSpan(res.getColor(R.color.hotel_room_rate_select_room_button));
+
+		if (rate.getUserPriceType() == UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
+			String built = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
+			int rateOffset = built.indexOf(formattedRoomRate);
+			int rateLength = formattedRoomRate.length();
+			SpannableStringBuilder builder = new SpannableStringBuilder(built);
+			builder.setSpan(typefaceSpan, rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			builder.setSpan(colorSpan, rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			return builder;
+		}
+		else {
+			SpannableBuilder span = new SpannableBuilder();
+			span.append(formattedRoomRate, typefaceSpan, colorSpan);
+			return span.build();
+		}
 	}
 
 }
