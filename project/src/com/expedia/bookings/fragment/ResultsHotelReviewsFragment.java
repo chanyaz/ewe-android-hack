@@ -12,9 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,8 +41,8 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
-import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.RowRoomRateLayout;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.squareup.otto.Subscribe;
@@ -186,17 +183,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 				bedType.setVisibility(View.GONE);
 			}
 
-			String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-			String built = getString(R.string.room_rate_per_night_template, formattedRoomRate);
-			int rateOffset = built.indexOf(formattedRoomRate);
-			int rateLength = formattedRoomRate.length();
-			SpannableStringBuilder builder = new SpannableStringBuilder(built);
-			builder.setSpan(new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)),
-				rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			builder.setSpan(new ForegroundColorSpan(getResources()
-				.getColor(R.color.hotel_room_rate_select_room_button)),
-				rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			pricePerNight.setText(builder);
+			pricePerNight.setText(RowRoomRateLayout.getStyledPrice(getResources(), rate));
 
 			View row = Ui.findView(mRootC, R.id.room_rate_add_select_container);
 			final ColorDrawable colorDrawable = new ColorDrawable(
