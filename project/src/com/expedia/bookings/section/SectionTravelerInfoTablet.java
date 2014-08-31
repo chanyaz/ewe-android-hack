@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.Ui;
 /*
 We introduce this class as a way to introduce tablet oriented name containers
  */
-public class SectionTravelerInfoTablet extends com.expedia.bookings.section.SectionTravelerInfo implements ILOBable {
+public class SectionTravelerInfoTablet extends SectionTravelerInfo implements ILOBable {
 
 	private LineOfBusiness mLob = null;
 
