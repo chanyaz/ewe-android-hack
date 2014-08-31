@@ -42,7 +42,8 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	}
 
 	private ArrayList<GenderSpinnerHelper> mGenders;
-	private String mFormatString = "%s";
+	private static final String DEFAULT_FORMAT_STRING = "%s";
+	private String mFormatString = DEFAULT_FORMAT_STRING;
 
 	public GenderSpinnerAdapter(Context context) {
 		super(context, R.layout.simple_spinner_traveler_item);
@@ -61,6 +62,10 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		mFormatString = formatString;
 	}
 
+	public void resetFormatString() {
+		mFormatString = DEFAULT_FORMAT_STRING;
+	}
+
 	@Override
 	public int getCount() {
 		return mGenders.size();
@@ -69,7 +74,6 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	@Override
 	public CharSequence getItem(int position) {
 		return mGenders.get(position).getGenderString();
-		//return Html.fromHtml(String.format(mFormatString, mGenders.get(position).getGenderString()));
 	}
 
 	@Override
