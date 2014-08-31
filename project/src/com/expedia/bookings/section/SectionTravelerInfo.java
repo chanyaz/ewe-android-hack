@@ -455,7 +455,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getFirstName());
-
 		}
 
 		@Override
@@ -1233,8 +1232,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	SectionFieldEditable<Spinner, Traveler> mEditGenderSpinner = new SectionFieldEditable<Spinner, Traveler>(
 		R.id.edit_gender_spinner) {
 
-		private boolean mSetFieldManually = false;
-
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
 			public int validate(Spinner obj) {
@@ -1256,21 +1253,17 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			field.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					if (getData() != null) {
+					if (hasBoundData()) {
 						GenderSpinnerAdapter genderAdapter = (GenderSpinnerAdapter) parent.getAdapter();
 						getData().setGender(genderAdapter.getGender(position));
 					}
 
-					if (!mSetFieldManually) {
-						onChange(SectionTravelerInfo.this);
-					}
-					else {
-						mSetFieldManually = false;
-					}
+					onChange(SectionTravelerInfo.this);
 				}
 
 				@Override
 				public void onNothingSelected(AdapterView<?> arg0) {
+					// ignore
 				}
 			});
 
@@ -1284,10 +1277,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					data.getFirstName(), "%s");
 				adapter.setFormatString(newFormatStr);
 			}
+			else {
+				adapter.resetFormatString();
+			}
 			int currentPos = adapter.getGenderPosition(data.getGender());
 			if (currentPos >= 0) {
 				field.setSelection(currentPos);
-				mSetFieldManually = true;
+			}
+			else {
+				// Default to Male
+				field.setSelection(adapter.getGenderPosition(Traveler.Gender.MALE));
 			}
 		}
 
