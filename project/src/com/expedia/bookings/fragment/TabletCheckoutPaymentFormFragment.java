@@ -23,6 +23,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
@@ -125,8 +126,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			}
 			else  {
 				//If we don't have a saved card, we must validate, if we have valid input, close
+				boolean requiresAddress = PointOfSale.getPointOfSale().requiresBillingAddressFlights();
 				boolean hasValidBillingInfo = mSectionBillingInfo != null && mSectionBillingInfo.performValidation();
-				boolean hasValidLocation = mSectionLocation != null && mSectionLocation.performValidation();
+				boolean hasValidLocation = !requiresAddress || mSectionLocation != null && mSectionLocation.performValidation();
 
 				if (hasValidBillingInfo && hasValidLocation) {
 					commitAndLeave();

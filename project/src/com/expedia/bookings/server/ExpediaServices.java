@@ -1260,15 +1260,22 @@ public class ExpediaServices implements DownloadListener {
 			else {
 				// F670: Location can be null if we are using a stored credit card
 				if (location != null && location.getStreetAddress() != null) {
-					query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
+					String address = location.getStreetAddress().get(0);
+					if (!TextUtils.isEmpty(address)) {
+						query.add(new BasicNameValuePair("streetAddress", address));
+					}
 					if (location.getStreetAddress().size() > 1) {
 						String address2 = location.getStreetAddress().get(1);
 						if (!TextUtils.isEmpty(address2)) {
 							query.add(new BasicNameValuePair("streetAddress2", address2));
 						}
 					}
-					query.add(new BasicNameValuePair("city", location.getCity()));
-					query.add(new BasicNameValuePair("state", location.getStateCode()));
+					if (!TextUtils.isEmpty(location.getCity())) {
+						query.add(new BasicNameValuePair("city", location.getCity()));
+					}
+					if (!TextUtils.isEmpty(location.getStateCode())) {
+						query.add(new BasicNameValuePair("state", location.getStateCode()));
+					}
 					// #1056. Flights booking postalCode check depends on the billing country chosen during checkout.
 					if (!TextUtils.isEmpty(location.getPostalCode())) {
 						query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
