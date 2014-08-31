@@ -79,7 +79,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		int imageWidth = getResources().getDimensionPixelSize(R.dimen.confirmation_width);
 		int imageHeight = getResources().getDimensionPixelSize(R.dimen.confirmation_image_height);
 		// FIXME tablet destination image
-		final String url = new Akeakamai(Images.getFlightDestination(code)) //
+		final String url = new Akeakamai(Images.getTabletDestination(code)) //
 			.resizeExactly(imageWidth, imageHeight) //
 			.build();
 
