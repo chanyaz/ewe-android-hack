@@ -17,7 +17,7 @@
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">เลือกวันที่</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">โรงแรมที่จะพักคืนนี้</string>
+    <string name="hotels_tonight">โรงแรมสำหรับคืนนี้</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">โปรดบอกเราว่าคุณจะบินจากที่ไหน เพื่อเลือกดูเที่ยวบินไปยัง%s</string>
     <!-- Missing flight info message -->
@@ -57,7 +57,7 @@
     <!-- Resulsts label -->
     <string name="results">ผลการค้นหา</string>
     <!-- Sort & Filter label -->
-    <string name="Sort_and_Filter">กรอง / แบ่งประเภท</string>
+    <string name="Sort_and_Filter">จำกัดผลการค้นหา</string>
     <!-- "Done" list header label -->
     <string name="Done">เสร็จ</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
@@ -183,7 +183,7 @@
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">ทารกอายุต่ำกว่า 2 ปี</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">มีผู้ใหญ่ (อายุ 12 ปีขึ้นไป) ไม่พอให้ทารกนั่งตัก ทารกต้องนั่งในที่นั่งของตัวเอง</string>
+    <string name="max_one_infant_per_lap">มีจำนวนผู้ใหญ่ (อายุ 12 ปีขึ้นไป) ไม่พอให้ทารกนั่งตัก ทารกต้องนั่งในที่นั่งของตัวเอง</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">นั่งตัก</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -1087,7 +1087,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">ข้อมูลเกี่ยวกับค่าสัมภาระ</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s แวะพัก&lt;/b&gt; ที่ %2$s</string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;แวะพัก %1$s&lt;/b&gt; ที่ %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
@@ -1677,7 +1677,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ปี</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;น้อยกว่า 1 ปี&lt;/b&gt;</string>
+    <string name="child_age_less_than_one">&lt;b&gt;ไม่เกิน 1 ปี&lt;/b&gt;</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -1698,7 +1698,7 @@
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s ถึง %2$s</string>
     <!-- Hint for filtering results by hotel name -->
-    <string name="filter_hotel_name_hint">จำกัดผลลัพธ์ตามชื่อโรงแรม</string>
+    <string name="filter_hotel_name_hint">ค้นหาจากชื่อโรงแรม</string>
     <!-- Label indicating that there are no results matching their current filter -->
     <string name="no_filter_results">ขออภัย ไม่มีโรงแรมตรงกับการจำกัดการค้นหาของคุณ</string>
     <!-- Label indicating that geolocation failed -->
@@ -1867,7 +1867,7 @@
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">ศูนย์ธุรกิจ</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">ห้องออกกำลังกาย</string>
+    <string name="AmenityFitnessCenter">ฟิตเนส</string>
     <!-- Hot tub on-site amenity -->
     <string name="AmenityHotTub">อ่างน้ำร้อน</string>
     <!-- Internet access amenity -->

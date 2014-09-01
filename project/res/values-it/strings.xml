@@ -13,7 +13,7 @@
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Vola da…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
-    <string name="select_dates_proper_case"></string>
+    <string name="select_dates_proper_case">Seleziona date</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Scegli le date</string>
     <!-- Hotels Tonight -->
@@ -25,7 +25,7 @@
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Inserisci date per\nvoli a %s</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">\n</string>
+    <string name="flight_trends_missing_origin">Per scoprire i trend sui prezzi dei voli,\nindica da dove vuoi partire.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Inizio del viaggio</string>
     <!-- Denotes the end date of the trip -->
@@ -99,7 +99,7 @@
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
         <item quantity="zero">%s voli di ritorno</item>
-        <item quantity="one">%s</item>
+        <item quantity="one">%s voli di ritorno</item>
         <item quantity="two">%s voli di ritorno</item>
         <item quantity="few">%s voli di ritorno</item>
         <item quantity="many">%s voli di ritorno</item>
@@ -124,7 +124,7 @@
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Andata</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends"></string>
+    <string name="flight_trends">Tendenze di volo</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Ritorno</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
@@ -206,11 +206,11 @@
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
         <item quantity="zero">Non stop</item>
-        <item quantity="one">%s Scali</item>
-        <item quantity="two">%s Scali</item>
-        <item quantity="few">%s Scali</item>
-        <item quantity="many">%s Scali</item>
-        <item quantity="other">%s Scali</item>
+        <item quantity="one">%s scalo</item>
+        <item quantity="two">%s scali</item>
+        <item quantity="few">%s scali</item>
+        <item quantity="many">%s scali</item>
+        <item quantity="other">%s scali</item>
     </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
@@ -218,7 +218,7 @@
     <!-- Header for a dropdown to select from a list of available arrival airports -->
     <string name="arrival_airports">Aeroporti di arrivo</string>
     <!-- Header for a dropdown to select form a list of airports -->
-    <string name="all_airports">Tutti gil aeroporti</string>
+    <string name="all_airports">Tutti gli aeroporti</string>
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
@@ -1011,7 +1011,7 @@
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
     <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (solo andata)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; a &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ordina voli</string>
     <!-- Edit search title -->
@@ -1159,7 +1159,7 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Tasse e spese di gestione incluse</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: da %2$s a %3$s</string>
+    <string name="trip_to_with_date">%1$s: %2$s - %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -1254,7 +1254,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Tasse e spese di gestione</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Commissione di prenotazione Expedia</string>
+    <string name="expedia_booking_fee">Spese di gestione Expedia</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Commissione sui pagamenti con carta</string>
     <!-- Flight -->
@@ -1316,7 +1316,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">L\&apos;e-mail di conferma sarà inviata a questo indirizzo</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Scade il &lt;/font&gt;%1$s</string>
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Scadenza&lt;/font&gt; %1$s</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1505,7 +1505,7 @@
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
-    <string name="calendar_flight_title_TEMPLATE">da %1$s a %2$s</string>
+    <string name="calendar_flight_title_TEMPLATE">%1$s - %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
@@ -1602,9 +1602,9 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
-    <string name="security_code_TEMPLATE">Codice di sicurezza per &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="security_code_TEMPLATE">Codice di sicurezza per la carta &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">Le ultime cifre della carta sono %s</string>
+    <string name="card_ending_TEMPLATE">che termina con %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s che termina con %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -1675,7 +1675,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; anni di età</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Meno di 1 anno di età&lt;/b&gt;</string>
+    <string name="child_age_less_than_one">&lt;b&gt;Meno di 1&lt;/b&gt; anno</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -1694,7 +1694,7 @@
     <!-- Label for "start search" button -->
     <string name="search">Cerca</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">da %1$s a %2$s</string>
+    <string name="date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtra per nome hotel</string>
     <!-- Label indicating that there are no results matching their current filter -->
@@ -1840,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access"></string>
+    <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message"></string>
+    <string name="vip_access_message">Presso gli hotel +VIP Access, gli iscritti +silver e +gold ricevono l\&apos;upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Solo hotel +VIP Access</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only"></string>
+    <string name="VIP_Access_Only">Solo +Accesso VIP</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">ON</string>
     <string name="switch_off">OFF</string>
@@ -3010,7 +3010,7 @@
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">Fine</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
-    <string name="tablet_confirmation_flights_from_to">Itinerario di %1$s per %2$s</string>
+    <string name="tablet_confirmation_flights_from_to">Itinerario da %1$s per %2$s</string>
 
     <!-- Tablet Sold Out Screen -->
     <!-- Header text to indicating hotel sold out -->

@@ -89,21 +89,21 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s 便</item>
-        <item quantity="one">%s 便</item>
-        <item quantity="two">%s 便</item>
-        <item quantity="few">%s 便</item>
-        <item quantity="many">%s 便</item>
-        <item quantity="other">%s 便</item>
+        <item quantity="zero">%s 便のフライト</item>
+        <item quantity="one">%s 便のフライト</item>
+        <item quantity="two">%s 便のフライト</item>
+        <item quantity="few">%s 便のフライト</item>
+        <item quantity="many">%s 便のフライト</item>
+        <item quantity="other">%s 便のフライト</item>
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
-        <item quantity="zero">復路 (帰り) 便 %s 便</item>
-        <item quantity="one">復路 (帰り) 便 %s 便</item>
-        <item quantity="two">復路 (帰り) 便 %s 便</item>
-        <item quantity="few">復路 (帰り) 便 %s 便</item>
-        <item quantity="many">復路 (帰り) 便 %s 便</item>
-        <item quantity="other">復路 (帰り) 便 %s 便</item>
+        <item quantity="zero">復路 (帰り) %s 便</item>
+        <item quantity="one">復路 (帰り) %s 便</item>
+        <item quantity="two">復路 (帰り) %s 便</item>
+        <item quantity="few">復路 (帰り) %s 便</item>
+        <item quantity="many">復路 (帰り) %s 便</item>
+        <item quantity="other">復路 (帰り) %s 便</item>
     </plurals>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行のデータがありません。</string>
@@ -116,9 +116,9 @@
     <!-- Tablet Trip bucket, expired text -->
     <string name="trip_bucket_expired">に期限切れ</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復フライト</string>
+    <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復航空券</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">%1$sへのフライト</string>
+    <string name="trip_bucket_label_flight_trip">%1$sへの航空券</string>
     <!-- Loading Hotels and Flights… -->
     <string name="loading_hotels_and_flights">ホテルとフライトを読み込み中…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
@@ -226,7 +226,7 @@
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
     <string name="tablet_room_rate_resort_fees_template">ホテルでの追加料金 : &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
-    <string name="room_rate_button_add_to_trip">旅行に追加</string>
+    <string name="room_rate_button_add_to_trip">プランに追加</string>
     <!-- Rooms and rates button to select a particular room and view details -->
     <string name="room_rate_button_select_room">部屋を選択</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
@@ -275,7 +275,7 @@
     <!-- Actionbar Title for default search results state -->
     <string name="Create_a_Trip">旅行を作成する</string>
     <!-- Your Trip -->
-    <string name="your_trip">お客様の旅行</string>
+    <string name="your_trip">お客様の旅行プラン</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
     <string name="now_booking_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;を予約中</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
@@ -974,9 +974,9 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">申し訳ありません。エクスペディアのサーバーに接続できません。後ほどお試しください。</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">出発地</string>
+    <string name="sort_description_departure">出発時刻</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">到着地</string>
+    <string name="sort_description_arrival">到着時刻</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">所要時間</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->

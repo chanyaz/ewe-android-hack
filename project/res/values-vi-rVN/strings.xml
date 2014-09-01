@@ -165,7 +165,7 @@
     <!-- Short label for "sort by distance" button -->
     <string name="distance">khoảng cách</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">tỉ lệ giảm giá</string>
+    <string name="discounts">giảm giá</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Bấm để sắp xếp theo mức độ phổ biến của khách sạn.</string>
     <!-- Content description for "sort by price" button -->
@@ -483,7 +483,7 @@
     <!-- Passengers Label -->
     <string name="passengers_label">Hành khách</string>
     <!-- Booking info label -->
-    <string name="booking_info">Thông tin đặt chỗ</string>
+    <string name="booking_info">Thông tin đặt</string>
     <!-- Itin flight generic terminal and gate template -->
     <string name="Terminal_X_Gate_Y_TEMPLATE">Ga %1$s, Cổng %2$s</string>
     <!-- Itin flight international terminal and gate template -->
@@ -1229,7 +1229,7 @@
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
-    <string name="please_use_the_roman_alphabet">Vui lòng chỉ sử dụng các ký tự Latin không dấu</string>
+    <string name="please_use_the_roman_alphabet">Vui lòng chỉ sử dụng ký tự Latin không dấu</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Vui lòng nhập địa chỉ email hợp lệ</string>
 
@@ -2045,7 +2045,7 @@
     <!-- Error shown to user if their credit card postal code is invalid -->
     <string name="invalid_postal_code">Rất tiếc, chúng tôi cần mã bưu chính hợp lệ để tiến hành thủ tục thanh tóa trên thẻ tín dụng của quý vị.</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">Đang đặt phòng…</string>
+    <string name="booking_loading">Đang đặt…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Lỗi</string>
     <!-- Error message when booking completed with errors -->
@@ -2073,7 +2073,7 @@
     <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
     <string name="CheckOut">Trả phòng</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
-    <string name="discount">Giảm</string>
+    <string name="discount">Giảm giá</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Không có thông tin</string>
 
@@ -2145,13 +2145,13 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Rất tiếc, coupon này đã hết hạn.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
+    <string name="coupon_error_not_redeemed">Rất tiếc, chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Rất tiếc, mã coupon này đã được sử dụng.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Rất tiếc, chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Chi phí đặt phòng đã thay đổi, vì thế chúng tôi không áp dụng được coupon. Vui lòng kiểm tra và thử lại.</string>
+    <string name="coupon_error_price_change">Giá đã thay đổi, vì thế chúng tôi không áp dụng coupon. Vui lòng kiểm tra và thử lại.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Rất tiếc, mã coupon này dành cho quốc gia khác.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -2177,13 +2177,13 @@
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
-    <string name="booking_support">Hỗ trợ Đặt chỗ</string>
+    <string name="booking_support">Hỗ trợ Đặt</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_expedia_via">Liên lạc với Expedia qua…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Điện thoại</string>
     <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Bộ phận Hỗ trợ đặt chỗ của Expedia</string>
+    <string name="contact_expedia_email_subject">Bộ phận Hỗ trợ Đặt phòng/chỗ của Expedia</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
@@ -2335,20 +2335,20 @@
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Rất tiếc, nhưng chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_hotel_service_failure">Rất tiếc, chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của quý vị. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_invalid_input">Rất tiếc, chúng tôi không tìm được kết quả với từ khóa của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input_unknown">Rất tiếc, chúng tôi không tìm được kết quả với từ khóa của quý vị. Vui lòng thử lại.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Rất tiếc, nhưng chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_unknown_error">Rất tiếc, chúng tôi không thể hoàn tất việc tìm kiếm cho quý vị. Vui lòng thử lại.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Rất tiếc, nhưng phòng quý vị yêu cầu không còn.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Rất tiếc, phòng quý vị yêu cầu không còn.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Rất tiếc, nhưng chúng tôi không thể kết nối với Expedia. Vui lòng thử lại.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">Rất tiếc, chúng tôi không thể kết nối với Expedia. Vui lòng thử lại.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
     <!-- There are no longer any rooms for the hotel offer -->

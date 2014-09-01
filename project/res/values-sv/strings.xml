@@ -27,9 +27,9 @@
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Ange var du reser ifrån\nför att se flygpristrender.</string>
     <!-- Denotes the start date of the trip -->
-    <string name="trip_starts">Resan startar</string>
+    <string name="trip_starts">Avresa</string>
     <!-- Denotes the end date of the trip -->
-    <string name="trip_ends">Resan slutar</string>
+    <string name="trip_ends">Returresa</string>
     <!-- Denotes that the return date for the trip is optional, in the event of a one-way flight ticket -->
     <string name="trip_end_optional">Valfritt</string>
     <!-- Button text for when flight origin is missing -->
@@ -62,12 +62,12 @@
     <string name="Done">Klar</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
     <plurals name="x_Hotels_TEMPLATE">
-        <item quantity="zero">Hotell i %s</item>
-        <item quantity="one">Hotell i %s</item>
-        <item quantity="two">Hotell i %s</item>
-        <item quantity="few">Hotell i %s</item>
-        <item quantity="many">Hotell i %s</item>
-        <item quantity="other">Hotell i %s</item>
+        <item quantity="zero">%s hotell</item>
+        <item quantity="one">%s hotell</item>
+        <item quantity="two">%s hotell</item>
+        <item quantity="few">%s hotell</item>
+        <item quantity="many">%s hotell</item>
+        <item quantity="other">%s hotell</item>
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
     <plurals name="x_of_y_Hotels_TEMPLATE">
@@ -139,12 +139,12 @@
     <string name="tablet_tripbucket_item_removed">Borttagen</string>
     <!-- Label indicating how many items are being booked for the current trip -->
     <plurals name="items_in_trip">
-        <item quantity="zero">komponenter i den här resplanen</item>
-        <item quantity="one">komponent i den här resplanen</item>
-        <item quantity="two">komponenter i den här resplanen</item>
-        <item quantity="few">komponenter i den här resplanen</item>
-        <item quantity="many">komponenter i den här resplanen</item>
-        <item quantity="other">komponenter i den här resplanen</item>
+        <item quantity="zero">artiklar i den här resplanen</item>
+        <item quantity="one">artikel i den här resplanen</item>
+        <item quantity="two">artiklar i den här resplanen</item>
+        <item quantity="few">artiklar i den här resplanen</item>
+        <item quantity="many">artiklar i den här resplanen</item>
+        <item quantity="other">artiklar i den här resplanen</item>
     </plurals>
 
     <!-- Tablet hotel filters -->
@@ -748,7 +748,7 @@
 
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktiv</string>
-    <string name="itin_card_details_expires">Förfaller</string>
+    <string name="itin_card_details_expires">Går ut</string>
     <string name="itin_card_details_guests">gäster</string>
     <string name="itin_card_details_details">Övrig information</string>
     <string name="itin_card_details_pick_up">Hämtning</string>
@@ -974,9 +974,9 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Försök igen senare.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Avgår</string>
+    <string name="sort_description_departure">Avgång</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Ankommer</string>
+    <string name="sort_description_arrival">Ankomst</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Restid</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -1203,7 +1203,7 @@
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Hotellet debiterar följande: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
-    <string name="Finish_Booking">Avsluta bokning</string>
+    <string name="Finish_Booking">Slutför bokning</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Betala</string>
     <!-- Our best price gaurentee string -->
@@ -1604,7 +1604,7 @@
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
     <string name="security_code_TEMPLATE">Säkerhetskod för &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">kortnummer slutar på %s</string>
+    <string name="card_ending_TEMPLATE">kort som slutar på %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s slutar på %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -1863,7 +1863,7 @@
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Inga bekvämligheter erbjuds</string>
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">Företagscenter</string>
+    <string name="AmenityBusinessCenter">Business center</string>
     <!-- Fitness center amenity -->
     <string name="AmenityFitnessCenter">Gym</string>
     <!-- Hot tub on-site amenity -->
@@ -1871,7 +1871,7 @@
     <!-- Internet access amenity -->
     <string name="AmenityInternet">Internet</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">Barnaktiviteter</string>
+    <string name="AmenityKidsActivities">Aktiviteter för barn</string>
     <!-- Kitchen/kitchenette amenity -->
     <string name="AmenityKitchen">Kök</string>
     <!-- Pets allowed amenity -->
@@ -1879,7 +1879,7 @@
     <!-- Pool amenity -->
     <string name="AmenityPool">Pool</string>
     <!-- Restaurant on-site amenity -->
-    <string name="AmenityRestaurant">Restaurang</string>
+    <string name="AmenityRestaurant">Restaurant</string>
     <!-- Spa on-site amenity -->
     <string name="AmenitySpa">Spa</string>
     <!-- Whirlpool bath amenity -->
@@ -1893,7 +1893,7 @@
     <!-- Parking amenity -->
     <string name="AmenityParking">Parkering</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">Rumsservice</string>
+    <string name="AmenityRoomService">Rumsserv.</string>
     <!-- Accessible path of travel amenity -->
     <string name="AmenityAccessiblePaths">Handikappanpassad väg</string>
     <!-- Accessible bathroom amenity -->
@@ -1911,9 +1911,9 @@
     <!-- Free airport shuttle amenity -->
     <string name="AmenityFreeAirportShuttle">Flygbuss</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">Inomhuspool</string>
+    <string name="AmenityPoolIndoor">Pool inomhus</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">Utomhuspool</string>
+    <string name="AmenityPoolOutdoor">Pool utomhus</string>
     <!-- Extended parking amenity -->
     <string name="AmenityExtendedParking">Utökad parkering</string>
     <!-- Free parking amenity -->

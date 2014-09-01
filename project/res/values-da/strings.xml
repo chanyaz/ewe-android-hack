@@ -62,12 +62,12 @@
     <string name="Done">Afslut</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
     <plurals name="x_Hotels_TEMPLATE">
-        <item quantity="zero">Hoteller i %s</item>
-        <item quantity="one">Hotel i %s</item>
-        <item quantity="two">Hoteller i %s</item>
-        <item quantity="few">Hoteller i %s</item>
-        <item quantity="many">Hoteller i %s</item>
-        <item quantity="other">Hoteller i %s</item>
+        <item quantity="zero">%s hoteller</item>
+        <item quantity="one">%s hotel</item>
+        <item quantity="two">%s hoteller</item>
+        <item quantity="few">%s hoteller</item>
+        <item quantity="many">%s hoteller</item>
+        <item quantity="other">%s hoteller</item>
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
     <plurals name="x_of_y_Hotels_TEMPLATE">
@@ -89,12 +89,12 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s fly</item>
-        <item quantity="one">%s fly</item>
-        <item quantity="two">%s fly</item>
-        <item quantity="few">%s fly</item>
-        <item quantity="many">%s fly</item>
-        <item quantity="other">%s fly</item>
+        <item quantity="zero">%s flyrejser</item>
+        <item quantity="one">%s flyrejse</item>
+        <item quantity="two">%s flyrejser</item>
+        <item quantity="few">%s flyrejser</item>
+        <item quantity="many">%s flyrejser</item>
+        <item quantity="other">%s flyrejser</item>
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
@@ -108,7 +108,7 @@
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Din rejse er tom.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
-    <string name="trip_bucket_book_flight">Book flyrejse</string>
+    <string name="trip_bucket_book_flight">Reserver flyrejse</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Reserver hotel</string>
     <!-- Tablet Trip bucket, sold out text -->
@@ -118,7 +118,7 @@
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Returrejse med fly til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">Fly til %1$s</string>
+    <string name="trip_bucket_label_flight_trip">Flyrejse til %1$s</string>
     <!-- Loading Hotels and Flights… -->
     <string name="loading_hotels_and_flights">Henter hoteller og flyrejser…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
@@ -149,7 +149,7 @@
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
-    <string name="Sort_By">Sortér efter</string>
+    <string name="Sort_By">Sorter efter</string>
     <!-- "Filters" section header -->
     <string name="Filters">Filtre</string>
     <!-- "Areas"/neighborhoods section header -->
@@ -323,7 +323,7 @@
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
-    <string name="nav_flights">Fly</string>
+    <string name="nav_flights">Flyrejser</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hoteller</string>
 
@@ -1193,9 +1193,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Skub for at købe.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">skub for at booke hotel</string>
+    <string name="slide_to_book_hotel">skub for at reservere hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">skub for at booke flyrejse</string>
+    <string name="slide_to_book_flight">skub for at reservere flyrejse</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Der trækkes %1$s fra dit kort</string>
     <!-- Amount to be paid now -->
@@ -1310,7 +1310,7 @@
     <!-- email hint -->
     <string name="email_address_hint">E-mailadresse</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Telefonnummer</string>
+    <string name="phone_number_hint">Telefon</string>
     <!-- Cardholder -->
     <string name="cardholder">Kortindehaver</string>
     <!-- email disclaimer -->
@@ -1392,7 +1392,7 @@
     <!-- next page buttn -->
     <string name="next">Næste</string>
     <!-- Passport country label -->
-    <string name="passport_country">Land i passet</string>
+    <string name="passport_country">Land i pas</string>
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Land/oprindelsessted i passet</string>
     <!-- Redress number hint -->
@@ -2998,7 +2998,7 @@
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">Rejseplansnummer %1$s er sendt til%2$s</string>
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Rejseplansnummer %1$s er sendt til %2$s</string>
     <!-- Share button text for hotels -->
     <string name="tablet_confirmation_share_hotel">Del ophold</string>
     <!-- Share button text for flights -->
@@ -3006,7 +3006,7 @@
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">Ring til kundeservice</string>
     <!-- Book Next Item button text -->
-    <string name="tablet_confirmation_book_next">Book næste emne</string>
+    <string name="tablet_confirmation_book_next">Reserver næste komponent</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">Reservation færdig</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->

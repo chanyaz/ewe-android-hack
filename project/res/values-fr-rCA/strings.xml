@@ -11,13 +11,13 @@
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Prendre un vol à %1$s</string>
     <!-- Fly from… -->
-    <string name="Fly_from_dot_dot_dot">Vol de…</string>
+    <string name="Fly_from_dot_dot_dot">Vol au départ de…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Sélectionner les dates</string>
     <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
     <string name="choose_dates">Choisir les dates</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Hôtels ce soir</string>
+    <string name="hotels_tonight">Hôtels pour ce soir</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">Pour parcourir les vols vers %s, dites-nous d\&apos;où arrive votre vol.</string>
     <!-- Missing flight info message -->
@@ -25,11 +25,11 @@
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Veuillez sélectionner les dates des\nvols vers %s</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Pour connaître les tendances dans les prix des vols,\ndites-nous de quel endroit vous partez.</string>
+    <string name="flight_trends_missing_origin">Pour connaître les tendances dans les prix \ndes vols, dites-nous de quel endroit vous partez.</string>
     <!-- Denotes the start date of the trip -->
-    <string name="trip_starts">Le voyage commence</string>
+    <string name="trip_starts">Du</string>
     <!-- Denotes the end date of the trip -->
-    <string name="trip_ends">Le voyage se termine</string>
+    <string name="trip_ends">Au</string>
     <!-- Denotes that the return date for the trip is optional, in the event of a one-way flight ticket -->
     <string name="trip_end_optional">Facultatif</string>
     <!-- Button text for when flight origin is missing -->
@@ -157,15 +157,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Autres quartiers</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">popularité</string>
+    <string name="popular">Popularité</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">prix</string>
+    <string name="price">Prix</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">évaluation</string>
+    <string name="rating">Évaluation</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">distance</string>
+    <string name="distance">Distance</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">réductions</string>
+    <string name="discounts">Réductions</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Appuyez pour trier en fonction des hôtels les plus populaires.</string>
     <!-- Content description for "sort by price" button -->
@@ -228,7 +228,7 @@
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Ajouter au voyage</string>
     <!-- Rooms and rates button to select a particular room and view details -->
-    <string name="room_rate_button_select_room">Sélectionner une chambre</string>
+    <string name="room_rate_button_select_room">Choisir</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s évaluations</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
@@ -241,12 +241,12 @@
     <string name="photos_for_TEMPLATE">Photos de %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">%schambres disponibles</item>
-        <item quantity="one">%schambre disponible</item>
-        <item quantity="two">%schambres disponibles</item>
-        <item quantity="few">%schambres disponibles</item>
-        <item quantity="many">%schambres disponibles</item>
-        <item quantity="other">%schambres disponibles</item>
+        <item quantity="zero">%s chambres disponibles</item>
+        <item quantity="one">%s chambre disponible</item>
+        <item quantity="two">%s chambres disponibles</item>
+        <item quantity="few">%s chambres disponibles</item>
+        <item quantity="many">%s chambres disponibles</item>
+        <item quantity="other">%s chambres disponibles</item>
     </plurals>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">Évaluations de %1$s</string>
@@ -267,7 +267,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Création du voyage …</string>
+    <string name="spinner_text_hotel_create_trip">Création du voyage…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -277,7 +277,7 @@
     <!-- Your Trip -->
     <string name="your_trip">Votre voyage</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">Nouvelle réservation &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="now_booking_TEMPLATE">Nouvelle réservation - &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
     <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
@@ -299,7 +299,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Impossible d\&apos;ouvrir une session à Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Échec d\&apos;ouverture de session.  Si votre adresse e-mail et votre mot de passe sont corrects, vérifiez et confirmez que votre paramètre Pays de l\&apos;appli est correct.</string>
+    <string name="login_failed_try_again">Échec d\&apos;ouverture de session. Si votre adresse e-mail et votre mot de passe sont corrects, vérifiez et confirmez que votre paramètre Pays de l\&apos;appli est correct.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mot de passe Expedia</string>
     <!-- Link accounts -->
@@ -333,9 +333,9 @@
     <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">Partir en voyage.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;M\&apos;envoler vers&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vol vers&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Rester à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Séjour à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Il nous est impossible d\&apos;établir la connexion.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -358,12 +358,12 @@
     <string name="your_search">Votre recherche</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
-        <item quantity="zero">%s Articles</item>
-        <item quantity="one">%s Article</item>
-        <item quantity="two">%s Article</item>
-        <item quantity="few">%s Articles</item>
-        <item quantity="many">%s Articles</item>
-        <item quantity="other">%s Articles</item>
+        <item quantity="zero">%s articles</item>
+        <item quantity="one">%s article</item>
+        <item quantity="two">%s articles</item>
+        <item quantity="few">%s articles</item>
+        <item quantity="many">%s articles</item>
+        <item quantity="other">%s articles</item>
     </plurals>
 
     <!-- Notifications -->
@@ -473,7 +473,7 @@
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Confirmation de la compagnie aérienne</string>
     <!-- Flight Carrier confirmation code label template -->
-    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Confirmation</string>
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Confirmation %1$s</string>
     <!-- Car rental agency name and location in car itin detail -->
     <string name="car_rental_agency_name_location">%1$s à %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
@@ -648,7 +648,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">parcs thématiques</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Trouvez les meilleurs</string>
+    <string name="attraction_beaches_first">Trouvez les meilleures</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">plages</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -974,9 +974,9 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Désolé, nous n\&apos;avons pas pu nous connecter aux serveurs Expedia. Veuillez réessayer plus tard.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Quitte</string>
+    <string name="sort_description_departure">Départ</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Arrive</string>
+    <string name="sort_description_arrival">Arrivée</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Durée</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -1011,7 +1011,7 @@
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
     <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (aller seul.)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; à &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Trier les vols</string>
     <!-- Edit search title -->
@@ -1159,7 +1159,7 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Comprend les taxes et les frais</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s-%2$s à %3$s</string>
+    <string name="trip_to_with_date">%1$s-%2$s - %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -1275,19 +1275,19 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">Détails sur l\&apos;invité</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">Détails sur l\&apos;%1$s adulte</string>
+    <string name="add_adult_number_TEMPLATE">Détails sur l\&apos;adulte n. %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Détails sur l\&apos; adulte</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">Détails sur l\&apos;%1$s enfant</string>
+    <string name="add_child_number_TEMPLATE">Détails sur l\&apos;enfant n. %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Détails %1$s ans</string>
+    <string name="add_child_with_age_TEMPLATE">Détails sur l\&apos;enfant de %1$s ans</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Détails sur le %1$s bébé sur les genoux</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Détails sur le bébé n. %1$s sur les genoux</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Détails sur le bébé sur les genoux</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Détails sur le %1$s bébé dans un siège</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Détails sur le bébé n. %1$s dans un siège</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Détails sur le bébé dans un siège</string>
     <!-- Warning shown to users when they enter their name -->
@@ -1306,11 +1306,11 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">Sur la carte</string>
+    <string name="name_on_card_hint">Nom du titulaire sur la carte</string>
     <!-- email hint -->
     <string name="email_address_hint">Adresse courriel</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Numéro de téléphone</string>
+    <string name="phone_number_hint">Téléphone</string>
     <!-- Cardholder -->
     <string name="cardholder">Détenteur</string>
     <!-- email disclaimer -->
@@ -1505,7 +1505,7 @@
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
-    <string name="calendar_flight_title_TEMPLATE">%1$s à %2$s</string>
+    <string name="calendar_flight_title_TEMPLATE">%1$s - %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
@@ -1602,13 +1602,13 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
-    <string name="security_code_TEMPLATE">Code de sécurité pour &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="security_code_TEMPLATE">Code de sécurité pour la carte &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">se terminant par %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s prenant fin %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
-    <string name="title_complete_booking">Terminer la réservation</string>
+    <string name="title_complete_booking">Réserver</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Signature autorisée</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
@@ -1675,7 +1675,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ans</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Moins de 1&lt;/b&gt; an</string>
+    <string name="child_age_less_than_one">&lt;b&gt;Moins d\&apos;1&lt;/b&gt; an</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -1694,7 +1694,7 @@
     <!-- Label for "start search" button -->
     <string name="search">Rechercher</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s à %2$s</string>
+    <string name="date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrer par nom d\&apos;hôtel</string>
     <!-- Label indicating that there are no results matching their current filter -->
@@ -1840,13 +1840,13 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">+VIP Access</string>
+    <string name="vip_access">+Accès VIP</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Les hôtels +VIP Access offrent le surclassement sans frais en catégorie supérieure aux membres +silver et +gold ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
+    <string name="vip_access_message">Les hôtels +Accès VIP offrent le surclassement sans frais en catégorie supérieure aux membres +silver et +gold ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Seulement les hôtels +VIP Access</string>
+    <string name="filter_vip_access">Seulement les hôtels +Accès VIP</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">+VIP Access seulement</string>
+    <string name="VIP_Access_Only">+Accès VIP seulement</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">Activé</string>
     <string name="switch_off">Désactivé</string>
@@ -2105,7 +2105,7 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Voulez-vous vraiment vous déconnecter de votre compte Expedia?</string>
     <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Inscrits à Expedia+ Rewards\u2122</string>
+    <string name="enrolled_in_expedia_rewards">Inscrits à Expedia+\u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Membre Elite Plus</string>
     <!-- Label for account name -->
@@ -2780,9 +2780,9 @@
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Lancez Hôtels Expedia</string>
+    <string name="cd_launch_hotels">Lancez Expedia Hôtels</string>
     <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Lancez Vols Expedia</string>
+    <string name="cd_launch_flights">Lancez Expedia Vols</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">Ouvrez la liste de menus</string>
     <!-- Content description for action: Open Settings Menu -->
@@ -2998,19 +2998,19 @@
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">Nº itinéraire %1$s envoyé à%2$s</string>
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Nº itinéraire %1$s envoyé à %2$s</string>
     <!-- Share button text for hotels -->
-    <string name="tablet_confirmation_share_hotel">Partager le séjour</string>
+    <string name="tablet_confirmation_share_hotel">Partager</string>
     <!-- Share button text for flights -->
     <string name="tablet_confirmation_share_flight">Partager</string>
     <!-- Call support button text -->
-    <string name="tablet_confirmation_call_support">Communiquer avec le soutien</string>
+    <string name="tablet_confirmation_call_support">Soutien</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">Réserver prochain élément</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">Réservation terminée</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
-    <string name="tablet_confirmation_flights_from_to">%1$s à %2$s</string>
+    <string name="tablet_confirmation_flights_from_to">%1$s - %2$s</string>
 
     <!-- Tablet Sold Out Screen -->
     <!-- Header text to indicating hotel sold out -->

@@ -157,7 +157,7 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Andre områder</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">Populære</string>
+    <string name="popular">populære</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">pris</string>
     <!-- Short label for "sort by rating" button -->
@@ -1127,7 +1127,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Velg betalingsform</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Betalingsdetaljer</string>
+    <string name="select_payment_sentence_case">Betalingsinfo</string>
     <!-- Add new card -->
     <string name="add_new_card">Legg til nytt betalingskort</string>
     <!-- Overview button -->
@@ -1135,7 +1135,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Velg lagret betalingsform</string>
     <!-- Payment Method -->
-    <string name="payment_method">Betalingsdetaljer</string>
+    <string name="payment_method">Betalingsinfo</string>
     <!-- Billing Address -->
     <string name="billing_address">Faktureringsadresse</string>
     <!-- Card Info -->
@@ -1471,7 +1471,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Du skal på ferie til %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Reiserutenummer %s sendt til</string>
+    <string name="itinerary_confirmation_TEMPLATE">Reiserutenr. %s ble sendt til</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Bestill et rom</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -2998,7 +2998,7 @@
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">Reiserutenummer %1$s sendt til %2$s</string>
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Reiserutenr. %1$s ble sendt til %2$s</string>
     <!-- Share button text for hotels -->
     <string name="tablet_confirmation_share_hotel">Del oppholdet</string>
     <!-- Share button text for flights -->
