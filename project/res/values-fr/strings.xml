@@ -273,7 +273,7 @@
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Paiement</string>
     <!-- Actionbar Title for default search results state -->
-    <string name="Create_a_Trip">Créez un voyage</string>
+    <string name="Create_a_Trip">Créer un voyage</string>
     <!-- Your Trip -->
     <string name="your_trip">Votre voyage</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->

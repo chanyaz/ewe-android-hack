@@ -974,7 +974,7 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Lo sentimos, no pudimos conectarnos con los servidores de Expedia.  Favor de intentarlo más tarde.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Sale el</string>
+    <string name="sort_description_departure">Salidas</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Llegadas</string>
     <!-- Sort by duration label -->
@@ -1221,9 +1221,9 @@
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Estamos calculando los impuestos y cargos…</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">Lo sentimos, pero parece que el hotel acaba de aumentar el costo total de esta estancia de %1$s a %2$s.</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Lo sentimos, pero parece que el hotel acaba de aumentar el costo total de esta estadía de %1$s a %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">¡Tenemos excelentes noticias! El costo de tu estancia acaba de disminuir de %1$s a %2$s.</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">¡Tenemos excelentes noticias! El costo de tu estadía acaba de disminuir de %1$s a %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Listo</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -1291,7 +1291,7 @@
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Detalles del niño que viaja en un asiento</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">Es posible que se rechace el abordaje si el nombre del pasajero no corresponde al de la identificación oficial con foto emitida por el gobierno.</string>
+    <string name="name_must_match_warning">Es posible que se rechace el embarque si el nombre del pasajero no coincide con el de la identificación oficial con foto emitida por el gobierno.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Ayuda especial: %1$s</string>
@@ -1471,7 +1471,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">¡Vas a %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE"># de itinerario%s enviado a</string>
+    <string name="itinerary_confirmation_TEMPLATE">núm. de itinerario%s enviado a</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Reserva una habitación</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -1509,7 +1509,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Itinerario de Expedia #: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Núm. de itinerario de Expedia: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Indicaciones para el aeropuerto: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -1653,7 +1653,7 @@
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
-    <string name="drag_to_extend_your_stay">&lt;b&gt;Arrastra el cursor&lt;/b&gt; para extender tu estancia.</string>
+    <string name="drag_to_extend_your_stay">&lt;b&gt;Arrastra el cursor&lt;/b&gt; para extender tu estadía.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Listo</string>
     <!-- Done button text in hotel Confirmation screen for VSC -->
@@ -1722,7 +1722,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">¡Solo esta noche!</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Lo sentimos, pero no nos es posible realizar búsquedas de hotel para estancias de más de %1$s días.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Lo sentimos, pero no nos es posible realizar búsquedas de hotel para estadías de más de %1$s días.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Error en la búsqueda</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -1819,7 +1819,7 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">De %s</string>
+    <string name="map_snippet_price_template">Desde %s</string>
     <string name="From_x_per_night_template">Desde&lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/noche</string>
 
     <!-- Widget -->
@@ -1986,7 +1986,7 @@
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">promedio por noche</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="total_price_for_stay">Precio total por la estancia</string>
+    <string name="total_price_for_stay">Precio total por la estadía</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Precio promedio por noche</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
@@ -2998,9 +2998,9 @@
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE"># de itinerario%1$s enviado a%2$s</string>
+    <string name="tablet_itinerary_confirmation_TEMPLATE">núm. de itinerario%1$s enviado a%2$s</string>
     <!-- Share button text for hotels -->
-    <string name="tablet_confirmation_share_hotel">Compartir estancia</string>
+    <string name="tablet_confirmation_share_hotel">Compartir estadía</string>
     <!-- Share button text for flights -->
     <string name="tablet_confirmation_share_flight">Compartir</string>
     <!-- Call support button text -->

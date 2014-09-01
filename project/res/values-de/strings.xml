@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Suchen Sie nach Reisezielen und Sehenswürdigkeiten</string>
+    <string name="search_all_hint">Nach Reisezielen und Sehenswürdigkeiten suchen</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Nach Abflugort suchen…</string>
     <!-- String when we don't know where the user is coming from/going to -->
@@ -23,7 +23,7 @@
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Bitte wählen Sie ein Datum oder einen Zeitraum aus.</string>
     <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">Bitte wählen Sie eine Zeitraum für\nFlüge nach %s</string>
+    <string name="Set_dates_for_flights_to_X_TEMPLATE">Bitte wählen Sie einen Zeitraum für\nFlüge nach %s</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Für Flugpreistrends\nbrauchen wir Ihren Abflughafen.</string>
     <!-- Denotes the start date of the trip -->
@@ -255,7 +255,7 @@
 
     <!-- Tablet flight details -->
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
-    <string name="flight_cities_TEMPLATE">%1$s bis %2$s</string>
+    <string name="flight_cities_TEMPLATE">%1$s nach %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% pünktlich</string>
 
@@ -277,7 +277,7 @@
     <!-- Your Trip -->
     <string name="your_trip">Ihre Reise</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; wird gebucht</string>
+    <string name="now_booking_TEMPLATE">Buchung für &lt;b&gt;%1$s&lt;/b&gt; erfolgt</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
     <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
@@ -451,7 +451,7 @@
     <!-- Shared Itin - Fallback name for Hotel itin card -->
     <string name="sharedItin_card_fallback_name_hotel">Geteiltes Hotel</string>
     <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
-    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s bis %2$s</string>
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s nach %2$s</string>
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s um %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -820,7 +820,7 @@
     <string name="itin_action_directions">Wegbeschreibung</string>
     <string name="itin_action_call_hotel">Hotel anrufen</string>
     <string name="itin_action_redeem">Einlösen</string>
-    <string name="itin_action_support">Kundenservice</string>
+    <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Teilen</string>
 
     <!-- Itin webview titles -->
@@ -1239,7 +1239,7 @@
     <!-- Payment -->
     <string name="payment">Zahlung</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">Zahlungsdetails eingeben</string>
+    <string name="enter_payment_information">Zahlungsdetails</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1250,7 +1250,7 @@
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
-    <string name="cost_summary">Kostenzusammenfassung</string>
+    <string name="cost_summary">Kostenüberblick</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Steuern &amp; Gebühren</string>
     <!-- Expedia booking fee -->
@@ -1310,7 +1310,7 @@
     <!-- email hint -->
     <string name="email_address_hint">E-Mail-Adresse</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Telefonnummer</string>
+    <string name="phone_number_hint">Tel.-Nr.</string>
     <!-- Cardholder -->
     <string name="cardholder">Karteninhaber</string>
     <!-- email disclaimer -->
@@ -1392,7 +1392,7 @@
     <!-- next page buttn -->
     <string name="next">Weiter</string>
     <!-- Passport country label -->
-    <string name="passport_country">Land des Reisepasses</string>
+    <string name="passport_country">Ausweis ausgestellt in:</string>
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Land/Ausstellungsort des Reisepasses</string>
     <!-- Redress number hint -->
@@ -1505,7 +1505,7 @@
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
-    <string name="calendar_flight_title_TEMPLATE">%1$s bis %2$s</string>
+    <string name="calendar_flight_title_TEMPLATE">%1$s nach %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
@@ -3009,9 +3009,9 @@
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">Nächste Buchung</string>
     <!-- Done Booking button text -->
-    <string name="tablet_confirmation_done_booking">Fertig mit buchen</string>
+    <string name="tablet_confirmation_done_booking">Fertig gebucht!</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
-    <string name="tablet_confirmation_flights_from_to">%1$s bis %2$s</string>
+    <string name="tablet_confirmation_flights_from_to">%1$s nach %2$s</string>
 
     <!-- Tablet Sold Out Screen -->
     <!-- Header text to indicating hotel sold out -->

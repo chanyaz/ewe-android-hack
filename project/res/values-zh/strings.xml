@@ -71,21 +71,21 @@
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
     <plurals name="x_of_y_Hotels_TEMPLATE">
-        <item quantity="zero">%1$s 家酒店（共%2$s家）</item>
-        <item quantity="one">%1$s 家酒店（共%2$s家）</item>
-        <item quantity="two">%1$s 家酒店（共%2$s家）</item>
-        <item quantity="few">%1$s 家酒店（共%2$s家）</item>
-        <item quantity="many">%1$s 家酒店（共%2$s家）</item>
-        <item quantity="other">%1$s 家酒店（共%2$s家）</item>
+        <item quantity="zero">%1$s 家酒店 (共%2$s家)</item>
+        <item quantity="one">%1$s 家酒店 (共%2$s家)</item>
+        <item quantity="two">%1$s 家酒店 (共%2$s家)</item>
+        <item quantity="few">%1$s 家酒店 (共%2$s家)</item>
+        <item quantity="many">%1$s 家酒店 (共%2$s家)</item>
+        <item quantity="other">%1$s 家酒店 (共%2$s家)</item>
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
     <plurals name="of_y_hotels_TEMPLATE">
-        <item quantity="zero">家酒店（共%s家）</item>
-        <item quantity="one">家酒店（共%s家）</item>
-        <item quantity="two">家酒店（共%s家）</item>
-        <item quantity="few">家酒店（共%s家）</item>
-        <item quantity="many">家酒店（共%s家）</item>
-        <item quantity="other">家酒店（共%s家）</item>
+        <item quantity="zero">家酒店 (共%s家)</item>
+        <item quantity="one">家酒店 (共%s家)</item>
+        <item quantity="two">家酒店 (共%s家)</item>
+        <item quantity="few">家酒店 (共%s家)</item>
+        <item quantity="many">家酒店 (共%s家)</item>
+        <item quantity="other">家酒店 (共%s家)</item>
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
@@ -108,7 +108,7 @@
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行计划是空的。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
-    <string name="trip_bucket_book_flight">预订航班</string>
+    <string name="trip_bucket_book_flight">预订机票</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">预订酒店</string>
     <!-- Tablet Trip bucket, sold out text -->
@@ -116,9 +116,9 @@
     <!-- Tablet Trip bucket, expired text -->
     <string name="trip_bucket_expired">到期</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">到%1$s的往返航班</string>
+    <string name="trip_bucket_label_flight_roundtrip">到%1$s的往返机票</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">飞往 %1$s 的航班</string>
+    <string name="trip_bucket_label_flight_trip">飞往%1$s的航班</string>
     <!-- Loading Hotels and Flights… -->
     <string name="loading_hotels_and_flights">正在加载酒店和航班…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
@@ -277,7 +277,7 @@
     <!-- Your Trip -->
     <string name="your_trip">您的旅行计划</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">正在预订 &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="now_booking_TEMPLATE">现要预订&lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;，%2$s</string>
     <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
@@ -291,7 +291,7 @@
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">登录 Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">正在从 Facebook 提取信息…</string>
+    <string name="fetching_facebook_info">正在从 Facebook 获取信息…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站…</string>
     <!-- We have encountered an error -->
@@ -305,7 +305,7 @@
     <!-- Link accounts -->
     <string name="link_accounts">关联帐户</string>
     <!-- Failure to update the user -->
-    <string name="failure_to_update_user">未能提取更新的用户信息。</string>
+    <string name="failure_to_update_user">未能获取更新的用户信息。</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正在关联您的帐户…</string>
     <!-- Log In -->
@@ -406,9 +406,9 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">输入行程编号</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">正在提取您的行程…</string>
+    <string name="fetching_your_itinerary">正在获取您的行程…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">提取行程时出错</string>
+    <string name="itinerary_fetch_error">获取行程时出错</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;登录&lt;/b&gt;查看您的旅行</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
@@ -451,9 +451,9 @@
     <!-- Shared Itin - Fallback name for Hotel itin card -->
     <string name="sharedItin_card_fallback_name_hotel">分享的酒店</string>
     <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
-    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s 日 - %2$s 日</string>
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s飞往%2$s</string>
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
-    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s，时间：%2$s</string>
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s入住%2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">航班</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -846,9 +846,9 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">电话\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">预订酒店、航班，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
+    <string name="share_template_long_ad">预订酒店、机票，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
     <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">预订酒店、航班，查看并分享您的行程。马上下载免费的 Travelocity 移动应用。\n%s</string>
+    <string name="share_template_long_ad_tvly">预订酒店、机票，查看并分享您的行程。马上下载免费的 Travelocity 移动应用。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我 %2$s飞往%1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1085,7 +1085,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">行李费信息</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">在 %2$s &lt;b&gt;中途停留 %1$s&lt;/b&gt;</string>
+    <string name="layover_duration_location_TEMPLATE">在%2$s&lt;b&gt;中途停留 %1$s&lt;/b&gt;</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
@@ -1195,7 +1195,7 @@
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">滑动屏幕可预订酒店</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">滑动屏幕可预订航班</string>
+    <string name="slide_to_book_flight">滑动屏幕可预订机票</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">您的卡将被收取 %1$s</string>
     <!-- Amount to be paid now -->
@@ -1275,11 +1275,11 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">住客详细信息</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">成人 %1$s 详细信息</string>
+    <string name="add_adult_number_TEMPLATE">第 %1$s 位成人的详细信息</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">成人旅客信息</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">儿童 %1$s 详细信息</string>
+    <string name="add_child_number_TEMPLATE">第 %1$s 名儿童的详细信息</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">%1$s 岁</string>
     <!-- Add infant in lap traveler number template -->
@@ -1517,9 +1517,9 @@
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
-    <string name="calendar_hotel_title_checkin_TEMPLATE">入住日期：%s</string>
+    <string name="calendar_hotel_title_checkin_TEMPLATE">入住：%s</string>
     <!-- Title for calendar entry for when you check out of a hotel -->
-    <string name="calendar_hotel_title_checkout_TEMPLATE">退房日期：%s</string>
+    <string name="calendar_hotel_title_checkout_TEMPLATE">退房：%s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1626,21 +1626,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">嗨，</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">我正从%1$s飞往%2$s。</string>
+    <string name="share_flight_one_way_TEMPLATE">我将从%1$s飞往%2$s。</string>
     <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s正从%2$s飞往%3$s。</string>
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s将从%2$s飞往%3$s。</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">我正从%1$s飞往%2$s。</string>
+    <string name="share_flight_round_trip_TEMPLATE">我将从%1$s飞往%2$s。</string>
     <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s正从%2$s飞往%3$s。</string>
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s将从%2$s飞往%3$s。</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">我们正从%1$s飞往%2$s。</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">我们将从%1$s飞往%2$s。</string>
     <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s正从%2$s飞往%3$s。</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s将从%2$s飞往%3$s。</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">我们正从%1$s飞往%2$s。</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">我们将从%1$s飞往%2$s。</string>
     <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s正从%2$s飞往%3$s。</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s将从%2$s飞往%3$s。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">行程编号：%s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1694,7 +1694,7 @@
     <!-- Label for "start search" button -->
     <string name="search">搜索</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s 日 - %2$s 日</string>
+    <string name="date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">按酒店名称筛选</string>
     <!-- Label indicating that there are no results matching their current filter -->
