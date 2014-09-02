@@ -19,15 +19,9 @@
 [submodule "project/assets/FlightStatsDb"]
 	path = project/assets/FlightStatsDb
 	url = git@team.mobiata.com:Android/FlightStatsDb.git
-[submodule "lib/google-play-services"]
-	path = lib/google-play-services
-	url = git@team.mobiata.com:Android/google-play-services
 [submodule "lib/svg-android"]
 	path = lib/svg-android
 	url = git@team.mobiata.com:Android/svg-android.git
-[submodule "lib/Jars"]
-	path = lib/Jars
-	url = git@team.mobiata.com:Android/Jars
 [submodule "lib/ExpediaTests"]
 	path = lib/ExpediaTests
 	url = git@team.mobiata.com:Android/ExpediaTests.git
