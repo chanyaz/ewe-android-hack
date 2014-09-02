@@ -8,6 +8,7 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EncodingUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -1965,14 +1967,7 @@ public class ExpediaServices implements DownloadListener {
 	private Request.Builder createHttpPost(String url, List<BasicNameValuePair> params) {
 		String data = "";
 		if (params != null && params.size() > 0) {
-			StringBuilder sb = new StringBuilder();
-			for (BasicNameValuePair param : params) {
-				sb.append(param.getName());
-				sb.append("=");
-				sb.append(param.getValue());
-				sb.append("&");
-			}
-			data = sb.toString();
+			data = URLEncodedUtils.format(params, "UTF-8");
 		}
 
 		Request.Builder req = new Request.Builder().url(url);
