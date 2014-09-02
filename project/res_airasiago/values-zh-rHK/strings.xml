@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="aag_app_name">亞航假日</string>
+   
+    <string name="customer_support_text">致電亞航假日客戶支援</string>
+
+    <!-- Log in with AirAsiaGo -->
+    <string name="Log_in_with_aag">透過亞航假日登入</string>
+    <!-- Label for signin screen -->
+    <string name="aag_account">亞航假日帳戶</string>
+    <!-- Content description for action: Press to log in with your AirAsiaGo account -->
+    <string name="cd_checkout_log_in_with_aag">輕按以登入您的亞航假日帳戶</string>
+
+    <string name="contact_aag">聯絡亞航假日</string>
+    <string name="aag_website">亞航假日網站</string>
+    <string name="aag_app_support">亞航假日 App 支援</string>
+    <string name="aag_copyright">© 版權所有 2012-2014 亞航假日\n保留所有權利。</string>
+    
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_aag">您確定要登出您的亞航假日帳戶嗎？</string>
+
+    <!-- AirAsiaGo booking fee -->
+    <string name="aag_booking_fee">亞航假日預訂費</string>
+
+    <string name="error_flight_unhandled_aag_TEMPLATE">很抱歉，我們現時無法處理您的預訂。請再試一次或致電亞航假日客戶支援並引用此行程編號：%s</string>
+    <string name="error_server_aag">很抱歉，我們未能連接亞航假日的伺服器。請稍後再試一次。</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_aag_info_message">要將此付款方法儲存至您的亞航假日帳戶以加快日後的購買程序嗎？</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_aag_message_TEMPLATE">要將 %1$s 的資料儲存至您的亞航假日帳戶以加快日後的購買程序嗎？</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "AirAsiaGo Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_aag">亞航假日行程編號：%s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "AirAsiaGo Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_aag">亞航假日客戶支援：%s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_aag">您已登出您的亞航假日帳戶，而所有已儲存帳單及聯絡資料均已清除。</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_aag">很抱歉，我們無法連接亞航假日。請再試一次。</string>
+
+    <!-- Title for different ways to connect to AirAsiaGo -->
+    <string name="contact_aag_via">亞航假日聯絡方法…</string>
+    <!-- Contact AirAsiaGo via email subject -->
+    <string name="contact_aag_email_subject">亞航假日預訂支援</string>
+    <!-- AirAsiaGo- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_aag">如對您的預訂有任何疑問，請致電亞航假日，電話：%s。</string>
+    <!-- AirAsiaGo Itinerary -->
+    <string name="aag_itinerary">亞航假日行程編號</string>
+
+</resources>
