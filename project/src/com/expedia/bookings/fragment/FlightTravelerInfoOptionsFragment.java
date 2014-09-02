@@ -120,7 +120,10 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Db.getWorkingTravelerManager().shiftWorkingTraveler(new Traveler());
+				PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory();
+				Traveler trav = new Traveler();
+				trav.setPassengerCategory(category);
+				Db.getWorkingTravelerManager().shiftWorkingTraveler(trav);
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
