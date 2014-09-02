@@ -9,6 +9,8 @@
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_aag</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_aag_detail_screen</item>
+        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
+        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
