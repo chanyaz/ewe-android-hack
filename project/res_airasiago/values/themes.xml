@@ -11,6 +11,8 @@
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_aag_detail_screen</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
         <item name="flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
