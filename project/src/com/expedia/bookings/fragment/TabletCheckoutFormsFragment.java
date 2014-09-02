@@ -906,6 +906,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	@Subscribe
+	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
+		if (mHorizontalFlightFrag != null) {
+			mHorizontalFlightFrag.refreshExpandedTripPrice();
+		}
+	}
+
+	@Subscribe
 	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
@@ -918,4 +925,19 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalFlightFrag.refreshTripOnPriceChanged();
 		}
 	}
+
+	@Subscribe
+	public void onCouponApplySuccess(Events.CouponApplyDownloadSuccess event) {
+		if (mHorizontalHotelFrag != null) {
+			mHorizontalHotelFrag.refreshRate();
+		}
+	}
+
+	@Subscribe
+	public void onCouponRemoveSuccess(Events.CouponRemoveDownloadSuccess event) {
+		if (mHorizontalHotelFrag != null) {
+			mHorizontalHotelFrag.refreshRate();
+		}
+	}
+
 }
