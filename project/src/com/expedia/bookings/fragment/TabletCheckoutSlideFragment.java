@@ -371,6 +371,9 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		iAcceptCenter.setTranslationX(0f);
 	}
 
+	/*
+	 * Otto events
+	 */
 
 	@Subscribe
 	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
@@ -389,6 +392,11 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 
 	@Subscribe
 	public void onCouponRemoved(Events.CouponRemoveDownloadSuccess event) {
+		setPriceFromTripBucket();
+	}
+
+	@Subscribe
+	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
 		setPriceFromTripBucket();
 	}
 }
