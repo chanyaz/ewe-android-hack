@@ -382,4 +382,13 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		setPriceFromTripBucket();
 	}
 
+	@Subscribe
+	public void onCouponApplied(Events.CouponApplyDownloadSuccess event) {
+		setPriceFromTripBucket();
+	}
+
+	@Subscribe
+	public void onCouponRemoved(Events.CouponRemoveDownloadSuccess event) {
+		setPriceFromTripBucket();
+	}
 }
