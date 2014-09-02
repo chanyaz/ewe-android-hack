@@ -30,7 +30,7 @@
         <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
         <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBar</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBarAirAsiaGo</item>
         <item name="android:actionMenuTextColor" tools:targetApi="11">@color/action_bar_flight_text_color</item>
         <item name="android:actionModeCloseDrawable" tools:targetApi="11">@drawable/btn_navigation_cancel</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
@@ -47,6 +47,18 @@
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.AirAsiaGo">
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.AirAsiaGo</item>
+    </style>
+
+    <style name="FlightActionBarAirAsiaGo" parent="FlightActionBar">
+        <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar_airasiago</item>
+        <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom_airasiago</item>
+    </style>
+
+    <style name="FlightActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar_flight_top</item>
+        <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom</item>
+        <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
     </style>
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
            xmlns:tools="http://schemas.android.com/tools"
-           xmlns:mobiata="http://schemas.android.com/apk/res-auto">
+           xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- AirAsiaGo Rating bar -->
     <style name="RatingBar.UserReview.AAG.Yellow">
@@ -9,4 +9,9 @@
     </style>
 
     <style name="RatingBar.UserReview.AAG"/>
+
+    <style name="Dark.ActionBar.AirAsiaGo" parent="Dark.ActionBar">
+        <item name="android:background">@drawable/bg_action_bar_airasiago</item>
+    </style>
+
 </resources>
