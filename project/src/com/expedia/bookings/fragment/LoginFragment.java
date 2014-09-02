@@ -154,7 +154,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
 	private boolean mDoLoginExtenderWork = false;
-	private VisibilityState mVisibilityState = VisibilityState.EXPEDIA_WTIH_FB_BUTTON;
+	private VisibilityState mVisibilityState = VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON;
 	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 	private boolean mFacebookExpectingClose = false;//If we are logging out
 
@@ -226,8 +226,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
+		if (ExpediaBookingApp.IS_EXPEDIA) {
+			setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 		}
 		return v;
