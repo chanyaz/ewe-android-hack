@@ -5,6 +5,8 @@
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_aag</item>
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin_aag</item>
         <item name="hotelBookButtonColor">@android:color/white</item>
+        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -29,8 +31,8 @@
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
-        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
+        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
 
         <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
