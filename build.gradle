@@ -11,6 +11,9 @@ buildscript {
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
+ext.supportLibVersion="19.0.1"
+ext.googlePlayServicesVersion="4.4.52"
+
 ext.compileSdkVersion=19
 ext.buildToolsVersion="19.0.3"
 
