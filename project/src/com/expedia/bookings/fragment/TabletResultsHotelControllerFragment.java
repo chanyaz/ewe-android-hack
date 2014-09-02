@@ -399,7 +399,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean loadingGuiAvailable = false;
-		boolean searchErrorAvailable = false;
+		boolean searchErrorAvailable = true;
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean hotelFiltersAvailable = true;
@@ -410,7 +410,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (hotelsState == ResultsHotelsState.LOADING) {
 			loadingGuiAvailable = true;
-			searchErrorAvailable = true;
 
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
@@ -426,15 +425,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS) {
 			hotelReviewsAvailable = true;
+			searchErrorAvailable = false;
 		}
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.GALLERY) {
 			hotelGalleryAvailable = true;
+			searchErrorAvailable = false;
 		}
 
 		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY || hotelsState == ResultsHotelsState.ZERO_RESULT || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
 			loadingGuiAvailable = true;
-			searchErrorAvailable = true;
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
