@@ -1,5 +1,7 @@
 package com.expedia.bookings.content;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONException;
@@ -184,6 +186,33 @@ public class SuggestionProvider extends ContentProvider {
 			ExpediaServices services = new ExpediaServices(getContext());
 			SuggestionResponse response = services.suggestions(query, 0);
 			if (response != null) {
+
+				// #3200 special-case sorting for 3 char queries. We suspect the user may be entering
+				// an airport code explicitly and want to bubble AIRPORT Suggestions to the top.
+				if (mQuery.length() == 3) {
+					Collections.sort(response.getSuggestions(), new Comparator<SuggestionV2>() {
+						@Override
+						public int compare(SuggestionV2 suggestionV2, SuggestionV2 suggestionV22) {
+							boolean oneIsAirport = mQuery.equalsIgnoreCase(suggestionV2.getAirportCode())
+								&& suggestionV2.getRegionType() == RegionType.AIRPORT;
+							boolean twoIsAirport = mQuery.equalsIgnoreCase(suggestionV22.getAirportCode())
+								&& suggestionV22.getRegionType() == RegionType.AIRPORT;
+
+							// TODO is this stupid? should I shove this logic into SuggestionV2 compareTo?
+							// TODO can this be more elegant?
+							if (oneIsAirport && !twoIsAirport) {
+								return -1;
+							}
+							else if (!oneIsAirport && twoIsAirport) {
+								return 1;
+							}
+							else {
+								return suggestionV2.compareTo(suggestionV22);
+							}
+						}
+					});
+				}
+
 				for (SuggestionV2 suggestion : response.getSuggestions()) {
 					addSuggestion(suggestion);
 				}
