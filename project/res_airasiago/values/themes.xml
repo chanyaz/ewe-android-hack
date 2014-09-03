@@ -31,6 +31,7 @@
         <item name="saveTravelerToAccountString">@string/save_traveler_aag_message_TEMPLATE</item>
         <item name="infoContactUsString">@string/contact_aag_via</item>
         <item name="infoContactEmailSubjectString">@string/contact_aag_email_subject</item>
+        <item name="loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

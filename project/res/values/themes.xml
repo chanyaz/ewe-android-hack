@@ -156,6 +156,7 @@
         <item name="couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="infoContactUsString">@string/contact_expedia_via</item>
         <item name="infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
+        <item name="loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

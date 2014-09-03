@@ -480,7 +480,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 				if (mProgressDialog == null || !mProgressDialog.isAdded()) {
 					mProgressDialog = SimpleProgressDialogFragment
-						.newInstance(getString(R.string.loading_air_asia_routes));
+						.newInstance(getString(Ui.obtainThemeResID(getActivity(), R.attr.loadingAirAsiaRoutesString)));
 					mProgressDialog.show(getChildFragmentManager(), TAG_PROGRESS);
 				}
 

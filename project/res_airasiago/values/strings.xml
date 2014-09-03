@@ -52,4 +52,6 @@
     <!-- AirAsiaGo Itinerary -->
     <string name="aag_itinerary">AirAsiaGo Itinerary #</string>
 
+    <string name="loading_air_asia_routes_aag">Loading AirAsiaGo routes…</string>
+
 </resources>
