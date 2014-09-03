@@ -91,6 +91,10 @@ public class CustomDispatcher extends Dispatcher {
 			return makeResponse("MockResponses/api/flight/checkout/" + params.get("productKey") + ".json");
 		}
 
+		else if (request.getPath().contains("/api/user/sign-in")) {
+			return makeResponse("MockResponses/api/user/sign-in/login.json");
+		}
+
 		return new MockResponse().setResponseCode(404);
 	}
 
