@@ -38,8 +38,7 @@ public class FlightSearchResultsSortTest extends PhoneTestCase {
 		FlightsSearchScreen.enterArrivalAirport("LAX");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate mStartDate = LocalDate.now().plusDays(1);
-		LocalDate mEndDate = LocalDate.now().plusDays(2);
-		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
+		FlightsSearchScreen.clickDate(mStartDate);
 		FlightsSearchScreen.clickSearchButton();
 		mNow = DateTime.now();
 	}
