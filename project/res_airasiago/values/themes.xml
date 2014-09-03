@@ -13,6 +13,24 @@
         <item name="flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
+        <item name="loginButtonColor">@android:color/white</item>
+        <item name="costSummaryBookingFeesString">@string/aag_booking_fee</item>
+        <item name="hotelConfirmationCallActionText">@string/call_aag_customer_support</item>
+        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_aag</item>
+        <item name="loginWithExpediaTitleText">@string/aag_account</item>
+        <item name="loginWithExpediaButtonText">@string/Log_in_with_aag</item>
+        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_aag</item>
+        <item name="aboutWebsiteString">@string/aag_website</item>
+        <item name="aboutAppSupportString">@string/aag_app_support</item>
+        <item name="aboutCopyrightString">@string/aag_copyright</item>
+        <item name="aboutAppNameString">@string/launcher_name</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation_aag</item>
+        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_aag_TEMPLATE</item>
+        <item name="serverErrorMessageString">@string/error_server_aag</item>
+        <item name="savePaymentToAccountString">@string/save_billing_aag_info_message</item>
+        <item name="saveTravelerToAccountString">@string/save_traveler_aag_message_TEMPLATE</item>
+        <item name="infoContactUsString">@string/contact_aag_via</item>
+        <item name="infoContactEmailSubjectString">@string/contact_aag_email_subject</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -39,7 +57,7 @@
         <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
-        <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
+        <item name="flightCheckoutAccountLabel">@string/aag_account</item>
 
         <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
