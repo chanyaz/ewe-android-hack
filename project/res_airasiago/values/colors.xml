@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="hotel_price_text_color_airasiago">#333</color>
+    <color name="hotel_price_sale_text_color_airasiago">#E21E25</color>
+
+</resources>

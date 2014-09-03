@@ -32,6 +32,11 @@
         <item name="infoContactUsString">@string/contact_aag_via</item>
         <item name="infoContactEmailSubjectString">@string/contact_aag_email_subject</item>
         <item name="loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>
+        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_airasiago</item>
+        <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_airasiago</item>
+        <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_airasiago</item>
+        <item name="hotelPriceStandardColor">@color/hotel_price_text_color_airasiago</item>
+        <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_airasiago</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
