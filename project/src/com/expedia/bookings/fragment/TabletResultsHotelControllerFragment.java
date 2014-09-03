@@ -883,6 +883,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
+			// Make sure we are showing ourselves in the ResultsState.OVERVIEW. This can happen
+			// When transitioning back to OVERVIEW from flights mode SpUpdate. #3245
+			if (state == ResultsState.OVERVIEW) {
+				mRootC.setAlpha(1f);
+			}
+
 			if (state != ResultsState.HOTELS) {
 				setHotelsState(getBaseState(), false);
 			}
