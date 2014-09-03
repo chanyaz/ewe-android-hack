@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="aag_app_name">AirAsiaGo</string>
+   
+    <string name="customer_support_text">Hubungi Layanan Pelanggan AirAsiaGo</string>
+
+    <!-- Log in with AirAsiaGo -->
+    <string name="Log_in_with_aag">Login dengan AirAsiaGo</string>
+    <!-- Label for signin screen -->
+    <string name="aag_account">Akun AirAsiaGo</string>
+    <!-- Content description for action: Press to log in with your AirAsiaGo account -->
+    <string name="cd_checkout_log_in_with_aag">Tekan login ke akun AirAsiaGo Anda</string>
+
+    <string name="contact_aag">Hubungi AirAsiaGo</string>
+    <string name="aag_website">Website AirAsiaGo</string>
+    <string name="aag_app_support">Bantuan AirAsiaGo</string>
+    <string name="aag_copyright">© Hak Cipta 2012-2014 AirAsiaGo\nSemua hak dilindungi.</string>
+    
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_aag">Yakin mau keluar dari akun AirAsiaGo Anda?</string>
+
+    <!-- AirAsiaGo booking fee -->
+    <string name="aag_booking_fee">Biaya Pemesanan AirAsiaGo</string>
+
+    <string name="error_flight_unhandled_aag_TEMPLATE">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi atau hubungi Layanan Pelanggan AirAsiaGo dan sebutkan nomor itinerary ini: %s</string>
+    <string name="error_server_aag">Maaf, kami sedang tidak bisa tersambung ke server AirAsiaGo.  Silakan coba lagi nanti.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_aag_info_message">Simpan pilihan cara pembayaran ini di akun AirAsiaGo Anda untuk pembelian berikutnya?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_aag_message_TEMPLATE">Simpan informasi %1$s ini di akun AirAsiaGo Anda untuk pembelian berikutnya?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "AirAsiaGo Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_aag">Nomor Itinerary AirAsiaGo: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "AirAsiaGo Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_aag">Layanan Pelanggan AirAsiaGo: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_aag">Anda telah keluar dari akun AirAsiaGo Anda, dan semua informasi kontak dan tagihan telah dihapus.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_aag">Maaf, kami sedang tidak bisa tersambung ke AirAsiaGo. Silakan coba lagi.</string>
+
+    <!-- Title for different ways to connect to AirAsiaGo -->
+    <string name="contact_aag_via">Hubungi AirAsiaGo lewat...</string>
+    <!-- Contact AirAsiaGo via email subject -->
+    <string name="contact_aag_email_subject">Bantuan Pemesanan AirAsiaGo</string>
+    <!-- AirAsiaGo- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_aag">Jika Anda memiliki pertanyaan terkait pemesanan Anda, silakan hubungi AirAsiaGo di %s.</string>
+    <!-- AirAsiaGo Itinerary -->
+    <string name="aag_itinerary">Nomor Itinerary AirAsiaGo</string>
+
+</resources>
