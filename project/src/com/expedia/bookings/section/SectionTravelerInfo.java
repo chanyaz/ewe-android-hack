@@ -1272,14 +1272,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected void onHasFieldAndData(Spinner field, Traveler data) {
 			GenderSpinnerAdapter adapter = (GenderSpinnerAdapter) field.getAdapter();
-			if (!TextUtils.isEmpty(data.getFirstName())) {
-				String newFormatStr = String.format(mContext.getString(R.string.gender_name_TEMPLATE),
-					data.getFirstName(), "%s");
-				adapter.setFormatString(newFormatStr);
-			}
-			else {
-				adapter.resetFormatString();
-			}
 			int currentPos = adapter.getGenderPosition(data.getGender());
 			if (currentPos >= 0) {
 				field.setSelection(currentPos);
