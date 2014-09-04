@@ -37,6 +37,7 @@
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_airasiago</item>
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color_airasiago</item>
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_airasiago</item>
+        <item name="actionBarSpinnerBackground">@drawable/ab_spinner_airasiago</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
