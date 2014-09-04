@@ -29,6 +29,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
+import com.expedia.bookings.fragment.AirAsiaGoLauncherFragment;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
@@ -497,6 +498,9 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 			case PAGER_POS_WATERFALL:
 				if (ExpediaBookingApp.IS_TRAVELOCITY) {
 					frag = TravelocityLauncherFragment.newInstance();
+				}
+				else if (ExpediaBookingApp.IS_AAG) {
+					frag = AirAsiaGoLauncherFragment.newInstance();
 				}
 				else {
 					frag = LaunchFragment.newInstance();

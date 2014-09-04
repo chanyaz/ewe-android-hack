@@ -192,7 +192,7 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
+        <style name="LaunchTheme" parent="@android:style/Theme.Holo">
         <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
