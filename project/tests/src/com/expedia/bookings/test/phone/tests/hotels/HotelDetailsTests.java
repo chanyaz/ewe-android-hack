@@ -44,8 +44,10 @@ public class HotelDetailsTests extends PhoneTestCase {
 		Espresso.pressBack();
 
 		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
-		for (int i = 1; i < totalHotels - 2; i++) {
+
+		for (int i = 1; i < totalHotels; i++) {
 			HotelsSearchScreen.clickListItem(i);
+
 			String hotelName = EspressoUtils.getText(R.id.title);
 			ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
 			try {
