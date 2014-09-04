@@ -12,7 +12,7 @@ else
 fi
 
 java \
-    -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \
+    -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
     --no-animations \
