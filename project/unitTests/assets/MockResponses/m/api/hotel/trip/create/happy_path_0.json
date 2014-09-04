@@ -27,8 +27,8 @@
             }
         ],
         "adultCount": "1",
-        "checkInDate": "2013-03-22",
-        "checkOutDate": "2013-03-23",
+        "checkInDate": "${checkInDate}",
+        "checkOutDate": "${checkOutDate}",
         "hotelAddress": "54 4th Street",
         "hotelCity": "San Francisco",
         "hotelCountry": "USA",

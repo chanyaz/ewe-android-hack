@@ -138,7 +138,12 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 
 	// And I select the first hotel from the results list
 	private void selectFirstHotel() throws Exception {
-		HotelsSearchScreen.clickListItem(1);
+		try {
+			HotelsSearchScreen.clickHotelWithName("Hotel_2_night_stay");
+		}
+		catch (Exception e) {
+			HotelsSearchScreen.clickListItem(1);
+		}
 		HotelsDetailsScreen.clickSelectButton();
 	}
 

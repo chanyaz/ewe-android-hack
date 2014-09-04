@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -47,16 +46,18 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		else if (request.getPath().contains("/m/api/hotel/product")) {
-			return makeResponse("MockResponses/m/api/hotel/product/happy_path_0.json");
+			Map<String, String> params = parsePostParams(request);
+			return makeResponse("MockResponses/m/api/hotel/product/" + params.get("productKey") + ".json", params);
 		}
 
 		else if (request.getPath().contains("/m/api/hotel/trip/create")) {
-			return makeResponse("MockResponses/m/api/hotel/trip/create/happy_path_0.json");
+			Map<String, String> params = parsePostParams(request);
+			return makeResponse("MockResponses/m/api/hotel/trip/create/" + params.get("productKey") + ".json", params);
 		}
 
 		else if (request.getPath().contains("/m/api/hotel/trip/checkout")) {
 			Map<String, String> params = parsePostParams(request);
-			return makeResponse("MockResponses/m/api/hotel/trip/checkout/happy_path_0.json", params);
+			return makeResponse("MockResponses/m/api/hotel/trip/checkout/" + params.get("tripId") + ".json", params);
 		}
 
 		else if (request.getPath().contains("/api/flight/search")) {
@@ -131,7 +132,7 @@ public class CustomDispatcher extends Dispatcher {
 	public MockResponse makeEmptyResponse() {
 		MockResponse resp = new MockResponse();
 		resp.setResponseCode(200);
-		return resp;	
+		return resp;
 	}
 
 	public MockResponse makeResponse(String filePath) {
