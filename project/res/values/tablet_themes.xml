@@ -3,7 +3,7 @@
 	I got super sick of the other themes.xml being a damn mess.
 	Hopefully this version will be lot more clean.
 -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!--
 	    Don't put anything in here; it just marks the difference between our
@@ -12,7 +12,7 @@
     <style name="V2" />
 
     <!-- Values that go into *everything*.  Don't put anything here unless you want it *everywhere* -->
-    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" tools:targetApi="14" />
+    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" />
 
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
     <style name="V2.Theme.Activity">
@@ -107,7 +107,7 @@
     </style>
 
 
-    <style name="V2.Theme.Activity.TabletCheckout" tools:targetApi="14">
+    <style name="V2.Theme.Activity.TabletCheckout">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -117,7 +117,7 @@
 
     <style name="V2.Widget" />
 
-    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="14">
+    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:logo">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="android:background">@null</item>
     </style>
@@ -152,7 +152,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:divider">@drawable/grey_divider</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:showDividers" tools:targetApi="11">middle</item>
+        <item name="android:showDividers">middle</item>
     </style>
 
     <!-- TextView styling -->
