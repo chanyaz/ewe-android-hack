@@ -22,9 +22,6 @@
 [submodule "lib/svg-android"]
 	path = lib/svg-android
 	url = git@team.mobiata.com:Android/svg-android.git
-[submodule "lib/ExpediaTests"]
-	path = lib/ExpediaTests
-	url = git@team.mobiata.com:Android/ExpediaTests.git
 [submodule "lib/ShareEverywhere"]
 	path = lib/ShareEverywhere
 	url = git@team.mobiata.com:Android/ShareEverywhere
