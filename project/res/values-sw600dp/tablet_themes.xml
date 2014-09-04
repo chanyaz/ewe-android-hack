@@ -35,12 +35,14 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletLaunch</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="waypointFragmentTopMargin">23dp</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletResults">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="waypointFragmentTopMargin">23dp</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletWeb">

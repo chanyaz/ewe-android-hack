@@ -9,6 +9,11 @@
     <fraction name="stack_blur_darken_multiplier">70%</fraction>
     <dimen name="stack_blur_radius">50dp</dimen>
 
+    <!-- No extra padding is needed for the status bar unless kitkat -->
+    <dimen name="extra_status_bar_padding">0dp</dimen>
+    <!-- No extra padding is needed for the nav bar unless kitkat -->
+    <dimen name="extra_navigation_bar_padding">0dp</dimen>
+
     <dimen name="tablet_search_width">460dp</dimen>
     <dimen name="tablet_result_corner_radius">2dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">15sp</dimen>
@@ -23,6 +28,7 @@
     <dimen name="launch_pin_detail_size">175dp</dimen>
     <dimen name="launch_pin_detail_padding">10dp</dimen>
     <dimen name="launch_your_search_subtitle_size">13sp</dimen>
+    <dimen name="waypoint_fragment_top_margin">23dp</dimen>
 
     <!-- For map pins on tablet launch screen -->
     <dimen name="destination_search_stack_width">220dp</dimen>

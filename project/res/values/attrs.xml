@@ -5,6 +5,10 @@
     <!-- Used in more than one custom view -->
     <attr name="caption" format="reference|string" />
 
+    <!-- To allow us to define the waypoint top margin in the activity theme
+    (it's different for launch and results activities) -->
+    <attr name="waypointFragmentTopMargin" format="dimension" />
+
     <!-- TextView -->
     <declare-styleable name="TextView">
         <attr name="textStyle" format="enum">

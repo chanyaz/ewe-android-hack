@@ -247,7 +247,8 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	private void adjustMapPadding(boolean withStacksVisible) {
 		int stackHeight = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
-		int bottomPadding = withStacksVisible ? stackHeight : 0;
+		int navBarPadding = getResources().getDimensionPixelOffset(R.dimen.extra_navigation_bar_padding);
+		int bottomPadding = withStacksVisible ? stackHeight + navBarPadding : navBarPadding;
 		int abHeight = getActivity().getActionBar().getHeight();
 		setPadding(0, abHeight, 0, bottomPadding);
 	}
