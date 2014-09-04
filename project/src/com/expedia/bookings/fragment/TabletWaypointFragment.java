@@ -91,7 +91,7 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_results_waypoint_search, container, false);
+		View view = inflater.inflate(R.layout.fragment_tablet_waypoint, container, false);
 		mRootC = Ui.findView(view, R.id.root_layout);
 
 		//State
