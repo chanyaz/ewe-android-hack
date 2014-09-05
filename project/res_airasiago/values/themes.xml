@@ -38,6 +38,7 @@
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color_airasiago</item>
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_airasiago</item>
         <item name="actionBarSpinnerBackground">@drawable/ab_spinner_airasiago</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_aag_traveler_logo_disabled</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -66,8 +67,8 @@
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="flightCheckoutAccountLabel">@string/aag_account</item>
 
-        <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
-        <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
+        <item name="travellerInfoPageLogo">@drawable/ic_aag_traveler_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
     </style>
 
     <!-- Override the phone theme -->
