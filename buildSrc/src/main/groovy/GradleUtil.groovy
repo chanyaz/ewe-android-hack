@@ -3,12 +3,12 @@ import org.gradle.api.Project
 class GradleUtil {
 
     static def getPackageName(variant) {
-        def suffix = variant.buildType.packageNameSuffix
-        def packageName = variant.productFlavors.get(0).packageName
+        def suffix = variant.buildType.applicationIdSuffix
+        def applicationId = variant.productFlavors.get(0).applicationId
         if (isDefined(suffix)) {
-            packageName += suffix
+            applicationId += suffix
         }
-        return packageName
+        return applicationId
     }
 
     static def isDefined(s) {
