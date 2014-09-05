@@ -55,6 +55,12 @@
     <item name="bg_launch_tvly_arizona" type="drawable"/>
     <item name="bg_launch_tvly_maldives" type="drawable"/>
 
+    <!-- adding below ids. These are the images used in AAG app home screen. -->
+    <item name="aag_home_page_background" type="drawable"/>
+    <item name="aag_text_logo" type="drawable"/>
+    <item name="aag_flight_button_selector" type="drawable"/>
+    <item name="aag_hotel_button_selector" type="drawable"/>
+
     <!-- for visibility of Tvly CA Url string id while compiling ExpediaApp-->
     <item name="travelocity_info_url_CA" type="string"/>
 
