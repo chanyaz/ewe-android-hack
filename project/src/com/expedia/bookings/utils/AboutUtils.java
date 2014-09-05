@@ -151,16 +151,20 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		//1247. VSC App support link
 		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, false);
+			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, true);
 		}
-		// Travelocity App support
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, false);
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
+		}
+		else if (ExpediaBookingApp.IS_AAG) {
+			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
+		}
+		else if (ExpediaBookingApp.IS_EXPEDIA) {
+			openWebsite(mActivity, "http://www.mobiata.com/support/expedia-android", false, true);
 		}
 		else {
-			openWebsite(mActivity, "http://www.mobiata.com/support/expedia-android", false, true);
+			throw new RuntimeException("Did not handle app support url for current build flavor");
 		}
 	}
 

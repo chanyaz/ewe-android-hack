@@ -2,4 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- For app launcher name -->
     <string name="launcher_name">@string/aag_app_name</string>
+    <!-- Email addresses -->
+    <string name="email_app_support">airasiago-android@mobiata.com</string>
 </resources>
