@@ -21,6 +21,7 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
 
@@ -29,29 +30,16 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 /**
  * Created by dmadan on 4/22/14.
  */
-public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<SearchActivity> {
-
-	public HotelsCheckoutNonMerchant() {
-		super(SearchActivity.class);
-	}
+public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 
 	private static final String TAG = "HotelsCheckoutNonMerchant";
 
 	private HotelsUserData mUser;
-	SearchActivity mActivity;
-	Context mContext;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mUser = new HotelsUserData(getInstrumentation());
-		mContext = getInstrumentation().getTargetContext();
-		mUser.setHotelCityToRandomUSCity();
-		// Disable v2 automatically.
-		SettingUtils.save(mContext, "preference_disable_domain_v2_hotel_search", true);
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		SettingUtils.save(mContext, R.string.preference_filter_merchant_properties, true);
-		mActivity = getActivity();
+		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_filter_merchant_properties, true);
 	}
 
 	public void testMethod() throws Exception {
@@ -64,10 +52,10 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "Las Vegas, NV");
-		HotelsSearchScreen.enterSearchText("Las Vegas, NV");
+		HotelsSearchScreen.enterSearchText("New York, NY");
 
 		ScreenActions.enterLog(TAG, "Clicking suggestion");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "Las Vegas, NV");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();

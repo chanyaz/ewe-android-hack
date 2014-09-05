@@ -160,7 +160,7 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Search
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "New York");
+		HotelsSearchScreen.clickSuggestionAtIndex(getActivity(), 1);
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();

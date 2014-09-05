@@ -90,7 +90,7 @@ public class HotelRoomsAndRatesTests extends PhoneTestCase {
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("SFO");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "ThisIsBroken");
+		HotelsSearchScreen.clickSuggestionAtIndex(getActivity(), 1);
 	}
 
 }

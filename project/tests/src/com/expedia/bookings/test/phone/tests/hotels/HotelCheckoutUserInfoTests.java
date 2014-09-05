@@ -39,7 +39,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		HotelsSearchScreen.clickToClearSearchEditText();
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 		try {

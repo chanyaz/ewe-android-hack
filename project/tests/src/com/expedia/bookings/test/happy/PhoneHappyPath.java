@@ -92,6 +92,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		FlightsConfirmationScreen.clickDoneButton();
 	}
 
+
 	public void testBookHotel() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.launchHotels();
@@ -99,7 +100,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		screenshot("Search_City_Entered");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();

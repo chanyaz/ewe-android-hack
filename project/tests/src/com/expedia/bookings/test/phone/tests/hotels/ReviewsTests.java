@@ -31,7 +31,7 @@ public class ReviewsTests extends PhoneTestCase {
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
 		ScreenActions.enterLog(TAG, "Clicking suggestion");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "Boston, MA");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "Boston, MA");
 		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 
 		//Number of times to scroll down the results list for another set of hotels
@@ -71,7 +71,7 @@ public class ReviewsTests extends PhoneTestCase {
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		ScreenActions.enterLog(TAG, "Clicking suggestion");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickReviewsTitle();
 		HotelsDetailsScreen.clickSelectButton();

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.joda.time.LocalDate;
 
+import android.app.Activity;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
@@ -44,7 +46,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 			HotelsSearchScreen.clickSearchEditText();
 			HotelsSearchScreen.clickToClearSearchEditText();
 			HotelsSearchScreen.enterSearchText(hotel);
-			HotelsSearchScreen.clickSuggestion(getActivity(), hotel);
+			HotelsSearchScreen.clickSuggestionWithName(getActivity(), hotel);
 			titleString = EspressoUtils.getText(R.id.title);
 			if (titleString.equals(hotel)) {
 				ScreenActions.enterLog(TAG, "testSearchByHotelName passed with: " + hotel);
@@ -138,6 +140,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 	}
 
 	public void testCachingOfPreviousSearches() throws Exception {
+		Activity activity = getActivity();
 		String initialSearch = "Belleville, MI";
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
@@ -150,10 +153,10 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		try {
-			HotelsSearchScreen.clickSuggestion(getActivity(), resolvedSearchString);
+			HotelsSearchScreen.clickSuggestionWithName(activity, resolvedSearchString);
 		}
 		catch (Exception e) {
-			HotelsSearchScreen.clickSuggestion(getActivity(), initialSearch);
+			HotelsSearchScreen.clickSuggestionWithName(activity, initialSearch);
 		}
 		Espresso.pressBack();
 	}

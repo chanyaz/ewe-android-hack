@@ -15,7 +15,11 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
@@ -48,14 +52,6 @@ public class HotelsSearchScreen extends ScreenActions {
 	private static final int SORT_BUTTON_ID = R.id.menu_select_sort;
 	private static final int FILTER_BUTTON_ID = R.id.menu_select_filter;
 	private static final int MAP_BUTTON_ID = R.id.menu_select_change_view;
-
-	// Strings
-	private static final int ROOM_NO_LONGER_AVAILABLE_STRING_ID = R.string.e3_error_checkout_hotel_room_unavailable;
-	private static final int SEARCHING_FOR_HOTELS_STRING_ID = R.string.progress_searching_hotels;
-	private static final int PLEASE_TRY_DIFFERENT_STRING_ID = R.string.please_try_a_different_location_or_date;
-	private static final int NO_HOTELS_AVAILABLE_TONIGHT_ID = R.string.no_hotels_availiable_tonight;
-	private static final int DID_YOU_MEAN_STRING_ID = R.string.ChooseLocation;
-	private static final int UNABLE_TO_DETERMINE_SEARCH_LOC_STRING_ID = R.string.geolocation_failed;
 
 	// Fragments
 	private static HotelsSortMenu mSortMenu;
@@ -134,34 +130,6 @@ public class HotelsSearchScreen extends ScreenActions {
 		return onView(withId(FILTER_BUTTON_ID));
 	}
 
-	public static ViewInteraction mapButton() {
-		return onView(withId(MAP_BUTTON_ID));
-	}
-
-	public static ViewInteraction searchingForHotels() {
-		return onView(withText(SEARCHING_FOR_HOTELS_STRING_ID));
-	}
-
-	public static ViewInteraction roomNoLongerAvailable() {
-		return onView(withText(ROOM_NO_LONGER_AVAILABLE_STRING_ID));
-	}
-
-	public static ViewInteraction noHotelsAvailableTonight() {
-		return onView(withText(NO_HOTELS_AVAILABLE_TONIGHT_ID));
-	}
-
-	public static ViewInteraction pleaseTryADifferentLocationOrDate() {
-		return onView(withText(PLEASE_TRY_DIFFERENT_STRING_ID));
-	}
-
-	public static ViewInteraction didYouMean() {
-		return onView(withText(DID_YOU_MEAN_STRING_ID));
-	}
-
-	public static ViewInteraction unableToDetermineSearchLocation() {
-		return onView(withText(UNABLE_TO_DETERMINE_SEARCH_LOC_STRING_ID));
-	}
-
 	public static DataInteraction hotelListItem() {
 		return onData(anything()).inAdapterView(withId(android.R.id.list));
 	}
@@ -200,10 +168,6 @@ public class HotelsSearchScreen extends ScreenActions {
 		(filterButton()).perform(click());
 	}
 
-	public static void clickOnMapButton() {
-		(mapButton()).perform(click());
-	}
-
 	public static void clickDate(final LocalDate start, final LocalDate end) {
 		calendarDatePicker().perform(clickDates(start, end));
 	}
@@ -216,8 +180,12 @@ public class HotelsSearchScreen extends ScreenActions {
 		hotelResultsListView().perform(click());
 	}
 
-	public static void clickSuggestion(Activity activity, String city) {
-		onData(anything()).inRoot(withDecorView(not(CoreMatchers.is(activity.getWindow().getDecorView())))).atPosition(0).perform(click());
+	public static void clickSuggestionAtIndex(Activity activity, int index) {
+		onData(anything()).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).atPosition(index).perform(click());
+	}
+
+	public static void clickSuggestionWithName(Activity activity, String city) {
+		onView(withText(city)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).perform(click());
 	}
 
 	public static void clickHotelWithName(String hotelName) {

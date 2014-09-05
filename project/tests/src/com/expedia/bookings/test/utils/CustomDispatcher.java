@@ -36,6 +36,12 @@ public class CustomDispatcher extends Dispatcher {
 			return makeResponse("MockResponses/hint/es/v3/ac/en_US/suggestion.json");
 		}
 
+		else if (request.getPath().contains("hint/es/v2/ac/en_US")) {
+			String requestPath = request.getPath();
+			String filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?'));
+			return makeResponse("MockResponses/hint/es/v2/ac/en_US/" + cleanFilename(filename) + ".json");
+		}
+
 		else if (request.getPath().contains("/m/api/hotel/search")) {
 			return makeResponse("MockResponses/m/api/hotel/search/happy.json");
 		}
@@ -99,6 +105,10 @@ public class CustomDispatcher extends Dispatcher {
 		return new MockResponse().setResponseCode(404);
 	}
 
+	private String cleanFilename(String filename) {
+		return filename.replace("%20", " ");
+	}
+
 	public Calendar parseYearMonthDay(String ymd, int hour, int minute) {
 		String[] parts = ymd.split("-");
 		int year = Integer.parseInt(parts[0]);
@@ -125,7 +135,6 @@ public class CustomDispatcher extends Dispatcher {
 				// ignore - just skip the pair
 			}
 		}
-
 		return params;
 	}
 
