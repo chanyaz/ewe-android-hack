@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
     }
 }
 
@@ -15,7 +15,7 @@ ext.supportLibVersion="19.0.1"
 ext.googlePlayServicesVersion="4.4.52"
 
 ext.compileSdkVersion=19
-ext.buildToolsVersion="19.0.3"
+ext.buildToolsVersion="19.1.0"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')
 

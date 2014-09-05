@@ -1,16 +1,8 @@
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BasePlugin
 import com.android.build.gradle.LibraryPlugin
-import com.android.builder.BuilderConstants
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.JavaPluginConvention
-import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.testing.Test
-import org.gradle.api.tasks.testing.TestReport
-
-import javax.inject.Inject
 
 class AndroidExpediaPlugin implements Plugin<Project> {
     // Path to file in src tree with ContentProvider authority declarations

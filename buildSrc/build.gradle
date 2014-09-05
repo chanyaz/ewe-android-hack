@@ -3,6 +3,6 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.android.tools.build:gradle:0.9.+'
+    compile 'com.android.tools.build:gradle:0.12.2'
 }
 
