@@ -7,7 +7,7 @@ PROPERTIES_FILE="properties.json"
 CHANGE_LOG_FILE="changelog.txt"
 HOCKEY_LOG_FILE="hockey.txt"
 
-APK=( project/build/apk/*.apk )
+APK=( project/build/outputs/apk/*.apk )
 if [ ! -f "${APK[0]}" ] ; then
     echo "Could not find built apk"
     exit 1
