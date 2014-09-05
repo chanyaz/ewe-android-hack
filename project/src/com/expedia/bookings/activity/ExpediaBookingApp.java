@@ -169,6 +169,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		else if (IS_TRAVELOCITY) {
 			serverUrlPath = "ExpediaSharedData/TVLYServerURLs.json";
 		}
+		else if (IS_AAG) {
+			serverUrlPath = "ExpediaSharedData/AirAsiaGoServerURLs.json";
+		}
 
 		ExpediaServices.initEndPoints(this, serverUrlPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
