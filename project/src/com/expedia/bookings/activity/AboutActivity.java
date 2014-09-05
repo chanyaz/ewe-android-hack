@@ -106,7 +106,8 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
 
-			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_TRAVELOCITY) {
+			//Add Website link for Expedia, Travelocity and AAG. Disabled only for VSC.
+			if (!ExpediaBookingApp.IS_VSC) {
 				builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 			}
 
