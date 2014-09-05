@@ -2585,28 +2585,29 @@ public class OmnitureTracking {
 	private static String getReportSuiteIds(Context context) {
 		String id = "";
 		if (AndroidUtils.isRelease(context)) {
-			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			//for Travelocity we will only send data to 1 Omniture Report Suite
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				id = "tvlglobalapp";
+			}
+			//For Travelocity, VSC and AirAsiaGo
+			else {
 				id = "expediaglobalapp";
 			}
 
 			if (ExpediaBookingApp.IS_VSC) {
 				id += ",expedia7androidapp";
 			}
-			//for Travelocity we will only send data to 1 Omniture Report Suite
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalapp";
-			}
 		}
 		else {
-			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				id = "tvlglobalappdev";
+			}
+			else {
 				id = "expediaglobalappdev";
 			}
 
 			if (ExpediaBookingApp.IS_VSC) {
 				id += ",expedia7androidappdev";
-			}
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalappdev";
 			}
 		}
 		return id;
