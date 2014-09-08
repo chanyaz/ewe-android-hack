@@ -214,6 +214,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mBackManager.unregisterWithParent(this);
 	}
 
+	@Subscribe
+	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
+		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_NO_INTERNET_CONNECTION) {
+			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
+		}
+	}
+
 	/*
 	 * NEW SEARCH PARAMS
 	 */

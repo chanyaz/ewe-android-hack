@@ -33,6 +33,7 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 
 	public static final int CODE_TABLET_FLIGHTS_INFANT_CHOOSER = 400;
 	public static final int CODE_TABLET_MISMATCHED_ITEMS = 401;
+	public static final int CODE_TABLET_NO_INTERNET_CONNECTION = 402;
 
 	private static final String ARG_TITLE = "ARG_TITLE";
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";
