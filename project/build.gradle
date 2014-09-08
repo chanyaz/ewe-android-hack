@@ -189,6 +189,7 @@ android {
         }
 
         AirAsiaGo {
+            manifest.srcFile 'AndroidManifest-aag.xml'
             res.srcDirs 'res_airasiago'
         }
 
