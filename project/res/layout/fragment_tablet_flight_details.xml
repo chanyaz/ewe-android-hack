@@ -33,11 +33,25 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/details_time_header"
-                    style="@style/V2.Widget.TextView.FlightDetailsHeader"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/details_from_and_to_header"
+                        style="@style/V2.Widget.TextView.FlightDetailsHeader.Places"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/details_time_header"
+                        style="@style/V2.Widget.TextView.FlightDetailsHeader.Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_price_text_view"

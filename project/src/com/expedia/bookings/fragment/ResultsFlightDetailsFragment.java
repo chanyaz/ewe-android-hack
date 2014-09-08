@@ -1,7 +1,10 @@
 package com.expedia.bookings.fragment;
 
-import java.text.DateFormat;
 import java.util.Calendar;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -67,6 +70,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	private ScrollView mScrollC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
 
+	private TextView mFromAndToHeaderTv;
 	private TextView mTimeHeaderTv;
 	private TextView mAddTripTv;
 	private TextView mPriceTv;
@@ -118,6 +122,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		mDetailsC.setPivotX(0);
 		mDetailsC.setPivotY(0);
 
+		mFromAndToHeaderTv = Ui.findView(mRootC, R.id.details_from_and_to_header);
 		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
 		mAddTripTv = Ui.findView(mRootC, R.id.details_add_trip_button);
 		mPriceTv = Ui.findView(mRootC, R.id.details_price_text_view);
@@ -177,6 +182,13 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		final Resources res = getResources();
 
 		// Grey header
+
+		// Boston to San Francisco
+		// Waypoint
+		String departurePlace = flightLeg.getAirport(true).mCity;
+		String arrivalPlace = flightLeg.getAirport(false).mCity;
+		String places = res.getString(R.string.date_range_TEMPLATE, departurePlace, arrivalPlace);
+		mFromAndToHeaderTv.setText(places);
 
 		// 10:05 AM to 2:20 PM
 		String departure = formatTime(flightLeg.getFirstWaypoint().getBestSearchDateTime());
@@ -272,8 +284,9 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	}
 
 	private String formatTime(Calendar cal) {
-		DateFormat df = android.text.format.DateFormat.getTimeFormat(getActivity());
-		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
+		DateTime datetime = new DateTime(cal);
+		DateTimeFormatter format = DateTimeFormat.forPattern("MMM dd, h:mm a");
+		return format.print(datetime);
 	}
 
 	/*
