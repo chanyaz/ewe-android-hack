@@ -39,6 +39,7 @@
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_airasiago</item>
         <item name="actionBarSpinnerBackground">@drawable/ab_spinner_airasiago</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_aag_traveler_logo_disabled</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -85,6 +86,11 @@
         <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar_flight_top</item>
         <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom</item>
         <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_aag</item>
+    </style>
+
+    <style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
     </style>
 
 </resources>
