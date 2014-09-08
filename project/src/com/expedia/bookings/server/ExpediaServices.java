@@ -8,7 +8,6 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EncodingUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -60,7 +58,6 @@ import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
@@ -1467,11 +1464,15 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
+		String APP_NAME = "ExpediaBookings";
+		if (ExpediaBookingApp.IS_AAG) {
+			APP_NAME = "AAGBookings";
+		}
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
-			post.addHeader("MobiataPushName", "ExpediaBookings");
+			post.addHeader("MobiataPushName", APP_NAME);
 		}
 		else {
-			post.addHeader("MobiataPushName", "ExpediaBookingsAlpha");
+			post.addHeader("MobiataPushName", APP_NAME + "Alpha");
 		}
 
 		if (!ExpediaBookingApp.IS_VSC && (AndroidUtils.isRelease(mContext)
