@@ -1289,6 +1289,21 @@ public class OmnitureTracking {
 	}
 
 	///////////////////////////
+	// Search Results - Traveler Alerts
+
+	private static final String SEARCH_ALERT_BASE = "App.Alert.";
+
+	public static void trackDateMismatchAlert(Context context) {
+		String link = SEARCH_ALERT_BASE + "MisMatchDates";
+		internalTrackLink(context, link);
+	}
+
+	public static void trackRedeyeAlert(Context context) {
+		String link = SEARCH_ALERT_BASE + "RedEyeFlight";
+		internalTrackLink(context, link);
+	}
+
+	///////////////////////////
 	// Search Results Screen - TripBucket
 
 	private static final String BUCKET_HOTEL_REMOVAL = "App.DSR.DeleteHotel";

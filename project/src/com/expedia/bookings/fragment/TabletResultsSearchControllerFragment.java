@@ -1276,6 +1276,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.cancel) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
+			OmnitureTracking.trackRedeyeAlert(getActivity());
 			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
@@ -1292,6 +1293,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.cancel) /*negativeButton*/);
 		}
 		if (!mMismatchedDialogFrag.isAdded()) {
+			OmnitureTracking.trackDateMismatchAlert(getActivity());
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
