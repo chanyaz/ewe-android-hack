@@ -600,6 +600,11 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @return
 	 */
 	protected boolean hasInsurance() {
+		if (ExpediaBookingApp.IS_AAG) {
+			// No insurance on AAG
+			return false;
+		}
+
 		boolean hasInsurance = false;
 		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
 			&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
