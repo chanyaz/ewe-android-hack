@@ -476,5 +476,6 @@
     <attr name="infoContactEmailSubjectString" format="reference|string"/>
 
     <attr name="loadingAirAsiaRoutesString" format="reference|string" />
+    <attr name="emailUserNameString" format="reference|string" />
 
 </resources>

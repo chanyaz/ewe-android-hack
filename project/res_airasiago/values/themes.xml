@@ -42,6 +42,7 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
         <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_aag_logo_small</item>
         <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_aag_logo</item>
+        <item name="emailUserNameString">@string/email_user_name_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

@@ -18,6 +18,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -118,7 +119,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 		body.append("\n\n");
 
 		if (User.isLoggedIn(this) && Db.getUser() != null) {
-			body.append("Expedia user name: " + Db.getUser().getPrimaryTraveler().getEmail());
+			body.append(getString(Ui.obtainThemeResID(this, R.attr.emailUserNameString)) + Db.getUser().getPrimaryTraveler().getEmail());
 
 			body.append("\n\n");
 		}

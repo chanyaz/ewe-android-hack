@@ -55,6 +55,7 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
         <item name="infoContactUsString">@string/contact_travelocity_via</item>
         <item name="infoContactEmailSubjectString">@string/contact_travelocity_email_subject</item>
+        <item name="emailUserNameString">@string/email_user_name_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

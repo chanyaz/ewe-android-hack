@@ -13,4 +13,6 @@
     <string name="launcher_name">@string/vsc_app_name</string>
     <!-- Email addresses -->
     <string name="email_app_support">vsc-android@mobiata.com</string>
+    <!-- User name label for support email sent to user happiness team -->
+    <string name="email_user_name_vsc">VSC user name:</string>
 </resources>

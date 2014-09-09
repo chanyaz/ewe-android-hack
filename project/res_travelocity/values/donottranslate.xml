@@ -7,4 +7,6 @@
     <string name="launcher_name">@string/travelocity_app_name</string>
     <!-- Email addresses -->
     <string name="email_app_support">travelocity-android@mobiata.com</string>
+    <!-- User name label for support email sent to user happiness team -->
+    <string name="email_user_name_tvly">Travelocity user name:</string>
 </resources>

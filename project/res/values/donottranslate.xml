@@ -432,5 +432,7 @@
     <string name="cd_nine_btn">Nine</string>
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
+    <!-- User name label for support email sent to user happiness team -->
+    <string name="email_user_name">Expedia user name:</string>
 
 </resources>
