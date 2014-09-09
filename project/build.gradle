@@ -3,6 +3,7 @@ def featureName = GradleUtil.getFeatureName(project)
 
 apply plugin: 'android'
 apply plugin: AndroidExpediaPlugin
+apply plugin: 'checkstyle'
 
 repositories {
     mavenCentral()
@@ -214,5 +215,29 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    checkstyle {
+        toolVersion = '5.7'
+    }
+
+    task checkstyle(type: Checkstyle) {
+        configFile file('../common/checkstyle.xml')
+        source 'src/'
+        include '**/*.java'
+
+        // These files are from outside our project
+        exclude (
+            '**/AdapterView.java',
+            '**/gl/*.java',
+            '**/Gallery.java',
+            '**/AbsSpinner.java',
+            '**/GLTagProgressBar.java',
+            '**/CustomEditText.java',
+            '**/SocketActivityHierarchyServer.java',
+        )
+
+        classpath = files()
+        ignoreFailures = true
     }
 }
