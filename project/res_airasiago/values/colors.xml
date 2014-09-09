@@ -5,5 +5,6 @@
     <color name="hotel_price_sale_text_color_airasiago">#E21E25</color>
     <color name="hotel_list_progress_text_color">#da0016</color>
     <color name="flight_list_progress_text_color">#da0016</color>
+    <color name="action_bar_text_aag">#F5A337</color>
 
 </resources>
