@@ -110,7 +110,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 
 		// Actionbar
 		ActionBar actionBar = getActionBar();
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_TRAVELOCITY) {
+		if (!ExpediaBookingApp.IS_EXPEDIA) {
 			switch (mLob) {
 			case HOTELS:
 				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));

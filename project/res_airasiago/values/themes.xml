@@ -41,7 +41,8 @@
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_aag_traveler_logo_disabled</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
         <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_aag_logo_small</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_aag_logo</item>
+        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_aag_logo_small</item>
+        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_airasiago</item>
         <item name="emailUserNameString">@string/email_user_name_aag</item>
     </style>
 
@@ -94,6 +95,9 @@
 
     <style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
+        <item name="android:logo">?attr/hotelwebViewActionBarLogo</item>
+        <item name="android:background" tools:targetApi="11">?attr/actionBarBackgroundDrawable</item>
+        <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
     </style>
 
     <style name="LaunchTheme" parent="@android:style/Theme.Holo">
@@ -109,6 +113,20 @@
     <style name="LaunchActionBarAirAsiaGo" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:displayOptions">showHome|useLogo</item>
         <item name="android:background">@drawable/bg_launch_ab_airasiago</item>
+    </style>
+
+    <style name="LoginTheme" parent="Theme.Phone.Dark">
+        <item name="android:logo">@drawable/ic_action_bar_aag_logo_small</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Theme.Phone.WebView">
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_aag_logo</item>
+    </style>
+
+    <style name="Theme.Phone.Preferences">
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_aag_logo</item>
     </style>
 
 </resources>
