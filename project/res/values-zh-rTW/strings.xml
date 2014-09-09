@@ -277,9 +277,9 @@
     <!-- Your Trip -->
     <string name="your_trip">您的行程</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">正在預訂 &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="now_booking_TEMPLATE">正在預訂&lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
-    <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
+    <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;，%2$s</string>
     <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
     <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
@@ -1606,7 +1606,7 @@
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">信用卡末四碼為 %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
-    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s 末四位數為 %2$s</string>
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s末四碼為 %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">完成預訂</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->

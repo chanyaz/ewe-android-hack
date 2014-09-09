@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -28,6 +30,7 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -54,11 +57,9 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.FragmentBailUtils;
-import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -108,22 +109,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ResultsBackgroundImageFragment mBlurredBgFrag;
 	private BookingUnavailableFragment mBookingUnavailableFragment;
 
-	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
-	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
-	private static final int DIALOG_CALLBACK_MINOR = 3;
-
 	private static final String TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG = "TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG";
 	private static final String TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG";
 	private static final String TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG";
 
-	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
-	private static final String INSTANCE_FLIGHT_TRIP_ERROR = "INSTANCE_FLIGHT_TRIP_ERROR";
 	private static final String INSTANCE_TRIP_BUCKET_OPEN = "INSTANCE_TRIP_BUCKET_OPEN";
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
 
-	private boolean mIsDoneLoadingPriceChange = false;
-	private boolean mIsFlightTripDone = false;
 	private boolean mAnimateState = false;
 	private boolean mCheckoutInformationIsValid = false;
 
@@ -144,6 +137,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		if (FragmentBailUtils.shouldBail(getActivity())) {
 			return;
+		}
+
+		if (savedInstanceState == null) {
+			setLob(((TabletCheckoutActivity) getActivity()).getLob());
 		}
 
 		// We should ALWAYS have an instance of the HotelBookingFragment and FlightBookingFragment.
@@ -182,8 +179,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
 				STATE_CHECKOUT_STATE,
 				CheckoutState.OVERVIEW.name())));
-			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
-			mIsFlightTripDone = savedInstanceState.getBoolean(INSTANCE_FLIGHT_TRIP_ERROR);
 			mCurrentLob = LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
 			mTripBucketOpen = savedInstanceState.getBoolean(INSTANCE_TRIP_BUCKET_OPEN);
 		}
@@ -203,8 +198,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_CHECKOUT_STATE, mStateManager.getState().name());
-		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
-		outState.putBoolean(INSTANCE_FLIGHT_TRIP_ERROR, mIsFlightTripDone);
 		outState.putBoolean(INSTANCE_TRIP_BUCKET_OPEN, mTripBucketOpen);
 		if (mCurrentLob != null) {
 			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
@@ -285,7 +278,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+		if (mCheckoutFragment != null) {
+			mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+		}
 		if (getCurrentBookingFragment() != null) {
 			getCurrentBookingFragment().onActivityResult(requestCode, resultCode, data);
 		}
@@ -302,6 +297,23 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 		}
 		mCurrentLob = lob;
+
+		// Remove invalid credit cards when going from hotels -> flights
+		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
+			Db.loadBillingInfo(getActivity());
+			BillingInfo billingInfo = Db.getBillingInfo();
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+
+			boolean isValidCard = flightTrip.isCardTypeSupported(billingInfo.getCardType());
+			if (!isValidCard) {
+				// We should probably be calling billingInfo.delete(getActivity()) instead, but due
+				// to race conditions, getActivity() can return null here. This is a less comprehensive
+				// but less crashy fix.
+				billingInfo.setStoredCard(null);
+				billingInfo.setNumber(null);
+				billingInfo.setSecurityCode(null);
+			}
+		}
 
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);
@@ -687,8 +699,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (lob == LineOfBusiness.FLIGHTS) {
 			if (!mFlightBookingFrag.isDownloadingCreateTrip()
 				&& TextUtils.isEmpty(Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber())
-				&& !mIsFlightTripDone
-				&& Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().canBePurchased()) {
 				mFlightCreateTripDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.loading_flight_details));
@@ -697,8 +707,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange
-				&& Db.getTripBucket().getHotel() != null
+			if (!mHotelBookingFrag.isDownloadingHotelProduct()
+				&& Db.getTripBucket().getHotel().getHotelProductResponse() == null
 				&& Db.getTripBucket().getHotel().canBePurchased()) {
 				mHotelProductDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.calculating_taxes_and_fees));
@@ -893,18 +903,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
 			TabletCheckoutSlideFragment f = (TabletCheckoutSlideFragment) frag;
-			LineOfBusiness lob = getLob();
-			f.setLob(lob);
-			if (lob == LineOfBusiness.FLIGHTS) {
-				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				f.setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
-			}
-			else if (lob == LineOfBusiness.HOTELS) {
-				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-				Property property = hotel.getProperty();
-				Rate rate = hotel.getRate();
-				f.setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate));
-			}
+			f.setLob(getLob());
+			f.setPriceFromTripBucket();
 		}
 	}
 
@@ -1049,10 +1049,21 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
+	public boolean getCheckoutInformationIsValid() {
+		return mCheckoutInformationIsValid;
+	}
+
 	@Override
 	public void onBillingInfoChange() {
 		if (mCvvFrag != null && mCvvFrag.isAdded()) {
 			mCvvFrag.bind();
+		}
+	}
+
+	@Override
+	public void onLogout() {
+		if (!User.isLoggedIn(getActivity())) {
+			doCreateTrip();
 		}
 	}
 
@@ -1193,7 +1204,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
-		mIsDoneLoadingPriceChange = true;
 		dismissLoadingDialogs();
 		startCreateTripDownload();
 	}
@@ -1201,18 +1211,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		dismissLoadingDialogs();
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			mIsFlightTripDone = true;
-		}
 		rebindCheckoutFragment();
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadError(Events.CreateTripDownloadError event) {
 		dismissLoadingDialogs();
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			mIsFlightTripDone = true;
-		}
 	}
 
 	@Subscribe
@@ -1221,7 +1225,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			startCreateTripDownload();
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
-			mIsFlightTripDone = false;
 			doCreateTrip();
 		}
 	}

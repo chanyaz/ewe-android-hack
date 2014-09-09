@@ -1003,6 +1003,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("key", "returnDate"));
 		}
 
+		query.add(new BasicNameValuePair("akey", "andapprm2908"));
+
 		return query;
 	}
 
@@ -1140,7 +1142,14 @@ public class ExpediaServices implements DownloadListener {
 			F_SECURE_REQUEST);
 	}
 
-	public SignInResponse updateTraveler(Traveler traveler, int flags) {
+	/**
+	 * Retrieve the full traveler details information, used to fetch full associated traveler data that
+	 * does not get returned in the sign-in call.
+	 * @param traveler
+	 * @param flags
+	 * @return
+	 */
+	public SignInResponse travelerDetails(Traveler traveler, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -1251,15 +1260,22 @@ public class ExpediaServices implements DownloadListener {
 			else {
 				// F670: Location can be null if we are using a stored credit card
 				if (location != null && location.getStreetAddress() != null) {
-					query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
+					String address = location.getStreetAddress().get(0);
+					if (!TextUtils.isEmpty(address)) {
+						query.add(new BasicNameValuePair("streetAddress", address));
+					}
 					if (location.getStreetAddress().size() > 1) {
 						String address2 = location.getStreetAddress().get(1);
 						if (!TextUtils.isEmpty(address2)) {
 							query.add(new BasicNameValuePair("streetAddress2", address2));
 						}
 					}
-					query.add(new BasicNameValuePair("city", location.getCity()));
-					query.add(new BasicNameValuePair("state", location.getStateCode()));
+					if (!TextUtils.isEmpty(location.getCity())) {
+						query.add(new BasicNameValuePair("city", location.getCity()));
+					}
+					if (!TextUtils.isEmpty(location.getStateCode())) {
+						query.add(new BasicNameValuePair("state", location.getStateCode()));
+					}
 					// #1056. Flights booking postalCode check depends on the billing country chosen during checkout.
 					if (!TextUtils.isEmpty(location.getPostalCode())) {
 						query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
@@ -1775,46 +1791,24 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	// TODO move to ESD, make more like E3 URL construction
-	private static Map<String, String> sGdePosUrlMap = new HashMap<String, String>() {
-		{
-			put("AU", "http://deals.expedia.com.au/beta/stats/flights.json");
-			put("BR", "http://deals.expedia.com.br/beta/stats/flights.json");
-			put("CA", "http://deals.expedia.ca/beta/stats/flights.json");
-			put("NZ", "http://deals.expedia.co.nz/beta/stats/flights.json");
-			put("US", "http://deals.expedia.com/beta/stats/flights.json");
-			put("AT", "http://deals.expedia.at/beta/stats/flights.json");
-			put("BE", "http://deals.expedia.be/beta/stats/flights.json");
-			put("DE", "http://deals.expedia.de/beta/stats/flights.json");
-			put("DK", "http://deals.expedia.dk/beta/stats/flights.json");
-			put("ES", "http://deals.expedia.es/beta/stats/flights.json");
-			put("FR", "http://deals.expedia.fr/beta/stats/flights.json");
-			put("IE", "http://deals.expedia.ie/beta/stats/flights.json");
-			put("IT", "http://deals.expedia.it/beta/stats/flights.json");
-			put("NL", "http://deals.expedia.nl/beta/stats/flights.json");
-			put("NO", "http://deals.expedia.no/beta/stats/flights.json");
-			put("SE", "http://deals.expedia.se/beta/stats/flights.json");
-			put("UK", "http://deals.expedia.co.uk/beta/stats/flights.json");
-			put("GB", "http://deals.expedia.co.uk/beta/stats/flights.json");
-			put("IN", "http://deals.expedia.co.in/beta/stats/flights.json");
-			put("JP", "http://deals.expedia.co.jp/beta/stats/flights.json");
-			put("MY", "http://deals.expedia.com.my/beta/stats/flights.json");
-			put("SG", "http://deals.expedia.com.sg/beta/stats/flights.json");
-			put("HK", "http://deals.expedia.com.hk/beta/stats/flights.json");
-		}
-	};
-
+	/**
+	 * Returns the proper base GDE URL for the current POS. This will throw a runtime exception
+	 * if !pos.supportsGDE(), so be sure to check that before making a request.
+	 * @return
+	 */
 	public String getGdeEndpointUrl() {
 		if (getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
 			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 			return "http://" + server;
 		}
 
-		String key = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase();
-		String url = sGdePosUrlMap.get(key);
-		if (url == null) {
-			throw new RuntimeException("No GDE url for pos=" + key);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		if (!pos.supportsGDE()) {
+			throw new RuntimeException("GDE not supported for pos=" + pos.getTwoLetterCountryCode());
 		}
+
+		// https not supported here
+		String url = "http://deals." + pos.getUrl() + "/beta/stats/flights.json";
 		return url;
 	}
 

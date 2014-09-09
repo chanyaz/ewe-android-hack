@@ -139,12 +139,12 @@
     <string name="tablet_tripbucket_item_removed">已移除</string>
     <!-- Label indicating how many items are being booked for the current trip -->
     <plurals name="items_in_trip">
-        <item quantity="zero">行程項目</item>
-        <item quantity="one">行程項目</item>
-        <item quantity="two">行程項目</item>
-        <item quantity="few">行程項目</item>
-        <item quantity="many">行程項目</item>
-        <item quantity="other">行程項目</item>
+        <item quantity="zero">個行程項目</item>
+        <item quantity="one">個行程項目</item>
+        <item quantity="two">個行程項目</item>
+        <item quantity="few">個行程項目</item>
+        <item quantity="many">個行程項目</item>
+        <item quantity="other">個行程項目</item>
     </plurals>
 
     <!-- Tablet hotel filters -->
@@ -157,7 +157,7 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">其他地區</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">熱門</string>
+    <string name="popular">熱門程度</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">價格</string>
     <!-- Short label for "sort by rating" button -->
@@ -263,7 +263,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">來回</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">總費用</string>
+    <string name="total_with_tax">合共</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -277,7 +277,7 @@
     <!-- Your Trip -->
     <string name="your_trip">您的旅行</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">立即預訂 &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="now_booking_TEMPLATE">現正預訂&lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
     <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
@@ -978,7 +978,7 @@
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">抵達時間</string>
     <!-- Sort by duration label -->
-    <string name="sort_description_duration">旅程時間</string>
+    <string name="sort_description_duration">飛行時間</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
         <item quantity="zero">%s 日</item>
@@ -1121,13 +1121,13 @@
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">現時付款詳情</string>
+    <string name="edit_current_payment_details">現時付款資料</string>
     <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">選擇付款方法</string>
     <!-- Select Payment -->
     <string name="select_payment">選擇付款</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">付款詳情</string>
+    <string name="select_payment_sentence_case">付款資料</string>
     <!-- Add new card -->
     <string name="add_new_card">新增信用卡</string>
     <!-- Overview button -->
@@ -1135,7 +1135,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">選擇已儲存的付款方法</string>
     <!-- Payment Method -->
-    <string name="payment_method">付款詳情</string>
+    <string name="payment_method">付款資料</string>
     <!-- Billing Address -->
     <string name="billing_address">帳單地址</string>
     <!-- Card Info -->
@@ -1153,11 +1153,11 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">概覽</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">總額</string>
+    <string name="total_price_label">總價</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">前往%1$s的行程</string>
     <!-- Includes taxes and fees -->
-    <string name="includes_taxes_and_fees">包括稅項及其他費用</string>
+    <string name="includes_taxes_and_fees">包括稅項及服務費</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s：%2$s 往%3$s</string>
     <!-- Number of traverlers template -->
@@ -1219,7 +1219,7 @@
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">您這次預訂將獲得獎賞積分</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
-    <string name="calculating_taxes_and_fees">正在計算稅項及其他費用…</string>
+    <string name="calculating_taxes_and_fees">正在計算稅項及服務費…</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">很抱歉，酒店剛將此住宿的總收費由 %1$s 提高至 %2$s。</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1239,7 +1239,7 @@
     <!-- Payment -->
     <string name="payment">付款</string>
     <!-- Enter Payment Information -->
-    <string name="enter_payment_information">請輸入付款詳情</string>
+    <string name="enter_payment_information">輸入付款資料</string>
 
 
     <!-- Hotel Traveler Info Options Activity -->
@@ -1252,7 +1252,7 @@
     <!-- Cost Summary -->
     <string name="cost_summary">費用概覽</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">稅項及其他費用</string>
+    <string name="taxes_and_airline_fees">稅項及服務費</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Expedia 預訂費用</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -1275,23 +1275,23 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">房客資料</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">成人 %1$s 資料</string>
+    <string name="add_adult_number_TEMPLATE">成人 %1$s 詳情</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">成人資料</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">小童 %1$s 資料</string>
+    <string name="add_child_number_TEMPLATE">小童 %1$s 詳情</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s 歲小童資料</string>
+    <string name="add_child_with_age_TEMPLATE">%1$s 歲小童詳情</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 資料</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 詳情</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">手抱嬰幼兒資料</string>
+    <string name="add_infant_in_lap">手抱嬰幼兒詳情</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 資料</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 詳情</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">佔位嬰幼兒資料</string>
+    <string name="add_infant_in_seat">佔位嬰幼兒詳情</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能被拒絕登機。</string>
+    <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能會被拒登機。</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">特別協助：%1$s</string>
@@ -1471,7 +1471,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">您將飛往%s！</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">行程編號 %s 已寄發至</string>
+    <string name="itinerary_confirmation_TEMPLATE">編號為 %s 的行程已寄發至</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">預訂客房</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -1525,7 +1525,7 @@
     <!-- Legal information header -->
     <string name="legal_information">法律資料</string>
     <!-- Rules and Restrictions for flight -->
-    <string name="rules_and_restrictions">規則與限制</string>
+    <string name="rules_and_restrictions">規則及限制</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">條款與細則</string>
     <!-- Terms of Booking for some POSes (UK, IT) -->
@@ -1604,15 +1604,15 @@
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
     <string name="security_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 的安全碼</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">信用卡尾數：%s</string>
+    <string name="card_ending_TEMPLATE">尾碼為 %s 的信用卡</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
-    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s 信用卡號碼最後 3 至 4 位：%2$s</string>
+    <string name="x_card_ending_in_y_digits_TEMPLATE">尾碼為 %2$s 的 %1$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">完成預訂</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">授權簽署</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
-    <string name="Not_Valid_Unless_Signed">簽署後才可作實</string>
+    <string name="Not_Valid_Unless_Signed">簽署後方生效</string>
     <!-- Label above cardholder's name on front of credit card on CVV screen -->
     <string name="Member">會員</string>
     <!-- Default cardholder name on front of credit card on CVV screen -->
@@ -1696,7 +1696,7 @@
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s 至 %2$s</string>
     <!-- Hint for filtering results by hotel name -->
-    <string name="filter_hotel_name_hint">依酒店名稱篩選</string>
+    <string name="filter_hotel_name_hint">按酒店名稱篩選</string>
     <!-- Label indicating that there are no results matching their current filter -->
     <string name="no_filter_results">很抱歉，找不到符合您目前篩選條件的酒店。</string>
     <!-- Label indicating that geolocation failed -->
@@ -1998,7 +1998,7 @@
         <item quantity="other">僅剩下 %d 間客房！</item>
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
-    <string name="non_refundable">不可退款</string>
+    <string name="non_refundable">不設退款</string>
     <!-- Label for free nights -->
     <string name="free">免費！</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -2065,7 +2065,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
-    <string name="taxes_and_fees">稅項及其他費用</string>
+    <string name="taxes_and_fees">稅項及服務費</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包括在內</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
@@ -2649,13 +2649,13 @@
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
-    <string name="cc_american_express">美國運通卡 (American Express)</string>
+    <string name="cc_american_express">美國運通卡</string>
     <!-- Carte Blanche -->
     <string name="cc_carte_blanche">Carte Blanche</string>
     <!-- China Union Pay -->
     <string name="cc_china_union_pay">中國銀聯</string>
     <!-- Diners Club -->
-    <string name="cc_diners_club">大來卡 (Diners Club)</string>
+    <string name="cc_diners_club">大來卡</string>
     <!-- Discover -->
     <string name="cc_discover">Discover</string>
     <!-- Japan Credit Bureau -->
@@ -2890,7 +2890,7 @@
     <!-- Content description for action: Press to sort flights by when they arrive -->
     <string name="cd_sort_flights_by_arrives">輕按以按抵達時間排列航班</string>
     <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">輕按以按旅程時間排列航班</string>
+    <string name="cd_sort_flights_by_duration">輕按以按飛行時間排列航班</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">取消您的航班選擇並返回航班搜尋結果</string>
@@ -2998,7 +2998,7 @@
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">行程編號 %1$s 已寄發至%2$s</string>
+    <string name="tablet_itinerary_confirmation_TEMPLATE">編號為 %1$s 的行程已寄發至 %2$s</string>
     <!-- Share button text for hotels -->
     <string name="tablet_confirmation_share_hotel">分享住宿資訊</string>
     <!-- Share button text for flights -->

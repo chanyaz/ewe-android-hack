@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	I got super sick of the other themes.xml being a damn mess.
+	Hopefully this version will be lot more clean.
+-->
+<resources>
+
+    <!--
+	    Don't put anything in here; it just marks the difference between our
+	    terribly-organized v1 styles and our (hopefully) better organized v2 styles
+    -->
+    <style name="V2" />
+
+    <!-- Values that go into *everything*.  Don't put anything here unless you want it *everywhere* -->
+    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" />
+
+    <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
+    <style name="V2.Theme.Activity">
+        <item name="android:actionOverflowButtonStyle">@style/V2.Widget.ActionBar.ActionButton.Overflow</item>
+
+        <!-- Custom attrs for Expedia/VSC switching -->
+        <item name="hotelPriceStandardColor">#ffffff</item>
+        <item name="hotelPriceSaleColor">#ffffff</item>
+        <item name="hotelSearchActionBarPadding">0dp</item>
+        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
+        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
+        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
+        <item name="actionBarButtonTextColor">@color/action_bar_text_yellow</item>
+        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
+        <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
+        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
+        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
+        <item name="hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
+        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
+        <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
+        <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
+        <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
+        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
+        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
+        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
+        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
+        <item name="hangTagProgressDrawable">@drawable/gl_progress_tag</item>
+        <item name="hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
+        <item name="hangTagKnobDrawable">@drawable/gl_progress_knob</item>
+        <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
+        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="costSummaryBookingFeesString">@string/expedia_booking_fee</item>
+        <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
+        <item name="loginWithExpediaTitleText">@string/expedia_account</item>
+        <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
+        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
+        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
+        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
+        <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
+        <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
+        <item name="travelerLabelOnCheckout">@string/guest_details</item>
+        <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
+        <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
+        <item name="bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="hotelBookButtonString">@string/book_now</item>
+        <item name="aboutWebsiteString">@string/expedia_website</item>
+        <item name="aboutAppSupportString">@string/app_support</item>
+        <item name="aboutCopyrightString">@string/copyright</item>
+        <item name="aboutInfoUrlString">@string/app_mobiata_info_url</item>
+        <item name="aboutAppNameString">@string/app_name</item>
+        <item name="aboutAppLogoDrawable">@drawable/mobiata</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation</item>
+        <item name="cvvBookButtonTextColor">@android:color/black</item>
+        <item name="flightLoadingMessagePosition">@id/plane_window_view</item>
+        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
+        <item name="serverErrorMessageString">@string/error_server</item>
+        <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
+        <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
+        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_expedia</item>
+        <item name="cvvEntryTitleText">@string/security_code_TEMPLATE</item>
+    </style>
+
+    <style name="V2.Theme.Activity.TabletLaunch">
+        <item name="android:windowBackground">@color/tablet_launch_bg</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletLaunch</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="V2.Theme.Activity.TabletResults">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="V2.Theme.Activity.TabletWeb">
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletWeb</item>
+    </style>
+
+
+    <style name="V2.Theme.Activity.TabletCheckout">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Action bar styling; directly linked to themes so not moving too far away -->
+
+    <style name="V2.Widget" />
+
+    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:logo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletLaunch">
+        <item name="android:displayOptions">showHome|useLogo|showCustom</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletResults">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showCustom</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletCheckout">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showCustom</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletWeb">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showTitle</item>
+        <item name="android:background">@drawable/bg_action_bar_flight_top</item>
+        <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_tablet_overflow</item>
+    </style>
+
+    <!-- LinearLayout styling -->
+    <style name="V2.Widget.LinearLayout" />
+
+    <style name="V2.Widget.LinearLayout.FlightFilter">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:divider">@drawable/grey_divider</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+
+    <!-- TextView styling -->
+
+    <style name="V2.Widget.TextView" />
+
+    <style name="V2.Widget.TextView.TabletSearch" />
+
+    <style name="V2.Widget.TextView.TabletSearch.PopupTripDatesHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">#99000000</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="V2.Widget.TextView.TabletSearch.PopupFakeEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:textColorHint">#B3404040</item>
+        <item name="textStyle">medium</item>
+        <item name="android:focusable">false</item>
+        <item name="android:minWidth">128dp</item>
+    </style>
+
+    <style name="V2.Widget.TextView.RateButton">
+        <item name="android:textSize">@dimen/hotel_room_rate_price_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="V2.Widget.TextView.RateButton.AddToTrip">
+        <item name="android:text">@string/room_rate_button_add_to_trip</item>
+        <item name="android:background">@drawable/tablet_hotel_room_add_button</item>
+        <item name="android:textSize">@dimen/tablet_flight_details_price_textsize</item>
+    </style>
+
+    <style name="V2.Widget.TextView.RateButton.SelectRoom">
+        <item name="android:text">@string/room_rate_button_select_room</item>
+        <item name="android:background">@drawable/tablet_hotel_room_select_button</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FlightDetailsHeader" />
+
+    <style name="V2.Widget.TextView.FlightDetailsHeader.Places">
+        <item name="android:textSize">@dimen/tablet_flight_details_header_textsize</item>
+        <item name="android:textColor">#333333</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FlightDetailsHeader.Time">
+        <item name="android:textSize">@dimen/tablet_flight_details_header_textsize</item>
+        <item name="android:textColor">#333333</item>
+        <item name="textStyle">light</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FilterTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#4c5156</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FilterHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#818181</item>
+        <item name="android:textSize">15sp</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FakeSpinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/tablet_flight_filter_text_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FakeSpinner.AirportFilter">
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:layout_marginBottom">@dimen/tablet_filter_white_space</item>
+    </style>
+
+    <style name="V2.Widget.TextView.FlightStatistic">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/tablet_flight_details_statistic_drawable_spacing</item>
+        <item name="android:textSize">@dimen/tablet_flight_details_statistic_textsize</item>
+        <item name="android:textColor">#4c4c4c</item>
+        <item name="textStyle">light</item>
+    </style>
+
+    <style name="V2.Widget.TextView.SearchParams">
+        <item name="android:textSize">@dimen/search_params_right_container_text_size</item>
+        <item name="android:textColor">@color/tablet_search_params_text</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="textStyle">light</item>
+    </style>
+
+    <!-- ImageView styling -->
+
+    <style name="V2.Widget.ImageView" />
+
+    <style name="V2.Widget.ImageView.TabletSearch" />
+
+    <style name="V2.Widget.ImageView.TabletSearch.ClearDates">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">center_vertical|right</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:visibility">gone</item> <!-- default to gone -->
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@drawable/ic_tablet_search_results_popup_clear</item>
+    </style>
+
+    <!-- RadioButton styling -->
+
+    <style name="V2.Widget.RadioButton" />
+
+    <style name="V2.Widget.RadioButton.Filter">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/sliding_group_text</item>
+        <item name="android:textSize">13dp</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <!-- RatingBar styling -->
+
+    <style name="V2.Widget.RatingBar" />
+
+    <style name="V2.Widget.RatingBar.UserReview">
+        <item name="android:minHeight">10dp</item>
+        <item name="android:maxHeight">10dp</item>
+    </style>
+
+    <style name="V2.Widget.RatingBar.UserReview.Yellow">
+        <item name="android:progressDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
+    </style>
+
+    <!-- SegmentedControlGroup styling -->
+    <style name="V2.Widget.SegmentedControlGroup" />
+
+    <style name="V2.Widget.SegmentedControlGroup.TabletUserReviews">
+        <item name="centerButton">@drawable/btn_tablet_user_review_segment</item>
+        <item name="leftButton">@drawable/btn_tablet_user_review_segment</item>
+        <item name="rightButton">@drawable/btn_tablet_user_review_segment</item>
+        <item name="textColor">#ffffff</item>
+    </style>
+
+    <!-- Dialog styles -->
+
+    <style name="V2.Dialog" parent="@android:style/Theme.Holo.Dialog" />
+
+    <style name="V2.Dialog.Coupon" />
+
+    <style name="V2.Dialog.Coupon.Phone" />
+
+    <style name="V2.Dialog.Coupon.Tablet" parent="@android:style/Theme.Holo.Light.Dialog" />
+
+    <!-- Fragment styles -->
+    <style name="V2.Fragment" />
+
+    <style name="V2.Fragment.Tablet" />
+
+    <!-- TextAppearance styles -->
+    <style name="V2.TextAppearance" />
+
+    <style name="V2.TextAppearance.Launch" />
+
+    <style name="V2.TextAppearance.Launch.YourSearchSubtitle">
+        <item name="android:textColor">#b2ffffff</item>
+        <item name="android:textSize">@dimen/launch_your_search_subtitle_size</item>
+    </style>
+
+</resources>

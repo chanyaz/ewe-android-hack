@@ -1,5 +1,9 @@
 package com.expedia.bookings.content;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +28,7 @@ import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.data.SuggestionV2.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.SuggestionUtils;
 
 public class SuggestionProvider extends ContentProvider {
 
@@ -98,7 +103,11 @@ public class SuggestionProvider extends ContentProvider {
 
 	private static final int MAX_RECENTS = 10;
 
+	private static final int MAX_NUM_NEARBY_AIRPORTS = 5;
+
 	private static boolean sIncludeCurrentLocation = true;
+
+	private static boolean sShowNearbyAirports = false;
 
 	private RecentList<SuggestionV2> mRecents;
 
@@ -120,6 +129,10 @@ public class SuggestionProvider extends ContentProvider {
 		if (isEnabled != sIncludeCurrentLocation) {
 			sIncludeCurrentLocation = isEnabled;
 		}
+	}
+
+	public static void setShowNearbyAiports(boolean showNearbyAirports) {
+		sShowNearbyAirports = showNearbyAirports;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -156,6 +169,13 @@ public class SuggestionProvider extends ContentProvider {
 				addSuggestion(currentLocationSuggestion);
 			}
 
+			if (sShowNearbyAirports) {
+				List<SuggestionV2> airportSuggestions = SuggestionUtils.getNearbyAirportSuggestions(getContext(), MAX_NUM_NEARBY_AIRPORTS);
+				for (SuggestionV2 suggestion : airportSuggestions) {
+					addSuggestion(suggestion);
+				}
+			}
+
 			// Add recent suggestions
 			for (SuggestionV2 recentSuggestion : mRecents.getList()) {
 				addSuggestion(recentSuggestion);
@@ -166,6 +186,33 @@ public class SuggestionProvider extends ContentProvider {
 			ExpediaServices services = new ExpediaServices(getContext());
 			SuggestionResponse response = services.suggestions(query, 0);
 			if (response != null) {
+
+				// #3200 special-case sorting for 3 char queries. We suspect the user may be entering
+				// an airport code explicitly and want to bubble AIRPORT Suggestions to the top.
+				if (mQuery.length() == 3) {
+					Collections.sort(response.getSuggestions(), new Comparator<SuggestionV2>() {
+						@Override
+						public int compare(SuggestionV2 suggestionV2, SuggestionV2 suggestionV22) {
+							boolean oneIsAirport = mQuery.equalsIgnoreCase(suggestionV2.getAirportCode())
+								&& suggestionV2.getRegionType() == RegionType.AIRPORT;
+							boolean twoIsAirport = mQuery.equalsIgnoreCase(suggestionV22.getAirportCode())
+								&& suggestionV22.getRegionType() == RegionType.AIRPORT;
+
+							// TODO is this stupid? should I shove this logic into SuggestionV2 compareTo?
+							// TODO can this be more elegant?
+							if (oneIsAirport && !twoIsAirport) {
+								return -1;
+							}
+							else if (!oneIsAirport && twoIsAirport) {
+								return 1;
+							}
+							else {
+								return suggestionV2.compareTo(suggestionV22);
+							}
+						}
+					});
+				}
+
 				for (SuggestionV2 suggestion : response.getSuggestions()) {
 					addSuggestion(suggestion);
 				}

@@ -230,7 +230,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(TRAVELER_DETAILS_DOWNLOAD, services);
-			return services.updateTraveler(mCurrentTraveler, 0);
+			return services.travelerDetails(mCurrentTraveler, 0);
 		}
 	};
 

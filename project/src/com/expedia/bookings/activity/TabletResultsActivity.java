@@ -438,6 +438,16 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_HARDWARE,
 				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 
+			if (!stateOne.supportsTouchingTripBucket() || !stateTwo.supportsTouchingTripBucket()) {
+				mTripBucketC.setBlockNewEventsEnabled(true);
+			}
+
+			if (stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS) {
+				mFlightsController.setListTouchable(false);
+			}
+			else if (stateOne == ResultsState.FLIGHTS || stateTwo == ResultsState.FLIGHTS) {
+				mHotelsController.setListTouchable(false);
+			}
 		}
 
 		@Override
@@ -457,6 +467,19 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_NONE,
 				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
+
+			// It's ok to set these touchable here, since they're already obscured by other
+			// views at times when when we want them non-touchable.
+			// Consider this a failsafe technique.
+			if (mFlightsController != null) {
+				mFlightsController.setListTouchable(true);
+			}
+			if (mHotelsController != null) {
+				mHotelsController.setListTouchable(true);
+			}
+			if (mTripBucketC != null) {
+				mTripBucketC.setBlockNewEventsEnabled(false);
+			}
 		}
 
 		@Override
@@ -489,6 +512,19 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else {
 				//Make sure everything is off screen
 				setEnteringProductPercentage(1f, state == ResultsState.HOTELS, true);
+			}
+
+			// It's ok to set these touchable here, since they're already obscured by other
+			// views at times when when we want them non-touchable.
+			// Consider this a failsafe technique.
+			if (mFlightsController != null) {
+				mFlightsController.setListTouchable(true);
+			}
+			if (mHotelsController != null) {
+				mHotelsController.setListTouchable(true);
+			}
+			if (mTripBucketC != null) {
+				mTripBucketC.setBlockNewEventsEnabled(false);
 			}
 		}
 	};
@@ -767,6 +803,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//DO WORK
 			setState(state.getResultsState(), false);
 
+			// TODO this is dependent upon being called after ResultsStateListener.onStateFinalized (which
+			// TODO resets the lists to touchable, just in case)
+			mHotelsController.setListTouchable(state != ResultsHotelsState.LOADING);
+
 			if (state == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
 				mSearchController.hideSearchBtns();
@@ -829,6 +869,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			setState(state.getResultsState(), false);
+
+			// TODO this is dependent upon being called after ResultsStateListener.onStateFinalized (which
+			// TODO resets the lists to touchable, just in case)
+			mFlightsController.setListTouchable(state != ResultsFlightsState.LOADING);
 
 			if (state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mDoingFlightsAddToBucket = false;

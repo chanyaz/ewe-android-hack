@@ -157,7 +157,7 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Andere buurten</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">populair</string>
+    <string name="popular">populariteit</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">prijs</string>
     <!-- Short label for "sort by rating" button -->
@@ -165,7 +165,7 @@
     <!-- Short label for "sort by distance" button -->
     <string name="distance">afstand</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">kortingen</string>
+    <string name="discounts">korting</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Druk om te sorteren op de populairste hotels.</string>
     <!-- Content description for "sort by price" button -->
@@ -232,7 +232,7 @@
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s beoordelingen</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
-    <string name="n_recommend_TEMPLATE">%s%% raden dit aan</string>
+    <string name="n_recommend_TEMPLATE">Aanbevolen door %s%%</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
     <string name="sorry_rooms_sold_out">Sorry, alle kamers zijn uitverkocht bij Expedia.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
@@ -978,7 +978,7 @@
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Aankomst</string>
     <!-- Sort by duration label -->
-    <string name="sort_description_duration">Vluchtduur</string>
+    <string name="sort_description_duration">Duur</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
         <item quantity="zero">%s dagen</item>
@@ -1159,7 +1159,7 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Inclusief belastingen en toeslagen</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: %2$s naar %3$s</string>
+    <string name="trip_to_with_date">%1$s: %2$s tot %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -1193,9 +1193,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Sleep om te boeken.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">schuif om hotel te boeken</string>
+    <string name="slide_to_book_hotel">sleep om hotel te boeken</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">schuif om vlucht te boeken</string>
+    <string name="slide_to_book_flight">sleep om vlucht te boeken</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Op je creditcard wordt %1$s in rekening gebracht</string>
     <!-- Amount to be paid now -->
@@ -1310,7 +1310,7 @@
     <!-- email hint -->
     <string name="email_address_hint">E-mailadres</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Telefoonnummer</string>
+    <string name="phone_number_hint">Telefoon</string>
     <!-- Cardholder -->
     <string name="cardholder">Kaarthouder</string>
     <!-- email disclaimer -->
@@ -1675,7 +1675,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; jaar oud</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Minder dan 1 jaar oud&lt;/b&gt;</string>
+    <string name="child_age_less_than_one">&lt;b&gt;&lt; 1&lt;/b&gt; jaar oud</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -1694,9 +1694,9 @@
     <!-- Label for "start search" button -->
     <string name="search">Zoeken</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s naar %2$s</string>
+    <string name="date_range_TEMPLATE">%1$s tot %2$s</string>
     <!-- Hint for filtering results by hotel name -->
-    <string name="filter_hotel_name_hint">Filteren op hotelnaam</string>
+    <string name="filter_hotel_name_hint">Filter op hotelnaam</string>
     <!-- Label indicating that there are no results matching their current filter -->
     <string name="no_filter_results">Sorry, geen hotels gevonden volgens je huidige filters.</string>
     <!-- Label indicating that geolocation failed -->

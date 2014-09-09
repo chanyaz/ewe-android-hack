@@ -25,7 +25,7 @@
     <!-- Message for no GDE results, or GDE not available on this POS -->
     <string name="Set_dates_for_flights_to_X_TEMPLATE">Selecciona una fecha para los\n vuelos a %s</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Si deseas ver la tendencia de precios de vuelos \n, dinos desde dónde quieres volar.</string>
+    <string name="flight_trends_missing_origin">Si deseas ver la tendencia de precios de vuelos,\ndinos desde dónde quieres volar.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">El viaje empieza el</string>
     <!-- Denotes the end date of the trip -->
@@ -59,7 +59,7 @@
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Ordenar y filtrar</string>
     <!-- "Done" list header label -->
-    <string name="Done">Completado</string>
+    <string name="Done">Listo</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
     <plurals name="x_Hotels_TEMPLATE">
         <item quantity="zero">%s hoteles</item>
@@ -277,7 +277,7 @@
     <!-- Your Trip -->
     <string name="your_trip">Tu viaje</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">Tu reserva &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="now_booking_TEMPLATE">Tu reserva de &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
     <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
@@ -285,7 +285,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">¡Hola, &lt;b&gt;%1$s&lt;/b&gt;! Hemos encontrado tu cuenta de Expedia. Introduce tu contraseña de Expedia para enlazar tu cuenta de Facebook a tu cuenta de Expedia.</string>
+    <string name="facebook_weve_found_your_account">¡Hola, &lt;b&gt;%1$s&lt;/b&gt;! Hemos encontrado tu cuenta de Expedia. Introduce tu contraseña de Expedia para conectar tu cuenta de Facebook a tu cuenta de Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">¡Hola, &lt;b&gt;%1$s&lt;/b&gt;! Hemos cargado tu información de Facebook.</string>
     <!-- Log in with facebook (button text) -->
@@ -303,7 +303,7 @@
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Contraseña de Expedia</string>
     <!-- Link accounts -->
-    <string name="link_accounts">Enlazar cuentas</string>
+    <string name="link_accounts">Conectar cuentas</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">No se ha podido recuperar la información actualizada del usuario.</string>
     <!-- Linking your accounts -->
@@ -1175,7 +1175,7 @@
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Comprobando cambios en el precio…</string>
     <!-- Price changed from -->
-    <string name="price_changed_from_TEMPLATE">El precio ha cambiado de %1$s</string>
+    <string name="price_changed_from_TEMPLATE">El precio ha cambiado, ahora es %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Esta línea aérea aplica una tasa de &lt;b&gt;%1$s&lt;/b&gt; (incluida en el total) por usar esta tarjeta.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -1193,9 +1193,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Desliza para realizar la compra</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">Desliza para reservar un hotel</string>
+    <string name="slide_to_book_hotel">Desliza para reservar este hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">Desliza para reservar un vuelo</string>
+    <string name="slide_to_book_flight">Desliza para reservar este vuelo</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Se cargarán %1$s en tu tarjeta</string>
     <!-- Amount to be paid now -->
@@ -1225,7 +1225,7 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">¡Buenas noticias! El precio de tu estancia ha bajado de %1$s a %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
-    <string name="done">Completado</string>
+    <string name="done">Listo</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Total a pagar hoy</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
@@ -1244,7 +1244,7 @@
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
-    <string name="menu_done">Completado</string>
+    <string name="menu_done">Listo</string>
     <!-- unable to load traveler details message -->
     <string name="unable_to_load_traveler_message">No hemos podido cargar la información de este viajero. Comprueba tu conexión e inténtalo de nuevo.</string>
 
@@ -1326,7 +1326,7 @@
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
-    <string name="credit_card_hint">Número de tarjeta de crédito</string>
+    <string name="credit_card_hint">Nº de tarjeta de crédito</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Fecha de caducidad</string>
     <!-- Set expiration date button -->
@@ -1380,7 +1380,7 @@
     <!-- First name label -->
     <string name="first_name">Nombre</string>
     <!-- Middle name label -->
-    <string name="middle_name">Segundo nombre</string>
+    <string name="middle_name">2º nombre</string>
     <!-- Last name label -->
     <string name="last_name">Apellidos</string>
     <!-- date of birth label -->
@@ -1411,7 +1411,7 @@
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
-    <string name="none">No requerida</string>
+    <string name="none">Ninguna</string>
     <!-- Gender name template e.g. Chris is Male -->
     <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s es &lt;/font&gt; %2$s</string>
 
@@ -1655,9 +1655,9 @@
     <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;Arrastra&lt;/b&gt; para ampliar la estancia</string>
     <!-- Child age dialog button -->
-    <string name="button_done">Completado</string>
+    <string name="button_done">Listo</string>
     <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Completado</string>
+    <string name="button_done_vsc_confirmation">Listo</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Selecciona la edad del niño</item>
@@ -1844,7 +1844,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Los hoteles con acceso VIP+ ofrecen a los miembros +silver y +gold de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Solo hoteles con acceso VIP</string>
+    <string name="filter_vip_access">Solo hoteles con acceso VIP+</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">Solo Acceso VIP+</string>
     <!-- ON and OFF text for toggle switches -->
@@ -2994,7 +2994,7 @@
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">¡Tu hotel ya está reservado!</string>
     <!-- Header text to indicating booking confirmed for flight -->
-    <string name="tablet_confirmation_flight_booked">¡Tu hotel ya está reservado!</string>
+    <string name="tablet_confirmation_flight_booked">¡Tu vuelo ya está reservado!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->

@@ -1548,11 +1548,11 @@
     <string name="error_flight_price_increased">It looks like the airline just raised the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">We just found your requested flights on sale for %1$s less. Are you happy for us to charge you a new total of %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">It looks like the airline is charging a payment processing fee of %1$s. Are you happy to pay a new total of %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">It looks like the airline is charging a payment processing fee of %1$s and has just raised the price of your ticket by %2$s. Are you happy to pay a new total of %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">It looks like the airline is charging a payment processing fee of %1$s but we just found your requested flights on sale for %2$s less. Are you happy to pay a new total of %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
@@ -1562,9 +1562,9 @@
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">Sorry, booking for children under the age of 18 is not yet supported.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this itinerary number: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_expedia">We\'re really sorry, your flight is no longer available from Expedia.</string>

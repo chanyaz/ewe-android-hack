@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Run tests
-APK="project/build/apk/project-Expedia-debug-unaligned.apk"
-TEST_APK="project/build/apk/project-Expedia-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-Expedia-debug-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-Expedia-debug-test-unaligned.apk"
 OUTPUT_TAR="spoon-unit-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
 if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then
@@ -12,7 +12,7 @@ else
 fi
 
 java \
-    -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \
+    -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
     --no-animations \

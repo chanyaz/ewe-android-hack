@@ -62,6 +62,12 @@ public class TripBucketItemFlight extends TripBucketItem {
 		mCheckoutResponse = checkoutResponse;
 	}
 
+	public void clearCheckoutData() {
+		mFlightTrip.setItineraryNumber(null);
+		mCheckoutResponse = null;
+		mItineraryResponse = null;
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable

@@ -299,13 +299,13 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Tidak bisa masuk ke Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Gagal masuk. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
+    <string name="login_failed_try_again">Login tak berhasil. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Kata Sandi Expedia</string>
     <!-- Link accounts -->
     <string name="link_accounts">Hubungkan Akun</string>
     <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Gagal mengambil informasi pengguna terbaru.</string>
+    <string name="failure_to_update_user">Tak berhasil mengambil informasi pengguna terbaru.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
     <!-- Log In -->
@@ -329,7 +329,7 @@
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Cari penginapan.</string>
+    <string name="launch_hotel_secondary_text">Cari kamar.</string>
     <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">Cari sekarang.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
@@ -642,7 +642,7 @@
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
     <string name="attraction_creatures_first">Mengagumkan</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">makhluk</string>
+    <string name="attraction_creatures_second">hewan-hewan</string>
     <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_first">Lihat</string>
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
@@ -1271,7 +1271,7 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informasi Traveler</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Detail pelancong utama</string>
+    <string name="traveler_details">Rincian traveler utama</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Rincian tamu</string>
     <!-- Add adult traveler number template -->
@@ -1865,13 +1865,13 @@
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Pusat Bisnis</string>
     <!-- Fitness center amenity -->
-    <string name="AmenityFitnessCenter">Fitnes</string>
+    <string name="AmenityFitnessCenter">Fitness</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">Bak Air Panas</string>
+    <string name="AmenityHotTub">Hot Tub</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">Internet</string>
     <!-- Kids' activities amenity -->
-    <string name="AmenityKidsActivities">Kegiatan Anak</string>
+    <string name="AmenityKidsActivities">Klub Anak</string>
     <!-- Kitchen/kitchenette amenity -->
     <string name="AmenityKitchen">Dapur</string>
     <!-- Pets allowed amenity -->
@@ -1911,9 +1911,9 @@
     <!-- Free airport shuttle amenity -->
     <string name="AmenityFreeAirportShuttle">Antar-Jemput Bandara</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">Kolam Renang Dalam Ruangan</string>
+    <string name="AmenityPoolIndoor">Kolam Renang Indoor</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">Kolam Renang Luar Ruangan</string>
+    <string name="AmenityPoolOutdoor">Kolam Renang Outdoor</string>
     <!-- Extended parking amenity -->
     <string name="AmenityExtendedParking">Tambahan Waktu Parkir</string>
     <!-- Free parking amenity -->
@@ -1929,7 +1929,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Positif</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Kritis</string>
+    <string name="user_review_sort_button_critical">Negatif</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Memuat ulasan lainnya…</string>
     <!-- Read more of the review -->
@@ -2822,7 +2822,7 @@
     <string name="cd_filter_open_hotel_filter_options">Buka opsi filter hotel</string>
     <!-- Hotel filter options -->
     <!-- Content description for action: Entering text into hotel filter text field -->
-    <string name="cd_filter_by_hotel_name">Masukkan teks ke bidang teks filter hotel</string>
+    <string name="cd_filter_by_hotel_name">Masukkan teks ke kolom teks filter hotel</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">Tekan untuk memfilter hotel dengan bintang tiga atau lebih</string>

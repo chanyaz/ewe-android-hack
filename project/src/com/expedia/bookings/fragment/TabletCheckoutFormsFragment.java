@@ -29,6 +29,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.TripBucketItemState;
@@ -122,6 +123,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
 	private boolean mIsLandscape;
 
+	private SingleStateListener<CheckoutFormState> mPaymentOpenCloseListener;
+	private SingleStateListener<CheckoutFormState> mTravelerOpenCloseListener;
+
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
 		CheckoutFormState.OVERVIEW, this);
 
@@ -159,8 +163,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			buildCheckoutForm();
 		}
 
-		registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm)), false);
-		registerStateListener(new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm)), false);
 		registerStateListener(new StateListenerLogger<CheckoutFormState>(), false);
 
 		return mRootC;
@@ -180,6 +182,16 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
+
+		if (mPaymentOpenCloseListener == null) {
+			mPaymentOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm));
+		}
+		if (mTravelerOpenCloseListener == null) {
+			mTravelerOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm));
+		}
+
+		registerStateListener(mPaymentOpenCloseListener, false);
+		registerStateListener(mTravelerOpenCloseListener, false);
 
 		setState(mStateManager.getState(), false);
 
@@ -205,6 +217,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			Db.kickOffBackgroundBillingInfoSave(getActivity());
 		}
 
+		unRegisterStateListener(mPaymentOpenCloseListener);
+		unRegisterStateListener(mTravelerOpenCloseListener);
 		mBackManager.unregisterWithParent(this);
 	}
 
@@ -514,17 +528,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalTripItemContainer.setVisibility(View.VISIBLE);
 			final boolean lobIsHotels = getLob() == LineOfBusiness.HOTELS;
 			final boolean lobIsFlights = getLob() == LineOfBusiness.FLIGHTS;
-			
+
 			if (lobIsHotels) {
 				mHorizontalHotelFrag = FragmentAvailabilityUtils
 					.setFragmentAvailability(true, FRAG_TAG_HORIZONTAL_ITEM_HOTEL, fragmentManager, transaction, this,
-					R.id.horizontal_trip_bucket_item, true);
+						R.id.horizontal_trip_bucket_item, true);
 			}
 
 			if (lobIsFlights) {
 				mHorizontalFlightFrag = FragmentAvailabilityUtils
 					.setFragmentAvailability(true, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, transaction, this,
-					R.id.horizontal_trip_bucket_item, true);
+						R.id.horizontal_trip_bucket_item, true);
 			}
 		}
 		transaction.commit();
@@ -741,7 +755,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		private TabletCheckoutDataFormFragment mFormFragment;
 		private int mSlideHeight;
 
-		public OpenCloseListener (View container, TabletCheckoutDataFormFragment fragment) {
+		public OpenCloseListener(View container, TabletCheckoutDataFormFragment fragment) {
 			mFormContainer = container;
 			mFormFragment = fragment;
 		}
@@ -832,6 +846,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mTravelerForm.onLoginStateChanged();
 		mPaymentForm.onLoginStateChanged();
 
+		if (!User.isLoggedIn(getActivity())) {
+			mCheckoutInfoListener.onLogout();
+		}
+
 		// This calls bindAll() and changes the state if needed
 		onCheckoutDataUpdated();
 	}
@@ -888,6 +906,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	@Subscribe
+	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
+		if (mHorizontalFlightFrag != null) {
+			mHorizontalFlightFrag.refreshExpandedTripPrice();
+		}
+	}
+
+	@Subscribe
 	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
@@ -900,4 +925,19 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalFlightFrag.refreshTripOnPriceChanged();
 		}
 	}
+
+	@Subscribe
+	public void onCouponApplySuccess(Events.CouponApplyDownloadSuccess event) {
+		if (mHorizontalHotelFrag != null) {
+			mHorizontalHotelFrag.refreshRate();
+		}
+	}
+
+	@Subscribe
+	public void onCouponRemoveSuccess(Events.CouponRemoveDownloadSuccess event) {
+		if (mHorizontalHotelFrag != null) {
+			mHorizontalHotelFrag.refreshRate();
+		}
+	}
+
 }

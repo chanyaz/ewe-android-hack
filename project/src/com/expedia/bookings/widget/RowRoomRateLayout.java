@@ -32,6 +32,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -149,7 +150,7 @@ public class RowRoomRateLayout extends FrameLayout {
 
 		setRate(rate);
 		android.widget.TextView description = Ui.findView(this, R.id.text_room_description);
-		android.widget.TextView pricePerNight = Ui.findView(this, R.id.text_price_per_night);
+		android.widget.TextView price = Ui.findView(this, R.id.text_price_per_night);
 		android.widget.TextView bedType = Ui.findView(this, R.id.text_bed_type);
 
 		// Buttons / Clicks
@@ -166,17 +167,8 @@ public class RowRoomRateLayout extends FrameLayout {
 			bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
 		}
 
-		if (pricePerNight != null) {
-			String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-			String built = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
-			int rateOffset = built.indexOf(formattedRoomRate);
-			int rateLength = formattedRoomRate.length();
-			SpannableStringBuilder builder = new SpannableStringBuilder(built);
-			builder.setSpan(new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)),
-				rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			builder.setSpan(new ForegroundColorSpan(res.getColor(R.color.hotel_room_rate_select_room_button)),
-				rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			pricePerNight.setText(builder);
+		if (price != null) {
+			price.setText(getStyledPrice(res, rate));
 		}
 
 		// Show renovation fees notice
@@ -414,6 +406,27 @@ public class RowRoomRateLayout extends FrameLayout {
 			.setTheme(R.style.V2_Theme_Activity_TabletWeb)
 			.getIntent();
 		context.startActivity(intent);
+	}
+
+	public static CharSequence getStyledPrice(Resources res, Rate rate) {
+		final String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+		TypefaceSpan typefaceSpan = new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
+		ForegroundColorSpan colorSpan = new ForegroundColorSpan(res.getColor(R.color.hotel_room_rate_select_room_button));
+
+		if (rate.getUserPriceType() == UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
+			String built = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
+			int rateOffset = built.indexOf(formattedRoomRate);
+			int rateLength = formattedRoomRate.length();
+			SpannableStringBuilder builder = new SpannableStringBuilder(built);
+			builder.setSpan(typefaceSpan, rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			builder.setSpan(colorSpan, rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			return builder;
+		}
+		else {
+			SpannableBuilder span = new SpannableBuilder();
+			span.append(formattedRoomRate, typefaceSpan, colorSpan);
+			return span.build();
+		}
 	}
 
 }

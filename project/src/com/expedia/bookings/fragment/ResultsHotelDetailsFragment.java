@@ -41,13 +41,16 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -60,7 +63,9 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
+import com.squareup.otto.Subscribe;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -147,18 +152,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	}
 
-	public void onHotelSelected() {
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		if (mCurrentProperty == null || !mCurrentProperty.equals(property)) {
-			// We actually have work to do
-			mCurrentProperty = property;
-			scrollFragmentToTop();
-			toggleLoadingState(true);
-			downloadDetails();
-			prepareDetailsForInfo(mRootC, property);
-		}
-	}
-
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -172,6 +165,38 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 		// Let's save the scroll position, to restore it back on resume.
 		saveScrollPosition();
+	}
+
+	/*
+	 * No internet connection dialog
+	 */
+
+	private static final String FRAG_TAG_INTERNET_DEAD = "FRAG_TAG_INTERNET_DEAD";
+
+	private void showNoInternetDialog() {
+		String msg = getString(R.string.error_no_internet);
+		String okBtn = getString(R.string.ok);
+		SimpleCallbackDialogFragment frag = SimpleCallbackDialogFragment.newInstance(null, msg, okBtn, SimpleCallbackDialogFragment.CODE_TABLET_NO_INTERNET_CONNECTION);
+		frag.setCancelable(false);
+		frag.show(getFragmentManager(), FRAG_TAG_INTERNET_DEAD);
+	}
+
+	public void onHotelSelected() {
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		if (mCurrentProperty == null || !mCurrentProperty.equals(property)) {
+			// We actually have work to do
+			mCurrentProperty = property;
+			scrollFragmentToTop();
+			toggleLoadingState(true);
+			prepareDetailsForInfo(mRootC, property);
+			if (!NetUtils.isOnline(getActivity())) {
+				showNoInternetDialog();
+				mCurrentProperty = null;
+			} else {
+				downloadDetails();
+			}
+		}
+
 	}
 
 	public int getTailHeight() {

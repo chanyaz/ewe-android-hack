@@ -177,11 +177,9 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		//bind the LOB specific fragment
 		if (lob == LineOfBusiness.FLIGHTS && mTripBucketFlightFrag != null) {
 			mTripBucketFlightFrag.bind();
-			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 		else if (lob == LineOfBusiness.HOTELS && mTripBucketHotelFrag != null) {
 			mTripBucketHotelFrag.bind();
-			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 
 		//Move scrollview into place

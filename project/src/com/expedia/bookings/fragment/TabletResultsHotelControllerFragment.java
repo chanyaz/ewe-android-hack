@@ -1,12 +1,10 @@
 package com.expedia.bookings.fragment;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -217,11 +214,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mBackManager.unregisterWithParent(this);
 	}
 
-	/*
-	 * Helper method to check if it's valid to start the hotel search.
-	 */
-	public boolean readyToSearch() {
-		return Sp.getParams().toHotelSearchParams().getStayDuration() <= getResources().getInteger(R.integer.calendar_max_days_hotel_stay);
+	@Subscribe
+	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
+		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_NO_INTERNET_CONNECTION) {
+			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
+		}
 	}
 
 	/*
@@ -230,17 +227,28 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING && readyToSearch()) {
+		// We only report SpUpdates when params change, so we can safely assume that this means
+		// we want to kick off a new search in this case always (unless the params don't support
+		// a hotel search)
+		//
+		// TODO this "dateRangeSupportsHotelSearch" check also occurs in "onStateFinalized", so it is
+		// likely not needed in both places..
+		if (dateRangeSupportsHotelSearch()) {
 			setHotelsState(ResultsHotelsState.LOADING, false);
-		}
-		else {
-			mHotelsStateManager.setState(getBaseState(), true);
 		}
 	}
 
-	public void importSearchParams() {
+	private void importSearchParams() {
 		Db.getHotelSearch().setSearchResponse(null);
 		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
+	}
+
+	/*
+	 * Helper method to check if it's valid to start the hotel search.
+	 */
+	private boolean dateRangeSupportsHotelSearch() {
+		// TODO should we be referring to Db.getHotelSearch() or Sp.toHotelSearch() ??
+		return Sp.getParams().toHotelSearchParams().getStayDuration() <= getResources().getInteger(R.integer.calendar_max_days_hotel_stay);
 	}
 
 
@@ -249,7 +257,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 
 	private ResultsHotelsState getBaseState() {
-		if (isAdded() && Sp.getParams().toHotelSearchParams().getStayDuration() > getResources().getInteger(R.integer.calendar_max_days_hotel_stay)) {
+		if (isAdded() && !dateRangeSupportsHotelSearch()) {
 			return ResultsHotelsState.MAX_HOTEL_STAY;
 		}
 		else if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
@@ -323,6 +331,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 	}
 
+	public void setListTouchable(boolean touchable) {
+		mHotelListC.setBlockNewEventsEnabled(!touchable);
+	}
+
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
 		mHotelListC.setVisibility(View.VISIBLE);
 		mLoadingC.setVisibility(
@@ -394,7 +406,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean loadingGuiAvailable = false;
-		boolean searchErrorAvailable = false;
+		boolean searchErrorAvailable = true;
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean hotelFiltersAvailable = true;
@@ -405,7 +417,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (hotelsState == ResultsHotelsState.LOADING) {
 			loadingGuiAvailable = true;
-			searchErrorAvailable = true;
 
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
@@ -421,15 +432,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS) {
 			hotelReviewsAvailable = true;
+			searchErrorAvailable = false;
 		}
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.GALLERY) {
 			hotelGalleryAvailable = true;
+			searchErrorAvailable = false;
 		}
 
 		if (hotelsState == ResultsHotelsState.MAX_HOTEL_STAY || hotelsState == ResultsHotelsState.ZERO_RESULT || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
 			loadingGuiAvailable = true;
-			searchErrorAvailable = true;
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
@@ -878,6 +890,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
+			// Make sure we are showing ourselves in the ResultsState.OVERVIEW. This can happen
+			// When transitioning back to OVERVIEW from flights mode SpUpdate. #3245
+			if (state == ResultsState.OVERVIEW) {
+				mRootC.setAlpha(1f);
+			}
+
 			if (state != ResultsState.HOTELS) {
 				setHotelsState(getBaseState(), false);
 			}
@@ -1361,7 +1379,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 
 			// Ensure we are downloading the correct data.
-			if (Ui.isAdded(mHotelSearchDownloadFrag) && state == ResultsHotelsState.LOADING && readyToSearch()) {
+			if (Ui.isAdded(mHotelSearchDownloadFrag) && state == ResultsHotelsState.LOADING && dateRangeSupportsHotelSearch()) {
 				importSearchParams();
 				logger.addSplit("importSearchParams()");
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());

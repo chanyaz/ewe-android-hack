@@ -98,6 +98,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		}
 		else {
 			state = CheckoutTripBucketState.SHOWING;
+			setLob(((TabletCheckoutActivity) getActivity()).getLob());
 		}
 
 		if (mIsLandscape && state == CheckoutTripBucketState.OPEN) {
@@ -128,7 +129,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		mBucketFlightContainerContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container_container);
 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
-		String dateRange;
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
@@ -136,17 +136,18 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
 			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
 
-			dateRange = DateUtils.formatDateRange(getActivity(), start, end,
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
+			String dateRange = DateUtils.formatDateRange(getActivity(), start, end,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+			mBucketDateRange.setText(dateRange);
 		}
-		else {
+		else if (getLob() == LineOfBusiness.HOTELS) {
 			// Hotels
 			LocalDate checkIn = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate();
 			LocalDate checkOut = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
-			dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
+			String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+			mBucketDateRange.setText(dateRange);
 		}
-		mBucketDateRange.setText(dateRange);
 
 		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
 		mPortraitShowHideContainer = Ui.findView(mRootC, R.id.trip_bucket_show_hide_container);

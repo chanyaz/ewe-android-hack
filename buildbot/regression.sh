@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Run tests
-APK="project/build/apk/project-ExpediaAutomation-debug-unaligned.apk"
-TEST_APK="project/build/apk/project-ExpediaAutomation-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-ExpediaAutomation-debug-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-ExpediaAutomation-debug-test-unaligned.apk"
 TYPE="regression"
 OUTPUT_TAR="spoon-${TYPE}-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
@@ -23,7 +23,7 @@ TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightSearchResultsSortTe
 TESTS+="com.expedia.bookings.test.phone.tests.hotels.HotelRoomsAndRatesTests,"
 
 java \
-    -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \
+    -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
     --class-name "${TESTS}" \

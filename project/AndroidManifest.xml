@@ -14,8 +14,10 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
-    <!-- For Google Wallet -->
+    <!-- For Google Wallet and GCM -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <!-- For Google Wallet -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <!-- For Maps V2 -->
@@ -35,8 +37,6 @@
 
     <!-- App receives GCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <!-- GCM requires a Google account. -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- Keeps the processor from sleeping when a message is received. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -54,7 +54,7 @@
             android:value="13" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.expedia.bookings.model.Search,com.expedia.bookings.model.DismissedItinButton,com.expedia.bookings.model.WidgetConfigurationState,com.expedia.bookings.notification.Notification" />
+            android:value="com.expedia.bookings.model.Search,com.expedia.bookings.model.DismissedItinButton,com.expedia.bookings.notification.Notification" />
 
         <!-- Google Maps -->
         <meta-data

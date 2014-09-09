@@ -7,4 +7,10 @@ public enum ResultsState {
 	OVERVIEW,
 	HOTELS,
 	FLIGHTS,
+	;
+
+	public boolean supportsTouchingTripBucket() {
+		return this == OVERVIEW;
+	}
+
 }

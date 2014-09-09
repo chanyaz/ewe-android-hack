@@ -303,7 +303,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		 */
 		TripBucketItemState state = getItemState();
 		if (state != null && !getItem().canBePurchased()) {
-			setVisibilityState(state);
+			setState(state);
 		}
 	}
 

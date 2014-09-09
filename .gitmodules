@@ -7,9 +7,6 @@
 [submodule "lib/FlightLib"]
 	path = lib/FlightLib
 	url = git@team.mobiata.com:Android/FlightLib.git
-[submodule "lib/TestUtils"]
-	path = lib/TestUtils
-	url = git@team.mobiata.com:Android/TestUtils.git
 [submodule "lib/FacebookSdk"]
 	path = lib/FacebookSdk
 	url = git@team.mobiata.com:Android/facebook-android-sdk.git
@@ -19,18 +16,9 @@
 [submodule "project/assets/FlightStatsDb"]
 	path = project/assets/FlightStatsDb
 	url = git@team.mobiata.com:Android/FlightStatsDb.git
-[submodule "lib/google-play-services"]
-	path = lib/google-play-services
-	url = git@team.mobiata.com:Android/google-play-services
 [submodule "lib/svg-android"]
 	path = lib/svg-android
 	url = git@team.mobiata.com:Android/svg-android.git
-[submodule "lib/Jars"]
-	path = lib/Jars
-	url = git@team.mobiata.com:Android/Jars
-[submodule "lib/ExpediaTests"]
-	path = lib/ExpediaTests
-	url = git@team.mobiata.com:Android/ExpediaTests.git
 [submodule "lib/ShareEverywhere"]
 	path = lib/ShareEverywhere
 	url = git@team.mobiata.com:Android/ShareEverywhere

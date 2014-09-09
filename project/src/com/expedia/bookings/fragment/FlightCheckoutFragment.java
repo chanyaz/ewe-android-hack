@@ -736,6 +736,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		public void checkoutInformationIsNotValid();
 
 		public void onBillingInfoChange();
+
+		public void onLogout();
 	}
 
 }

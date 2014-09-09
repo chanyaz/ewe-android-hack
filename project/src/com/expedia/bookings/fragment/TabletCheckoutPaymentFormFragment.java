@@ -23,6 +23,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
@@ -69,7 +70,12 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			}
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity());
+
+		FlightTrip flightTrip = null;
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		}
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity(), flightTrip);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -120,8 +126,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			}
 			else  {
 				//If we don't have a saved card, we must validate, if we have valid input, close
+				boolean requiresAddress = PointOfSale.getPointOfSale().requiresBillingAddressFlights();
 				boolean hasValidBillingInfo = mSectionBillingInfo != null && mSectionBillingInfo.performValidation();
-				boolean hasValidLocation = mSectionLocation != null && mSectionLocation.performValidation();
+				boolean hasValidLocation = !requiresAddress || mSectionLocation != null && mSectionLocation.performValidation();
 
 				if (hasValidBillingInfo && hasValidLocation) {
 					commitAndLeave();
@@ -226,19 +233,20 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mFormOpen = false;
 	}
 
-	@Override
-	public void onFormOpened() {
-		if (isResumed()) {
-			setUpStoredCards();
-			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
-				showStoredCardContainer();
-			}
-			else {
-				showNewCardContainer();
-			}
-		}
-		mFormOpen = true;
-	}
+    @Override
+    public void onFormOpened() {
+        setUpStoredCards();
+        if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+            showStoredCardContainer();
+        }
+        else if (Db.getBillingInfo().isUsingGoogleWallet()) {
+            showStoredCardContainerGoogleWallet();
+        }
+        else {
+            showNewCardContainer();
+        }
+        mFormOpen = true;
+    }
 
 	@Override
 	public boolean showBoardingMessage() {
@@ -258,24 +266,34 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		int count = mStoredCreditCardAdapter.getCount();
 		clearExtraHeadingView();
 		if (count != 0) {
-			TextView storedCardButton = Ui.inflate(this, R.layout.include_stored_card_spinner, null);
+			TextView storedCardButton = Ui.inflate(getParentFragment(), R.layout.include_stored_card_spinner, null);
 			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
 			attachExtraHeadingView(storedCardButton);
 		}
 	}
 
 	private void showStoredCardContainer() {
-		Ui.findView(getActivity(), R.id.stored_card_container).setVisibility(View.VISIBLE);
-		Ui.findView(getActivity(), R.id.new_card_container).setVisibility(View.GONE);
+		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		String cardName = card.getDescription();
+		CreditCardType cardType = card.getType();
+		showStoredCardContainer(cardName, cardType);
+	}
 
-		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
-			.getStoredCard();
+	private void showStoredCardContainerGoogleWallet() {
+		String cardName = getString(R.string.google_wallet);
+		CreditCardType cardType = CreditCardType.GOOGLE_WALLET;
+		showStoredCardContainer(cardName, cardType);
+	}
 
-		TextView cardName = Ui.findView(mSectionBillingInfo, R.id.stored_card_name);
-		cardName.setText(card.getDescription());
+	private void showStoredCardContainer(String cardName, CreditCardType cardType) {
+		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.GONE);
+        View storedCardContainer = Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container);
+        storedCardContainer.setVisibility(View.VISIBLE);
+
+        TextView cardNameView = Ui.findView(storedCardContainer, R.id.stored_card_name);
+		cardNameView.setText(cardName);
 
 		ImageView cardTypeIcon = Ui.findView(mSectionBillingInfo, R.id.display_credit_card_brand_icon_tablet);
-		CreditCardType cardType = card.getType();
 		if (cardType != null) {
 			cardTypeIcon.setImageResource(BookingInfoUtils.getTabletCardIcon(cardType));
 		}
@@ -283,7 +301,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			cardTypeIcon.setImageResource(R.drawable.ic_tablet_checkout_generic_credit_card);
 		}
 
-		Ui.findView(mSectionBillingInfo, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
+		Ui.findView(storedCardContainer, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
@@ -304,8 +322,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	}
 
 	private void showNewCardContainer() {
-		Ui.findView(mSectionBillingInfo, R.id.stored_card_container).setVisibility(View.GONE);
-		Ui.findView(mSectionBillingInfo, R.id.new_card_container).setVisibility(View.VISIBLE);
+		Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container).setVisibility(View.GONE);
+		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.VISIBLE);
 		mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 	}
 
@@ -319,10 +337,20 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 						if (card != null) {
-							Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
-							commitAndLeave();
-							showStoredCardContainer();
-							mStoredCardPopup.dismiss();
+                            Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
+							// For flights, don't allow selection of invalid card types.
+							boolean isValidCard = true;
+							if (getLob() == LineOfBusiness.FLIGHTS &&
+								!Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(card.getType())) {
+								isValidCard = false;
+							}
+
+							if (isValidCard) {
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
+								commitAndLeave();
+								showStoredCardContainer();
+								mStoredCardPopup.dismiss();
+							}
 						}
 					}
 				});

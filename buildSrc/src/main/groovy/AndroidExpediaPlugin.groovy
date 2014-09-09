@@ -1,16 +1,8 @@
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BasePlugin
 import com.android.build.gradle.LibraryPlugin
-import com.android.builder.BuilderConstants
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.JavaPluginConvention
-import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.testing.Test
-import org.gradle.api.tasks.testing.TestReport
-
-import javax.inject.Inject
 
 class AndroidExpediaPlugin implements Plugin<Project> {
     // Path to file in src tree with ContentProvider authority declarations
@@ -46,11 +38,11 @@ class AndroidExpediaPlugin implements Plugin<Project> {
             def resourceTask = "customResourceOverride$uniqueName"
             project.task(resourceTask) << {
                 generateUniqueContentProviderStrings(variant, contentProviderBuildStringsPath, contentProviderOverridePairs)
-                generateHomescreenLauncherAppNameLabel(variant, resourceOverridePairs)
+                generateHomescreenLauncherAppNameLabel(project, variant, resourceOverridePairs)
                 generateAccountManagerTypeToken(variant, resourceOverridePairs)
 
                 if (variant.buildType.hockey.enabled) {
-                    generateHockeyAppId(variant, resourceOverridePairs)
+                    generateHockeyAppId(project, resourceOverridePairs)
                     enableHockeyApp(resourceOverridePairs)
                 }
 
@@ -95,8 +87,8 @@ class AndroidExpediaPlugin implements Plugin<Project> {
 
     /////////////////// HOMESCREEN LAUNCHER LABEL ///////////////////
 
-    def generateHomescreenLauncherAppNameLabel(buildVariant, resourceOverridePairs) {
-        def appNameLabel = AppNameLabels.getAppName(buildVariant)
+    def generateHomescreenLauncherAppNameLabel(project, buildVariant, resourceOverridePairs) {
+        def appNameLabel = GradleUtil.getAppName(project, buildVariant)
 
         if (GradleUtil.isDefined(appNameLabel)) {
             resourceOverridePairs.add(new AndroidResource("string", "app_name", appNameLabel))
@@ -114,10 +106,10 @@ class AndroidExpediaPlugin implements Plugin<Project> {
     /////////////////// CONTENTPROVIDERS AND THE LIKE ///////////////////
 
     def generateUniqueContentProviderStrings(buildVariant, contentProviderBuildStringsPath, contentProviderOverridePairs) {
-        def stringSuffix = "." + buildVariant.productFlavors.get(0).name + "." + buildVariant.buildType.name
+        def prefix = GradleUtil.getPackageName(buildVariant) + "."
         def xmlStringsFileAsNode = new XmlParser().parse(new File(rootDir, contentProviderBuildStringsPath))
         xmlStringsFileAsNode.each {
-            contentProviderOverridePairs.add(new AndroidResource("string", it.attributes()["name"], it.text() + stringSuffix))
+            contentProviderOverridePairs.add(new AndroidResource("string", it.attributes()["name"], prefix + it.text()))
         }
     }
 
@@ -154,8 +146,8 @@ class AndroidExpediaPlugin implements Plugin<Project> {
         resourceOverridePairs.add(new AndroidResource("bool", "hockeyapp_enabled", true))
     }
 
-    def generateHockeyAppId(buildVariant, resourceOverridePairs) {
-        def hockeyId = HockeyExtension.getHockeyId(buildVariant)
+    def generateHockeyAppId(project, resourceOverridePairs) {
+        def hockeyId = GradleUtil.getPropertyWithDefault(project, "hockeyId", "notDefined")
         resourceOverridePairs.add(new AndroidResource("string", "hockey_app_id", hockeyId))
     }
 

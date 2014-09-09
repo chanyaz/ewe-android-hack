@@ -20,14 +20,22 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.FlightUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutSlideFragment extends LobableFragment implements ICheckoutDataListener,
@@ -123,12 +131,17 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		Events.register(this);
+
 		bindAll();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		Events.unregister(this);
 
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());
@@ -184,6 +197,26 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 			default:
 				//should not get here
 			}
+		}
+	}
+
+	public void setPriceFromTripBucket() {
+		if (getActivity() == null) {
+			return;
+		}
+		switch (getLob()) {
+		case FLIGHTS: {
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+			setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
+			break;
+		}
+		case HOTELS: {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			Property property = hotel.getProperty();
+			Rate rate = hotel.getRate();
+			setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate));
+			break;
+		}
 		}
 	}
 
@@ -338,5 +371,32 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		iAcceptCenter.setTranslationX(0f);
 	}
 
+	/*
+	 * Otto events
+	 */
 
+	@Subscribe
+	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
+		setPriceFromTripBucket();
+	}
+
+	@Subscribe
+	public void onFlightPriceChange(Events.FlightPriceChange event) {
+		setPriceFromTripBucket();
+	}
+
+	@Subscribe
+	public void onCouponApplied(Events.CouponApplyDownloadSuccess event) {
+		setPriceFromTripBucket();
+	}
+
+	@Subscribe
+	public void onCouponRemoved(Events.CouponRemoveDownloadSuccess event) {
+		setPriceFromTripBucket();
+	}
+
+	@Subscribe
+	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
+		setPriceFromTripBucket();
+	}
 }

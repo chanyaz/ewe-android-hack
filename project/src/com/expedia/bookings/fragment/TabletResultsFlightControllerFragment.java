@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +17,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightLegState;
@@ -44,8 +42,6 @@ import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.squareup.otto.Subscribe;
-
-import com.mobiata.android.Log;
 
 /**
  * TabletResultsFlightControllerFragment: designed for tablet results 2013
@@ -82,7 +78,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
 	private ResultsListSearchErrorFragment mSearchErrorFrag;
 	private InfantChooserDialogFragment mInfantFrag;
-	private Runnable mSearchParamUpdateRunner;
 
 	// Other
 	private GridManager mGrid = new GridManager();
@@ -363,6 +358,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(true);
 				}
 			}
+		}
+	}
+
+	public void setListTouchable(boolean touchable) {
+		if (mFlightLegsFrag != null) {
+			mFlightLegsFrag.setListTouchable(touchable);
 		}
 	}
 

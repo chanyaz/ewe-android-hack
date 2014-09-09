@@ -395,6 +395,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 					}
 					displayTravelerEntryTwo();
 				}
+				// If the section didn't validate, and it is because the birthday did not match
+				// the passenger category of the traveler, show the dialog.
 				else if (!mOneFragment.isBirthdateAligned()) {
 					showInvalidBirthdateDialog();
 				}
@@ -474,6 +476,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 						displayOptions();
 					}
 				}
+				// If the section didn't validate, and it is because the birthday did not match
+				// the passenger category of the traveler, show the dialog.
 				else if (!mOneFragment.isBirthdateAligned()) {
 					showInvalidBirthdateDialog();
 				}

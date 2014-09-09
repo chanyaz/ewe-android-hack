@@ -285,9 +285,13 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			else {
 				TravelerFormState state = mStateManager.getState();
 				if (state == TravelerFormState.EDITING) {
-					if (!Db.getWorkingTravelerManager().getWorkingTraveler()
-						.getSaveTravelerToExpediaAccount() && Db.getWorkingTravelerManager()
-						.workingTravelerDiffersFromBase()) {
+					WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
+					boolean differsFromBase = travMan.workingTravelerDiffersFromBase();
+					if (differsFromBase) {
+						// If the name has changed at all, we consider this a new traveler, and thereby remove the existing tuid.
+						if (travMan.workingTravelerNameDiffersFromBase()) {
+							travMan.getWorkingTraveler().resetTuid();
+						}
 						mStateManager.setState(TravelerFormState.SAVE_PROMPT, false);
 					}
 					else {
@@ -321,36 +325,17 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	private void commitAndCloseForm() {
+		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
+		Traveler trav = travMan.getWorkingTraveler();
 
-		//Save the traveler to the User account on a background thread
-		//We ignore errors and successes (for now) because this is a non-critical operation.
-		if (User.isLoggedIn(getActivity()) && Db.getWorkingTravelerManager().getWorkingTraveler()
-			.getSaveTravelerToExpediaAccount() && Db.getWorkingTravelerManager().workingTravelerDiffersFromBase()) {
-
-			if (Db.getWorkingTravelerManager().getWorkingTraveler().hasTuid() && Db.getWorkingTravelerManager()
-				.workingTravelerNameDiffersFromBase()) {
-				//If the name has changed at all, we consider this a new traveler, and thereby remove the existing tuid.
-				Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();
-			}
-
-			Db.getWorkingTravelerManager()
-				.commitTravelerToAccount(getActivity(), Db.getWorkingTravelerManager().getWorkingTraveler(), false,
-					new WorkingTravelerManager.ITravelerUpdateListener() {
-						@Override
-						public void onTravelerUpdateFinished() {
-							//On tablet we are doing the save in the background, and don't reflect success failure on the ui.
-						}
-
-						@Override
-						public void onTravelerUpdateFailed() {
-							//On tablet we are doing the save in the background, and don't reflect success failure on the ui.
-						}
-					}
-				);
+		if (User.isLoggedIn(getActivity()) && trav.getSaveTravelerToExpediaAccount() && travMan.workingTravelerDiffersFromBase()) {
+			// Save the traveler to the User account on a background thread
+			// We ignore errors and successes (for now) because this is a non-critical operation.
+			travMan.commitTravelerToAccount(getActivity(), trav, false, null);
 		}
 
-		//Commit our changes
-		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerNumber, getActivity());
+		// Commit our changes
+		travMan.commitWorkingTravelerToDB(mTravelerNumber, getActivity());
 
 		mListener.onCheckoutDataUpdated();
 		clearForm();
@@ -708,7 +693,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(DL_FETCH_TRAVELER_INFO, services);
-			return services.updateTraveler(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
+			return services.travelerDetails(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
 		}
 	};
 

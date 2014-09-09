@@ -159,7 +159,7 @@ public class GdeDownloadFragment extends Fragment {
 	private final Download<FlightSearchHistogramResponse> mGdeSearchDownload = new Download<FlightSearchHistogramResponse>() {
 		@Override
 		public FlightSearchHistogramResponse doDownload() {
-			if (!PointOfSale.getPointOfSale().isFlightSearchEnabledTablet()) {
+			if (!PointOfSale.getPointOfSale().supportsGDE()) {
 				return null;
 			}
 

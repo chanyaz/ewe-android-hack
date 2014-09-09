@@ -3,12 +3,12 @@ import org.gradle.api.Project
 class GradleUtil {
 
     static def getPackageName(variant) {
-        def suffix = variant.buildType.packageNameSuffix
-        def packageName = variant.productFlavors.get(0).packageName
+        def suffix = variant.buildType.applicationIdSuffix
+        def applicationId = variant.productFlavors.get(0).applicationId
         if (isDefined(suffix)) {
-            packageName += suffix
+            applicationId += suffix
         }
-        return packageName
+        return applicationId
     }
 
     static def isDefined(s) {
@@ -32,4 +32,33 @@ class GradleUtil {
         return shouldRunProguard;
     }
 
+    static def getPropertyWithDefault(Project project, String key, String thedefault) {
+        if (project.hasProperty(key)) {
+            return project.getProperty(key).toString()
+        }
+
+        return thedefault
+    }
+
+    static def getFeatureName(Project project) {
+        return getPropertyWithDefault(project, "featureName", "none")
+    }
+
+    static def getAppName(Project project, variant) {
+        // Don't touch release builds
+        if (variant.buildType.name == "release") {
+            return null
+        }
+
+        def flavor = variant.productFlavors.get(0).name
+        flavor = flavor.capitalize()
+
+        def type = variant.buildType.name
+        if (type == "feature") {
+            type = GradleUtil.getFeatureName(project)
+        }
+        type = type.capitalize()
+
+        return flavor + " " + type
+    }
 }
