@@ -2476,7 +2476,7 @@ public class OmnitureTracking {
 			}
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
 				email = Db.getUser().getPrimaryTraveler().getEmail();
-				expediaId = Db.getUser().getTuidString();
+				expediaId = Db.getUser().getExpediaUserId();
 				rewardsStatus = getRewardsStatusString(Db.getUser());
 			}
 		}
