@@ -131,6 +131,11 @@
     <dimen name="tablet_flight_details_layover_textsize">16sp</dimen>
     <dimen name="tablet_flight_details_flight_trip_view_text_size">15sp</dimen>
     <dimen name="tablet_flight_details_airline_textsize">16sp</dimen>
+    <dimen name="tablet_flight_details_price_textsize">14sp</dimen>
+    <dimen name="tablet_flight_details_header_textsize">17sp</dimen>
+    <dimen name="tablet_flight_details_header_height">68dp</dimen>
+    <dimen name="tablet_flight_details_addtotrip_height">36dp</dimen>
+    <dimen name="tablet_flight_details_header_margin">0dp</dimen>
 
     <dimen name="hotel_checkout_overview_image_height">240dp</dimen>
 

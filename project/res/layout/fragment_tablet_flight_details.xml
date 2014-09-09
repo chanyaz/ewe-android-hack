@@ -26,7 +26,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/tablet_flight_details_header_height"
                 android:background="@drawable/bg_flight_details_tablet_grey_top"
                 android:paddingLeft="@dimen/tablet_flight_details_horizontal_padding"
                 android:paddingRight="@dimen/tablet_flight_details_horizontal_padding"
@@ -34,40 +34,45 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="vertical" >
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/details_from_and_to_header"
                         style="@style/V2.Widget.TextView.FlightDetailsHeader.Places"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/tablet_flight_details_header_margin"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/details_time_header"
                         style="@style/V2.Widget.TextView.FlightDetailsHeader.Time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tablet_flight_details_header_margin"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
 
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_price_text_view"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginRight="12dp"
-                    android:gravity="right"
                     android:textColor="#3f86c2"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/tablet_flight_details_price_textsize" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_add_trip_button"
                     style="@style/V2.Widget.TextView.RateButton.AddToTrip"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="@dimen/tablet_flight_details_addtotrip_height"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp" />
 
