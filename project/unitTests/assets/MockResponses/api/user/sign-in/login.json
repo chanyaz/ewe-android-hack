@@ -1,7 +1,7 @@
 {
    "tuid":300000001,
    "expUserId":1058296,
-   "email":"mock@mobiata.com",
+   "email":"${email}",
    "firstName":"Mock",
    "middleName":"Web",
    "lastName":"Server",

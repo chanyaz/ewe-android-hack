@@ -21,6 +21,7 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest;
 public class CustomDispatcher extends Dispatcher {
 
 	protected FileOpener mFileOpener;
+	protected String mEmailAddressValue;
 
 	public CustomDispatcher(FileOpener fileOpener) {
 		mFileOpener = fileOpener;
@@ -99,9 +100,17 @@ public class CustomDispatcher extends Dispatcher {
 		}
 
 		else if (request.getPath().contains("/api/user/sign-in")) {
-			return makeResponse("MockResponses/api/user/sign-in/login.json");
+			Map<String, String> params = parsePostParams(request);
+			//There's no email parameter in 2nd sign-in request,
+			//Stores email address value from 1st request
+			if (params.containsKey("email")) {
+				mEmailAddressValue = params.get("email");
+			}
+			else {
+				params.put("email", mEmailAddressValue);
+			}
+			return makeResponse("MockResponses/api/user/sign-in/login.json", params);
 		}
-
 		return new MockResponse().setResponseCode(404);
 	}
 
