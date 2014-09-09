@@ -483,6 +483,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				if (ExpediaBookingApp.IS_TRAVELOCITY) {
 					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
 				}
+				else if (ExpediaBookingApp.IS_AAG) {
+					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure_aag);
+				}
 				else {
 					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
 				}
@@ -496,6 +499,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				else {
 					if (ExpediaBookingApp.IS_TRAVELOCITY) {
 						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+					}
+					else if (ExpediaBookingApp.IS_AAG) {
+						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
 					}
 					else {
 						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;

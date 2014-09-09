@@ -82,4 +82,7 @@
     <!-- AirAsiaGo Hotel Loading Screen Image-->
     <item name="search_progress_image_aag" type="id"/>
 
- </resources>
+    <!-- adding aag_hotel_error string id, to avoid errors in Expedia app compilation -->
+    <item name="e3_error_hotel_offers_hotel_service_failure_aag" type="string"/>
+
+</resources>
