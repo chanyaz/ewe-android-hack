@@ -32,4 +32,33 @@ class GradleUtil {
         return shouldRunProguard;
     }
 
+    static def getPropertyWithDefault(Project project, String key, String thedefault) {
+        if (project.hasProperty(key)) {
+            return project.getProperty(key).toString()
+        }
+
+        return thedefault
+    }
+
+    static def getFeatureName(Project project) {
+        return getPropertyWithDefault(project, "featureName", "none")
+    }
+
+    static def getAppName(Project project, variant) {
+        // Don't touch release builds
+        if (variant.buildType.name == "release") {
+            return null
+        }
+
+        def flavor = variant.productFlavors.get(0).name
+        flavor = flavor.capitalize()
+
+        def type = variant.buildType.name
+        if (type == "feature") {
+            type = GradleUtil.getFeatureName(project)
+        }
+        type = type.capitalize()
+
+        return flavor + " " + type
+    }
 }

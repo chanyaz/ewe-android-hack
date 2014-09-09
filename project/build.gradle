@@ -1,4 +1,5 @@
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
+def featureName = GradleUtil.getFeatureName(project)
 
 apply plugin: 'android'
 apply plugin: AndroidExpediaPlugin
@@ -131,9 +132,9 @@ android {
             hockey.enabled true
         }
 
-        next.initWith(buildTypes.debug)
-        next {
-            applicationIdSuffix ".next"
+        feature.initWith(buildTypes.debug)
+        feature {
+            applicationIdSuffix (".feature." + featureName)
             hockey.enabled true
         }
 
