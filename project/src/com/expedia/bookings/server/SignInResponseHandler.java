@@ -161,6 +161,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 	private static Traveler parseBasicTraveler(JSONObject obj) {
 		Traveler traveler = new Traveler();
 		traveler.setTuid(obj.optLong("tuid"));
+		traveler.setExpediaUserId(obj.optLong("expUserId"));
 		traveler.setFirstName(obj.optString("firstName", null));
 		traveler.setMiddleName(obj.optString("middleName", null));
 		traveler.setLastName(obj.optString("lastName", null));
