@@ -25,7 +25,7 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	private PlaneWindowView mPlaneWindowView;
 	private TextView mMessageTextView;
 	private View mCoverUpView;
-	private View mflightSearchView;
+	private View mFlightSearchView;
 
 	private CharSequence mText;
 	private boolean mIsGrounded;
@@ -49,16 +49,20 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 		mPlaneWindowView = Ui.findView(v, R.id.plane_window_view);
 		mMessageTextView = Ui.findView(v, R.id.message_text_view);
 		mCoverUpView = Ui.findView(v, R.id.cover_up_view);
-		mflightSearchView = Ui.findView(v, R.id.search_progress_flight_tvly);
 
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+		if (ExpediaBookingApp.IS_TRAVELOCITY || ExpediaBookingApp.IS_AAG) {
+			int viewId = ExpediaBookingApp.IS_TRAVELOCITY ? R.id.search_progress_flight_tvly : R.id.search_progress_flight_aag;
+			mFlightSearchView = Ui.findView(v, viewId);
 			mMessageTextView.bringToFront();
-			mflightSearchView.bringToFront();
+			mFlightSearchView.bringToFront();
 		}
 		else {
 			mPlaneWindowView.setListener(this);
 		}
 
+		if (ExpediaBookingApp.IS_AAG) {
+			mMessageTextView.setTextColor(getResources().getColor(R.color.flight_list_progress_text_color));
+		}
 		displayStatus();
 
 		return v;

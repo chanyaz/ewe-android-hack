@@ -217,7 +217,6 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	private View mRefinementDismissView;
 	private View mChildAgesLayout;
 	private View mSearchButton;
-	private View mProgressBrandImage;
 
 	private View mFilterLayout;
 	private PopupWindow mFilterPopupWindow;
@@ -1242,9 +1241,6 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			mProgressBrandImage = (ImageView) findViewById(R.id.search_progress_image_tvly);
-		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
 			LineOfBusiness.HOTELS);
@@ -2158,6 +2154,9 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			findViewById(R.id.search_progress_image_tvly).bringToFront();
+		}
+		else if (ExpediaBookingApp.IS_AAG) {
+			findViewById(R.id.search_progress_image_aag).bringToFront();
 		}
 
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
