@@ -826,8 +826,9 @@ public class ExpediaServices implements DownloadListener {
 	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-		query.add(
-			new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
+
+		String guests = generateHotelGuestString(params);
+		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
 
 		return query;
 	}
@@ -912,6 +913,10 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addHotelGuestParamater(List<BasicNameValuePair> query, HotelSearchParams params) {
+		query.add(new BasicNameValuePair("room1", generateHotelGuestString(params)));
+	}
+
+	private String generateHotelGuestString(HotelSearchParams params) {
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
 		List<ChildTraveler> children = params.getChildren();
@@ -921,7 +926,7 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 
-		query.add(new BasicNameValuePair("room1", guests.toString()));
+		return guests.toString();
 	}
 
 	private void addTealeafId(List<BasicNameValuePair> query, String tealeafId) {
