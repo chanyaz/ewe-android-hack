@@ -624,7 +624,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mPopupC.setVisibility(View.VISIBLE);
 			}
 
-			if (stateTwo.showsCalendar()) {
+			if (stateTwo.showsCalendarPopup()) {
 				mCalPopupC.setVisibility(View.VISIBLE);
 				mTravPopupC.setVisibility(View.GONE);
 			}
@@ -822,7 +822,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					: View.INVISIBLE
 			);
 
-			mCalPopupC.setVisibility(mCalC.getVisibility());
+			// mCalPopupC has min width/height set that would alter the trav picker
+			// popup size erroneously if it was set to View.INVISIBLE rather than View.GONE
+			mCalPopupC.setVisibility(
+				mCalC.getVisibility() == View.VISIBLE
+					? View.VISIBLE
+					: View.GONE
+			);
 
 			// GDE visibility should always follow the calendar visibility
 			mGdeC.setVisibility(mCalC.getVisibility());
