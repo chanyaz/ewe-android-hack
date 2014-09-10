@@ -2,6 +2,8 @@
 <com.expedia.bookings.widget.RowRoomRateLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:paddingLeft="@dimen/hotel_details_room_rate_row_padding"
+    android:paddingRight="@dimen/hotel_details_room_rate_row_padding"
     android:layout_height="@dimen/hotel_room_rate_list_height">
 
     <LinearLayout
@@ -29,7 +31,7 @@
                 android:gravity="center"
                 android:scaleType="centerCrop"/>
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_discount_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +45,9 @@
                 android:paddingRight="5dp"
                 android:paddingTop="1dp"
                 android:singleLine="true"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                app:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

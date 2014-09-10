@@ -519,19 +519,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			params.addRule(RelativeLayout.BELOW, mRoomsRatesContainer.getId());
 
 			// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
-			boolean first = true;
 			for (Rate rate : rates) {
 				RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRoomsRatesContainer, false);
 				row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
 
-				// Separator
-				if (!first) {
-					View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
-					mRoomsRatesContainer.addView(sep);
-				}
-
 				mRoomsRatesContainer.addView(row);
-				first = false;
+
+				// Separator
+				View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
+				mRoomsRatesContainer.addView(sep);
 			}
 		}
 		else {
