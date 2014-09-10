@@ -158,6 +158,10 @@
         <item name="infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
         <item name="loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
         <item name="emailUserNameString">@string/email_user_name</item>
+        <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -271,13 +275,6 @@
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
-
-        <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
-        <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
-
-        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
-        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
-
     </style>
 
     <style name="FlightTheme.DropDownSearch">

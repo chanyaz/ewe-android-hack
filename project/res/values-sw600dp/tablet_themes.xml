@@ -12,7 +12,7 @@
     <style name="V2" />
 
     <!-- Values that go into *everything*.  Don't put anything here unless you want it *everywhere* -->
-    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" />
+    <style name="V2.Theme" parent="Theme.Expedia" />
 
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
     <style name="V2.Theme.Activity">
@@ -21,71 +21,13 @@
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="hotelPriceStandardColor">#ffffff</item>
         <item name="hotelPriceSaleColor">#ffffff</item>
-        <item name="hotelSearchActionBarPadding">0dp</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
-        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
-        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
-        <item name="actionBarButtonTextColor">@color/action_bar_text_yellow</item>
-        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
-        <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
-        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
-        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
-        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
-        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
-        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
-        <item name="hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
-        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
-        <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
-        <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
-        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
         <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
         <item name="hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
-        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
-        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
-        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
-        <item name="hangTagProgressDrawable">@drawable/gl_progress_tag</item>
-        <item name="hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
-        <item name="hangTagKnobDrawable">@drawable/gl_progress_knob</item>
-        <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
-        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="costSummaryBookingFeesString">@string/expedia_booking_fee</item>
-        <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
-        <item name="loginWithExpediaTitleText">@string/expedia_account</item>
-        <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
-        <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
-        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
-        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
-        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
-        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
-        <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
-        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
-        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
-        <item name="travelerLabelOnCheckout">@string/guest_details</item>
         <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
         <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
-        <item name="bestPriceGuaranteeString">@string/best_price_guarantee</item>
-        <item name="hotelBookButtonString">@string/book_now</item>
-        <item name="aboutWebsiteString">@string/expedia_website</item>
-        <item name="aboutAppSupportString">@string/app_support</item>
-        <item name="aboutCopyrightString">@string/copyright</item>
-        <item name="aboutInfoUrlString">@string/app_mobiata_info_url</item>
-        <item name="aboutAppNameString">@string/app_name</item>
-        <item name="aboutAppLogoDrawable">@drawable/mobiata</item>
-        <item name="logoutConfirmationString">@string/logout_confirmation</item>
-        <item name="cvvBookButtonTextColor">@android:color/black</item>
-        <item name="flightLoadingMessagePosition">@id/plane_window_view</item>
-        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
-        <item name="serverErrorMessageString">@string/error_server</item>
-        <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
-        <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
-        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_expedia</item>
-        <item name="cvvEntryTitleText">@string/security_code_TEMPLATE</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletLaunch">
@@ -99,7 +41,6 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="roomNotAvailableError">@string/error_room_is_now_sold_out_expedia</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletWeb">
@@ -112,8 +53,6 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
-        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->

@@ -56,6 +56,11 @@
         <item name="infoContactUsString">@string/contact_travelocity_via</item>
         <item name="infoContactEmailSubjectString">@string/contact_travelocity_email_subject</item>
         <item name="emailUserNameString">@string/email_user_name_tvly</item>
+
+        <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -83,12 +88,6 @@
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
-
-        <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
-        <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
-
-        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
-        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
     </style>
 
     <!-- Override the phone theme -->

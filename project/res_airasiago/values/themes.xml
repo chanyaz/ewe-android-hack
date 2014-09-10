@@ -47,6 +47,10 @@
         <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_aag</item>
         <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_aag</item>
         <item name="actionBarButtonTextColor">@color/action_bar_text_aag</item>
+        <item name="travellerInfoPageLogo">@drawable/ic_aag_traveler_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_aag</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -74,12 +78,6 @@
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="flightCheckoutAccountLabel">@string/aag_account</item>
-
-        <item name="travellerInfoPageLogo">@drawable/ic_aag_traveler_logo</item>
-        <item name="travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
-
-        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_aag</item>
-        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
     </style>
 
     <!-- Override the phone theme -->
