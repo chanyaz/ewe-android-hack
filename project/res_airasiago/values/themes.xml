@@ -107,6 +107,21 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBarAirAsiaGo</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation</item>
+        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
+        <item name="itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
+        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
+        <item name="itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
+        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
+        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
