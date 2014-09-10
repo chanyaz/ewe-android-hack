@@ -81,9 +81,11 @@ public class WalletUtils {
 			Log.v("Using Google Wallet environment: PRODUCTION");
 			return WalletConstants.ENVIRONMENT_PRODUCTION;
 		}
-
-		Log.v("Using Google Wallet environment: SANDBOX");
-		return WalletConstants.ENVIRONMENT_SANDBOX;
+		else {
+			boolean useSandbox = SettingUtils.get(context, R.string.preference_google_wallet_sandbox, true);
+			Log.v("Using Google Wallet environment: " + (useSandbox ? "SANDBOX" : "PRODUCTION"));
+			return useSandbox ? WalletConstants.ENVIRONMENT_SANDBOX : WalletConstants.ENVIRONMENT_PRODUCTION;
+		}
 	}
 
 	/**

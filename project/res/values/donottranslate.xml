@@ -81,6 +81,7 @@
     <string name="preference_cookie_logging">preference_cookie_logging</string>
     <string name="preference_debug_notify_oom_crash">preference_debug_notify_oom_crash</string>
     <string name="preference_google_wallet_cvv_challenge">preference_google_wallet_cvv_challenge</string>
+    <string name="preference_google_wallet_sandbox">preference_google_wallet_sandbox</string>
     <string name="preference_disable_push_registration">preference_disable_push_registration</string>
     <string name="preference_push_notification_any_flight">preference_push_notification_any_flight</string>
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>

@@ -41,6 +41,12 @@
             android:summary="Tries to create a CVV challenge upon checkout using Google Wallet.  Not guaranteed."
             android:title="Google Wallet CVV Challenge" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/preference_google_wallet_sandbox"
+            android:summary="Unchecking this will point Google Wallet toward the live Google Wallet endpoint. Don't touch if you're not sure."
+            android:title="GWallet Endpoint == Sandbox" />
+
         <Preference
             android:key="@string/preference_force_fs_db_update"
             android:summary="If you think the internal FS.db is out of date"
