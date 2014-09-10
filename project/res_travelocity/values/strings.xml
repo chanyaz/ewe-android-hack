@@ -60,4 +60,12 @@
     <!-- The merchant name to display to the user for Google Wallet -->
     <string name="merchant_name">Travelocity</string>
 
+    <string name="error_flight_no_longer_available_tvly">We\'re really sorry, your flight is no longer available from Travelocity.</string>
+
+    <string name="error_flights_no_longer_available_tvly">We\'re really sorry, one of your flights is no longer available from Travelocity.</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out_tvly">We\&apos;re sorry but this room is no longer available from Travelocity.</string>
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_tvly">We\&apos;re sorry but this hotel is no longer available from Travelocity.</string>
 </resources>

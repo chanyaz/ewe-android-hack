@@ -275,6 +275,9 @@
         <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
 
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
+
     </style>
 
     <style name="FlightTheme.DropDownSearch">

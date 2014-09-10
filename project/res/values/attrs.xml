@@ -478,4 +478,12 @@
     <attr name="loadingAirAsiaRoutesString" format="reference|string" />
     <attr name="emailUserNameString" format="reference|string" />
 
+    <!-- Room not Available Error Msg-->
+    <attr name="roomNotAvailableError" format="string"/>
+
+    <!-- Flight(s) not Available Error Msg-->
+    <attr name="singleFlightNotAvailableError" format="string"/>
+    <attr name="flightsNotAvailableError" format="string"/>
+
+
 </resources>

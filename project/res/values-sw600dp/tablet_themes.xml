@@ -99,6 +99,7 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="roomNotAvailableError">@string/error_room_is_now_sold_out_expedia</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletWeb">
@@ -111,6 +112,8 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->

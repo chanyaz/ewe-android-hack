@@ -872,7 +872,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			else if (response.hasErrors()) {
 				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = R.string.error_room_is_now_sold_out_expedia;
+					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.roomNotAvailableError);
 				}
 				else {
 					messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;

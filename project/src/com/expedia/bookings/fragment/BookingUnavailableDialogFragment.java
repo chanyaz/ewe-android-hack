@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Ui;
 
 public class BookingUnavailableDialogFragment extends DialogFragment implements OnClickListener {
 
@@ -42,8 +43,9 @@ public class BookingUnavailableDialogFragment extends DialogFragment implements 
 		boolean isPlural = getArguments().getBoolean(ARG_IS_PLURAL);
 		mIsFlightLOB = getArguments().getBoolean(ARG_IS_FLIGHT);
 		if (mIsFlightLOB) {
-			builder.setMessage(isPlural ? R.string.error_flights_no_longer_available_expedia
-					: R.string.error_flight_no_longer_available_expedia);
+			builder.setMessage(isPlural ? Ui.obtainThemeResID(getActivity(),R.attr.flightsNotAvailableError)
+				: Ui.obtainThemeResID(getActivity(), R.attr.singleFlightNotAvailableError));
+
 			builder.setNeutralButton(isPlural ? R.string.pick_new_flights : R.string.pick_new_flight, this);
 		}
 		else {

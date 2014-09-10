@@ -86,6 +86,9 @@
 
         <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
+
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
     </style>
 
     <!-- Override the phone theme -->

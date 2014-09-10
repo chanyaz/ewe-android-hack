@@ -77,6 +77,9 @@
 
         <item name="travellerInfoPageLogo">@drawable/ic_aag_traveler_logo</item>
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
+
+        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_aag</item>
+        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
     </style>
 
     <!-- Override the phone theme -->
