@@ -43,6 +43,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
 import net.danlew.android.joda.ResourceZoneInfoProvider;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
@@ -346,7 +347,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
 		if (IS_VSC || IS_TRAVELOCITY) {
-			handleConfigurationChanged(newConfig);
+			handleConfigurationChanged(newConfig, getLocaleForVscAndTvly());
 		}
 		else {
 			// Default behaviour, we want to ignore this completely
@@ -354,8 +355,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 	}
 
-	private void handleConfigurationChanged(final Configuration newConfig) {
-		Locale locale = getLocaleForVscAndTvly();
+	public void handleConfigurationChanged(final Configuration newConfig, Locale locale) {
 
 		if (locale.equals(getResources().getConfiguration().locale)) {
 			Log.d("No Locale change required, locale=" + locale.toString());

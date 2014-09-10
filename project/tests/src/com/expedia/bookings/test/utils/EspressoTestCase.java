@@ -1,16 +1,23 @@
 package com.expedia.bookings.test.utils;
 
 import java.net.URL;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import static com.expedia.bookings.test.utils.SpoonScreenshotUtils.getCurrentActivity;
@@ -19,7 +26,6 @@ import static com.expedia.bookings.test.utils.SpoonScreenshotUtils.getCurrentAct
  * Created by dmadan on 7/15/14.
  */
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
-
 	public EspressoTestCase() {
 		super(SearchActivity.class);
 	}
@@ -59,6 +65,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
 		getActivity();
+
 		try {
 			super.runTest();
 		}
@@ -121,6 +128,17 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			break;
 		}
+	}
+
+	public void setLocale(Locale loc) throws Throwable {
+		Configuration conf = mRes.getConfiguration();
+		ExpediaBookingApp app = (ExpediaBookingApp) getInstrumentation().getTargetContext().getApplicationContext();
+		app.handleConfigurationChanged(conf, loc);
+	}
+
+	public void setPOS(PointOfSaleId pos) {
+		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.PointOfSaleKey, String.valueOf(pos.getId()));
+		PointOfSale.onPointOfSaleChanged(getInstrumentation().getTargetContext());
 	}
 
 	protected void tearDown() throws Exception {
