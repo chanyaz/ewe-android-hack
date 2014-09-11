@@ -51,6 +51,8 @@
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
         <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_aag</item>
         <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_aag</item>
+        <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
