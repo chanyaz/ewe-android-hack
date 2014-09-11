@@ -27,7 +27,6 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 	private String mCalendarDuration;
 
 	/*
-	* Run this against Integration/Production,
 	* Test: Hotel Booking dates matches on Trip Bucket, Overview Information screen,
 	* Confirmation screen and on the Cost Summary
 	*/
@@ -41,8 +40,8 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 		initialSearch();
 		Results.clickBookHotel();
 
-		String from = JodaUtils.formatLocalDate(getActivity(), mStartDate, DateUtils.FORMAT_SHOW_DATE);
-		String to = JodaUtils.formatLocalDate(getActivity(), mEndDate, DateUtils.FORMAT_SHOW_DATE);
+		String from = JodaUtils.formatLocalDate(getActivity(), mStartDate, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
+		String to = JodaUtils.formatLocalDate(getActivity(), mEndDate, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 
 		EspressoUtils.assertContains(Checkout.tripDateRange(), from);
 		EspressoUtils.assertContains(Checkout.tripDateRange(), to);
@@ -105,7 +104,12 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 		Search.clickSearchPopupDone();
 		mCalendarDuration = EspressoUtils.getText(R.id.calendar_btn);
 		Results.swipeUpHotelList();
-		Results.clickHotelAtIndex(1);
+		try {
+			Results.clickHotelWithName("Hotel_2_night_stay");
+		}
+		catch (Exception e) {
+			Results.clickHotelAtIndex(1);
+		}
 		HotelDetails.clickAddHotel();
 	}
 
