@@ -113,8 +113,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 				&& maskedWallet == null
 				&& (mWalletClient == null
 						|| !mWalletClient.isConnected()
-						|| !mCheckedPreAuth
-						|| !mIsUserPreAuthorized);
+						|| (!mCheckedPreAuth && !mIsUserPreAuthorized));
 	}
 
 	private MaskedWalletRequest buildMaskedWalletRequest() {
