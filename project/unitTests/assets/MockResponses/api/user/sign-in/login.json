@@ -17,16 +17,7 @@
          "extensionNumber":""
       }
    ],
-   "storedCreditCards":[
-      {
-         "description":"Expired Credit Card",
-         "paymentsInstrumentsId":"visa0",
-         "creditCardType":"Visa",
-         "nameOnCard":"Visa0 cc",
-         "expired":"true",
-         "expirationDate":"2016-07"
-      }
-   ],
+   "storedCreditCards":[ ],
    "loyaltyMembershipNumber":"308127915",
    "isSmokingPreferred":false,
    "tsaDetails":{
