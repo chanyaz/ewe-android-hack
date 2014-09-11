@@ -216,7 +216,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
-		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_NO_INTERNET_CONNECTION) {
+		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 		}
 	}

@@ -30,6 +30,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
@@ -53,6 +54,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -537,14 +539,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View v) {
 			if (getState().showsSearchControls() || getState().showsSearchPopup()) {
-				if (copyTempValuesToParams()) {
-					doSpUpdate();
+				if (NetUtils.isOnline(getActivity())) {
+					if (copyTempValuesToParams()) {
+						doSpUpdate();
+					}
+				}
+				else {
+					clearChanges();
+					// Nothing actually listens to the passed callback ID, but we need to differentiate
+					// this usage of the "no internet dialog" from when it's used in other places
+					Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 				}
 				setStateToBaseState(true);
 			}
 		}
 	};
-
 
 	/*
 	 * SEARCH STATE LISTENER
