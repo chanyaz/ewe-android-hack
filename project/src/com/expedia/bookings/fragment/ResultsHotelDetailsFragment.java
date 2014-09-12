@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
@@ -41,16 +42,13 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -65,7 +63,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
-import com.squareup.otto.Subscribe;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -875,7 +872,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.roomNotAvailableError);
 				}
 				else {
-					messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
+					if (ExpediaBookingApp.IS_AAG) {
+						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
+					}
+					else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+					}
+					else {
+						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
+					}
 				}
 				Log.w(getString(messageResId));
 				//showErrorDialog(messageResId);

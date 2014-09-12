@@ -118,6 +118,9 @@ public class ServerError implements JSONable {
 			if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
 			}
+			else if (ExpediaBookingApp.IS_AAG) {
+				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_aag);
+			}
 			else {
 				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
 			}
