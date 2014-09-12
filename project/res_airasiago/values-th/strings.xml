@@ -53,4 +53,14 @@
     <!-- AirAsiaGo Itinerary -->
     <string name="aag_itinerary">หมายเลขแผนการเดินทาง AirAsiaGo</string>
 
+    <string name="error_flight_no_longer_available_aag">ขออภัย เที่ยวบินของคุณไม่มีให้บริการแล้วบน AirAsiaGo</string>
+
+    <string name="error_flights_no_longer_available_aag">ขออภัย หนึ่งในเที่ยวบินของคุณไม่มีให้บริการแล้วบน AirAsiaGo</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out_aag">ขออภัย ห้องพักนี้ขายหมดแล้วบน AirAsiaGo</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_aag">ขออภัย โรงแรมนี้ขายหมดแล้วบน AirAsiaGo</string>
+
 </resources>

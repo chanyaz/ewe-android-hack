@@ -53,4 +53,15 @@
     <!-- AirAsiaGo Itinerary -->
     <string name="aag_itinerary">亞航假日行程編號</string>
 
+    <string name="error_flight_no_longer_available_aag">很抱歉，您的航班於亞航假日已售罄。</string>
+
+    <string name="error_flights_no_longer_available_aag">很抱歉，您的其中一個航班於亞航假日已售罄。</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out_aag">很抱歉，此客房於亞航假日已訂滿。</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_aag">很抱歉，此酒店於亞航假日已訂滿。</string>
+
+
 </resources>
