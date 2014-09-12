@@ -485,5 +485,7 @@
     <attr name="singleFlightNotAvailableError" format="string"/>
     <attr name="flightsNotAvailableError" format="string"/>
 
-
+    <!--CVV and CVV Error-->
+    <attr name="cvvDivDrawable" format="reference" />
+    <attr name="cvvDivErrorDrawable" format="reference" />
 </resources>

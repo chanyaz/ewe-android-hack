@@ -162,6 +162,8 @@
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
         <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
         <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
+        <item name="cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="cvvDivErrorDrawable">@drawable/div_cvv_error</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

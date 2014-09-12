@@ -53,6 +53,8 @@
         <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_aag</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_aag</item>
+        <item name="cvvDivDrawable">@drawable/div_cvv_aag</item>
+        <item name="cvvDivErrorDrawable">@drawable/div_cvv_error_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -135,6 +137,8 @@
         <item name="android:displayOptions">showHome|useLogo</item>
         <item name="android:background">@drawable/bg_launch_ab_airasiago</item>
     </style>
+
+
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
         <item name="android:logo">@drawable/ic_action_bar_aag_logo_small</item>
