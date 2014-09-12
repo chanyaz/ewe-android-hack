@@ -817,8 +817,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			Db.addAirlineNames(flightResponse.getAirlineNames());
 		}
 		else {
+			// If we have a null response, the client should show the SEARCH_ERROR state.
+			// There is too much logic surrounding whether the response is null or not
+			// already, so the best solution is to add an empty response with an error.
 			flightResponse = new FlightSearchResponse();
-			ServerError serverError = new ServerError(ServerError.ApiMethod.SEARCH_RESULTS);
+			ServerError serverError = new ServerError();
+			serverError.setCode("NULL_RESPONSE");
 			flightResponse.addError(serverError);
 		}
 

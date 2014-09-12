@@ -1537,9 +1537,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		Context context = getActivity();
 
 		HotelSearchResponse response = event.response;
+
+		// If we have a null response, the client should show the SEARCH_ERROR state.
+		// There is too much logic surrounding whether the response is null or not
+		// already, so the best solution is to add an empty response with an error.
 		if (response == null) {
+
 			response = new HotelSearchResponse();
-			ServerError serverError = new ServerError(ServerError.ApiMethod.SEARCH_RESULTS);
+			ServerError serverError = new ServerError();
+			serverError.setCode("NULL_RESPONSE");
 			response.addError(serverError);
 		}
 		Db.getHotelSearch().setSearchResponse(response);
