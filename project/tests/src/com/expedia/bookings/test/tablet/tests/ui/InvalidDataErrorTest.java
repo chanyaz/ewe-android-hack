@@ -72,7 +72,7 @@ public class InvalidDataErrorTest extends TabletTestCase {
 			Checkout.clickBookButton();
 
 			//error popup
-			EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_invalid_card_number));
+			EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.e3_error_checkout_payment_failed));
 			Checkout.clickOKButton();
 		}
 

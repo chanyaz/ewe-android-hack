@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.tests.ui;
 
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
@@ -89,7 +90,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 			CVVEntryScreen.clickBookButton();
 
 			//error popup
-			EspressoUtils.assertViewWithTextIsDisplayed("The credit card number you entered is invalid, please try again.");
+			EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.e3_error_checkout_payment_failed));
 			CVVEntryScreen.clickOkButton();
 		}
 
