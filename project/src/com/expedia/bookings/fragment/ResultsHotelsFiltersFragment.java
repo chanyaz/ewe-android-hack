@@ -209,6 +209,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
 			mVipAccessContainer.setVisibility(View.VISIBLE);
+			mVipAccessSwitch.setChecked(filter.isVipAccessOnly());
 		}
 		else {
 			mVipAccessContainer.setVisibility(View.GONE);
