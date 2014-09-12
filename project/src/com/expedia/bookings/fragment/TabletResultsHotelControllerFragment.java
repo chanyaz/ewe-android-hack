@@ -15,6 +15,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -259,6 +260,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelsState getBaseState() {
 		if (isAdded() && !dateRangeSupportsHotelSearch()) {
 			return ResultsHotelsState.MAX_HOTEL_STAY;
+		}
+		else if (Db.getHotelSearch() != null && Db.getHotelSearch().getSearchResponse() != null
+			&& Db.getHotelSearch().getSearchResponse().hasErrors()) {
+			return ResultsHotelsState.SEARCH_ERROR;
 		}
 		else if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
 			return ResultsHotelsState.LOADING;
@@ -1532,10 +1537,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		Context context = getActivity();
 
 		HotelSearchResponse response = event.response;
+		if (response == null) {
+			response = new HotelSearchResponse();
+			ServerError serverError = new ServerError(ServerError.ApiMethod.SEARCH_RESULTS);
+			response.addError(serverError);
+		}
 		Db.getHotelSearch().setSearchResponse(response);
 
-		boolean isBadResponse = response == null || response.hasErrors();
-		boolean isZeroResults = response != null && response.getPropertiesCount() == 0;
+		boolean isBadResponse = response.hasErrors();
+		boolean isZeroResults = response.getPropertiesCount() == 0;
 
 		if (isBadResponse) {
 			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);

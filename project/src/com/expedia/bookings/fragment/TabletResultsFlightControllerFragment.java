@@ -15,8 +15,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightLegState;
@@ -810,14 +812,20 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	public void onFlightSearchResponseAvailable(Events.FlightSearchResponseAvailable event) {
 		FlightSearchResponse flightResponse = event.response;
 
-		Db.getFlightSearch().setSearchResponse(flightResponse);
 		if (flightResponse != null) {
 			Db.kickOffBackgroundFlightSearchSave(getActivity());
 			Db.addAirlineNames(flightResponse.getAirlineNames());
 		}
+		else {
+			flightResponse = new FlightSearchResponse();
+			ServerError serverError = new ServerError(ServerError.ApiMethod.SEARCH_RESULTS);
+			flightResponse.addError(serverError);
+		}
 
-		boolean isBadResponse = flightResponse == null || flightResponse.hasErrors();
-		boolean isZeroResults = flightResponse == null || flightResponse.getTripCount() == 0;
+		Db.getFlightSearch().setSearchResponse(flightResponse);
+
+		boolean isBadResponse = flightResponse.hasErrors();
+		boolean isZeroResults = flightResponse.getTripCount() == 0;
 
 		if (isBadResponse) {
 			setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
