@@ -107,6 +107,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
+	private static final String DIALOG_LOADING_DETAILS = "DIALOG_LOADING_DETAILS";
+
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
 
@@ -353,6 +355,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			if (!mHotelBookingFragment.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
 				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
+				ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+				df.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
 			}
 		}
 
@@ -1473,8 +1477,16 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
 		mIsDoneLoadingPriceChange = true;
+		mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		updateViews();
 		updateViewVisibilities();
+
+		ThrobberDialog df = Ui.findSupportFragment(getActivity(), DIALOG_LOADING_DETAILS);
+		df.dismiss();
 	}
 
 	@Subscribe

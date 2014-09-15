@@ -148,7 +148,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	@Override
 	public void onResume() {
-		super.onStart();
+		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isDownloadingHotelProduct()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
@@ -179,18 +179,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	@Override
 	public void doBookingPrep() {
-		mState = HotelBookingState.CHECKOUT;
-		/*
-		 * Let's check to see if trip has already been created i.e. createTrip called already.
-		 * If not then let's call that first.
-		 * Else let's start the booking.
-		 */
 		if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
-			startCreateTripDownload();
+			throw new RuntimeException("Can't book without a create trip response");
 		}
-		else {
-			startBookingDownload();
-		}
+
+		startBookingDownload();
 	}
 
 	public void startDownload(HotelBookingState state) {
@@ -217,7 +210,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		case CHECKOUT:
 			Events.post(new Events.BookingDownloadStarted());
 			if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
-				startCreateTripDownload();
+				throw new RuntimeException("Can't do booking without create trip response");
 			}
 			else {
 				doBooking();
