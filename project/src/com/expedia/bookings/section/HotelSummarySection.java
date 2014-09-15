@@ -398,7 +398,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 		else {
 			mProximityText.setVisibility(View.VISIBLE);
-			mProximityText.setText(getContext().getString(R.string.sold_out_on_expedia));
+			mProximityText.setText(Ui.obtainThemeResID(getContext(), R.attr.hotelSearchResultSoldOut));
 		}
 	}
 

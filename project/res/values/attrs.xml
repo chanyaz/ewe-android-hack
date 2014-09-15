@@ -498,4 +498,9 @@
     <!-- Clear Private Data Confirmation Msg-->
     <attr name="clearPrivateDataMsg" format="string"/>
 
+    <!--Hotel search result messages-->
+    <attr name="hotelSearchResultNotAvailale" format="reference|string" />
+    <attr name="hotelSearchResultSoldOut" format="reference|string" />
+    <attr name="hotelSearchResultTEMPLATE" format="reference|string" />
+
 </resources>

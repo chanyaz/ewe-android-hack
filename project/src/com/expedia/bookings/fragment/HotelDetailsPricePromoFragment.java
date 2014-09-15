@@ -18,9 +18,10 @@ import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.Ui;
+
 
 public class HotelDetailsPricePromoFragment extends Fragment {
 
@@ -68,12 +69,13 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			if (params.isDefaultStay()) {
-				mSoldOutTextView.setText(R.string.not_currently_available);
+				mSoldOutTextView.setText((Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultNotAvailale)));
 			}
 			else {
 				String dates = JodaUtils.formatDateRange(getActivity(), params.getCheckInDate(),
 						params.getCheckOutDate(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-				mSoldOutTextView.setText(getString(R.string.not_currently_available_TEMPLATE, dates));
+				mSoldOutTextView
+					.setText(getString(Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultTEMPLATE), dates));
 			}
 		}
 		else {

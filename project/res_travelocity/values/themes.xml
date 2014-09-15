@@ -56,12 +56,14 @@
         <item name="infoContactUsString">@string/contact_travelocity_via</item>
         <item name="infoContactEmailSubjectString">@string/contact_travelocity_email_subject</item>
         <item name="emailUserNameString">@string/email_user_name_tvly</item>
-
         <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
         <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
         <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
         <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_tvly</item>
+        <item name="hotelSearchResultNotAvailale">@string/not_currently_available_tvly</item>
+        <item name="hotelSearchResultSoldOut">@string/sold_out_on_tvly</item>
+        <item name="hotelSearchResultTEMPLATE">@string/not_currently_available_tvly_TEMPLATE</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
