@@ -99,6 +99,11 @@
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.AirAsiaGo">
         <item name="android:actionBarStyle">@style/Dark.ActionBar.AirAsiaGo</item>
+        <item name="android:actionBarTabStyle">@style/HotelReviewActionBarTabAirAsiaGoStyle</item>
+    </style>
+
+    <style name="HotelReviewActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_review_airasiago</item>
     </style>
 
     <style name="FlightActionBarAirAsiaGo" parent="FlightActionBar">
