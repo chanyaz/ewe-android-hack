@@ -158,10 +158,13 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.aboutAppNameString));
 			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.aboutCopyrightString));
 			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.aboutAppLogoDrawable));
-			copyBuilder.setLogoUrl(Ui.obtainThemeResID(this, R.attr.aboutInfoUrlString));
-			if(PointOfSale.getPointOfSale().getTpid() == PointOfSaleId.TRAVELOCITY_CA.getId()){
-				copyBuilder.setLogoUrl(R.string.travelocity_info_url_CA);
+			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+				copyBuilder.setLogoUrl(this.getString(Ui.obtainThemeResID(this, R.attr.aboutInfoUrlString)));
 			}
+			else {
+				copyBuilder.setLogoUrl(PointOfSale.getPointOfSale().getWebsiteUrl());
+			}
+
 			copyrightFragment = copyBuilder.build();
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
 		}
