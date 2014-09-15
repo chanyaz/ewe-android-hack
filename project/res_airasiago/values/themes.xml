@@ -167,4 +167,10 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_aag_logo</item>
     </style>
 
+    <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.AirAsiaGo</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
+    </style>
+
 </resources>
