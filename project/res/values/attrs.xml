@@ -503,4 +503,5 @@
     <attr name="hotelSearchResultSoldOut" format="reference|string" />
     <attr name="hotelSearchResultTEMPLATE" format="reference|string" />
 
+    <attr name="candycaneProgressDrawable" format="reference" />
 </resources>

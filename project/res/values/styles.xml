@@ -214,7 +214,7 @@
     </style>
 
     <style name="ProgressBar.CandyCane" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
-        <item name="android:indeterminateDrawable">@drawable/progressbar_candycane_horizontal</item>
+        <item name="android:indeterminateDrawable">?attr/candycaneProgressDrawable</item>
         <item name="android:indeterminateOnly">true</item>
     </style>
 
