@@ -1126,11 +1126,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				mTouchDown = false;
 
 				if (mScrollY < mMidY) {
-					Log.t("Ending checkout - ScrollY: %d", mScrollY);
 					endCheckout();
 				}
 				else if (mScrollY >= mMidY && mScrollY <= mCheckoutY) {
-					Log.t("Starting checkout - ScrollY: %d", mScrollY);
 					startCheckout();
 				}
 			}

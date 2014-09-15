@@ -544,11 +544,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			}
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				if (mScrollY < mMidY) {
-					Log.t("Ending checkout - ScrollY: %d", mScrollY);
 					gotoOverviewMode(true);
 				}
 				else if (mScrollY >= mMidY && (mScrollY <= mCheckoutY || mDisplayMode != DisplayMode.CHECKOUT)) {
-					Log.t("Starting checkout - ScrollY: %d", mScrollY);
 					gotoCheckoutMode(true, true);
 				}
 				else {
@@ -561,7 +559,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			Log.t("ScrollY: %d", y);
 			mScrollY = y;
 			if (mOverviewFragment != null) {
 				float percentage = 1f - ((float) mScrollY) / mCheckoutY;
