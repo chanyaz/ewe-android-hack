@@ -148,21 +148,27 @@ public class AccountButton extends LinearLayout {
 		else if (ExpediaBookingApp.IS_EXPEDIA) {
 			mLoginContainer.setBackgroundResource(isFlights
 				? R.drawable.btn_login_flights
-				: R.drawable.btn_login_hotels);
+				: Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginButtonDrawable));
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights
 				? R.drawable.ic_expedia_logo
 				: Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
 		}
 		else {
-			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+			if (ExpediaBookingApp.IS_AAG) {
+				mLoginContainer.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginButtonDrawable));
+			}
+			else {
+				mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+					Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+			}
 		}
-		mLoginTextView.setTextColor(res.getColor(isTablet
-			? R.color.login_text_tablet
+		mLoginTextView.setTextColor(isTablet
+			? Ui.obtainThemeColor(mContext, R.attr.tabletCheckoutLoginButtonTextColor)
 			: isFlights
-			? R.color.login_text_flight
-			: R.color.login_text_hotels));
+			? Ui.obtainThemeColor(mContext, R.attr.flightCheckoutLoginButtonTextColor)
+			: Ui.obtainThemeColor(mContext, R.attr.hotelCheckoutLoginButtonTextColor));
+
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob, boolean isElitePlusMember) {
@@ -179,7 +185,10 @@ public class AccountButton extends LinearLayout {
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
 
-		if (!isElitePlusMember) {
+		if(ExpediaBookingApp.IS_AAG) {
+			mExpediaLogo.setVisibility(View.INVISIBLE);
+		}
+		else if (!isElitePlusMember) {
 			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLogoutLogoDrawable));
 		}
 
