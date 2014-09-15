@@ -246,6 +246,12 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mStickyHeader.setTranslationY(percentage * maxHeaderTransY);
 	}
 
+	public void setLastReportedTouchPercentage(float percentage) {
+		if (hasList()) {
+			getListView().setLastReportedPercentage(percentage);
+		}
+	}
+
 	public void clearSelection() {
 		if (hasList()) {
 			getListView().clearChoices();
