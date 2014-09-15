@@ -504,4 +504,5 @@
     <attr name="hotelSearchResultTEMPLATE" format="reference|string" />
 
     <attr name="candycaneProgressDrawable" format="reference" />
+    <attr name="userRatingBarDrawable" format="reference" />
 </resources>

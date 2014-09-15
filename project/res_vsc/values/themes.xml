@@ -51,6 +51,7 @@
         <item name="aboutAppNameString">@string/VSC_app_name</item>
         <item name="aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>
         <item name="emailUserNameString">@string/email_user_name_vsc</item>
+        <item name="userRatingBarDrawable">@drawable/ratingbar_userreview_orange</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
