@@ -13,6 +13,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ValidPayment;
 import com.mobiata.android.Log;
 
 public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripResponse> {
@@ -55,6 +56,9 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 
 			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams, mProperty);
 			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), numberOfNights, null);
+
+			List<ValidPayment> payments = CreateItineraryResponseHandler.parseValidPayments(response);
+			newRate.addValidPayments(payments);
 
 			createTripResponse.setNewRate(newRate);
 		}

@@ -178,21 +178,15 @@ public class FlightTrip implements JSONable {
 		mPriceChangeAmount = priceChangeAmount;
 	}
 
-	public void addValidPayment(ValidPayment payment) {
+	public void addValidPayments(List<ValidPayment> payments) {
 		if (mValidPayments == null) {
 			mValidPayments = new ArrayList<ValidPayment>();
 		}
 
-		mValidPayments.add(payment);
-
-		// #1363: Duplicate Mastercard valid payment types as a Google Wallet card as well,
-		// since Google Wallet uses Mastercard on the back end.
-		// #3014: Google Wallet now uses Discover cards
-		if (payment.getCreditCardType() == CreditCardType.DISCOVER) {
-			ValidPayment googlePayment = new ValidPayment();
-			googlePayment.setCreditCardType(CreditCardType.GOOGLE_WALLET);
-			googlePayment.setFee(payment.getFee());
-			mValidPayments.add(googlePayment);
+		if (payments != null) {
+			for (ValidPayment payment : payments) {
+				ValidPayment.addValidPayment(mValidPayments, payment);
+			}
 		}
 	}
 
@@ -228,14 +222,7 @@ public class FlightTrip implements JSONable {
 	 * @return true if this FlightTrip supports the card type, false otherswise.
 	 */
 	public boolean isCardTypeSupported(CreditCardType creditCardType) {
-		if (creditCardType != null && mValidPayments != null) {
-			for (ValidPayment payment : mValidPayments) {
-				if (payment.getCreditCardType() == creditCardType) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return ValidPayment.isCardTypeSupported(mValidPayments, creditCardType);
 	}
 
 	public Money getTotalFareWithCardFee(BillingInfo billingInfo) {
