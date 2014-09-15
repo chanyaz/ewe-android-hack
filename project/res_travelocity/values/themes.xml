@@ -61,6 +61,7 @@
         <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
         <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
         <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
+        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

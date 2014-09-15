@@ -60,6 +60,7 @@
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_aag</item>
         <item name="cvvBookButtonTextColor">@android:color/white</item>
         <item name="aboutAppLogoDrawable">@drawable/info_screen_aag_logo</item>
+        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

@@ -43,6 +43,7 @@
     <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
+        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data</item>
     </style>
 
     <style name="TabletPreferenceSeparator">
@@ -164,6 +165,7 @@
         <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
         <item name="cvvDivDrawable">@drawable/div_cvv</item>
         <item name="cvvDivErrorDrawable">@drawable/div_cvv_error</item>
+        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

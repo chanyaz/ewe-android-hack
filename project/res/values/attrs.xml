@@ -488,4 +488,8 @@
     <!--CVV and CVV Error-->
     <attr name="cvvDivDrawable" format="reference" />
     <attr name="cvvDivErrorDrawable" format="reference" />
+
+    <!-- Clear Private Data Confirmation Msg-->
+    <attr name="clearPrivateDataMsg" format="string"/>
+
 </resources>

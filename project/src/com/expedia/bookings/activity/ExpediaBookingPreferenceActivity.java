@@ -25,6 +25,7 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -166,10 +167,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		case DIALOG_CLEAR_DATA_SIGNED_OUT: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dialog_title_logged_out_and_cleared_private_data);
-			builder.setMessage(R.string.dialog_message_logged_out_and_cleared_private_data);
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				builder.setMessage(R.string.dialog_message_logged_out_and_cleared_private_data_tvly);
-			}
+			builder.setMessage(Ui.obtainThemeResID(this, R.attr.clearPrivateDataMsg));
 			builder.setOnCancelListener(new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {

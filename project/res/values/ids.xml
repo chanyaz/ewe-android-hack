@@ -35,9 +35,6 @@
     <item name="calendar_flight_desc_support_TEMPLATE_tvly" type="string"/>
     <item name="calendar_flight_desc_itinerary_TEMPLATE_tvly" type="string"/>
 
-    <!-- for using Id while running Expedia app, this is for the message shown on clearing private data-->
-    <item name="dialog_message_logged_out_and_cleared_private_data_tvly" type="string"/>
-
     <!-- adding below ids. These are the images used in Tvly app home screen. -->
     <item name="bg_launch_tvly_sf" type="drawable"/>
     <item name="bg_launch_tvly_las_vegas" type="drawable"/>
