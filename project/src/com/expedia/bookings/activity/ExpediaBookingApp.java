@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
+import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
@@ -76,8 +77,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		Crashlytics.start(this);
+		startupTimer.addSplit("Crashlytics started.");
 
 		if (SettingUtils.get(this, getString(R.string.preference_should_start_hierarchy_server), false)) {
 			SocketActivityHierarchyServer activityHierarchyServer = new SocketActivityHierarchyServer();
