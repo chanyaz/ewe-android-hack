@@ -33,6 +33,8 @@ import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
+import com.expedia.bookings.data.CreateTripResponse;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -151,6 +153,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private CouponDialogFragment mCouponDialogFragment;
 	private ThrobberDialog mCouponRemoveThrobberDialog;
+	private ThrobberDialog mCreateTripDialog;
 
 	//When we last refreshed user data.
 	private long mRefreshedUserTime = 0L;
@@ -355,8 +358,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			if (!mHotelBookingFragment.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
 				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
-				ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
-				df.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+				mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+				mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
 			}
 		}
 
@@ -735,6 +738,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mScrollView.post(new Runnable() {
 				@Override
 				public void run() {
+					mScrollSpacerView.requestLayout();
+				}
+			});
+			mScrollView.post(new Runnable() {
+				@Override
+				public void run() {
 					mScrollView.requestLayout();
 					if (mMaintainStartCheckoutPosition) {
 						// Now we have to wire this up so we can scroll the page after a layout occurs
@@ -856,7 +865,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase(getActivity());
@@ -1452,6 +1460,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
 			mCouponRemoveThrobberDialog.dismiss();
 		}
+		if (mCreateTripDialog != null && mCreateTripDialog.isAdded()) {
+			mCreateTripDialog.dismiss();
+		}
 	}
 
 	///////////////////////////////////
@@ -1480,11 +1491,16 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
-		updateViews();
-		updateViewVisibilities();
+		if (event.createTripResponse instanceof CreateTripResponse) {
+			Rate rate = ((CreateTripResponse) event.createTripResponse).getNewRate();
+			if (!rate.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
+				disableGoogleWallet();
+			}
+		}
 
-		ThrobberDialog df = Ui.findSupportFragment(getActivity(), DIALOG_LOADING_DETAILS);
-		df.dismiss();
+		dismissDialogs();
+		refreshData();
 	}
 
 	@Subscribe
