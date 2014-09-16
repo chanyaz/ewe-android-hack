@@ -33,6 +33,3 @@ build
 # Gradle related files
 .gradle
 .settings
-
-# Crashlytics generated file
-project/res/values/com_crashlytics_export_strings.xml
