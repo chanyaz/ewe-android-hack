@@ -70,6 +70,7 @@
         <item name="userRatingBarDrawable">@drawable/ratingbar_userreview_aag_yellow</item>
         <item name="clearEditTextImage">@drawable/ic_clear_edittext_aag</item>
         <item name="hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
+        <item name="icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
