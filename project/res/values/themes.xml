@@ -174,6 +174,7 @@
         <item name="hotelSearchResultSoldOut">@string/sold_out_on_expedia</item>
         <item name="hotelSearchResultTEMPLATE">@string/not_currently_available_TEMPLATE</item>
         <item name="userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
+        <item name="clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

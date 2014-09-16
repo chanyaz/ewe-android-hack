@@ -31,7 +31,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:src="@drawable/ic_clear_edittext_dark"
+        android:src="?attr/clearEditTextImage"
         android:visibility="gone" />
 
     <RelativeLayout

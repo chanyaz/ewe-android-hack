@@ -505,4 +505,6 @@
 
     <attr name="candycaneProgressDrawable" format="reference" />
     <attr name="userRatingBarDrawable" format="reference" />
+
+    <attr name="clearEditTextImage" format="reference"/>
 </resources>
