@@ -230,6 +230,8 @@
         <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
         <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
+        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
     </style>
 
     <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
@@ -252,6 +254,8 @@
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
         <item name="itinTabletCardPopupBackgroundDrawable">@drawable/bg_itinerary_card_popup</item>
         <item name="itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
+        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
     </style>
 
     <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">

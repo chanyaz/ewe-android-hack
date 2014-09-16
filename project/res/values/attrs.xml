@@ -507,4 +507,8 @@
     <attr name="userRatingBarDrawable" format="reference" />
 
     <attr name="clearEditTextImage" format="reference"/>
+
+    <attr name="icTypeCircleFlight" format="reference" />
+    <attr name="icTypeCircleHotel" format="reference" />
+
 </resources>

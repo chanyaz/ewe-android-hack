@@ -99,7 +99,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return R.drawable.ic_itin_shared_placeholder_flights;
 		}
 		else {
-			return R.drawable.ic_type_circle_flight;
+			return Ui.obtainThemeResID(getContext(), R.attr.icTypeCircleFlight);
 		}
 	}
 
