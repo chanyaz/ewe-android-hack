@@ -62,5 +62,11 @@
 
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_aag">Maaf, hotel ini tidak lagi tersedia di AirAsiaGo.</string>
+    <string name="not_currently_available_aag">Saat ini tak tersedia di AirAsiaGo</string>
+    <string name="sold_out_on_agg">Terjual habis di AirAsiaGo</string>
+    <string name="not_currently_available_aag_TEMPLATE">Tak tersedia di AirAsiaGo %s</string>
+    <string name="search">cari</string>
+    <string name="nav_flights">Penerbangan</string>
+    <string name="nav_hotels">Hotel</string>
 
 </resources>
