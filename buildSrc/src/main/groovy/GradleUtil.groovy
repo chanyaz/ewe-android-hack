@@ -61,4 +61,13 @@ class GradleUtil {
 
         return flavor + " " + type
     }
+
+    static def getGitRevision() {
+        def hash = "git rev-parse --short HEAD".execute().text.trim()
+        def hasLocalChanges = "git diff".execute().text
+        if (hasLocalChanges) {
+            hash = "!" + hash
+        }
+        return hash
+    }
 }

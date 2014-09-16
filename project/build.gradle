@@ -1,5 +1,6 @@
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
+def gitRev = GradleUtil.getGitRevision()
 
 apply plugin: 'android'
 apply plugin: 'crashlytics'
@@ -67,6 +68,7 @@ android {
         buildConfigField "boolean", "IS_AUTOMATION", "false"
 
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+        buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
 
         manifestPlaceholders = [ crashlyticsKey:"045825b17e2b00aa0dde8ba0dcea1ad63801d612"]
     }
