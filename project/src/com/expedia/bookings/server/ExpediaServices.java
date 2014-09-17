@@ -976,6 +976,12 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation: https://confluence/display/MTTFG/Global+Deals+Engine+-+GDE
 	//
 	// Flights: https://confluence/display/MTTFG/GDE+Flights+API+Documentation
+	//
+	// Example outgoing trip url:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX
+	//
+	// Exmaple return trip url:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX&departDate=2014-10-01&key=returnDate
 
 	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination,
 		LocalDate departureDate) {
@@ -987,7 +993,9 @@ public class ExpediaServices implements DownloadListener {
 
 		String endpointUrl = getGdeEndpointUrl();
 		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
-		return doBasicGetRequest(endpointUrl, query, new FlightSearchHistogramResponseHandler());
+		FlightSearchHistogramResponseHandler handler
+			= new FlightSearchHistogramResponseHandler(origin, destination, departureDate);
+		return doBasicGetRequest(endpointUrl, query, handler);
 	}
 
 	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination,
