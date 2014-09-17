@@ -352,7 +352,7 @@ public class ExpediaServices implements DownloadListener {
 
 		// 1 == airports, which is all that's supported for now
 		params.add(new BasicNameValuePair("type", "1"));
-		params.add(new BasicNameValuePair("maxradius", "200"));
+		params.add(new BasicNameValuePair("maxradius", "150"));
 		params.add(new BasicNameValuePair("maxresults", "50"));
 
 		if (sort == SuggestionSort.DISTANCE) {
