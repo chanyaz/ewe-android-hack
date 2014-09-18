@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="11dp"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/hotel_details_rooms_left_text_size"
                         android:text="@string/mobile_exclusive"
                         app:textStyle="light"/>
                 </LinearLayout>
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/hotel_details_rooms_left_text_size"
                         app:textStyle="light" />
                 </LinearLayout>
 
@@ -115,10 +115,11 @@
                         android:id="@+id/user_rating_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
                         android:includeFontPadding="false"
                         android:paddingLeft="4dp"
+                        android:singleLine="true"
                         android:textColor="#1b5698"
+                        android:textSize="@dimen/hotel_details_rooms_left_text_size"
                         app:textStyle="bold" />
                 </LinearLayout>
             </RelativeLayout>
@@ -204,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
                 android:layout_below="@id/rooms_rates_container"
                 android:background="@color/tablet_white_pane_bg"
                 android:orientation="vertical"
@@ -326,8 +328,8 @@
                     android:gravity="center"
                     android:ellipsize="end"
                     android:includeFontPadding="false"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingLeft="@dimen/hotel_details_callout_text_margin_x"
+                    android:paddingRight="@dimen/hotel_details_callout_text_margin_x"
                     android:singleLine="true"
                     android:textColor="#ffffff"
                     android:textSize="20sp"

@@ -344,6 +344,10 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	private boolean mTransForward = true;
 	private float mLastReportedPercentage = 1f;//NOTE: we just care that this is > 0 because we default down
 
+	public void setLastReportedPercentage(float percentage) {
+		mLastReportedPercentage = percentage;
+	}
+
 	private void reactToPercentage(final float percentage, boolean force) {
 		if (percentage != mLastReportedPercentage || force) {
 			if (percentage != 0f && percentage != 1f) {

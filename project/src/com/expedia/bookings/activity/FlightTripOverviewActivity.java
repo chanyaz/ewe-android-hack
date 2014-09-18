@@ -42,6 +42,7 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment.FlightTripPriceFrag
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.WalletFragment;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -543,11 +544,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			}
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				if (mScrollY < mMidY) {
-					Log.t("Ending checkout - ScrollY: %d", mScrollY);
 					gotoOverviewMode(true);
 				}
 				else if (mScrollY >= mMidY && (mScrollY <= mCheckoutY || mDisplayMode != DisplayMode.CHECKOUT)) {
-					Log.t("Starting checkout - ScrollY: %d", mScrollY);
 					gotoCheckoutMode(true, true);
 				}
 				else {
@@ -560,7 +559,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			Log.t("ScrollY: %d", y);
 			mScrollY = y;
 			if (mOverviewFragment != null) {
 				float percentage = 1f - ((float) mScrollY) / mCheckoutY;
@@ -841,6 +839,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void doLogout() {
 		mCheckoutFragment.doLogout();
+		Events.post(new Events.CreateTripDownloadRetry());
 	}
 
 	public void onBitmapLoaded(Bitmap bitmap) {

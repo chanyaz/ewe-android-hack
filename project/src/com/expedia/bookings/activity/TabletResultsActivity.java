@@ -1045,6 +1045,21 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	/**
+	 * No internet dialog
+	 */
+
+	private static final String FRAG_TAG_INTERNET_DEAD = "FRAG_TAG_INTERNET_DEAD";
+
+	@Subscribe
+	public void showNoInternetDialog(Events.ShowNoInternetDialog e) {
+		String msg = getString(R.string.error_no_internet);
+		String okBtn = getString(R.string.ok);
+		SimpleCallbackDialogFragment frag = SimpleCallbackDialogFragment.newInstance(null, msg, okBtn, e.callBackId);
+		frag.setCancelable(false);
+		frag.show(getSupportFragmentManager(), FRAG_TAG_INTERNET_DEAD);
+	}
+
+	/**
 	 * Undo bar
 	 */
 

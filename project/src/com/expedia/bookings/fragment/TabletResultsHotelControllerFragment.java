@@ -15,6 +15,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -216,7 +217,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
-		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_NO_INTERNET_CONNECTION) {
+		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 		}
 	}
@@ -259,6 +260,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelsState getBaseState() {
 		if (isAdded() && !dateRangeSupportsHotelSearch()) {
 			return ResultsHotelsState.MAX_HOTEL_STAY;
+		}
+		else if (Db.getHotelSearch() != null && Db.getHotelSearch().getSearchResponse() != null
+			&& Db.getHotelSearch().getSearchResponse().hasErrors()) {
+			return ResultsHotelsState.SEARCH_ERROR;
 		}
 		else if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
 			return ResultsHotelsState.LOADING;
@@ -1532,10 +1537,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		Context context = getActivity();
 
 		HotelSearchResponse response = event.response;
+
+		// If we have a null response, the client should show the SEARCH_ERROR state.
+		// There is too much logic surrounding whether the response is null or not
+		// already, so the best solution is to add an empty response with an error.
+		if (response == null) {
+
+			response = new HotelSearchResponse();
+			ServerError serverError = new ServerError();
+			serverError.setCode("NULL_RESPONSE");
+			response.addError(serverError);
+		}
 		Db.getHotelSearch().setSearchResponse(response);
 
-		boolean isBadResponse = response == null || response.hasErrors();
-		boolean isZeroResults = response != null && response.getPropertiesCount() == 0;
+		boolean isBadResponse = response.hasErrors();
+		boolean isZeroResults = response.getPropertiesCount() == 0;
 
 		if (isBadResponse) {
 			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);

@@ -1,6 +1,8 @@
 package com.expedia.bookings.server;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,28 +94,40 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 			}
 		}
 
-		// Parse the validFormsOfPayment
-		JSONArray paymentsJson = response.optJSONArray("validFormsOfPayment");
-		if (paymentsJson != null) {
-			for (int i = 0; i < paymentsJson.length(); i++) {
-				JSONObject paymentJson = paymentsJson.optJSONObject(i);
-				ValidPayment validPayment = new ValidPayment();
-
-				String name = paymentJson.optString("name");
-				if (!TextUtils.isEmpty(name)) {
-					validPayment.setCreditCardType(CurrencyUtils.parseCardType(name));
-				}
-				String currencyCode = paymentJson.optString("feeCurrencyCode");
-				validPayment.setFee(ParserUtils.createMoney(paymentJson.optString("fee"), currencyCode));
-
-				offer.addValidPayment(validPayment);
-			}
-		}
+		List<ValidPayment> payments = parseValidPayments(response);
+		offer.addValidPayments(payments);
 
 		// Link the offer/itinerary
 		offer.setItineraryNumber(itinerary.getItineraryNumber());
 		itinerary.addProductKey(offer.getProductKey());
 
 		return createItinerary;
+	}
+
+	public static List<ValidPayment> parseValidPayments(JSONObject obj) {
+		List<ValidPayment> payments = new ArrayList<>();
+
+		JSONArray paymentsJson = obj.optJSONArray("validFormsOfPayment");
+		if (paymentsJson != null) {
+			for (int i = 0; i < paymentsJson.length(); i++) {
+				JSONObject paymentJson = paymentsJson.optJSONObject(i);
+				ValidPayment validPayment = new ValidPayment();
+
+				final String name = paymentJson.optString("name");
+				if (!TextUtils.isEmpty(name)) {
+					validPayment.setCreditCardType(CurrencyUtils.parseCardType(name));
+				}
+
+				final String currencyCode = paymentJson.optString("feeCurrencyCode");
+				final String fee = paymentJson.optString("fee");
+				if (!TextUtils.isEmpty(currencyCode) && !TextUtils.isEmpty(fee)) {
+					validPayment.setFee(ParserUtils.createMoney(fee, currencyCode));
+				}
+
+				payments.add(validPayment);
+			}
+		}
+
+		return payments;
 	}
 }

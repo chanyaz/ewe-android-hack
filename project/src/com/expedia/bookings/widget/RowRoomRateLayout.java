@@ -333,7 +333,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		selectRoomButton.setAlpha(1f);
 		ObjectAnimator selectButtonAnimator = ObjectAnimator.ofFloat(selectRoomButton, "alpha", 0f);
 
-		Animator colorDrawableAnimator = ObjectAnimator.ofInt(getBackground(), "alpha", 0, 255);
+		Animator colorDrawableAnimator = ObjectAnimator.ofInt(getBackground(), "alpha", 0, 180);
 
 		AnimatorSet set = new AnimatorSet();
 		set.setDuration(ROOM_RATE_ANIMATION_DURATION);
@@ -354,7 +354,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		Ui.findView(this, R.id.room_rate_button_add).setAlpha(1f);
 		Ui.findView(this, R.id.room_rate_button_select).setAlpha(0f);
 		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.GONE);
-		getBackground().setAlpha(255);
+		getBackground().setAlpha(180);
 		setHeight(LayoutParams.WRAP_CONTENT);
 	}
 
@@ -372,7 +372,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		selectRoomButton.setAlpha(0f);
 		ObjectAnimator selectButtonAnimator = ObjectAnimator.ofFloat(selectRoomButton, "alpha", 1f);
 
-		Animator colorDrawableAnimator = ObjectAnimator.ofInt(getBackground(), "alpha", 255, 0);
+		Animator colorDrawableAnimator = ObjectAnimator.ofInt(getBackground(), "alpha", 180, 0);
 
 		AnimatorSet set = new AnimatorSet();
 		set.setDuration(ROOM_RATE_ANIMATION_DURATION);

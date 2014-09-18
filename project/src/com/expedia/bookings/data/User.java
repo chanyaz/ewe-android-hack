@@ -131,6 +131,14 @@ public class User implements JSONable {
 		return null;
 	}
 
+	public String getExpediaUserId() {
+		if (mPrimaryTraveler != null && mPrimaryTraveler.getExpediaUserId() != null
+			&& mPrimaryTraveler.getExpediaUserId() >= 0) {
+			return mPrimaryTraveler.getExpediaUserId().toString();
+		}
+		return null;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Logging in/out
 
@@ -544,6 +552,7 @@ public class User implements JSONable {
 			mPrimaryTraveler = new Traveler();
 
 			mPrimaryTraveler.setTuid(obj.optLong("tuid"));
+			mPrimaryTraveler.setExpediaUserId(obj.optLong("expUserId"));
 			mPrimaryTraveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
 
 			mPrimaryTraveler.setFirstName(obj.optString("firstName", null));

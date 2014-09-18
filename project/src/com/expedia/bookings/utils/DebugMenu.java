@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.util.AndroidUtils;
@@ -44,11 +45,15 @@ public class DebugMenu {
 	private static void updateStatus(Context context, Menu menu) {
 		MenuItem serverMenuItem = menu.findItem(R.id.debug_menu_build_server);
 		MenuItem buildMenuItem = menu.findItem(R.id.debug_menu_build_number);
+		MenuItem gitHashItem = menu.findItem(R.id.debug_menu_git_hash);
 		if (serverMenuItem != null) {
 			serverMenuItem.setTitle(getBuildServerString(context));
 		}
 		if (buildMenuItem != null) {
 			buildMenuItem.setTitle(getBuildNumberString(context));
+		}
+		if (gitHashItem != null) {
+			gitHashItem.setTitle(BuildConfig.GIT_REVISION);
 		}
 	}
 

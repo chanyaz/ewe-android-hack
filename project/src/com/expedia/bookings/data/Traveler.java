@@ -31,6 +31,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
 	private String mMembershipTierName;
+	private Long mExpediaUserId;
 
 	// General
 	private String mFirstName;
@@ -96,6 +97,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public Long getTuid() {
 		return mTuid;
+	}
+
+	public Long getExpediaUserId() {
+		return mExpediaUserId;
 	}
 
 	public boolean hasTuid() {
@@ -382,6 +387,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mTuid = tuid;
 	}
 
+	public void setExpediaUserId(Long expediaUserId) {
+		mExpediaUserId = expediaUserId;
+	}
+
 	public void setLoyaltyMembershipNumber(String loyaltyMembershipNumber) {
 		mLoyaltyMembershipNumber = loyaltyMembershipNumber;
 	}
@@ -548,6 +557,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 		try {
 			obj.putOpt("tuid", mTuid);
+			obj.putOpt("expUserId", mExpediaUserId);
 			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
@@ -596,6 +606,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mTuid = obj.optLong("tuid");
+		mExpediaUserId = obj.optLong("expUserId");
 		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);

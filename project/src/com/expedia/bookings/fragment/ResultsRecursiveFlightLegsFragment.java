@@ -510,6 +510,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				|| flightsState == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				setState(getBaseState(), false);
 			}
+
+			// The FruitList can get into bad state when transitioning back to the LOADING state from the
+			// CHOOSING_FLIGHT state. We update the book-keeping in FruitList here as a fail-safe.
+			if (flightsState == ResultsFlightsState.LOADING) {
+				mListFrag.setLastReportedTouchPercentage(1f);
+			}
 		}
 	};
 

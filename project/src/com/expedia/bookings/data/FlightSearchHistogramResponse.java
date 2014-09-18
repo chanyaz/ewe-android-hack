@@ -3,31 +3,35 @@ package com.expedia.bookings.data;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Weeks;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.time.util.JodaUtils;
 
 // TODO UNIT TESTS
 public class FlightSearchHistogramResponse extends Response implements JSONable {
 
+	// This is defined as 1.5 by the math gods, but we may want to
+	// increase if we are throwing out seemingly reasonable prices
+	private static final double IQR_MULTIPLIER = 1.5d;
+
 	private List<FlightHistogram> mFlightHistograms;
 
-	// Quartile vars
-	private int mMinIndex, mQ1Index, mMedianIndex, mQ3Index, mMaxIndex;
-	private Money mMin, mQ1, mMedian, mQ3, mMax;
-
-	// This is defined as 1.5 by the math gods, but we may want to increase if we are throwing out seemingly reasonable prices
-	private static final double IQR_MULTIPLIER = 1.5d;
+	private Money mMin, mMax;
 
 	public void setFlightHistograms(List<FlightHistogram> flightHistograms) {
 		mFlightHistograms = flightHistograms;
-		computeMetadata();
+		mMin = null;
+		mMax = null;
+
+		// Sort the data by date for the UI
+		Collections.sort(mFlightHistograms, sDateComparator);
 	}
 
 	public List<FlightHistogram> getFlightHistograms() {
@@ -35,10 +39,16 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	}
 
 	public Money getMinPrice() {
+		if (mMin == null && getCount() != 0) {
+			mMin = Collections.min(mFlightHistograms, sPriceComparator).getMinPrice();
+		}
 		return mMin;
 	}
 
 	public Money getMaxPrice() {
+		if (mMax == null && getCount() != 0) {
+			mMax = Collections.max(mFlightHistograms, sPriceComparator).getMinPrice();
+		}
 		return mMax;
 	}
 
@@ -47,87 +57,88 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	}
 
 	//////////////////////////////////////////////////////
-	// Quartile computation
+	// Filtering Rules
 
-	public void computeMetadata() {
-		if (mFlightHistograms == null || mFlightHistograms.size() == 0) {
+	// Trash the outliers above the upper fence. We are OK with showing abnormally low prices...
+	public void removeUpperOutliers() {
+		if (getCount() < 3) {
 			return;
 		}
 
-		long start = System.currentTimeMillis();
-
-		// Sort the values by price
+		// Temporarily sort by price. We'll re-sort it later in this method.
 		Collections.sort(mFlightHistograms, sPriceComparator);
 
-		// Compute min and max
-		computeMinAndMax();
+		// Compute quartiles
+		// much inspiration: http://en.wikipedia.org/wiki/Quartile
+		int maxIndex = mFlightHistograms.size() - 1;
+		int q1Index = maxIndex / 4;
+		int q3Index = maxIndex - q1Index;
+		double dq1 = mFlightHistograms.get(q1Index).getMinPrice().getAmount().doubleValue();
+		double dq3 = mFlightHistograms.get(q3Index).getMinPrice().getAmount().doubleValue();
 
-		if (mFlightHistograms.size() < 3) {
-			Collections.sort(mFlightHistograms, sDateComparator);
-			return;
-		}
+		// We've decided to remove everything above (iqr * 1.5) higher than the 3rd quartile
+		double iqr = dq3 - dq1;
+		double upperFenceValue = dq3 + IQR_MULTIPLIER * iqr;
 
-		// Compute q1, median, q3
-		computeQuartiles();
-
-		// Compute IQR
-		double iqr = mQ3.getAmount().doubleValue() - mQ1.getAmount().doubleValue();
-		double upperFenceValue = mQ3.getAmount().doubleValue() + IQR_MULTIPLIER * iqr; // 1.5
-
-		// Trash the outliers above the upper fence. We are OK with showing abnormally low prices...
-		List<Money> removed = new LinkedList<>();
 		Iterator iterator = mFlightHistograms.iterator();
 		FlightHistogram gram;
 		while (iterator.hasNext()) {
 			gram = (FlightHistogram) iterator.next();
 			if (gram.getMinPrice().getAmount().doubleValue() > upperFenceValue) {
-				removed.add(gram.getMinPrice());
 				iterator.remove();
 			}
 		}
 
-		// Re-compute the min and max since some may have been removed
-		computeMinAndMax();
-
-		// Log some things
-		StringBuilder builder = new StringBuilder();
-		builder.append("\n");
-		builder.append("Quartile Math");
-		builder.append("\n");
-		builder.append("Quartile indices: min=" + mMinIndex + " q1=" + mQ1Index + " median=" + mMedianIndex + " q3=" + mQ3Index + " max=" + mMaxIndex);
-		builder.append("\n");
-		builder.append("Quartile values: min=" + mMin + " q1=" + mQ1 + " median=" + mMedian + " q3=" + mQ3 + " max=" + mMax);
-		builder.append("\n");
-		builder.append("Quartile removed, upper fence=" + upperFenceValue + " : " + removed);
-		Log.d(builder.toString());
-
-		// Recompute the quartiles
-		computeQuartiles();
+		// The max value may have changed if we removed some
+		mMax = null;
 
 		// Sort the data by date for the UI
 		Collections.sort(mFlightHistograms, sDateComparator);
-
-		Log.d("Quartile computation completed in " + (System.currentTimeMillis() - start) + " ms");
 	}
 
-	private void computeMinAndMax() {
-		mMinIndex = 0;
-		mMaxIndex = mFlightHistograms.size() - 1;
-		mMin = mFlightHistograms.get(mMinIndex).getMinPrice();
-		mMax = mFlightHistograms.get(mMaxIndex).getMinPrice();
+	// Follow rules here:
+	// https://expedia.mingle.thoughtworks.com/projects/eb_ad_app/cards/3281
+	public void apply8WeekFilter() {
+		// 2. If there are less than 10 data points within the first 8 weeks, don't show GDE at all
+
+		if (getCount() < 10) {
+			mFlightHistograms.clear();
+			mMin = null;
+			mMax = null;
+			return;
+		}
+
+		if (calendarWeeksBetween(0, 9) > 8) {
+			mFlightHistograms.clear();
+			mMin = null;
+			mMax = null;
+			return;
+		}
+
+		// 3. As you are drawing out the weeks, after you have drawn 8 weeks, if you hit two
+		// consecutive weeks with zero data points, cut off the GDE calendar above these two weeks.
+
+		for (int i = 10; i < getCount(); i++) {
+			while (i < getCount() && calendarWeeksBetween(0, i) > 8 && calendarWeeksBetween(i - 1, i) > 2) {
+				mFlightHistograms.remove(i);
+				mMin = null;
+				mMax = null;
+			}
+		}
 	}
 
-	// much inspiration: http://en.wikipedia.org/wiki/Quartile
-	private void computeQuartiles() {
-		// Compute min, q1, median, q3, max
-		mMedianIndex = mMaxIndex / 2;
-		mQ1Index = mMinIndex + (mMedianIndex - mMinIndex) / 2;
-		mQ3Index = mMedianIndex + (mMaxIndex - mMedianIndex) / 2;
-
-		mQ1 = mFlightHistograms.get(mQ1Index).getMinPrice();
-		mMedian = mFlightHistograms.get(mMedianIndex).getMinPrice();
-		mQ3 = mFlightHistograms.get(mQ3Index).getMinPrice();
+	private int calendarWeeksBetween(int a, int b) {
+		return Weeks.weeksBetween(getWeekStartDate(mFlightHistograms.get(a)),
+			getWeekStartDate(mFlightHistograms.get(b))).getWeeks();
 	}
+
+	private LocalDate getWeekStartDate(FlightHistogram gram) {
+		LocalDate date = gram.getKeyDate();
+		return date.minusDays(JodaUtils.getDayOfWeekNormalized(date));
+	}
+
+	//////////////////////////////////////////////////////
+	// Comparators used for sorting
 
 	private static final Comparator<FlightHistogram> sDateComparator = new Comparator<FlightHistogram>() {
 		@Override

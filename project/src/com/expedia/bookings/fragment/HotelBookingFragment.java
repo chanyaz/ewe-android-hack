@@ -148,7 +148,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	@Override
 	public void onResume() {
-		super.onStart();
+		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isDownloadingHotelProduct()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
@@ -179,18 +179,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	@Override
 	public void doBookingPrep() {
-		mState = HotelBookingState.CHECKOUT;
-		/*
-		 * Let's check to see if trip has already been created i.e. createTrip called already.
-		 * If not then let's call that first.
-		 * Else let's start the booking.
-		 */
 		if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
-			startCreateTripDownload();
+			throw new RuntimeException("Can't book without a create trip response");
 		}
-		else {
-			startBookingDownload();
-		}
+
+		startBookingDownload();
 	}
 
 	public void startDownload(HotelBookingState state) {
@@ -217,7 +210,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		case CHECKOUT:
 			Events.post(new Events.BookingDownloadStarted());
 			if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
-				startCreateTripDownload();
+				throw new RuntimeException("Can't do booking without create trip response");
 			}
 			else {
 				doBooking();
@@ -362,49 +355,52 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	}
 
 	private void handleHotelProductError(HotelProductResponse response) {
-		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			messageId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			messageId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
+		if (response == null) {
+			Events.post(new Events.CreateTripDownloadError(null));
+			showRetryErrorDialog();
 		}
 		else {
-			messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
-		}
+			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+			int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				messageId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+			}
+			else if (ExpediaBookingApp.IS_AAG) {
+				messageId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
+			}
 
-		if (response != null && response.getErrors() != null) {
-			for (ServerError error : response.getErrors()) {
-				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
-					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
-					HotelAvailability availability;
+			if (response.getErrors() != null) {
+				for (ServerError error : response.getErrors()) {
+					if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+						messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
+						HotelAvailability availability;
 
-					// Cleanup trip bucket
-					availability = Db.getTripBucket().getHotel().getHotelAvailability();
-					availability.removeRate(response.getOriginalProductKey());
-
-					// Cleanup search data
-					String id = Db.getTripBucket().getHotel().getProperty().getPropertyId();
-					availability = Db.getHotelSearch().getAvailability(id);
-					if (availability != null) {
+						// Cleanup trip bucket
+						availability = Db.getTripBucket().getHotel().getHotelAvailability();
 						availability.removeRate(response.getOriginalProductKey());
-					}
 
-					// Post event for tablets to show the BookingUnavailableFragment
-					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
-				}
-				// Handling product key expiration.
-				else if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT && error.getExtra("field").equals("productKey")) {
-					Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
+						// Cleanup search data
+						String id = Db.getTripBucket().getHotel().getProperty().getPropertyId();
+						availability = Db.getHotelSearch().getAvailability(id);
+						if (availability != null) {
+							availability.removeRate(response.getOriginalProductKey());
+						}
+
+						// Post event for tablets to show the BookingUnavailableFragment
+						Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
+					}
+					// Handling product key expiration.
+					else if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT && error.getExtra("field").equals("productKey")) {
+						Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
+					}
 				}
 			}
-		}
 
-		// Let's show the error dialog only for phones.
-		if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
-			dialog.setMessage(messageId);
-			dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
+			// Let's show the error dialog only for phones.
+			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+				dialog.setMessage(messageId);
+				dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
+			}
 		}
 	}
 

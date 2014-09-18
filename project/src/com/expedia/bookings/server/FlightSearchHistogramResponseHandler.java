@@ -13,12 +13,23 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.mobiata.android.Log;
 
 public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<FlightSearchHistogramResponse> {
 
-	// http://deals.expedia.fr/beta/stats/flights.json?tripTo=LHR&tripFrom=CDG
+	// Example outgoing trip url:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX
+	//
+	// Exmaple return trip url:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX&departDate=2014-10-01&key=returnDate
+
+	private boolean mDoApply8WeekRules;
+
+	public FlightSearchHistogramResponseHandler(Location origin, Location destination, LocalDate departureDate) {
+		mDoApply8WeekRules = departureDate == null;
+	}
 
 	@Override
 	public FlightSearchHistogramResponse handleJson(JSONObject response) {
@@ -54,6 +65,17 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 			}
 
 			histogramResponse.setFlightHistograms(histograms);
+
+			// Follow rules here:
+			// https://expedia.mingle.thoughtworks.com/projects/eb_ad_app/cards/3281
+
+			// 1. Remove outliers
+			histogramResponse.removeUpperOutliers();
+
+			// 4. For the 'When to return' data, remove outliers and show all data points regardless of gaps
+			if (mDoApply8WeekRules) {
+				histogramResponse.apply8WeekFilter();
+			}
 		}
 		catch (JSONException e) {
 			Log.e("Unable to parse Flight Search Histogram response", e);

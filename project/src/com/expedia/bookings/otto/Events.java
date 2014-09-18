@@ -328,6 +328,16 @@ public class Events {
 	}
 
 	/**
+	 * This event notifies that the "No internet connection" dialog should be shown.
+	 */
+	public static class ShowNoInternetDialog {
+		public final int callBackId;
+		public ShowNoInternetDialog(int callBackId) {
+			this.callBackId = callBackId;
+		}
+	}
+
+	/**
 	 * This event notifies that the user clicked the Accept button for {@link PriceChangeDialogFragment}
 	 */
 	public static class PriceChangeDialogAccept {

@@ -30,6 +30,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
@@ -53,6 +54,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -112,11 +114,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ViewGroup mPopupC;
 	private ViewGroup mPopupContentC;
 	private ViewGroup mPopupLeftC;
-	private ViewGroup mCalContentC;
-	private TextView mPopupTravTv;
+	private ViewGroup mCalPopupC;
+	private TextView mTravPopupC;
 	private TextView mPopupDoneTv;
-	private TextView mPopupStartTv;
-	private TextView mPopupEndTv;
+	private TextView mCalPopupStartTv;
+	private TextView mCalPopupEndTv;
 
 	private ImageView mPopupStartClearBtn;
 	private ImageView mPopupEndClearBtn;
@@ -178,11 +180,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mPopupC = Ui.findView(view, R.id.search_popup_container);
 		mPopupContentC = Ui.findView(view, R.id.search_popup_content_container);
 		mPopupLeftC = Ui.findView(view, R.id.search_popup_left_content_container);
-		mCalContentC = Ui.findView(view, R.id.calendar_popup_content_container);
-		mPopupTravTv = Ui.findView(view, R.id.traveler_popup_num_guests_label);
+		mCalPopupC = Ui.findView(view, R.id.calendar_popup_content_container);
+		mTravPopupC = Ui.findView(view, R.id.traveler_popup_num_guests_label);
 		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
-		mPopupStartTv = Ui.findView(view, R.id.popup_start_date);
-		mPopupEndTv = Ui.findView(view, R.id.popup_end_date);
+		mCalPopupStartTv = Ui.findView(view, R.id.popup_start_date);
+		mCalPopupEndTv = Ui.findView(view, R.id.popup_end_date);
 		mPopupStartClearBtn = Ui.findView(view, R.id.popup_start_date_clear_btn);
 		mPopupEndClearBtn = Ui.findView(view, R.id.popup_end_date_clear_btn);
 
@@ -326,8 +328,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (mLocalParams.getEndDate() != null) {
 				endStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getEndDate(), flags);
 			}
-			mPopupStartTv.setText(startStr);
-			mPopupEndTv.setText(endStr);
+			mCalPopupStartTv.setText(startStr);
+			mCalPopupEndTv.setText(endStr);
 
 			// X
 			mPopupStartClearBtn.setVisibility(mLocalParams.getStartDate() == null ? View.GONE : View.VISIBLE);
@@ -335,16 +337,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			// Highlight cursor
 			if (mLocalParams.getStartDate() == null && mLocalParams.getEndDate() == null) {
-				mPopupStartTv.setBackgroundResource(R.drawable.textfield_activated_tablet_date_picker);
-				mPopupEndTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+				mCalPopupStartTv.setBackgroundResource(R.drawable.textfield_activated_tablet_date_picker);
+				mCalPopupEndTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
 			}
 			else if (mLocalParams.getStartDate() != null && mLocalParams.getEndDate() == null) {
-				mPopupStartTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
-				mPopupEndTv.setBackgroundResource(R.drawable.textfield_activated_tablet_date_picker);
+				mCalPopupStartTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+				mCalPopupEndTv.setBackgroundResource(R.drawable.textfield_activated_tablet_date_picker);
 			}
 			else {
-				mPopupStartTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
-				mPopupEndTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+				mCalPopupStartTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
+				mCalPopupEndTv.setBackgroundResource(R.drawable.textfield_default_tablet_date_picker);
 			}
 		}
 	}
@@ -357,7 +359,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 
 		if (mGuestsFragment != null) {
-			mPopupTravTv.setText(mGuestsFragment.getHeaderString());
+			mTravPopupC.setText(mGuestsFragment.getHeaderString());
 		}
 	}
 
@@ -537,14 +539,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View v) {
 			if (getState().showsSearchControls() || getState().showsSearchPopup()) {
-				if (copyTempValuesToParams()) {
-					doSpUpdate();
+				if (NetUtils.isOnline(getActivity())) {
+					if (copyTempValuesToParams()) {
+						doSpUpdate();
+					}
+				}
+				else {
+					clearChanges();
+					// Nothing actually listens to the passed callback ID, but we need to differentiate
+					// this usage of the "no internet dialog" from when it's used in other places
+					Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 				}
 				setStateToBaseState(true);
 			}
 		}
 	};
-
 
 	/*
 	 * SEARCH STATE LISTENER
@@ -624,14 +633,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mPopupC.setVisibility(View.VISIBLE);
 			}
 
-			if (stateTwo.showsCalendar()) {
-				mCalContentC.setVisibility(View.VISIBLE);
-				mPopupTravTv.setVisibility(View.GONE);
+			if (stateTwo.showsCalendarPopup()) {
+				mCalPopupC.setVisibility(View.VISIBLE);
+				mTravPopupC.setVisibility(View.GONE);
 			}
 
 			if (stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-				mPopupTravTv.setVisibility(View.VISIBLE);
-				mCalContentC.setVisibility(View.GONE);
+				mTravPopupC.setVisibility(View.VISIBLE);
+				mCalPopupC.setVisibility(View.GONE);
 				bindTravBtn();
 			}
 
@@ -822,7 +831,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					: View.INVISIBLE
 			);
 
-			mCalContentC.setVisibility(mCalC.getVisibility());
+			// mCalPopupC has min width/height set that would alter the trav picker
+			// popup size erroneously if it was set to View.INVISIBLE rather than View.GONE
+			mCalPopupC.setVisibility(
+				mCalC.getVisibility() == View.VISIBLE
+					? View.VISIBLE
+					: View.GONE
+			);
 
 			// GDE visibility should always follow the calendar visibility
 			mGdeC.setVisibility(mCalC.getVisibility());
@@ -833,7 +848,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					: View.INVISIBLE
 			);
 
-			mPopupTravTv.setVisibility(
+			mTravPopupC.setVisibility(
 				state == ResultsSearchState.TRAVELER_PICKER
 					? View.VISIBLE
 					: View.GONE
@@ -1276,6 +1291,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.cancel) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
+			OmnitureTracking.trackRedeyeAlert(getActivity());
 			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
@@ -1292,6 +1308,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.cancel) /*negativeButton*/);
 		}
 		if (!mMismatchedDialogFrag.isAdded()) {
+			OmnitureTracking.trackDateMismatchAlert(getActivity());
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}

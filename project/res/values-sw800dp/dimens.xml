@@ -75,10 +75,17 @@
     <dimen name="hotel_details_ring_size">40dp</dimen>
     <dimen name="hotel_details_amenities_section_height">80dp</dimen>
     <dimen name="hotel_details_amenities_section_top_margin">0dp</dimen>
+    <dimen name="hotel_details_rooms_left_text_size">16sp</dimen>
+    <dimen name="hotel_details_room_description_text_size">17sp</dimen>
+    <dimen name="hotel_details_bed_type_text_size">15sp</dimen>
+    <dimen name="hotel_room_rate_thumbnail_width">185dp</dimen>
+    <dimen name="hotel_room_rate_thumbnail_height">125dp</dimen>
+    <!-- hotel_details_room_rate_row_seperator_padding = hotel_details_horizontal_padding + hotel_details_room_rate_row_padding -->
+    <dimen name="hotel_details_room_rate_row_seperator_padding">42dp</dimen>
 
     <!-- Hotel Details Rooms and Rates -->
     <dimen name="hotel_room_rate_price_margin">24dp</dimen>
-    <dimen name="hotel_room_rate_price_text_size">15sp</dimen>
+    <dimen name="hotel_room_rate_price_text_size">17sp</dimen>
     <dimen name="hotel_room_rate_button_width">128dp</dimen>
     <dimen name="hotel_room_rate_button_height">35dp</dimen>
 

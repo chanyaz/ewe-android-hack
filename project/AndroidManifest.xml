@@ -66,6 +66,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- Crashlytics -->
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="${crashlyticsKey}" />
+
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
 

@@ -144,6 +144,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		mMeasurementHelper.registerWithProvider(this);
+		Events.register(this);
 		if (mSavedScrollPosition != 0) {
 			mScrollView.scrollTo(0, mSavedScrollPosition);
 		}
@@ -153,6 +154,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		mMeasurementHelper.unregisterWithProvider(this);
+		Events.unregister(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
@@ -168,16 +170,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 * No internet connection dialog
 	 */
 
-	private static final String FRAG_TAG_INTERNET_DEAD = "FRAG_TAG_INTERNET_DEAD";
-
-	private void showNoInternetDialog() {
-		String msg = getString(R.string.error_no_internet);
-		String okBtn = getString(R.string.ok);
-		SimpleCallbackDialogFragment frag = SimpleCallbackDialogFragment.newInstance(null, msg, okBtn, SimpleCallbackDialogFragment.CODE_TABLET_NO_INTERNET_CONNECTION);
-		frag.setCancelable(false);
-		frag.show(getFragmentManager(), FRAG_TAG_INTERNET_DEAD);
-	}
-
 	public void onHotelSelected() {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (mCurrentProperty == null || !mCurrentProperty.equals(property)) {
@@ -187,7 +179,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			toggleLoadingState(true);
 			prepareDetailsForInfo(mRootC, property);
 			if (!NetUtils.isOnline(getActivity())) {
-				showNoInternetDialog();
+				Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS));
 				mCurrentProperty = null;
 			} else {
 				downloadDetails();
@@ -516,19 +508,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			params.addRule(RelativeLayout.BELOW, mRoomsRatesContainer.getId());
 
 			// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
-			boolean first = true;
 			for (Rate rate : rates) {
 				RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRoomsRatesContainer, false);
 				row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
 
-				// Separator
-				if (!first) {
-					View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
-					mRoomsRatesContainer.addView(sep);
-				}
-
 				mRoomsRatesContainer.addView(row);
-				first = false;
+
+				// Separator
+				View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRoomsRatesContainer, false);
+				mRoomsRatesContainer.addView(sep);
 			}
 		}
 		else {

@@ -352,7 +352,7 @@ public class ExpediaServices implements DownloadListener {
 
 		// 1 == airports, which is all that's supported for now
 		params.add(new BasicNameValuePair("type", "1"));
-		params.add(new BasicNameValuePair("maxradius", "200"));
+		params.add(new BasicNameValuePair("maxradius", "150"));
 		params.add(new BasicNameValuePair("maxresults", "50"));
 
 		if (sort == SuggestionSort.DISTANCE) {
@@ -826,8 +826,9 @@ public class ExpediaServices implements DownloadListener {
 	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-		query.add(
-			new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
+
+		String guests = generateHotelGuestString(params);
+		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
 
 		return query;
 	}
@@ -912,6 +913,10 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addHotelGuestParamater(List<BasicNameValuePair> query, HotelSearchParams params) {
+		query.add(new BasicNameValuePair("room1", generateHotelGuestString(params)));
+	}
+
+	private String generateHotelGuestString(HotelSearchParams params) {
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
 		List<ChildTraveler> children = params.getChildren();
@@ -921,7 +926,7 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 
-		query.add(new BasicNameValuePair("room1", guests.toString()));
+		return guests.toString();
 	}
 
 	private void addTealeafId(List<BasicNameValuePair> query, String tealeafId) {
@@ -971,6 +976,12 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation: https://confluence/display/MTTFG/Global+Deals+Engine+-+GDE
 	//
 	// Flights: https://confluence/display/MTTFG/GDE+Flights+API+Documentation
+	//
+	// Example outgoing trip url:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX
+	//
+	// Exmaple return trip url:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX&departDate=2014-10-01&key=returnDate
 
 	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination,
 		LocalDate departureDate) {
@@ -982,7 +993,9 @@ public class ExpediaServices implements DownloadListener {
 
 		String endpointUrl = getGdeEndpointUrl();
 		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
-		return doBasicGetRequest(endpointUrl, query, new FlightSearchHistogramResponseHandler());
+		FlightSearchHistogramResponseHandler handler
+			= new FlightSearchHistogramResponseHandler(origin, destination, departureDate);
+		return doBasicGetRequest(endpointUrl, query, handler);
 	}
 
 	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination,
