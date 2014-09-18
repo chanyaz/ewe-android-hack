@@ -11,7 +11,7 @@
 	path = lib/FacebookSdk
 	url = git@team.mobiata.com:Android/facebook-android-sdk.git
 [submodule "project/assets/ExpediaSharedData"]
-	path = project/assets/ExpediaSharedData
+	path = project/src/main/assets/ExpediaSharedData
 	url = git@team.mobiata.com:General/ExpediaSharedData
 [submodule "project/assets/FlightStatsDb"]
 	path = project/assets/FlightStatsDb
