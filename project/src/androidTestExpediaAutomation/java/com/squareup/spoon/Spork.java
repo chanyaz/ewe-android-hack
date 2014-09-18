@@ -21,7 +21,7 @@ public class Spork {
 		}
 		else {
 			if (!ExtendableSpoon.TAG_VALIDATION.matcher(tag).matches()) {
-				throw new IllegalArgumentException("Tag must match " + ExtendableSpoon.TAG_VALIDATION.pattern() + ".");
+				throw new IllegalArgumentException("Tag must match " + ExtendableSpoon.TAG_VALIDATION.pattern() + "");
 			}
 			try {
 				File screenshotDirectory = ExtendableSpoon.obtainScreenshotDirectory(activity);
@@ -42,7 +42,7 @@ public class Spork {
 		}
 		else {
 			if (!ExtendableSpoon.TAG_VALIDATION.matcher(tag).matches()) {
-				throw new IllegalArgumentException("Tag must match " + ExtendableSpoon.TAG_VALIDATION.pattern() + ".");
+				throw new IllegalArgumentException("Tag must match " + ExtendableSpoon.TAG_VALIDATION.pattern() + "");
 			}
 			try {
 				File screenshotDirectory = ExtendableSpoon.obtainScreenshotDirectory(activity, className, methodName);

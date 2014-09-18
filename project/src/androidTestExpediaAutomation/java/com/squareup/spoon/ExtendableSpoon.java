@@ -53,7 +53,7 @@ public final class ExtendableSpoon {
 	 */
 	public static void screenshot(Activity activity, String tag, String className, String methodName) {
 		if (!TAG_VALIDATION.matcher(tag).matches()) {
-			throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
+			throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + "");
 		}
 		try {
 			File screenshotDirectory = obtainScreenshotDirectory(activity, className, methodName);

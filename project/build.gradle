@@ -159,16 +159,8 @@ android {
     }
 
     sourceSets {
-        androidTestExpediaAutomation {
-            manifest.srcFile 'tests/AndroidManifest.xml'
-            java.srcDirs = ['tests/src']
-            res.srcDirs = ['tests/res']
-        }
-
         androidTestTravelocityAutomation {
-            manifest.srcFile 'tests/AndroidManifest-travelocity.xml'
-            java.srcDirs = ['tests/src']
-            res.srcDirs = ['tests/res_travelocity']
+            java.srcDirs = ['src/androidTestExpediaAutomation/java']
         }
 
         Expedia {
