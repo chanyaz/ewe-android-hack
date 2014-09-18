@@ -159,12 +159,6 @@ android {
     }
 
     sourceSets {
-        androidTest {
-            java.srcDirs = ['unitTests/java']
-            res.srcDirs = ['unitTests/res']
-            assets.srcDirs = ['unitTests/assets']
-        }
-
         androidTestExpediaAutomation {
             manifest.srcFile 'tests/AndroidManifest.xml'
             java.srcDirs = ['tests/src']
