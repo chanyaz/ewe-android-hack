@@ -159,11 +159,6 @@ android {
     }
 
     sourceSets {
-
-        debug {
-            manifest.srcFile 'AndroidManifest-debug.xml'
-        }
-
         androidTest {
             java.srcDirs = ['unitTests/java']
             res.srcDirs = ['unitTests/res']
