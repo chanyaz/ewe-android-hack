@@ -132,6 +132,8 @@ android {
 
             runProguard shouldRunProguard
             proguardFile 'proguard.cfg'
+            ext.betaDistributionReleaseNotesFilePath="../changelog.txt"
+            ext.betaDistributionGroupAliasesFilePath="../buildbot/crashlytics_beta_groups.txt"
         }
 
         latest.initWith(buildTypes.debug)
