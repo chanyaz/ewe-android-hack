@@ -96,7 +96,7 @@ public class AboutUtils {
 	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
 
-		builder.setMessage(R.string.dialog_message_launch_expedia_mobile_site);
+		builder.setMessage(Ui.obtainThemeResID(mActivity, R.attr.dialogMessageLaunchMobileSite));
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -171,8 +171,8 @@ public class AboutUtils {
 	public void tellAFriend() {
 		trackTellAFriend();
 
-		SocialUtils.email(mActivity, mActivity.getString(R.string.tell_a_friend_subject),
-				mActivity.getString(R.string.tell_a_friend_body));
+		SocialUtils.email(mActivity, mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.tellAFriendSubject)),
+			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.tellAFriendBody)));
 	}
 
 	public void openCareers() {

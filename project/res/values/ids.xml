@@ -84,4 +84,8 @@
     <!-- AirAsiaGo itin label text -->
     <item name="aag_itinerary" type="string"/>
 
+    <!-- adding aag and tvly checkout_booking_succeeded_with_errors string id, to avoid errors in Expedia app compilation -->
+    <item name="e3_error_checkout_booking_succeeded_with_errors_aag" type="string"/>
+    <item name="e3_error_checkout_booking_succeeded_with_errors_tvly" type="string"/>
+
 </resources>

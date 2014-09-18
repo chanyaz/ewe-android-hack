@@ -512,7 +512,17 @@
     <attr name="icTypeCircleHotel" format="reference" />
 
     <attr name="icCheckoutCheckmarkDrawable" format="reference" />
+
     <!--Add Calender POS Messages-->
     <attr name="addToCalenderMessage" format="reference|string" />
+
+    <!--Missing string in AirAsiaGo and Travelocity-->
+    <attr name="tellAFriendBody" format="reference|string" />
+    <attr name="tellAFriendSubject" format="reference|string" />
+    <attr name="sorryRoomsSoldOut" format="reference|string" />
+    <attr name="passwordHint" format="reference|string" />
+    <attr name="loadingAccount" format="reference|string" />
+    <attr name="restrictedProfileLoginMessage" format="reference|string" />
+    <attr name="dialogMessageLaunchMobileSite" format="reference|string" />
 
 </resources>

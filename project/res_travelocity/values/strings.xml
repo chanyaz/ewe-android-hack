@@ -75,4 +75,18 @@
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
     <string name="not_currently_available_tvly_TEMPLATE">Not available from Travelocity %s</string>
 
+    <!-- Missing strings for Travelocity from Expedia-->
+    <string name="tell_a_friend_body_tvly">Hi there,\n\nCheck out Travelocity Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
+    <string name="cd_log_in_email_edit_text_tvly">Enter Travelocity account email address</string>
+    <string name="tell_a_friend_subject_tvly">Travelocity Hotels</string>
+    <string name="restricted_profile_login_message_tvly">To log in to Travelocity, you must use an unrestricted user profile on your device.</string>
+    <string name="cd_log_in_password_edit_text_tvly">Enter Travelocity account password</string>
+    <string name="cd_launch_open_eb_info_screen_tvly">Open Travelocity Bookings information screen</string>
+    <string name="loading_tvly_account">Loading Travelocity Account</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">You successfully booked your hotel! If you need an itinerary immediately, please call Travelocity Customer Support.</string>
+    <string name="not_currently_available_TEMPLATE_tvly">Not available from Travelocity %s</string>
+    <string name="tvly_password_hint">Travelocity Password</string>
+    <string name="dialog_message_launch_tvly_mobile_site">Launch the Travelocity mobile website?</string>
+    <string name="sorry_rooms_sold_out_tvly">Sorry, all rooms are sold out on Travelocity.</string>
+    <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\\n%s</string>
 </resources>

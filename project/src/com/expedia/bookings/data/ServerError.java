@@ -95,7 +95,15 @@ public class ServerError implements JSONable {
 	public static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
 		{
 			put(ErrorCode.BOOKING_FAILED, R.string.e3_error_checkout_booking_failed);
-			put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors);
+			if (ExpediaBookingApp.IS_EXPEDIA) {
+				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors);
+			}
+			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_tvly);
+			}
+			else if (ExpediaBookingApp.IS_AAG) {
+				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_aag);
+			}
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_checkout_hotel_room_unavailable);
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_checkout_invalid_input);
 			put(ErrorCode.PAYMENT_FAILED, R.string.e3_error_checkout_payment_failed);

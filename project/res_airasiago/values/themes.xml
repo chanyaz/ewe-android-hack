@@ -72,6 +72,13 @@
         <item name="hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
         <item name="icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark_aag</item>
         <item name="addToCalenderMessage">@string/contact_phone_template_aag</item>
+        <item name="sorryRoomsSoldOut">@string/sorry_rooms_sold_out_aag</item>
+        <item name="passwordHint">@string/aag_password_hint</item>
+        <item name="loadingAccount">@string/loading_aag_account</item>
+        <item name="restrictedProfileLoginMessage">@string/restricted_profile_login_message_aag</item>
+        <item name="tellAFriendSubject">@string/tell_a_friend_subject_aag</item>
+        <item name="tellAFriendBody">@string/tell_a_friend_body_aag</item>
+        <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_aag_mobile_site</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

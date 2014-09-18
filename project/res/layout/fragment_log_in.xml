@@ -161,7 +161,7 @@
                 android:layout_marginBottom="@dimen/login_bottom_room_spacing"
                 android:layout_marginLeft="@dimen/login_side_margin_medium"
                 android:layout_marginRight="@dimen/login_side_margin_medium"
-                android:hint="@string/expedia_password_hint"
+                android:hint="?attr/passwordHint"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword" />
         </LinearLayout>

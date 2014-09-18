@@ -71,4 +71,19 @@
     <string name="not_currently_available_aag_TEMPLATE">Not available from AirAsiaGo %s</string>
     <!--AirAsiaGo Search Text-->
     <string name="search">search</string>
+
+    <!-- Missing strings for AirAsiaGo from Expedia-->
+    <string name="tell_a_friend_body_aag">Hi there,\n\nCheck out AirAsiaGo Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
+    <string name="cd_log_in_email_edit_text_aag">Enter AirAsiaGo account email address</string>
+    <string name="tell_a_friend_subject_aag">AirAsiaGo Hotels</string>
+    <string name="restricted_profile_login_message_aag">To log in to AirAsiaGo, you must use an unrestricted user profile on your device.</string>
+    <string name="cd_log_in_password_edit_text_aag">Enter AirAsiaGo account password</string>
+    <string name="cd_launch_open_eb_info_screen_aag">Open AirAsiaGo Bookings information screen</string>
+    <string name="loading_aag_account">Loading AirAsiaGo Account</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_aag">You successfully booked your hotel! If you need an itinerary immediately, please call AirAsiaGo Customer Support.</string>
+    <string name="not_currently_available_TEMPLATE_aag">Not available from AirAsiaGo %s</string>
+    <string name="aag_password_hint">AirAsiaGo Password</string>
+    <string name="dialog_message_launch_aag_mobile_site">Launch the AirAsiaGo mobile website?</string>
+    <string name="sorry_rooms_sold_out_aag">Sorry, all rooms are sold out on AirAsiaGo.</string>
+    <string name="share_template_long_ad_aag">Book hotels, flights and view &amp; share your itineraries. Download the free AirAsiaGo mobile app today.\\n%s</string>
 </resources>
