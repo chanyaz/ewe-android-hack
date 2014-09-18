@@ -81,4 +81,7 @@
 
     <item name="ic_clear_edittext_aag" type="drawable"/>
 
+    <!-- AirAsiaGo itin label text -->
+    <item name="aag_itinerary" type="string"/>
+
 </resources>

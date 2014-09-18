@@ -372,6 +372,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				itineraryLabelResId = R.string.tvly_itinerary;
 			}
+			else if (ExpediaBookingApp.IS_AAG) {
+				itineraryLabelResId = R.string.aag_itinerary;
+			}
 
 			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
 			if (view != null) {
