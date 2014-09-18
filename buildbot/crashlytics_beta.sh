@@ -8,9 +8,12 @@ if [ -e "$PROPERTIES_FILE" ] ; then
     cat $PROPERTIES_FILE | python -m json.tool
     echo "=== End Properties ==="
 
-    ./buildbot/CreateChangelog.py $PROPERTIES_FILE | sed -e 's/^/    /' > $CHANGE_LOG_FILE
+    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | sed -e 's/^/    /' > "$CHANGE_LOG_FILE"
 fi
 
 ./gradlew --info --stacktrace --no-daemon -DdisablePreDex clean assembleExpediaLatest
 
 ./gradlew crashlyticsUploadDistributionExpediaLatest
+
+# Cleanup files
+rm -f "$CHANGE_LOG_FILE" "$PROPERTIES_FILE"
