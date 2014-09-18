@@ -8,6 +8,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 
 
 /**
@@ -80,5 +81,9 @@ public class BillingAddressScreen {
 
 	public static void clickNextButton() {
 		nextButton().perform(click());
+	}
+
+	public static ViewInteraction passportCountryText() {
+		return onView(withParent(withId(R.id.edit_country_spinner)));
 	}
 }

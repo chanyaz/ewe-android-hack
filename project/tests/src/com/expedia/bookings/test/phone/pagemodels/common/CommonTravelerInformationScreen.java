@@ -7,6 +7,7 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
 /**
@@ -117,4 +118,7 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 		set().perform(click());
 	}
 
+	public static ViewInteraction phoneCountryCodeText() {
+		return onView(withParent(withId(R.id.edit_phone_number_country_code_spinner)));
+	}
 }
