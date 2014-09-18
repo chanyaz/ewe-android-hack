@@ -11,6 +11,7 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -277,5 +278,11 @@ public class Checkout {
 		return onView(withId(R.id.trip_date_range));
 	}
 
+	public static ViewInteraction phoneCountryCodeText() {
+		return onView(withParent(withId(R.id.edit_phone_number_country_code_spinner)));
+	}
 
+	public static ViewInteraction passportCountryText() {
+		return onView(withParent(withId(R.id.edit_passport_country_spinner)));
+	}
 }
