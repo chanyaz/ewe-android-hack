@@ -1255,10 +1255,15 @@ public class OmnitureTracking {
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
 		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
 		String rffrId = baseRef + refAppend;
+		String posEapid = Integer.toString(PointOfSale.getPointOfSale().getEAPID());
 		s.setProp(7, posTpid);
 		s.setProp(16, rffrId);
 		s.setEvar(28, rffrId);
 		s.setEvar(61, posTpid);
+		if (PointOfSale.getPointOfSale().getEAPID() != PointOfSale.INVALID_EAPID) {
+			s.setEvar(61, posTpid + "-" + posEapid);
+			s.setProp(7, posTpid + "-" + posEapid);
+		}
 	}
 
 	// For shared screens (e.g. Tablet Search Results) we want to send the
@@ -2449,6 +2454,9 @@ public class OmnitureTracking {
 
 		// TPID
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		if (PointOfSale.getPointOfSale().getEAPID() != PointOfSale.INVALID_EAPID) {
+			s.setProp(7, PointOfSale.getPointOfSale().getTpid() + "-" + PointOfSale.getPointOfSale().getEAPID());
+		}
 
 		// Unique device id
 		String id = AdvertisingIdUtils.getIDFA();
@@ -2519,7 +2527,11 @@ public class OmnitureTracking {
 		}
 
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		String posEapid = Integer.toString(PointOfSale.getPointOfSale().getEAPID());
 		s.setEvar(61, tpid);
+		if (PointOfSale.getPointOfSale().getEAPID() != PointOfSale.INVALID_EAPID) {
+			s.setEvar(61, tpid + "-" + posEapid);
+		}
 
 		// Screen orientation
 		Configuration config = context.getResources().getConfiguration();

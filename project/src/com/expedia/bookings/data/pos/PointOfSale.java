@@ -57,6 +57,8 @@ public class PointOfSale {
 
 	private static final int INVALID_SITE_ID = -1;
 
+	public static final int INVALID_EAPID = -1;
+
 	// The identifier for this point of sale
 	private PointOfSaleId mPointOfSale;
 
@@ -128,6 +130,9 @@ public class PointOfSale {
 
 	// Does this POS have the VIP Access program?
 	private boolean mSupportsVipAccess;
+
+	// EAPID value and is used
+	private int mEAPID;
 
 	/**
 	 * There can be multiple different locales for a given POS.
@@ -344,6 +349,10 @@ public class PointOfSale {
 
 	public String getPrivacyPolicyUrl() {
 		return getPosLocale().mPrivacyPolicyUrl;
+	}
+
+	public int getEAPID() {
+		return mEAPID;
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
@@ -716,6 +725,7 @@ public class PointOfSale {
 		pos.mUrl = data.optString("url", null);
 		pos.mTPID = data.optInt("TPID");
 		pos.mSiteId = data.optInt("siteId", INVALID_SITE_ID);
+		pos.mEAPID = data.optInt("EAPID", INVALID_EAPID);
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
