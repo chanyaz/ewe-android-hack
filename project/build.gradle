@@ -2,7 +2,7 @@ def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 apply plugin: AndroidExpediaPlugin
 apply plugin: 'checkstyle'
