@@ -161,6 +161,7 @@ android {
     sourceSets {
         androidTestTravelocityAutomation {
             java.srcDirs = ['src/androidTestExpediaAutomation/java']
+            res.srcDirs = ['src/androidTestExpediaAutomation/res']
         }
 
         Expedia {
