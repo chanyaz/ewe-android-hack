@@ -139,8 +139,8 @@ android {
             applicationIdSuffix ".latest"
             hockey.enabled true
 
-            ext.betaDistributionReleaseNotesFilePath="../changelog.txt"
-            ext.betaDistributionGroupAliasesFilePath="../buildbot/crashlytics_beta_groups.txt"
+            ext.betaDistributionReleaseNotesFilePath="changelog.txt"
+            ext.betaDistributionGroupAliasesFilePath="buildbot/crashlytics_beta_groups.txt"
         }
 
         feature.initWith(buildTypes.debug)
