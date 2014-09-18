@@ -176,6 +176,7 @@
         <item name="userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
         <item name="clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
+        <item name="addToCalenderMessage">@string/contact_phone_template</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

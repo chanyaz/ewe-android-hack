@@ -512,4 +512,7 @@
     <attr name="icTypeCircleHotel" format="reference" />
 
     <attr name="icCheckoutCheckmarkDrawable" format="reference" />
+    <!--Add Calender POS Messages-->
+    <attr name="addToCalenderMessage" format="reference|string" />
+
 </resources>
