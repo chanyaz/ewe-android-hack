@@ -2,6 +2,9 @@ def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
 
+ext.betaDistributionReleaseNotesFilePath="../changelog.txt"
+ext.betaDistributionGroupAliasesFilePath="../buildbot/crashlytics_beta_groups.txt"
+
 apply plugin: 'android'
 apply plugin: 'crashlytics'
 apply plugin: AndroidExpediaPlugin
@@ -132,8 +135,6 @@ android {
 
             runProguard shouldRunProguard
             proguardFile 'proguard.cfg'
-            ext.betaDistributionReleaseNotesFilePath="../changelog.txt"
-            ext.betaDistributionGroupAliasesFilePath="../buildbot/crashlytics_beta_groups.txt"
         }
 
         latest.initWith(buildTypes.debug)
