@@ -35,4 +35,5 @@ build
 .settings
 
 # Crashlytics
+crashlytics-build.properties
 project/res/values/com_crashlytics_export_strings.xml
