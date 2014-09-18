@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Run tests
-APK="project/build/outputs/apk/project-Expedia-debug-unaligned.apk"
-TEST_APK="project/build/outputs/apk/project-Expedia-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-expedia-debug-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-expedia-debug-test-unaligned.apk"
 OUTPUT_TAR="spoon-unit-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
 if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then

@@ -104,7 +104,7 @@ android {
             versionName "1.0"
         }
 
-        ExpediaAutomation {
+        expediaAutomation {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "boolean", "IS_AUTOMATION", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://0.0.0.0\""
@@ -112,7 +112,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.utils.SpoonInstrumentationTestRunner"
         }
 
-        TravelocityAutomation {
+        travelocityAutomation {
             buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             buildConfigField "boolean", "IS_AUTOMATION", "true"
             applicationId "com.travelocity.android.auto"
@@ -164,13 +164,13 @@ android {
             res.srcDirs = ['src/androidTestExpediaAutomation/res']
         }
 
-        ExpediaAutomation {
-            manifest.srcFile 'AndroidManifest-expedia.xml'
+        expediaAutomation {
+            manifest.srcFile 'src/expedia/AndroidManifest.xml'
         }
 
-        TravelocityAutomation {
-            manifest.srcFile 'AndroidManifest-travelocity.xml'
-            res.srcDirs 'res_travelocity'
+        travelocityAutomation {
+            manifest.srcFile 'src/travelocity/AndroidManifest.xml'
+            res.srcDirs 'src/travelocity/res'
         }
 
         signingConfigs {

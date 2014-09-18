@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Run tests
-APK="project/build/outputs/apk/project-ExpediaAutomation-debug-unaligned.apk"
-TEST_APK="project/build/outputs/apk/project-ExpediaAutomation-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-expediaAutomation-debug-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-expediaAutomation-debug-test-unaligned.apk"
 TYPE="regression"
 OUTPUT_TAR="spoon-${TYPE}-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
