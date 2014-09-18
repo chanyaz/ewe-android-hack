@@ -96,7 +96,7 @@ android {
             versionName "6.2-${versionCode}"
         }
 
-        AirAsiaGo {
+        airAsiaGo {
             buildConfigField "boolean", "IS_AAG", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.airasiago.android"
@@ -162,11 +162,6 @@ android {
         androidTestTravelocityAutomation {
             java.srcDirs = ['src/androidTestExpediaAutomation/java']
             res.srcDirs = ['src/androidTestExpediaAutomation/res']
-        }
-
-        AirAsiaGo {
-            manifest.srcFile 'AndroidManifest-aag.xml'
-            res.srcDirs 'res_airasiago'
         }
 
         ExpediaAutomation {
