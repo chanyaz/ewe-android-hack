@@ -241,6 +241,9 @@
         <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="addToCalenderMessage">@string/contact_phone_template</item>
+        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
+        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
     </style>
 
     <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">

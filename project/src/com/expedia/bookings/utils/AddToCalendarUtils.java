@@ -54,35 +54,23 @@ public class AddToCalendarUtils {
 		Intent intent = new Intent(Intent.ACTION_INSERT);
 		intent.setData(CalendarContract.Events.CONTENT_URI);
 		intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.calendar_flight_title_TEMPLATE,
-				origin.mAirportCode, destination.mAirportCode));
+			origin.mAirportCode, destination.mAirportCode));
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
 		intent.putExtra(
-				CalendarContract.Events.EVENT_LOCATION,
-				context.getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,
-						StrUtils.getWaypointCityOrCode(origin)));
+			CalendarContract.Events.EVENT_LOCATION,
+			context.getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,
+				StrUtils.getWaypointCityOrCode(origin)));
 
 		StringBuilder sb = new StringBuilder();
 		if (!TextUtils.isEmpty(itineraryNumber)) {
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				sb.append(context.getString(R.string.calendar_flight_desc_itinerary_TEMPLATE_tvly, itineraryNumber));
-			}
-			else {
-				sb.append(context.getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
-			}
+			sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.calendarFlightDescItinerary), itineraryNumber));
 			sb.append("\n\n");
 		}
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
-				"https://maps.google.com/maps?q=" + origin.mAirportCode));
+			"https://maps.google.com/maps?q=" + origin.mAirportCode));
 		sb.append("\n\n");
-
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			sb.append(context.getString(R.string.calendar_flight_desc_support_TEMPLATE_tvly, pointOfSale.getSupportPhoneNumber()));
-		}
-		else {
-			sb.append(context.getString(R.string.calendar_flight_desc_support_TEMPLATE, pointOfSale.getSupportPhoneNumber()));
-		}
-
+		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.calendarFlightDescSupport), pointOfSale.getSupportPhoneNumber()));
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;

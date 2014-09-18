@@ -529,4 +529,8 @@
     <attr name="restrictedProfileLoginMessage" format="reference|string" />
     <attr name="dialogMessageLaunchMobileSite" format="reference|string" />
 
+    <!-- calendar description for flight's itinerary and support-->
+    <attr name="calendarFlightDescItinerary" format="reference|string" />
+    <attr name="calendarFlightDescSupport" format="reference|string" />
+
 </resources>

@@ -126,6 +126,9 @@
         <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
         <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
+        <item name="addToCalenderMessage">@string/contact_phone_template_tvly</item>
+        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
+        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
