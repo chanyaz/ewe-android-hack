@@ -187,6 +187,8 @@
         <item name="flightPriceTextColor">@color/flight_trip_price</item>
         <item name="flightTripColor">@color/flight_trip</item>
         <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
+        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
+        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

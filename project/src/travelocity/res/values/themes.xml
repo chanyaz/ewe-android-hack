@@ -74,6 +74,8 @@
         <item name="tellAFriendSubject">@string/tell_a_friend_subject_tvly</item>
         <item name="tellAFriendBody">@string/tell_a_friend_body_tvly</item>
         <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_tvly_mobile_site</item>
+        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
+        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
