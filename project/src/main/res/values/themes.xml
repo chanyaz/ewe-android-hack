@@ -184,6 +184,9 @@
         <item name="tellAFriendSubject">@string/tell_a_friend_subject</item>
         <item name="tellAFriendBody">@string/tell_a_friend_body</item>
         <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_expedia_mobile_site</item>
+        <item name="flightPriceTextColor">@color/flight_trip_price</item>
+        <item name="flightTripColor">@color/flight_trip</item>
+        <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

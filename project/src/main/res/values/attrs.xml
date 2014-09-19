@@ -532,5 +532,9 @@
     <!-- calendar description for flight's itinerary and support-->
     <attr name="calendarFlightDescItinerary" format="reference|string" />
     <attr name="calendarFlightDescSupport" format="reference|string" />
+    <!--Chane in color of Flight connecting circles-->
+    <attr name="flightTripColor" format="reference|color" />
+    <attr name="flightPriceTextColor" format="reference|color" />
+    <attr name="icSuitCaseBaggage" format="reference" />
 
 </resources>

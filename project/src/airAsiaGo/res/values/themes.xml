@@ -79,6 +79,9 @@
         <item name="tellAFriendSubject">@string/tell_a_friend_subject_aag</item>
         <item name="tellAFriendBody">@string/tell_a_friend_body_aag</item>
         <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_aag_mobile_site</item>
+        <item name="flightTripColor">@color/flight_trip_color_aag</item>
+        <item name="flightPriceTextColor">@color/flight_trip_price_aag</item>
+        <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

@@ -21,6 +21,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 
@@ -101,14 +102,15 @@ public class FlightTripView extends View {
 
 		Resources r = context.getResources();
 
-		int lineColor = r.getColor(R.color.flight_trip);
+		int lineColor = r.getColor(Ui.obtainThemeResID(context, R.attr.flightTripColor));
 		int textColor = r.getColor(R.color.airport_text);
 		float textSize = -1.0f;
 		int typeface = -1;
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FlightTripView, 0, 0);
-			lineColor = ta.getColor(R.styleable.FlightTripView_flightLineColor, r.getColor(R.color.flight_trip));
+			lineColor = ta.getColor(R.styleable.FlightTripView_flightLineColor,
+				r.getColor(Ui.obtainThemeResID(context, R.attr.flightTripColor)));
 			textColor = ta.getColor(R.styleable.FlightTripView_waypointTextColor, r.getColor(R.color.airport_text));
 			textSize = ta.getDimension(R.styleable.FlightTripView_waypointTextSize, -1.0f);
 			typeface = ta.getInt(R.styleable.FlightTripView_waypointTextTypeface, -1);

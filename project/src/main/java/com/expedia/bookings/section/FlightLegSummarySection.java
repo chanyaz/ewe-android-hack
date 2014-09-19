@@ -8,10 +8,8 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,14 +29,13 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTripView;
-import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
-
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
  * leg or just one segment inside of a leg, depending on what data is bound
@@ -254,7 +251,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	protected int getBagWithXDrawableResId() {
-		return R.drawable.ic_suitcase_baggage_fee_blue;
+		return Ui.obtainThemeResID(getContext(), R.attr.icSuitCaseBaggage);
 	}
 
 	/**
