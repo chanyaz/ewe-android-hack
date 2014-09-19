@@ -11,7 +11,7 @@ if [ -e "$PROPERTIES_FILE" ] ; then
     ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | sed -e 's/^/    /' > "$CHANGE_LOG_FILE"
 fi
 
-./gradlew --info --stacktrace --no-daemon -DdisablePreDex clean assembleExpediaLatest
+./gradlew --info --stacktrace --no-daemon -PdisablePreDex clean assembleExpediaLatest
 
 ./gradlew crashlyticsUploadDistributionExpediaLatest
 
