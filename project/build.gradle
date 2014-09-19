@@ -2,6 +2,9 @@ def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
 
+def CHANGELOG_PATH = "changelog.txt"
+def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
+
 apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 apply plugin: AndroidExpediaPlugin
@@ -139,8 +142,8 @@ android {
             applicationIdSuffix ".latest"
             hockey.enabled true
 
-            ext.betaDistributionReleaseNotesFilePath="changelog.txt"
-            ext.betaDistributionGroupAliasesFilePath="buildbot/crashlytics_beta_groups.txt"
+            ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
+            ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
         }
 
         feature.initWith(buildTypes.debug)
@@ -148,8 +151,8 @@ android {
             applicationIdSuffix (".feature." + featureName)
             hockey.enabled true
 
-            ext.betaDistributionReleaseNotesFilePath="../changelog.txt"
-            ext.betaDistributionGroupAliasesFilePath="../buildbot/crashlytics_beta_groups.txt"
+            ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
+            ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
         }
 
         release {
