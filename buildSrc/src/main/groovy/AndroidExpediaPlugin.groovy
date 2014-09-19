@@ -51,13 +51,13 @@ class AndroidExpediaPlugin implements Plugin<Project> {
 
             // Insert our task between mergeResources and processResources. This ensures that the file exists
             // and also that we modify before the values are consumed.
-            variant.processResources.dependsOn resourceTask
+            variant.outputs[0].processResources.dependsOn resourceTask
             project.tasks[resourceTask].dependsOn variant.mergeResources
 
             // Create a task for overwriting and injecting content in the generated AndroidManifest
             def manifestTask = "overwriteGeneratedManifest$uniqueName"
             project.task(manifestTask) << {
-                def manifestFile = variant.processManifest.manifestOutputFile
+                def manifestFile = variant.outputs[0].processManifest.manifestOutputFile
                 def manifest = new XmlParser().parse(manifestFile)
                 def applicationNode = manifest.application.get(0)
 
@@ -79,8 +79,8 @@ class AndroidExpediaPlugin implements Plugin<Project> {
 
             // Insert our task between processManifest and processResources. This ensures that the Manifest
             // has been generated and that we modify it before it's values get consumed.
-            variant.processResources.dependsOn manifestTask
-            project.tasks[manifestTask].dependsOn variant.processManifest
+            variant.outputs[0].processResources.dependsOn manifestTask
+            project.tasks[manifestTask].dependsOn variant.outputs[0].processManifest
 
         }
     }
