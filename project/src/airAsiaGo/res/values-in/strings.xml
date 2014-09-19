@@ -69,4 +69,21 @@
     <string name="nav_flights">Penerbangan</string>
     <string name="nav_hotels">Hotel</string>
 
+    <!-- Missing strings for AirAsiaGo from Expedia-->
+    <string name="tell_a_friend_body_aag">Halo,\\n\\nSudah coba aplikasi Hotel AirAsiaGo untuk iPhone dan Android? Aplikasi ini GRATIS dan Anda bisa dengan mudah mencari serta memesan kamar di lebih dari 140.000 hotel di seluruh dunia. Inilah cara termudah untuk memesan hotel langsung dari ponsel Anda.\\n</string>
+    <string name="cd_log_in_email_edit_text_aag">Masukkan alamat email akun AirAsiaGo</string>
+    <string name="tell_a_friend_subject_aag">Hotel AirAsiaGo</string>
+    <string name="restricted_profile_login_message_aag">Untuk masuk ke akun AirAsiaGo, Anda harus menggunakan profil pengguna yang tak dibatasi (unrestricted user profile) di perangkat Anda.</string>
+    <string name="cd_log_in_password_edit_text_aag">Masukkan kata sandi akun AirAsiaGo</string>
+    <string name="cd_launch_open_eb_info_screen_aag">Buka info pemesanan AirAsiaGo</string>
+    <string name="loading_aag_account">Memuat Akun AirAsiaGo</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_aag">Hotel Anda telah berhasil dipesan! Jika Anda memerlukan itinerary segera, silakan hubungi Layanan Pelanggan AirAsiaGo.</string>
+    <string name="not_currently_available_TEMPLATE_aag">Tak tersedia di AirAsiaGo %s</string>
+    <string name="aag_password_hint">Kata Sandi AirAsiaGo</string>
+    <string name="dialog_message_launch_aag_mobile_site">Buka website mobile AirAsiaGo?</string>
+    <string name="sorry_rooms_sold_out_aag">Maaf, semua kamar sudah terjual habis di AirAsiaGo.</string>
+    <string name="share_template_long_ad_aag">Pesan hotel &amp; tiket pesawat, lihat &amp; bagikan itinerary Anda. Download app AirAsiaGo sekarang.</string>
+
+    <string name="call_aag_customer_support">Hubungi Layanan Pelanggan AirAsiaGo</string>
+
 </resources>

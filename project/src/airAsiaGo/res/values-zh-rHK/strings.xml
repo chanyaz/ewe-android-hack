@@ -67,4 +67,21 @@
     <string name="nav_hotels">酒店</string>
 
 
+    <!-- Missing strings for AirAsiaGo from Expedia-->
+    <string name="tell_a_friend_body_aag">您好，\n\n歡迎下載 iPhone 及 Android 版亞航假日酒店 App。下載費用全免，還可讓您輕鬆搜尋及預訂全球超過 14 萬間酒店的客房。這是以手機預訂酒店的最輕易方法。\\n</string>
+    <string name="cd_log_in_email_edit_text_aag">請輸入亞航假日帳戶電郵地址</string>
+    <string name="tell_a_friend_subject_aag">亞航假日酒店</string>
+    <string name="restricted_profile_login_message_aag">如需登入亞航假日，您裝置上的使用者設定不可有任何限制。</string>
+    <string name="cd_log_in_password_edit_text_aag">請輸入亞航假日帳戶密碼</string>
+    <string name="cd_launch_open_eb_info_screen_aag">打開亞航假日預訂資料頁</string>
+    <string name="loading_aag_account">正載入亞航假日帳戶</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_aag">您已成功預訂酒店！如需立即取得行程，請致電亞航假日客戶支援。</string>
+    <string name="not_currently_available_TEMPLATE_aag">亞航假日%s已訂滿</string>
+    <string name="aag_password_hint">亞航假日密碼</string>
+    <string name="dialog_message_launch_aag_mobile_site">打開亞航假日流動網站？</string>
+    <string name="sorry_rooms_sold_out_aag">很抱歉，亞航假日已無房。</string>
+    <string name="share_template_long_ad_aag">預訂酒店、機票及查閱和分享您的行程。請即下載免費的亞航假日 App。</string>
+
+    <string name="call_aag_customer_support">致電亞航假日客戶支援</string>
+
 </resources>
