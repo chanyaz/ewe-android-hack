@@ -126,17 +126,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		startupTimer.addSplit("FS.db Init");
 
-		if (IS_VSC || IS_TRAVELOCITY) {
-
-			Locale locale = getLocaleForVscAndTvly();
-
-			Configuration myConfig = new Configuration(getResources().getConfiguration());
-			Locale.setDefault(locale);
-
-			myConfig.locale = locale;
-			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
-			startupTimer.addSplit("Force locale to " + locale.getLanguage());
-		}
 		// Pull down advertising ID
 		AdvertisingIdUtils.loadIDFA(this);
 		// Init required for Omniture tracking
@@ -150,6 +139,18 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		// Initialize some parts of the code that require a Context
 		PointOfSale.init(this);
 		startupTimer.addSplit("PointOfSale Init");
+
+		if (!IS_EXPEDIA) {
+
+			Locale locale = getLocaleForWhiteLabels();
+
+			Configuration myConfig = new Configuration(getResources().getConfiguration());
+			Locale.setDefault(locale);
+
+			myConfig.locale = locale;
+			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
+			startupTimer.addSplit("Force locale to " + locale.getLanguage());
+		}
 
 		FontCache.initialize(this);
 		startupTimer.addSplit("FontCache Init");
@@ -349,12 +350,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
-		if (IS_VSC || IS_TRAVELOCITY) {
-			handleConfigurationChanged(newConfig, getLocaleForVscAndTvly());
-		}
-		else {
+		if(IS_EXPEDIA) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
+		}
+		else {
+			handleConfigurationChanged(newConfig, getLocaleForWhiteLabels());
 		}
 	}
 
@@ -378,6 +379,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (IS_TRAVELOCITY) {
 			action = TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 		}
+		else if(IS_AAG) {
+			action = AirAsiaGoLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+		}
 
 		Intent intent = new Intent(action);
 		sendBroadcast(intent);
@@ -386,29 +390,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 
-	private Locale getLocaleForVscAndTvly() {
-
-		Locale frFRLocale = new Locale("fr", "FR");
-		Locale frCALocale = new Locale("fr", "CA");
-		Locale enCALocale = new Locale("en", "CA");
-
-		Locale defaultEnUSLocale = new Locale("en", "US");
-
-		Locale currentLocale = getResources().getConfiguration().locale;
-
-		if (IS_VSC) {
-			return frFRLocale;
-		}
-		else if (IS_TRAVELOCITY && currentLocale.equals(frCALocale)) {
-			return frCALocale;
-		}
-		else if (IS_TRAVELOCITY && currentLocale.equals(enCALocale)) {
-			return enCALocale;
-		}
-		else if (IS_TRAVELOCITY && currentLocale.equals(frFRLocale)) {
-			return frFRLocale;
-		}
-		return defaultEnUSLocale;
+	private Locale getLocaleForWhiteLabels() {
+		String localeIdentifier = PointOfSale.getPointOfSale().getLocaleIdentifier();
+		String[] langCountryArray = localeIdentifier.split("_");
+		return new Locale(langCountryArray[0], langCountryArray[1]);
 	}
 
 }
