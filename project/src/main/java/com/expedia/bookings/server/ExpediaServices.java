@@ -1093,7 +1093,16 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Couldn't add the long_url to the argument json");
 		}
 
-		Request.Builder post = new Request.Builder().url("http://e.xpda.co/v1/shorten");
+		StringBuffer shortUrl = new StringBuffer("http://");
+		if (ExpediaBookingApp.IS_AAG) {
+			shortUrl.append("a.aago.co");
+		}
+		else {
+			shortUrl.append("e.xpda.co");
+		}
+		shortUrl.append("/v1/shorten");
+
+		Request.Builder post = new Request.Builder().url(shortUrl.toString());
 		RequestBody body = RequestBody.create(MediaType.parse("application/json"), args.toString());
 		post.post(body);
 

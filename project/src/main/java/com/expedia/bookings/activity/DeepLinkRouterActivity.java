@@ -69,7 +69,7 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if ("e.xpda.co".equalsIgnoreCase(host)) {
+		else if ("e.xpda.co".equalsIgnoreCase(host) || "a.aago.co".equalsIgnoreCase(host)) {
 			final String shortUrl = data.toString();
 			final ExpediaServices services = new ExpediaServices(this);
 			new Thread(new Runnable() {
