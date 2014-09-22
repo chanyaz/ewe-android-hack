@@ -189,6 +189,7 @@
         <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
+        <item name="flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

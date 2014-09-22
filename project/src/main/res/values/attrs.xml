@@ -536,5 +536,7 @@
     <attr name="flightTripColor" format="reference|color" />
     <attr name="flightPriceTextColor" format="reference|color" />
     <attr name="icSuitCaseBaggage" format="reference" />
+    <attr name="flightLoginActionBarIcon" format="reference" />
+
 
 </resources>

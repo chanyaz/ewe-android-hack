@@ -117,7 +117,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 				actionBar.setDisplayUseLogoEnabled(false);
 				break;
 			case FLIGHTS:
-				actionBar.setIcon(R.drawable.ic_logo_flights);
+				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.flightLoginActionBarIcon));
 				actionBar.setDisplayUseLogoEnabled(false);
 				break;
 			default:
