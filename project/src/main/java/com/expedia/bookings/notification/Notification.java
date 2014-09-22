@@ -217,6 +217,10 @@ public class Notification extends Model implements JSONable {
 			return R.drawable.ic_stat_travelocity;
 		}
 
+		else if (ExpediaBookingApp.IS_AAG && (resId == 0 || mIconId == 1)) {
+			return R.drawable.ic_stat_aag;
+		}
+
 		return resId == 0 ? R.drawable.ic_stat_expedia : resId;
 	}
 

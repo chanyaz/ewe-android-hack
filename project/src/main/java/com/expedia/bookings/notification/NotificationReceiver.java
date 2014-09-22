@@ -261,6 +261,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 				builder.setSmallIcon(R.drawable.ic_stat_travelocity);
 				builder.setLights(0x072b61, 200, 8000); // Travelocity blue color
 			}
+			else if (ExpediaBookingApp.IS_AAG) {
+				builder.setSmallIcon(R.drawable.ic_stat_aag);
+			}
 
 			long flags = mNotification.getFlags();
 			ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());
