@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
@@ -25,6 +26,7 @@ import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
+import com.expedia.bookings.interfaces.ISibilingListTouchListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -107,6 +109,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	private Rect mAddToTripAnimRect = new Rect();
 
+	private boolean mListHasTouch = false;
+	private ISibilingListTouchListener mListener;
+
 	public ResultsRecursiveFlightLegsFragment() {
 		this(0);
 	}
@@ -178,6 +183,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		//Always listen to the local State provider
 		registerStateListener(new StateListenerLogger<ResultsFlightLegState>(), false);
 		registerStateListener(mStateListener, false);
+
+		mListener = (ISibilingListTouchListener) getActivity();
 
 		return view;
 	}
@@ -1334,6 +1341,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mNextLegFrag.registerStateListener(mNextLegStateListener, false);
 			}
 			else if (frag == mListFrag && mLegNumber == 0) {
+				mListFrag.getListView().setOnTouchListener(mListTouchListener);
 				mListFrag.registerStateListener(mListStateListener, false);
 			}
 		}
@@ -1346,4 +1354,33 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 		}
 	}
+
+	public boolean listHasTouch() {
+		return mListHasTouch;
+	}
+
+	public boolean listIsDisplaced() {
+		float per = mListFrag.getListView().getScrollDownPercentage();
+		return per != 0f && per != 1f;
+	}
+
+	View.OnTouchListener mListTouchListener = new View.OnTouchListener() {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if (mListener.isSibilingListBusy(LineOfBusiness.FLIGHTS)) {
+				mListHasTouch = false;
+				return true;
+			}
+			else {
+				int action = event.getAction();
+				if (action == MotionEvent.ACTION_DOWN) {
+					mListHasTouch = true;
+				}
+				else if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+					mListHasTouch = false;
+				}
+				return false;
+			}
+		}
+	};
 }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +30,7 @@ import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
+import com.expedia.bookings.interfaces.ISibilingListTouchListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -112,6 +114,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(getBaseState(), this);
 	private GridManager mGrid = new GridManager();
 
+	private boolean mListHasTouch = false;
+	private ISibilingListTouchListener mListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -176,6 +181,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		registerStateListener(mHotelsStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsHotelsState>(), false);
 
+		mListener = (ISibilingListTouchListener) getActivity();
+
 		return view;
 	}
 
@@ -213,6 +220,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
+
+
 	}
 
 	@Subscribe
@@ -338,6 +347,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	public void setListTouchable(boolean touchable) {
 		mHotelListC.setBlockNewEventsEnabled(!touchable);
+	}
+
+	public ResultsHotelListFragment getListFragment() {
+		return mHotelListFrag;
 	}
 
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
@@ -1604,6 +1617,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
 		if (acceptingListener) {
 			if (frag == mHotelListFrag) {
+				mHotelListFrag.getListView().setOnTouchListener(mListTouchListener);
 				mHotelListFrag.registerStateListener(mListStateHelper, false);
 			}
 		}
@@ -1613,4 +1627,33 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 		}
 	}
+
+	public boolean listHasTouch() {
+		return mListHasTouch;
+	}
+
+	public boolean listIsDisplaced() {
+		float per = mHotelListFrag.getListView().getScrollDownPercentage();
+		return per != 0f && per != 1f;
+	}
+
+	View.OnTouchListener mListTouchListener = new View.OnTouchListener() {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if (mListener.isSibilingListBusy(LineOfBusiness.HOTELS)) {
+				mListHasTouch = false;
+				return true;
+			}
+			else {
+				int action = event.getAction();
+				if (action == MotionEvent.ACTION_DOWN) {
+					mListHasTouch = true;
+				}
+				else if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+					mListHasTouch = false;
+				}
+				return false;
+			}
+		}
+	};
 }

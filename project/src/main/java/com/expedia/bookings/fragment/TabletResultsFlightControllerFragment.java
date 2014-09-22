@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -24,8 +26,10 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.ISibilingListTouchListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -928,5 +932,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightLegsFrag.unRegisterStateListener(mLegStateListener);
 			}
 		}
+	}
+
+	public boolean listHasTouch() {
+		return mFlightLegsFrag.listHasTouch();
+	}
+
+	public boolean listIsDisplaced() {
+		return mFlightLegsFrag.listIsDisplaced();
 	}
 }
