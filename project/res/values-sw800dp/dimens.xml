@@ -19,7 +19,7 @@
     <dimen name="tablet_flight_details_header_textsize">20sp</dimen>
     <dimen name="tablet_flight_details_header_height">85dp</dimen>
     <dimen name="tablet_flight_details_addtotrip_height">42dp</dimen>
-    <dimen name="tablet_flight_details_header_margin">2dp</dimen>
+    <dimen name="tablet_flight_details_header_margin">1dp</dimen>
 
     <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
 
