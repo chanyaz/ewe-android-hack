@@ -219,9 +219,15 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	private void setErrorNoResults() {
 		String destination = StrUtils.formatCity(Sp.getParams().getDestination());
-		mGdeErrorMessageView.setCaption(getString(R.string.Set_dates_for_flights_to_X_TEMPLATE, destination));
+		mGdeErrorMessageView.setCaption(getString(R.string.missing_dates_flight_TEMPLATE, destination));
 		mGdeErrorMessageView.setVisibility(View.VISIBLE);
 		mGdeErrorMessageView.clearActionButton();
+		mGdeErrorMessageView.setActionButton(R.string.select_dates, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.UserClickedSelectDatesButton());
+			}
+		});
 		mGdeHeaderTv.setVisibility(View.INVISIBLE);
 		mGdeProgressBar.setVisibility(View.INVISIBLE);
 		mGdePriceRangeTv.setText("");

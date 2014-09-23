@@ -499,4 +499,7 @@ public class Events {
 			this.response = response;
 		}
 	}
+
+	public static class UserClickedSelectDatesButton {
+	}
 }

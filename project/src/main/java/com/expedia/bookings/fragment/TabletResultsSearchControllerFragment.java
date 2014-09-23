@@ -30,7 +30,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
@@ -1317,5 +1316,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onShowSearchFragment(Events.ShowSearchFragment event) {
 		OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
 		setState(event.searchState, mAnimateButtonClicks);
+	}
+
+	@Subscribe
+	public void onUserClickedToSelectDates(Events.UserClickedSelectDatesButton event) {
+		//Pop up the calendar, so its easier for users to know where they have to enter the dates
+		if (!getState().showsCalendar()) {
+			setState(ResultsSearchState.CALENDAR, true);
+		}
+		//If the calendar is already open, pop up the calendar pop-up.
+		else {
+			setState(ResultsSearchState.CALENDAR_WITH_POPUP, true);
+		}
 	}
 }

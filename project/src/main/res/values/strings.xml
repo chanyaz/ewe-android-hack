@@ -16,8 +16,8 @@
     <string name="missing_flight_info_message_TEMPLATE">To browse flights to %s, tell us where you\'re flying from.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Please select a valid date or date range.</string>
-    <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">Please select dates for\nflights to %s</string>
+    <!-- Message for missing dates -->
+    <string name="missing_dates_flight_TEMPLATE">To browse flights to %s,\ntell us when you\'d like to fly.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">For flight price trends,\ntell us where you\'re flying from.</string>
     <!-- Denotes the start date of the trip -->
