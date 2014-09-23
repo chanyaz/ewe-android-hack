@@ -112,7 +112,6 @@
         <item>@string/country_ck</item>
         <item>@string/country_cr</item>
         <item>@string/country_hr</item>
-        <item>@string/country_cu</item>
         <item>@string/country_cy</item>
         <item>@string/country_cz</item>
         <item>@string/country_ci</item>
@@ -358,7 +357,6 @@
         <item>@string/country_code_ck</item>
         <item>@string/country_code_cr</item>
         <item>@string/country_code_hr</item>
-        <item>@string/country_code_cu</item>
         <item>@string/country_code_cy</item>
         <item>@string/country_code_cz</item>
         <item>@string/country_code_ci</item>
@@ -604,7 +602,6 @@
         <item>@integer/country_phone_code_ck</item>
         <item>@integer/country_phone_code_cr</item>
         <item>@integer/country_phone_code_hr</item>
-        <item>@integer/country_phone_code_cu</item>
         <item>@integer/country_phone_code_cy</item>
         <item>@integer/country_phone_code_cz</item>
         <item>@integer/country_phone_code_ci</item>

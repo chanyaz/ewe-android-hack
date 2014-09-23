@@ -112,7 +112,6 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 		COUNTRY_CODES.put(res.getString(R.string.country_ck), res.getInteger(R.integer.country_phone_code_ck));
 		COUNTRY_CODES.put(res.getString(R.string.country_cr), res.getInteger(R.integer.country_phone_code_cr));
 		COUNTRY_CODES.put(res.getString(R.string.country_hr), res.getInteger(R.integer.country_phone_code_hr));
-		COUNTRY_CODES.put(res.getString(R.string.country_cu), res.getInteger(R.integer.country_phone_code_cu));
 		COUNTRY_CODES.put(res.getString(R.string.country_cy), res.getInteger(R.integer.country_phone_code_cy));
 		COUNTRY_CODES.put(res.getString(R.string.country_cz), res.getInteger(R.integer.country_phone_code_cz));
 		COUNTRY_CODES.put(res.getString(R.string.country_ci), res.getInteger(R.integer.country_phone_code_ci));
