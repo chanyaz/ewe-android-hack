@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
+import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getRating;
@@ -74,5 +75,9 @@ public class EspressoUtils {
 		view.perform(getRating(rating));
 		float ratingValue = rating.get();
 		return ratingValue;
+	}
+
+	public static void assertContainsImageDrawable(int viewID, int imageID) {
+		onView(allOf(withId(viewID), isDisplayed())).check(matches(withImageDrawable(imageID)));
 	}
 }
