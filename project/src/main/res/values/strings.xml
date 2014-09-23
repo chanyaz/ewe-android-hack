@@ -1336,7 +1336,7 @@
     <!-- Address line 1 hint -->
     <string name="address_line_one_hint">Address line 1</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">Address line 2</string>
+    <string name="address_line_two_hint">Address line 2 (optional)</string>
     <!-- Address city hint -->
     <string name="address_city_hint">City</string>
     <!-- Address state hint -->
