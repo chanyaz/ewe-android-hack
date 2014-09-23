@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -165,15 +164,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 				Log.e("Exception parsing lob from intent.", ex);
 			}
 		}
-	}
-
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		// Let's consume the back button press when booking is in process.
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && mFragCheckoutController != null && mFragCheckoutController.getCheckoutState() == CheckoutState.BOOKING) {
-			return false;
-		}
-		return super.dispatchKeyEvent(event);
 	}
 
 	private void updateLobFromString(String lobString) {
