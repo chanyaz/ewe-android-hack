@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Search destinations and landmarks</string>
+    <string name="search_all_hint">Enter your destination</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Search origins&#8230;</string>
     <!-- String when we don't know where the user is coming from/going to -->
