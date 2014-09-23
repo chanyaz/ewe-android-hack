@@ -464,9 +464,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	// https://mingle.karmalab.net/projects/eb_ad_app/cards/877
-	// Given I have a hotel, when it is 7 AM on the checkout day, then I want to receive a notification
+	// https://expedia.mingle.thoughtworks.com/projects/eb_ad_app/cards/3465
+	// Given I have a hotel, when it is 10 AM on the checkout day, then I want to receive a notification
 	// that reads "Check out at The Hyatt Regency Bellevue is at 11AM today."
-	// Hotel Check-out: Valid from 7:00AM-11:59PM on the day of check-out
+	// Hotel Check-out: Valid from 10:00AM-11:59PM on the day of check-out
 	private Notification generateCheckoutNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
@@ -475,7 +476,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		MutableDateTime trigger = data.getEndDate().toMutableDateTime();
 		trigger.setZoneRetainFields(DateTimeZone.getDefault());
 		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.setHourOfDay(7);
+		trigger.setHourOfDay(10);
 		long triggerTimeMillis = trigger.getMillis();
 
 		trigger.setHourOfDay(23);
