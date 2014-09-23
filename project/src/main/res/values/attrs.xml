@@ -44,6 +44,14 @@
         <!-- The drawable or color to use as a placeholder image -->
         <attr name="placeholder" format="reference" />
     </declare-styleable>
+
+    <!-- SimpleNumberPicker up button style. -->
+    <attr name="simpleNumberPickerUpButtonStyle" format="reference" />
+    <!-- SimpleNumberPicker down button style. -->
+    <attr name="simpleNumberPickerDownButtonStyle" format="reference" />
+    <!-- SimpleNumberPicker input text style. -->
+    <attr name="simpleNumberPickerInputTextStyle" format="reference" />
+
     <declare-styleable name="CustomEditText">
 
         <!--
@@ -65,35 +73,6 @@
         <attr name="lineColor" format="color" />
     </declare-styleable>
 
-    <!-- NumberPicker style. -->
-    <attr name="numberPickerStyle" format="reference" />
-    <!-- NumberPicker up button style. -->
-    <attr name="numberPickerUpButtonStyle" format="reference" />
-    <!-- NumberPicker down button style. -->
-    <attr name="numberPickerDownButtonStyle" format="reference" />
-    <!-- NumberPicker input text style. -->
-    <attr name="numberPickerInputTextStyle" format="reference" />
-
-    <!-- SimpleNumberPicker up button style. -->
-    <attr name="simpleNumberPickerUpButtonStyle" format="reference" />
-    <!-- SimpleNumberPicker down button style. -->
-    <attr name="simpleNumberPickerDownButtonStyle" format="reference" />
-    <!-- SimpleNumberPicker input text style. -->
-    <attr name="simpleNumberPickerInputTextStyle" format="reference" />
-
-    <declare-styleable name="NumberPicker">
-
-        <!-- @hide Color for the solid color background if such for optimized rendering. -->
-        <attr name="solidColor" format="color|reference" />
-        <!-- @hide Whether the number picker supports fligning. -->
-        <attr name="flingable" format="boolean" />
-        <!-- @hide The divider for making the selection area. -->
-        <attr name="selectionDivider" format="reference" />
-        <!-- @hide The height of the selection divider. -->
-        <attr name="selectionDividerHeight" format="dimension" />
-        <!-- custom layout -->
-        <attr name="customLayout" format="reference" />
-    </declare-styleable>
     <declare-styleable name="ScrollView">
 
         <!-- Defines whether the scrollview should stretch its content to fill the viewport. -->

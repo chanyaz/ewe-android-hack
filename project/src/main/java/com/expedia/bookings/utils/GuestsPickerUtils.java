@@ -30,14 +30,6 @@ public class GuestsPickerUtils {
 	public static final int MIN_ADULT_CHILD_PC_AGE = 12;
 	public static final int MIN_ADULT_PC_AGE = 18;
 
-	public static void updateNumberPickerRanges(com.expedia.bookings.widget.NumberPicker adultsNumberPicker,
-												com.expedia.bookings.widget.NumberPicker childrenNumberPicker) {
-		adultsNumberPicker.setMinValue(MIN_ADULTS);
-		adultsNumberPicker.setMaxValue(getMaxAdults(childrenNumberPicker.getValue()));
-		childrenNumberPicker.setMinValue(MIN_CHILDREN);
-		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
-	}
-
 	public static int getMaxAdults(int numChildren) {
 		return Math.min(MAX_ADULTS, MAX_GUESTS - numChildren);
 	}
