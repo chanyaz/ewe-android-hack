@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -327,6 +328,9 @@ public class AdX {
 
 	private static void addCommonRetargeting() {
 			AdXConnect.setEventParameterOfName("a", 2601);
+		if (ExpediaBookingApp.IS_AAG) {
+			AdXConnect.setEventParameterOfName("a", 6259);
+		}
 			if (Db.getUser() != null) {
 				final String customerId = Db.getUser().getTuidString();
 				AdXConnect.setEventParameter(AdXConnect.ADX_CUSTOMERID, customerId);
