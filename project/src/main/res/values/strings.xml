@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Search destinations and landmarks</string>
+    <string name="search_all_hint">Enter your destination</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Fly from %1$s</string>
     <!-- Fly from... -->
