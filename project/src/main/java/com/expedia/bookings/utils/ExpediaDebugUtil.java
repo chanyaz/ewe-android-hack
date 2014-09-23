@@ -21,7 +21,7 @@ public class ExpediaDebugUtil {
 	public static void showExpediaDebugToastIfNeeded(Context context) {
 		if (!AndroidUtils.isRelease(context)
 				&& SettingUtils.get(context, context.getString(R.string.preference_debug_notify_oom_crash), false)) {
-			Toast.makeText(context, "Memory crash. Open ExpediaDebug for upload.", 1000).show();
+			Toast.makeText(context, "Memory crash. Open ExpediaDebug for upload.", Toast.LENGTH_LONG).show();
 			SettingUtils.save(context, context.getString(R.string.preference_debug_notify_oom_crash), false);
 		}
 	}
