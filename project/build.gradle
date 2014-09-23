@@ -189,6 +189,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
     checkstyle {
         toolVersion = '5.7'
     }
