@@ -91,7 +91,7 @@ public class CenteredCaptionedIcon extends RelativeLayout {
 
 	public void setActionButton(int resId, OnClickListener listener) {
 		mActionButton.setVisibility(View.VISIBLE);
-		mActionButton.setText(R.string.missing_flight_info_button_prompt);
+		mActionButton.setText(resId);
 		mActionButton.setOnClickListener(listener);
 	}
 
