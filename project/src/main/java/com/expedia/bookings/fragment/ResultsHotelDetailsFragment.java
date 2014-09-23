@@ -43,6 +43,7 @@ import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
@@ -60,6 +61,7 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
@@ -316,6 +318,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
 			&& property.isVipAccess();
 		vipView.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
+		vipView.setOnClickListener(new VipBadgeClickListener(getResources(), getFragmentManager()));
 
 		// "25% OFF"
 		Rate rate = property.getLowestRate();

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -135,15 +136,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		if (PointOfSale.getPointOfSale().supportsVipAccess() && property.isVipAccess()) {
 			mVipIcon = Ui.findView(root, R.id.vip_badge);
 			mVipIcon.setVisibility(View.VISIBLE);
-			mVipIcon.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					String title = getString(R.string.vip_access);
-					String message = getString(R.string.vip_access_message);
-					SimpleDialogFragment df = SimpleDialogFragment.newInstance(title, message);
-					df.show(getFragmentManager(), "vipAccess");
-				}
-			});
+			mVipIcon.setOnClickListener(new VipBadgeClickListener(getResources(), getFragmentManager()));
 		}
 	}
 
