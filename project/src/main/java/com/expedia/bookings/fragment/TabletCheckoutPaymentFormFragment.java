@@ -236,11 +236,13 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
     @Override
     public void onFormOpened() {
         setUpStoredCards();
-        if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
-            showStoredCardContainer();
-        }
-        else if (Db.getBillingInfo().isUsingGoogleWallet()) {
-            showStoredCardContainerGoogleWallet();
+        if (Db.getBillingInfo().hasStoredCard()) {
+			if (Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
+				showStoredCardContainerGoogleWallet();
+			}
+			else {
+				showStoredCardContainer();
+			}
         }
         else {
             showNewCardContainer();
