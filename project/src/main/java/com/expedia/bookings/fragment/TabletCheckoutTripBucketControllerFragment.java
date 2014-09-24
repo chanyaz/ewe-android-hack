@@ -395,17 +395,16 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	}
 
 	private final ISingleStateListener mLandscapeBucketHidden = new ISingleStateListener() {
-		DecelerateInterpolator mInterpolator = new DecelerateInterpolator();
 
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			mBucketContainer.setTranslationX(0.0f);
+			mBucketContainer.setAlpha(1f);
 			mBucketContainer.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float p) {
-			mBucketContainer.setTranslationX(mInterpolator.getInterpolation(p) * -mBucketContainer.getWidth());
+			mBucketContainer.setAlpha(1 - p);
 		}
 
 		@Override
@@ -418,7 +417,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 			int visibility = isHidden ? View.INVISIBLE : View.VISIBLE;
 			mBucketContainer.setVisibility(visibility);
-			mBucketContainer.setTranslationX(0.0f);
+			mBucketContainer.setAlpha(1f);
 
 			setFragmentState(isHidden ? CheckoutTripBucketState.HIDDEN : CheckoutTripBucketState.SHOWING);
 			setBucketState(mAnimating);
