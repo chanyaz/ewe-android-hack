@@ -254,10 +254,6 @@
             android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
             android:theme="@style/V2.Theme.Activity.TabletCheckout"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.expedia.bookings.invaders.InvaderActivity"
-            android:label="INVADERS"
-            android:launchMode="singleTop"/>
 
         <!-- Testing activities -->
 
