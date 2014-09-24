@@ -115,7 +115,7 @@
     <dimen name="hotel_details_ring_size">36dp</dimen>
     <dimen name="hotel_details_amenities_section_height">62dp</dimen>
     <dimen name="hotel_details_amenities_section_top_margin">-5dp</dimen>
-    <dimen name="hotel_details_rooms_left_text_size">15sp</dimen>
+    <dimen name="hotel_details_rooms_left_text_size">16sp</dimen>
     <dimen name="hotel_details_room_description_text_size">16sp</dimen>
     <dimen name="hotel_details_bed_type_text_size">14sp</dimen>
     <dimen name="hotel_details_room_rate_row_padding">14dp</dimen>
