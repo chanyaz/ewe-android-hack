@@ -1121,19 +1121,16 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	@Override
 	public boolean isSiblingListBusy(LineOfBusiness currentListLob) {
 		boolean siblingHasTouch = false;
-		boolean siblingIsNotDown = false;
 		boolean siblingIsMoving = false;
 
-		if (currentListLob == LineOfBusiness.HOTELS) {
+		if (currentListLob == LineOfBusiness.HOTELS && mFlightsController.getState().isFlightListState()) {
 			siblingHasTouch = mFlightsController.listHasTouch();
-			siblingIsNotDown = mFlightsController.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN;
 			siblingIsMoving = mFlightsController.listIsDisplaced();
 		}
-		else if (currentListLob == LineOfBusiness.FLIGHTS) {
+		else if (currentListLob == LineOfBusiness.FLIGHTS && !mHotelsController.getHotelsState().isShowMessageState()) {
 			siblingHasTouch = mHotelsController.listHasTouch();
-			siblingIsNotDown = mHotelsController.getHotelsState() != ResultsHotelsState.HOTEL_LIST_DOWN;
 			siblingIsMoving = mHotelsController.listIsDisplaced();
 		}
-		return siblingHasTouch || siblingIsNotDown || siblingIsMoving;
+		return siblingHasTouch || siblingIsMoving;
 	}
 }
