@@ -358,11 +358,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		@Override
 		public boolean handleBackPressed() {
-			// Let's consume the back button event when the checkout state is BOOKING
-			if (mStateManager.getState() == CheckoutState.BOOKING) {
-				return true;
-			}
-			else if (mStateManager.isAnimating()) {
+			if (mStateManager.isAnimating()) {
 				//If we are in the middle of state transition, just reverse it
 				setCheckoutState(mStateManager.getState(), true);
 				return true;
@@ -370,6 +366,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else {
 				if (mStateManager.getState() == CheckoutState.CVV) {
 					setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+					return true;
+				}
+				// Let's consume the back button event when the checkout state is BOOKING
+				if (mStateManager.getState() == CheckoutState.BOOKING) {
 					return true;
 				}
 			}
