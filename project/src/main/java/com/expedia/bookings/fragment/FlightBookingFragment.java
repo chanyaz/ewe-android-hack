@@ -55,6 +55,10 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		CREATE_TRIP
 	}
 
+	public static FlightBookingFragment newInstance() {
+		return new FlightBookingFragment();
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

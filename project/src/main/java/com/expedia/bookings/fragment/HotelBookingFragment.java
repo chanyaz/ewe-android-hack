@@ -71,6 +71,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		CHECKOUT
 	}
 
+	public static HotelBookingFragment newInstance() {
+		return new HotelBookingFragment();
+	}
+
 	// BookingFragment
 
 	@Override
