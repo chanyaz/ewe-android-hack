@@ -225,6 +225,7 @@
         <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="flightTripColor">@color/flight_trip</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -248,13 +249,11 @@
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
     </style>
 
-    <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="ItineraryTheme" parent="Theme.Expedia">
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
-        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="logoutConfirmationString">@string/logout_confirmation</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
         <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>

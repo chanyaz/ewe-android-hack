@@ -143,6 +143,7 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBarAirAsiaGo</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
+        <item name="flightTripColor">@color/flight_trip_color_aag</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -191,10 +192,9 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_aag_logo</item>
     </style>
 
-    <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="ItineraryTheme" parent="Theme.AirAsiaGo">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.AirAsiaGo</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_aag</item>
         <item name="itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
         <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight_aag</item>
         <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel_aag</item>

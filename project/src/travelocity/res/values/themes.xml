@@ -110,6 +110,7 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_travelocity_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
+        <item name="flightTripColor">@color/flight_trip</item>
         <!-- PopupMenu -->
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
@@ -127,6 +128,8 @@
         <item name="addToCalenderMessage">@string/contact_phone_template_tvly</item>
         <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
+        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
@@ -138,14 +141,12 @@
         <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom_travelocity</item>
     </style>
 
-    <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="ItineraryTheme" parent="Theme.Travelocity">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
-        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
-        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
         <item name="itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
         <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
@@ -159,6 +160,8 @@
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
         <item name="itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card_tvly</item>
         <item name="itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_travelocity</item>
+        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
