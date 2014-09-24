@@ -274,9 +274,10 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		}
 
 		boolean addressValid = mValidationState.hasValidBillingAddress(billingInfo);
+		boolean addressRequired = PointOfSale.getPointOfSale().requiresBillingAddressFlights();
 		boolean cardValid = mValidationState.hasValidCardInfo(billingInfo);
 		boolean displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid && cardValid);
-		boolean displayPartialPayment = !displayManualCurrentPayment && (addressValid || cardValid);
+		boolean displayPartialPayment = !displayManualCurrentPayment && ((addressRequired && addressValid) || cardValid);
 
 		mSectionPartialCard.setVisibility(displayPartialPayment ? View.VISIBLE : View.GONE);
 		mPartialCardDiv.setVisibility(mSectionPartialCard.getVisibility());
