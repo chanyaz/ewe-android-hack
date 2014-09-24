@@ -59,4 +59,30 @@
     <!-- The merchant name to display to the user for Google Wallet -->
     <string name="merchant_name">Travelocity</string>
 
+    <string name="share_template_long_ad_tvly">Réservez hôtels, vols, consultez et partagez vos itinéraires.
+    Téléchargez l’appli mobile gratuite Travelocity aujourd’hui.\\n%s
+    </string>
+    <string name="sorry_rooms_sold_out_tvly">Désolé, aucune chambre n’est disponible sur Travelocity.</string>
+    <string name="dialog_message_launch_tvly_mobile_site">Lancer le site Web Travelocity mobile?
+    </string>
+    <string name="tvly_password_hint">Mot de passe Travelocity</string>
+    <string name="not_currently_available_TEMPLATE_tvly">Non disponible sur Travelocity %s</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">Vous avez bien réservé votre
+    hôtel! Pour obtenir un itinéraire dès maintenant, veuillez communiquer avec le soutien à la clientèle Travelocity.
+    </string>
+    <string name="loading_tvly_account">Chargement du compte Travelocity</string>
+    <string name="cd_launch_open_eb_info_screen_tvly">Ouvrez l’écran d’information Réservations Travelocity</string>
+    <string name="cd_log_in_password_edit_text_tvly">Entrez le mot de passe du compte Travelocity</string>
+    <string name="restricted_profile_login_message_tvly">Pour ouvrir une session sur Travelocity, vous devez utiliser
+    un profit d&apos;utilisateur non restreint sur votre appareil.
+    </string>
+    <string name="tell_a_friend_subject_tvly">Hôtels Travelocity</string>
+    <string name="cd_log_in_email_edit_text_tvly">Entrez l’adresse courriel du compte Travelocity</string>
+    <string name="tell_a_friend_body_tvly">Bonjour,\n\nJetez un coup d’œil à l’application Travelocity Hotels pour téléphones iPhone et Android
+    . Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels
+    dans le monde. C’est la façon la plus simple de réserver une chambre à partir de votre
+    téléphone.\\n
+    </string>
+    <string name="Travelocity_Flights">Vols Travelocity</string>
+
 </resources>
