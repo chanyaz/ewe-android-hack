@@ -30,7 +30,7 @@ import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
-import com.expedia.bookings.interfaces.ISibilingListTouchListener;
+import com.expedia.bookings.interfaces.ISiblingListTouchListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -115,7 +115,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private GridManager mGrid = new GridManager();
 
 	private boolean mListHasTouch = false;
-	private ISibilingListTouchListener mListener;
+	private ISiblingListTouchListener mListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -181,7 +181,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		registerStateListener(mHotelsStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsHotelsState>(), false);
 
-		mListener = (ISibilingListTouchListener) getActivity();
+		mListener = (ISiblingListTouchListener) getActivity();
 
 		return view;
 	}
@@ -1640,7 +1640,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	View.OnTouchListener mListTouchListener = new View.OnTouchListener() {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			if (mListener.isSibilingListBusy(LineOfBusiness.HOTELS)) {
+			if (mListener.isSiblingListBusy(LineOfBusiness.HOTELS)) {
 				mListHasTouch = false;
 				return true;
 			}

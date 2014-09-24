@@ -39,13 +39,12 @@ import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
 import com.expedia.bookings.fragment.TripBucketFragment;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
-import com.expedia.bookings.interfaces.ISibilingListTouchListener;
+import com.expedia.bookings.interfaces.ISiblingListTouchListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
@@ -84,7 +83,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends FragmentActivity implements IBackButtonLockListener,
 	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISibilingListTouchListener {
+	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -1120,21 +1119,21 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	@Override
-	public boolean isSibilingListBusy(LineOfBusiness currentListLob) {
-		boolean sibilingHasTouch = false;
-		boolean sibilingIsNotDown = false;
-		boolean sibilingIsMoving = false;
+	public boolean isSiblingListBusy(LineOfBusiness currentListLob) {
+		boolean siblingHasTouch = false;
+		boolean siblingIsNotDown = false;
+		boolean siblingIsMoving = false;
 
 		if (currentListLob == LineOfBusiness.HOTELS) {
-			sibilingHasTouch = mFlightsController.listHasTouch();
-			sibilingIsNotDown = mFlightsController.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN;
-			sibilingIsMoving = mFlightsController.listIsDisplaced();
+			siblingHasTouch = mFlightsController.listHasTouch();
+			siblingIsNotDown = mFlightsController.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN;
+			siblingIsMoving = mFlightsController.listIsDisplaced();
 		}
 		else if (currentListLob == LineOfBusiness.FLIGHTS) {
-			sibilingHasTouch = mHotelsController.listHasTouch();
-			sibilingIsNotDown = mHotelsController.getHotelsState() != ResultsHotelsState.HOTEL_LIST_DOWN;
-			sibilingIsMoving = mHotelsController.listIsDisplaced();
+			siblingHasTouch = mHotelsController.listHasTouch();
+			siblingIsNotDown = mHotelsController.getHotelsState() != ResultsHotelsState.HOTEL_LIST_DOWN;
+			siblingIsMoving = mHotelsController.listIsDisplaced();
 		}
-		return sibilingHasTouch || sibilingIsNotDown || sibilingIsMoving;
+		return siblingHasTouch || siblingIsNotDown || siblingIsMoving;
 	}
 }

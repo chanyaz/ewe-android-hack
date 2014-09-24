@@ -26,7 +26,7 @@ import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
-import com.expedia.bookings.interfaces.ISibilingListTouchListener;
+import com.expedia.bookings.interfaces.ISiblingListTouchListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -110,7 +110,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private Rect mAddToTripAnimRect = new Rect();
 
 	private boolean mListHasTouch = false;
-	private ISibilingListTouchListener mListener;
+	private ISiblingListTouchListener mListener;
 
 	public ResultsRecursiveFlightLegsFragment() {
 		this(0);
@@ -184,7 +184,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		registerStateListener(new StateListenerLogger<ResultsFlightLegState>(), false);
 		registerStateListener(mStateListener, false);
 
-		mListener = (ISibilingListTouchListener) getActivity();
+		mListener = (ISiblingListTouchListener) getActivity();
 
 		return view;
 	}
@@ -1367,7 +1367,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	View.OnTouchListener mListTouchListener = new View.OnTouchListener() {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			if (mListener.isSibilingListBusy(LineOfBusiness.FLIGHTS)) {
+			if (mListener.isSiblingListBusy(LineOfBusiness.FLIGHTS)) {
 				mListHasTouch = false;
 				return true;
 			}
