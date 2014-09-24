@@ -18,8 +18,6 @@
         <item name="android:textColor">@color/btn_black_text_color</item>
     </style>
 
-    <style name="Widget.ImageButton" />
-
     <style name="Widget.ShareView.Invisible" parent="Widget.ShareView.Dark.Simple">
         <item name="sv_favoriteDisplayed">false</item>
         <item name="sv_buttonDrawable">@null</item>
@@ -304,10 +302,6 @@
     <style name="Widget.Button.Small.Orange" parent="@android:style/Widget.Button.Small">
         <item name="android:background">@drawable/btn_default_small_orange</item>
         <item name="android:textColor">#FF000000</item>
-    </style>
-
-    <style name="Widget.Button.Floating" parent="@android:style/Widget.ImageButton">
-        <item name="android:background">@drawable/btn_floating</item>
     </style>
 
     <style name="Widget.Spinner" parent="@android:style/Widget.Spinner">
