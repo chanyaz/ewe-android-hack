@@ -16,7 +16,7 @@
 
     <string name="contact_travelocity">Communiquer avec Travelocity</string>
     <string name="travelocity_website">Site Web de Travelocity</string>
-    <string name="travelocity_app_support">Soutien de l’appli Travelocity</string>
+    <string name="travelocity_app_support">Soutien de l\&apos;appli Travelocity</string>
     <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nTous droits réservés.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
@@ -67,22 +67,16 @@
     </string>
     <string name="tvly_password_hint">Mot de passe Travelocity</string>
     <string name="not_currently_available_TEMPLATE_tvly">Non disponible sur Travelocity %s</string>
-    <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">Vous avez bien réservé votre
-    hôtel! Pour obtenir un itinéraire dès maintenant, veuillez communiquer avec le soutien à la clientèle Travelocity.
+    <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">Vous avez bien réservé votre hôtel! Pour obtenir un itinéraire dès maintenant, veuillez communiquer avec le soutien à la clientèle Travelocity.
     </string>
     <string name="loading_tvly_account">Chargement du compte Travelocity</string>
     <string name="cd_launch_open_eb_info_screen_tvly">Ouvrez l’écran d’information Réservations Travelocity</string>
     <string name="cd_log_in_password_edit_text_tvly">Entrez le mot de passe du compte Travelocity</string>
-    <string name="restricted_profile_login_message_tvly">Pour ouvrir une session sur Travelocity, vous devez utiliser
-    un profit d&apos;utilisateur non restreint sur votre appareil.
+    <string name="restricted_profile_login_message_tvly">Pour ouvrir une session sur Travelocity, vous devez utiliser un profit d\&apos;utilisateur non restreint sur votre appareil.
     </string>
     <string name="tell_a_friend_subject_tvly">Hôtels Travelocity</string>
     <string name="cd_log_in_email_edit_text_tvly">Entrez l’adresse courriel du compte Travelocity</string>
-    <string name="tell_a_friend_body_tvly">Bonjour,\n\nJetez un coup d’œil à l’application Travelocity Hotels pour téléphones iPhone et Android
-    . Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels
-    dans le monde. C’est la façon la plus simple de réserver une chambre à partir de votre
-    téléphone.\\n
-    </string>
+    <string name="tell_a_friend_body_tvly">Bonjour,\n\nJetez un coup d’œil à l\&apos;application Travelocity Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C’est la façon la plus simple de réserver une chambre à partir de votre téléphone.</string>
     <string name="Travelocity_Flights">Vols Travelocity</string>
 
 </resources>
