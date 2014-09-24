@@ -398,13 +398,13 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			mBucketContainer.setAlpha(1f);
+			mBucketContainer.setAlpha(1.0f);
 			mBucketContainer.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float p) {
-			mBucketContainer.setAlpha(1 - p);
+			mBucketContainer.setAlpha(1.0f - p);
 		}
 
 		@Override
@@ -417,7 +417,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 			int visibility = isHidden ? View.INVISIBLE : View.VISIBLE;
 			mBucketContainer.setVisibility(visibility);
-			mBucketContainer.setAlpha(1f);
+			mBucketContainer.setAlpha(1.0f);
 
 			setFragmentState(isHidden ? CheckoutTripBucketState.HIDDEN : CheckoutTripBucketState.SHOWING);
 			setBucketState(mAnimating);
