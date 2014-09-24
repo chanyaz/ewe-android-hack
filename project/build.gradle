@@ -19,7 +19,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
             'admsAppLibrary-3.0.5.jar',
-            'adxtag3.2.jar',
+            'adxtag3.2.5.jar',
     ])
     compile project(':lib:FacebookSdk:facebook')
     compile project(':lib:FlightLib')
