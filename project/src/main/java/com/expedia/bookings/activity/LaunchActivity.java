@@ -29,13 +29,12 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
-import com.expedia.bookings.fragment.AirAsiaGoLauncherFragment;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LaunchFragment;
-import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
-import com.expedia.bookings.fragment.TravelocityLauncherFragment;
+import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
+import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -49,7 +48,7 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class LaunchActivity extends FragmentActivity implements OnListModeChangedListener,
-		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
+		ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
@@ -60,7 +59,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 
 	private static final int PAGER_POS_ITIN = 1;
 
-	private LaunchFragment mLaunchFragment;
+	private IPhoneLaunchActivityLaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
 
 	private PagerAdapter mPagerAdapter;
@@ -71,6 +70,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 	private HockeyPuck mHockeyPuck;
 
 	private String mJumpToItinId = null;
+
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
@@ -349,7 +349,8 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
-			if (Ui.isAdded(mLaunchFragment)) {
+
+			if (mLaunchFragment != null && ((Fragment) mLaunchFragment).isAdded()) {
 				mLaunchFragment.cleanUp();
 			}
 			return true;
@@ -496,15 +497,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 				frag = ItinItemListFragment.newInstance(mJumpToItinId);
 				break;
 			case PAGER_POS_WATERFALL:
-				if (ExpediaBookingApp.IS_TRAVELOCITY) {
-					frag = TravelocityLauncherFragment.newInstance();
-				}
-				else if (ExpediaBookingApp.IS_AAG) {
-					frag = AirAsiaGoLauncherFragment.newInstance();
-				}
-				else {
-					frag = LaunchFragment.newInstance();
-				}
+				frag = new LaunchFragment();
 				break;
 			default:
 				throw new RuntimeException("Position out of bounds position=" + position);
@@ -577,7 +570,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 	}
 
 	@Override
-	public void onLaunchFragmentAttached(LaunchFragment frag) {
+	public void onLaunchFragmentAttached(IPhoneLaunchActivityLaunchFragment frag) {
 		mLaunchFragment = frag;
 	}
 

@@ -57,6 +57,8 @@ import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
+import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
+import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
@@ -81,7 +83,8 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 
-public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener {
+public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener,
+	IPhoneLaunchActivityLaunchFragment {
 
 	public static final String TAG = LaunchFragment.class.getName();
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
@@ -127,16 +130,12 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private int mBgViewIndex;
 	private Bitmap mBgBitmap;
 
-	public static LaunchFragment newInstance() {
-		return new LaunchFragment();
-	}
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof LaunchFragmentListener) {
-			((LaunchFragmentListener) activity).onLaunchFragmentAttached(this);
+		if (activity instanceof IPhoneLaunchFragmentListener) {
+			((IPhoneLaunchFragmentListener) activity).onLaunchFragmentAttached(this);
 		}
 
 		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
@@ -174,7 +173,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					View flightsPrompt = Ui.findView(getActivity(), R.id.flights_prompt_text_view);
 					View flightsIcon = Ui.findView(getActivity(), R.id.big_flights_icon);
 					if (hotelPrompt.getLeft() < hotelIcon.getRight()
-							|| flightsPrompt.getLeft() < flightsIcon.getRight()) {
+						|| flightsPrompt.getLeft() < flightsIcon.getRight()) {
 						hotelPrompt.setVisibility(View.INVISIBLE);
 						flightsPrompt.setVisibility(View.INVISIBLE);
 					}
@@ -205,7 +204,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// Pick background image at random
 			Random rand = new Random();
 			mBgBitmap = BitmapFactory.decodeResource(getResources(),
-					BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
+				BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 			mBgView.setImageBitmap(mBgBitmap);
 		}
 
@@ -295,7 +294,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				if (!AndroidUtils.isRelease(context)) {
 					if (SettingUtils.get(context, getString(R.string.preference_force_new_location), false)) {
 						String fakeLatLng = SettingUtils.get(context,
-								getString(R.string.preference_fake_current_location), "");
+							getString(R.string.preference_fake_current_location), "");
 						if (TextUtils.isEmpty(fakeLatLng)) {
 							location = null;
 						}
@@ -403,7 +402,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					// Extract relevant data here
 					LaunchHotelData launchHotelData = new LaunchHotelData();
 					List<Property> properties = searchResponse.getFilteredAndSortedProperties(HotelFilter.Sort.DEALS,
-							NUM_HOTEL_PROPERTIES, Db.getHotelSearch().getSearchParams());
+						NUM_HOTEL_PROPERTIES, Db.getHotelSearch().getSearchParams());
 					launchHotelData.setProperties(properties);
 					launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
 					Db.setLaunchHotelData(launchHotelData);
@@ -473,7 +472,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				}
 				else if (suggestResponse.hasErrors()) {
 					Log.w("Got an error response from server autocompleting for: " + destinationId + ", "
-							+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
+						+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
 					continue;
 				}
 
@@ -574,7 +573,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				}
 				else if (suggestResponse.hasErrors()) {
 					Log.w("Got an error response from server autocompleting for: " + hotel.getDestination() + ", "
-							+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
+						+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
 					continue;
 				}
 
@@ -788,6 +787,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// to clean immediately, but others if you clean them immediately it
 	// makes it ugly
 
+	@Override
 	public void cleanUp() {
 		Log.d("LaunchFragment.cleanUp()");
 
@@ -836,6 +836,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	/**
 	 * Completely resets the results.  Should only be used before initViews()
 	 */
+	@Override
 	public void reset() {
 		Db.setLaunchFlightData(null);
 		Db.setLaunchHotelData(null);
@@ -901,6 +902,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// We also need to use both preDraw and onGlobalLayout, as sometimes one
 	// or the other is only called.
 
+	@Override
 	public void startMarquee() {
 		ViewTreeObserver vto = mHotelsStreamListView.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(this);
@@ -953,16 +955,4 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			cleanUp();
 		}
 	};
-
-	//////////////////////////////////////////
-	// INTERFACES
-
-	/**
-	 * If we attach to an activity that implements this we will notify that activity we are attached.
-	 * This is useful for getting references to fragments that are in viewpagers
-	 */
-	public interface LaunchFragmentListener {
-		public void onLaunchFragmentAttached(LaunchFragment frag);
-	}
-
 }

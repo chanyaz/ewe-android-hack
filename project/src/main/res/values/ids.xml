@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
     <item name="check_in_time" type="id"/>
     <item name="check_out_time" type="id"/>
@@ -34,29 +34,6 @@
 
     <item name="calendar_flight_desc_support_TEMPLATE_tvly" type="string"/>
     <item name="calendar_flight_desc_itinerary_TEMPLATE_tvly" type="string"/>
-
-    <!-- adding below ids. These are the images used in Tvly app home screen. -->
-    <item name="bg_launch_tvly_sf" type="drawable"/>
-    <item name="bg_launch_tvly_las_vegas" type="drawable"/>
-    <item name="bg_launch_tvly_london" type="drawable"/>
-    <item name="bg_launch_tvly_paris" type="drawable"/>
-    <item name="bg_launch_tvly_swiss" type="drawable"/>
-    <item name="bg_launch_tvly_japan" type="drawable"/>
-    <item name="bg_launch_tvly_rome" type="drawable"/>
-    <item name="bg_launch_tvly_venice" type="drawable"/>
-    <item name="bg_launch_tvly_seattle" type="drawable"/>
-    <item name="bg_launch_tvly_ny" type="drawable"/>
-    <item name="bg_launch_tvly_chicago" type="drawable"/>
-    <item name="bg_launch_tvly_china" type="drawable"/>
-    <item name="bg_launch_tvly_dallas" type="drawable"/>
-    <item name="bg_launch_tvly_arizona" type="drawable"/>
-    <item name="bg_launch_tvly_maldives" type="drawable"/>
-
-    <!-- adding below ids. These are the images used in AAG app home screen. -->
-    <item name="aag_home_page_background" type="drawable"/>
-    <item name="aag_text_logo" type="drawable"/>
-    <item name="aag_flight_button_selector" type="drawable"/>
-    <item name="aag_hotel_button_selector" type="drawable"/>
 
     <!-- for visibility of Tvly CA Url string id while compiling ExpediaApp-->
     <item name="travelocity_info_url_CA" type="string"/>

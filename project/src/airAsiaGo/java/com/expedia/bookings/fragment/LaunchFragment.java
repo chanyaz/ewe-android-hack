@@ -8,19 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.util.Ui;
 
-public class AirAsiaGoLauncherFragment extends Fragment {
+public class LaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
 	private boolean mLaunchingActivity = false;
-
-	public static AirAsiaGoLauncherFragment newInstance() {
-		return new AirAsiaGoLauncherFragment();
-	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,4 +59,28 @@ public class AirAsiaGoLauncherFragment extends Fragment {
 			}
 		}
 	};
+
+	////////////////////////////////////////////////////////////
+	// IPhoneLaunchActivityLaunchFragment
+	//
+	// Note: If you intend to add code to these methods, make sure to override
+	// onAttach and invoke IPhoneLaunchFragmentListener.onLaunchFragmentAttached,
+	// otherwise PhoneLaunchActivity will never grab reference to this Fragment
+	// instance and thus will not be able to invoke the following methods.
+
+	@Override
+	public void startMarquee() {
+		// No work required
+	}
+
+	@Override
+	public void cleanUp() {
+		// No work required
+	}
+
+	@Override
+	public void reset() {
+		// No work required
+	}
+
 }
