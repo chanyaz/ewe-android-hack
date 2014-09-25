@@ -61,13 +61,13 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -144,23 +144,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 
 		// We should ALWAYS have an instance of the HotelBookingFragment and FlightBookingFragment.
-		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability
-		mHotelBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), HotelBookingFragment.TAG);
+		// Hence we should not use FragmentAvailabilityUtils.setFragmentAvailability
 
-		if (mHotelBookingFrag == null && Db.getTripBucket().getHotel() != null) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			mHotelBookingFrag = new HotelBookingFragment();
-			ft.add(mHotelBookingFrag, HotelBookingFragment.TAG);
-			ft.commit();
+		if (Db.getTripBucket().getHotel() != null) {
+			mHotelBookingFrag = Ui.findOrAddSupportFragment(getActivity(), View.NO_ID, HotelBookingFragment.class, HotelBookingFragment.TAG);
 		}
 
-		mFlightBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), FlightBookingFragment.TAG);
-
-		if (mFlightBookingFrag == null && Db.getTripBucket().getFlight() != null) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			mFlightBookingFrag = new FlightBookingFragment();
-			ft.add(mFlightBookingFrag, FlightBookingFragment.TAG);
-			ft.commit();
+		if (Db.getTripBucket().getFlight() != null) {
+			mFlightBookingFrag = Ui.findOrAddSupportFragment(getActivity(), View.NO_ID, FlightBookingFragment.class, FlightBookingFragment.TAG);
 		}
 	}
 
