@@ -136,8 +136,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		// Required field that makes Parcelables from a Parcel
 		@SuppressWarnings("unused")
-		public static final Parcelable.Creator<SavedState> CREATOR =
-				new Parcelable.Creator<SavedState>() {
+		public static final Creator<SavedState> CREATOR =
+				new Creator<SavedState>() {
 					public SavedState createFromParcel(Parcel in) {
 						return new SavedState(in);
 					}

@@ -170,6 +170,7 @@ android {
 
         expediaAutomation {
             java.srcDirs = ['src/expedia/java']
+            res.srcDirs = ['src/expedia/res']
             manifest.srcFile 'src/expedia/AndroidManifest.xml'
         }
 
