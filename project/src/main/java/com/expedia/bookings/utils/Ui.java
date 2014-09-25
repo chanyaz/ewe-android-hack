@@ -9,7 +9,6 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewStub;
@@ -100,14 +99,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 			catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-			FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-			if (containerViewId == View.NO_ID) {
-				transaction.add(fragment, tag);
-			}
-			else {
-				transaction.add(containerViewId, fragment, tag);
-			}
-			transaction.commit();
+			activity.getSupportFragmentManager().beginTransaction().add(containerViewId, fragment, tag).commit();
 		}
 		return fragment;
 	}
