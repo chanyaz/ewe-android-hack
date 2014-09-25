@@ -47,6 +47,7 @@ public class AdX {
 
 	private static void connect(String pos, boolean launchedAgain) {
 		if (!sConnected) {
+			AdXConnect.setKey("f2d75b7e-ed66-4f96-cf66-870f4c6b723e");
 			AdXConnect.getAdXConnectInstance(sAppContext, launchedAgain, sLogLevel);
 			sConnected = true;
 		}
