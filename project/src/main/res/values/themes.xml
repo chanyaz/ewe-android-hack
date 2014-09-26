@@ -186,6 +186,7 @@
         <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
         <item name="flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
+        <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
