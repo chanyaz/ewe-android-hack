@@ -2221,7 +2221,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
+    <string name="this_app_makes_use_of_the_following">This app makes use of the following open-source libraries:</string>
 
     <!-- App support WebView -->
     <!-- menu -->
