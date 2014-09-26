@@ -12,6 +12,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -224,6 +225,20 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
 			bucketDateRange.setText(dateRange);
 		}
+
+		// Set up an observer to hide the date range if it overlaps "your trip" in this language
+		// (I'm looking at you, vi_VN)
+		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				TextView bucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
+				TextView yourTrip = Ui.findView(mRootC, R.id.your_trip_tv);
+				if (bucketDateRange.getWidth() > 0 && yourTrip.getWidth() > 0) {
+					bucketDateRange.setVisibility(yourTrip.getRight() > bucketDateRange.getLeft() ? View.INVISIBLE : View.VISIBLE);
+					mRootC.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				}
+			}
+		});
 	}
 
 	public void setState(CheckoutTripBucketState state, boolean animate) {
