@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,14 +66,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 		mListener = Ui.findFragmentListener(this, FlightTripPriceFragmentListener.class, false);
 
-		mFlightBookingFragment = Ui.findSupportFragment(this, FlightBookingFragment.TAG);
-
-		if (mFlightBookingFragment == null) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			mFlightBookingFragment = new FlightBookingFragment();
-			ft.add(mFlightBookingFragment, FlightBookingFragment.TAG);
-			ft.commit();
-		}
+		mFlightBookingFragment = Ui.findOrAddSupportFragment(getActivity(), View.NO_ID, FlightBookingFragment.class, FlightBookingFragment.TAG);
 	}
 
 	@Override
