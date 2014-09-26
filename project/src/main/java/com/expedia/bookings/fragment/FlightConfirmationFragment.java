@@ -70,7 +70,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		// Only display the animation the first time the page loads
 		if (savedInstanceState == null) {
 			LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(),
-					R.anim.layout_card_slide);
+				R.anim.layout_card_slide);
 			cardContainer.setLayoutAnimation(controller);
 		}
 
@@ -79,7 +79,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		// Measure the frontmost card - we need to know its height to correctly size the fake cards
 		FlightLeg frontmostLeg = trip.getLeg(0);
 		FlightLegSummarySection card = Ui.inflate(inflater, R.layout.section_flight_leg_summary,
-				cardContainer, false);
+			cardContainer, false);
 		card.bind(trip, frontmostLeg, Db.getBillingInfo());
 		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);
 		card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
@@ -116,7 +116,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		if (frontmostLeg.getDaySpan() > 0) {
 			ViewGroup actionContainer = Ui.findView(v, R.id.action_container);
 			((MarginLayoutParams) actionContainer.getLayoutParams()).topMargin = res
-					.getDimensionPixelSize(R.dimen.flight_card_with_span_mask_offset);
+				.getDimensionPixelSize(R.dimen.flight_card_with_span_mask_offset);
 		}
 
 		Ui.findView(v, R.id.action_container).setBackgroundResource(R.drawable.bg_confirmation_mask_flights);
@@ -139,32 +139,23 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.get_a_room_divider).setVisibility(View.GONE);
 		}
 
-		//Remove share and add to calendar
-		if(ExpediaBookingApp.IS_TRAVELOCITY) {
-			Ui.findView(v, R.id.share_action_text_view).setVisibility(View.GONE);
-			Ui.findView(v, R.id.ca_insurance_divider).setVisibility(View.GONE);
-			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
-			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
-		}
-		else {
-			Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				share();
+			}
+		});
+		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
+			Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					share();
+					addToCalendar();
 				}
 			});
-			if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
-				Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						addToCalendar();
-					}
-				});
-			}
-			else {
-				Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
-				Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
-			}
+		}
+		else {
+			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
 		if (canTrackWithFlightTrack()) {

@@ -431,7 +431,6 @@ public class ShareUtils {
 		body.append("\n");
 
 		//1683. VSC Don't show Android App crossSell text and link.
-		// Tvly also do not show Android App CrossSell
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale()
 				.getAppInfoUrl()));
@@ -440,6 +439,11 @@ public class ShareUtils {
 			body.append(mContext.getString(R.string.share_template_long_ad_aag, PointOfSale.getPointOfSale()
 				.getAppInfoUrl()));
 		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			body.append(mContext.getString(R.string.share_template_long_ad_tvly, PointOfSale.getPointOfSale()
+				.getAppInfoUrl()));
+		}
+
 
 		return body.toString();
 	}
@@ -554,12 +558,14 @@ public class ShareUtils {
 
 		//1683. VSC Don't show Android App crossSell text and link.
 		//1754. VSC Show the requested text which doesn't contain link to app.
-		// Tvly also do not show Android App CrossSell
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
 		}
 		else if (ExpediaBookingApp.IS_AAG) {
 			builder.append(mContext.getString(R.string.share_template_long_ad_aag, downloadUrl));
+		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			builder.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
 		}
 
 		return builder.toString();

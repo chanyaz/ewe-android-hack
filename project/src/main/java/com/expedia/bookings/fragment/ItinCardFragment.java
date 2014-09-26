@@ -98,11 +98,6 @@ public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemCl
 				mItinCardContainer.fullScroll(View.FOCUS_UP);
 			}
 
-			//Remove share and add to calendar for travelocity
-			if(ExpediaBookingApp.IS_TRAVELOCITY) {
-				Ui.findView(activity, R.id.fragment_title_menu_layout).setVisibility(View.GONE);
-			}
-
 			return true;
 		}
 		else {

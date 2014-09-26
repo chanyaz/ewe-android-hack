@@ -983,11 +983,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		updateLayout();
-
-		//Remove overflow if travelocity and add to calendar not available.
-		if(ExpediaBookingApp.IS_TRAVELOCITY) {
-			Ui.findView(this, R.id.title_menu_layout).setVisibility(View.GONE);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

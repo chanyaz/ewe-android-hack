@@ -105,7 +105,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		int numGuests = params.getNumAdults() + params.getNumChildren();
 		String guests = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
 		String duration = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_ABBREV_MONTH);
+			| DateUtils.FORMAT_ABBREV_MONTH);
 		Ui.setText(v, R.id.stay_summary_text_view, getString(R.string.stay_summary_TEMPLATE, guests, duration));
 
 		// Setup a dropping animation with the hotel card.  Only animate on versions of Android
@@ -151,32 +151,23 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
 
-		//Remove share and add to calendar
-		if(ExpediaBookingApp.IS_TRAVELOCITY) {
-			Ui.findView(v, R.id.share_action_text_view).setVisibility(View.GONE);
-			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
-			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
-			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
-		}
-		else {
-			Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				share();
+			}
+		});
+		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
+			Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					share();
+					addToCalendar();
 				}
 			});
-			if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
-				Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						addToCalendar();
-					}
-				});
-			}
-			else {
-				Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
-				Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
-			}
+		}
+		else {
+			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
 		mSamsungDivider = Ui.findView(v, R.id.samsung_divider);
