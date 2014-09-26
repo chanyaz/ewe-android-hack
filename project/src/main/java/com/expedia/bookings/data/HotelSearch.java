@@ -119,10 +119,8 @@ public class HotelSearch implements JSONable {
 	 */
 	public void setSelectedRate(Rate rate) {
 		HotelAvailability availability = getAvailability(mSelectedProperty.getPropertyId());
-		if (availability != null) {
-			availability.setSelectedRate(rate);
-			Events.post(new Events.HotelRateSelected());
-		}
+		availability.setSelectedRate(rate);
+		Events.post(new Events.HotelRateSelected());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
