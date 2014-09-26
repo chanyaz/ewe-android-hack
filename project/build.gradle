@@ -125,11 +125,6 @@ android {
         }
     }
 
-    // Add the HockeyMeta extension to all build types
-    buildTypes.all { buildType ->
-        buildType.extensions.create("hockey", HockeyExtension)
-    }
-
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -141,7 +136,6 @@ android {
         latest.initWith(buildTypes.debug)
         latest {
             applicationIdSuffix ".latest"
-            hockey.enabled true
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
@@ -150,7 +144,6 @@ android {
         feature.initWith(buildTypes.debug)
         feature {
             applicationIdSuffix (".feature." + featureName)
-            hockey.enabled true
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH

@@ -34,7 +34,6 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
-import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 /**
@@ -69,7 +68,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	//Other
 	private boolean mBackButtonLocked = false;
-	private HockeyPuck mHockeyPuck;
 	private LineOfBusiness mLob;
 
 	boolean mIsBailing = false;
@@ -117,16 +115,11 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		ab.setCustomView(R.layout.actionbar_tablet_title);
 		TextView title = com.mobiata.android.util.Ui.findView(ab.getCustomView(), R.id.text1);
 		title.setText(R.string.Checkout);
-
-		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
-		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mHockeyPuck.onResume();
 		OmnitureTracking.onResume(this);
 	}
 
@@ -197,10 +190,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onCreateOptionsMenu(menu);
-		}
-
 		//We allow debug users to jump between states
 		if (!AndroidUtils.isRelease(this)) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
@@ -224,11 +213,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
-
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onPrepareOptionsMenu(menu);
-		}
-
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -242,10 +226,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
-			return true;
-		}
-
-		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 

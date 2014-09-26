@@ -63,7 +63,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
-import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
@@ -118,7 +117,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
 	private boolean mBackButtonLocked = false;
 	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
-	private HockeyPuck mHockeyPuck;
 	private boolean mDoingFlightsAddToBucket = false;
 	private boolean mDoingHotelsAddToBucket = false;
 
@@ -181,10 +179,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
-		mHockeyPuck.onCreate(savedInstanceState);
-
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), false);
 		registerStateListener(mStateListener, false);
@@ -226,7 +220,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		Events.register(this);
 		mTripBucketFrag.bindToDb();
 		OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
-		mHockeyPuck.onResume();
 		OmnitureTracking.onResume(this);
 	}
 
@@ -244,10 +237,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		boolean retVal = super.onCreateOptionsMenu(menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
-
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onCreateOptionsMenu(menu);
-		}
 
 		//We allow debug users to jump between states
 		if (!AndroidUtils.isRelease(this)) {
@@ -287,11 +276,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
-
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onPrepareOptionsMenu(menu);
-		}
-
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -305,10 +289,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
-			return true;
-		}
-
-		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 

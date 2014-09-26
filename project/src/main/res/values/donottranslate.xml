@@ -23,9 +23,6 @@
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">131538103586818</string>
 
-    <!-- Default HockeyApp id entry for Eclipse builds. This gets overridden in the Gradle build scripts -->
-    <string name="hockey_app_id">1234567890</string>
-
     <!-- Default AccountManager token -->
     <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
 

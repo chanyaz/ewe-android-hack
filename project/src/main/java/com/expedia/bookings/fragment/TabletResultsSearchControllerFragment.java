@@ -770,7 +770,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			if (mGrid.isLandscape()) {
 				// This is only to ensure the search controls shift left of the overflow menu. This
-				// overflow menu is only present for HockeyApp builds.
+				// overflow menu is only present for debug builds.
 				if (!AndroidUtils.isRelease(getActivity())) {
 					float transX = percentage * -searchBarHeight;
 					mOrigBtn.setTranslationX(transX);

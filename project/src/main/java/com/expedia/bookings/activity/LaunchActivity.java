@@ -44,7 +44,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class LaunchActivity extends FragmentActivity implements OnListModeChangedListener,
@@ -67,10 +66,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 	private int mPagerPosition = PAGER_POS_WATERFALL;
 	private boolean mHasMenu = false;
 
-	private HockeyPuck mHockeyPuck;
-
 	private String mJumpToItinId = null;
-
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
@@ -163,10 +159,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 
 		// Debug code to notify QA to open ExpediaDebug app
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
-
-		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
-		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -176,9 +168,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		// Clear mem caches
 		L2ImageCache.sGeneralPurpose.clearMemoryCache();
 		L2ImageCache.sDestination.clearMemoryCache();
-
-		//HockeyApp crash
-		mHockeyPuck.onResume();
 
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
@@ -216,13 +205,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		mHockeyPuck.onSaveInstanceState(outState);
-	}
-
-	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 
@@ -254,9 +236,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		getMenuInflater().inflate(R.menu.menu_launch, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onCreateOptionsMenu(menu);
-		}
 		mHasMenu = super.onCreateOptionsMenu(menu);
 		return mHasMenu;
 	}
@@ -304,10 +283,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		}
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
-
-		if (!AndroidUtils.isRelease(this)) {
-			mHockeyPuck.onPrepareOptionsMenu(menu);
-		}
 
 		return retVal;
 	}
@@ -363,10 +338,6 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
-			return true;
-		}
-
-		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 

@@ -25,8 +25,9 @@ class AndroidExpediaPlugin implements Plugin<Project> {
         BasePlugin plugin = project.plugins.getPlugin(AppPlugin);
         def variants = project.android.applicationVariants
 
-        // This block iterates over each build variant and injects tasks to (1) overwrite AndroidManifest
-        // values and inject manifest tags for HockeyApp builds (2) write Android resource values overrides.
+        // This block iterates over each build variant and injects tasks to
+        // (1) Overwrite AndroidManifest values
+        // (2) Write Android resource values overrides
         variants.all { variant ->
             // Android values resources to be written for override
             def resourceOverridePairs = []
@@ -40,11 +41,6 @@ class AndroidExpediaPlugin implements Plugin<Project> {
                 generateUniqueContentProviderStrings(variant, contentProviderBuildStringsPath, contentProviderOverridePairs)
                 generateHomescreenLauncherAppNameLabel(project, variant, resourceOverridePairs)
                 generateAccountManagerTypeToken(variant, resourceOverridePairs)
-
-                if (variant.buildType.hockey.enabled) {
-                    generateHockeyAppId(project, resourceOverridePairs)
-                    enableHockeyApp(resourceOverridePairs)
-                }
 
                 writeOverridesToStringResourceFile(resourceOverridePairs, contentProviderOverridePairs, getCustomOverrideResDir(variant))
             }
@@ -66,10 +62,6 @@ class AndroidExpediaPlugin implements Plugin<Project> {
 
                 modifyPushNotificationPermission(manifest, namespace, packageName)
                 modifyContentProviderAuthorities(applicationNode, namespace, contentProviderOverridePairs)
-
-                if (variant.buildType.hockey.enabled) {
-                    injectBuildNumberMetaData(applicationNode, namespace, jenkinsBuildNumber)
-                }
 
                 // Write the Manifest modifications back to file
                 def xmlWriter = new XmlNodePrinter(new PrintWriter(new FileWriter(manifestFile)))
@@ -122,33 +114,6 @@ class AndroidExpediaPlugin implements Plugin<Project> {
                 }
             }
         }
-    }
-
-    /////////////////// HOCKEYAPP ///////////////////
-
-    // Specifies the HockeyApp buildNumber meta-data tag from the AndroidManifest as the Jenkins build number
-    // system environment variable. Required for HockeyApp versioning. See documentation:
-    // http://hockeyapp.net/blog/2013/07/03/hockeysdk-android-3-0-release-notes.html
-
-    def injectBuildNumberMetaData(applicationNode, namespace, buildNumber) {
-        def hockeyUpdateActivityTag = new Node(applicationNode, 'activity')
-        hockeyUpdateActivityTag.attributes()[namespace.name] = 'net.hockeyapp.android.UpdateActivity'
-
-        def hockeyBuildNumberMetaDataTag = new Node(applicationNode, 'meta-data')
-        hockeyBuildNumberMetaDataTag.attributes()[namespace.name] = 'buildNumber'
-        hockeyBuildNumberMetaDataTag.attributes()[namespace.value] = buildNumber
-    }
-
-    // Note: I am thinking of migrating this to BuildConfig, but this change would require some legitimate
-    // changes to the HockeyApp utilities from AndroidUtils.git, so we just override the Android resource
-    // value for now.
-    def enableHockeyApp(resourceOverridePairs) {
-        resourceOverridePairs.add(new AndroidResource("bool", "hockeyapp_enabled", true))
-    }
-
-    def generateHockeyAppId(project, resourceOverridePairs) {
-        def hockeyId = GradleUtil.getPropertyWithDefault(project, "hockeyId", "notDefined")
-        resourceOverridePairs.add(new AndroidResource("string", "hockey_app_id", hockeyId))
     }
 
     /////////////////// PUSH NOTIFICATIONS ///////////////////

@@ -27,7 +27,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -43,9 +42,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	// Fragments
 	TabletLaunchControllerFragment mControllerFragment;
-
-	// HockeyApp
-	private HockeyPuck mHockeyPuck;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +61,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
-		mHockeyPuck.onCreate(savedInstanceState);
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
 	}
 
@@ -77,7 +71,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Events.register(this);
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
-		mHockeyPuck.onResume();
 		OmnitureTracking.onResume(this);
 	}
 
@@ -86,12 +79,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		super.onPause();
 		OmnitureTracking.onPause();
 		Events.unregister(this);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -121,7 +108,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 			if (!AndroidUtils.isRelease(this)) {
 				DebugMenu.onCreateOptionsMenu(this, menu);
-				mHockeyPuck.onCreateOptionsMenu(menu);
 			}
 		}
 
@@ -133,7 +119,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		if (mControllerFragment.shouldDisplayMenu()) {
 			if (!AndroidUtils.isRelease(this)) {
 				DebugMenu.onPrepareOptionsMenu(this, menu);
-				mHockeyPuck.onPrepareOptionsMenu(menu);
 			}
 		}
 
@@ -164,10 +149,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
-			return true;
-		}
-
-		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 
