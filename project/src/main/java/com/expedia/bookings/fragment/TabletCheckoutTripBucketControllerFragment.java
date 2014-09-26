@@ -12,7 +12,6 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -73,7 +72,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private FrameLayoutTouchController mTouchBlocker;
 
 	// Views
-	private TextView mBucketDateRange;
 	private ViewGroup mBucketContainer;
 	private ScrollView mBucketScrollView;
 	private View mBucketDimmer;
@@ -128,27 +126,6 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
 		mBucketFlightContainerContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container_container);
 
-		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
-			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
-			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
-
-			String dateRange = DateUtils.formatDateRange(getActivity(), start, end,
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
-			mBucketDateRange.setText(dateRange);
-		}
-		else if (getLob() == LineOfBusiness.HOTELS) {
-			// Hotels
-			LocalDate checkIn = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate();
-			LocalDate checkOut = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
-			String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
-			mBucketDateRange.setText(dateRange);
-		}
-
 		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
 		mPortraitShowHideContainer = Ui.findView(mRootC, R.id.trip_bucket_show_hide_container);
 		mBucketScrollView = Ui.findView(mRootC, R.id.trip_bucket_scroll);
@@ -178,7 +155,9 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		mHotelSpacer = Ui.findView(mRootC, R.id.hotel_spacer);
 		mDummySpacer = Ui.findView(mRootC, R.id.dummy_spacer);
 
-		updateViews();
+		updateNumberOfItems();
+		updateDateRange();
+
 		return mRootC;
 	}
 
@@ -206,7 +185,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		outState.putString(SAVED_STATE, mStateManager.getState().name());
 	}
 
-	public void updateViews() {
+	private void updateNumberOfItems() {
 		TextView numText = Ui.findView(mRootC, R.id.number_of_items_in_trip_textview);
 		TextView itemsText = Ui.findView(mRootC, R.id.items_in_trip_textview);
 		if (numText != null && itemsText != null) {
@@ -221,6 +200,29 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 			numText.setText("" + numItemsInTripBucket);
 			itemsText.setText(getResources().getQuantityString(R.plurals.items_in_trip, numItemsInTripBucket));
+		}
+	}
+
+	private void updateDateRange() {
+		TextView bucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
+			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+
+			String dateRange = DateUtils.formatDateRange(getActivity(), start, end,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+			bucketDateRange.setText(dateRange);
+		}
+		else if (getLob() == LineOfBusiness.HOTELS) {
+			// Hotels
+			LocalDate checkIn = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate();
+			LocalDate checkOut = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
+			String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+			bucketDateRange.setText(dateRange);
 		}
 	}
 
@@ -534,7 +536,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		if (lob == LineOfBusiness.FLIGHTS) {
 			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 			if (hotel != null && !hotel.hasBeenPurchased()) {
-				updateViews();
+				updateNumberOfItems();
+				updateDateRange();
 				mBucketHotelFrag.triggerTripBucketBookAction(LineOfBusiness.HOTELS);
 				setFragmentState(mStateManager.getState());
 			}
@@ -545,7 +548,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		else {
 			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 			if (flight != null && !flight.hasBeenPurchased()) {
-				updateViews();
+				updateNumberOfItems();
+				updateDateRange();
 				mBucketFlightFrag.triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
 				setFragmentState(mStateManager.getState());
 			}
