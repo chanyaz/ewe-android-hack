@@ -1506,6 +1506,9 @@ public class ExpediaServices implements DownloadListener {
 		if (ExpediaBookingApp.IS_AAG) {
 			APP_NAME = "AAGBookings";
 		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			APP_NAME = "TravelocityBookings";
+		}
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
 			post.addHeader("MobiataPushName", APP_NAME);
 		}
