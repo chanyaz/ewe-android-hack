@@ -328,19 +328,27 @@ public class AdX {
 	}
 
 	private static void addCommonRetargeting() {
-			AdXConnect.setEventParameterOfName("a", 2601);
+		int adXPosIdentifier = 2601;
+
 		if (ExpediaBookingApp.IS_AAG) {
-			AdXConnect.setEventParameterOfName("a", 6259);
-		}
-			if (Db.getUser() != null) {
-				final String customerId = Db.getUser().getTuidString();
-				AdXConnect.setEventParameter(AdXConnect.ADX_CUSTOMERID, customerId);
+			adXPosIdentifier = 6259;
+
+			// For AirAsiaGo Thailand setting a separate ID.
+			if (PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase().equals("th")) {
+				adXPosIdentifier = 6258;
 			}
-			AdXConnect.setEventParameterOfName("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
-			final String loggedIn = User.isLoggedIn(sAppContext) ? "loggedin | hard" : "unknown user";
-			AdXConnect.setEventParameterOfName("fb_logged_in", loggedIn);
-			final String rewardStatus = Db.getUser() != null && Db.getUser().isRewardsUser() ? "rewardsMember" : "notRewardsMember";
-			AdXConnect.setEventParameterOfName("fb_reward_status", rewardStatus);
+		}
+		AdXConnect.setEventParameterOfName("a", adXPosIdentifier);
+
+		if (Db.getUser() != null) {
+			final String customerId = Db.getUser().getTuidString();
+			AdXConnect.setEventParameter(AdXConnect.ADX_CUSTOMERID, customerId);
+		}
+		AdXConnect.setEventParameterOfName("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
+		final String loggedIn = User.isLoggedIn(sAppContext) ? "loggedin | hard" : "unknown user";
+		AdXConnect.setEventParameterOfName("fb_logged_in", loggedIn);
+		final String rewardStatus = Db.getUser() != null && Db.getUser().isRewardsUser() ? "rewardsMember" : "notRewardsMember";
+		AdXConnect.setEventParameterOfName("fb_reward_status", rewardStatus);
 	}
 
 	private static void addCommonProductRetargeting(String city, String state, String country) {
