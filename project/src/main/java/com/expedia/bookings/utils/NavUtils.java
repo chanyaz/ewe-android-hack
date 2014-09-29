@@ -20,9 +20,9 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
+import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
-import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
 import com.expedia.bookings.data.Codes;
@@ -140,7 +140,7 @@ public class NavUtils {
 			routingTarget = HotelBookingActivity.class;
 		}
 		else {
-			routingTarget = PhoneSearchActivity.class;
+			routingTarget = HotelSearchActivity.class;
 		}
 
 		// Launch activity based on routing selection
@@ -216,8 +216,8 @@ public class NavUtils {
 			activity.finish();
 		}
 		else {
-			// Launch search activity (new search should start automatically due to blank data)
-			Intent intent = new Intent(context, PhoneSearchActivity.class);
+			// Launch hotel search activity (new search should start automatically due to blank data)
+			Intent intent = new Intent(context, HotelSearchActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			context.startActivity(intent);
 		}
@@ -355,7 +355,7 @@ public class NavUtils {
 		Class<? extends Activity> routingTarget;
 
 		// Send user to hotelListing by default
-		routingTarget = PhoneSearchActivity.class;
+		routingTarget = HotelSearchActivity.class;
 
 		Intent intent = new Intent(context, routingTarget);
 		context.startActivity(intent);

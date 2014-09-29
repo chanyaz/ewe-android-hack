@@ -147,7 +147,7 @@
         <!-- Hotels activities -->
 
         <activity
-            android:name="com.expedia.bookings.activity.PhoneSearchActivity"
+            android:name="com.expedia.bookings.activity.HotelSearchActivity"
             android:theme="@style/Theme.Phone"
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />

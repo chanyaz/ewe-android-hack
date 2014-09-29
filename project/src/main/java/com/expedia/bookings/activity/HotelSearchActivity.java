@@ -128,7 +128,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
-public class PhoneSearchActivity extends FragmentActivity implements OnDrawStartedListener,
+public class HotelSearchActivity extends FragmentActivity implements OnDrawStartedListener,
 	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 	LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -289,7 +289,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			ExpediaServices services = new ExpediaServices(HotelSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			if (mEditedSearchParams != null) {
 				throw new RuntimeException("edited search params not commited or cleared before search");
@@ -309,7 +309,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	private final Download<HotelOffersResponse> mSearchHotelDownload = new Download<HotelOffersResponse>() {
 		@Override
 		public HotelOffersResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			ExpediaServices services = new ExpediaServices(HotelSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_SEARCH, services);
 			if (mEditedSearchParams != null) {
 				throw new RuntimeException("edited search params not commited or cleared before search");
@@ -332,7 +332,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	private final Download<HotelOffersResponse> mHotelInfoDownload = new Download<HotelOffersResponse>() {
 		@Override
 		public HotelOffersResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			ExpediaServices services = new ExpediaServices(HotelSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_INFO, services);
 			Property selectedProperty = new Property();
 			selectedProperty.setPropertyId(Db.getHotelSearch().getSearchParams().getRegionId());
@@ -361,7 +361,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 		else if (offersResponse.hasErrors()) {
 			String message = getString(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
 			for (ServerError error : offersResponse.getErrors()) {
-				message = error.getPresentableMessage(PhoneSearchActivity.this);
+				message = error.getPresentableMessage(HotelSearchActivity.this);
 			}
 			simulateErrorResponse(message);
 		}
@@ -381,7 +381,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 
 			// Forward to the hotel detail screen if the user searched by hotel name and selected one.
-			startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
+			startActivity(HotelDetailsFragmentActivity.createIntent(HotelSearchActivity.this));
 
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse());
 		}
@@ -414,7 +414,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 				break;
 			}
 			searchResponse.setFilter(filter);
-			filter.addOnFilterChangedListener(PhoneSearchActivity.this);
+			filter.addOnFilterChangedListener(HotelSearchActivity.this);
 
 			if (searchResponse.getFilteredPropertiesCount(Db.getHotelSearch().getSearchParams()) <= 10) {
 				Log.i("Initial search results had not many results, expanding search radius filter to show all.");
@@ -471,7 +471,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	public static Intent createIntent(Context context, boolean startNewSearch) {
-		Intent intent = new Intent(context, PhoneSearchActivity.class);
+		Intent intent = new Intent(context, HotelSearchActivity.class);
 		if (startNewSearch) {
 			intent.putExtra(EXTRA_NEW_SEARCH, true);
 		}
@@ -816,7 +816,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 					// The user found a better version of the search they ran,
 					// so we'll replace it from startSearchDownloader
-					Search.delete(PhoneSearchActivity.this, searchParams);
+					Search.delete(HotelSearchActivity.this, searchParams);
 
 					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
@@ -849,7 +849,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					SocialUtils.openSite(PhoneSearchActivity.this, error.getExtra("url"));
+					SocialUtils.openSite(HotelSearchActivity.this, error.getExtra("url"));
 				}
 			});
 			builder.setNegativeButton(R.string.cancel, null);
@@ -1101,7 +1101,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			// Inflate a menu resource providing context menu items
 			mode.getMenuInflater().inflate(R.menu.action_mode_search, menu);
 			final MenuItem searchMenuItem = menu.findItem(R.id.menu_select_search);
-			Button searchButton = Ui.inflate(PhoneSearchActivity.this, R.layout.actionbar_checkmark_item, null);
+			Button searchButton = Ui.inflate(HotelSearchActivity.this, R.layout.actionbar_checkmark_item, null);
 			searchButton.setText(getString(R.string.SEARCH));
 			ViewUtils.setAllCaps(searchButton);
 
@@ -1174,7 +1174,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 		mLocationFragment.find(new FusedLocationProviderListener() {
 			@Override
 			public void onFound(Location currentLocation) {
-				PhoneSearchActivity.this.onLocationFound(currentLocation);
+				HotelSearchActivity.this.onLocationFound(currentLocation);
 			}
 
 			@Override
@@ -1570,7 +1570,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
 		public void onDownload(List<Address> results) {
 			if (results == null || results.size() == 0) {
-				OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "LocationNotFound");
+				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "LocationNotFound");
 				simulateErrorResponse(R.string.geolocation_failed);
 			}
 			else {
@@ -1593,7 +1593,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 					// The user found a better version of the search they ran,
 					// so we'll replace it from startSearchDownloader
-					Search.delete(PhoneSearchActivity.this, searchParams);
+					Search.delete(HotelSearchActivity.this, searchParams);
 
 					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
@@ -1796,18 +1796,18 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 				// Deprecated client version
 				showDialog(DIALOG_CLIENT_DEPRECATED);
 
-				OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "OutdatedVersion");
+				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "OutdatedVersion");
 
 				showLoading(false, errorOne.getExtra("message"));
 			}
 			else {
-				showLoading(false, errorOne.getPresentableMessage(PhoneSearchActivity.this));
+				showLoading(false, errorOne.getPresentableMessage(HotelSearchActivity.this));
 			}
 			handledError = true;
 		}
 
 		if (!handledError) {
-			OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
+			OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "HotelListRequestFailed");
 			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 	}
@@ -2261,7 +2261,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 				numChildren));
 
-			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, searchParams.getChildren(),
+			GuestsPickerUtils.showOrHideChildAgeSpinners(HotelSearchActivity.this, searchParams.getChildren(),
 				mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
@@ -2304,7 +2304,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 				mAdultsNumberPicker.setMaxValue(numAdults);
 				mChildrenNumberPicker.setMinValue(numChildren);
 				mChildrenNumberPicker.setMaxValue(numChildren);
-				GuestsPickerUtils.configureAndUpdateDisplayedValues(PhoneSearchActivity.this, mAdultsNumberPicker,
+				GuestsPickerUtils.configureAndUpdateDisplayedValues(HotelSearchActivity.this, mAdultsNumberPicker,
 					mChildrenNumberPicker);
 			}
 		});
@@ -2498,7 +2498,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			adultsChanged = numAdults != searchParams.getNumAdults();
 
 			searchParams.setNumAdults(numAdults);
-			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, searchParams.getChildren(), numChildren);
+			GuestsPickerUtils.resizeChildrenList(HotelSearchActivity.this, searchParams.getChildren(), numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
@@ -2519,8 +2519,8 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			List<ChildTraveler> children = getCurrentSearchParams().getChildren();
-			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, children);
-			GuestsPickerUtils.updateDefaultChildTravelers(PhoneSearchActivity.this, children);
+			GuestsPickerUtils.setChildrenFromSpinners(HotelSearchActivity.this, mChildAgesLayout, children);
+			GuestsPickerUtils.updateDefaultChildTravelers(HotelSearchActivity.this, children);
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
