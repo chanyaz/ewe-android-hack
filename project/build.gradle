@@ -75,6 +75,9 @@ android {
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${buildNumber}\""
+
+        // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
+        resConfigs "da", "de", "en_CA", "en_GB", "es", "es_MX", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt", "sv", "th", "vi_VN", "zh", "zh_HK", "zh_TW"
     }
 
     productFlavors {
