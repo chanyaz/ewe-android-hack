@@ -11,15 +11,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class AdditionalFeesDialogFragment extends DialogFragment {
+public class FlightAdditionalFeesDialogFragment extends DialogFragment {
 
 	private static final String ARG_BAGGAGE_FEES_URL = "ARG_BAGGAGE_FEES_URL";
 	private static final String ARG_OB_FEES_URL = "ARG_OB_FEES_URL";
 
 	private FlightUtils.OnBaggageFeeViewClicked mCallback;
 
-	public static AdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl) {
-		AdditionalFeesDialogFragment fragment = new AdditionalFeesDialogFragment();
+	public static FlightAdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl) {
+		FlightAdditionalFeesDialogFragment fragment = new FlightAdditionalFeesDialogFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_BAGGAGE_FEES_URL, baggageFeesUrl);
 		args.putString(ARG_OB_FEES_URL, obFeesUrl);

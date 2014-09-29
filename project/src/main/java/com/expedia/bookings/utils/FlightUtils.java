@@ -5,7 +5,6 @@ import java.util.Set;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.AdditionalFeesDialogFragment;
+import com.expedia.bookings.fragment.FlightAdditionalFeesDialogFragment;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -141,7 +140,7 @@ public class FlightUtils {
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					AdditionalFeesDialogFragment dialogFragment = AdditionalFeesDialogFragment.newInstance(
+					FlightAdditionalFeesDialogFragment dialogFragment = FlightAdditionalFeesDialogFragment.newInstance(
 						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails());
 					dialogFragment.show(fragment.getChildFragmentManager(), "additionalFeesDialog");
 				}
