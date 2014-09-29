@@ -1,11 +1,12 @@
 Welcome
 =======
 
-This is the codebase that builds:
+This is the code base that builds:
 
  * [Expedia Hotels & Flights Android](https://play.google.com/store/apps/details?id=com.expedia.bookings)
  * [Hôtel Voyages-sncf](https://play.google.com/store/apps/details?id=com.expedia.bookings.vsc)
  * [Travelocity Hotels & Flights](https://play.google.com/store/apps/details?id=com.travelocity.android)
+ * [AirAsiaGo](https://play.google.com/store/apps/details?id=com.airasiago.android)
 
 Building
 ========
@@ -13,7 +14,7 @@ Building
 1. Download [Android Studio](http://developer.android.com/sdk/installing/studio.html).
 
 2. Ensure you have the latest SDK components to build our application. Specifically, you should look at the
-compileSdkVersion and buildToolsVersion from project/build.gradle and update your SDK to have those versions.
+`compileSdkVersion` and `buildToolsVersion` from project/build.gradle and update your SDK to have those versions.
 Update from the Android SDK manager, `<SDK-DIR>/tools/android`. Additionally, we require modules from the Extras
 section: *Android Support Repository* and *Google Repository*.
 
@@ -44,17 +45,17 @@ do this step again.
 Unit Tests
 ==========
 
-    $ ./gradlew assembleExpediaDebug assembleExpediaDebugTest
+    $ ./buildbot/build_tests.sh
     $ ./buildbot/unittest.sh
     $ open spoon/unit/index.html
 
 Happy Path Tests
 ================
 
-Happy path tests are run against the expediaAutomation product flavor. Make sure the device that will be running
+Happy path tests are run against the `expediaAutomation` product flavor. Make sure the device that will be running
 the tests has turned off animations: Window Animation, Transition Animation, Animator Duration. Then install and run:
 
-    $ ./gradlew assembleExpediaAutomationDebug assembleExpediaAutomationDebugTest
+    $ ./buildbot/build_tests.sh
     $ ./buildbot/happypath.sh
     $ open spoon/happy/index.html
 
