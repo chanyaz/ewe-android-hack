@@ -57,7 +57,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private SectionLocation mSectionLocation;
 	private ICheckoutDataListener mListener;
 	private boolean mFormOpen = false;
-	private BillingInfo mBillingInfo;
 
 	private ViewGroup mMeasureParent;
 
@@ -189,7 +188,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 				// Let's show airline fees (LCC Fees) or messages if any
 				if (getLob() == LineOfBusiness.FLIGHTS) {
-					mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+					BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 					if (mBillingInfo.getCardType() != null) {
 						FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 						if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
