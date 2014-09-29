@@ -2,11 +2,7 @@ package com.expedia.bookings.test.phone.tests.hotels;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonPaymentMethodScreen;
@@ -22,7 +18,6 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.PhoneTestCase;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;

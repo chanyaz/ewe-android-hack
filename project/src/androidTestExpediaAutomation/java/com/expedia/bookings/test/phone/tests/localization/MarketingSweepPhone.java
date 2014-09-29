@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.tablet.pagemodels.Common;
@@ -34,10 +34,10 @@ import com.mobiata.android.util.SettingUtils;
 /**
  * Created by dmadan on 6/30/14.
  */
-public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<RouterActivity> {
 
 	public MarketingSweepPhone() {
-		super(SearchActivity.class);
+		super(RouterActivity.class);
 	}
 
 	@Override

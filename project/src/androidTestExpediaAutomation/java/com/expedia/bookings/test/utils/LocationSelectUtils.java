@@ -6,12 +6,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.util.Pair;
 
-import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.activity.RouterActivity;
 
-public class LocationSelectUtils extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class LocationSelectUtils extends ActivityInstrumentationTestCase2<RouterActivity> {
 
 	public LocationSelectUtils() {
-		super("com.expedia.bookings", SearchActivity.class);
+		super("com.expedia.bookings", RouterActivity.class);
 	}
 
 	//20 busiest US Airports

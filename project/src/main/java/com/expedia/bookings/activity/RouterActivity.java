@@ -21,14 +21,14 @@ import com.expedia.bookings.utils.NavUtils;
  * http://android-developers.blogspot.com/2011/06/things-that-cannot-change.html
  *
  */
-public class SearchActivity extends Activity {
+public class RouterActivity extends Activity {
 
 	private Context mContext;
 
 	private static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 
 	public static Intent createIntent(Context context, boolean openedFromWidget) {
-		Intent intent = new Intent(context, SearchActivity.class);
+		Intent intent = new Intent(context, RouterActivity.class);
 		if (openedFromWidget) {
 			intent.putExtra(OPENED_FROM_WIDGET, true);
 		}

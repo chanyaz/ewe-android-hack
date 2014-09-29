@@ -73,19 +73,22 @@
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
-
         <!-- Our main launcher activity -->
 
         <activity
+            android:name="com.expedia.bookings.activity.RouterActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:exported="true"/>
+        <activity-alias
             android:name="com.expedia.bookings.activity.SearchActivity"
-            android:theme="@android:style/Theme.NoDisplay" >
+            android:targetActivity="com.expedia.bookings.activity.RouterActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
         <!-- Launcher activities -->
 

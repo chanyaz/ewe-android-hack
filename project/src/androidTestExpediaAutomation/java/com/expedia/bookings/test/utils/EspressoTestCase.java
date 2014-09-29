@@ -13,7 +13,7 @@ import android.view.WindowManager;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
@@ -27,7 +27,7 @@ import static com.expedia.bookings.test.utils.SpoonScreenshotUtils.getCurrentAct
  */
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase() {
-		super(SearchActivity.class);
+		super(RouterActivity.class);
 	}
 
 	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
