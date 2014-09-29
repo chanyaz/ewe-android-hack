@@ -59,11 +59,11 @@ import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragmentListener;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
+import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.fragment.NoFlightsFragment;
 import com.expedia.bookings.fragment.NoFlightsFragment.NoFlightsFragmentListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
-import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -111,7 +111,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	private Context mContext;
 
 	private BlurredBackgroundFragment mBgFragment;
-	private StatusFragment mStatusFragment;
+	private FlightSearchLoadingFragment mStatusFragment;
 	private FlightListFragment mListFragment;
 	private FlightDetailsFragment mFlightDetailsFragment;
 	private NoFlightsFragment mNoFlightsFragment;
@@ -174,7 +174,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 		// Try to recover any Fragments
 		mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
-		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
+		mStatusFragment = Ui.findSupportFragment(this, FlightSearchLoadingFragment.TAG);
 		mNoFlightsFragment = Ui.findSupportFragment(this, NoFlightsFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
@@ -378,13 +378,13 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	private void showLoadingFragment() {
 		if (mStatusFragment == null) {
-			mStatusFragment = new StatusFragment();
+			mStatusFragment = new FlightSearchLoadingFragment();
 		}
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.getBackStackEntryCount() == 0) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG);
+			ft.replace(R.id.content_container, mStatusFragment, FlightSearchLoadingFragment.TAG);
 			ft.addToBackStack(BACKSTACK_LOADING);
 			ft.commit();
 		}

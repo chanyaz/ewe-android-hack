@@ -7,7 +7,7 @@ import android.text.Html;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.StatusFragment;
+import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
@@ -24,11 +24,11 @@ public class FlightUnsupportedPOSActivity extends FragmentActivity {
 		setTitle(R.string.taking_off_soon);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		StatusFragment fragment = Ui.findSupportFragment(this, StatusFragment.TAG);
+		FlightSearchLoadingFragment fragment = Ui.findSupportFragment(this, FlightSearchLoadingFragment.TAG);
 
 		if (fragment == null) {
-			fragment = new StatusFragment();
-			getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment, StatusFragment.TAG)
+			fragment = new FlightSearchLoadingFragment();
+			getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment, FlightSearchLoadingFragment.TAG)
 					.commit();
 		}
 

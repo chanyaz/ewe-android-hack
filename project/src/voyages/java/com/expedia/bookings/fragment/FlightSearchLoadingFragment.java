@@ -1,11 +1,11 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.fragment.base.AbsStatusFragment;
+import com.expedia.bookings.fragment.base.AbsFlightSearchLoadingFragment;
 
 /**
  * Not needed
  */
-public class StatusFragment extends AbsStatusFragment {
+public class FlightSearchLoadingFragment extends AbsFlightSearchLoadingFragment {
 
 	@Override
 	public void showLoading(CharSequence loadingText) {

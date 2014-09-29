@@ -4,15 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.base.AbsStatusFragment;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.fragment.base.AbsFlightSearchLoadingFragment;
 import com.mobiata.android.util.Ui;
 
-public class StatusFragment extends AbsStatusFragment {
+public class FlightSearchLoadingFragment extends AbsFlightSearchLoadingFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

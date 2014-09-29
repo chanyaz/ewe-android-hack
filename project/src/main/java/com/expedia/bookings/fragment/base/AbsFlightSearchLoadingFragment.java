@@ -11,12 +11,12 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.util.Ui;
 
-public abstract class AbsStatusFragment extends android.support.v4.app.Fragment {
+public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.app.Fragment {
 
 	private static final String INSTANCE_TEXT = "INSTANCE_TEXT";
 	private static final String INSTANCE_IS_GROUNDED = "INSTANCE_IS_GROUNDED";
 
-	public static final String TAG = AbsStatusFragment.class.toString();
+	public static final String TAG = AbsFlightSearchLoadingFragment.class.toString();
 
 	protected TextView mMessageTextView;
 	protected View mCoverUpView;
