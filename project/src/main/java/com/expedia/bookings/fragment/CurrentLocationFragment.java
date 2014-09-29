@@ -10,12 +10,13 @@ import android.support.v4.app.FragmentTransaction;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.interfaces.IExpediaServicesListener;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 public class CurrentLocationFragment extends Fragment
-	implements ExpediaServicesFragment.ExpediaServicesFragmentListener,
+	implements IExpediaServicesListener,
 	FusedLocationProviderFragment.FusedLocationProviderListener,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
@@ -207,8 +208,8 @@ public class CurrentLocationFragment extends Fragment
 	}
 
 	@Override
-	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-		if (type == ExpediaServicesFragment.ServiceType.SUGGEST_NEARBY) {
+	public void onExpediaServicesDownload(ServiceType type, Response response) {
+		if (type == ServiceType.SUGGEST_NEARBY) {
 			if (response != null && !response.hasErrors() && response instanceof SuggestionResponse) {
 				SuggestionResponse suggestResponse = (SuggestionResponse) response;
 				if (suggestResponse.getSuggestions() != null && suggestResponse.getSuggestions().size() > 0) {

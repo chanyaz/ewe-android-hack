@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionSort;
+import com.expedia.bookings.interfaces.IExpediaServicesListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -27,7 +28,7 @@ public class LocationSuggestionsDownloadFragment extends Fragment {
 	private double mLon;
 	private boolean mDoDlOnResume = false;
 	private ExpediaServices mServices;
-	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
+	private IExpediaServicesListener mListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class LocationSuggestionsDownloadFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
+		mListener = Ui.findFragmentListener(this, IExpediaServicesListener.class);
 	}
 
 	@Override
@@ -115,7 +116,7 @@ public class LocationSuggestionsDownloadFragment extends Fragment {
 		@Override
 		public void onDownload(SuggestionResponse results) {
 			if (results != null && !results.hasErrors()) {
-				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.SUGGEST_NEARBY, results);
+				mListener.onExpediaServicesDownload(IExpediaServicesListener.ServiceType.SUGGEST_NEARBY, results);
 			}
 			else {
 				Log.e("SuggestionResponse is null or contains errors.");
