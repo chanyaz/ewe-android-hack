@@ -27,6 +27,30 @@ the Build Variants section via Help in the system bar.
 
 6. You should now be able to build the APK and then install on a device or emulator.
 
+Contributing
+============
+
+Do not commit directly to master unless you want to get yelled at. Submit a
+pull request from a branch created directly under this repository or from your
+fork from the following naming conventions:
+
+- Feature branch - `f/`
+-- Choose a good name so we can tell what the feature does. Try to be concise.
+-- eg. `f/air-attach-pricing`
+- Defect(s) branch - `d/`
+-- Choose a good name so we can tell what the defect fixed. Try to be concise.
+-- It is also fine to fix multiple defects as long as the commits are atomic and
+   have good information in them
+-- eg. `d/fix-air-attach-pricing`
+-- eg. `d/fix-various-flight-list-defects`
+- Release branch - `r/`
+-- Choose a good name so we can tell what the release is. Try to be concise.
+-- eg. `r/expedia-4.1.0`
+-- eg. `r/airasiago-1.0.0`
+- Work in progress/experiment branch - `w/`
+-- Choose a good name so we can tell what the experiment entails. Try to be concise.
+-- eg. `w/nfc-itin-sharing`
+
 Code Style
 ==========
 
