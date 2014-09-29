@@ -1,6 +1,7 @@
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
+def buildNumber = "$System.env.BUILD_NUMBER"
 
 def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
@@ -73,6 +74,7 @@ android {
 
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
+        buildConfigField "String", "BUILD_NUMBER",  "\"${buildNumber}\""
     }
 
     productFlavors {

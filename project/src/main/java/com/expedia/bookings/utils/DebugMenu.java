@@ -63,7 +63,7 @@ public class DebugMenu {
 	}
 
 	private static String getBuildNumberString(Context context) {
-		String buildNumber = AndroidUtils.getAlphaBuildNumber(context);
+		String buildNumber = BuildConfig.BUILD_NUMBER;
 		return context.getString(R.string.build_number, buildNumber);
 	}
 
