@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LaunchActivity;
+import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchActionBar;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
@@ -29,9 +29,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 5/23/14.
  */
-public class TripsLoginTestsE extends ActivityInstrumentationTestCase2<LaunchActivity> {
+public class TripsLoginTestsE extends ActivityInstrumentationTestCase2<PhoneLaunchActivity> {
 	public TripsLoginTestsE() {
-		super(LaunchActivity.class);
+		super(PhoneLaunchActivity.class);
 	}
 
 	private static final String TAG = TripsLoginTestsE.class.getName();

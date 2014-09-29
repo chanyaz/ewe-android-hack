@@ -44,9 +44,8 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
-public class LaunchActivity extends FragmentActivity implements OnListModeChangedListener,
+public class PhoneLaunchActivity extends FragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
@@ -78,7 +77,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 	 * @return
 	 */
 	public static Intent createIntent(Context context, Notification notification) {
-		Intent intent = new Intent(context, LaunchActivity.class);
+		Intent intent = new Intent(context, PhoneLaunchActivity.class);
 		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -101,7 +100,7 @@ public class LaunchActivity extends FragmentActivity implements OnListModeChange
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
-		setContentView(R.layout.activity_launch);
+		setContentView(R.layout.activity_phone_launch);
 		getWindow().setBackgroundDrawable(null);
 
 		// View Pager

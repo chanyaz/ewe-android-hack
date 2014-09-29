@@ -20,7 +20,7 @@ import android.support.v4.app.NotificationCompat;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.bookings.activity.LaunchActivity;
+import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -241,7 +241,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				clickIntent = ItineraryActivity.createIntent(mContext, mNotification);
 			}
 			else {
-				clickIntent = LaunchActivity.createIntent(mContext, mNotification);
+				clickIntent = PhoneLaunchActivity.createIntent(mContext, mNotification);
 			}
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 

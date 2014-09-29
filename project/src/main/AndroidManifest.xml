@@ -93,7 +93,7 @@
         <!-- Launcher activities -->
 
         <activity
-            android:name="com.expedia.bookings.activity.LaunchActivity"
+            android:name="com.expedia.bookings.activity.PhoneLaunchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" />

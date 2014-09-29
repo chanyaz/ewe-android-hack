@@ -21,7 +21,7 @@ import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.bookings.activity.LaunchActivity;
+import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
@@ -72,11 +72,11 @@ public class NavUtils {
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
-		Intent intent = new Intent(context, LaunchActivity.class);
+		Intent intent = new Intent(context, PhoneLaunchActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		if (forceShowWaterfall) {
-			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 		}
 
 		sendKillActivityBroadcast(context);
@@ -97,9 +97,9 @@ public class NavUtils {
 			builder.startActivities();
 		}
 		else {
-			intent = new Intent(context, LaunchActivity.class);
+			intent = new Intent(context, PhoneLaunchActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 			context.startActivity(intent);
 		}
 	}
