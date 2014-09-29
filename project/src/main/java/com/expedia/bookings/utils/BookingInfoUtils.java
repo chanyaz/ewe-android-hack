@@ -16,8 +16,8 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
-import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.CommonSectionValidators;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
@@ -150,7 +150,7 @@ public class BookingInfoUtils {
 				}
 			}
 			else if (lob == LineOfBusiness.FLIGHTS) {
-				TravelerFlowState state = TravelerFlowState.getInstance(context);
+				FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(context);
 				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
 					// International
 					useNewTraveler = !state.allTravelerInfoIsValidForInternationalFlight(currentFirstTraveler)

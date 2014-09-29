@@ -34,7 +34,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.FlightPaymentFlowState;
-import com.expedia.bookings.model.TravelerFlowState;
+import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
@@ -330,7 +330,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		travelers = Db.getTravelers();
 		final int numTravelers = travelers.size();
 
-		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+		FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 		boolean isInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
 		ArrayList<String> travelerBoxLabels = TravelerUtils.generateTravelerBoxLabels(getActivity(), travelers);
 
@@ -429,7 +429,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				allTravelersValid = false;
 			}
 			else {
-				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+				FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 				if (state == null) {
 					return false;
 				}

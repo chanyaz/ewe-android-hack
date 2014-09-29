@@ -13,23 +13,23 @@ import com.expedia.bookings.utils.Ui;
  * @author jdrotos
  *
  */
-public class TravelerFlowState {
+public class FlightTravelerFlowState {
 	Context mContext;
 
 	SectionTravelerInfo mTravelerInfoOne;
 	SectionTravelerInfo mTravelerInfoTwo;
 
-	private TravelerFlowState(Context context) {
+	private FlightTravelerFlowState(Context context) {
 		mContext = context;
 		mTravelerInfoOne = Ui.inflate(context, R.layout.section_flight_edit_traveler_pt1, null);
 		mTravelerInfoTwo = Ui.inflate(context, R.layout.section_flight_edit_traveler_pt2, null);
 	}
 
-	public static TravelerFlowState getInstance(Context context) {
+	public static FlightTravelerFlowState getInstance(Context context) {
 		if (context == null) {
 			return null;
 		}
-		return new TravelerFlowState(context);
+		return new FlightTravelerFlowState(context);
 	}
 
 	private void bind(Traveler travelerInfo) {

@@ -29,7 +29,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.model.TravelerFlowState;
+import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -284,7 +284,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			section.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+					FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 					mCurrentTraveler = section.getTraveler();
 					PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory();
 					mCurrentTraveler.setPassengerCategory(category);
@@ -342,7 +342,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler
 				.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
-			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+			FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 				boolean flightIsInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
 				if (!flightIsInternational) {
@@ -384,7 +384,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	private void refreshCurrentTraveler() {
-		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+		FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 		boolean international = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
 		boolean validDomesticTraveler = (state != null)
 			&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
