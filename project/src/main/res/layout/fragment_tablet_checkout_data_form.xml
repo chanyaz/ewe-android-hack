@@ -95,7 +95,7 @@
                 android:padding="16dp"/>
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/credit_card_fees_message"
+                android:id="@+id/form_entry_message_tv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/content_container"

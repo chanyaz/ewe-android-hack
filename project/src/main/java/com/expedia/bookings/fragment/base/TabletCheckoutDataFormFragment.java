@@ -35,12 +35,8 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	private ViewGroup mFormContentC;
 	private TextView mHeadingText;
 	private TextView mHeadingButton;
-	private TextView mCreditCardMessageTv;
+	private TextView mFormEntryMessageTv;
 	private TextView mBoardingMessageTv;
-
-	//Animation vars for the card message
-	private ObjectAnimator mLastCardMessageAnimator;
-	private boolean mCardMessageShowing = false;
 
 	private ICheckoutDataFormListener mListener;
 
@@ -60,7 +56,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		mFormContentC = Ui.findView(mRootC, R.id.content_container);
 		mHeadingText = Ui.findView(mRootC, R.id.header_tv);
 		mHeadingButton = Ui.findView(mRootC, R.id.header_text_button_tv);
-		mCreditCardMessageTv = Ui.findView(mRootC,R.id.credit_card_fees_message);
+		mFormEntryMessageTv = Ui.findView(mRootC,R.id.form_entry_message_tv);
 		mBoardingMessageTv = Ui.findView(mRootC,R.id.header_name_match_message);
 
 		if (showBoardingMessage()) {
@@ -72,6 +68,10 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		return mRootC;
 	}
 
+	public TextView getFormEntryMessageTextView() {
+		return mFormEntryMessageTv;
+	}
+
 	public void closeForm(boolean animate){
 		mListener.onFormRequestingClosure(this, animate);
 	}
@@ -79,12 +79,6 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	public void setHeadingText(CharSequence seq) {
 		if (mHeadingText != null) {
 			mHeadingText.setText(seq);
-		}
-	}
-
-	public void updateCardMessageText(String message) {
-		if (message != null) {
-			mCreditCardMessageTv.setText(Html.fromHtml(message));
 		}
 	}
 
@@ -135,88 +129,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		}
 	}
 
-	/**
-	 * Hide the card message OR display a default message.
-	 * Some POSes have messages like "Dont use debit cards" that need to display all the time.
-	 *
-	 * @param animate
-	 */
-	public void hideCardMessageOrDisplayDefault(boolean animate) {
-		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
-			Resources res = getResources();
-			updateCardMessageText(res.getString(R.string.debit_cards_not_accepted));
-			toggleCardMessage(true, animate);
-		}
-		else {
-			toggleCardMessage(false, animate);
-		}
-	}
 
-	/**
-	 * Toggle the message that displays above the virtual keyboard.
-	 *
-	 * @param show
-	 * @param animate
-	 */
-	public void toggleCardMessage(final boolean show, final boolean animate) {
-		if (!animate) {
-			if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
-				mLastCardMessageAnimator.end();
-			}
-			mCreditCardMessageTv.setVisibility(show ? View.VISIBLE : View.GONE);
-			mCardMessageShowing = show;
-		}
-		else {
-			int totalHeight = mCreditCardMessageTv.getHeight();
-			if (show && !mCardMessageShowing && totalHeight <= 0) {
-				mCreditCardMessageTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-					@Override
-					public boolean onPreDraw() {
-						mCreditCardMessageTv.getViewTreeObserver().removeOnPreDrawListener(this);
-						toggleCardMessage(show, animate);
-						return true;
-					}
-				});
-				mCreditCardMessageTv.setVisibility(View.VISIBLE);
-			}
-			else {
-				if (show != mCardMessageShowing) {
-					if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
-						mLastCardMessageAnimator.cancel();
-					}
-					float start = show ? mCreditCardMessageTv.getHeight() : 0f;
-					float end = show ? 0f : mCreditCardMessageTv.getHeight();
-
-					ObjectAnimator animator = ObjectAnimator.ofFloat(mCreditCardMessageTv, "translationY",
-						start, end);
-					animator.setDuration(300);
-					if (show) {
-						animator.addListener(new AnimatorListenerAdapter() {
-
-							@Override
-							public void onAnimationStart(Animator arg0) {
-								mCreditCardMessageTv.setVisibility(View.VISIBLE);
-							}
-
-						});
-					}
-					else {
-						animator.addListener(new AnimatorListenerAdapter() {
-
-							@Override
-							public void onAnimationEnd(Animator arg0) {
-								mCreditCardMessageTv.setVisibility(View.GONE);
-							}
-
-						});
-					}
-					mLastCardMessageAnimator = animator;
-					animator.start();
-					mCardMessageShowing = show;
-				}
-			}
-		}
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// CheckoutLoginButtonsFragment.ILoginStateChangedListener

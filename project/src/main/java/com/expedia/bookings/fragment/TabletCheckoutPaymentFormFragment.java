@@ -1,19 +1,26 @@
 package com.expedia.bookings.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -31,7 +38,6 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -54,6 +60,12 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private BillingInfo mBillingInfo;
 
 	private ViewGroup mMeasureParent;
+
+	private TextView mCreditCardMessageTv;
+
+	//Animation vars for the card message
+	private ObjectAnimator mLastCardMessageAnimator;
+	private boolean mCardMessageShowing = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -161,6 +173,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mSectionBillingInfo = Ui.inflate(this, R.layout.section_flight_edit_creditcard, null);
+			mCreditCardMessageTv = getFormEntryMessageTextView();
 		}
 
 		mSectionBillingInfo.setLineOfBusiness(getLob());
@@ -257,6 +270,95 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	public boolean isFormOpen() {
 		return mFormOpen;
+	}
+
+	public void updateCardMessageText(String message) {
+		if (message != null) {
+			mCreditCardMessageTv.setText(Html.fromHtml(message));
+		}
+	}
+
+	/**
+	 * Hide the card message OR display a default message.
+	 * Some POSes have messages like "Dont use debit cards" that need to display all the time.
+	 *
+	 * @param animate
+	 */
+	public void hideCardMessageOrDisplayDefault(boolean animate) {
+		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
+			Resources res = getResources();
+			updateCardMessageText(res.getString(R.string.debit_cards_not_accepted));
+			toggleCardMessage(true, animate);
+		}
+		else {
+			toggleCardMessage(false, animate);
+		}
+	}
+
+	/**
+	 * Toggle the message that displays above the virtual keyboard.
+	 *
+	 * @param show
+	 * @param animate
+	 */
+	public void toggleCardMessage(final boolean show, final boolean animate) {
+		if (!animate) {
+			if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
+				mLastCardMessageAnimator.end();
+			}
+			mCreditCardMessageTv.setVisibility(show ? View.VISIBLE : View.GONE);
+			mCardMessageShowing = show;
+		}
+		else {
+			int totalHeight = mCreditCardMessageTv.getHeight();
+			if (show && !mCardMessageShowing && totalHeight <= 0) {
+				mCreditCardMessageTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						mCreditCardMessageTv.getViewTreeObserver().removeOnPreDrawListener(this);
+						toggleCardMessage(show, animate);
+						return true;
+					}
+				});
+				mCreditCardMessageTv.setVisibility(View.VISIBLE);
+			}
+			else {
+				if (show != mCardMessageShowing) {
+					if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
+						mLastCardMessageAnimator.cancel();
+					}
+					float start = show ? mCreditCardMessageTv.getHeight() : 0f;
+					float end = show ? 0f : mCreditCardMessageTv.getHeight();
+
+					ObjectAnimator animator = ObjectAnimator.ofFloat(mCreditCardMessageTv, "translationY",
+						start, end);
+					animator.setDuration(300);
+					if (show) {
+						animator.addListener(new AnimatorListenerAdapter() {
+
+							@Override
+							public void onAnimationStart(Animator arg0) {
+								mCreditCardMessageTv.setVisibility(View.VISIBLE);
+							}
+
+						});
+					}
+					else {
+						animator.addListener(new AnimatorListenerAdapter() {
+
+							@Override
+							public void onAnimationEnd(Animator arg0) {
+								mCreditCardMessageTv.setVisibility(View.GONE);
+							}
+
+						});
+					}
+					mLastCardMessageAnimator = animator;
+					animator.start();
+					mCardMessageShowing = show;
+				}
+			}
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
