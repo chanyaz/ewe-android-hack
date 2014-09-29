@@ -90,20 +90,30 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- Launcher activities -->
+        <!-- Tablet -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.TabletLaunchActivity"
+            android:theme="@style/V2.Theme.Activity.TabletLaunch"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.expedia.bookings.activity.TabletResultsActivity"
+            android:theme="@style/V2.Theme.Activity.TabletResults"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
+            android:theme="@style/V2.Theme.Activity.TabletCheckout"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Phone launch -->
 
         <activity
             android:name="com.expedia.bookings.activity.PhoneLaunchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" />
-
-        <!-- Tablet launch -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.TabletLaunchActivity"
-            android:theme="@style/V2.Theme.Activity.TabletLaunch"
-            android:windowSoftInputMode="adjustPan" />
 
         <!-- Itineraries -->
 
@@ -142,10 +152,6 @@
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
-            android:label="@string/booking_complete"
-            android:theme="@style/Theme.Phone.Dark" />
-        <activity
             android:name="com.expedia.bookings.activity.HotelDetailsFragmentActivity"
             android:theme="@style/Theme.Phone" />
         <activity
@@ -164,8 +170,6 @@
         <activity
             android:name="com.expedia.bookings.activity.HotelRulesActivity"
             android:theme="@style/FlightTheme" />
-        <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
-        <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
         <activity
             android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
             android:label="@string/Add_Traveler"
@@ -176,6 +180,10 @@
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelBookingActivity"
+            android:theme="@style/Theme.Phone.Dark" />
+        <activity
+            android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
+            android:label="@string/booking_complete"
             android:theme="@style/Theme.Phone.Dark" />
 
         <!-- Flights activities -->
@@ -217,7 +225,7 @@
             android:label="@string/booking_complete"
             android:theme="@style/FlightTheme" />
 
-        <!-- About/Preferences activities -->
+        <!-- About/Preferences/WebView activities -->
 
         <activity
             android:name="com.expedia.bookings.activity.AboutActivity"
@@ -229,6 +237,8 @@
             android:name="com.expedia.bookings.activity.TabletPreferenceActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.Tablet.Preferences" />
+        <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
+        <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
 
         <!-- Login/Facebook activities -->
         <activity
@@ -246,17 +256,6 @@
             android:name="com.expedia.bookings.activity.RestrictedProfileActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan" />
-
-        <!-- Tablet redesign activities -->
-        <activity
-            android:name="com.expedia.bookings.activity.TabletResultsActivity"
-            android:theme="@style/V2.Theme.Activity.TabletResults"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
-            android:theme="@style/V2.Theme.Activity.TabletCheckout"
-            android:windowSoftInputMode="adjustResize" />
 
         <!-- Testing activities -->
 
