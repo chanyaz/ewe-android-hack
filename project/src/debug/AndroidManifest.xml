@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.expedia.bookings" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <!-- Used by tests only. Do not include in production apps unless necessary! -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
