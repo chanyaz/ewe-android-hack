@@ -8,12 +8,19 @@ if [ -e "$PROPERTIES_FILE" ] ; then
     cat $PROPERTIES_FILE | python -m json.tool
     echo "=== End Properties ==="
 
-    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | sed -e 's/^/    /' > "$CHANGE_LOG_FILE"
+    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" > "$CHANGE_LOG_FILE"
 fi
 
-./gradlew --info --stacktrace --no-daemon -PdisablePreDex clean assembleExpediaLatest
+TARGET=$(echo ${BUILDER_NAME} | perl -ne 'print ucfirst($_)')
 
-./gradlew crashlyticsUploadDistributionExpediaLatest
+if [ -z "${TARGET}" ] ; then
+    echo "Must supply a proper BUILDER_NAME so we can figure out which flavor to build"
+    exit 1
+fi
+
+./gradlew --info --stacktrace --no-daemon -PdisablePreDex "clean" "assemble${TARGET}Latest"
+
+./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
 
 # Cleanup files
 rm -f "$CHANGE_LOG_FILE" "$PROPERTIES_FILE"
