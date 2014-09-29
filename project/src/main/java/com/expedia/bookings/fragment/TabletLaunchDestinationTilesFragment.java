@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchCollection;
-import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -18,20 +17,20 @@ import com.expedia.bookings.widget.CollectionStack;
 import com.expedia.bookings.widget.HorizontalScrollView;
 import com.squareup.otto.Subscribe;
 
-public class DestinationTilesFragment extends MeasurableFragment implements HorizontalScrollView.OnScrollListener {
+public class TabletLaunchDestinationTilesFragment extends MeasurableFragment implements HorizontalScrollView.OnScrollListener {
 
 	private HorizontalScrollView mScrollView;
 	private LinearLayout mItemsContainer;
 	private CollectionStack mSelectedStack;
 
-	public static DestinationTilesFragment newInstance() {
-		DestinationTilesFragment frag = new DestinationTilesFragment();
+	public static TabletLaunchDestinationTilesFragment newInstance() {
+		TabletLaunchDestinationTilesFragment frag = new TabletLaunchDestinationTilesFragment();
 		return frag;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View root = inflater.inflate(R.layout.fragment_destination_stacks, container, false);
+		final View root = inflater.inflate(R.layout.fragment_tablet_launch_destination_tiles, container, false);
 
 		mScrollView = Ui.findView(root, R.id.destinations_scrollview);
 		mScrollView.addOnScrollListener(this);

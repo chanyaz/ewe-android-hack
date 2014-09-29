@@ -75,7 +75,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	// Fragments
 	private TabletLaunchMapFragment mMapFragment;
-	private DestinationTilesFragment mTilesFragment;
+	private TabletLaunchDestinationTilesFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
 	private TabletLaunchPinDetailFragment mPinFragment;
 	private View mGlobeBackground;
@@ -230,7 +230,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		case FRAG_TAG_MAP:
 			return TabletLaunchMapFragment.newInstance();
 		case FRAG_TAG_TILES:
-			return DestinationTilesFragment.newInstance();
+			return TabletLaunchDestinationTilesFragment.newInstance();
 		case FRAG_TAG_WAYPOINT:
 			return TabletWaypointFragment.newInstance(true);
 		case FRAG_TAG_PIN:
