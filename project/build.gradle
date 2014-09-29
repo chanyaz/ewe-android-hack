@@ -132,12 +132,14 @@ android {
         debug {
             applicationIdSuffix ".debug"
 
-            runProguard shouldRunProguard
+            runProguard false
             proguardFile 'proguard.cfg'
         }
 
         latest.initWith(buildTypes.debug)
         latest {
+            runProguard shouldRunProguard
+
             applicationIdSuffix ".latest"
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
@@ -146,6 +148,8 @@ android {
 
         feature.initWith(buildTypes.debug)
         feature {
+            runProguard shouldRunProguard
+
             applicationIdSuffix (".feature." + featureName)
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
