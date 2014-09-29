@@ -280,8 +280,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 					newOffer.getTotalFare().add(new BigDecimal(val));
 				}
 
-				PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
-				fragment.show(getFragmentManager(), PriceChangeDialogFragment.TAG);
+				FlightPriceChangeDialogFragment fragment = FlightPriceChangeDialogFragment.newInstance(currentOffer, newOffer);
+				fragment.show(getFragmentManager(), FlightPriceChangeDialogFragment.TAG);
 				OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(getActivity());
 				return;
 			}

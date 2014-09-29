@@ -17,15 +17,15 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.json.JSONUtils;
 
-public class PriceChangeDialogFragment extends DialogFragment {
+public class FlightPriceChangeDialogFragment extends DialogFragment {
 
-	public static final String TAG = PriceChangeDialogFragment.class.getName();
+	public static final String TAG = FlightPriceChangeDialogFragment.class.getName();
 
 	private static final String ARG_CURRENT_OFFER = "ARG_CURRENT_OFFER";
 	private static final String ARG_NEW_OFFER = "ARG_NEW_OFFER";
 
-	public static PriceChangeDialogFragment newInstance(FlightTrip currentOffer, FlightTrip newOffer) {
-		PriceChangeDialogFragment fragment = new PriceChangeDialogFragment();
+	public static FlightPriceChangeDialogFragment newInstance(FlightTrip currentOffer, FlightTrip newOffer) {
+		FlightPriceChangeDialogFragment fragment = new FlightPriceChangeDialogFragment();
 		Bundle args = new Bundle();
 		JSONUtils.putJSONable(args, ARG_CURRENT_OFFER, currentOffer);
 		JSONUtils.putJSONable(args, ARG_NEW_OFFER, newOffer);
