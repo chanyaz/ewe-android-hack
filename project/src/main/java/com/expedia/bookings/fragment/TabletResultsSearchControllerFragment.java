@@ -63,7 +63,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
-	ResultsDatesFragment.DatesFragmentListener, ResultsGuestPicker.GuestPickerFragmentListener,
+	ResultsDatesFragment.DatesFragmentListener, ResultsGuestPickerFragment.GuestPickerFragmentListener,
 	TabletWaypointFragment.ITabletWaypointFragmentListener,
 	CurrentLocationFragment.ICurrentLocationListener {
 
@@ -128,7 +128,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	//Frags
 	private TabletWaypointFragment mWaypointFragment;
 	private ResultsDatesFragment mDatesFragment;
-	private ResultsGuestPicker mGuestsFragment;
+	private ResultsGuestPickerFragment mGuestsFragment;
 	private CurrentLocationFragment mCurrentLocationFragment;
 	private ResultsGdeFlightsFragment mGdeFragment;
 	private SimpleCallbackDialogFragment mRedeyeDialogFrag;
@@ -963,7 +963,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return new ResultsDatesFragment();
 		}
 		case FTAG_TRAV_PICKER: {
-			return new ResultsGuestPicker();
+			return new ResultsGuestPickerFragment();
 		}
 		case FTAG_WAYPOINT: {
 			return TabletWaypointFragment.newInstance(false);
@@ -986,7 +986,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			break;
 		}
 		case FTAG_TRAV_PICKER: {
-			((ResultsGuestPicker) frag).bind(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
+			((ResultsGuestPickerFragment) frag).bind(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
 			break;
 		}
 		case FTAG_ORIGIN_LOCATION: {

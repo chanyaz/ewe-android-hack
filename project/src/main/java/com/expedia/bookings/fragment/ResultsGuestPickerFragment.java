@@ -22,7 +22,7 @@ import com.mobiata.android.util.Ui;
  * Results loading fragment for Tablet
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPickerListener {
+public class ResultsGuestPickerFragment extends Fragment implements GuestPicker.GuestPickerListener {
 
 	private ViewGroup mRootC;
 	private GuestPicker mGuestPicker;
