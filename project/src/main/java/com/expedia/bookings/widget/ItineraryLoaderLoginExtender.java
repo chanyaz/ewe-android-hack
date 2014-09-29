@@ -17,8 +17,8 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.fragment.LoginExtender;
-import com.expedia.bookings.fragment.LoginExtenderListener;
+import com.expedia.bookings.utils.LoginExtender;
+import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.mobiata.android.util.Ui;
 
 public class ItineraryLoaderLoginExtender extends LoginExtender implements ItinerarySyncListener {

@@ -17,7 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.fragment.LoginExtender;
+import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;

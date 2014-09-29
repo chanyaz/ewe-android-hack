@@ -1,9 +1,10 @@
-package com.expedia.bookings.fragment;
+package com.expedia.bookings.utils;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 

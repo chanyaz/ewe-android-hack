@@ -1,4 +1,6 @@
-package com.expedia.bookings.fragment;
+package com.expedia.bookings.interfaces;
+
+import com.expedia.bookings.utils.LoginExtender;
 
 /**
  * This interface provides a call for
