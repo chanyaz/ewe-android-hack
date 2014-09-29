@@ -69,7 +69,7 @@
         <!-- Crashlytics -->
         <meta-data
             android:name="com.crashlytics.ApiKey"
-            android:value="${crashlyticsKey}" />
+            android:value="045825b17e2b00aa0dde8ba0dcea1ad63801d612" />
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 

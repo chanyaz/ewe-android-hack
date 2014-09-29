@@ -73,8 +73,6 @@ android {
 
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
-
-        manifestPlaceholders = [ crashlyticsKey:"045825b17e2b00aa0dde8ba0dcea1ad63801d612"]
     }
 
     productFlavors {
