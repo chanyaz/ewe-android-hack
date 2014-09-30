@@ -15,16 +15,16 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 
-public class NoFlightsFragment extends Fragment implements OnClickListener {
+public class FlightNoFlightsFragment extends Fragment implements OnClickListener {
 
-	public static final String TAG = NoFlightsFragment.class.getName();
+	public static final String TAG = FlightNoFlightsFragment.class.getName();
 
 	private static final String ARG_ERROR_MESSAGE = "ARG_ERROR_MESSAGE";
 
 	private NoFlightsFragmentListener mListener;
 
-	public static NoFlightsFragment newInstance(CharSequence errMsg) {
-		NoFlightsFragment fragment = new NoFlightsFragment();
+	public static FlightNoFlightsFragment newInstance(CharSequence errMsg) {
+		FlightNoFlightsFragment fragment = new FlightNoFlightsFragment();
 		Bundle args = new Bundle();
 		args.putCharSequence(ARG_ERROR_MESSAGE, errMsg);
 		fragment.setArguments(args);

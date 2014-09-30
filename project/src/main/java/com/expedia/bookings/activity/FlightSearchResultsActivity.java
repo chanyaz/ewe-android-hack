@@ -59,9 +59,9 @@ import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragmentListener;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
+import com.expedia.bookings.fragment.FlightNoFlightsFragment;
 import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
-import com.expedia.bookings.fragment.NoFlightsFragment;
-import com.expedia.bookings.fragment.NoFlightsFragment.NoFlightsFragmentListener;
+import com.expedia.bookings.fragment.FlightNoFlightsFragment.NoFlightsFragmentListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
@@ -114,7 +114,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	private FlightSearchLoadingFragment mStatusFragment;
 	private FlightListFragment mListFragment;
 	private FlightDetailsFragment mFlightDetailsFragment;
-	private NoFlightsFragment mNoFlightsFragment;
+	private FlightNoFlightsFragment mNoFlightsFragment;
 
 	// Current leg being displayed
 	private int mLegPosition = 0;
@@ -175,7 +175,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		// Try to recover any Fragments
 		mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
 		mStatusFragment = Ui.findSupportFragment(this, FlightSearchLoadingFragment.TAG);
-		mNoFlightsFragment = Ui.findSupportFragment(this, NoFlightsFragment.TAG);
+		mNoFlightsFragment = Ui.findSupportFragment(this, FlightNoFlightsFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
@@ -396,10 +396,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	}
 
 	private void showNoFlights(CharSequence errMsg) {
-		mNoFlightsFragment = NoFlightsFragment.newInstance(errMsg);
+		mNoFlightsFragment = FlightNoFlightsFragment.newInstance(errMsg);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.add(R.id.bg_container, mBgFragment, BlurredBackgroundFragment.TAG);
-		ft.replace(R.id.content_container, mNoFlightsFragment, NoFlightsFragment.TAG);
+		ft.replace(R.id.content_container, mNoFlightsFragment, FlightNoFlightsFragment.TAG);
 		ft.addToBackStack(BACKSTACK_NO_FLIGHTS);
 		ft.commit();
 	}
