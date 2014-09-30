@@ -20,12 +20,12 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.fragment.ItinMapFragment;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
-import com.expedia.bookings.fragment.ItineraryMapFragment;
-import com.expedia.bookings.fragment.ItineraryMapFragment.ItineraryMapFragmentListener;
+import com.expedia.bookings.fragment.ItinMapFragment.ItineraryMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -57,7 +57,7 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 	private View mFallbackPatternView;
 
 	private ItinItemListFragment mItinListFragment;
-	private ItineraryMapFragment mMapFragment;
+	private ItinMapFragment mMapFragment;
 	private ItinCardFragment mItinCardFragment;
 
 	// #854: There is a very subtle possible timing issue where we can try to modify

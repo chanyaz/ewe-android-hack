@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.flightlib.maps.MapAnimationUtils;
 
-public class ItineraryMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
+public class ItinMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
 
 	private static final float BOUNDS_PADDING_PERCENT = .05f;
 
