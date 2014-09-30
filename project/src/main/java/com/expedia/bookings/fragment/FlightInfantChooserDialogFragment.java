@@ -9,15 +9,15 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 
-public class InfantChooserDialogFragment extends DialogFragment {
+public class FlightInfantChooserDialogFragment extends DialogFragment {
 
 	private static final String INSTANCE_NEW_SELECTION = "INSTANCE_NEW_SELECTION";
 
 	private static final int NUM_INFANT_SEATING_PREFS = 2;
 	private int mNewSelection = -1;
 
-	public static InfantChooserDialogFragment newInstance() {
-		InfantChooserDialogFragment frag = new InfantChooserDialogFragment();
+	public static FlightInfantChooserDialogFragment newInstance() {
+		FlightInfantChooserDialogFragment frag = new FlightInfantChooserDialogFragment();
 		frag.setCancelable(false);
 		return frag;
 	}

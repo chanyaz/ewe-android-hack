@@ -78,7 +78,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
 	private ResultsListSearchErrorFragment mSearchErrorFrag;
-	private InfantChooserDialogFragment mInfantFrag;
+	private FlightInfantChooserDialogFragment mInfantFrag;
 
 	// Other
 	private GridManager mGrid = new GridManager();
@@ -780,7 +780,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (params.hasInfants() && !params.hasMoreInfantsThanAvailableLaps()) {
 			mInfantFrag = Ui.findSupportFragment(this, FTAG_FLIGHT_INFANT_CHOOSER);
 			if (mInfantFrag == null) {
-				mInfantFrag = InfantChooserDialogFragment.newInstance();
+				mInfantFrag = FlightInfantChooserDialogFragment.newInstance();
 			}
 			if (!mInfantFrag.isAdded()) {
 				mInfantFrag.show(getFragmentManager(), "infantChooser");
