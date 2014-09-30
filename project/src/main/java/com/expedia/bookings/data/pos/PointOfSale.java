@@ -662,7 +662,8 @@ public class PointOfSale {
 		String localeIdentifier = Locale.getDefault().toString();
 
 		if (!localeSupportedByExpediaSuggest(localeIdentifier)) {
-			localeIdentifier = getPointOfSale().getLocaleIdentifier();
+			String posLocaleIdentifier = getPointOfSale().getLocaleIdentifier();
+			localeIdentifier = localeSupportedByExpediaSuggest(posLocaleIdentifier) ? posLocaleIdentifier : "en_US";
 		}
 
 		return localeIdentifier;

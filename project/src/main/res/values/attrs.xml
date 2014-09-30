@@ -511,11 +511,10 @@
     <!-- calendar description for flight's itinerary and support-->
     <attr name="calendarFlightDescItinerary" format="reference|string" />
     <attr name="calendarFlightDescSupport" format="reference|string" />
-    <!--Chane in color of Flight connecting circles-->
-    <attr name="flightTripColor" format="reference|color" />
+    <!--Change the color of flight circles and lines -->
+    <attr name="skin_flightLineColor" format="reference" />
     <attr name="flightPriceTextColor" format="reference|color" />
     <attr name="icSuitCaseBaggage" format="reference" />
     <attr name="flightLoginActionBarIcon" format="reference" />
-
 
 </resources>
