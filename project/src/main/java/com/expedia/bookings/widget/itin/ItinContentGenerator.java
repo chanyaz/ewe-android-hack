@@ -49,7 +49,7 @@ import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
+import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -431,8 +431,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		Trip parentTrip = getItinCardData().getTripComponent().getParentTrip();
 		String itinKey = parentTrip.getItineraryKey();
-		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(itinKey);
-		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
+		ItinConfirmRemoveDialogFragment df = ItinConfirmRemoveDialogFragment.getInstance(itinKey);
+		df.show(fragmentManager, ItinConfirmRemoveDialogFragment.TAG);
 	}
 
 	protected View getClickToCopyItinDetailItem(int headerResId, final String text, final boolean isConfNumber) {

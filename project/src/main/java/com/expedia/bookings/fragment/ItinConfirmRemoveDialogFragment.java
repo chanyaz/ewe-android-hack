@@ -9,14 +9,14 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
 
-public class ConfirmItinRemoveDialogFragment extends DialogFragment {
+public class ItinConfirmRemoveDialogFragment extends DialogFragment {
 
-	public static final String TAG = "ConfirmItinRemoveDialogFragment";
+	public static final String TAG = "ItineraryConfirmRemoveDialogFragment";
 
 	private static String mItinKey;
 
-	public static ConfirmItinRemoveDialogFragment getInstance(String itinKey) {
-		ConfirmItinRemoveDialogFragment instance = new ConfirmItinRemoveDialogFragment();
+	public static ItinConfirmRemoveDialogFragment getInstance(String itinKey) {
+		ItinConfirmRemoveDialogFragment instance = new ItinConfirmRemoveDialogFragment();
 		Bundle args = new Bundle();
 		mItinKey = itinKey;
 		instance.setArguments(args);
