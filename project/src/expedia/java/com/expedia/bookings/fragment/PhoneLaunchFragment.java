@@ -83,10 +83,10 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 
-public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener,
+public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener,
 	IPhoneLaunchActivityLaunchFragment {
 
-	public static final String TAG = LaunchFragment.class.getName();
+	public static final String TAG = PhoneLaunchFragment.class.getName();
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 	public static final String KEY_FLIGHT_DESTINATIONS = "LAUNCH_SCREEN_FLIGHT_DESTINATIONS";
 	public static final String KEY_HOTEL_DESTINATIONS = "LAUNCH_SCREEN_HOTEL_DESTINATIONS";
@@ -143,7 +143,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View v = inflater.inflate(R.layout.fragment_launch, container, false);
+		final View v = inflater.inflate(R.layout.fragment_phone_launch, container, false);
 
 		mBgView = Ui.findView(v, R.id.background_view);
 		mErrorContainer = Ui.findView(v, R.id.error_container);

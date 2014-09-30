@@ -16,9 +16,9 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.util.Ui;
 
-public class LaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
+public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
-	public static final String TAG = LaunchFragment.class.getName();
+	public static final String TAG = PhoneLaunchFragment.class.getName();
 	private boolean mLaunchingActivity = false;
 	private ImageView mSlidingImage;
 	private int mCurrentImageIndex = 0;
@@ -43,7 +43,7 @@ public class LaunchFragment extends Fragment implements IPhoneLaunchActivityLaun
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.fragment_tvly_launch, container, false);
+		final View view = inflater.inflate(R.layout.fragment_phone_launch, container, false);
 		Ui.findView(view, R.id.tvly_flights).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(view, R.id.tvly_hotels).setOnClickListener(mHeaderItemOnClickListener);
 		mSlidingImage = Ui.findView(view, R.id.tvly_home_bg_view);

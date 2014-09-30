@@ -14,14 +14,14 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.util.Ui;
 
-public class LaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
+public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
 	private boolean mLaunchingActivity = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		final View view = inflater.inflate(R.layout.airasia, container, false);
+		final View view = inflater.inflate(R.layout.fragment_phone_launch, container, false);
 		Ui.findView(view, R.id.aag_hotel_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(view, R.id.aag_flight_button).setOnClickListener(mHeaderItemOnClickListener);
 

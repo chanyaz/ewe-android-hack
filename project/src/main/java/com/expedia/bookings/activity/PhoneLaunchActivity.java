@@ -32,7 +32,7 @@ import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
-import com.expedia.bookings.fragment.LaunchFragment;
+import com.expedia.bookings.fragment.PhoneLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
@@ -467,7 +467,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 				frag = ItinItemListFragment.newInstance(mJumpToItinId);
 				break;
 			case PAGER_POS_WATERFALL:
-				frag = new LaunchFragment();
+				frag = new PhoneLaunchFragment();
 				break;
 			default:
 				throw new RuntimeException("Position out of bounds position=" + position);

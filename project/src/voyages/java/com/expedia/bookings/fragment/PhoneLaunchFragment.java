@@ -10,7 +10,7 @@ import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
  * does not show PhoneLaunchActivity and thus does not use LaunchFragment - so this placeholder
  * acts only to appease the build system.
  */
-public class LaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
+public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
 	////////////////////////////////////////////////////////////
 	// IPhoneLaunchActivityLaunchFragment
