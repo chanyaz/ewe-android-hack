@@ -182,6 +182,9 @@ public class PointOfSale {
 
 		// The language identifier linked to this locale (linked to language code)
 		private int mLanguageId;
+
+		// directly gives the forgot_password Url for the POS
+		private String mForgotPasswordUrl;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -353,6 +356,10 @@ public class PointOfSale {
 
 	public int getEAPID() {
 		return mEAPID;
+	}
+
+	public String getForgotPasswordUrl() {
+		return getPosLocale().mForgotPasswordUrl;
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
@@ -834,6 +841,7 @@ public class PointOfSale {
 		// Language identifier
 		locale.mLanguageCode = data.optString("languageCode", null);
 		locale.mLanguageId = data.optInt("languageIdentifier");
+		locale.mForgotPasswordUrl = data.optString("forgotPasswordURL", null);
 
 		// Fix one thing with the iOS-based data...
 		if ("zh-Hant".equals(locale.mLanguageCode)) {
