@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -338,6 +339,16 @@ public class AdX {
 				adXPosIdentifier = 6258;
 			}
 		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			adXPosIdentifier = 13292;
+
+			// For Travelocity canada setting a separate ID.
+			if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.TRAVELOCITY_CA) {
+				adXPosIdentifier = 14776;
+			}
+		}
+
+
 		AdXConnect.setEventParameterOfName("a", adXPosIdentifier);
 
 		if (Db.getUser() != null) {
