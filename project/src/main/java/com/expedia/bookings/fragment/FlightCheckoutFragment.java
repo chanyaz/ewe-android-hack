@@ -60,7 +60,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
-	ConfirmLogoutDialogFragment.DoLogoutListener {
+	LoginConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
@@ -570,8 +570,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	@Override
 	public void accountLogoutClicked() {
-		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
-		df.show(this.getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
+		LoginConfirmLogoutDialogFragment df = new LoginConfirmLogoutDialogFragment();
+		df.show(this.getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}
 
 	@Override

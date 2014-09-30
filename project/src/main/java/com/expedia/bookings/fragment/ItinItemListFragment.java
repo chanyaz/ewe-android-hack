@@ -43,7 +43,7 @@ import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
 
-public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
+public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
@@ -337,8 +337,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		}
 		String email = Db.getUser().getPrimaryTraveler().getEmail();
 		String logoutMessage = getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE, email);
-		ConfirmLogoutDialogFragment df = ConfirmLogoutDialogFragment.getInstance(logoutMessage);
-		df.show(getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
+		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);
+		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}
 
 	public void setErrorMessage(int messageId, boolean showError) {

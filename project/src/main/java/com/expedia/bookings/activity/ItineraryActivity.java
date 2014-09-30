@@ -20,7 +20,7 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
+import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;

@@ -10,9 +10,9 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 
-public class ConfirmLogoutDialogFragment extends DialogFragment {
+public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 
-	public static final String TAG = "ConfirmLogoutDialogFragment";
+	public static final String TAG = "LoginConfirmLogoutDialogFragment";
 
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";
 
@@ -22,8 +22,8 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 
 	private DoLogoutListener mListener;
 
-	public static ConfirmLogoutDialogFragment getInstance(String message) {
-		ConfirmLogoutDialogFragment instance = new ConfirmLogoutDialogFragment();
+	public static LoginConfirmLogoutDialogFragment getInstance(String message) {
+		LoginConfirmLogoutDialogFragment instance = new LoginConfirmLogoutDialogFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_MESSAGE, message);
 		instance.setArguments(args);
