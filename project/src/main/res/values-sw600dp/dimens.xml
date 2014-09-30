@@ -179,7 +179,7 @@
 
     <!-- Checkout -->
     <dimen name="slide_to_purchase_container_height">136dp</dimen>
-    <dimen name="slide_to_purchase_widget_margin_top">-24dp</dimen>
+    <dimen name="slide_to_purchase_widget_margin_top">-28dp</dimen>
     <dimen name="tablet_checkout_form_autocomplete_width">256dp</dimen>
     <dimen name="tablet_checkout_form_padding_x">40dp</dimen>
     <dimen name="tablet_checkout_form_inter_card_gap">8dp</dimen>
