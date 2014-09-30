@@ -29,7 +29,7 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LoginExtender;
 import com.mobiata.android.util.Ui;
 
-public class ItineraryGuestAddFragment extends Fragment implements LoginExtenderListener {
+public class ItinGuestAddFragment extends Fragment implements LoginExtenderListener {
 
 	public static final String TAG = "ItineraryGuestAddDialogFragment";
 
@@ -49,8 +49,8 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 	private boolean mLoginExtenderRunning = false;
 	private String mStatusText;
 
-	public static ItineraryGuestAddFragment newInstance(LoginExtender extender) {
-		ItineraryGuestAddFragment frag = new ItineraryGuestAddFragment();
+	public static ItinGuestAddFragment newInstance(LoginExtender extender) {
+		ItinGuestAddFragment frag = new ItinGuestAddFragment();
 		Bundle args = new Bundle();
 		if (extender != null) {
 			args.putBundle(STATE_LOGIN_EXTENDER, extender.buildStateBundle());
