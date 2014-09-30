@@ -481,13 +481,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 		});
 
-		//1607. VSC Update forgot pwd link.
-		final String forgotPwdLink = ExpediaBookingApp.IS_VSC ? "http://%s/pub/agent.dll?qscr=apwd"
-				: "http://www.%s/pub/agent.dll?qscr=apwd";
+		final String forgotPwdUrl = PointOfSale.getPointOfSale().getForgotPasswordUrl();
+		final String anchorTag = String.format("<a href=\"%s\">%s</a>", forgotPwdUrl, getString(R.string.forgot_your_password));
 
-		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
-				"<a href=\"" + forgotPwdLink + "\">%s</a>",
-				PointOfSale.getPointOfSale().getUrl(), getString(R.string.forgot_your_password))));
+		mForgotYourPasswordTv.setText(Html.fromHtml(anchorTag));
 		mForgotYourPasswordTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -501,8 +498,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 				// Open link in the app's webview instead of default browser.
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
-				builder.setUrl(String.format(forgotPwdLink,
-						PointOfSale.getPointOfSale().getUrl()));
+				builder.setUrl(forgotPwdUrl);
 				builder.setInjectExpediaCookies(true);
 				builder.setTheme(R.style.HotelWebViewTheme);
 				builder.setTitle(getString(R.string.title_forgot_password));
