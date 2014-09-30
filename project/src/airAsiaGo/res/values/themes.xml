@@ -79,7 +79,7 @@
         <item name="tellAFriendSubject">@string/tell_a_friend_subject_aag</item>
         <item name="tellAFriendBody">@string/tell_a_friend_body_aag</item>
         <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_aag_mobile_site</item>
-        <item name="flightTripColor">@color/flight_trip_color_aag</item>
+        <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
         <item name="flightPriceTextColor">@color/flight_trip_price_aag</item>
         <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>
         <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
@@ -143,7 +143,7 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBarAirAsiaGo</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
-        <item name="flightTripColor">@color/flight_trip_color_aag</item>
+        <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -156,7 +156,7 @@
         <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="itinFlightsTripLineColor">@color/flight_trip_color_aag</item>
         <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
         <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_aag</item>

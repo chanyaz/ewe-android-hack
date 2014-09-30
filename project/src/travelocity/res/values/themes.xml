@@ -110,7 +110,7 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_travelocity_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
-        <item name="flightTripColor">@color/flight_trip</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
         <!-- PopupMenu -->
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>

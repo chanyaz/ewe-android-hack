@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.FlightLegSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="2dp"
@@ -117,6 +118,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        app:flightLineColor="?attr/skin_flightLineColor"
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view" />
 

@@ -181,7 +181,7 @@
         <item name="tellAFriendBody">@string/tell_a_friend_body</item>
         <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_expedia_mobile_site</item>
         <item name="flightPriceTextColor">@color/flight_trip_price</item>
-        <item name="flightTripColor">@color/flight_trip</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
@@ -226,7 +226,7 @@
         <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="flightTripColor">@color/flight_trip</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
