@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
@@ -64,15 +65,21 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			}
 		});
 
-		Ui.findView(view, R.id.short_button).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.share(getActivity(), mSubject, mShortMessage);
-				dismiss();
+		// Disabling the short button share options from chooser for AAG,as there responsive page is not ready.
+		if (ExpediaBookingApp.IS_AAG) {
+			Ui.findView(view, R.id.short_button).setVisibility(View.GONE);
+		}
+		else {
+			Ui.findView(view, R.id.short_button).setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.share(getActivity(), mSubject, mShortMessage);
+					dismiss();
 
-				OmnitureTracking.trackItinShare(getActivity(), mType, false);
-			}
-		});
+					OmnitureTracking.trackItinShare(getActivity(), mType, false);
+				}
+			});
+		}
 
 		if (AndroidUtils.isPackageInstalled(getActivity(), "com.facebook.katana")) {
 			View facebookButton = Ui.findView(view, R.id.facebook_button);

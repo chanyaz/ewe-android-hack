@@ -421,11 +421,13 @@ public class ShareUtils {
 			body.append(traveler.getFirstName() + " " + traveler.getLastName());
 			body.append("\n");
 		}
-
-		if (!TextUtils.isEmpty(sharableDetailsURL)) {
-			body.append("\n");
-			body.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
-			body.append("\n");
+		// Disabling the share link url for AAG as there responsive page is not ready.
+		if (!ExpediaBookingApp.IS_AAG) {
+			if (!TextUtils.isEmpty(sharableDetailsURL)) {
+				body.append("\n");
+				body.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
+				body.append("\n");
+			}
 		}
 
 		body.append("\n");
@@ -551,9 +553,12 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		if (!TextUtils.isEmpty(sharableDetailsUrl)) {
-			builder.append(mContext.getString(R.string.share_link_section, sharableDetailsUrl));
-			builder.append("\n\n");
+		// Disabling the share link url for AAG as there responsive page is not ready.
+		if (!ExpediaBookingApp.IS_AAG) {
+			if (!TextUtils.isEmpty(sharableDetailsUrl)) {
+				builder.append(mContext.getString(R.string.share_link_section, sharableDetailsUrl));
+				builder.append("\n\n");
+			}
 		}
 
 		//1683. VSC Don't show Android App crossSell text and link.
