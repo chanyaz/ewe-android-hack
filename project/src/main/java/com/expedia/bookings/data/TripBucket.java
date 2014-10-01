@@ -20,10 +20,8 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
 
 /**
- * Stores hotel and flight (and other Lines of Business?) selected items
- * for use in the tablet trip bucket.
- *
- * @author doug
+ * This class is the single source of truth for storing product checkout related information, e.g. anything
+ * with a price that the user has expressed some interest in booking.
  */
 public class TripBucket implements JSONable {
 
@@ -35,12 +33,15 @@ public class TripBucket implements JSONable {
 		mItems = new LinkedList<TripBucketItem>();
 	}
 
+	public AirAttach mAirAttach;
+
 	/**
 	 * Removes all items from this TripBucket.
 	 */
 	public void clear() {
 		mRefreshCount = 0;
 		mItems.clear();
+		mAirAttach = null;
 	}
 
 	/**
@@ -304,6 +305,14 @@ public class TripBucket implements JSONable {
 		return false;
 	}
 
+	public AirAttach getAirAttach() {
+		return mAirAttach;
+	}
+
+	public void setAirAttach(AirAttach airAttach) {
+		mAirAttach = airAttach;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -312,6 +321,7 @@ public class TripBucket implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONableList(obj, "items", mItems);
+			JSONUtils.putJSONable(obj, "airAttach", mAirAttach);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -352,6 +362,7 @@ public class TripBucket implements JSONable {
 				}
 			}
 		}
+		mAirAttach = JSONUtils.getJSONable(obj, "airAttach", AirAttach.class);
 		return true;
 	}
 }

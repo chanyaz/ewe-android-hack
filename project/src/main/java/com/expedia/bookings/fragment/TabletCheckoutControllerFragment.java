@@ -1090,7 +1090,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 
 				Db.getTripBucket().getFlight().setCheckoutResponse(response);
-				// TODO save the TripBucket to disk for better persistence?
 				AdTracker.trackFlightBooked();
 
 				if (response == null || response.hasErrors()) {
@@ -1124,7 +1123,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
-	private void startCreateTripDownload() {
+	private void startHotelCreateTrip() {
 		if (mCreateTripDownloadThrobber == null) {
 			mCreateTripDownloadThrobber = ThrobberDialog
 				.newInstance(getString(R.string.spinner_text_hotel_create_trip));
@@ -1194,7 +1193,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
 		dismissLoadingDialogs();
-		startCreateTripDownload();
+		startHotelCreateTrip();
 	}
 
 	@Subscribe
@@ -1212,7 +1211,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
 		if (getLob() == LineOfBusiness.HOTELS) {
-			startCreateTripDownload();
+			startHotelCreateTrip();
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			doCreateTrip();

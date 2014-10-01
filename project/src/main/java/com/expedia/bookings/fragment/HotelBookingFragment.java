@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
@@ -451,7 +452,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			Rate rate = Db.getTripBucket().getHotel().getRate();
 
-			return services.createTrip(params, property, rate);
+			AirAttach airAttach = Db.getTripBucket().getAirAttach();
+			boolean qualifyAirAttach = airAttach != null && airAttach.isAirAttachQualified();
+
+			return services.createTrip(params, property, rate, qualifyAirAttach);
 		}
 	};
 
