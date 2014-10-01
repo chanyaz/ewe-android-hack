@@ -245,22 +245,22 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mFormOpen = false;
 	}
 
-    @Override
-    public void onFormOpened() {
-        setUpStoredCards();
-        if (Db.getBillingInfo().hasStoredCard()) {
+	@Override
+	public void onFormOpened() {
+		setUpStoredCards();
+		if (Db.getBillingInfo().hasStoredCard()) {
 			if (Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
 				showStoredCardContainerGoogleWallet();
 			}
 			else {
 				showStoredCardContainer();
 			}
-        }
-        else {
-            showNewCardContainer();
-        }
-        mFormOpen = true;
-    }
+		}
+		else {
+			showNewCardContainer();
+		}
+		mFormOpen = true;
+	}
 
 	@Override
 	public boolean showBoardingMessage() {
@@ -390,10 +390,10 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	private void showStoredCardContainer(String cardName, CreditCardType cardType) {
 		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.GONE);
-        View storedCardContainer = Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container);
-        storedCardContainer.setVisibility(View.VISIBLE);
+		View storedCardContainer = Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container);
+		storedCardContainer.setVisibility(View.VISIBLE);
 
-        TextView cardNameView = Ui.findView(storedCardContainer, R.id.stored_card_name);
+		TextView cardNameView = Ui.findView(storedCardContainer, R.id.stored_card_name);
 		cardNameView.setText(cardName);
 
 		ImageView cardTypeIcon = Ui.findView(mSectionBillingInfo, R.id.display_credit_card_brand_icon_tablet);
@@ -440,7 +440,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 						if (card != null) {
-                            Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
+							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 							// For flights, don't allow selection of invalid card types.
 							boolean isValidCard = true;
 							if (getLob() == LineOfBusiness.FLIGHTS &&
