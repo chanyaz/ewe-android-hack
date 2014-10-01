@@ -140,7 +140,15 @@ public class PushNotificationUtils {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
 					.getItinCardDataFromFlightHistoryId(fhid);
 			if (data == null) {
-				Log.e("PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
+				// There is not any data from a desktop booking notification,
+				// so we check the locKey to see if it indicates that the message
+				// is related to a desktop booking. If so, we generate it.
+				if (locKeyForDesktopBooking(locKey)) {
+					generateDesktopBookingNotification(context, fhid, locKey, locKeyArgs, typeIntStr);
+				}
+				else {
+					Log.e("PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
+				}
 			}
 			else {
 				FlightLeg leg = data.getFlightLeg();
@@ -153,7 +161,6 @@ public class PushNotificationUtils {
 							+ " display the baggage claim notification. fhid:" + fhid);
 				}
 				else {
-
 					String itinId = data.getId();
 					long triggerTimeMillis = System.currentTimeMillis();
 
@@ -170,6 +177,7 @@ public class PushNotificationUtils {
 						notification.setItinId(itinId);
 						notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
 						notification.setFlags(Notification.FLAG_PUSH);
+
 						notification.setIconResId(R.drawable.ic_stat_flight);
 						notification.setImageType(ImageType.NONE);
 
@@ -180,12 +188,14 @@ public class PushNotificationUtils {
 
 						String airline = leg.getAirlinesFormatted();
 						String title;
+
 						if (!TextUtils.isEmpty(airline)) {
 							title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
 						}
 						else {
 							title = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
 						}
+
 						notification.setTitle(title);
 						notification.setBody(formattedMessage);
 						notification.setTicker(formattedMessage);
@@ -195,6 +205,40 @@ public class PushNotificationUtils {
 					}
 				}
 			}
+		}
+	}
+
+	private static boolean locKeyForDesktopBooking(String locKey) {
+		return locKey.equals("S_Push_Hey_VALUE_your_booking_is_confirmed") ||
+			locKey.equals("S_Push_Your_booking_is_confirmed_View_it_in_app");
+	}
+
+	private static void generateDesktopBookingNotification(Context context, int fhid, String locKey,
+														   String[] locKeyArgs, String typeIntStr) {
+		String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
+
+		if (formattedMessage == null) {
+			Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:"
+				+ locKey);
+		}
+		else {
+			String uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
+			String itinId = "";
+			long triggerTimeMillis = System.currentTimeMillis();
+
+			Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
+			notification.setItinId(itinId);
+			notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
+			notification.setFlags(Notification.FLAG_PUSH);
+
+			notification.setIconResId(R.drawable.ic_itin_ready);
+			notification.setImageType(ImageType.NONE);
+			notification.setTitle(context.getString(R.string.Itinerary_ready));
+			notification.setBody(formattedMessage);
+			notification.setTicker(formattedMessage);
+
+			notification.save();
+			notification.scheduleNotification(context);
 		}
 	}
 
@@ -436,6 +480,9 @@ public class PushNotificationUtils {
 		sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE);
 		sLocStringMap.put("S_Push_flight_from_CITY_to_CITY_cancelled", R.string.S_Push_flight_from_CITY_to_CITY_cancelled);
 		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
+		sLocStringMap.put("S_Push_Hey_VALUE_your_booking_is_confirmed", R.string.S_Push_Hey_VALUE_your_booking_is_confirmed);
+		sLocStringMap.put("S_Push_Your_booking_is_confirmed_View_it_in_app", R.string.S_Push_Your_booking_is_confirmed_View_it_in_app);
+
 
 		//Add the FlightTrack push keys and strings for shared itins.
 		addFTPushKeysToMap();
@@ -1002,6 +1049,9 @@ public class PushNotificationUtils {
 			return NotificationType.FLIGHT_GATE_NUMBER_CHANGE;
 		case 18:
 			return NotificationType.FLIGHT_BAGGAGE_CLAIM;
+		case 100:
+			return NotificationType.DESKTOP_BOOKING;
+
 		default:
 			Log.e("Type couldn't be converted from type:" + typeIntStr + " to valid NotificationType enum");
 			//Default as this is largely used for tracking only

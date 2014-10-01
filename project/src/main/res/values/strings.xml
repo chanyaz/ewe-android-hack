@@ -353,6 +353,8 @@
     <string name="Activity_starting_soon">Activity starting soon</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">Itinerary ready</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -2719,6 +2721,10 @@
     <string name="S_Push_flight_CITY_gate_GATE">Your flight to %1$s now departs from gate %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Your bags will be at baggage claim %1$s.</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, your booking is confirmed! View it in the app.</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Your booking is confirmed! View it in the app.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
