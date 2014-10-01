@@ -8,7 +8,14 @@ if [ -e "$PROPERTIES_FILE" ] ; then
     cat $PROPERTIES_FILE | python -m json.tool
     echo "=== End Properties ==="
 
-    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" > "$CHANGE_LOG_FILE"
+    echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
+    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" >> "$CHANGE_LOG_FILE"
+fi
+
+if [ -e "$CHANGE_LOG_FILE" ] ; then
+    echo "=== Changelog ==="
+    cat $CHANGE_LOG_FILE
+    echo "=== End Changelog ==="
 fi
 
 TARGET=$(echo ${BUILDER_NAME} | perl -ne 'print ucfirst($_)')
