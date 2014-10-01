@@ -285,7 +285,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-						if (!hasValidFlightCardType(getData())) {
+						if (!hasValidCardType(mLineOfBusiness, getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 						}
 						else {
@@ -509,21 +509,18 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
-									if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-										field.setTextColor(mOriginalTextColor);
-									}
+									field.setTextColor(mOriginalTextColor);
 								}
 								else {
 									getData().setBrandCode(type.getCode());
 									getData().setBrandName(type.name());
-									if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-										if (!hasValidFlightCardType(getData())) {
-											field.setTextColor(getResources().getColor(
-												R.color.flight_card_invalid_cc_type_text_color));
-										}
-										else {
-											field.setTextColor(mOriginalTextColor);
-										}
+
+									if (!hasValidCardType(mLineOfBusiness, getData())) {
+										field.setTextColor(getResources().getColor(
+											R.color.flight_card_invalid_cc_type_text_color));
+									}
+									else {
+										field.setTextColor(mOriginalTextColor);
 									}
 								}
 							}
@@ -561,7 +558,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
-							if (mLineOfBusiness == LineOfBusiness.FLIGHTS && !hasValidFlightCardType(getData())) {
+							if (!hasValidCardType(mLineOfBusiness, getData())) {
 								return ValidationError.ERROR_DATA_INVALID;
 							}
 							return ValidationError.NO_ERROR;
@@ -1037,10 +1034,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	public static boolean hasValidFlightCardType(BillingInfo info) {
-		return info != null && info.getCardType() != null && Db.getTripBucket().getFlight() != null
-			&& Db.getTripBucket().getFlight().getFlightTrip() != null
-			&& Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(info.getCardType());
+	public static boolean hasValidCardType(LineOfBusiness lob, BillingInfo info) {
+		if (info == null || info.getCardType() == null) {
+			return false;
+		}
+
+		if (lob == LineOfBusiness.HOTELS) {
+			return Db.getTripBucket().getHotel().getRate() != null &&
+				Db.getTripBucket().getHotel().getRate().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.FLIGHTS) {
+			return Db.getTripBucket().getFlight().getFlightTrip() != null
+				&& Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(info.getCardType());
+		}
+
+		throw new RuntimeException("Line of business required");
 	}
 
 }
