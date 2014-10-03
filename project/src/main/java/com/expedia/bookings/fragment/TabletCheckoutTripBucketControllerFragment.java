@@ -1,9 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
-import org.joda.time.LocalDate;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +15,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -38,13 +35,12 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.squareup.otto.Subscribe;
 
 public class TabletCheckoutTripBucketControllerFragment extends LobableFragment implements IStateProvider<CheckoutTripBucketState>,
@@ -207,22 +203,15 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private void updateDateRange() {
 		TextView bucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
-			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
-			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
-
-			String dateRange = DateUtils.formatDateRange(getActivity(), start, end,
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
-			bucketDateRange.setText(dateRange);
+			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
+			String date = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+				| DateUtils.FORMAT_ABBREV_MONTH);
+			bucketDateRange.setText(date);
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
-			// Hotels
-			LocalDate checkIn = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckInDate();
-			LocalDate checkOut = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
-			String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			String dateRange = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+				| DateUtils.FORMAT_ABBREV_MONTH);
 			bucketDateRange.setText(dateRange);
 		}
 
