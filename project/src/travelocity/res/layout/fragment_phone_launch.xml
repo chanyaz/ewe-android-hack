@@ -88,7 +88,8 @@
                 android:gravity="center"
                 android:paddingRight="50dp"
                 android:text="@string/nav_flights"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:contentDescription="@string/cd_launch_flights" />
 
 
             <TextView
@@ -98,7 +99,8 @@
                 android:drawableTop="@drawable/btn_tvly_hotels"
                 android:gravity="center"
                 android:text="@string/nav_hotels"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:contentDescription="@string/cd_launch_hotels" />
 
 
         </LinearLayout>
