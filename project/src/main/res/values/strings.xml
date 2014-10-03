@@ -2728,10 +2728,10 @@
 
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Launch Expedia Hotels</string>
-    <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Launch Expedia Flights</string>
+    <!-- Content description for action: Press button to launch Hotels -->
+    <string name="cd_launch_hotels">Launch Hotels</string>
+    <!-- Content description for action: Press button to launch Flights -->
+    <string name="cd_launch_flights">Launch Flights</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">Open menu list</string>
     <!-- Content description for action: Open Settings Menu -->
