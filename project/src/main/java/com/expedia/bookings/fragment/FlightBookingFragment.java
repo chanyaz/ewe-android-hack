@@ -16,13 +16,13 @@ import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
@@ -89,8 +89,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 
 				BillingInfo billingInfo = Db.getBillingInfo();
-				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Itinerary itinerary = Db.getTripBucket().getFlight().getItinerary();
+				TripBucketItemFlight item = Db.getTripBucket().getFlight();
 
 				//So at this point, billing info has the correct email address, but the api considers the email
 				//address of the first traveler the top priority. We dont want to change the email information
@@ -103,7 +102,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 					travelers.set(0, trav);
 				}
 
-				return services.flightCheckout(trip, itinerary, billingInfo, travelers, 0);
+				return services.flightCheckout(item, billingInfo, travelers, 0);
 			}
 		};
 	}
@@ -244,6 +243,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		}
 
 		Db.getTripBucket().getFlight().setItineraryResponse(response);
+		Db.getTripBucket().getFlight().addValidPayments(response.getValidPayments());
 		mFlightTrip.updateFrom(response.getOffer());
 		if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null && mFlightTrip.notifyPriceChanged()) {
 			Db.getTripBucket().getFlight().setHasPriceChanged(true);

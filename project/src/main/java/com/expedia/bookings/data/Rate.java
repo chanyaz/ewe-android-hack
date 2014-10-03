@@ -91,8 +91,6 @@ public class Rate implements JSONable {
 	private DateTime mFreeCancellationWindowDate;
 	private boolean mNonRefundable = false;
 
-	private List<ValidPayment> mValidPayments;
-
 	private TaxStatusType mTaxStatusType;
 
 	private Set<BedType> mBedTypes;
@@ -607,22 +605,6 @@ public class Rate implements JSONable {
 		return display;
 	}
 
-	public void addValidPayments(List<ValidPayment> payments) {
-		if (mValidPayments == null) {
-			mValidPayments = new ArrayList<ValidPayment>();
-		}
-
-		if (payments != null) {
-			for (ValidPayment payment : payments) {
-				ValidPayment.addValidPayment(mValidPayments, payment);
-			}
-		}
-	}
-
-	public boolean isCardTypeSupported(CreditCardType creditCardType) {
-		return ValidPayment.isCardTypeSupported(mValidPayments, creditCardType);
-	}
-
 	public Rate clone() {
 		Rate rate = new Rate();
 		JSONObject json = toJson();
@@ -684,8 +666,6 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "rateRules", mRateRules);
 
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
-
-			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
 
 			return obj;
 		}
@@ -759,8 +739,6 @@ public class Rate implements JSONable {
 		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
 
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
-
-		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
 
 		return true;
 	}

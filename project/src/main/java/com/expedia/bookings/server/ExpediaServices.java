@@ -84,6 +84,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
@@ -511,11 +512,11 @@ public class ExpediaServices implements DownloadListener {
 			| F_SECURE_REQUEST);
 	}
 
-	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
+	public FlightCheckoutResponse flightCheckout(TripBucketItemFlight flightItem, BillingInfo billingInfo,
 		List<Traveler> travelers, int flags) {
-		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
-			flags);
+		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightItem, billingInfo, travelers, flags);
 
+		Itinerary itinerary = flightItem.getItinerary();
 		Log.v("tealeafTransactionId for flight: " + itinerary.getTealeafId());
 		addTealeafId(query, itinerary.getTealeafId());
 
@@ -523,15 +524,18 @@ public class ExpediaServices implements DownloadListener {
 			+ F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateFlightCheckoutParams(FlightTrip flightTrip, Itinerary itinerary,
+	public List<BasicNameValuePair> generateFlightCheckoutParams(TripBucketItemFlight flightItem,
 		BillingInfo billingInfo, List<Traveler> travelers, int flags) {
+		FlightTrip flightTrip = flightItem.getFlightTrip();
+		Itinerary itinerary = flightItem.getItinerary();
+
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
 
-		Money cardFee = flightTrip.getCardFee(billingInfo.getCardType());
+		Money cardFee = flightItem.getCardFee(billingInfo.getCardType());
 		if (cardFee != null) {
 			query.add(new BasicNameValuePair("expectedCardFee", cardFee.getAmount().toString() + ""));
 			query.add(new BasicNameValuePair("expectedCardFeeCurrencyCode", cardFee.getCurrency()));

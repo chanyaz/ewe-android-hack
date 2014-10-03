@@ -182,7 +182,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	public CharSequence getTripPrice() {
 		refreshFlightTrip();
 		if (mFlightTrip != null) {
-			return mFlightTrip.getTotalFareWithCardFee(Db.hasBillingInfo() ? Db.getBillingInfo() : null)
+			return mFlightTrip.getTotalFareWithCardFee(Db.hasBillingInfo() ? Db.getBillingInfo() : null, getItem())
 				.getFormattedMoney(Money.F_NO_DECIMAL);
 		}
 		else {
@@ -229,7 +229,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	public void refreshExpandedTripPrice() {
-		String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
+		String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo(), getItem()).getFormattedMoney();
 		mPriceTv.setText(price);
 	}
 

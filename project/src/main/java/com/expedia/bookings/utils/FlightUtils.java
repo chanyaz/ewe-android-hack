@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightAdditionalFeesDialogFragment;
 import com.mobiata.android.util.ViewUtils;
@@ -91,8 +92,8 @@ public class FlightUtils {
 	 * @param trip
 	 * @return
 	 */
-	public static String getSlideToPurchaseString(Context context, FlightTrip trip) {
-		Money totalFare = trip.getTotalFareWithCardFee(Db.getBillingInfo());
+	public static String getSlideToPurchaseString(Context context, TripBucketItemFlight flightItem) {
+		Money totalFare = flightItem.getFlightTrip().getTotalFareWithCardFee(Db.getBillingInfo(), flightItem);
 		String template = context.getString(R.string.your_card_will_be_charged_TEMPLATE);
 		return String.format(template, totalFare.getFormattedMoney());
 	}

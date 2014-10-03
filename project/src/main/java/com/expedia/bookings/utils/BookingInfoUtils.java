@@ -255,7 +255,7 @@ public class BookingInfoUtils {
 				if (lob == LineOfBusiness.FLIGHTS) {
 					// Make sure the card is supported by this flight trip before automatically selecting it
 					if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null &&
-						Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(scc.getType())) {
+						Db.getTripBucket().getFlight().isCardTypeSupported(scc.getType())) {
 
 						info.setStoredCard(scc);
 

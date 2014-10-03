@@ -1,5 +1,7 @@
 package com.expedia.bookings.data;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +15,7 @@ public class CreateTripResponse extends Response implements JSONable {
 	private String mUserId;
 	private Rate mNewRate;
 	private String mTealeafId;
+	private List<ValidPayment> mValidPayments;
 
 	@Override
 	public boolean isSuccess() {
@@ -51,6 +54,14 @@ public class CreateTripResponse extends Response implements JSONable {
 		return mTealeafId;
 	}
 
+	public void setValidPayments(List<ValidPayment> validPayments) {
+		mValidPayments = validPayments;
+	}
+
+	public List<ValidPayment> getValidPayments() {
+		return mValidPayments;
+	}
+
 	public CreateTripResponse clone() {
 		CreateTripResponse response = new CreateTripResponse();
 		JSONObject json = toJson();
@@ -73,6 +84,7 @@ public class CreateTripResponse extends Response implements JSONable {
 			obj.put("userId", mUserId);
 			obj.put("tealeafId", mTealeafId);
 			JSONUtils.putJSONable(obj, "newRate", mNewRate);
+			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -89,6 +101,7 @@ public class CreateTripResponse extends Response implements JSONable {
 		mUserId = obj.optString("userId", null);
 		mTealeafId = obj.optString("tealeafId", null);
 		mNewRate = JSONUtils.getJSONable(obj, "newRate", Rate.class);
+		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
 		return true;
 	}
 }

@@ -1492,8 +1492,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		if (event.createTripResponse instanceof CreateTripResponse) {
-			Rate rate = ((CreateTripResponse) event.createTripResponse).getNewRate();
-			if (!rate.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+			// Now we have the valid payments data
+			if (!Db.getTripBucket().getHotel().isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				disableGoogleWallet();
 			}

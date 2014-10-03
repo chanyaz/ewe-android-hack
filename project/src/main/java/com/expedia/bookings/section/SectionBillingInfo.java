@@ -60,7 +60,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	Context mContext;
 
 	BillingInfo mBillingInfo;
-	FlightTrip mFlightTrip;
 	LineOfBusiness mLineOfBusiness;
 
 	public SectionBillingInfo(Context context) {
@@ -156,11 +155,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			mFields.removeField(mEditEmailAddress);
 			mFields.removeField(mDisplayEmailDisclaimer);
 		}
-	}
-
-	public void bind(BillingInfo billingInfo, FlightTrip flightTrip) {
-		mFlightTrip = flightTrip;
-		bind(billingInfo);
 	}
 
 	@Override
@@ -430,10 +424,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.card_fee_icon) {
 		@Override
 		public void onHasFieldAndData(com.expedia.bookings.widget.TextView field, BillingInfo billingInfo) {
-			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
+			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null) {
 				final FragmentActivity fa = (FragmentActivity) mContext;
 				final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-				Money cardFee = mFlightTrip.getCardFee(type);
+				Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
 				if (cardFee != null) {
 					final String feeText = cardFee.getFormattedMoney();
 					field.setVisibility(View.VISIBLE);
@@ -457,8 +451,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(View field, BillingInfo billingInfo) {
 			final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-			if (mFlightTrip != null) {
-				Money cardFee = mFlightTrip.getCardFee(type);
+			if (Db.getTripBucket().getFlight() != null) {
+				Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
 				if (cardFee != null) {
 					field.setVisibility(View.VISIBLE);
 				}
@@ -1040,12 +1034,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 
 		if (lob == LineOfBusiness.HOTELS) {
-			return Db.getTripBucket().getHotel().getRate() != null &&
-				Db.getTripBucket().getHotel().getRate().isCardTypeSupported(info.getCardType());
+			return Db.getTripBucket().getHotel() != null &&
+				Db.getTripBucket().getHotel().isCardTypeSupported(info.getCardType());
 		}
 		if (lob == LineOfBusiness.FLIGHTS) {
-			return Db.getTripBucket().getFlight().getFlightTrip() != null
-				&& Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(info.getCardType());
+			return Db.getTripBucket().getFlight() != null
+				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
 		}
 
 		throw new RuntimeException("Line of business required");

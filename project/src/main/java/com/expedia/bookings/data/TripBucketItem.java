@@ -1,5 +1,8 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +21,8 @@ public abstract class TripBucketItem implements JSONable {
 	private TripBucketItemState mState;
 
 	private boolean mHasPriceChanged;
+
+	private List<ValidPayment> mValidPayments;
 
 	// Boolean check to indicate if this bucket item is actively being viewed/selected.
 	private boolean mIsSelected;
@@ -65,6 +70,53 @@ public abstract class TripBucketItem implements JSONable {
 		return mState == TripBucketItemState.PURCHASED;
 	}
 
+	public void addValidPayments(List<ValidPayment> payments) {
+		if (mValidPayments == null) {
+			mValidPayments = new ArrayList<ValidPayment>();
+		}
+
+		if (payments != null) {
+			for (ValidPayment payment : payments) {
+				ValidPayment.addValidPayment(mValidPayments, payment);
+			}
+		}
+	}
+
+	/**
+	 * Is the supplied card type valid for this FlightTrip?
+	 *
+	 * @param creditCardType
+	 * @return true if this FlightTrip supports the card type, false otherswise.
+	 */
+	public boolean isCardTypeSupported(CreditCardType creditCardType) {
+		return ValidPayment.isCardTypeSupported(mValidPayments, creditCardType);
+	}
+
+	/**
+	 * This method calculates the card fee based upon looking at the ValidPayments (and their associated fees) and also
+	 * the selected card from the given BillingInfo.
+	 *
+	 * @param billingInfo
+	 * @return cardFee as Money or null if no card fee
+	 */
+	public Money getCardFee(BillingInfo billingInfo) {
+		if (billingInfo == null || billingInfo.getCardType() == null) {
+			return null;
+		}
+		return getCardFee(billingInfo.getCardType());
+	}
+
+	public Money getCardFee(CreditCardType creditCardType) {
+		if (creditCardType != null && mValidPayments != null) {
+			for (ValidPayment payment : mValidPayments) {
+				if (payment.getCreditCardType() == creditCardType) {
+					return payment.getFee();
+				}
+			}
+		}
+		return null;
+	}
+
 	//////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -75,6 +127,9 @@ public abstract class TripBucketItem implements JSONable {
 			JSONUtils.putEnum(obj, "state", mState);
 			obj.put("isSelected", mIsSelected);
 			obj.put("hasPriceChanged", mHasPriceChanged);
+
+			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -88,6 +143,7 @@ public abstract class TripBucketItem implements JSONable {
 		mState = JSONUtils.getEnum(obj, "state", TripBucketItemState.class);
 		mIsSelected = obj.optBoolean("isSelected");
 		mHasPriceChanged = obj.optBoolean("hasPriceChanged");
+		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
 		return true;
 	}
 

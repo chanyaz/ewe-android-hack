@@ -21,7 +21,6 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
@@ -168,8 +167,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		@Override
 		public void onChange() {
 			if (mBillingInfo.getCardType() != null) {
-				Rate rate = Db.getTripBucket().getHotel().getRate();
-				if (!rate.isCardTypeSupported(mBillingInfo.getCardType())) {
+				if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getCardType())) {
 					String cardName = mBillingInfo.getCardType().getHumanReadableName(getActivity());
 					String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 					updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));

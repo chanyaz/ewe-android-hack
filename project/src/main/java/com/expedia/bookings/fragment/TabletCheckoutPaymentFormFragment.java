@@ -26,11 +26,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
@@ -83,11 +82,14 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
 
-		FlightTrip flightTrip = null;
+		TripBucketItem item = null;
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			item = Db.getTripBucket().getFlight();
 		}
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity(), flightTrip);
+		if (getLob() == LineOfBusiness.HOTELS) {
+			item = Db.getTripBucket().getHotel();
+		}
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity(), item);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -181,6 +183,10 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mSectionBillingInfo.addChangeListener(new ISectionEditable.SectionChangeListener() {
 			@Override
 			public void onChange() {
+				if (getActivity() == null) {
+					return;
+				}
+
 				if (mAttemptToLeaveMade) {
 					mSectionBillingInfo.performValidation();
 				}
@@ -192,16 +198,16 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				if (getLob() == LineOfBusiness.FLIGHTS) {
 					BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 					if (mBillingInfo.getCardType() != null) {
-						FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-						if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
+						TripBucketItem item = Db.getTripBucket().getFlight();
+						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
 							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
 								.getCardType().getHumanReadableName(getActivity()));
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
-						else if (trip.getCardFee(mBillingInfo) != null) {
+						else if (item.getCardFee(mBillingInfo) != null) {
 							String message = getString(R.string.airline_processing_fee_TEMPLATE,
-								trip.getCardFee(mBillingInfo).getFormattedMoney());
+								item.getCardFee(mBillingInfo).getFormattedMoney());
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
@@ -217,8 +223,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				if (getLob() == LineOfBusiness.HOTELS) {
 					BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 					if (mBillingInfo.getCardType() != null) {
-						Rate rate = Db.getTripBucket().getHotel().getRate();
-						if (!rate.isCardTypeSupported(mBillingInfo.getCardType())) {
+						TripBucketItem item = Db.getTripBucket().getHotel();
+						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
 							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, mBillingInfo
 								.getCardType().getHumanReadableName(getActivity()));
 							updateCardMessageText(message);
@@ -465,11 +471,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 							boolean isValidCard = true;
 							if (getLob() == LineOfBusiness.FLIGHTS &&
-								!Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(card.getType())) {
+								!Db.getTripBucket().getFlight().isCardTypeSupported(card.getType())) {
 								isValidCard = false;
 							}
 							if (getLob() == LineOfBusiness.HOTELS &&
-								!Db.getTripBucket().getHotel().getRate().isCardTypeSupported(card.getType())) {
+								!Db.getTripBucket().getHotel().isCardTypeSupported(card.getType())) {
 								isValidCard = false;
 							}
 

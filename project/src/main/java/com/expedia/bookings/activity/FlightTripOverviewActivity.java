@@ -301,8 +301,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			&& Db.getTripBucket().getFlight() != null
 			&& !TextUtils.isEmpty(Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber())) {
 			// Disable Google Wallet if not a valid payment type
-			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-			if (!trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+			if (!Db.getTripBucket().getFlight().isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				checkoutFrag.disableGoogleWallet();
 			}
@@ -356,7 +355,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 			mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 			if (mSlideToPurchaseFragment == null) {
-				String text = FlightUtils.getSlideToPurchaseString(this, Db.getTripBucket().getFlight().getFlightTrip());
+				String text = FlightUtils.getSlideToPurchaseString(this, Db.getTripBucket().getFlight());
 				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
 			}
 			if (!mSlideToPurchaseFragment.isAdded()) {
