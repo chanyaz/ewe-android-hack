@@ -175,8 +175,9 @@ android {
         }
 
         travelocityAutomation {
+            java.srcDirs = ['src/travelocity/java']
+            res.srcDirs = ['src/travelocity/res']
             manifest.srcFile 'src/travelocity/AndroidManifest.xml'
-            res.srcDirs 'src/travelocity/res'
         }
 
         signingConfigs {
