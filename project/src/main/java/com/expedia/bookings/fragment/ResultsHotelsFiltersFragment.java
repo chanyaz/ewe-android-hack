@@ -227,14 +227,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		HotelSearch search = Db.getHotelSearch();
 		if (search != null) {
-			// Populate views based on the filter
-			HotelFilter filter = Db.getFilter();
-			initializeViews(search, filter);
-
-			HotelSearchResponse response = search.getSearchResponse();
-			if (response != null) {
-				response.setFilter(filter);
-			}
+			initializeViews(search, Db.getFilter());
 		}
 	}
 
