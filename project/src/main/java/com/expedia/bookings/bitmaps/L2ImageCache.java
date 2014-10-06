@@ -21,14 +21,12 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -649,18 +647,17 @@ public class L2ImageCache {
 	}
 
 	private static DiskLruCache generateDiskCache(Context context, String logTag, int size) {
-		DiskLruCache diskCache = null;
+		Log.i(logTag, "Creating DiskLruCache of size " + (size / (1024 * 1024)) + " mb");
+		File diskCacheDir = null;
 		try {
-			Log.i(logTag, "Creating DiskLruCache of size " + (size / (1024 * 1024)) + " mb");
-
-			File diskCacheDir = getDiskCacheDir(context, logTag);
-			diskCache = DiskLruCache.open(diskCacheDir, AndroidUtils.getAppCode(context), 1, size);
-			return diskCache;
+			diskCacheDir = getDiskCacheDir(context, logTag);
+			return DiskLruCache.open(diskCacheDir, AndroidUtils.getAppCode(context), 1, size);
 		}
 		catch (IOException e) {
 			// In the case that we can't open the disk cache, blow up catastrophically (as not having
 			// the disk cache will really screw things up down the line).
-			throw new RuntimeException("Failed to create DiskLruCache. We require it.");
+			String path = diskCacheDir == null ? "" : diskCacheDir.getPath();
+			throw new RuntimeException("Failed to create DiskLruCache. We require it. path=" + path);
 		}
 	}
 
@@ -1030,52 +1027,40 @@ public class L2ImageCache {
 	// Static utilities
 
 	/**
-	 * Get a usable cache directory (external if available, internal otherwise).
+	 * Get a usable cache directory. Attempt to use the external cache directory if it is
+	 * is writable, otherwise attempt to use internal cache dir if available. If neither of
+	 * those are available, we write to our own directory to internal memory.
 	 *
 	 * @param context The context to use
 	 * @param uniqueName A unique directory name to append to the cache dir
 	 * @return The cache dir
 	 */
+
+	private static final String FALLBACK_SUB_DIR = "eb";
+
 	public static File getDiskCacheDir(Context context, String uniqueName) {
-		// Check if media is mounted or storage is built-in, if so, try and use external cache dir
-		// otherwise use internal cache dir
-		final String cachePath = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-				!isExternalStorageRemovable() ? getExternalCacheDir(context).getPath() :
-				context.getCacheDir().getPath();
+		if (context == null) {
+			throw new RuntimeException("Can't pass null Context.");
+		}
+
+		String cachePath;
+		boolean canAccessExternalStorage = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
+			!Environment.isExternalStorageRemovable();
+
+		if (canAccessExternalStorage && context.getExternalCacheDir() != null) {
+			File externalCacheDir = context.getExternalCacheDir();
+			cachePath = externalCacheDir.getPath();
+		}
+		else if (context.getCacheDir() != null) {
+			cachePath = context.getCacheDir().getPath();
+		}
+		else {
+			cachePath = context.getDir(FALLBACK_SUB_DIR, Context.MODE_PRIVATE).getPath();
+		}
 
 		return new File(cachePath + File.separator + uniqueName);
 	}
 
-	/**
-	 * Check if external storage is built-in or removable.
-	 *
-	 * @return True if external storage is removable (like an SD card), false
-	 *         otherwise.
-	 */
-	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public static boolean isExternalStorageRemovable() {
-		if (AndroidUtils.hasGingerbread()) {
-			return Environment.isExternalStorageRemovable();
-		}
-		return true;
-	}
-
-	/**
-	 * Get the external app cache directory.
-	 *
-	 * @param context The context to use
-	 * @return The external cache dir
-	 */
-	@TargetApi(Build.VERSION_CODES.FROYO)
-	public static File getExternalCacheDir(Context context) {
-		if (AndroidUtils.hasFroyo()) {
-			return context.getExternalCacheDir();
-		}
-
-		// Before Froyo we need to construct the external cache dir ourselves
-		final String cacheDir = "/Android/data/" + context.getPackageName() + "/cache/";
-		return new File(Environment.getExternalStorageDirectory().getPath() + cacheDir);
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Debugging
