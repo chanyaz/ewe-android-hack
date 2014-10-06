@@ -647,18 +647,17 @@ public class L2ImageCache {
 	}
 
 	private static DiskLruCache generateDiskCache(Context context, String logTag, int size) {
-		DiskLruCache diskCache = null;
+		Log.i(logTag, "Creating DiskLruCache of size " + (size / (1024 * 1024)) + " mb");
+		File diskCacheDir = null;
 		try {
-			Log.i(logTag, "Creating DiskLruCache of size " + (size / (1024 * 1024)) + " mb");
-
-			File diskCacheDir = getDiskCacheDir(context, logTag);
-			diskCache = DiskLruCache.open(diskCacheDir, AndroidUtils.getAppCode(context), 1, size);
-			return diskCache;
+			diskCacheDir = getDiskCacheDir(context, logTag);
+			return DiskLruCache.open(diskCacheDir, AndroidUtils.getAppCode(context), 1, size);
 		}
 		catch (IOException e) {
 			// In the case that we can't open the disk cache, blow up catastrophically (as not having
 			// the disk cache will really screw things up down the line).
-			throw new RuntimeException("Failed to create DiskLruCache. We require it.");
+			String path = diskCacheDir == null ? "" : diskCacheDir.getPath();
+			throw new RuntimeException("Failed to create DiskLruCache. We require it. path=" + path);
 		}
 	}
 
