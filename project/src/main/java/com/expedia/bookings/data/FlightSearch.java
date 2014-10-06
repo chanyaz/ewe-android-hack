@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightTrip.CompareField;
 import com.expedia.bookings.data.FlightTrip.FlightTripComparator;
@@ -302,9 +303,20 @@ public class FlightSearch implements JSONable {
 				mCheapestTripsByAirline = new TreeMap<String, FlightTrip>(new Comparator<String>() {
 					@Override
 					public int compare(String lhs, String rhs) {
-						String lhsAirline = Db.getAirline(lhs).mAirlineName;
-						String rhsAirline = Db.getAirline(rhs).mAirlineName;
-						return lhsAirline.compareTo(rhsAirline);
+						String lhsAirlineName = Db.getAirline(lhs).mAirlineName;
+						String rhsAirlineName = Db.getAirline(rhs).mAirlineName;
+						if (TextUtils.isEmpty(lhsAirlineName) && !TextUtils.isEmpty(rhsAirlineName)) {
+							return 1;
+						}
+						else if (!TextUtils.isEmpty(lhsAirlineName) && TextUtils.isEmpty(rhsAirlineName)) {
+							return -1;
+						}
+						else if (TextUtils.isEmpty(lhsAirlineName) && TextUtils.isEmpty(rhsAirlineName)) {
+							return 0;
+						}
+						else {
+							return lhsAirlineName.compareTo(rhsAirlineName);
+						}
 					}
 				});
 
