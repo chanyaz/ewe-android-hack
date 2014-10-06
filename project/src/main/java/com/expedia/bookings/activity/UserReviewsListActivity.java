@@ -158,10 +158,12 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			UserReviewsUtils.getInstance().clearCache();
 
 			// Track # of reviews seen
-			int numReviewsSeen = mViewedReviews.size();
-			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
-			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
-			OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
+			if (mViewedReviews != null) {
+				int numReviewsSeen = mViewedReviews.size();
+				Log.d("Tracking # of reviews seen: " + numReviewsSeen);
+				String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
+				OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
+			}
 		}
 	}
 
