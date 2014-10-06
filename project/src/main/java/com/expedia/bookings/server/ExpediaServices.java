@@ -1551,10 +1551,10 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// User Reviews API
 	//
-	// API Console: http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/static/index.html
+	// API Console: http://test.reviewsvc.expedia.com/APIConsole?segmentedapi=true
 
-	private static final String TEST_REVIEWS_BASE_URL = "http://test.reviewsvc.expedia.com/reviews/v1/";
-	private static final String PROD_REVIEWS_BASE_URL = "http://reviewsvc.expedia.com/reviews/v1/";
+	private static final String TEST_REVIEWS_BASE_URL = "http://test.reviewsvc.expedia.com/api/hotelreviews/hotel/";
+	private static final String PROD_REVIEWS_BASE_URL = "http://reviewsvc.expedia.com/api/hotelreviews/hotel/";
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
 		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
@@ -1564,6 +1564,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
 		params.add(new BasicNameValuePair("_type", "json"));
+		params.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
@@ -1574,14 +1575,8 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private static String getReviewsUrl(Property property) {
-		String locale = PointOfSale.getPointOfSale().getLocaleIdentifier();
-
 		String url = PROD_REVIEWS_BASE_URL;
-		url += "retrieve/getReviewsForHotelId/";
 		url += property.getPropertyId();
-		url += "/";
-		url += locale;
-
 		return url;
 	}
 
