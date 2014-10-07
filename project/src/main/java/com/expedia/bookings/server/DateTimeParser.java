@@ -17,6 +17,7 @@ public class DateTimeParser {
 	private static final DateFormat[] DATE_FORMATS = {
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	};
 
 	public static DateTime parseDateTime(Object obj) {
