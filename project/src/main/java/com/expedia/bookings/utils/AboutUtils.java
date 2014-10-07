@@ -152,16 +152,16 @@ public class AboutUtils {
 
 	public void openAppSupport() {
 		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, true);
+			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_vsc), false, true);
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
 		}
 		else if (ExpediaBookingApp.IS_AAG) {
-			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
+			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_aag), false, true);
 		}
 		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			openWebsite(mActivity, "http://www.mobiata.com/support/expedia-android", false, true);
+			openWebsite(mActivity, mActivity.getString(R.string.app_support_url), false, true);
 		}
 		else {
 			throw new RuntimeException("Did not handle app support url for current build flavor");
