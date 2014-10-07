@@ -17,6 +17,7 @@ import com.expedia.bookings.data.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -586,7 +587,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			}
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
 
-			obj.putOpt("passengerCategory", mPassengerCategory);
+			JSONUtils.putEnum(obj, "passengerCategory", mPassengerCategory);
 
 			obj.putOpt("searchedAge", mSearchedAge);
 

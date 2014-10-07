@@ -33,6 +33,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -296,10 +297,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 	}
 
-	private void populateTravelerData() {
+	private static void populateTravelerData() {
 		List<Traveler> travelers = Db.getTravelers();
 		if (travelers == null) {
-			travelers = new ArrayList<Traveler>();
+			travelers = new ArrayList<>();
 			Db.setTravelers(travelers);
 		}
 
@@ -309,6 +310,15 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		Db.setTravelers(newTravelerList);
 	}
 
+	private boolean aTravelerHasNoPassengerCategory(List<Traveler> travelers) {
+		for (Traveler t : travelers) {
+			if (t.getPassengerCategory() == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void buildTravelerBox() {
 		mTravelerContainer.removeAllViews();
 		mTravelerSections.clear();
@@ -316,19 +326,16 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 
+		List<Traveler> travelers = Db.getTravelers();
 		List<PassengerCategoryPrice> passengers = Db.getTripBucket().getFlight().getFlightTrip().getPassengers();
 		Collections.sort(passengers);
 
-		List<Traveler> travelers = Db.getTravelers();
-
 		// Not sure if this state could happen, but there was a LOT of defensive code
 		// I've removed, so I might as well keep everything from breaking.
-		if (travelers == null || passengers.size() != travelers.size()) {
+		if (travelers == null || passengers.size() != travelers.size() || aTravelerHasNoPassengerCategory(travelers)) {
 			populateTravelerData();
+			travelers = Db.getTravelers();
 		}
-
-		travelers = Db.getTravelers();
-		final int numTravelers = travelers.size();
 
 		FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 		boolean isInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
@@ -363,7 +370,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 				// We need to add traveler sections for all passengers in order to best
 				// maintain matched indexing between travelers and their info sections
-				if (mTravelerSections.size() < numTravelers) {
+				if (mTravelerSections.size() < travelers.size()) {
 					SectionTravelerInfo travelerSection = Ui.inflate(inflater,
 						R.layout.section_flight_display_traveler_info_btn, null);
 					dressSectionTraveler(travelerSection, index);
