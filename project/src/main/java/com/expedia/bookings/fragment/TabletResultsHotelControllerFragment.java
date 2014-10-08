@@ -1456,9 +1456,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		private void setRoomsAndRatesShownPercentage(float percentage) {
 			mHotelDetailsC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
 			mMapDimmer.setAlpha(percentage);
-			if (!mGrid.isLandscape()) {
-				mHotelListC.setTranslationX(percentage * -mGrid.getColRight(0));
-			}
+			translateListForPortraitDetailsMode(percentage);
 		}
 
 		/*
@@ -1484,6 +1482,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (percentage > 0.6f) {
 				float projectedPercentage = (percentage - 0.5f) * 2.0f;
 				mHotelReviewsC.setAlpha(projectedPercentage);
+			}
+			if (percentage == 1.0f) {
+				translateListForPortraitDetailsMode(percentage);
+			}
+		}
+
+		private void translateListForPortraitDetailsMode(float percentage) {
+			if (!mGrid.isLandscape()) {
+				mHotelListC.setTranslationX(percentage * -mGrid.getColRight(0));
 			}
 		}
 
