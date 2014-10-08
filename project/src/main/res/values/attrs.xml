@@ -507,6 +507,7 @@
     <attr name="loadingAccount" format="reference|string" />
     <attr name="restrictedProfileLoginMessage" format="reference|string" />
     <attr name="dialogMessageLaunchMobileSite" format="reference|string" />
+    <attr name="sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!-- calendar description for flight's itinerary and support-->
     <attr name="calendarFlightDescItinerary" format="reference|string" />

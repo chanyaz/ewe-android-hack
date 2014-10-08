@@ -187,6 +187,7 @@
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
         <item name="flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
         <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
+        <item name="sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_expedia</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

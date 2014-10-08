@@ -108,6 +108,8 @@
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="flightCheckoutAccountLabel">@string/aag_account</item>
+        <item name="sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_aag</item>
+
     </style>
 
     <!-- Override the phone theme -->

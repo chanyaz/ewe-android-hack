@@ -23,10 +23,10 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
-import com.mobiata.android.util.Ui;
 
 public class RoomsAndRatesFragment extends ListFragment {
 
@@ -118,7 +118,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			Db.getHotelSearch().removeProperty(selectedId);
 
 			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-			dialog.setMessage(R.string.error_hotel_is_now_sold_out_expedia);
+			dialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.sorryRoomsSoldOutErrorMessage));
 			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);

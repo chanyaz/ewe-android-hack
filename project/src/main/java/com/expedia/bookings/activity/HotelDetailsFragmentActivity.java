@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +49,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelMiniMapFragmentListener,
 		HotelMiniGalleryFragmentListener {
@@ -494,7 +492,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if (response.hasErrors()) {
 				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = R.string.error_hotel_is_now_sold_out_expedia;
+					messageResId = Ui.obtainThemeResID(mContext, R.attr.sorryRoomsSoldOutErrorMessage);
 				}
 				else {
 					if (ExpediaBookingApp.IS_TRAVELOCITY) {
