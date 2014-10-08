@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +43,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -302,10 +302,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		// Search bar
 		if (mLocalParams != null && mLocalParams.getStartDate() != null) {
 			String dateStr;
-			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
+			int flags = DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY;
 			if (mLocalParams.getEndDate() != null) {
-				dateStr = JodaUtils
+				dateStr = DateFormatUtils
 					.formatDateRange(getActivity(), mLocalParams.getStartDate(), mLocalParams.getEndDate(), flags);
+
 			}
 			else {
 				dateStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getStartDate(), flags);
@@ -319,7 +320,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		// Popup
 		if (mLocalParams != null) {
 			// Text
-			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
+			int flags = DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY;
 			String startStr = null, endStr = null;
 			if (mLocalParams.getStartDate() != null) {
 				startStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getStartDate(), flags);

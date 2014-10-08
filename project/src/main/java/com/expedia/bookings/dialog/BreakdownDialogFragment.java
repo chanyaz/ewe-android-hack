@@ -20,20 +20,16 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
-import com.expedia.bookings.data.TripBucket;
-import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -162,7 +158,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		// Breakdown of each night
 		if (originalRate.getRateBreakdownList() != null) {
 			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
-				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), JodaUtils.FLAGS_DATE_FORMAT);
+				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), DateFormatUtils.FLAGS_DATE_NUMERIC);
 				Money amount = breakdown.getAmount();
 				CharSequence amountStr = (amount.isZero()) ? context.getString(R.string.free) :
 					amount.getFormattedMoney();

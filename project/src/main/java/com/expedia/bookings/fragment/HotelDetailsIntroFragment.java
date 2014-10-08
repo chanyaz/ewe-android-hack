@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +25,7 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.Ui;
@@ -86,8 +85,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 			calendarTextView.setText(Integer.toString(searchParams.getCheckInDate().getDayOfMonth()));
 
 			TextView searchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
-			searchDatesTextView.setText(JodaUtils.formatDateRange(getActivity(), searchParams.getCheckInDate(),
-					searchParams.getCheckOutDate(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL));
+			searchDatesTextView.setText(DateFormatUtils.formatDateRange(getActivity(), searchParams.getCheckInDate(),
+				searchParams.getCheckOutDate(), DateFormatUtils.FLAGS_DATE_ABBREV_ALL));
 
 			TextView searchGuestsTextView = Ui.findView(view, R.id.search_guests_text_view);
 			searchGuestsTextView.setText(StrUtils.formatGuests(getActivity(), searchParams));

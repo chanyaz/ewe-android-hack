@@ -52,6 +52,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -62,7 +63,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -378,7 +378,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				}
 				else {
-					String timeString = JodaUtils.formatDateTime(getContext(), arrival, JodaUtils.FLAGS_TIME_FORMAT);
+					String timeString = JodaUtils.formatDateTime(getContext(), arrival, DateFormatUtils.FLAGS_TIME_FORMAT);
 					int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 					if (delay > 0) {
 						vh.mTopLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));

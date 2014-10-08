@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.Ui;
@@ -204,14 +203,12 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 		TextView bucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-			String date = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_ABBREV_MONTH);
+			String date = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 			bucketDateRange.setText(date);
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
-			String dateRange = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_ABBREV_MONTH);
+			String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 			bucketDateRange.setText(dateRange);
 		}
 

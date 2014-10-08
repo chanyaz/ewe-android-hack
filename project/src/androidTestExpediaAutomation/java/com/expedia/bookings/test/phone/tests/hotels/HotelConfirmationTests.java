@@ -28,7 +28,7 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.PhoneTestCase;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -157,7 +157,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "no guest  " + mNumberOfGuests + "," + cachedNumberOfGuests);
 
 		String guestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests, mNumberOfGuests, mNumberOfGuests);
-		mDateRangeString = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
+		mDateRangeString = DateFormatUtils.formatRangeDateToDate(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		String expectedSummaryString = getActivity().getResources().getString(R.string.stay_summary_TEMPLATE, guestString, mDateRangeString);
 		HotelsConfirmationScreen.summaryTextView().check(matches(withText(expectedSummaryString)));
 

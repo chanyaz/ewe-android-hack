@@ -5,7 +5,6 @@ import org.joda.time.LocalDate;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +21,10 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
-import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -148,8 +144,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				//Dates
 				LocalDate checkIn = params.getCheckInDate();
 				LocalDate checkOut = params.getCheckOutDate();
-				String dateRange = JodaUtils
-					.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
+				String dateRange = DateFormatUtils
+					.formatDateRange(getActivity(), checkIn, checkOut, DateFormatUtils.FLAGS_DATE_SHOW);
 				int numNights = params.getStayDuration();
 				String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
 				String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
@@ -201,8 +197,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			HotelSearchParams params = hotel.getHotelSearchParams();
-			return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_ABBREV_MONTH);
+			return DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		}
 		else {
 			return null;

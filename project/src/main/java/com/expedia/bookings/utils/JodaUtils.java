@@ -62,39 +62,8 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 		return dateTime.getZone().getShortName(dateTime.getMillis());
 	}
 
-	public static String formatDateRange(Context context, LocalDate start, LocalDate end, int flags) {
-		return formatDateRange(context, start.toDateTimeAtStartOfDay(), end.toDateTimeAtStartOfDay(), flags);
-	}
-
-	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
-		return DateUtils.formatDateRange(context, start.getMillis(), end.getMillis() + 1000, flags
-				| DateUtils.FORMAT_UTC);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
-
-	/**
-	 * This is the equivalent of android.text.format.getDateFormat(), when used in DateUtils
-	 */
-	public static final int FLAGS_DATE_FORMAT = DateUtils.FORMAT_NUMERIC_DATE;
-
-	/**
-	 * This is the equivalent of android.text.format.getLongDateFormat(), when used in DateUtils
-	 */
-	public static final int FLAGS_LONG_DATE_FORMAT = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
-			| DateUtils.FORMAT_SHOW_YEAR;
-
-	/**
-	 * This is the equivalent of android.text.format.getMediumDateFormat(), when used in DateUtils
-	 */
-	public static final int FLAGS_MEDIUM_DATE_FORMAT = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH |
-			DateUtils.FORMAT_SHOW_YEAR;
-
-	/**
-	 * This is the equivalent of android.text.format.getTimeFormat(), when used in DateUtils
-	 */
-	public static final int FLAGS_TIME_FORMAT = DateUtils.FORMAT_SHOW_TIME;
 
 	/**
 	 * Note: you should first check ISODateTimeFormat for the correct format

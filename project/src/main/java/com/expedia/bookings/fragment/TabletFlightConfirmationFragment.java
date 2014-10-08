@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -26,7 +23,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ShareUtils;
@@ -100,8 +97,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 	@Override
 	protected String getConfirmationSummaryText() {
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-		String duration = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_ABBREV_MONTH);
+		String duration = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		String fromTo = getString(R.string.tablet_confirmation_flights_from_to,
 				params.getDepartureLocation().getCity(), params.getArrivalLocation().getCity());
 		return getString(R.string.tablet_confirmation_summary, fromTo, duration);
