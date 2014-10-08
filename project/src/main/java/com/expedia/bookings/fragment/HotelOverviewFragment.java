@@ -1504,6 +1504,18 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	@Subscribe
+	public void onCreateTripDownloadError(Events.CreateTripDownloadError event) {
+		dismissDialogs();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
+		mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
+		mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+		mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+	}
+
+	@Subscribe
 	public void onCouponApplied(Events.CouponApplyDownloadSuccess event) {
 		dismissDialogs();
 		refreshData();
