@@ -34,8 +34,10 @@ import com.mobiata.flightlib.data.Waypoint;
 
 public class StrUtils {
 
+	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA
 	private static Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
-
+	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> Kuantan, Malyasia
+	private static Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -416,9 +418,15 @@ public class StrUtils {
 		if (TextUtils.isEmpty(city)) {
 			city = Html.fromHtml(suggestion.getDisplayName()).toString();
 		}
-		Matcher m = CITY_STATE_PATTERN.matcher(city);
-		if (m.find()) {
-			city = m.group(1);
+		Matcher cityCountryMatcher = CITY_COUNTRY_PATTERN.matcher(city);
+		if (cityCountryMatcher.find()) {
+			city = cityCountryMatcher.group(1);
+		}
+		else {
+			Matcher cityStateMatcher = CITY_STATE_PATTERN.matcher(city);
+			if (cityStateMatcher.find()) {
+				city = cityStateMatcher.group(1);
+			}
 		}
 		return city;
 	}
