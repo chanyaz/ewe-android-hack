@@ -528,12 +528,13 @@ public class TabletWaypointFragment extends Fragment
 		case CurrentLocationFragment.ERROR_LOCATION_DATA:
 		case CurrentLocationFragment.ERROR_LOCATION_SERVICE:
 			if (mLoadingLocation) {
-				// TODO - What error to show?
+				NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
+				dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
 			}
 			break;
 		case CurrentLocationFragment.ERROR_SUGGEST_DATA:
 		case CurrentLocationFragment.ERROR_SUGGEST_SERVICE:
-			// TODO - What error to show?
+			Ui.showToast(getActivity(), R.string.geolocation_failed);
 			break;
 		}
 	}
