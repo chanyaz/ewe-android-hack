@@ -97,8 +97,6 @@
     <string name="flight_trends">Flight trends</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">When to return</string>
-    <!-- Waypoint fail message for when no suggestion is available. -->
-    <string name="waypoint_suggestion_fail">No waypoint information found! Please alter your query and try again.</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Sorry, no hotels are \n currently available.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
