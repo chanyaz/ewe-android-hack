@@ -5,12 +5,12 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import android.app.ActivityManager;
 import android.app.Application;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -275,6 +275,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				rootCause = rootCause.getCause();
 			}
 
+			setCrashlyticsMetadata();
+
 			Log.d("ExpediaBookingApp exception handler w/ class:" + ex.getClass() + "; root cause="
 					+ rootCause.getClass());
 			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
@@ -394,6 +396,42 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		String localeIdentifier = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		String[] langCountryArray = localeIdentifier.split("_");
 		return new Locale(langCountryArray[0], langCountryArray[1]);
+	}
+
+	public void setCrashlyticsMetadata() {
+
+		Context context = getApplicationContext();
+
+		Point displayPoint = AndroidUtils.getDisplaySize(context);
+		Point screenPoint = AndroidUtils.getScreenSize(context);
+		int screenDpi = AndroidUtils.getScreenDpi(context);
+		String screenDpiClass = AndroidUtils.getScreenDensityClass(context);
+
+		String screenSize = Integer.toString(screenPoint.x) + " x " + Integer.toString(screenPoint.y);
+		String displaySize = Integer.toString(displayPoint.x) + " x " + Integer.toString(displayPoint.y);
+
+		String localeId = PointOfSale.getPointOfSale().getLocaleIdentifier();
+		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
+		String api = ExpediaServices.getEndPoint(context).name();
+		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
+		String mc1Cookie = AboutWebViewActivity.getMC1CookieStr(context);
+
+		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		int memClass = am.getMemoryClass();
+
+		Crashlytics.setString("screen size", screenSize);
+		Crashlytics.setString("display size", displaySize);
+		Crashlytics.setInt("screen dpi", screenDpi);
+		Crashlytics.setString("screen dpi class", screenDpiClass);
+		Crashlytics.setString("pos id", posId);
+		Crashlytics.setString("locale id", localeId);
+		Crashlytics.setString("mc1 cookie", mc1Cookie);
+		Crashlytics.setString("api", api);
+		Crashlytics.setInt("memory class", memClass);
+
+		if (!gcmId.isEmpty()) {
+			Crashlytics.setString("gcm token", gcmId);
+		}
 	}
 
 }

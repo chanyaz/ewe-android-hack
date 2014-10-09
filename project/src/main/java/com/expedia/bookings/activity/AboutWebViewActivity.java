@@ -114,7 +114,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 		body.append("\n\n");
 
 		body.append("MC1 COOKIE: ");
-		body.append(getMC1CookieStr());
+		body.append(getMC1CookieStr(this));
 
 		body.append("\n\n");
 
@@ -159,8 +159,8 @@ public class AboutWebViewActivity extends WebViewActivity {
 		SocialUtils.email(this, getString(R.string.email_app_support), "", body);
 	}
 
-	private String getMC1CookieStr() {
-		List<HttpCookie> cookies = ExpediaServices.getCookies(this);
+	public static String getMC1CookieStr(Context context) {
+		List<HttpCookie> cookies = ExpediaServices.getCookies(context);
 		if (cookies != null) {
 			for (HttpCookie cookie : cookies) {
 				if (cookie.getName() != null && cookie.getName().equals("MC1")) {
