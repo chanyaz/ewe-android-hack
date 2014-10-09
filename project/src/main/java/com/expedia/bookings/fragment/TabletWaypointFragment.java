@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
+import com.expedia.bookings.dialog.NoLocationServicesDialog;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
@@ -36,6 +37,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.mobiata.android.util.NetUtils;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -48,8 +50,6 @@ public class TabletWaypointFragment extends Fragment
 	private static final String FTAG_SUGGESTIONS = "FTAG_SUGGESTIONS";
 	private static final String FTAG_LOCATION = "FTAG_LOCATION";
 
-	private static final String STATE_WAYPOINT_CHOOSER_STATE = "STATE_WAYPOINT_CHOOSER_STATE";
-	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 	private static final String STATE_HAS_BACKGROUND = "STATE_HAS_BACKGROUND";
 	private static final String STATE_WAYPOINT_EDIT_TEXT = "STATE_WAYPOINT_EDIT_TEXT";
 
@@ -60,7 +60,6 @@ public class TabletWaypointFragment extends Fragment
 	private SuggestionsFragment mSuggestionsFragment;
 	private ITabletWaypointFragmentListener mListener;
 	private CurrentLocationFragment mLocationFragment;
-	private String mErrorMessage;
 
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBg;
@@ -68,7 +67,6 @@ public class TabletWaypointFragment extends Fragment
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;
 	private EditText mWaypointEditText;
-	private TextView mErrorTv;
 	private ProgressBar mLocationProgressBar;
 
 	private boolean mHasBackground = false;
@@ -96,7 +94,6 @@ public class TabletWaypointFragment extends Fragment
 
 		//State
 		if (savedInstanceState != null) {
-			mErrorMessage = savedInstanceState.getString(STATE_ERROR_MESSAGE);
 			mHasBackground = savedInstanceState.getBoolean(STATE_HAS_BACKGROUND);
 			mWayPointString = savedInstanceState.getString(STATE_WAYPOINT_EDIT_TEXT);
 		}
@@ -113,7 +110,6 @@ public class TabletWaypointFragment extends Fragment
 		mSearchBarC = Ui.findView(view, R.id.search_bar_container);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
 		mLocationProgressBar = Ui.findView(view, R.id.location_loading_progress);
-		mErrorTv = Ui.findView(view, R.id.error_text_view);
 
 		// Fix waypoint EditText font
 		FontCache.setTypeface(mWaypointEditText, FontCache.Font.ROBOTO_LIGHT);
@@ -181,18 +177,19 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onResume() {
 		super.onResume();
+		Events.register(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		Events.unregister(this);
 		mLoadingLocation = false;
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString(STATE_ERROR_MESSAGE, mErrorMessage == null ? "" : mErrorMessage);
 		outState.putBoolean(STATE_HAS_BACKGROUND, mHasBackground);
 		outState.putString(STATE_WAYPOINT_EDIT_TEXT, mWaypointEditText.getText().toString());
 	}
@@ -202,24 +199,8 @@ public class TabletWaypointFragment extends Fragment
 
 	private boolean mLoadingLocation = false;
 
-	public void unsetLoadingAndError() {
+	public void unsetLoading() {
 		mLoadingLocation = false;
-		setErrorMessage(null);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Error messaging
-
-	public void setErrorMessage(String message) {
-		mErrorMessage = message;
-		if (TextUtils.isEmpty(message)) {
-			mErrorTv.setVisibility(View.GONE);
-			mErrorTv.setText("");
-		}
-		else {
-			mErrorTv.setText(message);
-			mErrorTv.setVisibility(View.VISIBLE);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -258,7 +239,7 @@ public class TabletWaypointFragment extends Fragment
 			updateFilter(mSuggestionsFragment, editText.isFocusableInTouchMode() ? mWaypointEditText.getText()
 				: null);
 			//We were loading the location, but the user started typing, so lets not look like we are waiting on location
-			unsetLoadingAndError();
+			unsetLoading();
 		}
 
 	}
@@ -300,7 +281,6 @@ public class TabletWaypointFragment extends Fragment
 						return true;
 					}
 					else {
-						setErrorMessage(getString(R.string.waypoint_suggestion_fail));
 						requestEditTextFocus(mWaypointEditText);
 					}
 				}
@@ -331,12 +311,11 @@ public class TabletWaypointFragment extends Fragment
 
 		if (needsLocation(suggestion)) {
 			//This will fire the listener when the location is found
-			setErrorMessage(null);
 			mLoadingLocation = true;
 			mLocationFragment.getCurrentLocation();
 		}
 		else {
-			unsetLoadingAndError();
+			unsetLoading();
 			Events.post(new Events.SearchSuggestionSelected(suggestion, qryText));
 		}
 	}
@@ -346,7 +325,12 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		handleSuggestion(suggestion, null);
+		if (!NetUtils.isOnline(getActivity())) {
+			Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
+		}
+		else {
+			handleSuggestion(suggestion, null);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -495,7 +479,6 @@ public class TabletWaypointFragment extends Fragment
 				mWaypointEditText.setText("");
 				mLocationProgressBar.setVisibility(View.GONE);
 				clearEditTextFocus(mWaypointEditText);
-				setErrorMessage(null);
 				if (mSuggestionsFragment != null
 					&& mSuggestionsFragment.isAdded()
 					&& mSuggestionsFragment.getListAdapter() != null
@@ -520,7 +503,6 @@ public class TabletWaypointFragment extends Fragment
 				else {
 					mLocationProgressBar.setVisibility(View.GONE);
 				}
-				setErrorMessage(mErrorMessage);
 				requestEditTextFocus(mWaypointEditText);
 			}
 		}
@@ -532,7 +514,7 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		if (mLoadingLocation) {
-			unsetLoadingAndError();
+			unsetLoading();
 			suggestion.getLocation().setLatitude(location.getLatitude());
 			suggestion.getLocation().setLongitude(location.getLongitude());
 			suggestion.setResultType(ResultType.CURRENT_LOCATION);
@@ -546,12 +528,13 @@ public class TabletWaypointFragment extends Fragment
 		case CurrentLocationFragment.ERROR_LOCATION_DATA:
 		case CurrentLocationFragment.ERROR_LOCATION_SERVICE:
 			if (mLoadingLocation) {
-				setErrorMessage(getString(R.string.geolocation_failed));
+				NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
+				dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
 			}
 			break;
 		case CurrentLocationFragment.ERROR_SUGGEST_DATA:
 		case CurrentLocationFragment.ERROR_SUGGEST_SERVICE:
-			setErrorMessage(getString(R.string.waypoint_suggestion_fail));
+			Ui.showToast(getActivity(), R.string.geolocation_failed);
 			break;
 		}
 	}
