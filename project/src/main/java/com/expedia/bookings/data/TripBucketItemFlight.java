@@ -25,6 +25,12 @@ public class TripBucketItemFlight extends TripBucketItem {
 		mFlightTrip = flightSearch.getSelectedFlightTrip().clone();
 	}
 
+	public TripBucketItemFlight(FlightTrip trip, Itinerary itinerary) {
+		mFlightTrip = trip;
+		mItineraryResponse = new CreateItineraryResponse();
+		mItineraryResponse.setItinerary(itinerary);
+	}
+
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.FLIGHTS;
