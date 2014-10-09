@@ -500,6 +500,11 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		@Override
 		public SignInResponse doDownload() {
+			// 3485 timing issue - downloads get kicked off in onCreateView, but we detach quickly sometimes
+			if (getActivity() == null) {
+				return null;
+			}
+
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(genDlTag(mTrav.getTuid()), services);
 			return services.travelerDetails(mTrav, 0);
