@@ -1,9 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +24,6 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -190,12 +186,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 		if (mFlightTrip != null) {
 			// Dates
-			Calendar depDate = mFlightTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-			Calendar retDate = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint()
-				.getMostRelevantDateTime();
-			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
-			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
-			String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
+			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
+			String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_SHOW);
 			mDatesTv.setText(dateRange);
 
 			String price = mFlightTrip.getTotalFare().getFormattedMoney();
