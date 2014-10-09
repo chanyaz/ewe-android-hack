@@ -10,6 +10,7 @@ import org.joda.time.format.DateTimeFormatter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -485,7 +486,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_creditcard_number) {
 
-		private int mOriginalTextColor = -1;
+		private ColorStateList mOriginalTextColors = null;
 
 		@Override
 		public void setChangeListener(final EditText field) {
@@ -503,7 +504,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
-									field.setTextColor(mOriginalTextColor);
+									field.setTextColor(mOriginalTextColors);
 								}
 								else {
 									getData().setBrandCode(type.getCode());
@@ -514,7 +515,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 											R.color.flight_card_invalid_cc_type_text_color));
 									}
 									else {
-										field.setTextColor(mOriginalTextColor);
+										field.setTextColor(mOriginalTextColors);
 									}
 								}
 							}
@@ -534,7 +535,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
-			mOriginalTextColor = field.getCurrentTextColor();
+			mOriginalTextColors = field.getTextColors();
 		}
 
 		@Override
