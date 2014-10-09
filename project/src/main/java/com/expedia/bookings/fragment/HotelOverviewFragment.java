@@ -1492,8 +1492,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		if (event.createTripResponse instanceof CreateTripResponse) {
-			Rate rate = ((CreateTripResponse) event.createTripResponse).getNewRate();
-			if (!rate.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+			// Now we have the valid payments data
+			if (!Db.getTripBucket().getHotel().isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				disableGoogleWallet();
 			}
@@ -1501,6 +1501,18 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		dismissDialogs();
 		refreshData();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadError(Events.CreateTripDownloadError event) {
+		dismissDialogs();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
+		mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
+		mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+		mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
 	}
 
 	@Subscribe

@@ -22,6 +22,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
@@ -88,23 +89,17 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 			@Override
 			public void onChange() {
 				if (mBillingInfo.getCardType() != null) {
-					FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-					if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
+					TripBucketItemFlight flightItem = Db.getTripBucket().getFlight();
+					if (!flightItem.isCardTypeSupported(mBillingInfo.getCardType())) {
 						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
 								.getCardType().getHumanReadableName(getActivity()));
-						updateCardMessage(
-								message,
-								FlightPaymentCreditCardFragment.this.getResources().getColor(
-										R.color.flight_card_unsupported_warning));
+						updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 						toggleCardMessage(true, true);
 					}
-					else if (trip.getCardFee(mBillingInfo) != null) {
+					else if (flightItem.getCardFee(mBillingInfo) != null) {
 						String message = getString(R.string.airline_processing_fee_TEMPLATE,
-								trip.getCardFee(mBillingInfo).getFormattedMoney());
-						updateCardMessage(
-								message,
-								FlightPaymentCreditCardFragment.this.getResources().getColor(
-										R.color.flight_card_airline_fee_warning));
+								flightItem.getCardFee(mBillingInfo).getFormattedMoney());
+						updateCardMessage(message, getResources().getColor(R.color.flight_card_airline_fee_warning));
 						toggleCardMessage(true, true);
 					}
 					else {

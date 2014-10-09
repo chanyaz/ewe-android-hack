@@ -95,7 +95,7 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 		}
 
 		List<ValidPayment> payments = parseValidPayments(response);
-		offer.addValidPayments(payments);
+		createItinerary.setValidPayments(payments);
 
 		// Link the offer/itinerary
 		offer.setItineraryNumber(itinerary.getItineraryNumber());

@@ -32,6 +32,7 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -274,8 +275,8 @@ public class BreakdownDialogFragment extends DialogFragment {
 		return builder.build();
 	}
 
-	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, FlightTrip trip,
-																	 BillingInfo billingInfo) {
+	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, TripBucketItemFlight item, BillingInfo billingInfo) {
+		FlightTrip trip = item.getFlightTrip();
 		Builder builder = new Builder();
 
 		// Title
@@ -370,7 +371,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		}
 
 		// LCC card fee
-		Money cardFee = trip.getCardFee(billingInfo);
+		Money cardFee = item.getCardFee(billingInfo);
 		if (cardFee != null && trip.showFareWithCardFee(context, billingInfo)) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
@@ -406,7 +407,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		if (trip.getTotalFare() != null) {
 			String text;
 			if (trip.showFareWithCardFee(context, billingInfo)) {
-				text = trip.getTotalFareWithCardFee(billingInfo).getFormattedMoney();
+				text = trip.getTotalFareWithCardFee(billingInfo, item).getFormattedMoney();
 			}
 			else {
 				text = trip.getTotalFare().getFormattedMoney();

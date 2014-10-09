@@ -1,13 +1,19 @@
 package com.expedia.bookings.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -29,12 +35,18 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 	private static final String STATE_TAG_ATTEMPTED_LEAVE = "STATE_TAG_ATTEMPTED_LEAVE";
 
-	BillingInfo mBillingInfo;
+	private BillingInfo mBillingInfo;
 
-	SectionBillingInfo mSectionBillingInfo;
-	SectionLocation mSectionLocation;
+	private SectionBillingInfo mSectionBillingInfo;
+	private SectionLocation mSectionLocation;
 
-	boolean mAttemptToLeaveMade = false;
+	private boolean mAttemptToLeaveMade = false;
+
+	private TextView mCreditCardMessageTv;
+
+	//Animation vars for the card message
+	private ObjectAnimator mLastCardMessageAnimator;
+	private boolean mCardMessageShowing = false;
 
 	public static HotelPaymentCreditCardFragment newInstance() {
 		return new HotelPaymentCreditCardFragment();
@@ -49,6 +61,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_hotel_payment_creditcard, container, false);
+
+		mCreditCardMessageTv = Ui.findView(v, R.id.card_message);
+		hideCardMessageOrDisplayDefault(true);
 
 		if (ExpediaBookingApp.IS_VSC) {
 			// 1600. VSC Hide zipCode Field from CCEntry Screen
@@ -65,23 +80,6 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
-		SectionChangeListener sectionListener = new SectionChangeListener() {
-			@Override
-			public void onChange() {
-				if (mAttemptToLeaveMade) {
-					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					if (mSectionBillingInfo != null) {
-						mSectionBillingInfo.performValidation();
-					}
-					if (mSectionLocation != null) {
-						mSectionLocation.performValidation();
-					}
-				}
-				//Attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
-			}
-		};
-
 		InvalidCharacterListener invalidCharacterListener = new InvalidCharacterListener() {
 			@Override
 			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
@@ -94,8 +92,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
 
-		mSectionBillingInfo.addChangeListener(sectionListener);
-		mSectionLocation.addChangeListener(sectionListener);
+		mSectionBillingInfo.addChangeListener(mSectionListener);
+		mSectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
+		mSectionLocation.addChangeListener(mSectionListener);
 
 		mSectionBillingInfo.addInvalidCharacterListener(invalidCharacterListener);
 		mSectionLocation.addInvalidCharacterListener(invalidCharacterListener);
@@ -147,4 +146,109 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		mSectionBillingInfo.bind(mBillingInfo);
 	}
 
+	final SectionChangeListener mSectionListener = new SectionChangeListener() {
+		@Override
+		public void onChange() {
+			if (mAttemptToLeaveMade) {
+				//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
+				if (mSectionBillingInfo != null) {
+					mSectionBillingInfo.performValidation();
+				}
+				if (mSectionLocation != null) {
+					mSectionLocation.performValidation();
+				}
+			}
+			//Attempt to save on change
+			Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
+		}
+	};
+
+	final SectionChangeListener mValidFormsOfPaymentListener = new SectionChangeListener() {
+		@Override
+		public void onChange() {
+			if (mBillingInfo.getCardType() != null) {
+				if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getCardType())) {
+					String cardName = mBillingInfo.getCardType().getHumanReadableName(getActivity());
+					String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
+					updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
+					toggleCardMessage(true, true);
+				}
+				else {
+					hideCardMessageOrDisplayDefault(true);
+				}
+			}
+			else {
+				hideCardMessageOrDisplayDefault(true);
+			}
+		}
+	};
+
+	private void updateCardMessage(String message, int backgroundColor) {
+		mCreditCardMessageTv.setBackgroundColor(backgroundColor);
+		mCreditCardMessageTv.setText(Html.fromHtml(message));
+	}
+
+	private void toggleCardMessage(final boolean show, final boolean animate) {
+		if (!animate) {
+			if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
+				mLastCardMessageAnimator.end();
+			}
+			mCreditCardMessageTv.setVisibility(show ? View.VISIBLE : View.GONE);
+			mCardMessageShowing = show;
+		}
+		else {
+			int totalHeight = mCreditCardMessageTv.getHeight();
+			if (show && !mCardMessageShowing && totalHeight <= 0) {
+				mCreditCardMessageTv.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						mCreditCardMessageTv.getViewTreeObserver().removeOnPreDrawListener(this);
+						toggleCardMessage(show, animate);
+						return true;
+					}
+				});
+				mCreditCardMessageTv.setVisibility(View.VISIBLE);
+			}
+			else {
+				if (show != mCardMessageShowing) {
+					if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
+						mLastCardMessageAnimator.cancel();
+					}
+					float start = show ? mCreditCardMessageTv.getHeight() : 0f;
+					float end = show ? 0f : mCreditCardMessageTv.getHeight();
+
+					ObjectAnimator animator = ObjectAnimator.ofFloat(mCreditCardMessageTv, "translationY",
+							start, end);
+					animator.setDuration(300);
+					if (show) {
+						animator.addListener(new AnimatorListenerAdapter() {
+
+							@Override
+							public void onAnimationStart(Animator arg0) {
+								mCreditCardMessageTv.setVisibility(View.VISIBLE);
+							}
+
+						});
+					}
+					else {
+						animator.addListener(new AnimatorListenerAdapter() {
+
+							@Override
+							public void onAnimationEnd(Animator arg0) {
+								mCreditCardMessageTv.setVisibility(View.GONE);
+							}
+
+						});
+					}
+					mLastCardMessageAnimator = animator;
+					animator.start();
+					mCardMessageShowing = show;
+				}
+			}
+		}
+	}
+
+	private void hideCardMessageOrDisplayDefault(boolean animate) {
+		toggleCardMessage(false, animate);
+	}
 }

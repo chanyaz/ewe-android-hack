@@ -20,10 +20,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutState;
@@ -206,8 +206,8 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		}
 		switch (getLob()) {
 		case FLIGHTS: {
-			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-			setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
+			TripBucketItemFlight item = Db.getTripBucket().getFlight();
+			setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), item));
 			break;
 		}
 		case HOTELS: {

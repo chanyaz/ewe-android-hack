@@ -50,12 +50,6 @@ public class FlightTrip implements JSONable {
 	// online booking feess
 	private boolean mMayChargeObFees;
 
-	/**
-	 * A list of ValidPayments that are accepted for this flight trip. For LCC flights, a fee will be associated with
-	 * the ValidPayment.
-	 */
-	private List<ValidPayment> mValidPayments;
-
 	// A boolean that denotes whether or not to show the total fare with or without the card fee. This is dependent
 	// on which screens the user has seen and what billing info they have selected. Transient; do not serialize.
 	private boolean mShowFareWithCardFee;
@@ -178,56 +172,9 @@ public class FlightTrip implements JSONable {
 		mPriceChangeAmount = priceChangeAmount;
 	}
 
-	public void addValidPayments(List<ValidPayment> payments) {
-		if (mValidPayments == null) {
-			mValidPayments = new ArrayList<ValidPayment>();
-		}
-
-		if (payments != null) {
-			for (ValidPayment payment : payments) {
-				ValidPayment.addValidPayment(mValidPayments, payment);
-			}
-		}
-	}
-
-	/**
-	 * This method calculates the card fee based upon looking at the ValidPayments (and their associated fees) and also
-	 * the selected card from the given BillingInfo.
-	 *
-	 * @param billingInfo
-	 * @return cardFee as Money or null if no card fee
-	 */
-	public Money getCardFee(BillingInfo billingInfo) {
-		if (billingInfo == null || billingInfo.getCardType() == null) {
-			return null;
-		}
-		return getCardFee(billingInfo.getCardType());
-	}
-
-	public Money getCardFee(CreditCardType creditCardType) {
-		if (creditCardType != null && mValidPayments != null) {
-			for (ValidPayment payment : mValidPayments) {
-				if (payment.getCreditCardType() == creditCardType) {
-					return payment.getFee();
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Is the supplied card type valid for this FlightTrip?
-	 *
-	 * @param creditCardType
-	 * @return true if this FlightTrip supports the card type, false otherswise.
-	 */
-	public boolean isCardTypeSupported(CreditCardType creditCardType) {
-		return ValidPayment.isCardTypeSupported(mValidPayments, creditCardType);
-	}
-
-	public Money getTotalFareWithCardFee(BillingInfo billingInfo) {
+	public Money getTotalFareWithCardFee(BillingInfo billingInfo, TripBucketItem item) {
 		Money base = new Money(mTotalFare);
-		Money cardFee = getCardFee(billingInfo);
+		Money cardFee = item.getCardFee(billingInfo);
 
 		if (cardFee != null) {
 			base.add(cardFee);
@@ -654,10 +601,6 @@ public class FlightTrip implements JSONable {
 		if (other.mRules != null) {
 			mRules = other.mRules;
 		}
-
-		if (other.mValidPayments != null) {
-			mValidPayments = other.mValidPayments;
-		}
 	}
 
 	public FlightTrip clone() {
@@ -695,7 +638,6 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_ITINERARY_NUMBER = "r";
 	private static final String KEY_RULES = "s";
 	private static final String KEY_CURRENCY = "t";
-	private static final String KEY_VALID_PAYMENTS = "u";
 	private static final String KEY_PASSENGERS = "v";
 
 	@Override
@@ -732,10 +674,6 @@ public class FlightTrip implements JSONable {
 			addMoney(obj, KEY_FEES, mFees);
 			addMoney(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
 			addMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
-
-			// mValidPayments (which in of itself contains Money) will only exist after a api/flight/trip/create call,
-			// this means we can store list uncompressed rather than taking care as in "addMoney()"
-			JSONUtils.putJSONableList(obj, KEY_VALID_PAYMENTS, mValidPayments);
 
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
@@ -823,7 +761,6 @@ public class FlightTrip implements JSONable {
 			mPriceChangeAmount = parseMoney(obj, KEY_PRICE_CHANGE_AMOUNT, currency);
 			mOnlineBookingFeesAmount = parseMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, currency);
 		}
-		mValidPayments = JSONUtils.getJSONableList(obj, KEY_VALID_PAYMENTS, ValidPayment.class);
 
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
 		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);

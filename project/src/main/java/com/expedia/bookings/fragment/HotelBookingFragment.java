@@ -457,6 +457,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
+		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
 		switch (mState) {
 		case COUPON_APPLY:
 			startApplyCouponDownloader(mCouponCode);

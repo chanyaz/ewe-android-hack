@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
-import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -41,7 +41,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private View mCardNotSupportedImageView;
 
 	private StoredCreditCard mStoredCard;
-	private FlightTrip mFlightTrip;
 
 	private int mCardIconResId = 0;
 	private ColorStateList mPrimaryTextColor;
@@ -133,11 +132,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		}
 	}
 
-	public void bind(StoredCreditCard data, FlightTrip flightTrip) {
-		mFlightTrip = flightTrip;
-		bind(data);
-	}
-
 	@Override
 	public void bind(StoredCreditCard data) {
 		mStoredCard = data;
@@ -207,16 +201,16 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			}
 
 			// LCC fee warning
-			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
+			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null) {
 				final CreditCardType type = mStoredCard.getType();
-				if (!mFlightTrip.isCardTypeSupported(type)) {
+				if (!Db.getTripBucket().getFlight().isCardTypeSupported(type)) {
 					Resources res = getResources();
 					mIconView.setImageResource(R.drawable.ic_lcc_no_card_payment_selection);
 					mDescriptionView.setTextColor(res.getColor(R.color.flight_card_invalid_cc_type_text_color));
 				}
 				else {
 					final FragmentActivity fa = (FragmentActivity) mContext;
-					Money cardFee = mFlightTrip.getCardFee(type);
+					Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
 
 					if (cardFee != null) {
 						final String feeText = cardFee.getFormattedMoney();

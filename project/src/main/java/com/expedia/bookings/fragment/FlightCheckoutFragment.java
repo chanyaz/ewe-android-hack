@@ -508,7 +508,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mListener.checkoutInformationIsNotValid();
 		}
 
-		Money cardFee = Db.getTripBucket().getFlight().getFlightTrip().getCardFee(mBillingInfo);
+		Money cardFee = Db.getTripBucket().getFlight().getCardFee(mBillingInfo);
 		if (hasValidCard && cardFee != null) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 

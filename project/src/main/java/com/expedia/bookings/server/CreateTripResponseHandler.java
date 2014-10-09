@@ -56,11 +56,10 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 
 			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams, mProperty);
 			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), numberOfNights, null);
+			createTripResponse.setNewRate(newRate);
 
 			List<ValidPayment> payments = CreateItineraryResponseHandler.parseValidPayments(response);
-			newRate.addValidPayments(payments);
-
-			createTripResponse.setNewRate(newRate);
+			createTripResponse.setValidPayments(payments);
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON CreateTrip response.", e);

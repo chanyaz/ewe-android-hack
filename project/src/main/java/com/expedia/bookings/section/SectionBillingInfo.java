@@ -10,6 +10,7 @@ import org.joda.time.format.DateTimeFormatter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -60,7 +61,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	Context mContext;
 
 	BillingInfo mBillingInfo;
-	FlightTrip mFlightTrip;
 	LineOfBusiness mLineOfBusiness;
 
 	public SectionBillingInfo(Context context) {
@@ -156,11 +156,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			mFields.removeField(mEditEmailAddress);
 			mFields.removeField(mDisplayEmailDisclaimer);
 		}
-	}
-
-	public void bind(BillingInfo billingInfo, FlightTrip flightTrip) {
-		mFlightTrip = flightTrip;
-		bind(billingInfo);
 	}
 
 	@Override
@@ -285,7 +280,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-						if (!hasValidFlightCardType(getData())) {
+						if (!hasValidCardType(mLineOfBusiness, getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 						}
 						else {
@@ -430,10 +425,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.card_fee_icon) {
 		@Override
 		public void onHasFieldAndData(com.expedia.bookings.widget.TextView field, BillingInfo billingInfo) {
-			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
+			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null) {
 				final FragmentActivity fa = (FragmentActivity) mContext;
 				final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-				Money cardFee = mFlightTrip.getCardFee(type);
+				Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
 				if (cardFee != null) {
 					final String feeText = cardFee.getFormattedMoney();
 					field.setVisibility(View.VISIBLE);
@@ -457,8 +452,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(View field, BillingInfo billingInfo) {
 			final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-			if (mFlightTrip != null) {
-				Money cardFee = mFlightTrip.getCardFee(type);
+			if (Db.getTripBucket().getFlight() != null) {
+				Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
 				if (cardFee != null) {
 					field.setVisibility(View.VISIBLE);
 				}
@@ -491,7 +486,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_creditcard_number) {
 
-		private int mOriginalTextColor = -1;
+		private ColorStateList mOriginalTextColors = null;
 
 		@Override
 		public void setChangeListener(final EditText field) {
@@ -509,21 +504,18 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
-									if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-										field.setTextColor(mOriginalTextColor);
-									}
+									field.setTextColor(mOriginalTextColors);
 								}
 								else {
 									getData().setBrandCode(type.getCode());
 									getData().setBrandName(type.name());
-									if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-										if (!hasValidFlightCardType(getData())) {
-											field.setTextColor(getResources().getColor(
-												R.color.flight_card_invalid_cc_type_text_color));
-										}
-										else {
-											field.setTextColor(mOriginalTextColor);
-										}
+
+									if (!hasValidCardType(mLineOfBusiness, getData())) {
+										field.setTextColor(getResources().getColor(
+											R.color.flight_card_invalid_cc_type_text_color));
+									}
+									else {
+										field.setTextColor(mOriginalTextColors);
 									}
 								}
 							}
@@ -543,7 +535,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
-			mOriginalTextColor = field.getCurrentTextColor();
+			mOriginalTextColors = field.getTextColors();
 		}
 
 		@Override
@@ -561,7 +553,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
-							if (mLineOfBusiness == LineOfBusiness.FLIGHTS && !hasValidFlightCardType(getData())) {
+							if (!hasValidCardType(mLineOfBusiness, getData())) {
 								return ValidationError.ERROR_DATA_INVALID;
 							}
 							return ValidationError.NO_ERROR;
@@ -1037,10 +1029,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	public static boolean hasValidFlightCardType(BillingInfo info) {
-		return info != null && info.getCardType() != null && Db.getTripBucket().getFlight() != null
-			&& Db.getTripBucket().getFlight().getFlightTrip() != null
-			&& Db.getTripBucket().getFlight().getFlightTrip().isCardTypeSupported(info.getCardType());
+	public static boolean hasValidCardType(LineOfBusiness lob, BillingInfo info) {
+		if (info == null || info.getCardType() == null) {
+			return false;
+		}
+
+		if (lob == LineOfBusiness.HOTELS) {
+			return Db.getTripBucket().getHotel() != null &&
+				Db.getTripBucket().getHotel().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.FLIGHTS) {
+			return Db.getTripBucket().getFlight() != null
+				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
+		}
+
+		throw new RuntimeException("Line of business required");
 	}
 
 }

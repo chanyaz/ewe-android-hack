@@ -337,5 +337,25 @@
     },
     "tealeafTransactionId": "tealeafHotel:${productKey}",
     "tripId": "${productKey}",
-    "userId": 4019550
+    "userId": 4019550,
+    "validFormsOfPayment": [
+        {
+            "name": "AmericanExpress"
+        },
+        {
+            "name": "Diner's Club International"
+        },
+        {
+            "name": "Discover"
+        },
+        {
+            "name": "JCB"
+        },
+        {
+            "name": "MasterCard"
+        },
+        {
+            "name": "Visa"
+        }
+    ]
 }

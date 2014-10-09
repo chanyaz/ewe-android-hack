@@ -97,7 +97,7 @@ public class PaymentButtonFragment extends LobableFragment {
 			// LCC Fees callout
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Money cardFee = trip.getCardFee(bi);
+				Money cardFee = Db.getTripBucket().getFlight().getCardFee(bi);
 				if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
 					mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
 						cardFee.getFormattedMoney())));

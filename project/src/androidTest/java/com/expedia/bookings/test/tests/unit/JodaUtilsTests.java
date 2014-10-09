@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.test.utils.DataUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -228,24 +229,25 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		Itinerary itinerary = new Itinerary();
 		List<Traveler> travelers = new ArrayList<Traveler>();
 
+		TripBucketItemFlight flightItem = new TripBucketItemFlight(flightTrip, itinerary);
+
 		mBillingInfo.setExpirationDate(mNow);
 		verifyExpirationDates(query, mNow);
 
 		LocalDate tomorrow = LocalDate.now().plusDays(1);
 		mBillingInfo.setExpirationDate(tomorrow);
-		query = expediaServices.generateFlightCheckoutParams(flightTrip, itinerary, mBillingInfo, travelers, 0);
+		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
 		verifyExpirationDates(query, tomorrow);
 
 		LocalDate nextMonth = LocalDate.now().plusMonths(1);
 		mBillingInfo.setExpirationDate(nextMonth);
-		query = expediaServices.generateFlightCheckoutParams(flightTrip, itinerary, mBillingInfo, travelers, 0);
+		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
 		verifyExpirationDates(query, nextMonth);
 
 		LocalDate nextYear = LocalDate.now().plusYears(1);
 		mBillingInfo.setExpirationDate(nextYear);
-		query = expediaServices.generateFlightCheckoutParams(flightTrip, itinerary, mBillingInfo, travelers, 0);
+		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
 		verifyExpirationDates(query, nextYear);
-
 	}
 
 	public void testTimeInHotelCheckOutParams() throws InterruptedException {

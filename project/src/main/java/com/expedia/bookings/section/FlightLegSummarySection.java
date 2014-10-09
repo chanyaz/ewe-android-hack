@@ -213,8 +213,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mPriceTextView != null) {
-			if (trip != null && trip.hasPricing()) {
-				mPriceTextView.setText(trip.getTotalFareWithCardFee(billingInfo).getFormattedMoney(Money.F_NO_DECIMAL));
+			if (trip != null && trip.hasPricing() && Db.getTripBucket().getFlight() != null) {
+				mPriceTextView.setText(trip.getTotalFareWithCardFee(billingInfo, Db.getTripBucket().getFlight()).getFormattedMoney(Money.F_NO_DECIMAL));
 			}
 			else {
 				mPriceTextView.setVisibility(View.GONE);

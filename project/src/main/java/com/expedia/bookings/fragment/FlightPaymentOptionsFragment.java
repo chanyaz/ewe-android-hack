@@ -17,7 +17,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
@@ -168,8 +167,6 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
 			boolean firstCard = true;
@@ -187,11 +184,11 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
 				card.configure(R.drawable.ic_credit_card, 0, 0);
-				card.bind(storedCard, trip);
+				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
 
-				if (trip.isCardTypeSupported(card.getStoredCreditCard().getType())) {
+				if (Db.getTripBucket().getFlight().isCardTypeSupported(card.getStoredCreditCard().getType())) {
 					card.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
@@ -244,12 +241,11 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mValidationState = FlightPaymentFlowState.getInstance(getActivity());
 
 		BillingInfo billingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		mSectionCurrentBillingAddress.bind(billingInfo.getLocation());
-		mSectionCurrentCreditCard.bind(billingInfo, trip);
-		mSectionStoredPayment.bind(billingInfo.getStoredCard(), trip);
-		mSectionPartialCard.bind(billingInfo, trip);
+		mSectionCurrentCreditCard.bind(billingInfo);
+		mSectionStoredPayment.bind(billingInfo.getStoredCard());
+		mSectionPartialCard.bind(billingInfo);
 	}
 
 	@Override

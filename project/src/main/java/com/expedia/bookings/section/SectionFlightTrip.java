@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
 
@@ -79,8 +80,8 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 				text = "";
 			}
 			else {
-				if (mTrip.showFareWithCardFee(mContext, mBillingInfo)) {
-					text = data.getTotalFareWithCardFee(mBillingInfo).getFormattedMoney();
+				if (mTrip.showFareWithCardFee(mContext, mBillingInfo) && Db.getTripBucket().getFlight() != null) {
+					text = data.getTotalFareWithCardFee(mBillingInfo, Db.getTripBucket().getFlight()).getFormattedMoney();
 				}
 				else {
 					text = data.getTotalFare().getFormattedMoney();
