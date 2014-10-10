@@ -211,6 +211,9 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	public void updateAdapter() {
 		if (mAdapter != null) {
 			HotelSearch search = Db.getHotelSearch();
+			if (search != null && search.getSearchResponse() != null) {
+				search.getSearchResponse().setFilter(Db.getFilter());
+			}
 			mAdapter.setSearchResponse(search.getSearchResponse());
 			mAdapter.setShowDistance(
 				search != null
