@@ -92,21 +92,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(null, pseudoLeg, minTime, maxTime, true);
 	}
 
-	public void bindForTripBucket(FlightSearch flight) {
-		bindForTripBucket(flight.getSelectedFlightTrip(),
-			flight.getSelectedLegs(),
-			flight.getSearchParams().isRoundTrip());
-	}
-
-	public void bindForTripBucket(FlightTrip trip, FlightTripLeg[] legs, boolean isRoundTrip) {
-		if (isRoundTrip) {
-			bind(trip, legs[0].getFlightLeg(), legs[1].getFlightLeg(), null, null, false, null);
-		}
-		else {
-			bind(trip, legs[0].getFlightLeg());
-		}
-	}
-
 	public void bind(FlightSearch flightSearch, int legNumber) {
 		FlightTripQuery query = flightSearch.queryTrips(legNumber);
 		Calendar minTime = (Calendar) query.getMinTime().clone();
