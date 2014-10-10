@@ -26,6 +26,7 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -36,6 +37,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
  * leg or just one segment inside of a leg, depending on what data is bound
@@ -92,21 +94,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(null, pseudoLeg, minTime, maxTime, true);
 	}
 
-	public void bindForTripBucket(FlightSearch flight) {
-		bindForTripBucket(flight.getSelectedFlightTrip(),
-			flight.getSelectedLegs(),
-			flight.getSearchParams().isRoundTrip());
-	}
-
-	public void bindForTripBucket(FlightTrip trip, FlightTripLeg[] legs, boolean isRoundTrip) {
-		if (isRoundTrip) {
-			bind(trip, legs[0].getFlightLeg(), legs[1].getFlightLeg(), null, null, false, null);
-		}
-		else {
-			bind(trip, legs[0].getFlightLeg());
-		}
-	}
-
 	public void bind(FlightSearch flightSearch, int legNumber) {
 		FlightTripQuery query = flightSearch.queryTrips(legNumber);
 		Calendar minTime = (Calendar) query.getMinTime().clone();
@@ -124,8 +111,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(trip, leg, null, null, false);
 	}
 
-	public void bind(FlightTrip trip, FlightLeg leg, BillingInfo billingInfo) {
-		bind(trip, leg, null, null, null, false, billingInfo);
+	public void bind(FlightTrip trip, FlightLeg leg, BillingInfo billingInfo,
+					 TripBucketItemFlight tripBucketItemFlight) {
+		bind(trip, leg, null, null, null, false, billingInfo, tripBucketItemFlight);
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime) {
@@ -134,11 +122,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
 					 boolean isIndividualFlight) {
-		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null);
+		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null, null);
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, Calendar minTime,
-					 Calendar maxTime, boolean isIndividualFlight, BillingInfo billingInfo) {
+					 Calendar maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
+					 TripBucketItemFlight tripBucketItemFlight) {
 		Context context = getContext();
 		Resources res = getResources();
 
@@ -213,8 +202,15 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mPriceTextView != null) {
-			if (trip != null && trip.hasPricing() && Db.getTripBucket().getFlight() != null) {
-				mPriceTextView.setText(trip.getTotalFareWithCardFee(billingInfo, Db.getTripBucket().getFlight()).getFormattedMoney(Money.F_NO_DECIMAL));
+			if (trip != null && trip.hasPricing()) {
+				Money money;
+				if (tripBucketItemFlight != null && billingInfo != null) {
+					money = trip.getTotalFareWithCardFee(billingInfo, tripBucketItemFlight);
+				}
+				else {
+					money = trip.getTotalFare();
+				}
+				mPriceTextView.setText(money.getFormattedMoney(Money.F_NO_DECIMAL));
 			}
 			else {
 				mPriceTextView.setVisibility(View.GONE);
