@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,9 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
-import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
 
@@ -73,8 +71,8 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				mSoldOutTextView.setText((Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultNotAvailale)));
 			}
 			else {
-				String dates = JodaUtils.formatDateRange(getActivity(), params.getCheckInDate(),
-						params.getCheckOutDate(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+				String dates = DateFormatUtils.formatDateRange(getActivity(), params.getCheckInDate(),
+					params.getCheckOutDate(), DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
 				mSoldOutTextView
 					.setText(getString(Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultTEMPLATE), dates));
 			}

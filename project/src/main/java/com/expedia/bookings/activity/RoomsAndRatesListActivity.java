@@ -22,12 +22,11 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -122,7 +121,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
 
 			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
-			datesView.setText(CalendarUtils.formatDateRange(this, searchParams));
+			datesView.setText(DateFormatUtils.formatDateRange(this, searchParams));
 		}
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);

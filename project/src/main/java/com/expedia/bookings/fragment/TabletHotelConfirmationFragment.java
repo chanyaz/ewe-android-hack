@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -97,8 +96,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	protected String getConfirmationSummaryText() {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		String hotelName = Db.getTripBucket().getHotel().getProperty().getName();
-		String duration = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_ABBREV_MONTH);
+		String duration = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		return getString(R.string.tablet_confirmation_summary, hotelName, duration);
 	}
 

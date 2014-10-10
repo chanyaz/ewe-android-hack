@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.test.utils.DataUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 /*
@@ -137,19 +138,19 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 			String year = now.year().getAsText();
 
 			String nowLongDateFormat = JodaUtils.formatDateTime(getContext(),
-					now, JodaUtils.FLAGS_LONG_DATE_FORMAT);
+					now, DateFormatUtils.FLAGS_LONG_DATE_FORMAT);
 			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
 					+ dayOfMonth + ", " + year;
 			assertEquals(expectedLongString, nowLongDateFormat);
 
 			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
-					now, JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
+					now, DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
 					+ year;
 			assertEquals(expectedMediumString, nowMediumDateFormat);
 
 			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
-					JodaUtils.FLAGS_DATE_FORMAT | JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
+					DateFormatUtils.FLAGS_DATE_NUMERIC | DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedDateString = now.monthOfYear().getAsString() + "/"
 					+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
 			assertEquals(expectedDateString, dateFormat);

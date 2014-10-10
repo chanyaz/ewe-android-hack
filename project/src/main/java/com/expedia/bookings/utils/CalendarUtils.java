@@ -130,48 +130,6 @@ public class CalendarUtils {
 		}
 	}
 
-	// #9770: Add an hour of buffer so that the date range is always > the number of days
-	private static final long DATE_RANGE_BUFFER = DateUtils.HOUR_IN_MILLIS;
-
-	/**
-	 * Convenience method for formatting date range represented by a particular HotelSearchParams.
-	 *
-	 * @param context the context
-	 * @param searchParams the params to format
-	 * @return a numeric representation of the stay range (e.g., "10/31 - 11/04").
-	 */
-	public static String formatDateRange(Context context, HotelSearchParams searchParams) {
-		return formatDateRange(context, searchParams, DateUtils.FORMAT_NUMERIC_DATE);
-	}
-
-	public static String formatDateRange(Context context, HotelSearchParams searchParams, int flags) {
-		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().toDateTimeAtStartOfDay().getMillis(),
-				searchParams.getCheckOutDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
-	}
-
-	public static String formatDateRange(Context context, FlightSearchParams searchParams, int flags) {
-		// If it's a two-way flight, let's format the date range from departure - arrival
-		if (searchParams.getReturnDate() != null) {
-			return DateUtils.formatDateRange(context, searchParams.getDepartureDate().toDateTimeAtStartOfDay()
-					.getMillis(),
-					searchParams.getReturnDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
-		}
-		else {
-			// If it's a one-way flight, let's just send the formatted departure date.
-			return DateUtils.formatDateTime(context, searchParams.getDepartureDate().toDateTimeAtStartOfDay()
-					.getMillis(), flags);
-		}
-	}
-
-	/**
-	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
-	 */
-	public static String formatDateRange2(Context context, HotelSearchParams params, int flags) {
-		CharSequence from = JodaUtils.formatLocalDate(context, params.getCheckInDate(), flags);
-		CharSequence to = JodaUtils.formatLocalDate(context, params.getCheckOutDate(), flags);
-		return context.getString(R.string.date_range_TEMPLATE, from, to);
-	}
-
 	public static CharSequence getCalendarDatePickerTitle(Context context, HotelSearchParams params) {
 		int nights = params.getStayDuration();
 		if (params.getCheckInDate() == null && params.getCheckOutDate() == null) {
