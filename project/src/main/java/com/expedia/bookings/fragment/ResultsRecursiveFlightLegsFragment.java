@@ -776,7 +776,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mLastLegC != null) {
 			mLastLegC.setVisibility(View.VISIBLE);
 			String city = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
-			mLastLegHeader.setText(getString(R.string.your_flight_to_x_TEMPLATE, city));
+			mLastLegHeader.setText(getString(R.string.your_selected_flight_to_x_TEMPLATE, city));
 		}
 	}
 
