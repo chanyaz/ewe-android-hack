@@ -74,7 +74,8 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	private int mIndex;
 
 	// "id" denotes regionId but it denotes the hotel id if RegionType == "HOTEL"
-	private int mRegionId;
+	private final int UNKNOWN_REGION_ID = -1;
+	private int mRegionId = UNKNOWN_REGION_ID;
 
 	// "a" denotes the airport TLA
 	private String mAirportCode;
@@ -186,10 +187,15 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 	public ArrayList<String> getPossibleImageCodes() {
 		ArrayList<String> codes = new ArrayList<>();
-		if (!TextUtils.isEmpty(Sp.getParams().getDestination().getImageCode())) {
-			codes.add(Sp.getParams().getDestination().getImageCode());
+		if (!TextUtils.isEmpty(getImageCode())) {
+			codes.add(getImageCode());
 		}
-		codes.add(Sp.getParams().getDestination().getAirportCode());
+		if (getRegionId() != UNKNOWN_REGION_ID) {
+			codes.add("" + getRegionId());
+		}
+		if (!TextUtils.isEmpty(getAirportCode())) {
+			codes.add(getAirportCode());
+		}
 		return codes;
 	}
 
@@ -285,7 +291,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 		mIndex = obj.optInt("index");
 
-		mRegionId = obj.optInt("hotelId");
+		mRegionId = obj.optInt("hotelId", UNKNOWN_REGION_ID);
 		mAirportCode = obj.optString("airportCode", null);
 		mMultiCityRegionId = obj.optInt("regionId");
 
