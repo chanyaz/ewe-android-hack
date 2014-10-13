@@ -145,11 +145,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				LocalDate checkIn = params.getCheckInDate();
 				LocalDate checkOut = params.getCheckOutDate();
 				String dateRange = DateFormatUtils
-					.formatDateRange(getActivity(), checkIn, checkOut, DateFormatUtils.FLAGS_DATE_SHOW);
-				int numNights = params.getStayDuration();
-				String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
-				String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
-				mDatesTv.setText(dateStr);
+					.formatDateRange(getActivity(), checkIn, checkOut, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
+				mDatesTv.setText(dateRange);
 
 				//Guests
 				int numGuests = params.getNumTravelers();
