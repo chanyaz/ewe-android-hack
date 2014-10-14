@@ -163,6 +163,14 @@ android {
     }
 
     sourceSets {
+        latest {
+            java.srcDirs = ['src/debug/java']
+        }
+
+        feature {
+            java.srcDirs = ['src/debug/java']
+        }
+
         androidTestTravelocityAutomation {
             java.srcDirs = ['src/androidTestExpediaAutomation/java']
             res.srcDirs = ['src/androidTestExpediaAutomation/res']
