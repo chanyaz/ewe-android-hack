@@ -83,7 +83,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		Crashlytics.start(this);
 		startupTimer.addSplit("Crashlytics started.");
 
-		if (SettingUtils.get(this, getString(R.string.preference_should_start_hierarchy_server), false)) {
+		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this, getString(R.string.preference_should_start_hierarchy_server), false)) {
 			SocketActivityHierarchyServer activityHierarchyServer = new SocketActivityHierarchyServer();
 			try {
 				activityHierarchyServer.start();
