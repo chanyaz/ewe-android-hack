@@ -20,6 +20,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,7 +165,14 @@ public class RowRoomRateLayout extends FrameLayout {
 		Set<BedType> bedTypes = rate.getBedTypes();
 		if (bedTypes != null && bedTypes.iterator().hasNext()) {
 			bedType.setVisibility(View.VISIBLE);
-			bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
+			String bedTypeText = bedTypes.iterator().next().getBedTypeDescription();
+
+			if (mRate.shouldShowFreeCancellation()) {
+				setCancellationText(bedType, bedTypeText);
+			}
+			else {
+				bedType.setText(bedTypeText);
+			}
 		}
 
 		if (price != null) {
@@ -244,6 +252,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		ImageView roomDetailImageView = Ui.findView(this, R.id.room_rate_image_view);
 		final TextView roomLongDescriptionTextView = Ui.findView(this, R.id.room_rate_description_text);
 		TextView refundableCancellationTv = Ui.findView(this, R.id.room_rate_refundable_cancellation_text);
+		TextView nonRefundableTv = Ui.findView(this, R.id.room_rate_non_refundable_text);
 		android.widget.TextView roomRateDiscountRibbon = Ui.findView(this, R.id.room_rate_discount_text);
 
 		mIsDescriptionTextSpanned = false;
@@ -286,8 +295,8 @@ public class RowRoomRateLayout extends FrameLayout {
 
 		// Refundable text visibility check
 		if (mRate.isNonRefundable()) {
-			refundableCancellationTv.setVisibility(View.VISIBLE);
-			refundableCancellationTv.setText(R.string.non_refundable);
+			nonRefundableTv.setVisibility(View.VISIBLE);
+			nonRefundableTv.setText(R.string.non_refundable);
 		}
 		else if (mRate.shouldShowFreeCancellation()) {
 			refundableCancellationTv.setVisibility(View.VISIBLE);
@@ -427,6 +436,17 @@ public class RowRoomRateLayout extends FrameLayout {
 			span.append(formattedRoomRate, typefaceSpan, colorSpan);
 			return span.build();
 		}
+	}
+
+	private void setCancellationText (android.widget.TextView bedType, String bedTypeText) {
+		TextAppearanceSpan cancellationSpan = new TextAppearanceSpan(getContext(), R.style.FreeCancellationTextAppearance);
+		TypefaceSpan cancellationFontSpan = FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR);
+
+		SpannableBuilder sb = new SpannableBuilder();
+		sb.append(bedTypeText);
+		sb.append(" — ");
+		sb.append(getResources().getString(R.string.free_cancellation), cancellationSpan, cancellationFontSpan);
+		bedType.setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
 
 }

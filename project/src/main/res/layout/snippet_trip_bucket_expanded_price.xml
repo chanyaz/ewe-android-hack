@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="14dp"
                 android:src="@drawable/ic_tablet_checkout_price_breakdown" />
 
             <com.expedia.bookings.widget.TextView
