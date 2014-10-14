@@ -32,6 +32,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelFilter;
@@ -41,7 +42,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
 import com.larvalabs.svgandroid.widget.SVGView;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class LayoutUtils {
@@ -202,10 +202,11 @@ public class LayoutUtils {
 		// measure the length of the amenity string and determine whether it is short enough
 		// to fit within the acceptable width. If not, reduce the font size in an attempt to
 		// get it to fit.
+		// #3390. Or if Tablet then let's set it to small text size always.
 		float acceptableWidth = context.getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
 		float measuredWidthOfStr = amenityTextView.getPaint().measureText(context.getString(amenity.getStrId()));
 
-		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
+		if (ExpediaBookingApp.useTabletInterface(context) || amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
 			amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				context.getResources().getDimension(R.dimen.amenity_text_size_small));
 		}
