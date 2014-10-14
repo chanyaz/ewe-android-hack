@@ -25,9 +25,12 @@ if [ -z "${TARGET}" ] ; then
     exit 1
 fi
 
-./gradlew --info --stacktrace --no-daemon -PdisablePreDex "clean" "assemble${TARGET}Latest"
+./gradlew --info --stacktrace --no-daemon -PdisablePreDex "clean" "assemble${TARGET}Latest" \
+    && ./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
 
-./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
+RESULT=$?
 
 # Cleanup files
 rm -f "$CHANGE_LOG_FILE" "$PROPERTIES_FILE"
+
+exit "$RESULT"
