@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,17 @@ public class TabletFlightAdapter extends FlightAdapter {
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 			convertView = inflater.inflate(R.layout.section_flight_leg_tablet_blue_card, parent, false);
 		}
+		Drawable background;
+		if (mLegPosition == 0) {
+			background = parent.getContext().getResources().getDrawable(R.drawable.bg_flight_summary_row_tablet);
+		}
+		else {
+			background = parent.getContext().getResources().getDrawable(R.drawable.bg_flight_summary_row_return_leg_tablet);
+		}
+		convertView.setBackgroundDrawable(background);
+		// Setting the background resets padding, so we have to reset it here.
+		int leftRightPadding = (int) parent.getContext().getResources().getDimension(R.dimen.hotel_flight_card_padding_x);
+		convertView.setPadding(leftRightPadding, 0, leftRightPadding, 0);
 
 		return super.getView(position, convertView, parent);
 	}
