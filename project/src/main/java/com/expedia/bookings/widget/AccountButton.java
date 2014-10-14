@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -104,7 +103,9 @@ public class AccountButton extends LinearLayout {
 			traveler = u.getPrimaryTraveler();
 		}
 
-		boolean isElitePlusMember = isLoggedIn && traveler != null && traveler.getIsElitePlusMember();
+		// TODO: there's no such thing as Elite Plus anymore. Let's ax this
+		boolean isElitePlusMember = isLoggedIn && traveler != null
+			&& traveler.getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE;
 
 		// Errors container
 		if (mErrorContainer != null) {

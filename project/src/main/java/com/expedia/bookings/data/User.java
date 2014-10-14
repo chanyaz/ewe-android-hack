@@ -117,10 +117,11 @@ public class User implements JSONable {
 	 * special dial in phone numbers, etc.
 	 * @param context
 	 * @return
+	 * TODO: there's no such thing as Elite Plus anymore. Let's ax it.
 	 */
 	public boolean isElitePlus() {
 		return this.getPrimaryTraveler() != null
-				&& this.getPrimaryTraveler().getIsElitePlusMember();
+				&& this.getPrimaryTraveler().getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE;
 	}
 
 	public String getTuidString() {
