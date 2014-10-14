@@ -607,6 +607,9 @@ public class ShareUtils {
 		}
 
 		if (!TextUtils.isEmpty(pickUpDate) && !TextUtils.isEmpty(dropOffDate)) {
+			if (sb.length() > 0) {
+				sb.append(" ");
+			}
 			sb.append(mContext.getString(R.string.share_template_short_car_dates, pickUpDate, dropOffDate));
 		}
 
