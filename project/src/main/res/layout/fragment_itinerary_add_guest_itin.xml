@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:bufferType="spannable"
-            android:text="@string/find_itinerary"
+            android:text="@string/enter_itinerary_details"
             android:textColor="#f3f3f3"
             android:textSize="@dimen/login_header_text_size" />
 

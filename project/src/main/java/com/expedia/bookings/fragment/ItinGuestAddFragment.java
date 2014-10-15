@@ -146,7 +146,7 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 			@Override
 			public void onClick(View v) {
 				if (hasFormData()) {
-					setStatusText(getString(R.string.find_itinerary));
+					setStatusText(getString(R.string.enter_itinerary_details));
 
 					String emailAddr = mEmailEdit.getText().toString();
 					String itinNumber = mItinNumEdit.getText().toString();

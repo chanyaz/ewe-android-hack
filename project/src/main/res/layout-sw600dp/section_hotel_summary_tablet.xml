@@ -39,6 +39,27 @@
         android:layout_alignBottom="@id/hotel_background_view"
         android:background="@drawable/bg_hotel_details_header_gradient" />
 
+    <FrameLayout
+        android:id="@+id/selected_hotel_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/hotel_background_view"
+        android:layout_alignLeft="@id/hotel_background_view"
+        android:layout_alignRight="@id/hotel_background_view"
+        android:layout_alignTop="@id/hotel_background_view"
+        android:background="@color/tablet_hotel_selected_overlay"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/tablet_hotel_selected_checkmark_margin"
+            android:scaleType="center"
+            android:src="@drawable/ic_selected_hotel" />
+
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -194,5 +215,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/card_corners_bottom_white" />
+
+
 
 </com.expedia.bookings.section.HotelSummarySection>

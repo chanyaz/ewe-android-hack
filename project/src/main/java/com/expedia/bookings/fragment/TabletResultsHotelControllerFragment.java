@@ -167,6 +167,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
 		mMapDimmer = Ui.findView(view, R.id.bg_map_dimmer);
+		mMapDimmer.setTouchControlListener(mMapDimmerTouchListener);
 
 		// Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
@@ -754,6 +755,27 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onTouch() {
 			if (getHotelsState() == ResultsHotelsState.HOTEL_LIST_UP && !mGrid.isLandscape()) {
 				setHotelsState(ResultsHotelsState.MAP, true);
+			}
+		}
+	};
+
+	/**
+	 * MapDimmer FrameLayout is visible when state is set to {@link ResultsHotelsState#ROOMS_AND_RATES} i.e. below the HotelDetailsFragment.
+	 * This is a {@link FrameLayoutTouchController.TouchControlListener} that listens to user touches/taps on the MapDimmer view.
+	 * <p/>
+	 * When user taps on this view when in {@link ResultsHotelsState#ROOMS_AND_RATES} let's close hotel details view and show more of the map.
+	 */
+
+	public FrameLayoutTouchController.TouchControlListener mMapDimmerTouchListener = new FrameLayoutTouchController.TouchControlListener() {
+		@Override
+		public void onTouch() {
+			if (getHotelsState() == ResultsHotelsState.ROOMS_AND_RATES) {
+				if (mGrid.isLandscape()) {
+					setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
+				}
+				else {
+					setHotelsState(ResultsHotelsState.MAP, true);
+				}
 			}
 		}
 	};

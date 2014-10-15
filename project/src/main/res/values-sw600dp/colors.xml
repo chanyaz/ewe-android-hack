@@ -30,6 +30,7 @@
     <color name="hotel_room_rate_add_room_button_pressed">#ab601f</color>
     <color name="amenity_icon_color">#4c6680</color>
     <color name="tablet_room_rate_more_info_pressed">#20000000</color>
+    <color name="tablet_hotel_selected_overlay">#B34180d9</color>
 
     <!-- Tablet Flights -->
     <color name="tablet_flight_filter_text_color">#4c5156</color>
