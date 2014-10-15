@@ -64,6 +64,9 @@
     <dimen name="centered_captioned_icon_svg_height">70dp</dimen>
     <dimen name="centered_captioned_icon_svg_width">80dp</dimen>
 
+    <!-- Hotel Results Selected Checkmark Margin -->
+    <dimen name="tablet_hotel_selected_checkmark_margin">30dp</dimen>
+
     <!-- Hotel Details -->
     <dimen name="hotel_header_height">272dp</dimen>
     <dimen name="hotel_details_horizontal_padding">28dp</dimen>

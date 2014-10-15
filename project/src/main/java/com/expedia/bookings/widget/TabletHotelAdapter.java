@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 
 /**
@@ -130,6 +131,11 @@ public class TabletHotelAdapter extends HotelAdapter {
 
 		section.collapseBy(mCollapseNewViewsPercent * estimateExpandableHeight(position));
 		section.setTranslationY(-estimateExpandableOffset(position));
+
+		if(isRowSelected(position)) {
+			View v = Ui.findView(section, R.id.selected_hotel_overlay);
+			v.setVisibility(View.VISIBLE);
+		}
 
 		return section;
 	}
