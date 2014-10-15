@@ -28,6 +28,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelErrorDialog;
@@ -402,17 +403,26 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
 				&& !property.isDesktopOverrideNumber()
 				&& property.isAvailable();
+
 		if (showBookByPhone) {
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (User.isElitePlus(mContext)) {
-						SocialUtils.call(HotelDetailsFragmentActivity.this,
-								PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
+					String number = null;
+
+					switch (User.getLoggedInLoyaltyMembershipTier(mContext)) {
+					case SILVER:
+						number = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
+						break;
+					case GOLD:
+						number = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
+						break;
 					}
-					else {
-						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
+
+					if (TextUtils.isEmpty(number)) {
+						number = property.getTelephoneSalesNumber();
 					}
+					SocialUtils.call(HotelDetailsFragmentActivity.this, number);
 				}
 			});
 			mBookByPhoneButton.setVisibility(View.VISIBLE);

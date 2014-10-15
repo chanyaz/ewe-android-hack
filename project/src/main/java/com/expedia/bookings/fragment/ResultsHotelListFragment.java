@@ -144,7 +144,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 		if (getActivity() != null) {
 			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-				&& User.isElitePlus(getActivity());
+				&& User.getLoggedInLoyaltyMembershipTier(getActivity()).isGoldOrSilver();
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 	}

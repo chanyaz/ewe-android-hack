@@ -30,6 +30,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.mobiata.android.Log;
@@ -77,8 +78,11 @@ public class PointOfSale {
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
 
-	// The POS's elite plus contact phone number (currently only available in USA POS)
-	private String mSupportPhoneNumberElitePlus;
+	// The POS's silver rewards member contact phone number
+	private String mSupportPhoneNumberSilver;
+
+	// The POS's gold rewards member phone number
+	private String mSupportPhoneNumberGold;
 
 	// The POS's support email address
 	private String mSupportEmail;
@@ -228,24 +232,39 @@ public class PointOfSale {
 		return number;
 	}
 
-	public String getSupportPhoneNumberElitePlus() {
-		return mSupportPhoneNumberElitePlus;
+	public String getSupportPhoneNumberSilver() {
+		return mSupportPhoneNumberSilver;
+	}
+
+	public String getSupportPhoneNumberGold() {
+		return mSupportPhoneNumberGold;
 	}
 
 	/**
-	 * If the user is an elite plus member, we return the elite plus number (if available)
+	 * If the user is a rewards member, we return the silver or gold rewards number (if available)
 	 * otherwise if the user is null, or a normal user, return  the regular support number
 	 *
 	 * @param usr - The current logged in user, or null.
 	 * @return
 	 */
 	public String getSupportPhoneNumberBestForUser(User usr) {
-		if (usr != null && usr.isElitePlus()) {
-			return getSupportPhoneNumberElitePlus();
+		String number = null;
+
+		if (usr != null) {
+			Traveler traveler = usr.getPrimaryTraveler();
+			if (traveler.getIsLoyaltyMembershipActive()) {
+				switch (traveler.getLoyaltyMembershipTier()) {
+				case SILVER:
+					number = getSupportPhoneNumberSilver();
+					break;
+				case GOLD:
+					number = getSupportPhoneNumberGold();
+					break;
+				}
+			}
 		}
-		else {
-			return getSupportPhoneNumber();
-		}
+
+		return !TextUtils.isEmpty(number) ? number : getSupportPhoneNumber();
 	}
 
 	public String getSupportEmail() {
@@ -737,7 +756,8 @@ public class PointOfSale {
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
-		pos.mSupportPhoneNumberElitePlus = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
+		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
+		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
 		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config

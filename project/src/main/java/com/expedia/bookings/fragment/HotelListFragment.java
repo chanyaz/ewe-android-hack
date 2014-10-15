@@ -101,7 +101,7 @@ public class HotelListFragment extends ListFragment {
 
 		if (getActivity() != null) {
 			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-					&& User.isElitePlus(getActivity());
+				&& User.getLoggedInLoyaltyMembershipTier(getActivity()).isGoldOrSilver();
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 

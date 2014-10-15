@@ -2559,9 +2559,10 @@ public class OmnitureTracking {
 		}
 	}
 
+	//TODO: fix this for Loyalty Membership Plus
 	private static String getRewardsStatusString(User user) {
 		boolean rewardsUser = Db.getUser().isRewardsUser();
-		boolean elitePlusUser = Db.getUser().isElitePlus();
+		boolean elitePlusUser = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().isGoldOrSilver();
 		StringBuilder sb = new StringBuilder();
 		if (!rewardsUser) {
 			sb.append("notRewardsMember");

@@ -74,7 +74,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public enum LoyaltyMembershipTier {
-		NONE, BLUE, SILVER, GOLD
+		NONE, BLUE, SILVER, GOLD;
+
+		public boolean isGoldOrSilver() {
+			return this == SILVER || this == GOLD;
+		}
 	}
 
 	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account
@@ -133,6 +137,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
 		return mLoyaltyMembershipTier;
+	}
+
+	public boolean isLoyaltyMember() {
+		return mLoyaltyMembershipTier != LoyaltyMembershipTier.NONE;
 	}
 
 	public String getFirstName() {
