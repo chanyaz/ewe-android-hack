@@ -56,8 +56,6 @@
     <!-- adding aag_hotel_error string id, to avoid errors in Expedia app compilation -->
     <item name="e3_error_hotel_offers_hotel_service_failure_aag" type="string"/>
 
-    <item name="ic_clear_edittext_aag" type="drawable"/>
-
     <!-- AirAsiaGo itin label text -->
     <item name="aag_itinerary" type="string"/>
 
