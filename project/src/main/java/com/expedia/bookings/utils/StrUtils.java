@@ -414,7 +414,10 @@ public class StrUtils {
 	}
 
 	public static String formatCity(SuggestionV2 suggestion) {
-		String city = suggestion.getLocation().getCity();
+		String city = null;
+		if (suggestion.getLocation() != null) {
+			city = suggestion.getLocation().getCity();
+		}
 		if (TextUtils.isEmpty(city)) {
 			city = Html.fromHtml(suggestion.getDisplayName()).toString();
 		}
