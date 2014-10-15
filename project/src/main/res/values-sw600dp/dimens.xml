@@ -74,7 +74,7 @@
     <dimen name="calender_month_advance_padding">10dp</dimen>
 
     <!-- Hotel Results Selected Checkmark Margin -->
-    <dimen name="tablet_hotel_selected_checkmark_margin">18dp</dimen>
+    <dimen name="tablet_hotel_selected_checkmark_margin">15dp</dimen>
 
     <!-- GridManager numbers for Search Results screen -->
     <fraction name="results_grid_bottom_half">54%</fraction>
