@@ -5,6 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.expedia.bookings.widget.FrameLayout
+        android:id="@+id/route_desc_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
+
+        <com.expedia.bookings.widget.AutoResizeTextView
+            android:id="@+id/route_description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:shadowColor="#88000000"
+            android:shadowDx="0"
+            android:shadowDy="4"
+            android:shadowRadius="5"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:minTextSize="16sp"
+            app:maxTextSize="22sp"
+            app:textStyle="medium"/>
+    </com.expedia.bookings.widget.FrameLayout>
+
     <!-- Next Flight Leg -->
     <!-- This ends up being below the active flight, due to how the transition animations work -->
 
