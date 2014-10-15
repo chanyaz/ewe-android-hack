@@ -195,7 +195,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		mTimeHeaderTv.setText(time);
 
 		// Add for $390
-		mPriceTv.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+		mPriceTv.setText(trip.getAverageTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 		mAddTripTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

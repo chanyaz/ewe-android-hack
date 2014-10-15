@@ -149,7 +149,7 @@ public class AirportFilterWidget extends TextView {
 				flightTrip = cheapestPerAirport.get(airport.mAirportCode);
 				widget.setDescription(sb.build());
 				if (flightTrip != null) {
-					widget.setPrice(flightTrip.getTotalFare(), false);
+					widget.setPrice(flightTrip.getAverageTotalFare(), false);
 					widget.setEnabled(true);
 				}
 				else {
