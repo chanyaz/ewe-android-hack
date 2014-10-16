@@ -647,6 +647,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mFiltersC.setTranslationY(0f);
 			}
 
+			if (mListFrag != null && mListFrag.hasList()) {
+				mListFrag.setListHeaderExpansionPercentage(state.shouldShowExpandedHeader() ? 1f : 0f);
+			}
+
 			//Details state
 			if (state == ResultsFlightLegState.DETAILS) {
 				showDetailsAnimUpdate(1f);
@@ -848,6 +852,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			* mListFrag.getMaxDistanceFromTop();
 		mFiltersC.setTranslationY(filterPaneTopTranslation);
 		mListFrag.setPercentage(1f - percentage, 0);
+		mListFrag.setListHeaderExpansionPercentage(percentage);
 	}
 
 	protected void showFiltersAnimCleanUp() {
@@ -862,6 +867,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (isLastLeg()) {
 			mDetailsFrag.setAddToTripFromDetailsAnimationLayer(View.LAYER_TYPE_HARDWARE);
 			mDetailsFrag.prepareAddToTripFromDetailsAnimation(mAddToTripAnimRect);
+		}
+		if (isFirstLeg()) {
+			mListFrag.setListHeaderExpansionPercentage(0f);
 		}
 	}
 
@@ -952,6 +960,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mListFrag.setListLockedToTop(true);
 				if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
 					mListFrag.setPercentage(0f, 0);
+				}
+				if (mListFrag.hasList()) {
+					mListFrag.setListHeaderExpansionPercentage(1f);
 				}
 
 				//This is the previous leg row that should always be visible if we aren't leg == 0
