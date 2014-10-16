@@ -50,6 +50,7 @@
     <dimen name="account_button_margin_top">0dp</dimen>
     <dimen name="account_button_padding">6dp</dimen>
     <dimen name="login_button_text_size">17sp</dimen>
+    <dimen name="account_button_rewards_text_size">19sp</dimen>
     <dimen name="card_icon_padding_left">0dp</dimen>
     <dimen name="card_icon_padding">6dp</dimen>
     <dimen name="wallet_button_bottom_margin">-2dp</dimen>

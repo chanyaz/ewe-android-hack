@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 style="@style/LoginButtonTopTextStyle" />
 
-            <com.expedia.bookings.widget.AutoResizeTextView
+            <TextView
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

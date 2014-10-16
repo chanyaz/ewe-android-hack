@@ -21,6 +21,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -194,8 +195,39 @@ public class AccountButton extends LinearLayout {
 
 		// Tablet
 		if (isTablet) {
-			top.setText(traveler.getEmail());
+			// Top text
+			String topText = traveler.getEmail();
+			top.setText(topText);
 
+			// Bottom text
+			int bottomTextResId = 0;
+			int colorResId = 0;
+			switch (traveler.getLoyaltyMembershipTier()) {
+			case BLUE:
+				bottomTextResId = R.string.Expedia_plus_blue;
+				colorResId = R.color.expedia_plus_blue;
+				break;
+			case SILVER:
+				bottomTextResId = R.string.Expedia_plus_silver;
+				colorResId = R.color.expedia_plus_silver;
+				break;
+			case GOLD:
+				bottomTextResId = R.string.Expedia_plus_gold;
+				colorResId = R.color.expedia_plus_gold;
+				break;
+			}
+			if (bottomTextResId != 0 && USA) {
+				bottom.setText(bottomTextResId);
+				bottom.setVisibility(View.VISIBLE);
+				bottom.setTextColor(getResources().getColor(colorResId));
+
+				FontCache.setTypeface(bottom, FontCache.Font.EXPEDIASANS_REGULAR);
+			}
+			else {
+				bottom.setVisibility(View.GONE);
+			}
+
+			// Rewards text
 			String points = "";
 			if (isFlights) {
 				TripBucketItemFlight flight = Db.getTripBucket().getFlight();
@@ -206,22 +238,15 @@ public class AccountButton extends LinearLayout {
 				//TODO: do we know points for hotel stays?
 			}
 
-			CharSequence bottomText = "";
+			CharSequence pointsText = "";
 			if (!TextUtils.isEmpty(points)) {
-				bottomText = mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, points);
+				pointsText = mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, points);
 			}
 			else if (traveler.isLoyaltyMember()) {
-				bottomText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
+				pointsText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
 			}
 
-			if (!TextUtils.isEmpty(bottomText)) {
-				bottom.setText(bottomText);
-				bottom.setVisibility(USA ? View.VISIBLE : View.GONE);
-			}
-			else {
-				bottom.setVisibility(View.GONE);
-			}
-
+			// Logo
 			mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
 		}
 
