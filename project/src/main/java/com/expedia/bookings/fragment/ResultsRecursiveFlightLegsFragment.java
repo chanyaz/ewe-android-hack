@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
@@ -193,6 +195,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		registerStateListener(new StateListenerLogger<ResultsFlightLegState>(), false);
 		registerStateListener(mStateListener, false);
 		mListener = (ISiblingListTouchListener) getActivity();
+
+		if (savedInstanceState != null) {
+			bindRouteDescriptionText(isFirstLeg());
+		}
 
 		return view;
 	}
@@ -463,11 +469,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS
 				|| state == ResultsFlightLegState.DETAILS) {
 				setState(getBaseState(), false);
+				bindRouteDescriptionText(true);
 			}
 			else if (state == ResultsFlightLegState.LATER_LEG) {
 				if (!mStateManager.hasState()) {
 					setState(getState(), false);
 				}
+				bindRouteDescriptionText(false);
 			}
 		}
 	};
@@ -543,7 +551,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
 			if (stateOne == ResultsFlightLegState.LIST_DOWN && stateTwo == ResultsFlightLegState.FILTERS) {
 				showFiltersAnimPrep(0f);
-				bindRouteDescriptionText();
 			}
 			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.LIST_DOWN) {
 				showFiltersAnimPrep(1f);
@@ -679,6 +686,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (mNextLegFrag != null && state != ResultsFlightLegState.ADDING_TO_TRIP) {
 				//If we are showing, the next leg should always be in the filters state.
 				mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
+			}
+
+			if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS
+				|| state == ResultsFlightLegState.DETAILS) {
+				bindRouteDescriptionText(true);
+			}
+			else if (state == ResultsFlightLegState.LATER_LEG) {
+				bindRouteDescriptionText(false);
 			}
 
 			//Last leg state
@@ -1395,17 +1410,25 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		}
 	};
 
-	private void bindRouteDescriptionText() {
-		String originCity = Db.getFlightSearch().getSearchParams().getDepartureLocation().getCity();
-		String destinationCity = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
-		String originToDestination = getResources().getString(R.string.flight_cities_TEMPLATE, originCity, destinationCity);
+	private void bindRouteDescriptionText(boolean forward) {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		if (params != null && params.isFilled()) {
+			String firstCity = forward ? params.getDepartureLocation().getCity() : params.getArrivalLocation().getCity();
+			String secondCity = forward ? params.getArrivalLocation().getCity() : params.getDepartureLocation().getCity();
 
-		SpannableStringBuilder ssb = new SpannableStringBuilder(originToDestination);
-		int endOfOriginText = originCity.length();
-		int startOfDestinationText = originToDestination.length() - destinationCity.length();
+			if (TextUtils.isEmpty(firstCity) || TextUtils.isEmpty(secondCity)) {
+				return;
+			}
 
-		ssb.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), endOfOriginText, startOfDestinationText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity);
 
-		((TextView) mRouteDescriptionC.findViewById(R.id.route_description_text)).setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
+			SpannableStringBuilder ssb = new SpannableStringBuilder(routeDescription);
+			int endOfOriginText = firstCity.length();
+			int startOfDestinationText = routeDescription.length() - secondCity.length();
+
+			ssb.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), endOfOriginText, startOfDestinationText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			((TextView) mRouteDescriptionC.findViewById(R.id.route_description_text)).setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
+		}
 	}
 }
