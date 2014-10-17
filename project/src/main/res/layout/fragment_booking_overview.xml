@@ -71,7 +71,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:addStatesFromChildren="true"
-                    android:background="@drawable/bg_hotel_checkout_information_top_tab"
+                    android:background="@drawable/bg_checkout_information_top_tab"
                     android:orientation="vertical"
                     android:padding="8dp" >
 
@@ -123,7 +123,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:addStatesFromChildren="true"
-                    android:background="@drawable/bg_hotel_checkout_information_bottom_tab"
+                    android:background="@drawable/bg_checkout_information_bottom_tab"
                     android:orientation="vertical"
                     android:padding="8dp" >
 

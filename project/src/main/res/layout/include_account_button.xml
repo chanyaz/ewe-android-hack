@@ -150,7 +150,7 @@
         style="@style/BookingSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_checkout_information_rewards_tab"
+        android:background="#ff0000"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="gone" >

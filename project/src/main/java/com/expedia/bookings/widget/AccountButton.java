@@ -112,26 +112,22 @@ public class AccountButton extends LinearLayout {
 		// Rewards container
 		if (mRewardsContainer != null) {
 			mRewardsContainer.setVisibility(View.GONE);
-
-			// TODO: is this even needed?
-			if (isLoggedIn && (traveler == null || !traveler.isLoyaltyMember())) {
-				mRewardsContainer.setBackgroundResource(R.drawable.bg_checkout_information_rewards_tab);
-			}
 		}
 
 		// Loading container
 		mAccountLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
-		// Login container
-		mLoginContainer.setVisibility(!isLoading && !isLoggedIn ? View.VISIBLE : View.GONE);
-		if (!isLoggedIn) {
-			bindLoginContainer(lob);
-		}
-
-		// Logout container
-		mLogoutContainer.setVisibility(!isLoading && isLoggedIn ? View.VISIBLE : View.GONE);
+		// If logged in, show the logout container
 		if (isLoggedIn) {
+			mLoginContainer.setVisibility(View.GONE);
+			mLogoutContainer.setVisibility(View.VISIBLE);
 			bindLogoutContainer(traveler, lob);
+		}
+		// If not logged in, show the login container
+		else {
+			mLoginContainer.setVisibility(View.VISIBLE);
+			mLogoutContainer.setVisibility(View.GONE);
+			bindLoginContainer(lob);
 		}
 	}
 
@@ -174,14 +170,9 @@ public class AccountButton extends LinearLayout {
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
 		final boolean isFlights = lob == LineOfBusiness.FLIGHTS;
-		final boolean isTablet = AndroidUtils.isTablet(getContext());
-		final boolean hasLoyaltyMembership = traveler.getLoyaltyMembershipNumber() != null;
 		final boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 
-		mLogoutContainer.setBackgroundResource(
-			isTablet ? R.drawable.bg_checkout_information_single
-				: isFlights ? R.drawable.bg_checkout_logged_in
-				: R.drawable.bg_hotel_checkout_information);
+		mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
@@ -193,121 +184,61 @@ public class AccountButton extends LinearLayout {
 			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLogoutLogoDrawable));
 		}
 
-		// Tablet
-		if (isTablet) {
-			// Top text
-			String topText = traveler.getEmail();
-			top.setText(topText);
+		// Top text
+		String topText = traveler.getEmail();
+		top.setText(topText);
 
-			// Bottom text
-			int bottomTextResId = 0;
-			int colorResId = 0;
-			switch (traveler.getLoyaltyMembershipTier()) {
-			case BLUE:
-				bottomTextResId = R.string.Expedia_plus_blue;
-				colorResId = R.color.expedia_plus_blue;
-				break;
-			case SILVER:
-				bottomTextResId = R.string.Expedia_plus_silver;
-				colorResId = R.color.expedia_plus_silver;
-				break;
-			case GOLD:
-				bottomTextResId = R.string.Expedia_plus_gold;
-				colorResId = R.color.expedia_plus_gold;
-				break;
-			}
-			if (bottomTextResId != 0 && USA) {
-				bottom.setText(bottomTextResId);
-				bottom.setVisibility(View.VISIBLE);
-				bottom.setTextColor(getResources().getColor(colorResId));
-
-				FontCache.setTypeface(bottom, FontCache.Font.EXPEDIASANS_REGULAR);
-			}
-			else {
-				bottom.setVisibility(View.GONE);
-			}
-
-			// Rewards text
-			String points = "";
-			if (isFlights) {
-				TripBucketItemFlight flight = Db.getTripBucket().getFlight();
-				FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
-				points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
-			}
-			else {
-				//TODO: do we know points for hotel stays?
-			}
-
-			CharSequence pointsText = "";
-			if (!TextUtils.isEmpty(points)) {
-				pointsText = mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, points);
-			}
-			else if (traveler.isLoyaltyMember()) {
-				pointsText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
-			}
-
-			// Logo
-			mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
+		// Bottom text
+		int bottomTextResId = 0;
+		int colorResId = 0;
+		switch (traveler.getLoyaltyMembershipTier()) {
+		case BLUE:
+			bottomTextResId = R.string.Expedia_plus_blue;
+			colorResId = R.color.expedia_plus_blue;
+			break;
+		case SILVER:
+			bottomTextResId = R.string.Expedia_plus_silver;
+			colorResId = R.color.expedia_plus_silver;
+			break;
+		case GOLD:
+			bottomTextResId = R.string.Expedia_plus_gold;
+			colorResId = R.color.expedia_plus_gold;
+			break;
 		}
+		if (bottomTextResId != 0 && USA) {
+			bottom.setText(bottomTextResId);
+			bottom.setVisibility(View.VISIBLE);
+			bottom.setTextColor(getResources().getColor(colorResId));
 
-		// Phone: Flights + Membership
-		else if (isFlights && hasLoyaltyMembership) {
-			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_logged_in);
-			top.setText(mContext.getString(R.string.logged_in_as));
-			bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
+			FontCache.setTypeface(bottom, FontCache.Font.EXPEDIASANS_REGULAR);
 		}
-
-		// Phone: Flights + NO Membership
-		else if (isFlights) {
-			top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
-			if (ExpediaBookingApp.IS_EXPEDIA) {
-				bottom.setVisibility(View.VISIBLE);
-				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
-
-				TripBucketItemFlight flight = Db.getTripBucket().getFlight();
-				FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
-				String points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
-				if (mRewardsContainer != null && flightTrip != null && !TextUtils.isEmpty(points) && USA) {
-					String str = String.format(mContext.getString(R.string.youll_earn_points_TEMPLATE), points);
-					TextView rewards = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
-					rewards.setText(str);
-					mRewardsContainer.setVisibility(View.VISIBLE);
-					mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
-					if (traveler.isLoyaltyMember()) {
-						mRewardsContainer
-							.setBackgroundResource(R.drawable.bg_checkout_information_elite_rewards_tab);
-						mExpediaLogo.setImageResource(R.drawable.ic_expedia_logo_blue);
-					}
-				}
-			}
-		}
-
-		// Phone: Hotels + Membership
-		else if (hasLoyaltyMembership) {
-			top.setText(mContext.getString(R.string.logged_in_as));
-			bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
-		}
-
-		// Phone: Hotels + NO Membership
 		else {
-			top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
-			if (ExpediaBookingApp.IS_EXPEDIA) {
-				bottom.setVisibility(View.VISIBLE);
-				bottom.setText(R.string.enrolled_in_expedia_rewards);
-				if (traveler.isLoyaltyMember()) {
-					String rewardsString = getResources().getString(
-						R.string.youll_earn_bonus_points_for_this_booking);
-					TextView rewards = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
-					rewards.setText(rewardsString);
-					mRewardsContainer.setVisibility(View.VISIBLE);
-					mLogoutContainer.setBackgroundResource(
-						R.drawable.bg_hotel_checkout_information_top_tab);
-					mRewardsContainer.setBackgroundResource(
-						R.drawable.bg_checkout_information_elite_rewards_hotel_tab);
-					mExpediaLogo.setImageResource(R.drawable.ic_expedia_logo_blue);
-				}
-			}
+			bottom.setVisibility(View.GONE);
 		}
+
+		// Rewards text
+		String points = "";
+		if (isFlights) {
+			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+			FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
+			points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
+		}
+		else {
+			//TODO: do we know points for hotel stays?
+		}
+
+		CharSequence pointsText = "";
+		if (!TextUtils.isEmpty(points)) {
+			pointsText = mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, points);
+		}
+		else if (traveler.isLoyaltyMember()) {
+			pointsText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
+		}
+
+		// Logo
+		mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
+
+		//TODO: if (ExpediaBookingApp.IS_EXPEDIA)
 	}
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
