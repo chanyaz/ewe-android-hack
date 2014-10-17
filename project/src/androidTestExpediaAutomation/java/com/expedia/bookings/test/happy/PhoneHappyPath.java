@@ -117,8 +117,6 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsCheckoutScreen.clickCheckoutButton();
 
 		HotelsCheckoutScreen.clickGuestDetails();
-		screenshot("Add_Traveler");
-		HotelsCheckoutScreen.clickAddTravelerButton();
 		screenshot("Checkout_Traveler");
 		CommonTravelerInformationScreen.enterFirstName("Mobiata");
 		CommonTravelerInformationScreen.enterLastName("Auto");
