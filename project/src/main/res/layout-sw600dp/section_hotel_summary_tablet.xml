@@ -39,6 +39,15 @@
         android:layout_alignBottom="@id/hotel_background_view"
         android:background="@drawable/bg_hotel_details_header_gradient" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/hotel_background_view"
+        android:layout_alignRight="@id/hotel_background_view"
+        android:layout_alignTop="@id/hotel_background_view"
+        android:layout_alignBottom="@id/hotel_background_view"
+        android:background="@drawable/bg_tablet_hotel_list_pressed" />
+
     <FrameLayout
         android:id="@+id/selected_hotel_overlay"
         android:layout_width="match_parent"
