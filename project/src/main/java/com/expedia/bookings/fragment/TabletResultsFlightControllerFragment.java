@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -36,11 +39,13 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.squareup.otto.Subscribe;
 
@@ -69,6 +74,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mFlightLegsC;
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
+	private FrameLayout mRouteDescriptionC;
 
 	private ArrayList<View> mVisibilityControlledViews = new ArrayList<View>();
 
@@ -122,6 +128,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mFlightLegsC = Ui.findView(view, R.id.flight_leg_container);
 		mSearchErrorC = Ui.findView(view, R.id.search_error_container);
+		mRouteDescriptionC = Ui.findView(view, R.id.route_desc_container);
 
 		mVisibilityControlledViews.add(mFlightMapC);
 		mVisibilityControlledViews.add(mLoadingC);
@@ -551,11 +558,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mGrid.setContainerToColumn(mLoadingC, 2);
 				mGrid.setContainerToColumn(mSearchErrorC, 2);
 				mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 4);
+				mGrid.setContainerToColumn(mRouteDescriptionC, 4);
 
 				//Special cases
 				mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
 				mGrid.setContainerToRow(mLoadingC, 2);
 				mGrid.setContainerToRow(mSearchErrorC, 2);
+				mGrid.setContainerToRow(mRouteDescriptionC, 2);
 
 				//Frag stuff
 				updateMapFragSizes(mFlightMapFrag);
@@ -773,6 +782,30 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 	};
 
+	// Route description
+
+	private void bindRouteDescriptionText(boolean forward) {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		if (params != null && params.isFilled()) {
+			String firstCity = forward ? params.getDepartureLocation().getCity() : params.getArrivalLocation().getCity();
+			String secondCity = forward ? params.getArrivalLocation().getCity() : params.getDepartureLocation().getCity();
+
+			if (TextUtils.isEmpty(firstCity) || TextUtils.isEmpty(secondCity)) {
+				return;
+			}
+
+			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity);
+
+			SpannableStringBuilder ssb = new SpannableStringBuilder(routeDescription);
+			int endOfOriginText = firstCity.length();
+			int startOfDestinationText = routeDescription.length() - secondCity.length();
+
+			ssb.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), endOfOriginText, startOfDestinationText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			((TextView) mRouteDescriptionC.findViewById(R.id.route_description_text)).setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
+		}
+	}
+
 	// Infants
 
 	private void popInfantPromptIfNeeded() {
@@ -839,6 +872,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else {
 			mFlightLegsFrag.resetQuery();
 			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			bindRouteDescriptionText(true);
 			AdTracker.trackFlightSearch();
 		}
 	}
@@ -878,12 +912,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (state == ResultsFlightLegState.LATER_LEG) {
 				if (mFlightMapFrag != null && mFlightMapFrag.isAdded() && mFlightMapFrag.isMapGenerated()) {
 					mFlightMapFrag.backward();
+					bindRouteDescriptionText(false);
 				}
 			}
 			else if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS
 				|| state == ResultsFlightLegState.DETAILS) {
 				if (mFlightMapFrag != null && mFlightMapFrag.isAdded() && mFlightMapFrag.isMapGenerated()) {
 					mFlightMapFrag.forward();
+					bindRouteDescriptionText(true);
 				}
 			}
 		}
