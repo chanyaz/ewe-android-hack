@@ -189,14 +189,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		if (mFlightTrip != null) {
 			// Dates
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-			if (params != null) {
-				LocalDate departDate = params.getDepartureDate();
-				LocalDate returnDate = params.getReturnDate();
-
-				String dateRange = DateFormatUtils
-					.formatDateRange(getActivity(), departDate, returnDate, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
-				mDatesTv.setText(dateRange);
-			}
+			String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
+			mDatesTv.setText(dateRange);
 
 			String price = mFlightTrip.getTotalFare().getFormattedMoney();
 			mPriceTv.setText(price);
