@@ -27,7 +27,7 @@ public class FlightAdapter extends BaseAdapter {
 	private Calendar mMinTime;
 	private Calendar mMaxTime;
 
-	private int mLegPosition;
+	protected int mLegPosition;
 
 	public void setFlightTripQuery(FlightTripQuery query) {
 		setFlightTripQuery(query, null, null);

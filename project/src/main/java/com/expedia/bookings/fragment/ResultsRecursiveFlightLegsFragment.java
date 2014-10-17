@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
@@ -37,10 +41,14 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.Log;
@@ -94,6 +102,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private FrameLayoutTouchController mNextLegC;
 	private FrameLayoutTouchController mLastLegC;
 	private TextView mLastLegHeader;
+	private FrameLayout mRouteDescriptionC;
+
 
 	//Views
 	private FlightLegSummarySectionTablet mLastFlightRow;
@@ -167,6 +177,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mLastLegC = Ui.findView(view, R.id.last_flight_container);
 		mLastLegHeader = Ui.findView(mLastLegC, R.id.last_flight_header);
 		mLastFlightRow = Ui.findView(view, R.id.last_flight_row);
+		mRouteDescriptionC = Ui.findView(view, R.id.route_desc_container);
 
 		mContainers.add(mDetailsC);
 		mContainers.add(mFiltersC);
@@ -183,8 +194,11 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		//Always listen to the local State provider
 		registerStateListener(new StateListenerLogger<ResultsFlightLegState>(), false);
 		registerStateListener(mStateListener, false);
-
 		mListener = (ISiblingListTouchListener) getActivity();
+
+		if (savedInstanceState != null) {
+			bindRouteDescriptionText(isFirstLeg());
+		}
 
 		return view;
 	}
@@ -455,11 +469,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS
 				|| state == ResultsFlightLegState.DETAILS) {
 				setState(getBaseState(), false);
+				bindRouteDescriptionText(true);
 			}
 			else if (state == ResultsFlightLegState.LATER_LEG) {
 				if (!mStateManager.hasState()) {
 					setState(getState(), false);
 				}
+				bindRouteDescriptionText(false);
 			}
 		}
 	};
@@ -672,6 +688,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 			}
 
+			if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS
+				|| state == ResultsFlightLegState.DETAILS) {
+				bindRouteDescriptionText(true);
+			}
+			else if (state == ResultsFlightLegState.LATER_LEG) {
+				bindRouteDescriptionText(false);
+			}
+
 			//Last leg state
 			if (mLegNumber > 0 && mLastFlightRow != null) {
 				int lastFlightIndex = mLegNumber - 1;
@@ -776,7 +800,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mLastLegC != null) {
 			mLastLegC.setVisibility(View.VISIBLE);
 			String city = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
-			mLastLegHeader.setText(getString(R.string.your_flight_to_x_TEMPLATE, city));
+			mLastLegHeader.setText(getString(R.string.your_selected_flight_to_x_TEMPLATE, city));
 		}
 	}
 
@@ -1195,6 +1219,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mGrid.setContainerToColumn(mFiltersC, 0);
 				mGrid.setContainerToColumn(mListColumnC, 2);
 				mGrid.setContainerToColumnSpan(mDetailsC, 0, 4);
+				mGrid.setContainerToColumn(mRouteDescriptionC, 4);
 
 				//Vertical alignment
 
@@ -1202,6 +1227,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mGrid.setContainerToRowSpan(mFiltersC, 1, 2);
 				mGrid.setContainerToRowSpan(mListColumnC, 1, 2);
 				mGrid.setContainerToRowSpan(mDetailsC, 1, 2);
+				mGrid.setContainerToRow(mRouteDescriptionC, 2);
 
 				//Frag stuff
 				updateDetailsFragSizes(mDetailsFrag);
@@ -1383,4 +1409,26 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 		}
 	};
+
+	private void bindRouteDescriptionText(boolean forward) {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		if (params != null && params.isFilled()) {
+			String firstCity = forward ? params.getDepartureLocation().getCity() : params.getArrivalLocation().getCity();
+			String secondCity = forward ? params.getArrivalLocation().getCity() : params.getDepartureLocation().getCity();
+
+			if (TextUtils.isEmpty(firstCity) || TextUtils.isEmpty(secondCity)) {
+				return;
+			}
+
+			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity);
+
+			SpannableStringBuilder ssb = new SpannableStringBuilder(routeDescription);
+			int endOfOriginText = firstCity.length();
+			int startOfDestinationText = routeDescription.length() - secondCity.length();
+
+			ssb.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), endOfOriginText, startOfDestinationText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			((TextView) mRouteDescriptionC.findViewById(R.id.route_description_text)).setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
+		}
+	}
 }

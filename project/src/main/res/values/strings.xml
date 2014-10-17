@@ -339,6 +339,8 @@
     <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Your flight to %1$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">Your selected flight to %1$s</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">Car Pick Up – %s</string>
     <!-- Notification text for car pick up -->

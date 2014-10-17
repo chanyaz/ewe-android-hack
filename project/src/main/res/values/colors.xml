@@ -49,6 +49,10 @@
     <color name="flight_card_warning_text">#F0F0F0</color>
     <color name="flight_card_invalid_cc_type_text_color">#B4B4B4</color>
     <color name="flight_card_lcc_fee_text_color">#787878</color>
+    <color name="flight_results_row_bg">#374F6E</color>
+    <color name="flight_results_row_bg_pressed">#4572AD</color>
+    <color name="flight_results_row_return_leg_bg">#3D6D7A</color>
+    <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">#000000</color>
     <color name="spinner_airport_details">#555555</color>
 
