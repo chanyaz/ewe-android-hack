@@ -32,7 +32,13 @@ public class HotelDetails {
 	}
 
 	public static ViewInteraction addHotel() {
-		return onView(allOf(withId(R.id.room_rate_button_add), isDescendantOfA(hasSibling(allOf(withId(R.id.room_rate_detail_container), isDisplayed()))), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		return onView(
+			allOf(
+				withId(R.id.room_rate_button_add), 
+				isDescendantOfA(allOf(withId(R.id.room_rate_add_select_container), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+			)
+		);
 	}
 
 	//add hotel button in Hotel reviews
