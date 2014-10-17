@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -eq "0" ] ; then
-    ARGS=`eval echo "../{lib\/Utils,project}/res/values*/{strings,donottranslate}.xml"`
+    ARGS=`eval echo "../{lib\/Utils,project/src/main}/res/values*/{strings,donottranslate}.xml"`
 else
     ARGS=$*
 fi

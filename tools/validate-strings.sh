@@ -45,7 +45,7 @@ for i in $path/values*/strings.xml ; do
     pcregrep --color=always -n '\xC2\xA0' $i
 done
 
-root="../project/res"
+root="../project/src/main/res"
 for i in $path/values*/strings.xml ; do
     other=${i/$path/$root}
 
