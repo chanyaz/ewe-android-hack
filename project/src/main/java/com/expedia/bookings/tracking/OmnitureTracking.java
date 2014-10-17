@@ -2013,6 +2013,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_HOTEL_CHECK_IN = "Itinerary.Hotel.CheckIn";
 	private static final String NOTIFICATION_HOTEL_CHECK_OUT = "Itinerary.Hotel.CheckOut";
 	private static final String NOTIFICATION_FLIGHT_DEPARTURE_REMINDER = "Itinerary.Flight.DepartureReminder";
+	private static final String NOTIFICATION_DESKTOP_BOOKING_CONFIRMATION = "Itinerary.Purchase.Confirmation";
 
 	public static void trackNotificationClick(Context context, Notification notification) {
 		NotificationType type = notification.getNotificationType();
@@ -2050,6 +2051,9 @@ public class OmnitureTracking {
 			break;
 		case HOTEL_CHECK_OUT:
 			link = NOTIFICATION_HOTEL_CHECK_OUT;
+			break;
+		case DESKTOP_BOOKING:
+			link = NOTIFICATION_DESKTOP_BOOKING_CONFIRMATION;
 			break;
 		default:
 			link = "Itinerary." + type.name();

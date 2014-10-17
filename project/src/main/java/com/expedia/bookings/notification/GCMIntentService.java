@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
@@ -41,8 +42,16 @@ public class GCMIntentService extends IntentService {
 					final String type = data.optString("t");
 
 					//Flight history id
+					final int fhid;
 					String flightHistoryId = data.optString("fhid");
-					final int fhid = Integer.parseInt(flightHistoryId);
+					if (!TextUtils.isEmpty(flightHistoryId)) {
+						fhid = Integer.parseInt(flightHistoryId);
+					}
+					else {
+						// If the fhid is empty, set it to 0. Likely a desktop notification,
+						// but if it isn't we are still not introducing incorrect behavior.
+						fhid = 0;
+					}
 
 					//The key to determine which string to use
 					final String locKey = message.getString("loc-key");

@@ -84,7 +84,8 @@ public class Notification extends Model implements JSONable {
 		FLIGHT_DEPARTURE_REMINDER,
 		FLIGHT_BAGGAGE_CLAIM,
 		HOTEL_CHECK_IN,
-		HOTEL_CHECK_OUT;
+		HOTEL_CHECK_OUT,
+		DESKTOP_BOOKING,
 	}
 
 	/**
