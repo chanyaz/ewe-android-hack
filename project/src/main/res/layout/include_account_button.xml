@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.AccountButton xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="@dimen/account_button_margin_top" >
@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/error_container"
         style="@style/BookingSection"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_error_box"
         android:gravity="center"
@@ -33,7 +33,7 @@
     <LinearLayout
         android:id="@+id/account_loading_container"
         style="@style/BookingSection"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -66,7 +66,7 @@
 
     <LinearLayout
         android:id="@+id/account_login_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="@dimen/account_button_padding"
@@ -101,7 +101,7 @@
     <LinearLayout
         android:id="@+id/account_logout_container"
         style="@style/BookingSection"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingTop="@dimen/account_button_padding"
@@ -150,7 +150,6 @@
         style="@style/BookingSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ff0000"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="gone" >
@@ -162,7 +161,7 @@
             android:layout_margin="5dp"
             android:gravity="center"
             android:textColor="@color/roboto_light"
-            android:textStyle="bold" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
 </com.expedia.bookings.widget.AccountButton>

@@ -35,6 +35,7 @@ public class AccountButton extends LinearLayout {
 	private View mLogoutContainer;
 	private View mErrorContainer;
 	private View mRewardsContainer;
+	private TextView mRewardsTextView;
 	private View mLogoutButton;
 	private View mLoadingLogoutButton;
 	private ImageView mExpediaLogo;
@@ -53,10 +54,11 @@ public class AccountButton extends LinearLayout {
 	protected void onFinishInflate() {
 		mAccountLoadingContainer = findViewById(R.id.account_loading_container);
 		mLoginContainer = findViewById(R.id.account_login_container);
-		mLoginTextView = Ui.findView(this, R.id.login_text_view);
+		mLoginTextView = Ui.findView(mLoginContainer, R.id.login_text_view);
 		mLogoutContainer = findViewById(R.id.account_logout_container);
 		mErrorContainer = findViewById(R.id.error_container);
 		mRewardsContainer = findViewById(R.id.account_rewards_container);
+		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
 
 		final OnClickListener clickListener = new OnClickListener() {
@@ -172,8 +174,6 @@ public class AccountButton extends LinearLayout {
 		final boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		final boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 
-		mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
 
@@ -188,32 +188,26 @@ public class AccountButton extends LinearLayout {
 		String topText = traveler.getEmail();
 		top.setText(topText);
 
-		// Bottom text
+		// Bottom text -- rewards
 		int bottomTextResId = 0;
 		int colorResId = 0;
+		int rewardsBgResId = 0;
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BLUE:
 			bottomTextResId = R.string.Expedia_plus_blue;
 			colorResId = R.color.expedia_plus_blue;
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
 			break;
 		case SILVER:
 			bottomTextResId = R.string.Expedia_plus_silver;
 			colorResId = R.color.expedia_plus_silver;
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
 			break;
 		case GOLD:
 			bottomTextResId = R.string.Expedia_plus_gold;
 			colorResId = R.color.expedia_plus_gold;
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
 			break;
-		}
-		if (bottomTextResId != 0 && USA) {
-			bottom.setText(bottomTextResId);
-			bottom.setVisibility(View.VISIBLE);
-			bottom.setTextColor(getResources().getColor(colorResId));
-
-			FontCache.setTypeface(bottom, FontCache.Font.EXPEDIASANS_REGULAR);
-		}
-		else {
-			bottom.setVisibility(View.GONE);
 		}
 
 		// Rewards text
@@ -233,6 +227,24 @@ public class AccountButton extends LinearLayout {
 		}
 		else if (traveler.isLoyaltyMember()) {
 			pointsText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
+		}
+
+		// If we should show rewards
+		if (bottomTextResId != 0 && USA) {
+			bottom.setText(bottomTextResId);
+			bottom.setVisibility(View.VISIBLE);
+			bottom.setTextColor(getResources().getColor(colorResId));
+
+			FontCache.setTypeface(bottom, FontCache.Font.EXPEDIASANS_REGULAR);
+			mRewardsContainer.setVisibility(View.VISIBLE);
+			mRewardsContainer.setBackgroundResource(rewardsBgResId);
+			mRewardsTextView.setText(pointsText);
+			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
+		}
+		else {
+			bottom.setVisibility(View.GONE);
+			mRewardsContainer.setVisibility(View.GONE);
+			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 		}
 
 		// Logo
