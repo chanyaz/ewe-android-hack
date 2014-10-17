@@ -71,8 +71,7 @@ public class DateFormatUtils {
 	}
 
 	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
-		return DateUtils.formatDateRange(context, start.getMillis(), end.getMillis() + 1000, flags
-			| DateUtils.FORMAT_UTC);
+		return DateUtils.formatDateRange(context, start.getMillis(), end.getMillis() + 1000, flags);
 	}
 
 	/**
