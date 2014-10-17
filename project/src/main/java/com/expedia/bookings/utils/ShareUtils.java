@@ -366,22 +366,22 @@ public class ShareUtils {
 		if (!moreThanOneLeg) {
 			if (numTravelers > 1) {
 				shareTemplateResId = isShared ? R.string.share_flight_one_way_multiple_travelers_TEMPLATE_reshare
-						: R.string.share_flight_one_way_multiple_travelers_TEMPLATE;
+					: R.string.share_flight_one_way_multiple_travelers_TEMPLATE;
 			}
 			else {
 				shareTemplateResId = isShared ? R.string.share_flight_one_way_TEMPLATE_reshare
-						: R.string.share_flight_one_way_TEMPLATE;
+					: R.string.share_flight_one_way_TEMPLATE;
 			}
 		}
 		else {
 			// Assume round trip for now
 			if (numTravelers > 1) {
 				shareTemplateResId = isShared ? R.string.share_flight_round_trip_multiple_travelers_TEMPLATE_reshare
-						: R.string.share_flight_round_trip_multiple_travelers_TEMPLATE;
+					: R.string.share_flight_round_trip_multiple_travelers_TEMPLATE;
 			}
 			else {
 				shareTemplateResId = isShared ? R.string.share_flight_round_trip_TEMPLATE_reshare
-						: R.string.share_flight_round_trip_TEMPLATE;
+					: R.string.share_flight_round_trip_TEMPLATE;
 			}
 		}
 		if (isShared) {
@@ -421,13 +421,10 @@ public class ShareUtils {
 			body.append(traveler.getFirstName() + " " + traveler.getLastName());
 			body.append("\n");
 		}
-		// Disabling the share link url for AAG as there responsive page is not ready.
-		if (!ExpediaBookingApp.IS_AAG) {
-			if (!TextUtils.isEmpty(sharableDetailsURL)) {
-				body.append("\n");
-				body.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
-				body.append("\n");
-			}
+		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+			body.append("\n");
+			body.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
+			body.append("\n");
 		}
 
 		body.append("\n");
@@ -531,7 +528,7 @@ public class ShareUtils {
 		StringBuilder builder = new StringBuilder();
 		if (isShared) {
 			builder.append(mContext.getString(R.string.share_template_long_hotel_1_greeting_reshare, travelerName,
-					hotelName, lengthOfStay));
+				hotelName, lengthOfStay));
 		}
 		else {
 			builder.append(mContext.getString(R.string.share_template_long_hotel_1_greeting, hotelName, lengthOfStay));
@@ -553,12 +550,9 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		// Disabling the share link url for AAG as there responsive page is not ready.
-		if (!ExpediaBookingApp.IS_AAG) {
-			if (!TextUtils.isEmpty(sharableDetailsUrl)) {
-				builder.append(mContext.getString(R.string.share_link_section, sharableDetailsUrl));
-				builder.append("\n\n");
-			}
+		if (!TextUtils.isEmpty(sharableDetailsUrl)) {
+			builder.append(mContext.getString(R.string.share_link_section, sharableDetailsUrl));
+			builder.append("\n\n");
 		}
 
 		//1683. VSC Don't show Android App crossSell text and link.
