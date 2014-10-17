@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -21,9 +23,12 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -41,6 +46,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private TextView mRoomTypeTv;
 	private TextView mBedTypeTv;
 	private TextView mDatesTv;
+	private TextView mFreeCancellationTv;
+	private TextView mPriceGuaranteeTv;
 	private TextView mNumTravelersTv;
 	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
@@ -79,6 +86,10 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 		mDatesTv = Ui.findView(vg, R.id.dates_text_view);
 		mNumTravelersTv = Ui.findView(vg, R.id.num_travelers_text_view);
+
+		mFreeCancellationTv = Ui.findView(vg, R.id.free_cancellation_text_view);
+
+		mPriceGuaranteeTv = Ui.findView(vg, R.id.price_guarantee_text_view);
 
 		// Price
 		mPriceContainer = Ui.findView(vg, R.id.price_expanded_bucket_container);
@@ -131,6 +142,21 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 				String price = rate.getDisplayTotalPrice().getFormattedMoney();
 				mPriceTv.setText(price);
+
+				//Amenities
+				if (rate.shouldShowFreeCancellation()) {
+					mFreeCancellationTv.setVisibility(View.VISIBLE);
+					mFreeCancellationTv.setText(HotelUtils.getRoomCancellationText(getActivity(), rate));
+
+					if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && getResources().getBoolean(R.bool.landscape)) {
+						mPriceGuaranteeTv.setVisibility(View.VISIBLE);
+						mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
+					}
+				}
+				else if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
+					mPriceGuaranteeTv.setVisibility(View.VISIBLE);
+					mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
+				}
 			}
 		}
 		bindToDbHotelSearch();
@@ -144,6 +170,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				//Dates
 				LocalDate checkIn = params.getCheckInDate();
 				LocalDate checkOut = params.getCheckOutDate();
+
 				String dateRange = DateFormatUtils
 					.formatDateRange(getActivity(), checkIn, checkOut, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
 				mDatesTv.setText(dateRange);
@@ -153,6 +180,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				String numGuestsStr = getResources()
 					.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
 				mNumTravelersTv.setText(numGuestsStr);
+
 			}
 		}
 	}

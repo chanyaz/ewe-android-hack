@@ -16,7 +16,7 @@
         <com.expedia.bookings.widget.OptimizedImageView
             android:id="@+id/tripbucket_card_background_view"
             android:layout_width="@dimen/tablet_checkout_trip_bucket_expanded_image_width"
-            android:layout_height="@dimen/tablet_checkout_trip_bucket_expanded_item_height"
+            android:layout_height="fill_parent"
             android:scaleType="fitCenter"/>
 
         <!-- Expanded / receipt Part -->
@@ -24,7 +24,7 @@
         <FrameLayout
             android:id="@+id/trip_bucket_item_expanded_container"
             android:layout_width="0dp"
-            android:layout_height="@dimen/tablet_checkout_trip_bucket_expanded_item_height"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#edebeb" />
 
