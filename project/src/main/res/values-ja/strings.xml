@@ -3,27 +3,21 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">目的地と観光スポットを検索</string>
-    <!-- Hint in edit text that the user should type in an origin (location) -->
-    <string name="origins_hint">出発地で検索…</string>
-    <!-- String when we don't know where the user is coming from/going to -->
-    <string name="great_unknown">指定なし</string>
+    <string name="search_all_hint">目的地を入力してください</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">出発地 %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">出発地…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">日付を選択</string>
-    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
-    <string name="choose_dates">日付を選択</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晩のホテル</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">%sへのフライトを表示するには、出発地を入力してください。</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">有効な日付または期間を選択してください。</string>
-    <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">%sへのフライトを検索するには、\n日付を選択してください</string>
+    <!-- Message for missing dates -->
+    <string name="missing_dates_flight_TEMPLATE">%sへのフライトを表示するには、\n出発日を入力してください。</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">航空券の料金を表示するには、\n出発地を入力してください。</string>
     <!-- Denotes the start date of the trip -->
@@ -35,27 +29,7 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">空港を選択</string>
 
-    <!-- Calendar picker strings -->
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
-    <string name="cd_month_previous_TEMPLATE">%s 先月</string>
-    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
-    <string name="cd_month_current_TEMPLATE">%s 今月</string>
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
-    <string name="cd_month_next_TEMPLATE">%s 翌月</string>
-    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
-    <string name="cd_day_of_week_TEMPLATE">%1$s 日 (%2$s)</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
-    <string name="cd_day_selected_TEMPLATE">%s 旅行中</string>
-    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
-    <string name="cd_day_selected_start_TEMPLATE">%s 往路 (行き) 出発日</string>
-    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
-    <string name="cd_day_selected_end_TEMPLATE">%s 復路 (行き) 出発日</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
-    <string name="cd_day_invalid_TEMPLATE">%s 選択不可</string>
-
     <!-- Tablet Results strings -->
-    <!-- Resulsts label -->
-    <string name="results">結果</string>
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">並び替え &amp; 絞り込み</string>
     <!-- "Done" list header label -->
@@ -119,16 +93,10 @@
     <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復航空券</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">%1$sへの航空券</string>
-    <!-- Loading Hotels and Flights… -->
-    <string name="loading_hotels_and_flights">ホテルとフライトを読み込み中…</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="when_to_fly">往路 (行き) 出発日</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="flight_trends">航空券の料金</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">復路 (帰り) 出発日</string>
-    <!-- Waypoint fail message for when no suggestion is available. -->
-    <string name="waypoint_suggestion_fail">ロケーション情報が見つかりませんでした ! 検索条件を変更して、もう一度お試しください。</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">申し訳ありません。\n現在ご利用いただけるホテルはありません。</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -280,8 +248,6 @@
     <string name="now_booking_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;を予約中</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;、%2$s</string>
-    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
-    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -397,8 +363,6 @@
     <string name="find_itinerary_pound">旅程番号を検索する</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">エクスペディアの旅程番号</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Travelocity 旅程番号</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus カスタマーサポート</string>
     <!-- No upcoming trips -->
@@ -847,8 +811,6 @@
     <string name="share_template_long_hotel_4_phone">電話\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料のエクスペディア モバイル アプリを今すぐダウンロードしてください。\n%s</string>
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の Travelocity モバイル アプリを今すぐダウンロードしてください。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sに%1$sへ行きます</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1146,6 +1108,8 @@
     <string name="airline_processing_fee_TEMPLATE">航空会社によるこのカードの手数料 : &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">この航空会社では、%1$s のカードはご利用いただけません</string>
+    <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">このホテルでは、%1$s のカードはご利用いただけません。</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
 
@@ -1182,6 +1146,8 @@
     <string name="airline_card_fee_select_TEMPLATE">この航空会社では、%2$sをご利用いただく場合は手数料として %1$sが課金されます。</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">この航空会社では、%1$sはお使いいただけません。</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
+    <string name="airline_card_not_supported_generic">この航空会社では、こちらの発行元のクレジット カードはご利用いただけません。</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1412,8 +1378,6 @@
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">なし</string>
-    <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s は &lt;/font&gt;%2$s です</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -1550,23 +1514,21 @@
     <string name="error_flight_price_increased">航空会社がお客様の航空券の料金を %1$s 値上げしました。新しい料金は %2$s です。この金額でよろしいですか ?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">お客様がご希望のフライトを %1$s 安く提供できます。新しい金額は %2$s です。フライトを変更しますか ?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">クレジットカード手数料として %1$s が航空会社から請求されました。新しい料金は %2$s です。この金額でよろしいですか ?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">クレジットカード手数料として %1$s が航空会社から請求され、航空券の料金が %2$s 値上げされました。新しい料金は %3$s です。この金額でよろしいですか ?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">クレジットカード手数料として %1$s が航空会社から請求されましたが、%2$s 安く提供できるフライトがあります。新しい料金は %3$s です。この金額でよろしいですか ?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">入力されたクレジットカード番号は無効です。再度入力してください。</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">入力したクレジットカード名義人がクレジットカードに記載された名前と異なります。もう一度お試しください。</string>
-    <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">入力されたクレジットカードの有効期限が過ぎています。別のクレジットカードをご利用ください。</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">申し訳ありません。現時点では、18 歳未満のお子様のご予約には対応しておりません。</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しになるか、エクスペディア カスタマー サポートまでお電話ください。お問い合わせの際は、この旅程番号をお知らせください : %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_expedia">申し訳ありません。エクスペディアではご希望のフライトはご利用いただけません。</string>
@@ -1791,8 +1753,6 @@
     <string name="please_try_a_different_location_or_date">別のロケーションまたは日付でお試しください。</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">ご利用いただける客室はありません</string>
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_expedia">申し訳ありません。エクスペディアではこの客室はご利用いただけません。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_expedia">申し訳ありません。エクスペディアではこのホテルはご利用いただけません。</string>
 
@@ -2060,8 +2020,7 @@
     <string name="itinerary_number">旅程番号</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">ご予約に関するお問い合わせは、エクスペディア (%s) までご連絡ください。</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">ご予約に関するお問い合わせは、Travelocity (%s) までご連絡ください。</string>
+
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2070,8 +2029,6 @@
     <string name="included">含まれています</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
-    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-    <string name="CheckOut">チェックアウト</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">割引</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2112,8 +2069,6 @@
     <string name="logged_in_as">ログイン済み</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia アカウント</string>
-    <!-- Label for signin screen -->
-    <string name="vsc_account">VSC アカウント</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">エクスペディア アカウントを読み込み中</string>
     <!-- Label for password recovery -->
@@ -2416,7 +2371,6 @@
     <string name="country_ck">クック諸島</string>
     <string name="country_cr">コスタリカ</string>
     <string name="country_hr">クロアチア</string>
-    <string name="country_cu">キューバ</string>
     <string name="country_cy">キプロス</string>
     <string name="country_cz">チェコ共和国</string>
     <string name="country_ci">コートジボワール</string>
@@ -2607,7 +2561,6 @@
     <string name="country_zm">ザンビア</string>
     <string name="country_zw">ジンバブエ</string>
     <string name="country_ax">オーランド諸島</string>
-    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2770,19 +2723,13 @@
     <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Voyages-sncf.com application</string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nAll rights reserved.</string>
-    <!-- VSC app name -->
-    <string name="VSC_app_name">VSC Hotels</string>
-    <!-- Link to open when VSC logo is clicked on -->
-    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">エクスペディア ホテル予約アプリを起動</string>
-    <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">エクスペディア フライト予約アプリを起動</string>
+    <!-- Content description for action: Press button to launch Hotels -->
+    <string name="cd_launch_hotels">ホテルを起動</string>
+    <!-- Content description for action: Press button to launch Flights -->
+    <string name="cd_launch_flights">フライトを起動</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">メニューリストを開く</string>
     <!-- Content description for action: Open Settings Menu -->

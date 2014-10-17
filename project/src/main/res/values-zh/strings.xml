@@ -3,27 +3,21 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">搜索目的地和地标</string>
-    <!-- Hint in edit text that the user should type in an origin (location) -->
-    <string name="origins_hint">搜索出发地…</string>
-    <!-- String when we don't know where the user is coming from/going to -->
-    <string name="great_unknown">未知世界</string>
+    <string name="search_all_hint">输入您的目的地</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">出发城市：%1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">出发…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">选择日期</string>
-    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
-    <string name="choose_dates">选择日期</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晚酒店</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">请告诉我们航班出发的机场，以便为您搜索飞往%s的航班。</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">请选择有效的日期或日期范围</string>
-    <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">请选择飞往%s的\n航班的日期</string>
+    <!-- Message for missing dates -->
+    <string name="missing_dates_flight_TEMPLATE">请告诉我们您要何时出发，\n以便为您搜索飞往%s的航班。</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">如需了解机票价格变化趋势，\n请告诉我们您要飞往哪里。</string>
     <!-- Denotes the start date of the trip -->
@@ -35,27 +29,7 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">选择机场</string>
 
-    <!-- Calendar picker strings -->
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
-    <string name="cd_month_previous_TEMPLATE">%s 上个月</string>
-    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
-    <string name="cd_month_current_TEMPLATE">%s 本月</string>
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
-    <string name="cd_month_next_TEMPLATE">%s 下个月</string>
-    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
-    <string name="cd_day_of_week_TEMPLATE">%1$s 号，%2$s</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
-    <string name="cd_day_selected_TEMPLATE">%s旅行途中</string>
-    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
-    <string name="cd_day_selected_start_TEMPLATE">%s出发</string>
-    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
-    <string name="cd_day_selected_end_TEMPLATE">%s结束</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
-    <string name="cd_day_invalid_TEMPLATE">%s不可选</string>
-
     <!-- Tablet Results strings -->
-    <!-- Resulsts label -->
-    <string name="results">结果</string>
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">筛选/排序</string>
     <!-- "Done" list header label -->
@@ -119,16 +93,10 @@
     <string name="trip_bucket_label_flight_roundtrip">到%1$s的往返机票</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">飞往%1$s的航班</string>
-    <!-- Loading Hotels and Flights… -->
-    <string name="loading_hotels_and_flights">正在加载酒店和航班…</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="when_to_fly">出发日期</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="flight_trends">票价趋势</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">返回日期</string>
-    <!-- Waypoint fail message for when no suggestion is available. -->
-    <string name="waypoint_suggestion_fail">未找到航点信息！请修改查询，然后再试一次。</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">很抱歉，未找到\n有空房的酒店</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -280,8 +248,6 @@
     <string name="now_booking_TEMPLATE">现要预订&lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;，%2$s</string>
-    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
-    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -323,7 +289,7 @@
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
-    <string name="nav_flights">航班</string>
+    <string name="nav_flights">机票</string>
     <!-- Hotels -->
     <string name="nav_hotels">酒店</string>
 
@@ -397,8 +363,6 @@
     <string name="find_itinerary_pound">查找行程编号</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 行程编号</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Travelocity 行程编号</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 客户支持</string>
     <!-- No upcoming trips -->
@@ -847,8 +811,6 @@
     <string name="share_template_long_hotel_4_phone">电话\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">预订酒店、机票，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">预订酒店、机票，查看并分享您的行程。马上下载免费的 Travelocity 移动应用。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我 %2$s飞往%1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1146,6 +1108,8 @@
     <string name="airline_processing_fee_TEMPLATE">航空公司对此卡收取手续费：&lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">该航空公司不接受 %1$s</string>
+    <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">酒店不接受 %1$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">不接受借记卡。</string>
 
@@ -1182,6 +1146,8 @@
     <string name="airline_card_fee_select_TEMPLATE">若使用 %2$s，航空公司收取 %1$s 的处理费。</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">该航空公司不接受 %1$s。</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
+    <string name="airline_card_not_supported_generic">该航空公司不支持此信用卡品牌。</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1338,7 +1304,7 @@
     <!-- Address line 1 hint -->
     <string name="address_line_one_hint">第 1 行地址</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">第 2 行地址</string>
+    <string name="address_line_two_hint">第 2 行地址（可选）</string>
     <!-- Address city hint -->
     <string name="address_city_hint">城市</string>
     <!-- Address state hint -->
@@ -1412,8 +1378,6 @@
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">无</string>
-    <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s 是&lt;/font&gt;%2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -1550,23 +1514,21 @@
     <string name="error_flight_price_increased">航空公司刚刚将您的机票价格提高了 %1$s。您是否乐意支付新的总价 %2$s？</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">我们刚刚发现，您预订的航班正在促销，票价降低了 %1$s。您是否同意我们按新的总价 %2$s 收款？</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">似乎该航空公司收取 %1$s 的帐款处理费用。您是否乐意支付新的总价 %2$s？</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">似乎该航空公司收取 %1$s 的帐款处理费用，并且刚刚将您的票价调高了 %2$s。您是否乐意支付新的总价 %3$s？</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">似乎该航空公司收取 %1$s 的帐款处理费用，但我们刚发现您申请的航班降价了 %2$s。您是否乐意支付新的总价 %3$s？</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您输入的信用卡号无效，请再试一次。</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">您输入的持卡人姓名与信用卡不符。请再试一次。</string>
-    <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">您尝试使用的信用卡已过期，请换一张信用卡。</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">很抱歉，尚不支持为年龄不满 18 岁的儿童进行预订。</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">很抱歉，我们此刻似乎无法处理您的订单。请再试一次。</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">很抱歉，我们此刻似乎无法处理您的订单。请再试一次，或致电 Expedia 客户支持并提供此行程编号：%s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_expedia">非常抱歉，您选择的航班在 Expedia 网站上已经没有余票。</string>
@@ -1791,8 +1753,6 @@
     <string name="please_try_a_different_location_or_date">请尝试另一位置或日期。</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">没有酒店空房</string>
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_expedia">非常抱歉，此房型在 Expedia 网站上已经订完。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_expedia">非常抱歉，这家酒店在 Expedia 网站上已经订完。</string>
 
@@ -2060,8 +2020,7 @@
     <string name="itinerary_number">行程编号</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">如果您对预订有任何问题，请致电 %s 与 Expedia 联系。</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">如果您对预订有任何问题，请致电 %s 与 Travelocity 联系。</string>
+
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2070,8 +2029,6 @@
     <string name="included">已包含</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">酒店费用（在酒店付款）</string>
-    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-    <string name="CheckOut">退房</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2112,8 +2069,6 @@
     <string name="logged_in_as">登录身份</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia 帐户</string>
-    <!-- Label for signin screen -->
-    <string name="vsc_account">VSC 帐户</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">正在加载 Expedia 帐户</string>
     <!-- Label for password recovery -->
@@ -2221,7 +2176,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">开源软件许可</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">此应用程序使用以下开源库：</string>
+    <string name="this_app_makes_use_of_the_following">此 App 使用以下开源库：</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -2416,7 +2371,6 @@
     <string name="country_ck">库克群岛</string>
     <string name="country_cr">哥斯达黎加</string>
     <string name="country_hr">克罗地亚</string>
-    <string name="country_cu">古巴</string>
     <string name="country_cy">塞浦路斯</string>
     <string name="country_cz">捷克共和国</string>
     <string name="country_ci">科特迪瓦</string>
@@ -2607,7 +2561,6 @@
     <string name="country_zm">赞比亚</string>
     <string name="country_zw">津巴布韦</string>
     <string name="country_ax">奥兰群岛</string>
-    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2770,19 +2723,13 @@
     <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 应用程序</string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© 版权所有 2012–2014 Agence Voyages-SNCF, Inc.\n 保留所有权利。</string>
-    <!-- VSC app name -->
-    <string name="VSC_app_name">VSC Hotels</string>
-    <!-- Link to open when VSC logo is clicked on -->
-    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">打开 Expedia 酒店页面</string>
-    <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">打开 Expedia 航班页面</string>
+    <!-- Content description for action: Press button to launch Hotels -->
+    <string name="cd_launch_hotels">搜索酒店</string>
+    <!-- Content description for action: Press button to launch Flights -->
+    <string name="cd_launch_flights">搜索机票</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">打开菜单列表</string>
     <!-- Content description for action: Open Settings Menu -->

@@ -3,27 +3,21 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Rechercher des destinations et des points d\&apos;intérêt</string>
-    <!-- Hint in edit text that the user should type in an origin (location) -->
-    <string name="origins_hint">Recherche d\&apos;origines…</string>
-    <!-- String when we don't know where the user is coming from/going to -->
-    <string name="great_unknown">le grand inconnu</string>
+    <string name="search_all_hint">Veuillez saisir votre destination</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Prendre un vol à %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Vol au départ de…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Sélectionner les dates</string>
-    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
-    <string name="choose_dates">Choisir les dates</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hôtels pour ce soir</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">Pour parcourir les vols vers %s, dites-nous d\&apos;où arrive votre vol.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Veuillez sélectionner une date ou une plage de dates valide.</string>
-    <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">Veuillez sélectionner les dates des\nvols vers %s</string>
+    <!-- Message for missing dates -->
+    <string name="missing_dates_flight_TEMPLATE">Pour voir les vols à destination de %s,\ndites-nous où vous souhaitez partir.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Pour connaître les tendances dans les prix \ndes vols, dites-nous de quel endroit vous partez.</string>
     <!-- Denotes the start date of the trip -->
@@ -35,27 +29,7 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Sélectionner l\&apos;aéroport</string>
 
-    <!-- Calendar picker strings -->
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
-    <string name="cd_month_previous_TEMPLATE">%s mois précédent</string>
-    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
-    <string name="cd_month_current_TEMPLATE">%s mois en cours</string>
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
-    <string name="cd_month_next_TEMPLATE">%s mois suivant</string>
-    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
-    <string name="cd_day_of_week_TEMPLATE">Jour %1$s, %2$s</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
-    <string name="cd_day_selected_TEMPLATE">%s en voyage</string>
-    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
-    <string name="cd_day_selected_start_TEMPLATE">%s date de début</string>
-    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
-    <string name="cd_day_selected_end_TEMPLATE">%s date de fin</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
-    <string name="cd_day_invalid_TEMPLATE">%s non sélectionnable</string>
-
     <!-- Tablet Results strings -->
-    <!-- Resulsts label -->
-    <string name="results">Résultats</string>
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Trier et filtrer</string>
     <!-- "Done" list header label -->
@@ -119,16 +93,10 @@
     <string name="trip_bucket_label_flight_roundtrip">Vol aller-retour vers %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Vol vers %1$s</string>
-    <!-- Loading Hotels and Flights… -->
-    <string name="loading_hotels_and_flights">Chargement des hôtels et des vols…</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="when_to_fly">Quand voler</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="flight_trends">Tendances dans les vols</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Quand revenir</string>
-    <!-- Waypoint fail message for when no suggestion is available. -->
-    <string name="waypoint_suggestion_fail">Aucune information sur le point de cheminement n\&apos;a été trouvée. Veuillez modifier votre demande et essayer de nouveau.</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Désolé, aucun hôtel n\&apos;est \n disponible en ce moment.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -280,8 +248,6 @@
     <string name="now_booking_TEMPLATE">Nouvelle réservation - &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
-    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
-    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -397,8 +363,6 @@
     <string name="find_itinerary_pound">Chercher l\&apos;itinéraire nº</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Nº d\&apos;itinéraire Expedia</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Nº d\&apos;itinéraire Travelocity</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Soutien à la clientèle Elite Plus</string>
     <!-- No upcoming trips -->
@@ -847,8 +811,6 @@
     <string name="share_template_long_hotel_4_phone">Téléphone\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Réservez hôtels, vols, consultez et partagez vos itinéraires. Téléchargez l\&apos;app mobile gratuite Expedia aujourd\&apos;hui.\n%s</string>
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Réservez hôtels, vols, consultez et partagez vos itinéraires. Téléchargez l\&apos;appli mobile gratuite Travelocity aujourd\&apos;hui.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Le %2$s, je pars pour %1$s!</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1145,7 +1107,9 @@
     <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
     <string name="airline_processing_fee_TEMPLATE">Frais de traitement de la compagnie aérienne pour cette carte : &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
-    <string name="airline_does_not_accept_cardtype_TEMPLATE">La compagnie aérienne n\&apos;accepte pas %1$s</string>
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">La compagnie aérienne n\&apos;accepte pas les paiements avec %1$s</string>
+    <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">L\&apos;hôtel n\&apos;accepte pas les paiements avec %1$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Aucune carte de débit acceptée.</string>
 
@@ -1182,6 +1146,8 @@
     <string name="airline_card_fee_select_TEMPLATE">La compagnie aérienne applique des frais de %1$s pour utiliser %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">La compagnie aérienne n\&apos;accepte pas %1$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
+    <string name="airline_card_not_supported_generic">La compagnie n\&apos;accepte pas cette marque de carte de paiement.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1338,7 +1304,7 @@
     <!-- Address line 1 hint -->
     <string name="address_line_one_hint">1re ligne d\&apos;adresse</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">2e ligne d\&apos;adresse</string>
+    <string name="address_line_two_hint">2e ligne d\&apos;adresse (facultatif)</string>
     <!-- Address city hint -->
     <string name="address_city_hint">Ville</string>
     <!-- Address state hint -->
@@ -1412,8 +1378,6 @@
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">Aucun</string>
-    <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s est &lt;/font&gt; %2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -1550,23 +1514,21 @@
     <string name="error_flight_price_increased">Il semble que la compagnie aérienne a augmenté le prix de votre billet de %1$s. Vous consentez à payer le total de %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Nous avons trouvé vos vols en vente pour %1$s de moins. Vous consentez à ce que l\&apos;on vous impute le total de %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement. Consentez-vous à payer le nouveau total de %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement et le prix de votre billet a donc augmenté de %2$s. Consentez-vous à payer le nouveau total de %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement, mais nous avons trouvé les mêmes vols en vente à %2$s de moins. Consentez-vous à payer le nouveau total de %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Le numéro de carte de crédit entré n\&apos;est pas valide, veuillez réessayer.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Le nom du titulaire de la carte que vous avez entré ne correspond pas au nom sur la carte de crédit. Veuillez réessayer.</string>
-    <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">La carte de crédit utilisée est expirée; veuillez utiliser une autre carte de crédit.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">Désolé, les réservations pour enfant de moins de 18 ans ne sont pas acceptées.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer ou téléphoner au soutien à la clientèle Expedia en mentionnant le numéro d\&apos;itinéraire : %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_expedia">Désolé, le vol sélectionné n\&apos;est plus disponible sur Expedia.</string>
@@ -1791,8 +1753,6 @@
     <string name="please_try_a_different_location_or_date">Veuillez essayer un autre endroit ou date.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Aucune chambre d\&apos;hôtel disponible</string>
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_expedia">Désolé, la chambre sélectionnée n\&apos;est plus disponible sur Expedia.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_expedia">Désolé, cet hôtel n\&apos;est plus disponible sur Expedia.</string>
 
@@ -2060,8 +2020,7 @@
     <string name="itinerary_number">Nº d\&apos;itinéraire</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Si vous avez des questions au sujet de la réservation, veuillez communiquer avec Expedia au %s.</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">Si vous avez des questions au sujet de la réservation, veuillez contacter Travelocity au %s</string>
+
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2070,8 +2029,6 @@
     <string name="included">Inclus</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Frais d\&apos;hôtel (dus à l\&apos;hôtel)</string>
-    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-    <string name="CheckOut">Départ</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Réduction</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2112,8 +2069,6 @@
     <string name="logged_in_as">En session en tant que</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Compte Expedia</string>
-    <!-- Label for signin screen -->
-    <string name="vsc_account">Compte VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Chargement du compte Expedia</string>
     <!-- Label for password recovery -->
@@ -2221,7 +2176,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Licences des logiciels de source libre</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">Cette app a recours aux bibliothèques de source libre suivantes :</string>
+    <string name="this_app_makes_use_of_the_following">Cette appli a recours aux bibliothèques de source libre suivante :</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -2416,7 +2371,6 @@
     <string name="country_ck">Îles Cook</string>
     <string name="country_cr">Costa Rica</string>
     <string name="country_hr">Croatie</string>
-    <string name="country_cu">Cuba</string>
     <string name="country_cy">Chypre</string>
     <string name="country_cz">République tchèque</string>
     <string name="country_ci">Côte d\&apos;Ivoire</string>
@@ -2607,7 +2561,6 @@
     <string name="country_zm">Zambie</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Îles d\&apos;Åland</string>
-    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2770,19 +2723,13 @@
     <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Application Voyages-sncf.com</string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nTous droits réservés.</string>
-    <!-- VSC app name -->
-    <string name="VSC_app_name">Hôtels VSC</string>
-    <!-- Link to open when VSC logo is clicked on -->
-    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Lancez Expedia Hôtels</string>
-    <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Lancez Expedia Vols</string>
+    <!-- Content description for action: Press button to launch Hotels -->
+    <string name="cd_launch_hotels">Lancer Hôtels</string>
+    <!-- Content description for action: Press button to launch Flights -->
+    <string name="cd_launch_flights">Lancer Vols</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">Ouvrez la liste de menus</string>
     <!-- Content description for action: Open Settings Menu -->
