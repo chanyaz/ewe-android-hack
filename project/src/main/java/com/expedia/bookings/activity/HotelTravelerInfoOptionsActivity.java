@@ -12,12 +12,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -47,7 +50,8 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 
 	//Where we want to return to after our action
 	public enum YoYoPosition {
-		OPTIONS, ONE
+		OPTIONS,
+		ONE
 	}
 
 	public interface Validatable {
@@ -64,7 +68,13 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		}
 		else {
-			mPos = YoYoPosition.OPTIONS;
+			if (canOnlySelectNewTraveller()) {
+				mMode = YoYoMode.YOYO;
+				displayTravelerEntryOne();
+			}
+			else {
+				mPos = YoYoPosition.OPTIONS;
+			}
 		}
 
 		//Which traveler are we working with
@@ -107,9 +117,9 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
-				.getString(STATE_TAG_START_FIRST_NAME) : "";
+			.getString(STATE_TAG_START_FIRST_NAME) : "";
 		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
-				.getString(STATE_TAG_START_LAST_NAME) : "";
+			.getString(STATE_TAG_START_LAST_NAME) : "";
 
 		super.onRestoreInstanceState(savedInstanceState);
 	}
@@ -213,7 +223,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	public void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+			| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.traveler_information);
 		if (mPos != null) {
 			switch (mPos) {
@@ -263,7 +273,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 			case ONE:
 				if (validate(mOneFragment)) {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
-							Db.getWorkingTravelerManager().getWorkingTraveler());
+						Db.getWorkingTravelerManager().getWorkingTraveler());
 					displayOptions();
 				}
 				break;
@@ -294,7 +304,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 				//If we are backing up we want to restore the base traveler...
 				if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
-							Db.getWorkingTravelerManager().getBaseTraveler());
+						Db.getWorkingTravelerManager().getBaseTraveler());
 				}
 				displayOptions();
 				break;
@@ -309,7 +319,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 				//If we are backing up we want to restore the base traveler...
 				if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
-							Db.getWorkingTravelerManager().getBaseTraveler());
+						Db.getWorkingTravelerManager().getBaseTraveler());
 				}
 				displayOptions();
 				break;
@@ -368,4 +378,13 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 		finish();
 	}
 
+	private boolean canOnlySelectNewTraveller() {
+		if (BookingInfoUtils.getAlternativeTravelers(this).size() > 0) {
+			return false;
+		}
+		HotelTravelerFlowState validationState = HotelTravelerFlowState.getInstance(this);
+		Traveler travelerinfo = Db.getWorkingTravelerManager().getWorkingTraveler();
+		boolean travelervalid = validationState.hasValidTraveler(travelerinfo);
+		return !travelervalid;
+	}
 }
