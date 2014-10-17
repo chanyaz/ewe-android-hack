@@ -3,27 +3,21 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Søk blant destinasjoner og landemerker</string>
-    <!-- Hint in edit text that the user should type in an origin (location) -->
-    <string name="origins_hint">Søk blant avreisesteder…</string>
-    <!-- String when we don't know where the user is coming from/going to -->
-    <string name="great_unknown">Det store ukjente</string>
+    <string name="search_all_hint">Angi destinasjon</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Fly fra %1$s</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Fly fra…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Velg datoer</string>
-    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
-    <string name="choose_dates">Velg datoer</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hoteller for i kveld</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">For å søke på fly til %s må du angi hvor du vil fly fra.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Velg en gyldig dato eller tidsperiode.</string>
-    <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">Velg datoer for \nflyvningene til %s</string>
+    <!-- Message for missing dates -->
+    <string name="missing_dates_flight_TEMPLATE">For å søke på fly til %s,\nangi når du vil fly.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Fortell oss hvor du vil fly fra\nfor å se flypris-trender</string>
     <!-- Denotes the start date of the trip -->
@@ -35,27 +29,7 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Velg flyplass</string>
 
-    <!-- Calendar picker strings -->
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
-    <string name="cd_month_previous_TEMPLATE">%s forrige måned</string>
-    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
-    <string name="cd_month_current_TEMPLATE">%s nåværende måned</string>
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
-    <string name="cd_month_next_TEMPLATE">%s neste måned</string>
-    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
-    <string name="cd_day_of_week_TEMPLATE">Dag %1$s, %2$s</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
-    <string name="cd_day_selected_TEMPLATE">%s i reise</string>
-    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
-    <string name="cd_day_selected_start_TEMPLATE">%s startdato</string>
-    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
-    <string name="cd_day_selected_end_TEMPLATE">%s sluttdato</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
-    <string name="cd_day_invalid_TEMPLATE">%s kan ikke velges</string>
-
     <!-- Tablet Results strings -->
-    <!-- Resulsts label -->
-    <string name="results">Resultater</string>
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sorter og filtrer</string>
     <!-- "Done" list header label -->
@@ -119,16 +93,10 @@
     <string name="trip_bucket_label_flight_roundtrip">Tur-retur-flyvning til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flyvning til %1$s</string>
-    <!-- Loading Hotels and Flights… -->
-    <string name="loading_hotels_and_flights">Henter hotell og flyvninger…</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="when_to_fly">Når skal du fly?</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="flight_trends">Flypris-trender</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">Når skal du fly tilbake?</string>
-    <!-- Waypoint fail message for when no suggestion is available. -->
-    <string name="waypoint_suggestion_fail">Informasjon om sted ble ikke funnet. Endre søket ditt og prøv på nytt.</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Beklager, ingen hoteller er \n tilgjengelige for øyeblikket.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -280,8 +248,6 @@
     <string name="now_booking_TEMPLATE">Bestiller &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
-    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
-    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -397,8 +363,6 @@
     <string name="find_itinerary_pound">Finn reiserutenummer</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-reiserutenummer:</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Travelocity reiserutenummer</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus kundeservice</string>
     <!-- No upcoming trips -->
@@ -847,8 +811,6 @@
     <string name="share_template_long_hotel_4_phone">Telefon\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Bestill hotell og fly, eller se og del reiserutene dine. Last ned Expedias mobil-app i dag, helt gratis.\n%s</string>
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Bestill hotell og fly, eller se og del reiserutene dine. Last ned Travelocitys mobil-app i dag, helt gratis.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jeg skal fly til %1$s den %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1146,6 +1108,8 @@
     <string name="airline_processing_fee_TEMPLATE">Flyselskapets avgifter for dette kortet: &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Flyselskapet godtar ikke %1$s</string>
+    <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotellet godtar ikke %1$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Debetkort godtas ikke.</string>
 
@@ -1182,6 +1146,8 @@
     <string name="airline_card_fee_select_TEMPLATE">Flyselskapet krever et gebyr på %1$s for bruk av %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">Flyselskapet støtter ikke %1$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
+    <string name="airline_card_not_supported_generic">Flyselskapet støtter ikke denne typen kredittkort.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1338,7 +1304,7 @@
     <!-- Address line 1 hint -->
     <string name="address_line_one_hint">Adresselinje 1</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">Adresselinje 2</string>
+    <string name="address_line_two_hint">Adresselinje 2 (valgfritt)</string>
     <!-- Address city hint -->
     <string name="address_city_hint">By</string>
     <!-- Address state hint -->
@@ -1412,8 +1378,6 @@
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">Ingen</string>
-    <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s er&lt;/font&gt; %2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -1550,23 +1514,21 @@
     <string name="error_flight_price_increased">Det ser ut til at flyselskapet har satt opp prisen på billetten din med %1$s.  Er du villig til å betale det nye totalbeløpet som er %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Vi fant din ønskede reise på salg for %1$s mindre. Er du villig til å betale det nye totalbeløpet som er %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling. Er du villig til å betale det nye totalbeløpet på %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling. Prisen på billetten har derfor steget med %2$s. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling, men vi har nettopp funnet dine flyvninger på salg for %2$s mindre. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kredittkortnummeret du oppga, er ugyldig. Prøv på nytt.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Kortinnehaverens navn som du anga stemmer ikke overens med navnet på kortet. Prøv på nytt.</string>
-    <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">Kredittkortet du prøver å bruke, er utgått. Vennligst prøv et annet kredittkort.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">Beklager, bestilling for barn under 18 støttes ikke for øyeblikket.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Dessverre kan vi ikke behandle din bestilling akkurat nå. Prøv på nytt.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Dessverre kan vi ikke behandle din bestilling akkurat nå. Prøv på nytt, eller kontakt Expedias kundeservice og oppgi dette reiserutenummeret: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_expedia">Beklager, denne flyvningen er ikke lenger tilgjengelig på Expedia.</string>
@@ -1791,8 +1753,6 @@
     <string name="please_try_a_different_location_or_date">Vennligst prøv en annen dato eller beliggenhet.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Ingen hotellrom tilgjengelige</string>
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_expedia">Beklager, dette rommet er ikke lenger tilgjengelig på Expedia.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_expedia">Beklager, dette hotellet er ikke lenger tilgjengelig på Expedia.</string>
 
@@ -2060,8 +2020,7 @@
     <string name="itinerary_number">Reiserutenummer</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %s.</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">Har du spørsmål vedrørende bestillingen, kan du ringe Travelocity på %s.</string>
+
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2070,8 +2029,6 @@
     <string name="included">Inkludert</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotellgebyrer (betales på hotellet)</string>
-    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-    <string name="CheckOut">Utsjekking</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Rabatt</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2112,8 +2069,6 @@
     <string name="logged_in_as">Logget på som</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia-konto</string>
-    <!-- Label for signin screen -->
-    <string name="vsc_account">VSC-konto</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Laster inn Expedia-konto</string>
     <!-- Label for password recovery -->
@@ -2416,7 +2371,6 @@
     <string name="country_ck">Cookøyene</string>
     <string name="country_cr">Costa Rica</string>
     <string name="country_hr">Kroatia</string>
-    <string name="country_cu">Cuba</string>
     <string name="country_cy">Kypros</string>
     <string name="country_cz">Tsjekkia</string>
     <string name="country_ci">Elfenbenskysten</string>
@@ -2607,7 +2561,6 @@
     <string name="country_zm">Zambia</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland</string>
-    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2770,19 +2723,13 @@
     <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">App fra Voyages-sncf.com</string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nAlle rettigheter forbeholdt.</string>
-    <!-- VSC app name -->
-    <string name="VSC_app_name">VSC-hoteller</string>
-    <!-- Link to open when VSC logo is clicked on -->
-    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Kjør Expedia Hotels</string>
-    <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Kjør Expedia Flights</string>
+    <!-- Content description for action: Press button to launch Hotels -->
+    <string name="cd_launch_hotels">Søk på hoteller</string>
+    <!-- Content description for action: Press button to launch Flights -->
+    <string name="cd_launch_flights">Søk på flyvninger</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">Åpne Meny</string>
     <!-- Content description for action: Open Settings Menu -->

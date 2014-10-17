@@ -2995,4 +2995,7 @@
     <!-- Dialog positive button message -->
     <string name="yes">Yes</string>
 
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
+
 </resources>

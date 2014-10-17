@@ -3,27 +3,21 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">목적지 및 랜드마크 검색</string>
-    <!-- Hint in edit text that the user should type in an origin (location) -->
-    <string name="origins_hint">출발지 검색…</string>
-    <!-- String when we don't know where the user is coming from/going to -->
-    <string name="great_unknown">출발지/목적지 미정</string>
+    <string name="search_all_hint">목적지 입력</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">%1$s발 항공편</string>
     <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">출발지…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">날짜 선택</string>
-    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
-    <string name="choose_dates">날짜 선택</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">오늘 밤 추천 호텔</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_info_message_TEMPLATE">%s행 항공편을 검색하려면 어디서 출발하는지 알려주세요.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">날짜 또는 날짜 범위를 올바르게 선택해 주세요.</string>
-    <!-- Message for no GDE results, or GDE not available on this POS -->
-    <string name="Set_dates_for_flights_to_X_TEMPLATE">%s행 항공편의 날짜를\n선택해 주세요.</string>
+    <!-- Message for missing dates -->
+    <string name="missing_dates_flight_TEMPLATE">%s행 항공편을 검색하려면\n언제 출발하는지 알려주세요.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">항공 요금 추세를 보려면\n어디서 출발하는지 알려주세요.</string>
     <!-- Denotes the start date of the trip -->
@@ -35,27 +29,7 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">공항 선택</string>
 
-    <!-- Calendar picker strings -->
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
-    <string name="cd_month_previous_TEMPLATE">이전 달 %s</string>
-    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
-    <string name="cd_month_current_TEMPLATE">현재 달 %s</string>
-    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
-    <string name="cd_month_next_TEMPLATE">다음 달 %s</string>
-    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
-    <string name="cd_day_of_week_TEMPLATE">%1$s번 요일, %2$s</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
-    <string name="cd_day_selected_TEMPLATE">여행일 %s</string>
-    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
-    <string name="cd_day_selected_start_TEMPLATE">시작일 %s</string>
-    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
-    <string name="cd_day_selected_end_TEMPLATE">완료일 %s</string>
-    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
-    <string name="cd_day_invalid_TEMPLATE">%s 선택 불가</string>
-
     <!-- Tablet Results strings -->
-    <!-- Resulsts label -->
-    <string name="results">개의 결과</string>
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">정렬 &amp; 필터</string>
     <!-- "Done" list header label -->
@@ -119,16 +93,10 @@
     <string name="trip_bucket_label_flight_roundtrip">%1$s 왕복 여행 항공</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">%1$s행 항공편</string>
-    <!-- Loading Hotels and Flights… -->
-    <string name="loading_hotels_and_flights">호텔 및 항공 로드 중…</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="when_to_fly">떠나는 날짜</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="flight_trends">항공 추세</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">돌아오는 날짜</string>
-    <!-- Waypoint fail message for when no suggestion is available. -->
-    <string name="waypoint_suggestion_fail">위치 정보를 찾을 수 없습니다! 검색 조건을 변경하고 다시 시도해 주세요.</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">죄송합니다. \n현재 이용 가능한 호텔이 없습니다.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -280,8 +248,6 @@
     <string name="now_booking_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 지금 예약</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
-    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
-    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -397,8 +363,6 @@
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">익스피디아 일정 번호</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Travelocity 일정 번호</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
     <!-- No upcoming trips -->
@@ -847,8 +811,6 @@
     <string name="share_template_long_hotel_4_phone">전화:\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 익스피디아 모바일 앱을 다운로드하세요.\n%s</string>
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 무료 Travelocity 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">항공편으로 %1$s에 가요!(%2$s)</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1146,6 +1108,8 @@
     <string name="airline_processing_fee_TEMPLATE">이 카드에 대한 항공사 처리 수수료: &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">항공사에서 %1$s 결제를 지원하지 않습니다.</string>
+    <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">호텔에서 %1$s 결제를 지원하지 않습니다.</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
 
@@ -1182,6 +1146,8 @@
     <string name="airline_card_fee_select_TEMPLATE">이 항공사는 %1$s의 금액을 %2$s 결제 수수료로 부과합니다.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">이 항공사는 %1$s 결제를 지원하지 않습니다.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
+    <string name="airline_card_not_supported_generic">항공사에서 이 신용카드 브랜드를 지원하지 않습니다.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1338,7 +1304,7 @@
     <!-- Address line 1 hint -->
     <string name="address_line_one_hint">주소입력란 1</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">주소입력란 2</string>
+    <string name="address_line_two_hint">주소입력란 2(선택 사항)</string>
     <!-- Address city hint -->
     <string name="address_city_hint">시</string>
     <!-- Address state hint -->
@@ -1412,8 +1378,6 @@
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">없음</string>
-    <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s&lt;/font&gt; - %2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -1550,23 +1514,21 @@
     <string name="error_flight_price_increased">해당 항공사가 방금 고객님의 항공권 가격을 %1$s만큼 올린 것 같습니다.  결제할 새 총액은 %2$s인데 괜찮으세요?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">고객님이 요청하신 항공편의 가격이 %1$s만큼 내려간 것이 방금 확인되었습니다. 청구될 새 총액은 %2$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하는 것 같습니다. 결제할 새 총액은 %2$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하고 고객님의 항공권 가격을 %2$s만큼 올린 것 같습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하지만 고객님이 요청하신 항공편의 가격이 %2$s만큼 할인된 것이 방금 확인되었습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">입력하신 카드 소유자 이름이 신용카드상의 이름과 일치하지 않습니다. 다시 시도해 주세요.</string>
-    <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">사용하시려는 신용카드가 만료되었습니다. 다른 신용카드를 사용해 주세요.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">죄송합니다. 만 18세 미만 아동의 예약은 아직 지원되지 않습니다.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도하시거나 익스피디아 고객 지원에 연락하여 이 일정 번호를 말씀해 주세요: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_expedia">정말 죄송합니다. 고객님 항공편은 익스피디아에서 더 이상 이용하실 수 없습니다.</string>
@@ -1791,8 +1753,6 @@
     <string name="please_try_a_different_location_or_date">다른 지역이나 날짜를 선택해 보세요.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">이용 가능한 객실이 없습니다.</string>
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_expedia">죄송합니다. 이 객실은 익스피디아에서 더 이상 이용하실 수 없습니다.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_expedia">죄송합니다. 이 호텔은 익스피디아에서 더 이상 이용하실 수 없습니다.</string>
 
@@ -2060,8 +2020,7 @@
     <string name="itinerary_number">일정 번호</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 익스피디아 전화 %s번으로 연락해 주세요.</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">예약 관련 문의 사항이 있으시면 Travelocity 전화 %s번으로 연락해 주세요.</string>
+
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2070,8 +2029,6 @@
     <string name="included">포함됨</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">호텔 수수료(호텔에서 결제)</string>
-    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-    <string name="CheckOut">체크아웃</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">할인</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2112,8 +2069,6 @@
     <string name="logged_in_as">로그인된 고객님:</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">익스피디아 계정</string>
-    <!-- Label for signin screen -->
-    <string name="vsc_account">VSC 계정</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">익스피디아 계정 로드 중</string>
     <!-- Label for password recovery -->
@@ -2221,7 +2176,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">이 앱에서 사용하는 오픈 소스 라이브러리:</string>
+    <string name="this_app_makes_use_of_the_following">이 앱에는 다음의 오픈 소스 라이브러리가 사용되었습니다:</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -2416,7 +2371,6 @@
     <string name="country_ck">쿡 아일랜드</string>
     <string name="country_cr">코스타리카</string>
     <string name="country_hr">크로아티아</string>
-    <string name="country_cu">쿠바</string>
     <string name="country_cy">키프로스</string>
     <string name="country_cz">체코</string>
     <string name="country_ci">코트디부아르</string>
@@ -2607,7 +2561,6 @@
     <string name="country_zm">잠비아</string>
     <string name="country_zw">짐바브웨</string>
     <string name="country_ax">알랜드 제도</string>
-    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2770,19 +2723,13 @@
     <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 앱</string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nAll rights reserved.</string>
-    <!-- VSC app name -->
-    <string name="VSC_app_name">VSC Hotels</string>
-    <!-- Link to open when VSC logo is clicked on -->
-    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">익스피디아 호텔 화면을 실행합니다.</string>
-    <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">익스피디아 항공 화면을 실행합니다.</string>
+    <!-- Content description for action: Press button to launch Hotels -->
+    <string name="cd_launch_hotels">호텔을 검색합니다.</string>
+    <!-- Content description for action: Press button to launch Flights -->
+    <string name="cd_launch_flights">항공편을 검색합니다.</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">메뉴 목록을 엽니다.</string>
     <!-- Content description for action: Open Settings Menu -->
@@ -2924,7 +2871,7 @@
     <!-- Content description for action: Enter Expedia account password -->
     <string name="cd_log_in_password_edit_text">익스피디아 계정 비밀번호를 입력합니다.</string>
     <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">누르면 Facebook 계정을 사용하여 익스피디아에 로그인하실 수 있습니다.</string>
+    <string name="cd_log_in_with_facebook">Facebook 계정으로 익스피디아에 로그인하시려면 눌러주세요.</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">누르면 새로운 여행객을 입력하실 수 있습니다.</string>
