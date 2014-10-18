@@ -16,14 +16,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" >
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp" >
 
             <com.expedia.bookings.widget.HotelReceipt
                 android:id="@+id/receipt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginLeft="1.5dp"
+                android:layout_marginRight="1.5dp"
+                android:layout_marginTop="8dp"/>
 
             <com.expedia.bookings.widget.LinearLayout
                 android:id="@+id/checkout_layout"
@@ -111,10 +113,7 @@
 
                 <!-- Divider -->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#C4C4C4" />
+                <include layout="@layout/include_checkout_information_divider" />
 
                 <!-- Payment -->
 

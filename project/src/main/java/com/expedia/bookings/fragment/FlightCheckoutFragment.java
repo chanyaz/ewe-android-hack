@@ -33,7 +33,6 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -379,6 +378,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				mAddTravelerSections.add(v);
 				mTravelerContainer.addView(v);
 			}
+
+			// Add a divider
+			inflater.inflate(R.layout.include_checkout_information_divider, mTravelerContainer);
 		}
 	}
 
