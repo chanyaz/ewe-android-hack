@@ -44,6 +44,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -794,9 +795,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				return;
 			}
 
-			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity);
+			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity).toUpperCase();
 
 			SpannableStringBuilder ssb = new SpannableStringBuilder(routeDescription);
+
 			int endOfOriginText = firstCity.length();
 			int startOfDestinationText = routeDescription.length() - secondCity.length();
 
