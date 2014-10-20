@@ -2126,11 +2126,17 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn’t accept coupons.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Sorry, but this hotel doesn’t accept coupons.</string>
+    <string name="coupon_error_invalid_hotel">Sorry, but the coupon cannot be applied to this hotel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Sorry, but we cannot process coupons currently.  Please try again.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Sorry, but it took too long to apply the code. Please try again.</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">Sorry, but the coupon cannot be applied for these travel dates.</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">Sorry, this coupon has been used too many times and can no longer be applied.</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn’t meet the minimum for this coupon.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
