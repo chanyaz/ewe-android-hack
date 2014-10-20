@@ -52,6 +52,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -2559,21 +2560,17 @@ public class OmnitureTracking {
 		}
 	}
 
-	//TODO: fix this for Loyalty Membership Plus
 	private static String getRewardsStatusString(User user) {
-		boolean rewardsUser = Db.getUser().isRewardsUser();
-		boolean elitePlusUser = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().isGoldOrSilver();
-		StringBuilder sb = new StringBuilder();
-		if (!rewardsUser) {
-			sb.append("notRewardsMember");
+		switch (user.getPrimaryTraveler().getLoyaltyMembershipTier()) {
+		case BLUE:
+			return "blue";
+		case SILVER:
+			return "silver";
+		case GOLD:
+			return "gold";
+		default:
+			return null;
 		}
-		else {
-			sb.append("rewardsMember");
-			if (elitePlusUser) {
-				sb.append(", elitePlusMember");
-			}
-		}
-		return sb.toString();
 	}
 
 	private static void addDeepLinkData(ADMS_Measurement s) {
