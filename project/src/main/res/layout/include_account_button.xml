@@ -113,8 +113,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/account_button_padding"
-            android:paddingLeft="@dimen/card_icon_padding_left"
-            android:paddingRight="@dimen/card_icon_padding"
+            android:paddingLeft="@dimen/login_button_icon_padding_left"
+            android:paddingRight="@dimen/login_button_icon_padding_right"
             android:src="?attr/hotelCheckoutLoginLogoDrawable" />
 
         <LinearLayout
@@ -147,11 +147,8 @@
 
     <LinearLayout
         android:id="@+id/account_rewards_container"
-        style="@style/BookingSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="12dp"
+        android:layout_height="26dp"
         android:gravity="center"
         android:visibility="gone">
 
@@ -160,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/roboto_light"
-            android:textSize="14sp"/>
+            android:textSize="13sp"/>
     </LinearLayout>
 
 </com.expedia.bookings.widget.AccountButton>

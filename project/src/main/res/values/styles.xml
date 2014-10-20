@@ -951,15 +951,21 @@
     </style>
 
     <style name="LoginButtonTopTextStyle">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_dark</item>
     </style>
 
     <style name="LoginButtonBottomTextStyle">
+        <item name="android:layout_marginTop">-2dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/text_dark</item>
     </style>
 
     <style name="LoginButtonLogoutImageStyle">
         <item name="android:padding">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
     </style>
 
     <!-- Tablet Hotel Details related styles -->
