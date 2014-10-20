@@ -85,8 +85,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			calendarTextView.setText(Integer.toString(searchParams.getCheckInDate().getDayOfMonth()));
 
 			TextView searchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
-			searchDatesTextView.setText(DateFormatUtils.formatDateRange(getActivity(), searchParams.getCheckInDate(),
-				searchParams.getCheckOutDate(), DateFormatUtils.FLAGS_DATE_ABBREV_ALL));
+			searchDatesTextView.setText(DateFormatUtils.formatDateRange(getActivity(), searchParams, DateFormatUtils.FLAGS_DATE_ABBREV_ALL));
 
 			TextView searchGuestsTextView = Ui.findView(view, R.id.search_guests_text_view);
 			searchGuestsTextView.setText(StrUtils.formatGuests(getActivity(), searchParams));
