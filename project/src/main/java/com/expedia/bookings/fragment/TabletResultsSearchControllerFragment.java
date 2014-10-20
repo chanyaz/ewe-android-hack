@@ -301,16 +301,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private void bindCalBtn() {
 		// Search bar
 		if (mLocalParams != null && mLocalParams.getStartDate() != null) {
-			String dateStr;
 			int flags = DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY;
-			if (mLocalParams.getEndDate() != null) {
-				dateStr = DateFormatUtils
-					.formatDateRange(getActivity(), mLocalParams.getStartDate(), mLocalParams.getEndDate(), flags);
-
-			}
-			else {
-				dateStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getStartDate(), flags);
-			}
+			String dateStr = DateFormatUtils.formatDateRange(getActivity(), mLocalParams, flags);
 			mCalBtn.setText(dateStr);
 		}
 		else {

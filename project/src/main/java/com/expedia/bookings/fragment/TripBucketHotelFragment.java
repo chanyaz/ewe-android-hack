@@ -167,12 +167,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		if (hotel != null) {
 			HotelSearchParams params = hotel.getHotelSearchParams();
 			if (params != null) {
-				//Dates
-				LocalDate checkIn = params.getCheckInDate();
-				LocalDate checkOut = params.getCheckOutDate();
-
-				String dateRange = DateFormatUtils
-					.formatDateRange(getActivity(), checkIn, checkOut, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
+				String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
 				mDatesTv.setText(dateRange);
 
 				//Guests

@@ -71,10 +71,8 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				mSoldOutTextView.setText((Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultNotAvailale)));
 			}
 			else {
-				String dates = DateFormatUtils.formatDateRange(getActivity(), params.getCheckInDate(),
-					params.getCheckOutDate(), DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
-				mSoldOutTextView
-					.setText(getString(Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultTEMPLATE), dates));
+				String dates = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
+				mSoldOutTextView.setText(getString(Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultTEMPLATE), dates));
 			}
 		}
 		else {
