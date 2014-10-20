@@ -85,6 +85,7 @@
         <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
         <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_aag</item>
         <item name="flightLoginActionBarIcon">@drawable/ic_logo_flights_aag</item>
+        <item name="sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -108,8 +109,6 @@
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="flightCheckoutAccountLabel">@string/aag_account</item>
-        <item name="sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_aag</item>
-
     </style>
 
     <!-- Override the phone theme -->

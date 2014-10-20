@@ -510,7 +510,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 					|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
 					&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(R.string.error_hotel_is_now_sold_out_expedia);
+				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.sorryRoomsSoldOutErrorMessage));
 			}
 			else {
 				Db.kickOffBackgroundHotelSearchSave(mContext);
