@@ -435,8 +435,8 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 			List<Destination> destinations = new ArrayList<Destination>();
 
 			Point size = AndroidUtils.getScreenSize(getActivity());
-			int width = Math.round(size.x / 2);
-			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
+			int width = Math.round(size.x / 2.0f * 0.8f);
+			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight) * 0.8f);
 
 			//Get flight destination list for the current POS
 			PointOfSale pos = PointOfSale.getPointOfSale();
