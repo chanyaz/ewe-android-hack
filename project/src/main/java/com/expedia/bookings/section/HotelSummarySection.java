@@ -82,12 +82,14 @@ public class HotelSummarySection extends RelativeLayout {
 	private boolean mDoUrgencyTextColorMatching = false;
 	private View mCardCornersBottom;
 	private View mBgImgOverlay;
+	private View mSelectedOverlay;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
 	private Drawable mSelectedBackground;
 	private int mSalePriceTextColor;
 	private int mPriceTextColor;
+	private boolean mIsSelected;
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -132,6 +134,8 @@ public class HotelSummarySection extends RelativeLayout {
 			mUrgencyText = Ui.findView(this, R.id.urgency_text_view_color_matched);
 			mDoUrgencyTextColorMatching = true;
 		}
+
+		mSelectedOverlay = Ui.findView(this, R.id.selected_hotel_overlay);
 	}
 
 	/**
@@ -177,6 +181,7 @@ public class HotelSummarySection extends RelativeLayout {
 		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
+		mIsSelected = isSelected;
 
 		mNameText.setText(property.getName());
 
@@ -286,7 +291,16 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		if (mDoUrgencyTextColorMatching && mUrgencyText.getVisibility() == View.VISIBLE) {
-			setDominantColor(getResources().getColor(R.color.transparent_dark));
+			if (mIsSelected) {
+				setDominantColor(getResources().getColor(R.color.tablet_hotel_selected_mobile_exclusive_overlay));
+			}
+			else {
+				setDominantColor(getResources().getColor(R.color.transparent_dark));
+			}
+		}
+
+		if (mSelectedOverlay != null && mIsSelected) {
+			mSelectedOverlay.setVisibility(VISIBLE);
 		}
 
 		mPriceText.setTextSize(priceTextSize);
@@ -408,7 +422,7 @@ public class HotelSummarySection extends RelativeLayout {
 	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			if (mDoUrgencyTextColorMatching) {
+			if (mDoUrgencyTextColorMatching && !mIsSelected) {
 				ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f)
 					.setAlpha(204);
 				setDominantColor(builder.build());
@@ -417,7 +431,7 @@ public class HotelSummarySection extends RelativeLayout {
 
 		@Override
 		public void onBitmapLoadFailed(String url) {
-			if (mDoUrgencyTextColorMatching) {
+			if (mDoUrgencyTextColorMatching && !mIsSelected) {
 				setDominantColor(getResources().getColor(R.color.transparent_dark));
 			}
 		}
