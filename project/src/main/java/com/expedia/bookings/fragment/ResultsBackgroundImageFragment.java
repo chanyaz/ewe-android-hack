@@ -173,13 +173,14 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		}
 
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
+		final int width = (int) (landscape.x * 0.8f);
 		String destinationCode = mDestCodes.get(mCodesIndex);
 
 		String baseUrl = Images.getTabletDestination(destinationCode);
 
 		final String url = new Akeakamai(baseUrl)
-			.downsize(Akeakamai.pixels(landscape.x), Akeakamai.preserve())
-			.quality(60)
+			.downsize(Akeakamai.pixels(width), Akeakamai.preserve())
+			.quality(75)
 			.build();
 
 		// Check whether we already have this image cached
