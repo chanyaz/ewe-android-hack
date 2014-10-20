@@ -146,7 +146,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				//Amenities
 				if (rate.shouldShowFreeCancellation()) {
 					mFreeCancellationTv.setVisibility(View.VISIBLE);
-					mFreeCancellationTv.setText(HotelUtils.getRoomCancellationText(getActivity(), rate));
+					mFreeCancellationTv.setText(HotelUtils.getRoomCancellationText(getActivity(), rate).toString());
 
 					if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && getResources().getBoolean(R.bool.landscape)) {
 						mPriceGuaranteeTv.setVisibility(View.VISIBLE);
