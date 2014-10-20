@@ -76,6 +76,9 @@ public class ServerError implements JSONable {
 		COUPON_SERVICE_DOWN,
 		COUPON_FALLBACK,
 		COUPON_INVALID_HOTEL,
+		COUPON_INVALID_STAY_DATES,
+		COUPON_EXCEEDED_EARN_LIMIT,
+		COUPON_INVALID_AVERAGE_PRICE,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -168,6 +171,9 @@ public class ServerError implements JSONable {
 			put("PriceChange", ErrorCode.COUPON_PRICE_CHANGE);
 			put("ServiceDown", ErrorCode.COUPON_SERVICE_DOWN);
 			put("Unrecognized", ErrorCode.COUPON_UNRECOGNIZED);
+			put("InvalidAveragePrice", ErrorCode.COUPON_INVALID_AVERAGE_PRICE);
+			put("InvalidStayDates", ErrorCode.COUPON_INVALID_STAY_DATES);
+			put("ExceededEarnLimit", ErrorCode.COUPON_EXCEEDED_EARN_LIMIT);
 		}
 	};
 
@@ -187,6 +193,9 @@ public class ServerError implements JSONable {
 			put(ErrorCode.COUPON_PRICE_CHANGE, R.string.coupon_error_price_change);
 			put(ErrorCode.COUPON_SERVICE_DOWN, R.string.coupon_error_service_down);
 			put(ErrorCode.COUPON_UNRECOGNIZED, R.string.coupon_error_unrecognized);
+			put(ErrorCode.COUPON_INVALID_AVERAGE_PRICE, R.string.coupon_error_invalid_average_price);
+			put(ErrorCode.COUPON_INVALID_STAY_DATES, R.string.coupon_error_invalid_stay_dates);
+			put(ErrorCode.COUPON_EXCEEDED_EARN_LIMIT, R.string.coupon_error_exceeded_earn_limit);
 		}
 	};
 
@@ -424,8 +433,8 @@ public class ServerError implements JSONable {
 	}
 
 	public String getCouponErrorMessage(Context context) {
-		// Let's make this the default message in case the errorCode sent is either null or not recognized.
-		String message = context.getString(R.string.coupon_error_service_timeout);
+		// Let's make this the default message in case the errorCode sent is not recognized.
+		String message = context.getString(R.string.coupon_error_fallback);
 		if (mCouponErrorCode != null && ERROR_MAP_COUPON_MESSAGES.containsKey(mCouponErrorCode)) {
 			message = context.getString(ERROR_MAP_COUPON_MESSAGES.get(mCouponErrorCode));
 		}
