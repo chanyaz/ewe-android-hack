@@ -201,7 +201,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			}
 
 			// LCC fee warning
-			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null) {
+			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().isSelected()) {
 				final CreditCardType type = mStoredCard.getType();
 				if (!Db.getTripBucket().getFlight().isCardTypeSupported(type)) {
 					Resources res = getResources();
