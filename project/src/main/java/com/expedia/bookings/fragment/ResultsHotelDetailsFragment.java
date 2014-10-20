@@ -860,7 +860,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			else if (response.hasErrors()) {
 				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.roomNotAvailableError);
+					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.sorryRoomsSoldOutErrorMessage);
 				}
 				else {
 					if (ExpediaBookingApp.IS_AAG) {
