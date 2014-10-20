@@ -83,4 +83,14 @@ the tests has turned off animations: Window Animation, Transition Animation, Ani
     $ ./buildbot/happypath.sh
     $ open spoon/happy/index.html
 
+Creating Feature Builds
+=======================
+
+Suppose you want to create a build so people can see what you've done. You can
+actually give it a unique package name and upload the `apk` to Crashlytics.
+`UNIQUE_FEATURE_NAME` must be a valid Java package name part because the
+resulting `applicationId` becomes `com.expedia.bookings.feature.UNIQUE_FEATURE_NAME`.
+
+    $ ./gradlew -PfeatureName="UNIQUE_FEATURE_NAME" assembleExpediaFeature
+    $ ./gradlew -PfeatureName="UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaFeature
 
