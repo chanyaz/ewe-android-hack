@@ -20,9 +20,7 @@
     <com.expedia.bookings.widget.FrameLayout
         android:id="@+id/route_desc_container"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+        android:layout_height="match_parent">
 
         <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/route_description_text"
@@ -30,10 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:shadowColor="#88000000"
-            android:shadowDx="0"
-            android:shadowDy="4"
-            android:shadowRadius="5"
+            android:padding="4dp"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             app:minTextSize="16sp"

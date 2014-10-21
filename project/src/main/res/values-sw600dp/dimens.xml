@@ -156,6 +156,7 @@
     <dimen name="tablet_flight_details_header_height">68dp</dimen>
     <dimen name="tablet_flight_details_addtotrip_height">36dp</dimen>
     <dimen name="tablet_flight_details_header_margin">0dp</dimen>
+    <dimen name="tablet_flight_route_desc_stroke_size">5dp</dimen>
 
     <dimen name="hotel_checkout_overview_image_height">240dp</dimen>
 
