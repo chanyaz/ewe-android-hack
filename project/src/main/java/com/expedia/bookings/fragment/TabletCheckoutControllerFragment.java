@@ -1205,7 +1205,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		dismissLoadingDialogs();
-		rebindCheckoutFragment();
+		BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
+		mCheckoutFragment.onCheckoutDataUpdated();
 	}
 
 	@Subscribe

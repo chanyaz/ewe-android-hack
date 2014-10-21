@@ -126,7 +126,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		if (mSectionLocation != null) {
 			mSectionLocation.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getLocation());
 		}
-
 	}
 
 	private OnClickListener mTopRightClickListener = new OnClickListener() {
@@ -394,6 +393,10 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private void setUpStoredCards() {
 		int count = mStoredCreditCardAdapter.getCount();
 		clearExtraHeadingView();
+		// If there is already a stored credit card, set the Working Billing Info to have it.
+		if (Db.getBillingInfo().getStoredCard() != null) {
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(Db.getBillingInfo().getStoredCard());
+		}
 		if (count != 0) {
 			TextView storedCardButton = Ui.inflate(getParentFragment(), R.layout.include_stored_card_spinner, null);
 			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);

@@ -265,9 +265,11 @@ public class BookingInfoUtils {
 					}
 				}
 				else {
-					//TODO: Investigate hotel restrictions
-					info.setStoredCard(scc);
-					return true;
+					if (Db.getTripBucket().getHotel() != null &&
+						Db.getTripBucket().getHotel().isCardTypeSupported(scc.getType())) {
+						info.setStoredCard(scc);
+						return true;
+					}
 				}
 			}
 		}
