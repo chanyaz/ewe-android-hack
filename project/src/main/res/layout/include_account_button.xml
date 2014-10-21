@@ -148,7 +148,7 @@
     <LinearLayout
         android:id="@+id/account_rewards_container"
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="@dimen/account_rewards_container_height"
         android:gravity="center"
         android:visibility="gone">
 
@@ -157,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/roboto_light"
-            android:textSize="13sp"/>
+            android:textSize="@dimen/account_button_points_text_size"/>
     </LinearLayout>
 
 </com.expedia.bookings.widget.AccountButton>

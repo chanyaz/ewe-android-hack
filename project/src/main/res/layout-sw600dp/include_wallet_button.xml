@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/account_button_padding"
+        android:layout_marginLeft="@dimen/wallet_button_left_padding"
         android:paddingLeft="@dimen/card_icon_padding"
         android:src="@drawable/ic_tablet_google_wallet" />
 
