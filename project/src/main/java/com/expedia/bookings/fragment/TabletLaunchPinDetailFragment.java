@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.interfaces.ISingleStateListener;
@@ -30,6 +30,8 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 
 	private Rect mPinOrigin;
 	private Rect mPinDest;
+
+	private LaunchLocation mLaunchLocation;
 
 	public static TabletLaunchPinDetailFragment newInstance() {
 		TabletLaunchPinDetailFragment frag = new TabletLaunchPinDetailFragment();
@@ -69,10 +71,9 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	@Subscribe
 	public void onLaunchMapPinClicked(final Events.LaunchMapPinClicked event) {
 		if (event.launchLocation != null) {
-			int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
-			final String imageUrl = new Akeakamai(event.launchLocation.getImageUrl()) //
-				.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
-				.build();
+			clearOldImageDownloadCallback();
+			mLaunchLocation = event.launchLocation;
+			final String imageUrl = getResizedImageUrl(event.launchLocation.getImageUrl());
 
 			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, true /*checkDisk*/);
 			mRoundImage.setImageBitmap(bitmap);
@@ -108,6 +109,19 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 				}
 			});
 		}
+	}
+
+	private void clearOldImageDownloadCallback() {
+		if (mLaunchLocation != null) {
+			L2ImageCache.sGeneralPurpose.clearCallbacksByUrl(getResizedImageUrl(mLaunchLocation.getImageUrl()));
+		}
+	}
+
+	private String getResizedImageUrl(String url) {
+		int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+		return new Akeakamai(url) //
+			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
+			.build();
 	}
 
 	public void setOriginRect(Rect origin) {
