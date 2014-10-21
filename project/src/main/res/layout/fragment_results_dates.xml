@@ -19,10 +19,11 @@
         app:calendarHighlightInverseColor="#FFFFFF"
         app:calendarTodayColor="#007dff"
         app:calendarInvalidDaysColor="#CFCFCF"
-        app:calendarDaysOfWeekColor="#777777"
+        app:calendarDaysOfWeekColor="#7c7c7c"
         app:calendarChangeMonthCaretColor="@color/tablet_results_search_blue"
         app:calendarHeaderTextSize="16dp"
         app:calendarHeaderTextColor="#444444"
         app:calendarLayout="@layout/widget_calendar_picker_eb"/>
+
 </LinearLayout>
 
