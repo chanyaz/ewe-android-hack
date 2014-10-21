@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Space;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -60,6 +61,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private SwipeOutLayout mFlightC;
 	private FrameLayout mFlightCard;
 	private LinearLayout mFlightUndo;
+	private Space mEmptySpace;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -71,6 +73,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mRootC = inflater.inflate(R.layout.fragment_tripbucket, null, false);
 		mScrollC = Ui.findView(mRootC, R.id.scroll_container);
 		mContentC = Ui.findView(mRootC, R.id.content_container);
+		mEmptySpace = Ui.findView(mRootC, R.id.trip_bucket_empty_space);
 
 		mHotelC = Ui.findView(mRootC, R.id.trip_bucket_hotel_trip_swipeout);
 		mHotelCard = Ui.findView(mRootC, R.id.trip_bucket_hotel_trip);
@@ -93,10 +96,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mHotelUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);
 		mFlightUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);
 
-		if (getResources().getBoolean(R.bool.portrait)) {
-			mContentC.setOrientation(LinearLayout.HORIZONTAL);
-		}
-
 		return mRootC;
 	}
 
@@ -116,10 +115,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		boolean showHotelContainer = bucket.getHotel() != null || mHotelInLimbo;
 
 		setFragState(showFlightContainer, showHotelContainer);
-		mFlightC.setVisibility(showFlightContainer ? View.VISIBLE : (showHotelContainer ? View.GONE : View.INVISIBLE));
-		mFlightCard.setVisibility(bucket.getFlight() != null ? View.VISIBLE : (showHotelContainer ? View.GONE : View.INVISIBLE));
-		mHotelC.setVisibility(showHotelContainer ? View.VISIBLE : View.GONE);
-		mHotelCard.setVisibility(bucket.getHotel() != null ? View.VISIBLE : View.GONE);
+		setViewState(bucket, showFlightContainer, showHotelContainer);
 
 		if (showFlightContainer && lobToRefresh != null && lobToRefresh == LineOfBusiness.FLIGHTS) {
 			mTripBucketFlightFrag.bind();
@@ -135,6 +131,23 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		if (mTripBucketHotelFrag != null) {
 			setItemSwipeEnabled(mTripBucketHotelFrag.getItem());
 		}
+	}
+
+	private void setViewState(TripBucket bucket, boolean showFlight, boolean showHotel) {
+		mFlightC.setVisibility(showFlight ? View.VISIBLE : (showHotel ? View.GONE : View.INVISIBLE));
+		mFlightCard.setVisibility(bucket.getFlight() != null ? View.VISIBLE : (showHotel ? View.GONE : View.INVISIBLE));
+		mHotelC.setVisibility(showHotel ? View.VISIBLE : View.GONE);
+		mHotelCard.setVisibility(bucket.getHotel() != null ? View.VISIBLE : View.GONE);
+
+		int numItems = 0;
+		if (showFlight) {
+			numItems++;
+		}
+		if (showHotel) {
+			numItems++;
+		}
+		boolean shouldShowEmptySpace = numItems == 1 && getResources().getBoolean(R.bool.portrait);
+		mEmptySpace.setVisibility(shouldShowEmptySpace ? View.VISIBLE : View.GONE);
 	}
 
 	private void setFragState(boolean attachFlight, boolean attachHotel) {

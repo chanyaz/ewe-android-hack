@@ -178,7 +178,6 @@
     <dimen name="tripbucket_bookbutton_height">40dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">265dp</dimen>
 
     <!-- Checkout -->
     <dimen name="slide_to_purchase_container_height">136dp</dimen>

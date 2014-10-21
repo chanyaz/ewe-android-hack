@@ -129,6 +129,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable drawable) {
 		imageView.setImageDrawable(drawable);
 
+		// Note: hotel_flight_card_width is an estimation and is used only for downloading the image
 		final int width = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_width);
 		final int height = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_height);
 
