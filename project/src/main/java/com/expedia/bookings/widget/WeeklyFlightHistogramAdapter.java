@@ -18,8 +18,6 @@ import com.expedia.bookings.utils.Ui;
 
 public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 
-	private Context mContext;
-
 	private FlightSearchHistogramResponse mFlightHistogramResponse;
 
 	List<FlightHistogram> mHistograms = null;
@@ -27,8 +25,7 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 
 	private LocalDate mSelectedDepartureDate;
 
-	public WeeklyFlightHistogramAdapter(Context context) {
-		mContext = context;
+	public WeeklyFlightHistogramAdapter() {
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse histogramResponse) {
@@ -64,7 +61,7 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			mHistograms = getHistograms();
 
 			if (mHistograms != null && mHistograms.size() > 0) {
-				LocalDate startDate = mHistograms.get(0).getKeyDate();
+				LocalDate startDate = LocalDate.now();
 				LocalDate endDate = mHistograms.get(mHistograms.size() - 1).getKeyDate();
 
 				WeeklyFlightHistogram current = new WeeklyFlightHistogram(startDate);
