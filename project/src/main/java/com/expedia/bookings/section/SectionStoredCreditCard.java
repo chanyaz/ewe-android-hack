@@ -22,8 +22,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
@@ -45,6 +47,8 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private int mCardIconResId = 0;
 	private ColorStateList mPrimaryTextColor;
 	private ColorStateList mSecondaryTextColor;
+
+	private LineOfBusiness mLob;
 
 	public SectionStoredCreditCard(Context context) {
 		super(context);
@@ -108,9 +112,12 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		}
 	}
 
-	public void bindCardNotSupportedLcc() {
+	public void setLineOfBusiness(LineOfBusiness lob) {
+		mLob = lob;
+	}
+
+	public void bindCardNotSupported() {
 		if (mContext instanceof FragmentActivity) {
-			final FragmentActivity fa = (FragmentActivity) mContext;
 			mLccDivider.setVisibility(View.VISIBLE);
 			mCardNotSupportedImageView.setVisibility(View.VISIBLE);
 			mCardNotSupportedImageView.setOnClickListener(new OnClickListener() {
@@ -119,14 +126,31 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 					String text;
 					CreditCardType type = mStoredCard.getType();
 					if (type != null) {
+						int msg = 0;
+						if (mLob == LineOfBusiness.FLIGHTS) {
+							msg = R.string.airline_card_not_supported_TEMPLATE;
+						}
+						if (mLob == LineOfBusiness.HOTELS) {
+							msg = R.string.hotel_card_not_supported_TEMPLATE;
+						}
+
 						String typeName = type.getHumanReadableName(mContext);
-						text = mContext.getString(R.string.airline_card_not_supported_TEMPLATE, typeName);
+						text = mContext.getString(msg, typeName);
 					}
 					else {
-						text = mContext.getString(R.string.airline_card_not_supported_generic);
+						int msg = 0;
+						if (mLob == LineOfBusiness.FLIGHTS) {
+							msg = R.string.airline_card_not_supported_generic;
+						}
+						if (mLob == LineOfBusiness.HOTELS) {
+							msg = R.string.hotel_card_not_supported_generic;
+						}
+
+						text = mContext.getString(msg);
 					}
-					SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
-						"cardNotSupported");
+					SimpleSupportDialogFragment df = SimpleSupportDialogFragment.newInstance(null, text);
+					FragmentActivity fa = (FragmentActivity) mContext;
+					df.show(fa.getSupportFragmentManager(), "cardNotSupported");
 				}
 			});
 		}
@@ -201,32 +225,47 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			}
 
 			// LCC fee warning
-			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().isSelected()) {
+			if (mContext instanceof FragmentActivity) {
+				TripBucketItem item = null;
+				if (mLob == LineOfBusiness.FLIGHTS) {
+					item = Db.getTripBucket().getFlight();
+				}
+				if (mLob == LineOfBusiness.HOTELS) {
+					item = Db.getTripBucket().getHotel();
+				}
+				if (mLob == null || item == null) {
+					throw new RuntimeException("LineOfBusiness must be set and TripBucketItem cannot be null");
+				}
+
 				final CreditCardType type = mStoredCard.getType();
-				if (!Db.getTripBucket().getFlight().isCardTypeSupported(type)) {
+				final Money cardFee = item.getCardFee(type);
+				if (!item.isCardTypeSupported(type)) {
 					Resources res = getResources();
 					mIconView.setImageResource(R.drawable.ic_lcc_no_card_payment_selection);
 					mDescriptionView.setTextColor(res.getColor(R.color.flight_card_invalid_cc_type_text_color));
 				}
-				else {
-					final FragmentActivity fa = (FragmentActivity) mContext;
-					Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
-
-					if (cardFee != null) {
-						final String feeText = cardFee.getFormattedMoney();
-						mLccFeeTextView.setVisibility(View.VISIBLE);
-						mLccDivider.setVisibility(View.VISIBLE);
-						mLccFeeTextView.setText(feeText);
-						mLccFeeTextView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText,
-										CreditCardType.getHumanReadableCardTypeName(mContext, type));
-								SimpleSupportDialogFragment.newInstance(null, text).show(
-										fa.getSupportFragmentManager(), "lccDialog");
+				else if (cardFee != null) {
+					final String feeText = cardFee.getFormattedMoney();
+					mLccFeeTextView.setVisibility(View.VISIBLE);
+					mLccDivider.setVisibility(View.VISIBLE);
+					mLccFeeTextView.setText(feeText);
+					mLccFeeTextView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							int msg = 0;
+							if (mLob == LineOfBusiness.FLIGHTS) {
+								msg = R.string.airline_card_fee_select_TEMPLATE;
 							}
-						});
-					}
+							if (mLob == LineOfBusiness.HOTELS) {
+								msg = R.string.hotel_card_fee_select_TEMPLATE;
+							}
+							String text = mContext.getString(msg, feeText, CreditCardType.getHumanReadableCardTypeName(mContext, type));
+
+							FragmentActivity fa = (FragmentActivity) mContext;
+							SimpleSupportDialogFragment df = SimpleSupportDialogFragment.newInstance(null, text);
+							df.show(fa.getSupportFragmentManager(), "lccDialog");
+						}
+					});
 				}
 			}
 
