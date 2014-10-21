@@ -1297,11 +1297,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
-				|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
+			if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				// SHOWING/HIDING ROOMS AND RATES
 				setRoomsAndRatesAnimationHardwareRendering(false);
-
+			}
+			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
+				// SHOWING/HIDING ROOMS AND RATES
+				setRoomsAndRatesAnimationHardwareRendering(false);
+				mHotelListFrag.clearSelectedProperty();
 			}
 			else if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.MAP)
 				|| (stateOne == ResultsHotelsState.MAP && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {

@@ -320,4 +320,9 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		getListView().setSelection(getListView().getHeaderViewsCount() + mAdapter.getPositionOfProperty(property));
 	}
+
+	public void clearSelectedProperty() {
+		mAdapter.setSelectedPosition(-1);
+		mAdapter.notifyDataSetChanged();
+	}
 }
