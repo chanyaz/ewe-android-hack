@@ -27,7 +27,6 @@
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">8%</fraction>
 
     <!-- Trip Bucket -->
-    <dimen name="hotel_flight_card_width">245dp</dimen>
     <dimen name="bucket_heading_top_margin">8dp</dimen>
 
     <!-- Checkout -->
