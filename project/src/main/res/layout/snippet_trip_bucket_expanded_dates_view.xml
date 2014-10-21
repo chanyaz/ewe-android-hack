@@ -73,11 +73,11 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/free_cancellation_text_view"
-            style="@style/AmenitiesTabletText.Landscape"/>
+            style="@style/TripBucketAmenitiesText.Landscape"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/price_guarantee_text_view"
-            style="@style/AmenitiesTabletText.Landscape"/>
+            style="@style/TripBucketAmenitiesText.Landscape"/>
 
     </LinearLayout>
 

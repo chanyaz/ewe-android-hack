@@ -919,11 +919,6 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="AmenitiesTripBucketText">
-        <item name="android:textSize">13sp</item>
-        <item name="textStyle">light</item>
-    </style>
-
     <style name="TripBucketBookButton">
         <item name="android:layout_width">@dimen/hotel_flight_card_width</item>
         <item name="android:layout_height">@dimen/tripbucket_bookbutton_height</item>
@@ -934,7 +929,7 @@
         <item name="android:textColor">#006BB2</item>
     </style>
 
-    <style name="AmenitiesTabletText">
+    <style name="TripBucketAmenitiesText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#444444</item>
@@ -944,7 +939,7 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="AmenitiesTabletText.Landscape">
+    <style name="TripBucketAmenitiesText.Landscape">
         <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:layout_marginBottom">1dp</item>
