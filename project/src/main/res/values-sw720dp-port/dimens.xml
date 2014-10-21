@@ -5,6 +5,7 @@
 
     <!-- Trip Bucket -->
     <dimen name="hotel_flight_card_width">335dp</dimen>
+    <fraction name="results_grid_tripbucket_height">23%</fraction>
 
     <!-- Checkout -->
     <dimen name="tablet_checkout_trip_bucket_expanded_item_height">196dp</dimen>
