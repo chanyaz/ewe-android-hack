@@ -171,6 +171,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			}
 		});
 
+		mStoredCreditCard.setLineOfBusiness(LineOfBusiness.FLIGHTS);
+
 		mCreditCardSectionButton.setOnClickListener(gotoPaymentOptions);
 		mStoredCreditCard.setOnClickListener(gotoPaymentOptions);
 		mPaymentButton.setOnClickListener(gotoPaymentOptions);

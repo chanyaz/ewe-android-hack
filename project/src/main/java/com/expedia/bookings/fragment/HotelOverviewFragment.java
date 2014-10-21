@@ -303,6 +303,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// restore
 		mHotelReceipt.restoreInstanceState(savedInstanceState);
 
+		// Configure LineOfBusiness
+		mStoredCreditCard.setLineOfBusiness(LineOfBusiness.HOTELS);
+
 		// Listeners
 		mAccountButton.setListener(this);
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);

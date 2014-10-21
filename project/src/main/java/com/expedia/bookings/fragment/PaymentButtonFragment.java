@@ -44,6 +44,8 @@ public class PaymentButtonFragment extends LobableFragment {
 		mCCFeesMessageContainer = Ui.findView(v, R.id.credit_card_fees_container);
 		mCCFeesMessageText = Ui.findView(v, R.id.credit_card_fees_message_text);
 
+		mStoredCreditCardBtn.setLineOfBusiness(getLob());
+
 		//We init these here for later use;
 		if (getLob() == LineOfBusiness.HOTELS) {
 			HotelPaymentFlowState.getInstance(getActivity());
