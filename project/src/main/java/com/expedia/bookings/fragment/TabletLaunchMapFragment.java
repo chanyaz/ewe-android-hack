@@ -86,11 +86,6 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) getParentFragment();
-
-		controller.registerStateListener(mDetailsStateListener, false);
-		controller.registerStateListener(mWaypointStateListener, false);
-
 		getMap().setOnMarkerClickListener(mMarkerClickListener);
 
 		adjustMapPadding(true);
@@ -102,12 +97,20 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
+
+		TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) getParentFragment();
+		controller.registerStateListener(mDetailsStateListener, false);
+		controller.registerStateListener(mWaypointStateListener, false);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		Events.unregister(this);
+
+		TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) getParentFragment();
+		controller.unRegisterStateListener(mDetailsStateListener);
+		controller.unRegisterStateListener(mWaypointStateListener);
 	}
 
 	/*
