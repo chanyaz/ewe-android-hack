@@ -44,9 +44,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.AutoResizeTextView;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
@@ -647,7 +645,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Override
 	public void updateStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-		float percentage) {
+									  float percentage) {
 		mFlightsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
@@ -707,7 +705,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-			float percentage) {
+											float percentage) {
 			if ((stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT)
 				|| (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
@@ -806,11 +804,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 			ssb.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), endOfOriginText, startOfDestinationText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-			TextView tv = Ui.findView(mRouteDescriptionC ,R.id.route_description_text);
+			TextView tv = Ui.findView(mRouteDescriptionC, R.id.route_description_text);
 			int strokeBorder = (int) getResources().getDimension(R.dimen.tablet_flight_route_desc_stroke_size);
 			tv.setStrokeColor(Color.parseColor("#687887"));
 			tv.setStrokeWidth(strokeBorder);
-			tv.setText(ssb, android.widget.TextView.BufferType.SPANNABLE);		}
+			tv.setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
+		}
 	}
 
 	// Infants
@@ -898,7 +897,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (validTransition(stateOne, stateTwo)) {
 				updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
 			}
