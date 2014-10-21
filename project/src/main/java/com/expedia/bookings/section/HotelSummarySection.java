@@ -8,9 +8,13 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.StateSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -292,7 +296,8 @@ public class HotelSummarySection extends RelativeLayout {
 
 		if (mDoUrgencyTextColorMatching && mUrgencyText.getVisibility() == View.VISIBLE) {
 			if (mIsSelected) {
-				setDominantColor(getResources().getColor(R.color.tablet_hotel_selected_mobile_exclusive_overlay));
+				mUrgencyText.setSelected(true);
+				setDominantColor(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay));
 			}
 			else {
 				setDominantColor(getResources().getColor(R.color.transparent_dark));
@@ -437,8 +442,15 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 	};
 
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void setDominantColor(int color) {
-		mUrgencyText.setBackgroundColor(color);
+		StateListDrawable stateListDrawable = new StateListDrawable();
+		stateListDrawable.addState(new int[] {android.R.attr.state_pressed, android.R.attr.state_selected}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_selected_overlay)));
+		stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_unselected_overlay)));
+		stateListDrawable.addState(new int[] {android.R.attr.state_selected}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
+
+		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
+		mUrgencyText.setBackground(stateListDrawable);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
