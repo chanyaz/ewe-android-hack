@@ -31,7 +31,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private String mLoyaltyMembershipNumber;
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
-	private String mMembershipTierName;
+	private LoyaltyMembershipTier mLoyaltyMembershipTier = LoyaltyMembershipTier.NONE;
 	private Long mExpediaUserId;
 
 	// General
@@ -71,6 +71,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public enum Gender {
 		MALE, FEMALE, OTHER
+	}
+
+	public enum LoyaltyMembershipTier {
+		NONE, BLUE, SILVER, GOLD;
+
+		public boolean isGoldOrSilver() {
+			return this == SILVER || this == GOLD;
+		}
 	}
 
 	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account
@@ -127,13 +135,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mLoyaltyMembershipName;
 	}
 
-	public String membershipTierName() {
-		return mMembershipTierName;
+	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
+		return mLoyaltyMembershipTier;
 	}
 
-	public boolean getIsElitePlusMember() {
-		return mIsLoyaltyMembershipActive && !TextUtils.isEmpty(mLoyaltyMembershipName)
-				&& mLoyaltyMembershipName.equalsIgnoreCase("Elite Plus");
+	public boolean isLoyaltyMember() {
+		return mLoyaltyMembershipTier != LoyaltyMembershipTier.NONE;
 	}
 
 	public String getFirstName() {
@@ -404,8 +411,21 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyMembershipName = loyaltyMembershipName;
 	}
 
-	public void setMembershipTierName(String membershipTierName) {
-		mMembershipTierName = membershipTierName;
+	public void setLoyaltyMembershipTier(String tierString) {
+		try {
+			if (tierString != null) {
+				setLoyaltyMembershipTier(LoyaltyMembershipTier.valueOf(tierString.toUpperCase()));
+				return;
+			}
+		}
+		catch (IllegalArgumentException e) {
+			// tierString doesn't match anything
+		}
+		setLoyaltyMembershipTier(LoyaltyMembershipTier.NONE);
+	}
+
+	public void setLoyaltyMembershipTier(LoyaltyMembershipTier loyaltyMembershipTier) {
+		mLoyaltyMembershipTier = loyaltyMembershipTier;
 	}
 
 	public void setFirstName(String firstName) {
@@ -562,7 +582,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
-			obj.putOpt("membershipTierName", mMembershipTierName);
+			obj.putOpt("membershipTier", mLoyaltyMembershipTier.name());
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
@@ -611,7 +631,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
-		mMembershipTierName = obj.optString("membershipTierName", null);
+		setLoyaltyMembershipTier(obj.optString("membershipTier", null));
 
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);

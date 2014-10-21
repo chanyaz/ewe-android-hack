@@ -34,6 +34,7 @@ public class FontCache {
 		ROBOTO_CONDENSED_REGULAR("fonts/RobotoCondensed-Regular.ttf"),
 		BEBAS_NEUE("fonts/BebasNeue.otf"),
 		EXPEDIASANS_LIGHT("fonts/ExpediaSans-Light.ttf"),
+		EXPEDIASANS_REGULAR("fonts/ExpediaSans-Regular.ttf"),
 		;
 
 		private String mPath;

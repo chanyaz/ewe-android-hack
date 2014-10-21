@@ -18,6 +18,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
@@ -106,21 +107,7 @@ public class User implements JSONable {
 	}
 
 	public boolean isRewardsUser() {
-		if (mPrimaryTraveler != null) {
-			return !TextUtils.isEmpty(mPrimaryTraveler.getLoyaltyMembershipNumber());
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if this user is an Elite Plus Member. Used for VIP badges,
-	 * special dial in phone numbers, etc.
-	 * @param context
-	 * @return
-	 */
-	public boolean isElitePlus() {
-		return this.getPrimaryTraveler() != null
-				&& this.getPrimaryTraveler().getIsElitePlusMember();
+		return mPrimaryTraveler != null && mPrimaryTraveler.isLoyaltyMember();
 	}
 
 	public String getTuidString() {
@@ -622,14 +609,19 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * Returns true if the currently logged in user is an Elite Plus Member. Used for VIP badges,
-	 * special dial in phone numbers, etc.
+	 * Returns the logged in user's LoyaltyMembershipTier. If the user is not logged in, this
+	 * will return LoyaltyMembershipTier.NONE
 	 * @param context
 	 * @return
 	 */
-	public static boolean isElitePlus(Context context) {
-		return isLoggedIn(context)
-				&& Db.getUser() != null
-				&& Db.getUser().isElitePlus();
+	public static Traveler.LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
+		if (User.isLoggedIn(context)
+			&& Db.getUser() != null
+			&& Db.getUser().getPrimaryTraveler() != null) {
+
+			return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+		}
+
+		return Traveler.LoyaltyMembershipTier.NONE;
 	}
 }

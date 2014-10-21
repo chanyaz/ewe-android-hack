@@ -70,6 +70,9 @@
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#232323</color>
     <color name="login_text_tablet">#363636</color>
+    <color name="expedia_plus_blue">#0085c9</color>
+    <color name="expedia_plus_silver">#808080</color>
+    <color name="expedia_plus_gold">#e7b40d</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">#FFFFFF</color>

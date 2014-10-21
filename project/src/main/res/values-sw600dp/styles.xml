@@ -40,8 +40,7 @@
     <!-- This is actually the "right" text -->
     <style name="LoginButtonBottomTextStyle">
         <item name="android:textColor">#cc363636</item>
-        <item name="android:textSize">@dimen/login_button_text_size</item>
-        <item name="textStyle">light</item>
+        <item name="android:textSize">@dimen/account_button_rewards_text_size</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_marginRight">10dp</item>

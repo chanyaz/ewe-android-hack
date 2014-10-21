@@ -33,6 +33,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
@@ -326,24 +327,23 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
 	 * - Itinerary number
-	 * - Elite Plus support phone number
+	 * - Special Expedia+ Rewards support phone numbers
 	 * - Booking Info (additional information link)
 	 * - Insurance
 	 * <p/>
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
 	 *
 	 * @param container
-	 * @param infalter
 	 */
 	protected void addSharedGuiElements(ViewGroup container) {
 		boolean addedConfNumber = addConfirmationNumber(container);
 		boolean addedItinNumber = addItineraryNumber(container);
-		boolean addedElitePlusNumber = addElitePlusNumber(container);
+		boolean addedSupportNumber = addGoldOrSilverSupportNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
 		boolean addedInsurance = addInsurance(container);
 		boolean addedSharedoptions = addSharedOptions(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
-			+ addedItinNumber + " addedElitePlusNumber:" + addedElitePlusNumber + " addedBookingInfo:"
+			+ addedItinNumber + " addedGoldOrSilverNumber:" + addedSupportNumber + " addedBookingInfo:"
 			+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions);
 	}
 
@@ -386,25 +386,47 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return false;
 	}
 
-	protected boolean addElitePlusNumber(ViewGroup container) {
-		Log.d("ITIN: addElitePlusNumber");
-		if (hasElitePlusNumber() && !isSharedItin()) {
-			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
-			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialUtils.call(getContext(), elitePlusNumber);
-					}
-				});
-			if (view != null) {
-				Log.d("ITIN: addElitePlusNumber to container");
-				container.addView(view);
-				return true;
-			}
+	protected boolean addGoldOrSilverSupportNumber(ViewGroup container) {
+		Log.d("ITIN: addSupportNumber");
+		if (isSharedItin()) {
+			return false;
 		}
 
-		return false;
+		int labelResId = 0;
+		final String supportPhoneNumber;
+
+		switch(User.getLoggedInLoyaltyMembershipTier(mContext)) {
+		case SILVER:
+			labelResId = R.string.Expedia_plus_Silver_Customer_Support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
+			break;
+		case GOLD:
+			labelResId = R.string.Expedia_plus_Silver_Customer_Support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
+			break;
+		default:
+			supportPhoneNumber = null;
+		}
+
+		if (TextUtils.isEmpty(supportPhoneNumber)) {
+			return false;
+		}
+
+		View view = getItinDetailItem(labelResId, supportPhoneNumber, false,
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), supportPhoneNumber);
+				}
+			});
+
+		if (view == null) {
+			return false;
+		}
+
+		Log.d("ITIN: addSupportNumber to container");
+		container.addView(view);
+		return true;
 	}
 
 	protected boolean addSharedOptions(ViewGroup container) {
@@ -538,8 +560,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	/**
 	 * Add this trip's insurance to the passed in container
 	 *
-	 * @param inflater
-	 * @param insuranceContainer
+	 * @param container
 	 */
 	protected boolean addInsurance(ViewGroup container) {
 		if (hasInsurance()) {
@@ -636,11 +657,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			hasItinNum = !TextUtils.isEmpty(this.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
 		}
 		return hasItinNum;
-	}
-
-	protected boolean hasElitePlusNumber() {
-		return User.isElitePlus(mContext)
-				&& !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
 	}
 
 	protected boolean hasConfirmationNumber() {

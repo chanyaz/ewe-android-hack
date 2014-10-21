@@ -170,7 +170,10 @@
     <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
     <!-- Account support dimensions -->
-    <dimen name="card_icon_padding_left">15dp</dimen>
+    <dimen name="login_button_icon_padding_left">-3dp</dimen>
+    <dimen name="login_button_icon_padding_right">1dp</dimen>
+    <dimen name="account_button_points_text_size">13sp</dimen>
+    <dimen name="account_rewards_container_height">26dp</dimen>
     <dimen name="card_icon_padding">5dp</dimen>
 
     <!-- Coupon code dimensions -->
@@ -203,6 +206,7 @@
     <dimen name="account_button_margin_top">12dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
+    <dimen name="wallet_button_left_padding">0dp</dimen>
 
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>

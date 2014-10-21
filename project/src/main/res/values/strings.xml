@@ -369,8 +369,10 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver Customer Support</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold Customer Support</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -2069,8 +2071,12 @@
     <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Enrolled in Expedia+ Rewards\u2122</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus Member</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Logged in as</string>
     <!-- Label for signin screen -->

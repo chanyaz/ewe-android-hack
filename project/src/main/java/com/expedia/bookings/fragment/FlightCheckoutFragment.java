@@ -33,7 +33,6 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -71,7 +70,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
 	private List<View> mAddTravelerSections = new ArrayList<View>();
 
-	private TextView mAccountLabel;
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
 	private SectionBillingInfo mCreditCardSectionButton;
@@ -146,14 +144,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
-		mAccountLabel = Ui.findView(v, R.id.flight_checkout_account_label);
 		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 		mCardFeeTextView = Ui.findView(v, R.id.lcc_card_fee_warning);
 		mLccTriangle = Ui.findView(v, R.id.lcc_triangle);
-
-		ViewUtils.setAllCaps(mAccountLabel);
-		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.checkout_information_label));
 
 		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
 			mSectionLocation.setVisibility(View.GONE);
@@ -379,6 +373,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				mAddTravelerSections.add(v);
 				mTravelerContainer.addView(v);
 			}
+
+			// Add a divider
+			inflater.inflate(R.layout.include_checkout_information_divider, mTravelerContainer);
 		}
 	}
 
@@ -522,8 +519,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mCardFeeTextView.setVisibility(View.GONE);
 			mLccTriangle.setVisibility(View.GONE);
 		}
-
-		mAccountLabel.setVisibility(User.isLoggedIn(getActivity()) ? View.VISIBLE : View.GONE);
 
 		updateWalletViewVisibilities();
 	}

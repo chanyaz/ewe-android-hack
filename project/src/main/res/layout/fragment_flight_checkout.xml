@@ -4,19 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
-
-    <TextView
-        android:id="@+id/flight_checkout_account_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-10dp"
-        android:layout_marginLeft="8dp"
-        android:text="?attr/flightCheckoutAccountLabel"
-        android:textColor="#BBFFFFFF"
-        android:textSize="@dimen/data_form_section_header_text"
-        android:visibility="gone" />
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="4.5dp">
 
     <include
         android:id="@+id/account_button_root"
@@ -49,6 +39,7 @@
         android:layout_marginLeft="8dp"
         android:text="@string/checkout_information"
         android:textColor="#BBFFFFFF"
+        android:textAllCaps="true"
         android:textSize="@dimen/data_form_section_header_text" />
 
     <!-- Traveler(s) -->
