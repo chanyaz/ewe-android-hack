@@ -28,7 +28,6 @@
 
     <!-- Trip Bucket -->
     <dimen name="hotel_flight_card_width">245dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">247dp</dimen>
     <dimen name="bucket_heading_top_margin">8dp</dimen>
 
     <!-- Checkout -->

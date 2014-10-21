@@ -111,7 +111,6 @@
     <dimen name="hotel_flight_card_content_margin_x">17dp</dimen>
     <dimen name="hotel_flight_card_content_margin_y">18dp</dimen>
     <dimen name="tripbucket_bookbutton_height">50dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">362dp</dimen>
 
     <!-- Trip Bucket Fragment -->
     <dimen name="bucket_card_divider_size">20dp</dimen>

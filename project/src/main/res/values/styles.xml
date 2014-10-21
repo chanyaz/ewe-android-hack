@@ -920,7 +920,7 @@
     </style>
 
     <style name="TripBucketBookButton">
-        <item name="android:layout_width">@dimen/hotel_flight_card_width</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/tripbucket_bookbutton_height</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:gravity">center</item>

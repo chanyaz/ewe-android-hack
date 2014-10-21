@@ -88,8 +88,25 @@
         <item name="android:src">@drawable/ic_tablet_overflow</item>
     </style>
 
+    <!-- FrameLayout styling -->
+    <style name="V2.Widget.FrameLayout" />
+
+    <style name="V2.Widget.FrameLayout.ResultsTripBucketItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <!-- LinearLayout styling -->
     <style name="V2.Widget.LinearLayout" />
+
+    <style name="V2.Widget.LinearLayout.TripBucketContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:divider">@drawable/divider_trip_bucket</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginLeft">@dimen/hotel_flight_card_padding_x</item>
+        <item name="android:layout_marginRight">@dimen/hotel_flight_card_padding_x</item>
+    </style>
 
     <style name="V2.Widget.LinearLayout.FlightFilter">
         <item name="android:layout_width">match_parent</item>
