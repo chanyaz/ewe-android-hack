@@ -153,6 +153,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		android.widget.TextView description = Ui.findView(this, R.id.text_room_description);
 		android.widget.TextView price = Ui.findView(this, R.id.text_price_per_night);
 		android.widget.TextView bedType = Ui.findView(this, R.id.text_bed_type);
+		android.widget.TextView cancellationBedType = Ui.findView(this, R.id.text_bed_type_with_cancellation);
 
 		// Buttons / Clicks
 		setOnClickListener(selectRateClickListener);
@@ -166,14 +167,14 @@ public class RowRoomRateLayout extends FrameLayout {
 		if (bedTypes != null && bedTypes.iterator().hasNext()) {
 			bedType.setVisibility(View.VISIBLE);
 			String bedTypeText = bedTypes.iterator().next().getBedTypeDescription();
+			bedType.setText(bedTypeText);
+			setCancellationText(cancellationBedType, bedTypeText);
+		}
 
 			if (mRate.shouldShowFreeCancellation()) {
-				setCancellationText(bedType, bedTypeText);
+				bedType.setVisibility(View.GONE);
+				cancellationBedType.setVisibility(VISIBLE);
 			}
-			else {
-				bedType.setText(bedTypeText);
-			}
-		}
 
 		if (price != null) {
 			price.setText(getStyledPrice(res, rate));
@@ -331,6 +332,11 @@ public class RowRoomRateLayout extends FrameLayout {
 		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.VISIBLE);
 		Ui.findView(this, R.id.notice_container).setVisibility(View.VISIBLE);
 
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type).setVisibility(VISIBLE);
+		}
+
 		// Animate children
 		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
 		addRoomButton.setVisibility(View.VISIBLE);
@@ -363,12 +369,21 @@ public class RowRoomRateLayout extends FrameLayout {
 		Ui.findView(this, R.id.room_rate_button_add).setAlpha(1f);
 		Ui.findView(this, R.id.room_rate_button_select).setAlpha(0f);
 		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.GONE);
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type).setVisibility(VISIBLE);
+		}
 		getBackground().setAlpha(180);
 		setHeight(LayoutParams.WRAP_CONTENT);
 	}
 
 	private void collapse() {
 		setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
+
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(VISIBLE);
+		}
 
 		// Animate children
 		View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
@@ -402,6 +417,10 @@ public class RowRoomRateLayout extends FrameLayout {
 		Ui.findView(this, R.id.room_rate_button_add).setAlpha(0f);
 		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.VISIBLE);
 		Ui.findView(this, R.id.room_rate_button_select).setAlpha(1f);
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(VISIBLE);
+		}
 		getBackground().setAlpha(0);
 		setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
 	}
