@@ -538,8 +538,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 			if (hotel != null && !hotel.hasBeenPurchased()) {
 				updateNumberOfItems();
-				updateDateRange();
 				mBucketHotelFrag.triggerTripBucketBookAction(LineOfBusiness.HOTELS);
+				updateDateRange();
 				setFragmentState(mStateManager.getState());
 			}
 			else {
@@ -550,8 +550,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 			if (flight != null && !flight.hasBeenPurchased()) {
 				updateNumberOfItems();
-				updateDateRange();
 				mBucketFlightFrag.triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
+				updateDateRange();
 				setFragmentState(mStateManager.getState());
 			}
 			else {
