@@ -529,10 +529,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (User.isLoggedIn(getActivity())) {
 			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
-					&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {
+				&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
-			if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getStoredCard().getType())) {
+			if (mBillingInfo.getStoredCard() != null && !Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getStoredCard().getType())) {
 				mBillingInfo.setStoredCard(null);
 			}
 		}
