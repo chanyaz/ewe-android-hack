@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -33,7 +34,8 @@ public class HotelConfirmationActivity extends FragmentActivity {
 
 		// The app will get in to this state if being restored after background kill. In this case let's just be a good
 		// guy and send them to the itin screen.
-		HotelBookingResponse bookingResponse = Db.getTripBucket().getHotel().getBookingResponse();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		HotelBookingResponse bookingResponse = hotel == null ? null : hotel.getBookingResponse();
 		if (bookingResponse == null) {
 			Log.d("HotelConfirmationActivity launched without confirmation data, sending to itin");
 			NavUtils.goToItin(this);
