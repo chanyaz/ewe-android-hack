@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification.ImageType;
@@ -325,7 +326,7 @@ public class PushNotificationUtils {
 	 * @return
 	 */
 	@SuppressLint("SimpleDateFormat")
-	public static JSONObject buildPushRegistrationPayload(String token, long tuid, List<Flight> normalFlightList,
+	public static JSONObject buildPushRegistrationPayload(String token, int siteId, long tuid, List<Flight> normalFlightList,
 			List<Flight> sharedFlightList) {
 		JSONObject retObj = new JSONObject();
 		JSONObject courier = new JSONObject();
@@ -336,7 +337,7 @@ public class PushNotificationUtils {
 			retObj.putOpt("version", "4");
 
 			user.putOpt("__type__", "ExpediaUser");
-			user.put("site_id", 1);
+			user.put("site_id", siteId);
 			user.put("tuid", tuid);
 
 			courier.put("__type__", "Courier");
@@ -1092,6 +1093,7 @@ public class PushNotificationUtils {
 			@Override
 			public PushNotificationRegistrationResponse doDownload() {
 				long userTuid = 0;
+				int siteId = PointOfSale.getPointOfSale().getSiteId();
 				if (User.isLoggedIn(context)) {
 					if (Db.getUser() == null) {
 						Db.loadUser(context);
@@ -1102,7 +1104,7 @@ public class PushNotificationUtils {
 				}
 				ExpediaServices services = new ExpediaServices(context);
 				return services.registerForPushNotifications(serverUrl, new PushRegistrationResponseHandler(context),
-						buildPushRegistrationPayload(regId, userTuid, null, null), regId);
+						buildPushRegistrationPayload(regId, siteId, userTuid, null, null), regId);
 			}
 		}, unregistrationCompleteHandler);
 	}

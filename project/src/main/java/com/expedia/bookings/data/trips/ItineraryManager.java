@@ -36,6 +36,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -1765,6 +1766,7 @@ public class ItineraryManager implements JSONable {
 			Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications regId:" + regId + " is not empty!");
 			ExpediaServices services = new ExpediaServices(mContext);
 
+			int siteId = PointOfSale.getPointOfSale().getSiteId();
 			long userTuid = 0;
 			if (User.isLoggedIn(mContext)) {
 				if (Db.getUser() == null) {
@@ -1775,7 +1777,7 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
-			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid,
+			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, siteId, userTuid,
 					getItinFlights(false), getItinFlights(true));
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
