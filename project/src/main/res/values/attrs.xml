@@ -320,12 +320,11 @@
     <!-- Hotel confirmation screen, login button text and icons -->
     <attr name="hotelCheckoutLoginButtonText" format="reference|string" />
     <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
-    <attr name="hotelCheckoutLoginLogoDrawable" format="reference" />
-    <attr name="hotelCheckoutLoginButtonDrawable" format="reference" />
+    <attr name="phoneCheckoutLoginLogoDrawable" format="reference" />
+    <attr name="phoneCheckoutLoginButtonDrawable" format="reference" />
 
     <!-- Hotel/Flight confirmation screen, login button colors -->
-    <attr name="hotelCheckoutLoginButtonTextColor" format="reference|color" />
-    <attr name="flightCheckoutLoginButtonTextColor" format="reference|color" />
+    <attr name="phoneCheckoutLoginButtonTextColor" format="reference|color" />
     <attr name="tabletCheckoutLoginButtonTextColor" format="reference|color" />
 
     <!-- HotelCheckout CVV, Book button -->

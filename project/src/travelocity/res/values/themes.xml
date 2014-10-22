@@ -21,7 +21,7 @@
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Travelocity</item>
-        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
+        <item name="phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
         <item name="loginWithExpediaTitleText">@string/travelocity_account</item>
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Travelocity</item>

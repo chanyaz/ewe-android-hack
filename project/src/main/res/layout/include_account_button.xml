@@ -61,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_log_out" />
     </LinearLayout>
 
@@ -115,7 +116,7 @@
             android:layout_marginLeft="@dimen/account_button_padding"
             android:paddingLeft="@dimen/login_button_icon_padding_left"
             android:paddingRight="@dimen/login_button_icon_padding_right"
-            android:src="?attr/hotelCheckoutLoginLogoDrawable" />
+            android:src="?attr/phoneCheckoutLoginLogoDrawable" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -142,6 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_log_out"
+            android:background="?android:attr/selectableItemBackground"
             style="@style/LoginButtonLogoutImageStyle" />
     </LinearLayout>
 
@@ -156,7 +158,6 @@
             android:id="@+id/account_rewards_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/roboto_light"
             android:textSize="@dimen/account_button_points_text_size"/>
     </LinearLayout>
 

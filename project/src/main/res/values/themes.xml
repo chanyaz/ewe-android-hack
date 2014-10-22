@@ -121,12 +121,11 @@
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="hotelConfirmationCallActionText">@string/call_expedia_customer_support</item>
-        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
-        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_in</item>
+        <item name="phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
         <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
-        <item name="hotelCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
-        <item name="hotelCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
-        <item name="flightCheckoutLoginButtonTextColor">@color/login_text_flight</item>
+        <item name="phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
+        <item name="phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
