@@ -17,7 +17,7 @@
         <item name="costSummaryBookingFeesString">@string/aag_booking_fee</item>
         <item name="hotelConfirmationCallActionText">@string/call_aag_customer_support</item>
         <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_aag</item>
-        <item name="hotelCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
+        <item name="phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
         <item name="hotelCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="flightCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="loginWithExpediaTitleText">@string/aag_account</item>

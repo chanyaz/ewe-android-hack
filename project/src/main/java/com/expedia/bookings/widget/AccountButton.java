@@ -61,15 +61,13 @@ public class AccountButton extends LinearLayout {
 		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
 
-		final OnClickListener clickListener = new OnClickListener() {
+		mLoginContainer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (mListener != null) {
 					mListener.accountLoginClicked();
 				}
 			}
-		};
-
-		mLoginContainer.setOnClickListener(clickListener);
+		});
 
 		mLogoutButton = mLogoutContainer.findViewById(R.id.account_logout_logout_button);
 		mLoadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.account_loading_logout_button);
@@ -133,40 +131,40 @@ public class AccountButton extends LinearLayout {
 		}
 	}
 
-	// Do some runtime styling, based on whether this is a hotels or flights button
+	// Do some runtime styling, based on whether this is tablet or a white-labelled app
 	private void bindLoginContainer(LineOfBusiness lob) {
-		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		boolean isTablet = AndroidUtils.isTablet(getContext());
 
-		Resources res = getResources();
 		if (isTablet) {
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.INVISIBLE);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tablet_checkout_expedia_logo, 0, 0, 0);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+				R.drawable.ic_tablet_checkout_expedia_logo, 0, 0, 0);
+			mLoginTextView.setTextColor(
+				Ui.obtainThemeColor(mContext, R.attr.tabletCheckoutLoginButtonTextColor));
 		}
 		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			mLoginContainer.setBackgroundResource(isFlights
-				? R.drawable.btn_login_flights
-				: Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginButtonDrawable));
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights
-				? R.drawable.ic_expedia_logo
-				: Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+			mLoginContainer.setBackgroundResource(
+				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginButtonDrawable));
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+			mLoginTextView.setTextColor(
+				Ui.obtainThemeColor(mContext, R.attr.phoneCheckoutLoginButtonTextColor));
+		}
+		else if (ExpediaBookingApp.IS_AAG) {
+			mLoginContainer.setBackgroundResource(
+				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginButtonDrawable));
+			mLoginTextView.setTextColor(
+				Ui.obtainThemeColor(mContext, R.attr.phoneCheckoutLoginButtonTextColor));
 		}
 		else {
-			if (ExpediaBookingApp.IS_AAG) {
-				mLoginContainer.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginButtonDrawable));
-			}
-			else {
-				mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-					Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
-			}
+			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+			mLoginTextView.setTextColor(
+				Ui.obtainThemeColor(mContext, R.attr.phoneCheckoutLoginButtonTextColor));
 		}
-		mLoginTextView.setTextColor(isTablet
-			? Ui.obtainThemeColor(mContext, R.attr.tabletCheckoutLoginButtonTextColor)
-			: isFlights
-			? Ui.obtainThemeColor(mContext, R.attr.flightCheckoutLoginButtonTextColor)
-			: Ui.obtainThemeColor(mContext, R.attr.hotelCheckoutLoginButtonTextColor));
+
 
 	}
 

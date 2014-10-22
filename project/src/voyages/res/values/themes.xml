@@ -37,7 +37,7 @@
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
         <item name="hotelConfirmationCallActionDrawable">@null</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_vsc_logo</item>
-        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
+        <item name="phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
         <item name="hotelCheckoutLoginButtonText">@string/hotel_checkout_logIn_button_text</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_white_logo_small</item>
