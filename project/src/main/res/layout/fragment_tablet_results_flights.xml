@@ -30,9 +30,9 @@
             android:gravity="center"
             android:padding="4dp"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textSize="@dimen/tablet_flight_route_desc_text_size"
             app:minTextSize="16sp"
-            app:maxTextSize="22sp"
+            app:maxTextSize="@dimen/tablet_flight_route_desc_text_size"
             app:textStyle="medium"/>
     </com.expedia.bookings.widget.FrameLayout>
 

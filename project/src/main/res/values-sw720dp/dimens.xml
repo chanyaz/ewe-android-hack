@@ -102,6 +102,7 @@
     <dimen name="flight_trip_view_height">42dp</dimen>
     <dimen name="flight_trip_view_airport_top_margin">2dp</dimen>
     <dimen name="flight_trip_view_airport_text_size">14dp</dimen>
+    <dimen name="tablet_flight_route_desc_text_size">22sp</dimen>
 
 
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
