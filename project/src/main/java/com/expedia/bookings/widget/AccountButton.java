@@ -189,21 +189,25 @@ public class AccountButton extends LinearLayout {
 		// Bottom text -- rewards
 		int bottomTextResId = 0;
 		int colorResId = 0;
+		int textColorResId = 0;
 		int rewardsBgResId = 0;
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BLUE:
 			bottomTextResId = R.string.Expedia_plus_blue;
 			colorResId = R.color.expedia_plus_blue;
+			textColorResId = R.color.expedia_plus_blue_text;
 			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
 			break;
 		case SILVER:
 			bottomTextResId = R.string.Expedia_plus_silver;
 			colorResId = R.color.expedia_plus_silver;
+			textColorResId = R.color.expedia_plus_silver_text;
 			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
 			break;
 		case GOLD:
 			bottomTextResId = R.string.Expedia_plus_gold;
 			colorResId = R.color.expedia_plus_gold;
+			textColorResId = R.color.expedia_plus_gold_text;
 			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
 			break;
 		}
@@ -237,6 +241,7 @@ public class AccountButton extends LinearLayout {
 			mRewardsContainer.setVisibility(View.VISIBLE);
 			mRewardsContainer.setBackgroundResource(rewardsBgResId);
 			mRewardsTextView.setText(pointsText);
+			mRewardsTextView.setTextColor(getResources().getColor(textColorResId));
 			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 		}
 		else {
