@@ -532,6 +532,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
+			if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getStoredCard().getType())) {
+				mBillingInfo.setStoredCard(null);
+			}
 		}
 		else if (Db.getMaskedWallet() == null) {
 			//Remove stored card(s)
