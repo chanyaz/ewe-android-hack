@@ -118,13 +118,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	@Override
-	public void onViewCreated(View v, Bundle savedInstanceState) {
-		if (mUserReviewsFragmentListener != null) {
-			mUserReviewsFragmentListener.onUserReviewsFragmentReady(this);
-		}
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
@@ -159,6 +152,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		listView.setOnScrollListener(this);
 		setListAdapter(mUserReviewsAdapter);
+		if (mUserReviewsFragmentListener != null) {
+			mUserReviewsFragmentListener.onUserReviewsFragmentReady(this);
+		}
 	}
 
 	@Override
