@@ -224,7 +224,7 @@ public class PointOfSale {
 	 *
 	 * @return
 	 */
-	public String getSupportPhoneNumber() {
+	private String getSupportPhoneNumber() {
 		String number = getPosLocale().mSupportNumber;
 		if (TextUtils.isEmpty(number)) {
 			number = mSupportPhoneNumber;

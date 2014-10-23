@@ -115,7 +115,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
+				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 			}
 		});
 
