@@ -339,6 +339,8 @@
     <string name="x_flight_to_x_TEMPLATE">%1$s fly til %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Dit fly til %1$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">Din valgte flyrejse til %1$s</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">Afhentning af bil – %s</string>
     <!-- Notification text for car pick up -->
@@ -351,6 +353,8 @@
     <string name="Activity_starting_soon">Aktivitet begynder snart</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din billet til %s kan indløses fra i morgen.</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">Rejseplan er klar</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -359,12 +363,16 @@
     <string name="shop">Søg</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find rejseplan</string>
+    <!-- Enter Itinerary Details -->
+    <string name="enter_itinerary_details">Indtast oplysninger om rejseplan</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Find rejseplansnummer</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Elite Plus-kundeservice</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver-kundeservice</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold-kundeservice</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ingen kommende rejser</string>
     <!-- Enter itinerary number -->
@@ -1148,6 +1156,12 @@
     <string name="airline_card_not_supported_TEMPLATE">Flyselskabet accepterer ikke %1$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
     <string name="airline_card_not_supported_generic">Flyselskabet understøtter ikke dette kreditkort.</string>
+    <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
+    <string name="hotel_card_fee_select_TEMPLATE">Hotellet opkræver et gebyr på %1$s for at anvende %2$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
+    <string name="hotel_card_not_supported_TEMPLATE">Hotellet accepterer ikke %1$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
+    <string name="hotel_card_not_supported_generic">Hotellet accepterer ikke denne type kreditkort.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -2063,8 +2077,12 @@
     <string name="logout_confirmation">Er du sikker på, at du vil logge ud af din Expedia-konto?</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Tilmeldt Expedia Rewards\u2122</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus-medlem</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Logget på som</string>
     <!-- Label for signin screen -->
@@ -2120,11 +2138,17 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">Beklager, men dette hotel accepterer ikke kuponer.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Beklager, men dette hotel accepterer ikke kuponer.</string>
+    <string name="coupon_error_invalid_hotel">Beklager, men kuponen kan ikke anvendes på dette hotel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Beklager, men vi kan ikke behandle kuponkoder i øjeblikket. Forsøg venligst igen.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Beklager, men det tog for lang tid at anvende koden. Forsøg venligst igen.</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">Beklager, men kuponen kan ikke anvendes på disse rejsedatoer.</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">Beklager, denne kupon er blevet brugt for mange gange og kan ikke længere anvendes.</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">Beklager, men gennemsnitsprisen pr. overnatning opfylder ikke minimumsbeløbet for anvendelse af denne kupon.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2715,6 +2739,10 @@
     <string name="S_Push_flight_CITY_gate_GATE">Dit fly til %1$s afgår nu fra gate %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Dine tasker vil være i bagageudleveringen %1$s.</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, din reservation er bekræftet! Se den i app\&apos;en.</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Din reservation er bekræftet! Se den i app\&apos;en.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
@@ -2984,5 +3012,8 @@
     <string name="tablet_mismatched_products_message">Du har valgt forskellige datoer for dit hotelophold og din flyrejse. Vil du fjerne dit nuværende hotelvalg og søge efter hoteller med datoer, der matcher dine flyrejser?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Ja</string>
+
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Book hoteller, flyrejser og se/del dine rejseplaner. Download Travelocitys gratis mobil-app i dag.\n%s</string>
 
 </resources>
