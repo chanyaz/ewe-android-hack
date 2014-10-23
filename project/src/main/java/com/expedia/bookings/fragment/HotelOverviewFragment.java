@@ -975,6 +975,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			updateViewVisibilities();
 
 			mAccountButton.setEnabled(true);
+
+			Events.post(new Events.CreateTripDownloadRetry());
 		}
 	}
 

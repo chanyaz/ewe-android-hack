@@ -115,6 +115,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public void clearCheckoutData() {
+		mHotelProductResponse = null;
 		mCreateTripResponse = null;
 		mCouponRate = null;
 		mIsCouponApplied = false;
