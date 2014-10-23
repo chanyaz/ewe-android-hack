@@ -1232,7 +1232,7 @@ public class ExpediaServices implements DownloadListener {
 	// Google Wallet coupon promotion
 
 	public WalletPromoResponse googleWalletPromotionEnabled() {
-		return doE3Request("static/mobile/walletcheck", null, new WalletPromoResponseHandler(), 0);
+		return doE3Request("static/mobile/walletcheck2", null, new WalletPromoResponseHandler(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

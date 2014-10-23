@@ -100,7 +100,7 @@ public class WalletUtils {
 
 	public static String getWalletCouponCode(Context context) {
 		// This is the official coupon code for Wallet on Prod
-		return "MOBILEWALLET";
+		return "MOBILEWALLET50";
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
