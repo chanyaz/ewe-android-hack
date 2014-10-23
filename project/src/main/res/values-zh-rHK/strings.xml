@@ -339,6 +339,8 @@
     <string name="x_flight_to_x_TEMPLATE">有 %1$s 個航班前往%2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">您前往%1$s的航班</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">您所選前往%1$s的航班</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">取車 - %s</string>
     <!-- Notification text for car pick up -->
@@ -351,6 +353,8 @@
     <string name="Activity_starting_soon">活動快將開始</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">您可於明天起兌換 %s 門票。</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">行程已經預訂完成</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -359,12 +363,16 @@
     <string name="shop">搜尋預訂</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
+    <!-- Enter Itinerary Details -->
+    <string name="enter_itinerary_details">請輸入行程資料</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">尋找行程編號</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 行程編號：</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Elite Plus 客戶支援</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver 客戶支援</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold 客戶支援</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Enter itinerary number -->
@@ -1141,13 +1149,19 @@
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">變更前價格：%1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
-    <string name="airline_card_fee_TEMPLATE">此航空公司就使用此卡收取 &lt;b&gt;%1$s&lt;/b&gt; 的費用 (已包括於總金額)。</string>
+    <string name="airline_card_fee_TEMPLATE">使用此卡的話，此航空公司會收取 &lt;b&gt;%1$s&lt;/b&gt; 的費用 (已包括於總金額)。</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
-    <string name="airline_card_fee_select_TEMPLATE">此航空公司就使用 %1$s 收取 %2$s 的費用。</string>
+    <string name="airline_card_fee_select_TEMPLATE">使用 %1$s 的話，此航空公司會收取 %2$s 的費用。</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
     <string name="airline_card_not_supported_TEMPLATE">此航空公司不接受 %1$s。</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
     <string name="airline_card_not_supported_generic">此航空公司不接受此信用卡品牌。</string>
+    <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
+    <string name="hotel_card_fee_select_TEMPLATE">使用 %2$s 的話，此酒店會收取 %1$s 的費用。</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
+    <string name="hotel_card_not_supported_TEMPLATE">此酒店不接受 %1$s。</string>
+    <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
+    <string name="hotel_card_not_supported_generic">此酒店不接受此信用卡品牌。</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -2063,8 +2077,12 @@
     <string name="logout_confirmation">您確定要登出您的 Expedia 帳戶嗎？</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">已登記 Expedia+ Rewards\u2122</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus 會員</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for account name -->
     <string name="logged_in_as">已登入為</string>
     <!-- Label for signin screen -->
@@ -2120,11 +2138,17 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">很抱歉，此酒店不接受使用優惠券。</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">很抱歉，此酒店不接受使用優惠券。</string>
+    <string name="coupon_error_invalid_hotel">很抱歉，此優惠券不適用於此酒店。</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">很抱歉，我們現時無法處理優惠券。請再試一次。</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">很抱歉，使用優惠代碼的時間過長。請再試一次。</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">很抱歉，此優惠券不適用於有關旅遊日期。</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">很抱歉，此優惠券已被多次使用並已不再適用。</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">很抱歉，平均每晚價格未達使用此優惠券的最低要求。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2715,6 +2739,10 @@
     <string name="S_Push_flight_CITY_gate_GATE">您前往%1$s的班機的登機閘口現為 %2$s。</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">請於行李領取處 %1$s 領取您的行李。</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s，您的預訂已獲確認！您可用 App 來查看。</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">您的預訂已獲確認！您可用 App 來查看。</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
@@ -2984,5 +3012,8 @@
     <string name="tablet_mismatched_products_message">您選擇的酒店住宿日期和航班日期不同。您想移除目前的酒店選擇並搜尋符合航班日期的酒店嗎？</string>
     <!-- Dialog positive button message -->
     <string name="yes">是</string>
+
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">預訂酒店和機票，並查看及分享您的行程。立即下載免費的 Travelocity App 吧！\n%s</string>
 
 </resources>

@@ -339,6 +339,8 @@
     <string name="x_flight_to_x_TEMPLATE">%2$s행 %1$s 항공편</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">고객님의 %1$s행 항공편</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">선택하신 %1$s행 항공편</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">차량 인수 - %s</string>
     <!-- Notification text for car pick up -->
@@ -351,6 +353,8 @@
     <string name="Activity_starting_soon">즐길거리 곧 시작</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">고객님의 %s 티켓은 내일부터 이용하실 수 있습니다.</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">일정 준비 완료</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -359,12 +363,16 @@
     <string name="shop">쇼핑</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
+    <!-- Enter Itinerary Details -->
+    <string name="enter_itinerary_details">일정 정보 입력</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">익스피디아 일정 번호</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver 고객 지원</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold 고객 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -1053,9 +1061,9 @@
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
-    <string name="cabin_code_coach">일반석</string>
+    <string name="cabin_code_coach">이코노미석</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">프리미엄 일반석</string>
+    <string name="cabin_code_premium_coach">프리미엄 이코노미석</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">비즈니스석</string>
     <!-- Label for "first" cabin code -->
@@ -1148,6 +1156,12 @@
     <string name="airline_card_not_supported_TEMPLATE">이 항공사는 %1$s 결제를 지원하지 않습니다.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
     <string name="airline_card_not_supported_generic">항공사에서 이 신용카드 브랜드를 지원하지 않습니다.</string>
+    <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
+    <string name="hotel_card_fee_select_TEMPLATE">이 호텔에서는 %1$s의 금액을 %2$s 결제 수수료로 부과합니다.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
+    <string name="hotel_card_not_supported_TEMPLATE">이 호텔에서는 %1$s 결제를 지원하지 않습니다.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
+    <string name="hotel_card_not_supported_generic">이 호텔에서는 이 신용카드 브랜드의 결제를 지원하지 않습니다.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -2063,8 +2077,12 @@
     <string name="logout_confirmation">익스피디아 계정에서 로그아웃하시겠어요?</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Expedia+ Rewards\u2122에 등록됨</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus 회원</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for account name -->
     <string name="logged_in_as">로그인된 고객님:</string>
     <!-- Label for signin screen -->
@@ -2120,11 +2138,17 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
+    <string name="coupon_error_invalid_hotel">죄송합니다. 해당 쿠폰은 이 호텔에 적용되지 않습니다.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">죄송합니다. 현재 쿠폰을 처리할 수 없습니다.  다시 시도해 주세요.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">죄송합니다. 시간이 초과되어 코드를 적용할 수 없습니다. 다시 시도해 주세요.</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">죄송합니다. 해당 쿠폰은 이 여행 날짜에 적용되지 않습니다.</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">죄송합니다. 이 쿠폰은 이미 여러 번 사용되었으며 더 이상 적용되지 않습니다.</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">죄송합니다. 1박 평균 요금이 이 쿠폰의 최소 사용 조건을 충족하지 않습니다.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2258,7 +2282,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2715,6 +2739,10 @@
     <string name="S_Push_flight_CITY_gate_GATE">고객님의 %1$s행 항공편이 게이트 %2$s에서 출발합니다.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 짐을 찾으실 수 있습니다.</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 님, 고객님의 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">고객님 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
@@ -2984,5 +3012,8 @@
     <string name="tablet_mismatched_products_message">선택하신 호텔과 항공 날짜가 서로 다릅니다. 현재 선택하신 호텔을 삭제하고 항공편 날짜와 일치하는 호텔을 검색하시겠어요?</string>
     <!-- Dialog positive button message -->
     <string name="yes">예</string>
+
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 무료 Travelocity 모바일 앱을 다운로드하세요.\n%s</string>
 
 </resources>

@@ -339,6 +339,8 @@
     <string name="x_flight_to_x_TEMPLATE">%1$s volo per %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Il tuo volo per %1$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">Il tuo volo per %1$s</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">Ritiro dell\&apos;auto – %s</string>
     <!-- Notification text for car pick up -->
@@ -351,6 +353,8 @@
     <string name="Activity_starting_soon">L\&apos;attività inizia presto</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Il tuo biglietto per %s potrà essere riscattato a partire da domani.</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">Itinerario disponibile</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -359,12 +363,16 @@
     <string name="shop">Acquista</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trova itinerario</string>
+    <!-- Enter Itinerary Details -->
+    <string name="enter_itinerary_details">Inserisci dettagli itinerario</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Trova n. itinerario</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Itinerario Expedia n.</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Assistenza clienti Elite Plus</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">Supporto clienti Expedia +silver</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">Supporto clienti Expedia +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Nessun viaggio futuro.</string>
     <!-- Enter itinerary number -->
@@ -1148,6 +1156,12 @@
     <string name="airline_card_not_supported_TEMPLATE">La compagnia aerea non supporta %1$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
     <string name="airline_card_not_supported_generic">La compagnia aerea non supporta questo tipo di carta di credito.</string>
+    <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
+    <string name="hotel_card_fee_select_TEMPLATE">L\&apos;hotel prevede una commissione di %1$s per i pagamenti con %2$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
+    <string name="hotel_card_not_supported_TEMPLATE">L\&apos;hotel non supporta %1$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
+    <string name="hotel_card_not_supported_generic">L\&apos;hotel non supporta questo tipo di carta di credito.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -2063,8 +2077,12 @@
     <string name="logout_confirmation">Sei sicuro di voler uscire dal tuo account Expedia?</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Iscritto a Expedia+ Rewards\u2122</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Iscritto Elite Plus</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Login come</string>
     <!-- Label for signin screen -->
@@ -2120,11 +2138,17 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon..</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
+    <string name="coupon_error_invalid_hotel">Spiacenti, il coupon non può essere utilizzato.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Siamo spiacenti, ma al momento non ci è possibile gestire i coupon. Riprova in seguito..</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Siamo spiacenti, ma l\&apos;applicazione del codice ha impiegato troppo tempo. Riprova.</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">Spiacenti, il coupon non può essere utilizzato nelle date di viaggio selezionate.</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">Spiacenti, questo coupon è stato usato troppe volte e non può essere riutilizzato.</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">Spiacenti, il prezzo medio a notte non corrisponde all\&apos;importo minimo previsto per questo coupon.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2715,6 +2739,10 @@
     <string name="S_Push_flight_CITY_gate_GATE">Il tuo volo per %1$s parte dal gate %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">I tuoi bagagli saranno disponibili al nastro %1$s.</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, la tua prenotazione è confermata! Visualizzala sull\&apos;app.</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">La tua prenotazione è confermata! Visualizzala sull\&apos;app.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
@@ -2984,5 +3012,8 @@
     <string name="tablet_mismatched_products_message">Le date selezionate per il soggiorno in hotel e il volo non corrispondono. Desideri eliminare l\&apos;hotel selezionato e cercare un\&apos;altra sistemazione per le date dei tuoi voli?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Sì</string>
+
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Prenota hotel, voli e visualizza e condividi i tuoi itinerari. Scarica subito l\&apos;app gratuita di Travelocity per dispositivi mobili.\n%s</string>
 
 </resources>
