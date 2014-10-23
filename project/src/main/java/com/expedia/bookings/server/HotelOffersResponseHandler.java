@@ -532,33 +532,25 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		if (jsonRate.has("bedTypes")) {
 			// #6852: If there are multiple bed types, we just "or" them together now
 			JSONArray bedTypes = jsonRate.getJSONArray("bedTypes");
-			List<String> bedTypeElements = new ArrayList<String>();
 			for (int b = 0; b < bedTypes.length(); b++) {
 				JSONObject bedType = bedTypes.getJSONObject(b);
 
 				String id = bedType.optString("id", null);
 				String description = JSONUtils.optNormalizedString(bedType, "description", null);
 
-				if (!TextUtils.isEmpty(description)) {
-					bedTypeElements.add(description);
-				}
-
 				if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(description)) {
 					rate.addBedType(id, description);
 				}
 			}
 
-			String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
-			if (!TextUtils.isEmpty(ratePlanName)) {
-				// Do not change the case of the first letter. This isn't ideal but it works for now
-				ratePlanName = ratePlanName.substring(0, 1)
-					+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
+			String formattedBedTypes = rate.getFormattedBedNames();
+			if (!TextUtils.isEmpty(formattedBedTypes)) {
+				rate.setRatePlanName(formattedBedTypes);
 			}
-			rate.setRatePlanName(ratePlanName);
 		}
 
 		// For some non-merchant hotels
-		if (!TextUtils.isEmpty(rate.getRatePlanName())) {
+		if (TextUtils.isEmpty(rate.getRatePlanName())) {
 			String des = rate.getRoomDescription();
 			int cut = des.indexOf(" -");
 			if (cut == -1) {
