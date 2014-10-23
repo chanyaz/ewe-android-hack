@@ -23,6 +23,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class AccountButton extends LinearLayout {
@@ -254,10 +255,6 @@ public class AccountButton extends LinearLayout {
 		mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
 
 		//TODO: if (ExpediaBookingApp.IS_EXPEDIA)
-	}
-
-	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
-		bind(isLoading, isLoggedIn, u, LineOfBusiness.FLIGHTS);
 	}
 
 	private void clearCheckoutData() {

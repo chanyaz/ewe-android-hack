@@ -294,10 +294,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 				}
 			}
-			mAccountButton.bind(false, true, Db.getUser());
+			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
 		}
 		else {
-			mAccountButton.bind(false, false, null);
+			mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 		}
 
 		// restore
@@ -964,7 +964,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			User.signOutAsync(getActivity(), null);
 
 			// Update UI
-			mAccountButton.bind(false, false, null);
+			mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 
 			//After logout this will clear stored cards
 			populatePaymentDataFromUser();
@@ -981,7 +981,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser());
+		mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
 		mRefreshedUserTime = System.currentTimeMillis();
 
 		populateTravelerData();
