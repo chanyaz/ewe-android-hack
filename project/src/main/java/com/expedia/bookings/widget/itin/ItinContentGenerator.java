@@ -401,7 +401,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
 			break;
 		case GOLD:
-			labelResId = R.string.Expedia_plus_Silver_Customer_Support;
+			labelResId = R.string.Expedia_plus_Gold_Customer_Support;
 			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
 			break;
 		default:
