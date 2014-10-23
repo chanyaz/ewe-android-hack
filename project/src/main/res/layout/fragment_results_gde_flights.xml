@@ -39,6 +39,14 @@
             android:textColor="#666666"
             app:textStyle="light" />
 
+        <ImageView
+            android:id="@+id/flight_trends_tool_tip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:src="@drawable/ic_info_outline_grey"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <ProgressBar
@@ -48,6 +56,40 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/gde_tool_tip_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/results_list_header_height"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:gravity="center"
+            android:text="@string/flight_trends_tool_tip"
+            android:textColor="#a5180e0d"
+            android:textSize="18sp"
+            app:textStyle="condensed" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/action_button"
+            android:layout_width="182dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="@dimen/pick_airport_button_top_margin"
+            android:background="@drawable/bg_tablet_search_result_error_action_button"
+            android:gravity="center"
+            android:text="@string/DONE"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:textStyle="medium" />
+
+    </LinearLayout>
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/histogram_container"
@@ -60,5 +102,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:svg="@raw/ic_tablet_sold_out_flight"/>
+
+
 </FrameLayout>
 
