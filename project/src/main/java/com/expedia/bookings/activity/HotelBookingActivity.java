@@ -383,7 +383,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 	@Subscribe
 	public void onCallCustomerSupport(Events.UnhandledErrorDialogCallCustomerSupport event) {
-		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumber());
+		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
 	@Subscribe

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -70,7 +71,8 @@ public class AddToCalendarUtils {
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
 			"https://maps.google.com/maps?q=" + origin.mAirportCode));
 		sb.append("\n\n");
-		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.calendarFlightDescSupport), pointOfSale.getSupportPhoneNumber()));
+		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.calendarFlightDescSupport),
+			pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())));
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;
