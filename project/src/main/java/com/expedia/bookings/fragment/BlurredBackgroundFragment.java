@@ -98,15 +98,6 @@ public class BlurredBackgroundFragment extends Fragment {
 
 	public void setFadeRange(int startY, int endY) {
 		mBackgroundFgView.setFadeRange(startY, endY);
-
-		// This optimization is only necessary (and, in fact, only works) on the old
-		// rendering system.  In the new rendering system, this view is only drawn
-		// once anyways (and reused) so it doesn't matter that we're not planning
-		// for overdraw.
-		if (Build.VERSION.SDK_INT < 11) {
-			mBackgroundBgView.setBottomBound(endY);
-		}
-
 		// Set this view enabled again
 		mBackgroundBgView.setVisibility(View.VISIBLE);
 	}

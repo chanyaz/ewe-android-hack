@@ -33,8 +33,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -55,6 +53,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 	private ListView mListView;
 	private TextView mNumFlightsTextView;
+	private TextView mPriceLabelTextView;
 	private FlightLegSummarySection mSectionFlightLeg;
 
 	private int mLegPosition;
@@ -106,7 +105,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		mListView.setDividerHeight(0);
 		ViewGroup header = Ui.inflate(inflater, R.layout.snippet_flight_header, mListView, false);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
-		mNumFlightsTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+		mPriceLabelTextView = Ui.findView(header, R.id.flight_price_label_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
 		mSectionFlightLeg.setBackgroundResource(R.drawable.bg_flight_card_search_results_top);
 		mListView.addHeaderView(header);
@@ -424,7 +423,13 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		}
 	}
 
-
+	private void displayPriceLabel() {
+		if (mPriceLabelTextView != null) {
+			int labelResId = Db.getFlightSearch().getSearchParams().isRoundTrip() ? R.string.prices_roundtrip_label :
+				R.string.prices_oneway_label;
+			mPriceLabelTextView.setText(getString(labelResId));
+		}
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// Dataset observer
 
@@ -432,6 +437,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		@Override
 		public void onChanged() {
 			displayNumFlights();
+			displayPriceLabel();
 		}
 	};
 
@@ -453,17 +459,17 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	// OnScrollListener
 
 	// Cached for faster processing
-	private int mNumFlightsTextViewBottom = 0;
+	private int mHeaderBottom = 0;
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		if (view.getChildCount() > 0) {
 			if (firstVisibleItem == 0 && !mIsLandscape) {
-				if (mNumFlightsTextViewBottom == 0) {
-					mNumFlightsTextViewBottom = mNumFlightsTextView.getBottom();
+				if (mHeaderBottom == 0) {
+					mHeaderBottom = mPriceLabelTextView.getBottom();
 				}
 
-				int bottom = mNumFlightsTextViewBottom + view.getTop() + view.getChildAt(0).getTop();
+				int bottom = mHeaderBottom + view.getTop() + view.getChildAt(0).getTop();
 				mListener.onFadeRangeChange(bottom - mFlightListBlurHeight, bottom);
 			}
 			else {
