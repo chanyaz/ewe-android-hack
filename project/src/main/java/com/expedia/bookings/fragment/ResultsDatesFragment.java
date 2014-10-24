@@ -1,9 +1,13 @@
 package com.expedia.bookings.fragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +22,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
+import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -30,10 +35,10 @@ import com.squareup.otto.Subscribe;
  */
 public class ResultsDatesFragment extends Fragment implements
 	CalendarPicker.DateSelectionChangedListener,
-	CalendarPicker.YearMonthDisplayedChangedListener {
+	CalendarPicker.YearMonthDisplayedChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
 	private DatesFragmentListener mListener;
-
+	private DaysOfWeekView mDaysOfWeekView;
 	private CalendarPicker mCalendarPicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
@@ -53,8 +58,10 @@ public class ResultsDatesFragment extends Fragment implements
 
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 		mCalendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
-		mCalendarPicker.setDaysOfWeekTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
+		mCalendarPicker.setDaysOfWeekTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
 		mCalendarPicker.setMonthViewTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		mDaysOfWeekView = Ui.findView(view, R.id.days_of_week);
+		mDaysOfWeekView.setDayOfWeekRenderer(this);
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
@@ -104,6 +111,19 @@ public class ResultsDatesFragment extends Fragment implements
 	@Override
 	public void onYearMonthDisplayed(YearMonth yearMonth) {
 		mListener.onYearMonthDisplayedChanged(yearMonth);
+	}
+
+	// Narrow day-of-week renderer
+	@Override
+	public String renderDayOfWeek(LocalDate.Property dayOfWeek) {
+		if (Build.VERSION.SDK_INT >= 18) {
+			SimpleDateFormat sdf = new SimpleDateFormat("EEEEE");
+			return sdf.format(dayOfWeek.getLocalDate().toDate());
+		}
+		else if (Locale.getDefault().getLanguage().equals("en")) {
+			return dayOfWeek.getAsShortText().toUpperCase().substring(0, 1);
+		}
+		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
