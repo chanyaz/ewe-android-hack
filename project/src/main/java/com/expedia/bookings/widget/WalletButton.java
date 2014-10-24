@@ -43,11 +43,6 @@ public class WalletButton extends RelativeLayout {
 	}
 
 	@Override
-	public void setOnClickListener(OnClickListener l) {
-		mButton.setOnClickListener(l);
-	}
-
-	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 

@@ -2608,7 +2608,7 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer"><b>Save $50 on a $200+ trip</b> with Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">You saved 10% by using Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">You saved $50 by using Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10% discount for using Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

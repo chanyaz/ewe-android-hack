@@ -308,7 +308,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		// Listeners
 		mAccountButton.setListener(this);
-		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 		mTravelerButton.setOnClickListener(mOnClickListener);
 		mTravelerSection.setOnClickListener(mOnClickListener);
 		mPaymentButton.setOnClickListener(mOnClickListener);
@@ -320,6 +319,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
 		mWalletButton.setPromoVisible(true);
+		mWalletButton.setOnClickListener(mWalletButtonClickListener);
+		Ui.findView(mWalletButton, R.id.wallet_button).setOnClickListener(mWalletButtonClickListener);
+
 
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -1314,8 +1316,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
 					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
 		}
-
-		mHotelReceipt.bind(appliedWalletPromoCoupon());
 	}
 
 	// Coupons
