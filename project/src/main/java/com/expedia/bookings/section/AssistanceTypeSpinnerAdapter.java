@@ -75,7 +75,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(mContext, R.layout.simple_spinner_traveler_item, null);
+			retView = Ui.inflate(mContext, R.layout.simple_spinner_traveler_item, parent);
 		}
 		else {
 			retView = convertView;
@@ -89,7 +89,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(mContext, R.layout.simple_dropdown_item_2line_dark, null);
+			retView = Ui.inflate(mContext, R.layout.simple_dropdown_item_2line_dark, parent);
 		}
 		else {
 			retView = convertView;
