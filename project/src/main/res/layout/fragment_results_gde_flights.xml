@@ -67,27 +67,15 @@
         android:visibility="gone">
 
         <com.expedia.bookings.widget.TextView
+            style="@style/CenterCaptionedIcon.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="36dp"
-            android:layout_marginRight="36dp"
-            android:gravity="center"
-            android:text="@string/flight_trends_tool_tip"
-            android:textColor="#a5180e0d"
-            android:textSize="18sp"
-            app:textStyle="condensed" />
+            android:text="@string/flight_trends_tool_tip" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/action_button"
-            android:layout_width="182dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="@dimen/pick_airport_button_top_margin"
-            android:background="@drawable/bg_tablet_search_result_error_action_button"
-            android:gravity="center"
-            android:text="@string/DONE"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:textStyle="medium" />
+            style="@style/CenterCaptionedIcon.ActionButton"
+            android:text="@string/DONE"/>
 
     </LinearLayout>
 
