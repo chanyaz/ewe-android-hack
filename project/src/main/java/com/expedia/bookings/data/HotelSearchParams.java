@@ -448,8 +448,13 @@ public class HotelSearchParams implements JSONable {
 			// Make sure the stay is no longer than 28 days
 			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
 			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
-
-			hotelParams.setCheckOutDate(checkOutDate);
+			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
+			if (stayDuration == 0) {
+				hotelParams.setCheckOutDate(checkOutDate.plusDays(1));
+			}
+			else {
+				hotelParams.setCheckOutDate(checkOutDate);
+			}
 		}
 
 		// Who //
