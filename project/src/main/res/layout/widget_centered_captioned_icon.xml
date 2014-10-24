@@ -19,30 +19,17 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/caption"
+        style="@style/CenterCaptionedIcon.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/center_view"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:gravity="center_horizontal"
-        android:textColor="#a5180e0d"
-        android:textSize="18sp"
-        app:textStyle="condensed" />
+        android:layout_below="@id/center_view" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/action_button"
-        android:layout_width="182dp"
-        android:layout_height="32dp"
+        style="@style/CenterCaptionedIcon.ActionButton"
         android:layout_below="@id/caption"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/pick_airport_button_top_margin"
-        android:background="@drawable/bg_tablet_search_result_error_action_button"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:textStyle="medium" />
+        android:visibility="gone"/>
 
 </merge>
