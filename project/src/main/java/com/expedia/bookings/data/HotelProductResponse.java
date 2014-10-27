@@ -10,6 +10,10 @@ public class HotelProductResponse extends Response {
 	private String mOriginalProductKey;
 	private Rate mRate;
 
+	public HotelProductResponse() {
+		// default empty for JSONable
+	}
+
 	public HotelProductResponse(String originalProductKey) {
 		mOriginalProductKey = originalProductKey;
 	}
