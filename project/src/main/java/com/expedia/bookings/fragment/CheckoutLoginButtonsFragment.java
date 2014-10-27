@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ILOBable;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -60,6 +61,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 	private ILoginStateChangedListener mListener;
 	private IWalletButtonStateChangedListener mWalletListener;
+	private IWalletCouponListener mWalletCouponListener;
 
 	private boolean mWasLoggedIn = false;
 
@@ -76,6 +78,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		super.onAttach(activity);
 		mListener = Ui.findFragmentListener(this, ILoginStateChangedListener.class, false);
 		mWalletListener = Ui.findFragmentListener(this, IWalletButtonStateChangedListener.class, false);
+		mWalletCouponListener = Ui.findFragmentListener(this, IWalletCouponListener.class, false);
 	}
 
 	@Override
@@ -121,7 +124,6 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
@@ -368,6 +370,10 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
 		}
 
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
+			mWalletCouponListener.applyWalletCoupon();
+		}
+
 		bind();
 		refreshAccountButtonState();
 		updateWalletViewVisibilities();
@@ -420,5 +426,13 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			throw new RuntimeException("canUseGoogleWallet() can only evaluate hotel and flight items!");
 		}
 		return item.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
+	}
+
+	/*
+	 * listen, and you'll hear
+	 */
+
+	public interface IWalletCouponListener {
+		public void applyWalletCoupon();
 	}
 }

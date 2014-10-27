@@ -616,7 +616,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
-
+				if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && WalletUtils.isCouponWalletCoupon(mCouponCode)) {
+					Db.getTripBucket().getHotel().setIsCouponGoogleWallet(true);
+				}
 				Db.getTripBucket().getHotel().setIsCouponApplied(true);
 				Db.getTripBucket().getHotel().setCreateTripResponse(response);
 				Db.getTripBucket().getHotel().setCouponRate(response.getNewRate());

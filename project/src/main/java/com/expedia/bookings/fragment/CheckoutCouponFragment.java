@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.ProgressDialog;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -34,6 +35,7 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 
 	private CouponDialogFragment mCouponDialogFragment;
 	private ThrobberDialog mCouponRemoveThrobberDialog;
+	private ProgressDialog mGoogleWalletCouponApplyThrobber;
 	private HotelBookingFragment mHotelBookingFragment;
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
@@ -70,6 +72,10 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 		mCouponSavedTextView = Ui.findView(view, R.id.coupon_saved_text_view);
 		mCouponRemoveView = Ui.findView(view, R.id.coupon_clear);
 		mCouponRemoveView.setOnClickListener(this);
+
+		mGoogleWalletCouponApplyThrobber = new ProgressDialog(getActivity());
+		mGoogleWalletCouponApplyThrobber.setCancelable(false);
+		mGoogleWalletCouponApplyThrobber.setMessage(getString(R.string.applying_coupon));
 
 		return view;
 
@@ -120,21 +126,37 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 
 	}
 
-	private void clearCoupon() {
+	public void clearCoupon() {
 		mFragmentModLock.runWhenSafe(new Runnable() {
 			@Override
 			public void run() {
-				mCouponRemoveThrobberDialog = ThrobberDialog.newInstance(getString(R.string.coupon_removing_dialog));
-				mCouponRemoveThrobberDialog.setCancelable(false);
-				mCouponRemoveThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
+				if (mCouponRemoveThrobberDialog == null) {
+					mCouponRemoveThrobberDialog = ThrobberDialog.newInstance(getString(R.string.coupon_removing_dialog));
+					mCouponRemoveThrobberDialog.setCancelable(false);
+					mCouponRemoveThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
+				}
 			}
 		});
 
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REMOVE);
 	}
 
+	public void showGoogleWalletCouponLoadingThrobber() {
+		if (mCouponAppliedContainer.getVisibility() == View.GONE) {
+			mFragmentModLock.runWhenSafe(new Runnable() {
+				@Override
+				public void run() {
+					if (!mGoogleWalletCouponApplyThrobber.isShowing()) {
+						mGoogleWalletCouponApplyThrobber.show();
+					}
+				}
+			});
+		}
+	}
+
 	@Override
 	public void onApplyCoupon(String couponCode) {
+		showGoogleWalletCouponLoadingThrobber();
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_APPLY, couponCode);
 	}
 
@@ -173,6 +195,9 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
 			mCouponRemoveThrobberDialog.dismiss();
 		}
+		if (mGoogleWalletCouponApplyThrobber != null) {
+			mGoogleWalletCouponApplyThrobber.dismiss();
+		}
 		mCouponDialogFragment = Ui.findChildSupportFragment(this, CouponDialogFragment.TAG);
 		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
 			mCouponDialogFragment.dismiss();
@@ -184,9 +209,9 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 
 	@Subscribe
 	public void onCouponApplied(Events.CouponApplyDownloadSuccess event) {
-		dismissDialogs();
 		updateViews();
 		updateViewVisibilities();
+		dismissDialogs();
 	}
 
 	@Subscribe

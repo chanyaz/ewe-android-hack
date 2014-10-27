@@ -62,6 +62,8 @@ public class WalletUtils {
 
 	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
 
+	private static final String WALLET_COUPON_CODE = "MOBILEWALLET50";
+
 	// Force the separator to be '.', since that's the format that Google Wallet requires
 	static {
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("en", "US"));
@@ -100,7 +102,11 @@ public class WalletUtils {
 
 	public static String getWalletCouponCode(Context context) {
 		// This is the official coupon code for Wallet on Prod
-		return "MOBILEWALLET50";
+		return WALLET_COUPON_CODE;
+	}
+
+	public static boolean isCouponWalletCoupon(String coupon) {
+		return WALLET_COUPON_CODE.equalsIgnoreCase(coupon);
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,

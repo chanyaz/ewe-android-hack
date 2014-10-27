@@ -56,6 +56,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
@@ -71,7 +72,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
-	TravelerButtonFragment.ITravelerIsValidProvider {
+	TravelerButtonFragment.ITravelerIsValidProvider,
+	CheckoutLoginButtonsFragment.IWalletCouponListener {
 
 	public interface ISlideToPurchaseSizeProvider {
 		public View getSlideToPurchaseContainer();
@@ -334,6 +336,25 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 	}
 
+	private void checkCouponForGoogleWallet() {
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && mStateManager.getState() == CheckoutFormState.OVERVIEW) {
+			if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+				if (!Db.getBillingInfo().hasStoredCard() || !Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
+					if (mCouponContainer != null) {
+						mCouponContainer.clearCoupon();
+					}
+				}
+			}
+			else if (Db.getBillingInfo().hasStoredCard() && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
+				if (!Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+					if (mCouponContainer != null) {
+						applyWalletCoupon();
+					}
+				}
+			}
+		}
+	}
+
 	/*
 	 * VALIDATION
 	 */
@@ -350,6 +371,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onCheckoutDataUpdated() {
 		bindAll();
 		mCheckoutInfoListener.onBillingInfoChange();
+		checkCouponForGoogleWallet();
+
 		if (hasValidCheckoutInfo()) {
 			mCheckoutInfoListener.checkoutInformationIsValid();
 		}
@@ -911,6 +934,21 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		return false;
 	}
 
+	/*
+	 * CheckoutLoginButtonsFragment.IWalletCouponListener
+	 * Didn't use Otto because there events weren't registering with subscribers for some reason.
+	 */
+
+	@Override
+	public void applyWalletCoupon() {
+		String couponCode = WalletUtils.getWalletCouponCode(getActivity());
+		mCouponContainer.onApplyCoupon(couponCode);
+	}
+
+	/*
+	 * Otto events
+	 */
+
 	@Subscribe
 	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
 		if (mHorizontalFlightFrag != null) {
@@ -945,5 +983,4 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalHotelFrag.refreshRate();
 		}
 	}
-
 }
