@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.server.ExpediaServices;
@@ -378,7 +380,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	}
 
 	private boolean onlyUpdateWalletViewVisibilities() {
-		boolean showWalletButton = showWalletButton();
+		boolean showWalletButton = showWalletButton() && canUseGoogleWallet();
 		boolean isWalletLoading = isWalletLoading();
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
@@ -403,5 +405,19 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 	public LineOfBusiness getLob() {
 		return mLob;
+	}
+
+	private boolean canUseGoogleWallet() {
+		TripBucketItem item;
+		if (mLob == LineOfBusiness.HOTELS) {
+			item = Db.getTripBucket().getHotel();
+		}
+		else if (mLob == LineOfBusiness.FLIGHTS) {
+			item = Db.getTripBucket().getFlight();
+		}
+		else {
+			throw new RuntimeException("canUseGoogleWallet() can only evaluate hotel and flight items!");
+		}
+		return item.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
 	}
 }
