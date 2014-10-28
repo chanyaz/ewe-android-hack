@@ -50,6 +50,9 @@ fork from the following naming conventions:
 - Work in progress/experiment branch - `w/`
   - Choose a good name so we can tell what the experiment entails. Try to be concise.
   - eg. `w/nfc-itin-sharing`
+- Tech debt - `t/`
+  - This shouldn't involve any user-visible changes and shouldn't break the build.
+  - eg. `t/resource-cleanup`
 
 Code Style
 ==========
