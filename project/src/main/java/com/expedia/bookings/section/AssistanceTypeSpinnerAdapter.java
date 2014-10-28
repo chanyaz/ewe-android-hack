@@ -88,7 +88,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(mContext, R.layout.simple_dropdown_item_2line_dark, parent);
+			retView = Ui.inflate(R.layout.simple_dropdown_item_2line_dark, parent, false);
 		}
 		else {
 			retView = convertView;
