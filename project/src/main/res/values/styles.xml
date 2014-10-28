@@ -519,7 +519,7 @@
         <item name="android:hint">@string/hint_arrival_airport</item>
     </style>
 
-    <style name="FlightAirportSpinner" parent="android:style/Widget.ListView.DropDown" />
+    <style name="FlightAirportSpinner" parent="android:style/Widget.Holo.ListView.DropDown" />
 
     <style name="FlightAirportSpinner.Implementation">
         <item name="android:divider">@null</item>

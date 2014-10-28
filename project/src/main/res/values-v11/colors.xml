@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Flights colors -->
-    <color name="spinner_airport">#FFFFFF</color>
-    <color name="spinner_airport_details">#777777</color>
-
-</resources>
