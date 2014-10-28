@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="hotel_row_thumbnail_width">115dp</dimen>
-	<dimen name="hotel_row_thumbnail_height">105dp</dimen>
-	<dimen name="hotel_row_price_text_size">25sp</dimen>
-	<dimen name="hotel_row_proximity_text_size">16sp</dimen>
-</resources>
