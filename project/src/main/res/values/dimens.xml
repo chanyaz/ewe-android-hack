@@ -88,7 +88,7 @@
     <dimen name="cvv_keypad_text_padding">0dp</dimen>
     <dimen name="cvv_keypad_book_text_size">16dp</dimen>
     <dimen name="flight_list_blur_height">70dp</dimen>
-    <dimen name="checkout_form_bottom_spacer_margin">50dp</dimen>
+    <dimen name="checkout_form_bottom_spacer_margin">0dp</dimen>
     <dimen name="arrow_up_down_click_padding">20dp</dimen>
     <dimen name="traveler_button_padding">10dp</dimen>
     <dimen name="flight_leg_day_textview_margin_right">10dp</dimen>
