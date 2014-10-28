@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.StableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/airports_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="2" >
+    android:layout_height="wrap_content" >
 
     <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
         style="@style/FlightAirportAutocomplete.Departure"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="2.5dp"
-        android:layout_weight="1" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
         style="@style/FlightAirportAutocomplete.Arrival"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2.5dp"
-        android:layout_weight="1" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</LinearLayout>
+</com.expedia.bookings.widget.StableFrameLayout>
