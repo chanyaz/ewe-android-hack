@@ -11,4 +11,7 @@
     <!-- Tablet Launch Screen -->
     <dimen name="tablet_search_width">768dp</dimen>
 
+    <!-- Login screen -->
+    <dimen name="login_or_spacing">12dp</dimen>
+
 </resources>
