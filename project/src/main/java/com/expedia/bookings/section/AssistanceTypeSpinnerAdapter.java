@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -75,7 +74,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(mContext, R.layout.simple_spinner_traveler_item, parent);
+			retView = Ui.inflate(R.layout.simple_spinner_traveler_item, parent, false);
 		}
 		else {
 			retView = convertView;
