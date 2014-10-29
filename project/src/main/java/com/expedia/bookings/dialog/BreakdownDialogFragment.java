@@ -178,7 +178,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		}
 
 		// Discount
-		if (couponRate != null) {
+		if (couponRate != null && !couponRate.getTotalPriceAdjustments().isZero()) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(R.string.discount))
