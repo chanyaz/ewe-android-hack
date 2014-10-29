@@ -68,7 +68,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.enterSearchText(ambiguousSearchString);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.assertViewWithTextIsDisplayed("Did you mean…");
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.ChooseLocation));
 		ScreenActions.enterLog(TAG, "Did you mean' dialog appeared after search for: " + ambiguousSearchString);
 		onView(withText("Cancel")).perform(click());
 		ScreenActions.enterLog(TAG, "clicked cancel");
@@ -122,7 +122,8 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.enterSearchText(pointOfInterest);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		HotelsSearchScreen.searchEditText().check(matches(withText("Statue of Liberty National Monument, New York, NY")));
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.ChooseLocation));
+		ScreenActions.enterLog(TAG, "Did you mean' dialog appeared after search for: " + pointOfInterest);
 		Espresso.pressBack();
 	}
 
