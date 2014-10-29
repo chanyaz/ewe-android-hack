@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- We use dark versions on v11+ since these are used in a Spinner dropdown that can be dark instead of light -->
-    <drawable name="bg_textview_divider_large">@drawable/bg_textview_divider_large_dark</drawable>
-    <drawable name="bg_textview_divider_small">@drawable/bg_textview_divider_small_dark</drawable>
-
-</resources>

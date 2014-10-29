@@ -53,8 +53,8 @@
     <color name="flight_results_row_bg_pressed">#4572AD</color>
     <color name="flight_results_row_return_leg_bg">#3D6D7A</color>
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
-    <color name="spinner_airport">#000000</color>
-    <color name="spinner_airport_details">#555555</color>
+    <color name="spinner_airport">#FFFFFF</color>
+    <color name="spinner_airport_details">#777777</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
@@ -62,7 +62,7 @@
     <color name="rooms_and_rates_notice_bg">#d9dbdd</color>
     <color name="rooms_and_rates_notice_bottom_div">#898989</color>
     <color name="actionbar_text_disabled">#505c69</color>
-    <color name="amenity_text_color_large">#737880</color>
+    <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
 
     <!-- Login -->
@@ -88,7 +88,7 @@
     <color name="dark_blue">#1C3061</color>
     <color name="dismiss">#72000000</color>
     <color name="calendar_header">#FFF3F3F3</color>
-    <color name="bg_expedia_list">#e7e7e7</color>
+    <color name="bg_expedia_list">#f5f5f5</color>
 
     <!-- BookingOverviewFragment -->
     <color name="overview_receipt_divider">#666D6D6D</color>
