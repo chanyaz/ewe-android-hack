@@ -63,7 +63,8 @@ public class FlightDetailsTests extends TabletTestCase {
 			try {
 				//assert flight details info on the card matches flight search result info
 				EspressoUtils.assertContains(FlightDetails.flightName(), resultsFlightName);
-				EspressoUtils.assertContains(FlightDetails.flightTime(), cleanedFlightTime);
+				EspressoUtils.assertContains(FlightDetails.flightTime(), arrivalTime);
+				EspressoUtils.assertContains(FlightDetails.flightTime(), departureTime);
 				EspressoUtils.assertContains(FlightDetails.flightArrivalTime(), arrivalTime);
 				EspressoUtils.assertContains(FlightDetails.flightDepartureTime(), departureTime);
 				EspressoUtils.assertContains(FlightDetails.flightPrice(), resultsPriceString);
