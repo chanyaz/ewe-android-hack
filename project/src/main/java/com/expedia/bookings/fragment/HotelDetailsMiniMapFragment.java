@@ -2,24 +2,27 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.widget.MapImageView;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.maps.SupportMapFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.android.util.Ui;
 
-public class HotelDetailsMiniMapFragment extends Fragment {
+public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 
-	private MapImageView mStaticMapImageView;
-
+	private static final float ZOOM_LEVEL = 13;
 	private HotelMiniMapFragmentListener mListener;
+	private GoogleMap mMap;
 
 	public static HotelDetailsMiniMapFragment newInstance() {
 		return new HotelDetailsMiniMapFragment();
@@ -33,12 +36,19 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_hotel_details_mini_map, container, false);
-		mStaticMapImageView = Ui.findView(view, R.id.mini_map);
-		mStaticMapImageView.setOnClickListener(new OnClickListener() {
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		mMap = getMap();
+
+		// Initial configuration
+		mMap.getUiSettings().setMyLocationButtonEnabled(true);
+		mMap.getUiSettings().setZoomControlsEnabled(false);
+		mMap.getUiSettings().setZoomGesturesEnabled(false);
+
+		mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onMapClick(LatLng latLng) {
 				mListener.onMiniMapClicked();
 			}
 		});
@@ -46,23 +56,32 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Property searchProperty = Db.getHotelSearch().getSelectedProperty();
 		if (searchParams != null && searchProperty != null) {
-			mStaticMapImageView.setCenterPoint(searchProperty.getLocation());
-
-			// Fill in the POI / current location point appropriately
-			switch (searchParams.getSearchType()) {
-			case POI:
-			case ADDRESS:
-			case MY_LOCATION:
-				mStaticMapImageView.setPoiPoint(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
-				break;
-			}
+			addMarker(searchProperty);
+			checkIfSearchIsCurrentLocation(searchParams);
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(searchProperty.getLocation().getLatitude(), searchProperty.getLocation().getLongitude()), ZOOM_LEVEL));
 		}
+	}
+	// Listener
 
-		return view;
+	private void addMarker(Property property) {
+		MarkerOptions marker = new MarkerOptions();
+		Location location = property.getLocation();
+
+		marker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+
+		Rate lowestRate = property.getLowestRate();
+		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
+		marker.icon(isOnSale ? BitmapDescriptorFactory
+			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable)) : BitmapDescriptorFactory
+			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable)));
+
+		mMap.addMarker(marker);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Listener
+	private void checkIfSearchIsCurrentLocation(HotelSearchParams searchParams) {
+		boolean showCurrentLocation = searchParams.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION;
+		mMap.setMyLocationEnabled(showCurrentLocation);
+	}
 
 	public interface HotelMiniMapFragmentListener {
 		public void onMiniMapClicked();

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * This class implements a parallax-like scrolling effect specifically for
@@ -110,7 +109,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	}
 
 	private void initMap() {
-		mMapContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
+		mMapContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_outer_container);
 	}
 
 	private void initVipAccessIcon() {
@@ -231,7 +230,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private void mapCounterscroll(int parentScroll) {
 		// Setup interpolator for Map counterscroll (if needed)
 		if (mIMapScroll == null) {
-			int mapHeight = mMapContainer.findViewById(R.id.mini_map).getHeight();
+			int mapHeight = mMapContainer.findViewById(R.id.hotel_details_map_fragment_container).getHeight();
 			int screenHeight = this.getHeight();
 			int mapTop = mMapContainer.getTop() + mMapContainer.getPaddingTop();
 			int mapBottom = mMapContainer.getBottom() - mMapContainer.getPaddingBottom();
