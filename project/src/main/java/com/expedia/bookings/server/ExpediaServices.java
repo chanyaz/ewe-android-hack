@@ -856,6 +856,21 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
+	public CreateTripResponse removeCoupon(TripBucketItemHotel hotel) {
+		List<BasicNameValuePair> query = generateRemoveCouponParams(hotel);
+		Property property = hotel.getProperty();
+		HotelSearchParams params = hotel.getHotelSearchParams();
+		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
+		return doE3Request("api/m/trip/remove/coupon", query, responseHandler, F_SECURE_REQUEST);
+	}
+
+	public List<BasicNameValuePair> generateRemoveCouponParams(TripBucketItemHotel hotel) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		addCommonParams(query);
+		query.add(new BasicNameValuePair("tripId", hotel.getCreateTripResponse().getTripId()));
+		return query;
+	}
+
 	public HotelBookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
 		String tripId, String userId, Long tuid, String tealeafId) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId, tuid);
