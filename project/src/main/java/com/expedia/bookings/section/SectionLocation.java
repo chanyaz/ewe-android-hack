@@ -414,7 +414,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-				addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+				addrValidators.addValidator(CommonSectionValidators.ADDRESS_STATE_VALIDATOR);
 			}
 			else {
 				addrValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
