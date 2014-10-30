@@ -68,8 +68,8 @@ for locCode in locs:
 	# Change device locale and restart it
 	sendChangeLocaleCommand(language, country)
 
-	apk = pathToApk + 'project-ExpediaAutomation-debug-unaligned.apk'
-	testApk = pathToApk + 'project-ExpediaAutomation-debug-test-unaligned.apk'
+	apk = pathToApk + 'project-expediaAutomation-debug-unaligned.apk'
+	testApk = pathToApk + 'project-expediaAutomation-debug-test-unaligned.apk'
 
 	os.system('sleep 20')
 	os.system('adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X uninstall com.expedia.bookings.auto.debug')
