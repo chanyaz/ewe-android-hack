@@ -140,4 +140,29 @@ public class CommonSectionValidators {
 		}
 	};
 
+	public static final Validator<EditText> ADDRESS_STATE_VALIDATOR = new Validator<EditText>() {
+		@Override
+		public int validate(EditText obj) {
+			if (obj == null) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				return STATE_VALIDATOR_LENGTH.validate(obj.getText().toString());
+			}
+		}
+	};
+
+	public static final Validator<String> STATE_VALIDATOR_LENGTH = new Validator<String>() {
+		@Override
+		public int validate(String text) {
+			if (TextUtils.isEmpty(text)) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else if (text.length() < 2 || text.length() > 100) {
+				return ValidationError.ERROR_DATA_INVALID;
+			}
+			return ValidationError.NO_ERROR;
+		}
+	};
+
 }
