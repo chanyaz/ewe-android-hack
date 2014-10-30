@@ -61,7 +61,6 @@ public class HappyPathRotation extends PhoneTestCase {
 
 		FlightsCheckoutScreen.clickTravelerDetails();
 		screenshot("Checkout_Traveler");
-		rotateScreenTwice();
 		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
 		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
@@ -158,9 +157,6 @@ public class HappyPathRotation extends PhoneTestCase {
 		rotateScreenTwice();
 		Common.pressBack();
 		HotelsCheckoutScreen.clickGuestDetails();
-		screenshot("Add_Traveler");
-		rotateScreenTwice();
-		HotelsCheckoutScreen.clickAddTravelerButton();
 		screenshot("Checkout_Traveler");
 		CommonTravelerInformationScreen.enterFirstName("Mobiata");
 		CommonTravelerInformationScreen.enterLastName("Auto");

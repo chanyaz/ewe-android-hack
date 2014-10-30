@@ -62,7 +62,6 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 
 		//setup traveler info
 		HotelsCheckoutScreen.clickGuestDetails();
-		HotelsCheckoutScreen.clickAddTravelerButton();
 		CommonTravelerInformationScreen.enterFirstName("Mobiata");
 		CommonTravelerInformationScreen.enterLastName("Auto");
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");

@@ -46,7 +46,6 @@ public class ZipCodeValidationTest extends PhoneTestCase {
 		HotelsCheckoutScreen.clickCheckoutButton();
 
 		HotelsCheckoutScreen.clickGuestDetails();
-		HotelsCheckoutScreen.clickAddTravelerButton();
 		CommonTravelerInformationScreen.enterFirstName("Mobiata");
 		CommonTravelerInformationScreen.enterLastName("Auto");
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
