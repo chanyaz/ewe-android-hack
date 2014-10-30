@@ -67,8 +67,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 	}
 
 	private void verifyMissingTravelerInformationAlerts() {
-		onView(withText("Guest details")).perform(click());
-		HotelsCheckoutScreen.clickAddTravelerButton();
+		HotelsCheckoutScreen.clickGuestDetails();
 		CommonTravelerInformationScreen.clickDoneButton();
 		ScreenActions.enterLog(TAG, "Verifying all fields show error icon when empty and 'DONE' is pressed");
 		CommonTravelerInformationScreen.firstNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
