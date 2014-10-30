@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Hôtel Voyages-sncf</string>
     <string name="vsc_app_name">Hôtel Voyages-sncf</string>
+    <string name="app_vsc_info_url">http://www.voyages-sncf.com</string>
+    <string name="country_vs">VSC</string>
 </resources>
