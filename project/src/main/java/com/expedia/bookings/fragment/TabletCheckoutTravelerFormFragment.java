@@ -179,7 +179,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	public void bindToDb(int travelerNumber) {
-		if (mTravelerNumber != travelerNumber || Db.getWorkingTravelerManager().getWorkingTraveler() == null) {
+		if (mTravelerNumber != travelerNumber
+			|| Db.getWorkingTravelerManager().getWorkingTraveler() == null
+			&& Db.getTravelers() != null
+			&& travelerNumber < Db.getTravelers().size()) {
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(travelerNumber));
 		}
 		mTravelerNumber = travelerNumber;

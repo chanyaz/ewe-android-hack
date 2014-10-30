@@ -58,7 +58,7 @@ android {
     }
 
     defaultConfig {
-        versionCode 38
+        versionCode 39
         versionName "4.1"
         minSdkVersion 15
         targetSdkVersion 19
