@@ -55,6 +55,14 @@ public class DomainPreference extends ListPreference {
 	}
 
 	@Override
+	public CharSequence getSummary() {
+		PointOfSale info = PointOfSale.getPointOfSale(mContext);
+		final String country = mContext.getString(info.getCountryNameResId());
+		final String url = info.getUrl();
+		return country + " - " + url;
+	}
+
+	@Override
 	public CharSequence[] getEntries() {
 		return mEntries;
 	}
