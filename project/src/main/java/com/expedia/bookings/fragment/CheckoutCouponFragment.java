@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.app.ProgressDialog;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.squareup.otto.Subscribe;
 
 public class CheckoutCouponFragment extends LobableFragment implements OnClickListener, CouponDialogFragmentListener {
@@ -139,6 +141,24 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 		});
 
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REMOVE);
+	}
+
+	public void onReplaceCoupon(String couponCode) {
+		showReplacingWithWalletCouponDialog();
+		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, couponCode);
+	}
+
+	public void showReplacingWithWalletCouponDialog() {
+		mFragmentModLock.runWhenSafe(new Runnable() {
+			@Override
+			public void run() {
+				Fragment frag = getFragmentManager().findFragmentByTag("WALLET_REPLACE_DIALOG");
+				if (isResumed() && frag == null) {
+					SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_replaced_message));
+					df.show(getFragmentManager(), "WALLET_REPLACE_DIALOG");
+				}
+			}
+		});
 	}
 
 	public void showGoogleWalletCouponLoadingThrobber() {

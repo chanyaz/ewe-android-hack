@@ -69,6 +69,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		CREATE_TRIP,
 		COUPON_APPLY,
 		COUPON_REMOVE,
+		COUPON_REPLACE,
 		CHECKOUT
 	}
 
@@ -212,6 +213,12 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		case COUPON_REMOVE:
 			clearCoupon();
 			break;
+		case COUPON_REPLACE:
+			if (mCouponCode == null) {
+				throw new RuntimeException("Coupon Code is null or not set. Please call startDownload(HotelBookingState, String) instead and pass the coupon code.");
+			}
+			startReplaceCouponDownloadProcess(mCouponCode);
+			break;
 		case CHECKOUT:
 			Events.post(new Events.BookingDownloadStarted());
 			if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
@@ -230,6 +237,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		if (state == HotelBookingState.COUPON_APPLY) {
 			mCouponCode = couponCode;
 			startDownload(HotelBookingState.COUPON_APPLY);
+		}
+		else if (state == HotelBookingState.COUPON_REPLACE) {
+			mCouponCode = couponCode;
+			startDownload(HotelBookingState.COUPON_REPLACE);
 		}
 		else {
 			startDownload(state);
@@ -680,6 +691,34 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				Db.saveTripBucket(getActivity());
 				OmnitureTracking.trackHotelCouponRemoved(getActivity());
 				Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
+			}
+		}
+	};
+
+	/*******************************
+	 * Replacing coupon
+	 * Convenience method for setting an apply coupon call
+	 * as the callback to a remove coupon call. Only do this
+	 * if you really need to.
+	 *******************************/
+
+	private void startReplaceCouponDownloadProcess(String couponCode) {
+		mCouponCode = couponCode;
+		cancelHotelProductDownload();
+		cancelRemoveCouponDownloader();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.startDownload(KEY_DOWNLOAD_REMOVE_COUPON, mRemoveCouponDownload, mApplyCouponAfterRemovalCallback);
+	}
+
+
+	private final OnDownloadComplete<CreateTripResponse> mApplyCouponAfterRemovalCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			if (response == null || response.hasErrors()) {
+				handleCouponError(response);
+			}
+			else {
+				applyCoupon(mCouponCode);
 			}
 		}
 	};

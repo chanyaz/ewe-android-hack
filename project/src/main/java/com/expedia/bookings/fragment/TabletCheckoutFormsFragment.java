@@ -346,8 +346,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				}
 			}
 			else if (Db.getBillingInfo().hasStoredCard() && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				if (!Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
-					if (mCouponContainer != null) {
+				if (Db.getTripBucket().getHotel().isCouponApplied() && mCouponContainer != null) {
+					if (!Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+						mCouponContainer.onReplaceCoupon(WalletUtils.getWalletCouponCode(getActivity()));
+					}
+					else {
 						applyWalletCoupon();
 					}
 				}
