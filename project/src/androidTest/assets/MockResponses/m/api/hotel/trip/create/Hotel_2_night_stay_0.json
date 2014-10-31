@@ -175,5 +175,10 @@
       "isVipAccess": false
    },
    "airAttachedProductResponse": {},
-   "tealeafTransactionId": "tealeafHotel:${productKey}"
+   "tealeafTransactionId": "tealeafHotel:${productKey}",
+   "validFormsOfPayment": [
+      {
+         "name": "Visa"
+      }
+   ]
 }
