@@ -27,10 +27,10 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.widget.BucketItemUndoController;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.widget.UndoBarController;
 
 
 /**
@@ -91,10 +91,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		int undoDividerPadding = (int) getResources().getDimension(R.dimen.undo_bar_divider_padding);
 		mHotelUndo.setDividerPadding(undoDividerPadding);
 		mFlightUndo.setDividerPadding(undoDividerPadding);
-
-		// Because we share the base XML, I couldn't just set this visibility there.
-		mHotelUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);
-		mFlightUndo.findViewById(com.mobiata.android.R.id.undobar_button).setVisibility(View.INVISIBLE);
 
 		return mRootC;
 	}
@@ -264,7 +260,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	public void tripBucketItemRemoved(final TripBucketItem item) {
 		View undoView = item.getLineOfBusiness() == LineOfBusiness.FLIGHTS ? mFlightUndo : mHotelUndo;
-		BucketItemUndoController undoBar = new BucketItemUndoController(undoView, this);
+		UndoBarController undoBar = new UndoBarController(undoView, this);
 		undoBar.setAdditionalAnimationCallBack(undoBarListener);
 
 		// Cache removed item in Bundle.
@@ -307,7 +303,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	}
 
 	// We need to bind the entire TripBucket back to DB once the animation ends.
-	private BucketItemUndoController.AnimationListenerAdapter undoBarListener = new BucketItemUndoController.AnimationListenerAdapter() {
+	private UndoBarController.AnimationListenerAdapter undoBarListener = new UndoBarController.AnimationListenerAdapter() {
 		@Override
 		public void onAnimationEnd(Animation animation) {
 			TripBucket tb = Db.getTripBucket();
