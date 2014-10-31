@@ -1587,6 +1587,11 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
+	public static void trackAddHotelClick(Context context, LineOfBusiness lob) {
+		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.AddHotel";
+		internalTrackLink(context, link);
+	}
+
 	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {
 		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
 		internalTrackLink(context, link);

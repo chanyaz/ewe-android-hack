@@ -1478,6 +1478,20 @@
     <string name="add_insurance">Add Insurance</string>
     <!-- Insurance -->
     <string name="insurance">Insurance</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Because you booked a flight</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">Save up to 55% on a hotel.</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Offer expires in</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d days</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Add Hotel</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">with discounts</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
