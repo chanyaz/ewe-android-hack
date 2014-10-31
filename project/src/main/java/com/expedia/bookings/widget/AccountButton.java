@@ -226,10 +226,11 @@ public class AccountButton extends LinearLayout {
 
 		CharSequence pointsText = "";
 		if (!TextUtils.isEmpty(points)) {
+			mRewardsTextView.setVisibility(View.VISIBLE);
 			pointsText = Html.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, points));
 		}
 		else if (traveler.isLoyaltyMember()) {
-			pointsText = mContext.getString(R.string.youll_earn_bonus_points_for_this_booking);
+			mRewardsTextView.setVisibility(View.GONE);
 		}
 
 		// If we should show rewards
