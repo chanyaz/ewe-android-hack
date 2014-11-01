@@ -41,7 +41,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.Log;
 
@@ -87,12 +87,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	//Containers
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
-	private FrameLayoutTouchController mDetailsC;
-	private FrameLayoutTouchController mFiltersC;
+	private TouchableFrameLayout mDetailsC;
+	private TouchableFrameLayout mFiltersC;
 	private RelativeLayout mListColumnC;
-	private FrameLayoutTouchController mListC;
-	private FrameLayoutTouchController mNextLegC;
-	private FrameLayoutTouchController mLastLegC;
+	private TouchableFrameLayout mListC;
+	private TouchableFrameLayout mNextLegC;
+	private TouchableFrameLayout mLastLegC;
 	private TextView mLastLegHeader;
 
 	//Views

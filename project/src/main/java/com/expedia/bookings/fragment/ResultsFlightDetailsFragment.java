@@ -37,7 +37,7 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
@@ -65,7 +65,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	private Flight mFlight;
 
 	// Views
-	private FrameLayoutTouchController mRootC;
+	private TouchableFrameLayout mRootC;
 	private ViewGroup mDetailsC;
 	private ScrollView mScrollC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;

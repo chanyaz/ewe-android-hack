@@ -22,7 +22,7 @@
 
     <!-- The sticky header view -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/sticky_header_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/results_list_header_height"
@@ -53,6 +53,6 @@
             android:textSize="12dp"
             android:textAllCaps="true"
             app:textStyle="bold" />
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
+    </com.expedia.bookings.widget.TouchableFrameLayout>
 
 </FrameLayout>

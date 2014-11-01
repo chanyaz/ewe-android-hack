@@ -42,7 +42,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.TextView;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -69,9 +69,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private ViewGroup mRootC;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mWaypointC;
-	private FrameLayoutTouchController mPinDetailC;
+	private TouchableFrameLayout mPinDetailC;
 	private ViewGroup mTilesC;
-	private FrameLayoutTouchController mNoConnectivityContainer;
+	private TouchableFrameLayout mNoConnectivityContainer;
 
 	// Fragments
 	private TabletLaunchMapFragment mMapFragment;

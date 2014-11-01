@@ -38,7 +38,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -65,7 +65,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	private ViewGroup mBucketFlightContainer;
 	private ViewGroup mBucketFlightContainerContainer;
 	private ViewGroup mPortraitShowHideContainer;
-	private FrameLayoutTouchController mTouchBlocker;
+	private TouchableFrameLayout mTouchBlocker;
 
 	// Views
 	private ViewGroup mBucketContainer;

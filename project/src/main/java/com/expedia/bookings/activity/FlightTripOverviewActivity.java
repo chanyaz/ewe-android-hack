@@ -52,7 +52,7 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
@@ -83,7 +83,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private ViewGroup mContentRoot;
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
-	private FrameLayoutTouchController mCheckoutBlocker;
+	private TouchableFrameLayout mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
 	private ImageView mBgImageView;
 

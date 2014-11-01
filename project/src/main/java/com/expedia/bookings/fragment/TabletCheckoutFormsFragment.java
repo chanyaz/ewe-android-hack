@@ -56,7 +56,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -102,7 +102,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private ViewGroup mTravelerFormC;
 	private ViewGroup mPaymentFormC;
 	private View mPaymentView;
-	private FrameLayoutTouchController mTouchBlocker;
+	private TouchableFrameLayout mTouchBlocker;
 
 	private CheckoutInformationListener mCheckoutInfoListener;
 

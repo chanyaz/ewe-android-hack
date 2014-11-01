@@ -36,7 +36,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.util.NetUtils;
 
 /**
@@ -62,7 +62,7 @@ public class TabletWaypointFragment extends Fragment
 	private CurrentLocationFragment mLocationFragment;
 
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mBg;
+	private TouchableFrameLayout mBg;
 	private View mCancelButton;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;

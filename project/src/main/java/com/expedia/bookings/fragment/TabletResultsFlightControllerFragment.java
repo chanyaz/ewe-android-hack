@@ -46,7 +46,7 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.TextView;
 import com.squareup.otto.Subscribe;
 
@@ -71,10 +71,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Containers
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mFlightMapC;
-	private FrameLayoutTouchController mFlightLegsC;
-	private FrameLayoutTouchController mLoadingC;
-	private FrameLayoutTouchController mSearchErrorC;
+	private TouchableFrameLayout mFlightMapC;
+	private TouchableFrameLayout mFlightLegsC;
+	private TouchableFrameLayout mLoadingC;
+	private TouchableFrameLayout mSearchErrorC;
 	private FrameLayout mRouteDescriptionC;
 
 	private ArrayList<View> mVisibilityControlledViews = new ArrayList<View>();
@@ -359,12 +359,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 
 		for (View vg : mVisibilityControlledViews) {
-			if (vg instanceof FrameLayoutTouchController) {
+			if (vg instanceof TouchableFrameLayout) {
 				if (touchableViews.contains(vg)) {
-					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(false);
+					((TouchableFrameLayout) vg).setBlockNewEventsEnabled(false);
 				}
 				else {
-					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(true);
+					((TouchableFrameLayout) vg).setBlockNewEventsEnabled(true);
 				}
 			}
 		}

@@ -21,15 +21,12 @@ import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItem;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -63,7 +60,7 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -90,7 +87,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_BOOKING_UNAVAILABLE = "FRAG_TAG_BOOKING_UNAVAILABLE";
 
 	// Containers
-	private FrameLayoutTouchController mRootC;
+	private TouchableFrameLayout mRootC;
 	private ViewGroup mSlideContainer;
 	private ViewGroup mFormContainer;
 	private ViewGroup mCvvContainer;

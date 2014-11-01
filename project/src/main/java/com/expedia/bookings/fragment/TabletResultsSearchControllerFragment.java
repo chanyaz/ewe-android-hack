@@ -51,7 +51,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
@@ -92,15 +92,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	//Containers
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mSearchBarC;
-	private FrameLayoutTouchController mBottomRightC;
-	private FrameLayoutTouchController mBottomCenterC;
+	private TouchableFrameLayout mSearchBarC;
+	private TouchableFrameLayout mBottomRightC;
+	private TouchableFrameLayout mBottomCenterC;
 
 	//Fragment Containers
-	private FrameLayoutTouchController mCalC;
-	private FrameLayoutTouchController mTravC;
-	private FrameLayoutTouchController mWaypointC;
-	private FrameLayoutTouchController mGdeC;
+	private TouchableFrameLayout mCalC;
+	private TouchableFrameLayout mTravC;
+	private TouchableFrameLayout mWaypointC;
+	private TouchableFrameLayout mGdeC;
 	private View mTravPickWhiteSpace;
 
 	//Search action buttons
