@@ -222,13 +222,21 @@
 
                 <!-- Hotel image (#1822) -->
 
-                <ImageView
-                    android:id="@+id/hotel_header_image"
+                <FrameLayout
+                    android:id="@+id/hotel_header_image_touch_target"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#2a2a2a"
-                    android:scaleType="centerCrop"
-                    android:src="?attr/hotelImagePlaceHolderDrawable" />
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:id="@+id/hotel_header_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#2a2a2a"
+                        android:scaleType="centerCrop"
+                        android:src="?attr/hotelImagePlaceHolderDrawable" />
+
+                </FrameLayout>
 
                 <!-- Gradient mask over just the hotel picture -->
 

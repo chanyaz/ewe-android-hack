@@ -273,10 +273,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void prepareDetailsForInfo(View view, Property property) {
+		View hotelImageTouchTarget = Ui.findView(view, R.id.hotel_header_image_touch_target);
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 
-		hotelImage.setOnClickListener(mGalleryButtonClickedListener);
+		hotelImageTouchTarget.setOnClickListener(mGalleryButtonClickedListener);
 
 		// Hotel Name
 		hotelName.setText(property.getName());
@@ -822,15 +823,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		float shift = image - header;
 		float target = (mSavedScrollPosition - shift) * -percentage + mSavedScrollPosition;
 		mScrollView.scrollTo(0, (int) target);
-	}
-
-	public Rect getHotelHeaderImageLocationInWindow() {
-		ImageView hotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
-		int[] location = new int[2];
-		hotelImage.getLocationInWindow(location);
-		final int x = location[0];
-		final int y = location[1];
-		return new Rect(x, y, x + hotelImage.getWidth(), y + hotelImage.getHeight());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
