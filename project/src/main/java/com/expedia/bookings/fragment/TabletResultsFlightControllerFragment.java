@@ -46,8 +46,8 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
-import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.squareup.otto.Subscribe;
 
 /**

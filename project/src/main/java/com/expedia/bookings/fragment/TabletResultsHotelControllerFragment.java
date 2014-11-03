@@ -358,8 +358,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelListC.setVisibility(View.VISIBLE);
 		mLoadingC.setVisibility(
 			hotelsState == ResultsHotelsState.LOADING
-			? View.VISIBLE
-			: View.INVISIBLE);
+				? View.VISIBLE
+				: View.INVISIBLE);
 
 		if (hotelsState.isShowMessageState()) {
 			mSearchErrorC.setVisibility(View.VISIBLE);
@@ -403,19 +403,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			mHotelDetailsC.setVisibility(
 				hotelsState == ResultsHotelsState.ROOMS_AND_RATES
-				|| hotelsState == ResultsHotelsState.GALLERY
-				? View.VISIBLE
-				: View.INVISIBLE);
+					|| hotelsState == ResultsHotelsState.GALLERY
+					? View.VISIBLE
+					: View.INVISIBLE);
 
 			mHotelReviewsC.setVisibility(
 				hotelsState == ResultsHotelsState.REVIEWS
-				? View.VISIBLE
-				: View.INVISIBLE);
+					? View.VISIBLE
+					: View.INVISIBLE);
 
 			mHotelGalleryC.setVisibility(
 				hotelsState == ResultsHotelsState.GALLERY
-				? View.VISIBLE
-				: View.INVISIBLE
+					? View.VISIBLE
+					: View.INVISIBLE
 			);
 		}
 	}

@@ -97,7 +97,7 @@ public class TabletWaypointFragment extends Fragment
 			mHasBackground = savedInstanceState.getBoolean(STATE_HAS_BACKGROUND);
 			mWayPointString = savedInstanceState.getString(STATE_WAYPOINT_EDIT_TEXT);
 		}
-		
+
 		//The background wont let any touches pass through it...
 		mBg = Ui.findView(view, R.id.bg);
 		mBg.setConsumeTouch(true);
@@ -152,15 +152,15 @@ public class TabletWaypointFragment extends Fragment
 			}
 		});
 
-		mCancelButton.setOnClickListener(new View.OnClickListener(){
+		mCancelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Fragment parent = getParentFragment();
 				if (parent instanceof TabletLaunchControllerFragment) {
-					((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
+					((TabletLaunchControllerFragment) parent).setLaunchState(LaunchState.OVERVIEW, true);
 				}
 				else if (parent instanceof TabletResultsSearchControllerFragment) {
-					((TabletResultsSearchControllerFragment)parent).setStateToBaseState(true);
+					((TabletResultsSearchControllerFragment) parent).setStateToBaseState(true);
 				}
 			}
 		});

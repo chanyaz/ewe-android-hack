@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -60,16 +59,12 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 	// Containers
 	private ViewGroup mRootC;
-	private ViewGroup mBucketHotelContainer;
-	private ViewGroup mBucketHotelContainerContainer;
-	private ViewGroup mBucketFlightContainer;
 	private ViewGroup mBucketFlightContainerContainer;
 	private ViewGroup mPortraitShowHideContainer;
 	private TouchableFrameLayout mTouchBlocker;
 
 	// Views
 	private ViewGroup mBucketContainer;
-	private ScrollView mBucketScrollView;
 	private View mBucketDimmer;
 	private View mBucketShowHideButton;
 	private View mCollapsedIndicator;
@@ -117,14 +112,10 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_trip_bucket_controller, null, false);
 
-		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
-		mBucketHotelContainerContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container_container);
-		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
 		mBucketFlightContainerContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container_container);
 
 		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
 		mPortraitShowHideContainer = Ui.findView(mRootC, R.id.trip_bucket_show_hide_container);
-		mBucketScrollView = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketDimmer = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
 		mTouchBlocker = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
 		mCollapsedIndicator = Ui.findView(mRootC, R.id.collapsed_indicator);

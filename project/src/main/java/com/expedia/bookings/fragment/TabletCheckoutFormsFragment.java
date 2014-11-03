@@ -56,8 +56,8 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
-import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.SizeCopyView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
@@ -230,52 +230,58 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
-		if (tag == FRAG_TAG_TRAVELER_FORM) {
+		switch (tag) {
+
+		case FRAG_TAG_TRAVELER_FORM:
 			return mTravelerForm;
-		}
-		else if (tag == FRAG_TAG_PAYMENT_FORM) {
+
+		case FRAG_TAG_PAYMENT_FORM:
 			return mPaymentForm;
-		}
-		else if (tag == FRAG_TAG_LOGIN_BUTTONS) {
+
+		case FRAG_TAG_LOGIN_BUTTONS:
 			return mLoginButtons;
-		}
-		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
+
+		case FRAG_TAG_PAYMENT_BUTTON:
 			return mPaymentButton;
-		}
-		else if (tag == FRAG_TAG_COUPON_CONTAINER) {
+
+		case FRAG_TAG_COUPON_CONTAINER:
 			return mCouponContainer;
-		}
-		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_HOTEL) {
+
+		case FRAG_TAG_HORIZONTAL_ITEM_HOTEL:
 			return mHorizontalHotelFrag;
-		}
-		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_FLIGHT) {
+
+		case FRAG_TAG_HORIZONTAL_ITEM_FLIGHT:
 			return mHorizontalFlightFrag;
+
 		}
 		return null;
 	}
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FRAG_TAG_TRAVELER_FORM) {
+		switch (tag) {
+
+		case FRAG_TAG_TRAVELER_FORM:
 			return TabletCheckoutTravelerFormFragment.newInstance(getLob());
-		}
-		else if (tag == FRAG_TAG_PAYMENT_FORM) {
+
+		case FRAG_TAG_PAYMENT_FORM:
 			return TabletCheckoutPaymentFormFragment.newInstance(getLob());
-		}
-		else if (tag == FRAG_TAG_LOGIN_BUTTONS) {
+
+		case FRAG_TAG_LOGIN_BUTTONS:
 			return CheckoutLoginButtonsFragment.newInstance(getLob());
-		}
-		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
+
+		case FRAG_TAG_PAYMENT_BUTTON:
 			return PaymentButtonFragment.newInstance(getLob());
-		}
-		else if (tag == FRAG_TAG_COUPON_CONTAINER) {
+
+		case FRAG_TAG_COUPON_CONTAINER:
 			return CheckoutCouponFragment.newInstance(getLob());
-		}
-		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_HOTEL) {
+
+		case FRAG_TAG_HORIZONTAL_ITEM_HOTEL:
 			return TripBucketHorizontalHotelFragment.newInstance();
-		}
-		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_FLIGHT) {
+
+		case FRAG_TAG_HORIZONTAL_ITEM_FLIGHT:
 			return TripBucketHorizontalFlightFragment.newInstance();
+
 		}
 		return null;
 	}

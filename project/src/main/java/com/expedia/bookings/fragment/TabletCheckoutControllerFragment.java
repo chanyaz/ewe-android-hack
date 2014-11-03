@@ -114,7 +114,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
 
-	private boolean mAnimateState = false;
 	private boolean mCheckoutInformationIsValid = false;
 
 	//vars
@@ -325,7 +324,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	 */
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
-		mAnimateState = animate;
 		mStateManager.setState(state, animate);
 	}
 
