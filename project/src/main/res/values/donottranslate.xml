@@ -23,6 +23,11 @@
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">131538103586818</string>
 
+    <!-- Lean Plum SDK -->
+    <string name="lean_plum_sdk_app_id">iP8YMOTxnTNTBS7oclci3OIxWAKL8hXJyx84GepS09s</string>
+    <string name="lean_plum_sdk_dev_key">nKAaL3XpW5WsFx8kv8UjvDRjtYD0C3jGPDLSIamlFZ4</string>
+    <string name="lean_plum_sdk_prod_key">nElB5Kk7BcxwNJh0ytOoczAcYgRBdcjcTNQWZRWNIZ0</string>
+
     <!-- Default AccountManager token -->
     <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
 

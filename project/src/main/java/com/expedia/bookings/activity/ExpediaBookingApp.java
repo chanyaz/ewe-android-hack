@@ -34,6 +34,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AdvertisingIdUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.SocketActivityHierarchyServer;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -150,6 +151,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			myConfig.locale = locale;
 			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
 			startupTimer.addSplit("Force locale to " + locale.getLanguage());
+		}
+
+		if (IS_EXPEDIA) {
+			LeanPlumUtils.init(this);
+			startupTimer.addSplit("LeanPlum started.");
 		}
 
 		FontCache.initialize(this);
