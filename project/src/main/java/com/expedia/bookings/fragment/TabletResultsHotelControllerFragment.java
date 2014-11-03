@@ -752,10 +752,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	public TouchableFrameLayout.TouchListener mMapTouchListener = new TouchableFrameLayout.TouchListener() {
 		@Override
-		public void onTouch() {
+		public void onInterceptTouch(MotionEvent ev) {
 			if (getHotelsState() == ResultsHotelsState.HOTEL_LIST_UP && !mGrid.isLandscape()) {
 				setHotelsState(ResultsHotelsState.MAP, true);
 			}
+		}
+
+		@Override
+		public void onTouch(MotionEvent ev) {
+			// ignore
 		}
 	};
 
@@ -768,7 +773,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	public TouchableFrameLayout.TouchListener mMapDimmerTouchListener = new TouchableFrameLayout.TouchListener() {
 		@Override
-		public void onTouch() {
+		public void onInterceptTouch(MotionEvent ev) {
 			if (getHotelsState() == ResultsHotelsState.ROOMS_AND_RATES) {
 				if (mGrid.isLandscape()) {
 					setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
@@ -777,6 +782,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					setHotelsState(ResultsHotelsState.MAP, true);
 				}
 			}
+		}
+
+		@Override
+		public void onTouch(MotionEvent ev) {
+			// ignore
 		}
 	};
 

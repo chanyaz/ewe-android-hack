@@ -21,18 +21,10 @@ import com.mobiata.android.util.Ui;
 public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 
 	private static final float ZOOM_LEVEL = 13;
-	private HotelMiniMapFragmentListener mListener;
 	private GoogleMap mMap;
 
 	public static HotelDetailsMiniMapFragment newInstance() {
 		return new HotelDetailsMiniMapFragment();
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mListener = Ui.findFragmentListener(this, HotelMiniMapFragmentListener.class);
 	}
 
 	@Override
@@ -42,16 +34,8 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 		mMap = getMap();
 
 		// Initial configuration
-		mMap.getUiSettings().setMyLocationButtonEnabled(true);
+		mMap.getUiSettings().setMyLocationButtonEnabled(false);
 		mMap.getUiSettings().setZoomControlsEnabled(false);
-		mMap.getUiSettings().setZoomGesturesEnabled(false);
-
-		mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-			@Override
-			public void onMapClick(LatLng latLng) {
-				mListener.onMiniMapClicked();
-			}
-		});
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Property searchProperty = Db.getHotelSearch().getSelectedProperty();
@@ -81,9 +65,5 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 	private void checkIfSearchIsCurrentLocation(HotelSearchParams searchParams) {
 		boolean showCurrentLocation = searchParams.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION;
 		mMap.setMyLocationEnabled(showCurrentLocation);
-	}
-
-	public interface HotelMiniMapFragmentListener {
-		public void onMiniMapClicked();
 	}
 }

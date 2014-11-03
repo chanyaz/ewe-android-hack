@@ -46,7 +46,7 @@
                     android:layout_height="@dimen/hotel_details_map_visible_size"
                     android:layout_margin="12dp"
                     android:background="@drawable/map_frame">
-                    <FrameLayout
+                    <com.expedia.bookings.widget.TouchableFrameLayout
                         android:id="@+id/hotel_details_map_fragment_container"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/hotel_details_map_total_size"/>

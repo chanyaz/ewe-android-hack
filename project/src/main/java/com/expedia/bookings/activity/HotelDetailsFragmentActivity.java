@@ -37,7 +37,6 @@ import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment.HotelMiniGalleryFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
-import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -45,13 +44,14 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
+import com.expedia.bookings.widget.HotelDetailsScrollView.HotelDetailsMiniMapClickedListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 
-public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelMiniMapFragmentListener,
+public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
 		HotelMiniGalleryFragmentListener {
 
 	// Tags for this activity's fragments
@@ -390,6 +390,11 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 		}
 
+		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
+		if (scrollView != null) {
+			scrollView.setHotelDetailsMiniMapClickedListener(this);
+		}
+
 		initLandscapeGalleryLayout();
 	}
 
@@ -553,10 +558,10 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// HotelMiniMapFragmentListener implementation
+	// HotelDetailsMiniMapClickedListener implementation
 
 	@Override
-	public void onMiniMapClicked() {
+	public void onHotelDetailsMiniMapClicked() {
 		Intent intent = HotelMapActivity.createIntent(this);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
