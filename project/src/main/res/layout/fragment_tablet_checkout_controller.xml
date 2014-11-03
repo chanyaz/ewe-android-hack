@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.FrameLayoutTouchController
+<com.expedia.bookings.widget.TouchableFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -74,4 +74,4 @@
         android:layout_marginTop="@dimen/tablet_checkout_trip_bucket_header_height"
         android:paddingTop="?android:attr/actionBarSize"/>
 
-</com.expedia.bookings.widget.FrameLayoutTouchController>
+</com.expedia.bookings.widget.TouchableFrameLayout>

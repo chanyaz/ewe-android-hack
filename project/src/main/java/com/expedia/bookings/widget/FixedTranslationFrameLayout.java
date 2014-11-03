@@ -10,7 +10,7 @@ import android.util.AttributeSet;
  * If we translate this container in the X direction, the child views appear fixed in place.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class FixedTranslationFrameLayout extends FrameLayoutTouchController {
+public class FixedTranslationFrameLayout extends TouchableFrameLayout {
 
 	public FixedTranslationFrameLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -21,6 +21,7 @@ public class FixedTranslationFrameLayout extends FrameLayoutTouchController {
 	 * oposite translation on the x axis for its children, causing the
 	 * container bounds to be changed, but with the appearance that the
 	 * container content has remained in place.
+	 *
 	 * @param translationX
 	 */
 	@Override

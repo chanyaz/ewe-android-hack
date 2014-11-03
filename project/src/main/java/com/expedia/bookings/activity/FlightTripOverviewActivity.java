@@ -32,13 +32,13 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.FlightTripPriceFragment.FlightTripPriceFragmentListener;
+import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.WalletFragment;
@@ -52,10 +52,10 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -83,7 +83,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private ViewGroup mContentRoot;
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
-	private FrameLayoutTouchController mCheckoutBlocker;
+	private TouchableFrameLayout mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
 	private ImageView mBgImageView;
 
@@ -148,7 +148,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/ , true /*checkdisk*/);
+		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/, true /*checkdisk*/);
 		if (bitmap != null) {
 			onBitmapLoaded(bitmap);
 		}

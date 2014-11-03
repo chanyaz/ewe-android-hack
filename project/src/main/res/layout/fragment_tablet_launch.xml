@@ -62,14 +62,14 @@
         android:visibility="invisible"
         android:background="@color/launch_pin_detail_background"/>
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/pin_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
         android:background="@color/launch_pin_detail_background"/>
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/no_connectivity_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -118,6 +118,6 @@
                 android:textColor="#ffffff"
                 app:textStyle="light"/>
         </LinearLayout>
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
+    </com.expedia.bookings.widget.TouchableFrameLayout>
 
 </FrameLayout>

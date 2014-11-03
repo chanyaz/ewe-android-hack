@@ -57,7 +57,7 @@
 
     <!-- Overlay for editing of a single checkout form: travelers, payment -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/forms_touch_blocker"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingTop="?android:attr/actionBarSize" >
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/trip_bucket_dimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -60,8 +60,8 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
@@ -96,10 +96,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	//Containers..
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mBgDestImageC;
-	private FrameLayoutTouchController mTripBucketC;
-	private FrameLayoutTouchController mFlightsC;
-	private FrameLayoutTouchController mHotelC;
+	private TouchableFrameLayout mBgDestImageC;
+	private TouchableFrameLayout mTripBucketC;
+	private TouchableFrameLayout mFlightsC;
+	private TouchableFrameLayout mHotelC;
 	private ViewGroup mSearchC;
 
 	private View mShadeView;

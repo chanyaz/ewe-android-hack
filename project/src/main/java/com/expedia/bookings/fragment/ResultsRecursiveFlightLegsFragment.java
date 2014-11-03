@@ -41,8 +41,8 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 
 /**
@@ -87,12 +87,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	//Containers
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
-	private FrameLayoutTouchController mDetailsC;
-	private FrameLayoutTouchController mFiltersC;
+	private TouchableFrameLayout mDetailsC;
+	private TouchableFrameLayout mFiltersC;
 	private RelativeLayout mListColumnC;
-	private FrameLayoutTouchController mListC;
-	private FrameLayoutTouchController mNextLegC;
-	private FrameLayoutTouchController mLastLegC;
+	private TouchableFrameLayout mListC;
+	private TouchableFrameLayout mNextLegC;
+	private TouchableFrameLayout mLastLegC;
 	private TextView mLastLegHeader;
 
 	//Views
@@ -335,7 +335,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
 				setState(ResultsFlightLegState.LATER_LEG, true);
-				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1 );
+				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1);
 			}
 		}
 		if (mParentLegSelectedListener != null) {
@@ -355,7 +355,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
-			float percentage) {
+											float percentage) {
 			updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
 		}
 
@@ -404,7 +404,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (getState() == ResultsFlightLegState.LATER_LEG && stateOne == ResultsFlightLegState.DETAILS
 				&& stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
 				updateStateTransition(ResultsFlightLegState.LATER_LEG, ResultsFlightLegState.ADDING_TO_TRIP,
@@ -440,7 +440,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 
 		}
 
@@ -481,7 +481,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				updateStateTransition(ResultsFlightLegState.ADDING_TO_TRIP, ResultsFlightLegState.LIST_DOWN,
@@ -568,7 +568,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (stateOne == ResultsFlightLegState.LIST_DOWN && stateTwo == ResultsFlightLegState.FILTERS) {
 				showFiltersPercentage(percentage);
 			}
@@ -1298,7 +1298,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public void updateStateTransition(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-		float percentage) {
+									  float percentage) {
 		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 

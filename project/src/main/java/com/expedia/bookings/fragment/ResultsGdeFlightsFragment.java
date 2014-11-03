@@ -30,8 +30,8 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -48,7 +48,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private static final String FTAG_GDE_DOWNLOADER = "FTAG_GDE_DOWNLOADER";
 
 	private View mRootC;
-	private FrameLayoutTouchController mHistogramC;
+	private TouchableFrameLayout mHistogramC;
 
 	private CenteredCaptionedIcon mGdeErrorMessageView;
 	private TextView mGdeHeaderTv;

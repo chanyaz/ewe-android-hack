@@ -51,7 +51,7 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.TimingLogger;
 import com.squareup.otto.Subscribe;
@@ -86,17 +86,17 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	// Containers
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mHotelListC;
-	private FrameLayoutTouchController mBgHotelMapC;
-	private FrameLayoutTouchController mBgHotelMapTouchDelegateC;
-	private FrameLayoutTouchController mHotelFiltersC;
-	private FrameLayoutTouchController mHotelFilteredCountC;
-	private FrameLayoutTouchController mHotelDetailsC;
-	private FrameLayoutTouchController mHotelReviewsC;
-	private FrameLayoutTouchController mHotelGalleryC;
-	private FrameLayoutTouchController mLoadingC;
-	private FrameLayoutTouchController mSearchErrorC;
-	private FrameLayoutTouchController mMapDimmer;
+	private TouchableFrameLayout mHotelListC;
+	private TouchableFrameLayout mBgHotelMapC;
+	private TouchableFrameLayout mBgHotelMapTouchDelegateC;
+	private TouchableFrameLayout mHotelFiltersC;
+	private TouchableFrameLayout mHotelFilteredCountC;
+	private TouchableFrameLayout mHotelDetailsC;
+	private TouchableFrameLayout mHotelReviewsC;
+	private TouchableFrameLayout mHotelGalleryC;
+	private TouchableFrameLayout mLoadingC;
+	private TouchableFrameLayout mSearchErrorC;
+	private TouchableFrameLayout mMapDimmer;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;
@@ -358,8 +358,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelListC.setVisibility(View.VISIBLE);
 		mLoadingC.setVisibility(
 			hotelsState == ResultsHotelsState.LOADING
-			? View.VISIBLE
-			: View.INVISIBLE);
+				? View.VISIBLE
+				: View.INVISIBLE);
 
 		if (hotelsState.isShowMessageState()) {
 			mSearchErrorC.setVisibility(View.VISIBLE);
@@ -403,19 +403,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			mHotelDetailsC.setVisibility(
 				hotelsState == ResultsHotelsState.ROOMS_AND_RATES
-				|| hotelsState == ResultsHotelsState.GALLERY
-				? View.VISIBLE
-				: View.INVISIBLE);
+					|| hotelsState == ResultsHotelsState.GALLERY
+					? View.VISIBLE
+					: View.INVISIBLE);
 
 			mHotelReviewsC.setVisibility(
 				hotelsState == ResultsHotelsState.REVIEWS
-				? View.VISIBLE
-				: View.INVISIBLE);
+					? View.VISIBLE
+					: View.INVISIBLE);
 
 			mHotelGalleryC.setVisibility(
 				hotelsState == ResultsHotelsState.GALLERY
-				? View.VISIBLE
-				: View.INVISIBLE
+					? View.VISIBLE
+					: View.INVISIBLE
 			);
 		}
 	}
@@ -750,7 +750,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 * HotelMapFragmentListener
 	 */
 
-	public FrameLayoutTouchController.TouchControlListener mMapTouchListener = new FrameLayoutTouchController.TouchControlListener() {
+	public TouchableFrameLayout.TouchListener mMapTouchListener = new TouchableFrameLayout.TouchListener() {
 		@Override
 		public void onTouch() {
 			if (getHotelsState() == ResultsHotelsState.HOTEL_LIST_UP && !mGrid.isLandscape()) {
@@ -761,12 +761,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	/**
 	 * MapDimmer FrameLayout is visible when state is set to {@link ResultsHotelsState#ROOMS_AND_RATES} i.e. below the HotelDetailsFragment.
-	 * This is a {@link FrameLayoutTouchController.TouchControlListener} that listens to user touches/taps on the MapDimmer view.
+	 * This is a {@link TouchableFrameLayout.TouchListener} that listens to user touches/taps on the MapDimmer view.
 	 * <p/>
 	 * When user taps on this view when in {@link ResultsHotelsState#ROOMS_AND_RATES} let's close hotel details view and show more of the map.
 	 */
 
-	public FrameLayoutTouchController.TouchControlListener mMapDimmerTouchListener = new FrameLayoutTouchController.TouchControlListener() {
+	public TouchableFrameLayout.TouchListener mMapDimmerTouchListener = new TouchableFrameLayout.TouchListener() {
 		@Override
 		public void onTouch() {
 			if (getHotelsState() == ResultsHotelsState.ROOMS_AND_RATES) {

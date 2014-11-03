@@ -12,25 +12,25 @@ import com.expedia.bookings.utils.TouchControlHelper;
 /**
  * A FrameLayout that takes advantage of TouchControlHelper.
  */
-public class FrameLayoutTouchController extends FrameLayout {
+public class TouchableFrameLayout extends FrameLayout {
 
-	public interface TouchControlListener {
+	public interface TouchListener {
 		public void onTouch();
 	}
 
 	TouchControlHelper mTouchHelper = new TouchControlHelper();
 
-	TouchControlListener mTouchControlListener;
+	TouchListener mTouchListener;
 
-	public FrameLayoutTouchController(Context context) {
+	public TouchableFrameLayout(Context context) {
 		super(context);
 	}
 
-	public FrameLayoutTouchController(Context context, AttributeSet attrs) {
+	public TouchableFrameLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public FrameLayoutTouchController(Context context, AttributeSet attrs, int defStyle) {
+	public TouchableFrameLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
@@ -58,8 +58,8 @@ public class FrameLayoutTouchController extends FrameLayout {
 		mTouchHelper.setPreventMashing(enabled, touchCooldownMs);
 	}
 
-	public void setTouchControlListener(TouchControlListener listener) {
-		mTouchControlListener = listener;
+	public void setTouchControlListener(TouchListener listener) {
+		mTouchListener = listener;
 	}
 
 	public void setLoggingEnabled(boolean enabled) {
@@ -72,8 +72,8 @@ public class FrameLayoutTouchController extends FrameLayout {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (mTouchControlListener != null) {
-			mTouchControlListener.onTouch();
+		if (mTouchListener != null) {
+			mTouchListener.onTouch();
 		}
 
 		Pair<Boolean, Boolean> touchControl = mTouchHelper.onInterceptTouchEvent(ev);

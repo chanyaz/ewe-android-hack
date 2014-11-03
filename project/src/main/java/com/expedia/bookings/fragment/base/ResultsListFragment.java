@@ -21,9 +21,9 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -37,7 +37,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private View mRootC;
 	private FruitList mListView;
 	private String mListViewContentDescription;
-	private FrameLayoutTouchController mStickyHeader;
+	private TouchableFrameLayout mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
 
@@ -48,13 +48,9 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private boolean mLockedToTop = false;
 	private int mTopSpacePixels = 0;
 
-	private IBackButtonLockListener mBackLockListener;
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		mBackLockListener = Ui.findFragmentListener(this, IBackButtonLockListener.class, true);
 
 		if (mStickyHeader != null) {
 			mStickyHeader.getViewTreeObserver().addOnPreDrawListener(mHeaderUpdater);
