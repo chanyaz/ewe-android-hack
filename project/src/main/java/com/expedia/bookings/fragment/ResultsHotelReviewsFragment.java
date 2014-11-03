@@ -29,7 +29,6 @@ import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
@@ -39,7 +38,6 @@ import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RowRoomRateLayout;
@@ -137,6 +135,12 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		super.onPause();
 		mMeasurementHelper.unregisterWithProvider(this);
 		Events.unregister(this);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mPagerAdapter.onSaveInstanceState(getActivity().getSupportFragmentManager(), outState);
 	}
 
 	private void bind(Property property) {
