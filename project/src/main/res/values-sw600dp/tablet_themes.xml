@@ -89,6 +89,10 @@
         <item name="android:src">@drawable/ic_tablet_overflow</item>
     </style>
 
+    <style name="V2.Widget.ActionBar.ActionButton.Overflow.White" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_tablet_overflow_white</item>
+    </style>
+
     <!-- FrameLayout styling -->
     <style name="V2.Widget.FrameLayout" />
 

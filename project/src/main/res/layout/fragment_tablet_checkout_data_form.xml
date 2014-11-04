@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="@drawable/bg_clickable_row"
+            android:background="@drawable/bg_tablet_clickable_button"
             android:drawableLeft="@drawable/ic_action_bar_checkmark_disabled"
             android:gravity="center_vertical"
             android:padding="16dp"
