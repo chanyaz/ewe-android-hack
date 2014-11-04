@@ -30,10 +30,14 @@
             android:background="#efefef" />
 
         <FrameLayout
-            android:id="@+id/hotel_details_map_fragment_container"
+            android:id="@+id/hotel_details_map_fragment_outer_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/hotel_details_map_visible_size" />
-
+            android:layout_height="@dimen/hotel_details_map_visible_size">
+            <com.expedia.bookings.widget.TouchableFrameLayout
+                android:id="@+id/hotel_details_map_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hotel_details_map_total_size"/>
+        </FrameLayout>
         <FrameLayout
             android:id="@+id/hotel_details_description_fragment_container"
             android:layout_width="match_parent"
