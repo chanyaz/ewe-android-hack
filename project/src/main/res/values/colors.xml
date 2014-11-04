@@ -108,6 +108,7 @@
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
     <color name="bg_row_state_pressed">#f0f0f0</color>
+    <color name="bg_user_rating_button_pressed">#b4f0f0f0</color>
     <color name="bg_payment_row_state_pressed">#33000000</color>
     <color name="text_shadow_color">#a5ffffff</color>
     <color name="text_dark">#ff545454</color>

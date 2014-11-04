@@ -116,7 +116,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mMobileExclusiveContainer = Ui.findView(mRootC, R.id.mobile_exclusive_container);
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
-		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		mScrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);

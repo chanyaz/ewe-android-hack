@@ -99,6 +99,7 @@
                     android:layout_toRightOf="@id/reviews_section_divider"
                     android:layout_alignParentRight="true"
                     android:layout_alignWithParentIfMissing="true"
+                    android:background="@drawable/bg_user_rating_button"
                     android:gravity="center">
 
                     <RatingBar
@@ -181,7 +182,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/amenities_container"
-                android:background="@color/bg_row_state_pressed"
+                android:background="@drawable/bg_user_rating_button"
                 android:visibility="gone">
 
                 <com.expedia.bookings.widget.TextView
