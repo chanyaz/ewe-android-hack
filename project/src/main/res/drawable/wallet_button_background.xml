@@ -2,10 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:state_enabled="false"
-        android:state_focused="true"
-        android:drawable="@drawable/wallet_button_background_disabled_focused" />
-    <item
-        android:state_enabled="false"
         android:drawable="@drawable/wallet_button_background_disabled" />
     <item
         android:state_pressed="true"

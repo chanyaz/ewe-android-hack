@@ -321,8 +321,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
 		mWalletButton.setPromoVisible(true);
+		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
-		Ui.findView(mWalletButton, R.id.wallet_button).setOnClickListener(mWalletButtonClickListener);
 
 
 		// We underline the coupon button text in code to avoid re-translating
