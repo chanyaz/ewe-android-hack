@@ -34,4 +34,8 @@
     <dimen name="tablet_checkout_trip_bucket_expanded_item_height">224dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_header_height">60dp</dimen>
 
+    <!-- Confirmation Fragment -->
+    <dimen name="confirmation_image_height">158dp</dimen>
+    <dimen name="confirmation_checkmark_margin">133dp</dimen>
+
 </resources>
