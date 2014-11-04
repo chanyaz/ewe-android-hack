@@ -208,7 +208,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 					money = trip.getTotalFareWithCardFee(billingInfo, tripBucketItemFlight);
 				}
 				else {
-					money = trip.getTotalFare();
+					money = trip.getAverageTotalFare();
 				}
 				mPriceTextView.setText(money.getFormattedMoney(Money.F_NO_DECIMAL));
 			}

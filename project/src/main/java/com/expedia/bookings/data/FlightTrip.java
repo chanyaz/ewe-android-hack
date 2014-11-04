@@ -37,6 +37,7 @@ public class FlightTrip implements JSONable {
 
 	private Money mBaseFare;
 	private Money mTotalFare;
+	private Money mAverageTotalFare;
 	private Money mTaxes;
 	private Money mFees;
 
@@ -146,6 +147,14 @@ public class FlightTrip implements JSONable {
 
 	public void setTotalFare(Money totalFare) {
 		mTotalFare = totalFare;
+	}
+
+	public void setAverageTotalFare(Money averageTotalFare) {
+		mAverageTotalFare = averageTotalFare;
+	}
+
+	public Money getAverageTotalFare() {
+		return mAverageTotalFare;
 	}
 
 	public Money getTaxes() {
@@ -639,6 +648,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_RULES = "s";
 	private static final String KEY_CURRENCY = "t";
 	private static final String KEY_PASSENGERS = "v";
+	private static final String KEY_AVG_TOTAL_FARE = "w";
 
 	@Override
 	public JSONObject toJson() {
@@ -669,6 +679,7 @@ public class FlightTrip implements JSONable {
 			}
 			addMoney(obj, KEY_BASE_FARE, mBaseFare);
 			addMoney(obj, KEY_TOTAL_FARE, mTotalFare);
+			addMoney(obj, KEY_AVG_TOTAL_FARE, mAverageTotalFare);
 			addMoney(obj, KEY_OLD_TOTAL_FARE, mOldTotalFare);
 			addMoney(obj, KEY_TAXES, mTaxes);
 			addMoney(obj, KEY_FEES, mFees);
@@ -755,6 +766,7 @@ public class FlightTrip implements JSONable {
 		if (!TextUtils.isEmpty(currency)) {
 			mBaseFare = parseMoney(obj, KEY_BASE_FARE, currency);
 			mTotalFare = parseMoney(obj, KEY_TOTAL_FARE, currency);
+			mAverageTotalFare = parseMoney(obj, KEY_AVG_TOTAL_FARE, currency);
 			mOldTotalFare = parseMoney(obj, KEY_OLD_TOTAL_FARE, currency);
 			mTaxes = parseMoney(obj, KEY_TAXES, currency);
 			mFees = parseMoney(obj, KEY_FEES, currency);

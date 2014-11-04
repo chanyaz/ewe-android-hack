@@ -324,10 +324,11 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	private FlightTrip readTrip(JsonReader reader) throws IOException {
 		FlightTrip trip = new FlightTrip();
 
-		// Vars that we need to handle in conjuction later, after parsing the stream
+		// Vars that we need to handle in conjunction later, after parsing the stream
 		String currencyCode = null;
 		String baseFare = null;
 		String totalFare = null;
+		String avgTotalFare = null;
 		String taxes = null;
 		String fees = null;
 
@@ -387,6 +388,21 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				}
 				reader.endArray();
 			}
+			else if (name.equals("averageTotalPricePerTicket")) {
+				expectToken(reader, JsonToken.BEGIN_OBJECT);
+				reader.beginObject();
+				avgTotalFare = null;
+				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+					name = reader.nextName();
+					if (name.equals("amount")) {
+						avgTotalFare = reader.nextString();
+					}
+					else {
+						reader.skipValue();
+					}
+				}
+				reader.endObject();
+			}
 			else {
 				reader.skipValue();
 			}
@@ -396,6 +412,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		if (!TextUtils.isEmpty(currencyCode)) {
 			trip.setBaseFare(ParserUtils.createMoney(baseFare, currencyCode));
 			trip.setTotalFare(ParserUtils.createMoney(totalFare, currencyCode));
+			trip.setAverageTotalFare(ParserUtils.createMoney(avgTotalFare, currencyCode));
 			trip.setTaxes(ParserUtils.createMoney(taxes, currencyCode));
 			trip.setFees(ParserUtils.createMoney(fees, currencyCode));
 		}

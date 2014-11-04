@@ -5,5 +5,11 @@ public enum ResultsFlightLegState {
 	FILTERS,
 	DETAILS,
 	ADDING_TO_TRIP,
-	LATER_LEG
+	LATER_LEG,
+	;
+
+	public boolean shouldShowExpandedHeader() {
+		return this != LIST_DOWN;
+	}
+
 }

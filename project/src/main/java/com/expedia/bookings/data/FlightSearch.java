@@ -495,7 +495,7 @@ public class FlightSearch implements JSONable {
 		// If this trip is in fact cheapest, add it to the cheapest trip map
 		private void evaluateTripPrice(String key, FlightTrip trip, Map<String, FlightTrip> lowestPriceMap) {
 			FlightTrip cheapest = lowestPriceMap.get(key);
-			if (cheapest == null || trip.getTotalFare().compareTo(cheapest.getTotalFare()) < 0) {
+			if (cheapest == null || trip.getAverageTotalFare().compareTo(cheapest.getAverageTotalFare()) < 0) {
 				lowestPriceMap.put(key, trip);
 			}
 		}

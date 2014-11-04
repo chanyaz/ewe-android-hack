@@ -122,7 +122,7 @@ public class FlightAdapter extends BaseAdapter {
 			}
 		}
 
-		FlightLegSummarySection section = (FlightLegSummarySection) convertView;
+		FlightLegSummarySection section = Ui.findView(convertView, R.id.flight_card_container);
 		FlightTrip trip = getItem(position);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		section.bind(trip, leg, mMinTime, mMaxTime);

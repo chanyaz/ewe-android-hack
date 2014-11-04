@@ -229,6 +229,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 			trip.setBaseFare(ParserUtils.createMoney(tripJson.optString("baseFare"), currencyCode));
 			trip.setTotalFare(ParserUtils.createMoney(tripJson.optString("totalFare"), currencyCode));
+			String avgTotalFare = tripJson.optJSONObject("averageTotalPricePerTicket").optString("amount");
+			trip.setAverageTotalFare(ParserUtils.createMoney(avgTotalFare, currencyCode));
 			trip.setTaxes(ParserUtils.createMoney(tripJson.optString("taxes"), currencyCode));
 			trip.setFees(ParserUtils.createMoney(tripJson.optString("fees"), currencyCode));
 

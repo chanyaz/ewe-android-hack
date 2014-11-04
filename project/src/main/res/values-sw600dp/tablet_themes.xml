@@ -185,9 +185,9 @@
     <style name="V2.Widget.TextView.FilterTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">14dp</item>
-        <item name="android:layout_marginBottom">12dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">@dimen/results_flight_filters_header_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/results_flight_filters_header_margin_bottom</item>
+        <item name="android:textSize">@dimen/results_list_header_text_size</item>
         <item name="android:textColor">#4c5156</item>
         <item name="textStyle">normal</item>
     </style>
@@ -239,6 +239,36 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="textStyle">light</item>
+    </style>
+
+    <!-- ListView styling -->
+
+    <style name="V2.Widget.ListView" />
+
+    <style name="V2.Widget.ListView.TabletResultsFruitList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:cacheColorHint">@color/tablet_white_pane_bg</item>
+        <item name="android:choiceMode">singleChoice</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:scrollbars">none</item>
+        <item name="headerSpacerColor">@android:color/transparent</item>
+        <item name="footerSpacerColor">@color/tablet_white_pane_bg</item>
+    </style>
+
+    <style name="V2.Widget.ListView.TabletResultsFruitList.Hotels">
+        <item name="android:layout_marginTop">@dimen/results_list_margin_top</item>
+        <item name="android:divider">@color/tablet_white_pane_bg</item>
+        <item name="android:dividerHeight">@dimen/results_list_spacer_height</item>
+        <item name="android:headerDividersEnabled">true</item>
+    </style>
+
+    <style name="V2.Widget.ListView.TabletResultsFruitList.Flights">
+        <item name="android:layout_marginTop">@dimen/results_list_header_height</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:headerDividersEnabled">false</item>
+
     </style>
 
     <!-- ImageView styling -->

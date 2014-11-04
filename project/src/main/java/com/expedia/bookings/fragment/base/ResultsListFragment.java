@@ -15,7 +15,6 @@ import android.widget.ListAdapter;
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
@@ -68,7 +67,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = inflater.inflate(R.layout.fragment_tablet_results_list, null);
+		mRootC = inflater.inflate(getLayoutResId(), null);
 		mListView = Ui.findView(mRootC, android.R.id.list);
 		mListView.setContentDescription(mListViewContentDescription);
 		mStickyHeader = Ui.findView(mRootC, R.id.sticky_header_container);
@@ -149,6 +148,10 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		return mListView;
 	}
 
+	protected ViewGroup getStickyHeader() {
+		return mStickyHeader;
+	}
+
 	private OnPreDrawListener mHeaderUpdater = new OnPreDrawListener() {
 		@Override
 		public boolean onPreDraw() {
@@ -183,10 +186,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		if (mTopRightTextButton != null) {
 			mTopRightTextButton.setVisibility(enabled ? View.VISIBLE : View.INVISIBLE);
 		}
-	}
-
-	public void setTopRightTextButtonOnClick(OnClickListener clicky) {
-		mTopRightTextButton.setOnClickListener(clicky);
 	}
 
 	public void setStickyHeaderText(CharSequence text) {
@@ -233,13 +232,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		}
 
 		//position
-		float maxHeaderTransY = mListView.getTop()
-			+ mListView.getMaxDistanceFromTop()
-			+ mListView.getPaddingTop()
-			+ mListView.getDividerHeight() // To overlap the divider at the top of the list
-			- mStickyHeader.getTop()
-			- mStickyHeader.getHeight();
-		mStickyHeader.setTranslationY(percentage * maxHeaderTransY);
+		mStickyHeader.setTranslationY(percentage * getMaxHeaderTranslateY());
 	}
 
 	public void setLastReportedTouchPercentage(float percentage) {
@@ -328,6 +321,10 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	 * ABSTRACT METHODS
 	 */
 
+	public abstract int getLayoutResId();
+
+	public abstract float getMaxHeaderTranslateY();
+
 	protected abstract ListAdapter initializeAdapter();
 
 	protected abstract CharSequence initializeStickyHeaderString();
@@ -339,9 +336,5 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	protected abstract T translateState(ResultsListState state);
 
 	protected abstract T getDefaultState();
-
-	protected abstract String getEmptyListText();
-
-	protected abstract int getEmptyListImageResource();
 
 }

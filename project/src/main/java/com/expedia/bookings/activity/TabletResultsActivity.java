@@ -40,7 +40,6 @@ import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
 import com.expedia.bookings.fragment.TripBucketFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
@@ -80,9 +79,9 @@ import com.squareup.otto.Subscribe;
  * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActivity extends FragmentActivity implements IBackButtonLockListener,
-	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
+public class TabletResultsActivity extends FragmentActivity implements IFragmentAvailabilityProvider,
+	IStateProvider<ResultsState>, IMeasurementProvider, IBackManageable, IAcceptingListenersListener,
+	ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -115,7 +114,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	//Other
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
-	private boolean mBackButtonLocked = false;
 	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
 	private boolean mDoingFlightsAddToBucket = false;
 	private boolean mDoingHotelsAddToBucket = false;
@@ -326,10 +324,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void onBackPressed() {
-		if (!mBackButtonLocked) {
-			if (!mBackManager.doOnBackPressed()) {
-				super.onBackPressed();
-			}
+		if (!mBackManager.doOnBackPressed()) {
+			super.onBackPressed();
 		}
 	}
 
@@ -381,11 +377,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-	}
-
-	@Override
-	public void setBackButtonLockState(boolean locked) {
-		mBackButtonLocked = locked;
 	}
 
 	/*

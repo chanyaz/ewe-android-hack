@@ -125,7 +125,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 
 		setChecked(isChecked);
 		setDescription(sb.build());
-		setPrice(trip.getTotalFare());
+		setPrice(trip.getAverageTotalFare());
 	}
 
 	private void buildDescriptionString() {

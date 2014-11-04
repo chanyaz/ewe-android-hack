@@ -62,13 +62,20 @@
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">16sp</dimen>
     <dimen name="results_list_header_height">43dp</dimen>
+    <dimen name="results_list_header_height_expanded">63dp</dimen>
+    <dimen name="results_list_header_reveal_height">20dp</dimen>
+    <dimen name="results_list_header_text_margin_top">10dp</dimen>
+    <dimen name="results_list_subtitle_text_margin_top">30dp</dimen>
     <dimen name="results_guest_picker_padding_x">19dp</dimen>
     <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
     <dimen name="sliding_filter_row_height">44dp</dimen>
     <dimen name="results_column_spacing">2dp</dimen>
     <dimen name="results_list_spacer_height">8dp</dimen>
     <!-- note: make sure that results_list_margin_top = results_list_header_height - results_list_spacer_height -->
-    <dimen name="results_list_margin_top">35dp</dimen>
+    <dimen name="results_list_margin_top">34.5dp</dimen>
+    <dimen name="results_list_flight_subtitle_text_size">14sp</dimen>
+    <dimen name="results_flight_filters_header_margin_top">10dp</dimen>
+    <dimen name="results_flight_filters_header_margin_bottom">26dp</dimen>
     <!-- The height by which the bottom gradient starts above the search bar -->
     <dimen name="results_bottom_gradient_offset">32dp</dimen>
     <!-- Text size for destination label - search screen, left container element -->
