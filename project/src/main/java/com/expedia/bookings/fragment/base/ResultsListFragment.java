@@ -15,7 +15,6 @@ import android.widget.ListAdapter;
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;

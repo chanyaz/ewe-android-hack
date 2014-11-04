@@ -24,7 +24,6 @@ import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailab
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.fragment.TabletCheckoutTripBucketControllerFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -40,8 +39,8 @@ import com.mobiata.android.util.AndroidUtils;
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletCheckoutActivity extends FragmentActivity implements IBackButtonLockListener,
-	IBackManageable, ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
+public class TabletCheckoutActivity extends FragmentActivity implements IBackManageable,
+	ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -67,7 +66,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	TabletCheckoutTripBucketControllerFragment mFragTripBucketController;
 
 	//Other
-	private boolean mBackButtonLocked = false;
 	private LineOfBusiness mLob;
 
 	boolean mIsBailing = false;
@@ -336,10 +334,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	@Override
 	public void onBackPressed() {
-		if (!mBackButtonLocked) {
-			if (!mBackManager.doOnBackPressed()) {
-				super.onBackPressed();
-			}
+		if (!mBackManager.doOnBackPressed()) {
+			super.onBackPressed();
 		}
 	}
 
@@ -357,11 +353,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 
 	};
-
-	@Override
-	public void setBackButtonLockState(boolean locked) {
-		mBackButtonLocked = locked;
-	}
 
 	/*
 	 * CACHED DATA LOADING...
