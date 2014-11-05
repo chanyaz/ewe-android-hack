@@ -28,6 +28,7 @@
         <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
         <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
+        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletLaunch">
@@ -86,6 +87,10 @@
 
     <style name="V2.Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_tablet_overflow</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.ActionButton.Overflow.White" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_tablet_overflow_white</item>
     </style>
 
     <!-- FrameLayout styling -->

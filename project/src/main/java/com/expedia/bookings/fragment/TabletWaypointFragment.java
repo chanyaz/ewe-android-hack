@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -104,6 +105,7 @@ public class TabletWaypointFragment extends Fragment
 		if (!mHasBackground) {
 			mBg.setBackgroundDrawable(null);
 		}
+		mBg.setTouchListener(mBgTouchListener);
 
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
@@ -155,13 +157,7 @@ public class TabletWaypointFragment extends Fragment
 		mCancelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Fragment parent = getParentFragment();
-				if (parent instanceof TabletLaunchControllerFragment) {
-					((TabletLaunchControllerFragment) parent).setLaunchState(LaunchState.OVERVIEW, true);
-				}
-				else if (parent instanceof TabletResultsSearchControllerFragment) {
-					((TabletResultsSearchControllerFragment) parent).setStateToBaseState(true);
-				}
+				dismissWayPointFragment();
 			}
 		});
 
@@ -172,6 +168,16 @@ public class TabletWaypointFragment extends Fragment
 		setupStateTransitions();
 
 		return view;
+	}
+
+	private void dismissWayPointFragment() {
+		Fragment parent = getParentFragment();
+		if (parent instanceof TabletLaunchControllerFragment) {
+			((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
+		}
+		else if (parent instanceof TabletResultsSearchControllerFragment) {
+			((TabletResultsSearchControllerFragment)parent).setStateToBaseState(true);
+		}
 	}
 
 	@Override
@@ -507,6 +513,23 @@ public class TabletWaypointFragment extends Fragment
 			}
 		}
 	}
+
+	/**
+	 * This is a {@link TouchableFrameLayout.TouchListener} that listens to user touches/taps
+	 * outside the autocomplete real estate. When user taps/touches outside the view
+	 * let's close the search fragment.
+	 */
+	public TouchableFrameLayout.TouchListener mBgTouchListener = new TouchableFrameLayout.TouchListener() {
+		@Override
+		public void onInterceptTouch(MotionEvent ev) {
+			// Nothing to do here
+		}
+
+		@Override
+		public void onTouch(MotionEvent ev) {
+			dismissWayPointFragment();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// ICurrentLocationListener

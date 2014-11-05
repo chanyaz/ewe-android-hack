@@ -99,6 +99,7 @@
                     android:layout_toRightOf="@id/reviews_section_divider"
                     android:layout_alignParentRight="true"
                     android:layout_alignWithParentIfMissing="true"
+                    android:background="@drawable/bg_user_rating_button"
                     android:gravity="center">
 
                     <RatingBar
@@ -181,7 +182,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/amenities_container"
-                android:background="@color/bg_row_state_pressed"
+                android:background="@drawable/bg_user_rating_button"
                 android:visibility="gone">
 
                 <com.expedia.bookings.widget.TextView
@@ -222,13 +223,21 @@
 
                 <!-- Hotel image (#1822) -->
 
-                <ImageView
-                    android:id="@+id/hotel_header_image"
+                <FrameLayout
+                    android:id="@+id/hotel_header_image_touch_target"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#2a2a2a"
-                    android:scaleType="centerCrop"
-                    android:src="?attr/hotelImagePlaceHolderDrawable" />
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:id="@+id/hotel_header_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#2a2a2a"
+                        android:scaleType="centerCrop"
+                        android:src="?attr/hotelImagePlaceHolderDrawable" />
+
+                </FrameLayout>
 
                 <!-- Gradient mask over just the hotel picture -->
 

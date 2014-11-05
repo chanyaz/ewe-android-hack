@@ -59,7 +59,7 @@ public class TouchableFrameLayout extends FrameLayout {
 		mTouchHelper.setPreventMashing(enabled, touchCooldownMs);
 	}
 
-	public void setTouchControlListener(TouchListener listener) {
+	public void setTouchListener(TouchListener listener) {
 		mTouchListener = listener;
 	}
 

@@ -9,7 +9,8 @@
 
     <LinearLayout
         style="@style/V2.Widget.LinearLayout.TripBucketContainer"
-        android:id="@+id/content_container">
+        android:id="@+id/content_container"
+        android:clipChildren="false">
 
         <com.expedia.bookings.widget.SwipeOutLayout
             style="@style/V2.Widget.FrameLayout.ResultsTripBucketItem"
@@ -28,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hotel_flight_card_height"
                 android:background="@drawable/bg_undobar"
+                android:visibility="invisible"
                 layout="@layout/view_undobar"/>
         </com.expedia.bookings.widget.SwipeOutLayout>
 
@@ -49,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hotel_flight_card_height"
                 android:background="@drawable/bg_undobar"
+                android:visibility="invisible"
                 layout="@layout/view_undobar"/>
         </com.expedia.bookings.widget.SwipeOutLayout>
 
