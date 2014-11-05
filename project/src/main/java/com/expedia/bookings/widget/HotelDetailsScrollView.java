@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.widget.TouchableFrameLayout;
 
 /**
  * This class implements a parallax-like scrolling effect specifically for
@@ -124,7 +123,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		if (mMapOuterContainer != null) {
 			mMapContainer = (TouchableFrameLayout) mMapOuterContainer.findViewById(R.id.hotel_details_map_fragment_container);
 			mMapContainer.setBlockNewEventsEnabled(true);
-			mMapContainer.setTouchControlListener(new TouchableFrameLayout.TouchListener() {
+			mMapContainer.setTouchListener(new TouchableFrameLayout.TouchListener() {
 				@Override
 				public void onInterceptTouch(MotionEvent ev) {
 					// ignore

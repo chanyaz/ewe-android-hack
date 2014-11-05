@@ -157,7 +157,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mHotelListC = Ui.findView(view, R.id.column_one_hotel_list);
 		mBgHotelMapC = Ui.findView(view, R.id.bg_hotel_map);
-		mBgHotelMapC.setTouchControlListener(mMapTouchListener);
+		mBgHotelMapC.setTouchListener(mMapTouchListener);
 		mBgHotelMapTouchDelegateC = Ui.findView(view, R.id.bg_hotel_map_touch_delegate);
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
@@ -167,7 +167,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
 		mMapDimmer = Ui.findView(view, R.id.bg_map_dimmer);
-		mMapDimmer.setTouchControlListener(mMapDimmerTouchListener);
+		mMapDimmer.setTouchListener(mMapDimmerTouchListener);
 
 		// Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);

@@ -789,7 +789,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mTravelerFormC.setVisibility(View.INVISIBLE);
 			setEntryFormShowingPercentage(isReversed ? 0f : 1f);
 
-			// FrameLayoutTouchController
+			// TouchableFrameLayout
 			mTouchBlocker.setBlockNewEventsEnabled(!isReversed);
 
 			if (isReversed) {

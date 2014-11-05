@@ -105,7 +105,7 @@ public class TabletWaypointFragment extends Fragment
 		if (!mHasBackground) {
 			mBg.setBackgroundDrawable(null);
 		}
-		mBg.setTouchControlListener(mBgTouchListener);
+		mBg.setTouchListener(mBgTouchListener);
 
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
@@ -515,13 +515,14 @@ public class TabletWaypointFragment extends Fragment
 	}
 
 	/**
-	 * This is a {@link TouchableFrameLayout.TouchListener} that listens to user touches/taps outside the autocomplete real estate.
-	 * When user taps/touches outside the view let's close the search fragment.
+	 * This is a {@link TouchableFrameLayout.TouchListener} that listens to user touches/taps
+	 * outside the autocomplete real estate. When user taps/touches outside the view
+	 * let's close the search fragment.
 	 */
 	public TouchableFrameLayout.TouchListener mBgTouchListener = new TouchableFrameLayout.TouchListener() {
 		@Override
 		public void onInterceptTouch(MotionEvent ev) {
-			// nothing to do here
+			// Nothing to do here
 		}
 
 		@Override
