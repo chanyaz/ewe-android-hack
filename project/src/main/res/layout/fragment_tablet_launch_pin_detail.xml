@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.expedia.bookings.widget.ContentClickableRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:contentPadding="16dp">
 
     <View
         android:id="@+id/center"
@@ -82,4 +83,4 @@
         android:padding="@dimen/launch_pin_detail_padding"
         android:scaleType="fitCenter" />
 
-</RelativeLayout>
+</com.expedia.bookings.widget.ContentClickableRelativeLayout>

@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,18 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
-import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ContentClickableRelativeLayout;
 import com.expedia.bookings.widget.RoundImageView;
 import com.squareup.otto.Subscribe;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
-	private ViewGroup mRootC;
+	private ContentClickableRelativeLayout mRootC;
 	private RoundImageView mRoundImage;
 	private View mRoundImageTarget;
 	private View mTextLayout;
@@ -46,7 +47,10 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		mRoundImageTarget = Ui.findView(mRootC, R.id.round_image_target);
 		mTextLayout = Ui.findView(mRootC, R.id.text_layout);
 
-		((TabletLaunchControllerFragment) getParentFragment()).registerStateListener(mDetailsStateListener, false);
+		mRootC.setOutsideContentClickedListener(mDismissListener);
+
+		TabletLaunchControllerFragment parent = (TabletLaunchControllerFragment) getParentFragment();
+		parent.registerStateListener(mDetailsStateListener, false);
 
 		return mRootC;
 	}
@@ -191,4 +195,14 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			return (end - start) * percentage + start;
 		}
 	});
+
+	private View.OnClickListener mDismissListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			TabletLaunchControllerFragment parent = (TabletLaunchControllerFragment) getParentFragment();
+			parent.setLaunchState(LaunchState.OVERVIEW, true);
+		}
+	};
+
+
 }

@@ -218,6 +218,11 @@
         <attr name="svg" format="reference" />
     </declare-styleable>
 
+    <!-- ContentClickableRelativeLayout -->
+    <declare-styleable name="ContentClickableRelativeLayout">
+        <attr name="contentPadding" format="dimension" />
+    </declare-styleable>
+
 
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
