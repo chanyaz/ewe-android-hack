@@ -507,26 +507,26 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			case HOTEL_LIST_DOWN:
 				mHotelListFrag.setPercentage(1f, 0);
 				mHotelListFrag.setListLockedToTop(false);
-				mHotelListFrag.setTopRightTextButtonEnabled(true);
+				mHotelListFrag.setTopRightTextButtonVisibility(true);
 				break;
 			case HOTEL_LIST_UP:
 				mHotelListFrag.setPercentage(0f, 0);
 				mHotelListFrag.setListLockedToTop(false);
-				mHotelListFrag.setTopRightTextButtonEnabled(true);
+				mHotelListFrag.setTopRightTextButtonVisibility(true);
 				break;
 			case ROOMS_AND_RATES: {
 				mHotelListFrag.setListLockedToTop(true);
-				mHotelListFrag.setTopRightTextButtonEnabled(true);
+				mHotelListFrag.setTopRightTextButtonVisibility(true);
 				break;
 			}
 			case HOTEL_LIST_AND_FILTERS: {
 				mHotelListFrag.setListLockedToTop(true);
-				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				mHotelListFrag.setTopRightTextButtonVisibility(false);
 				break;
 			}
 			case ADDING_HOTEL_TO_TRIP: {
 				mHotelListFrag.setListLockedToTop(true);
-				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				mHotelListFrag.setTopRightTextButtonVisibility(false);
 				break;
 			}
 			}
@@ -542,6 +542,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelListFrag.setPercentage(0f, 0);
 			}
 			mHotelListFrag.setListenerEnabled(mListStateHelper, true);
+
+			// Let's disable Sort & Filter text if ResultsHotelsState.REVIEWS
+			mHotelListFrag.setTopRightTextButtonEnabled(state != ResultsHotelsState.REVIEWS);
 		}
 	}
 

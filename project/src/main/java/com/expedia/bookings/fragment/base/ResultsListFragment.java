@@ -43,7 +43,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private CharSequence mStickyHeaderText = "";
 	private CharSequence mTopRightTextButtonText = "";
 
-	private boolean mTopRightButtonEnabled = true;
+	private boolean mIsTopRightButtonVisible = true;
 	private boolean mLockedToTop = false;
 	private int mTopSpacePixels = 0;
 
@@ -81,7 +81,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		//Note: We must set the adapter before we restore instance state
 		mListView.setAdapter(initializeAdapter());
 
-		setTopRightTextButtonEnabled(initializeTopRightTextButtonEnabled());
+		setTopRightTextButtonVisibility(initializeTopRightTextButtonEnabled());
 
 		mTopRightTextButton.setOnClickListener(initializeTopRightTextButtonOnClickListener());
 
@@ -181,10 +181,16 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		return mListView != null;
 	}
 
-	public void setTopRightTextButtonEnabled(boolean enabled) {
-		mTopRightButtonEnabled = enabled;
+	public void setTopRightTextButtonVisibility(boolean isVisible) {
+		mIsTopRightButtonVisible = isVisible;
 		if (mTopRightTextButton != null) {
-			mTopRightTextButton.setVisibility(enabled ? View.VISIBLE : View.INVISIBLE);
+			mTopRightTextButton.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
+		}
+	}
+
+	public void setTopRightTextButtonEnabled(boolean isEnabled) {
+		if (mTopRightTextButton != null) {
+			mTopRightTextButton.setEnabled(isEnabled);
 		}
 	}
 
@@ -217,17 +223,13 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	public void updateListExpandedState(float percentage, boolean actionComplete) {
 		//top right button stuff...
-		if (mTopRightButtonEnabled) {
+		if (mIsTopRightButtonVisible) {
 			mTopRightTextButton.setAlpha(1f - percentage);
 			if (percentage == 1f) {
 				mTopRightTextButton.setVisibility(View.INVISIBLE);
-				mTopRightTextButton.setEnabled(false);
 			}
 			else {
 				mTopRightTextButton.setVisibility(View.VISIBLE);
-				if (percentage == 0) {
-					mTopRightTextButton.setEnabled(true);
-				}
 			}
 		}
 
