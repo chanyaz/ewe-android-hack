@@ -48,18 +48,20 @@ public class AboutUtils {
 
 		// Let's always show the phone option and have the OS take care of how to handle onClick for tablets without telephony.
 		// In which case it pops up a dialog to show the number and give 2 options i.e. "Close" & "Add to Contacts"
-		items.add(mActivity.getString(R.string.contact_expedia_phone));
+		final String phone = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
+		items.add(getContactItem(mActivity.getString(R.string.contact_expedia_phone), phone));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaPhone();
+				contactViaPhone(phone);
 			}
 		});
 
 		// Always show website option
-		items.add(mActivity.getString(R.string.contact_expedia_website));
+		final String website = PointOfSale.getPointOfSale().getAppSupportUrl();
+		items.add(getContactItem(mActivity.getString(R.string.contact_expedia_website), website));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaWeb();
+				contactViaWeb(website);
 			}
 		});
 
@@ -127,19 +129,27 @@ public class AboutUtils {
 		return builder.create();
 	}
 
-	public void contactViaPhone() {
-		trackCallSupport();
-		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
+	public String getContactItem(String contact, String info) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(contact);
+		sb.append(" : ");
+		sb.append(info);
+		return sb.toString();
 	}
 
-	public void contactViaWeb() {
-		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
+	public void contactViaPhone(String phone) {
+		trackCallSupport();
+		SocialUtils.call(mActivity, phone);
+	}
+
+	public void contactViaWeb(String website) {
+		openWebsite(mActivity, website, true);
 	}
 
 	public void contactViaEmail() {
 		trackEmailSupport();
 		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
-				mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.infoContactEmailSubjectString)), null);
+			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.infoContactEmailSubjectString)), null);
 	}
 
 	public void openExpediaWebsite() {
