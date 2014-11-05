@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.TabletWalletButton;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
@@ -57,7 +58,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	}
 
 	private AccountButton mAccountButton;
-	private WalletButton mWalletButton;
+	private TabletWalletButton mWalletButton;
 
 	private ILoginStateChangedListener mListener;
 	private IWalletButtonStateChangedListener mWalletListener;

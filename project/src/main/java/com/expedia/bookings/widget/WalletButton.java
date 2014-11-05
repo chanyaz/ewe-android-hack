@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -12,7 +13,7 @@ import com.mobiata.android.util.Ui;
 
 public class WalletButton extends RelativeLayout {
 
-	private View mButton;
+	protected View mButton;
 	private ProgressBar mProgressBar;
 	private View mPromo;
 
@@ -63,5 +64,12 @@ public class WalletButton extends RelativeLayout {
 			mPromo.setVisibility(mPromoVisible && WalletUtils.offerGoogleWalletCoupon(getContext()) ? View.VISIBLE
 					: View.GONE);
 		}
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		mButton.dispatchTouchEvent(ev);
+		mPromo.dispatchTouchEvent(ev);
+		return true;
 	}
 }

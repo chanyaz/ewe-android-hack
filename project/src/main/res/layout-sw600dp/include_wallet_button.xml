@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.WalletButton xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.TabletWalletButton xmlns:android="http://schemas.android.com/apk/res/android"
                                           android:id="@+id/wallet_container"
                                           android:layout_width="match_parent"
                                           android:layout_height="wrap_content"
@@ -10,10 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/wallet_button"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="-4dp"
-        android:background="#55000000"
+        android:background="#88000000"
         android:gravity="center"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
@@ -28,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <View
+            android:id="@+id/button"
             style="@style/BookingSection"
             android:layout_width="match_parent"
             android:layout_height="52dp"
@@ -54,4 +52,4 @@
             android:visibility="gone"/>
     </FrameLayout>
 
-</com.expedia.bookings.widget.WalletButton>
+</com.expedia.bookings.widget.TabletWalletButton>
