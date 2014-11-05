@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/airattach_countdown"
                     android:drawablePadding="2dp"
-                    android:textColor="#fd8126"
+                    android:textColor="@color/price_change_air_attach"
                     android:textSize="12dp"
                     app:textStyle="medium"/>
 

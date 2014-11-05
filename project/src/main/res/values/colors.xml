@@ -186,4 +186,8 @@
     <color name="AboutSectionAppsTextColor">#454545</color>
     <color name="AboutSectionTextSelectedStateColor">#d79100</color>
 
+    <!-- Price change colors -->
+    <color name="price_change_default">#FFFFFF</color>
+    <color name="price_change_air_attach">#fd8126</color>
+
 </resources>

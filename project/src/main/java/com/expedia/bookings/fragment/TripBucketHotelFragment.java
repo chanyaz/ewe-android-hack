@@ -294,6 +294,24 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
+	public int getPriceChangeDrawable() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null && hotel.hasAirAttachRate()) {
+			return R.drawable.plane_gray;
+		}
+		return super.getPriceChangeDrawable();
+	}
+
+	@Override
+	public int getPriceChangeTextColor() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null && hotel.hasAirAttachRate()) {
+			return R.color.price_change_air_attach;
+		}
+		return super.getPriceChangeTextColor();
+	}
+
+	@Override
 	public TripBucketItemHotel getItem() {
 		return Db.getTripBucket().getHotel();
 	}

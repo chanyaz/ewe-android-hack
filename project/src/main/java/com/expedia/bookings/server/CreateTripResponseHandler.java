@@ -66,6 +66,7 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 			if (airAttachHotelResponse != null && airAttachHotelResponse.has("hotelRoomResponse")) {
 				int nights = airAttachHotelResponse.getInt("numberOfNights");
 				Rate airAttachRate = availHandler.parseJsonHotelOffer(airAttachHotelResponse.getJSONObject("hotelRoomResponse"), nights, null);
+				airAttachRate.setAirAttached(true);
 				createTripResponse.setAirAttachRate(airAttachRate);
 			}
 		}

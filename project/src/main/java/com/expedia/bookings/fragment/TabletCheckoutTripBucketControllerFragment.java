@@ -366,9 +366,17 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			if (state == TripBucketItemState.DEFAULT && item.isSelected()) {
 				state = TripBucketItemState.EXPANDED;
 			}
+			if (checkoutState == CheckoutState.CONFIRMATION) {
 
-			if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION) {
-				state = TripBucketItemState.CONFIRMATION;
+				if (lobMatches && state == TripBucketItemState.PURCHASED) {
+					state = TripBucketItemState.CONFIRMATION;
+				}
+
+				else if (!lobMatches && item.getLineOfBusiness() == LineOfBusiness.HOTELS &&
+					((TripBucketItemHotel) item).hasAirAttachRate()) {
+					state = TripBucketItemState.SHOWING_AIR_ATTACH_PRICE_CHANGE;
+				}
+
 			}
 
 			if (lobMatches && item.hasPriceChanged() && CheckoutState.shouldShowPriceChange(checkoutState)) {
