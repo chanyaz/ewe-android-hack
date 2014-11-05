@@ -1352,6 +1352,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
+					if (mWalletPromoThrobberDialog == null) {
+						mWalletPromoThrobberDialog = ThrobberDialog.newInstance(getString(R.string.wallet_promo_applying));
+						mWalletPromoThrobberDialog.setCancelListener(HotelOverviewFragment.this);
+					}
+					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
+
 					Fragment frag = getFragmentManager().findFragmentByTag("WALLET_REPLACE_DIALOG");
 					if (isResumed() && frag == null) {
 						SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_replaced_message));
