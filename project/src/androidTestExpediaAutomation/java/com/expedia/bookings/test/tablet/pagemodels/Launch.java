@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.tablet.pagemodels;
 
+import android.content.res.Resources;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.SuggestionAdapterViewProtocol;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
@@ -8,10 +10,13 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressMenuKey;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isRoot;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
@@ -52,6 +57,10 @@ public class Launch {
 		destinationSearchButton().perform(click());
 	}
 
+	public static void pressMenu() {
+		onView(isRoot()).perform(pressMenuKey());
+	}
+
 	public static void typeInDestinationEditText(String text) {
 		destinationEditText().perform(typeText(text));
 	}
@@ -69,5 +78,13 @@ public class Launch {
 			.inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.suggestions_container)))) //
 			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
 			.perform(click());
+	}
+
+	public static void pressInfo(Resources res) {
+		onView(withText(res.getString(R.string.Info))).perform(click());
+	}
+
+	public static void pressBookingSupport(Resources res) {
+		onView(withText(res.getString(R.string.booking_support))).perform(click());
 	}
 }
