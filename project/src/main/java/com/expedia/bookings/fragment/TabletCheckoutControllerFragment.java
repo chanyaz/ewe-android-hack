@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -1098,7 +1099,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				else {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
 					Db.saveTripBucket(getActivity());
-					setCheckoutState(CheckoutState.CONFIRMATION, true);
+
+					if (Db.getTripBucket().getHotel() != null &&
+						Db.getTripBucket().getHotel().canBePurchased() &&
+						Db.getTripBucket().getAirAttach().isAirAttachQualified()) {
+
+						mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
+					}
+					else {
+						setCheckoutState(CheckoutState.CONFIRMATION, true);
+					}
 				}
 			}
 			// HotelBookingResponse
@@ -1198,9 +1208,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
-		dismissLoadingDialogs();
-		BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
-		mCheckoutFragment.onCheckoutDataUpdated();
+		// TODO test
+		boolean isHotelCreateTripResponse = event.createTripResponse instanceof CreateTripResponse;
+		if (getLob() == LineOfBusiness.FLIGHTS && isHotelCreateTripResponse) {
+			setCheckoutState(CheckoutState.CONFIRMATION, true);
+		}
+		else {
+			dismissLoadingDialogs();
+			BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
+			mCheckoutFragment.onCheckoutDataUpdated();
+		}
 	}
 
 	@Subscribe

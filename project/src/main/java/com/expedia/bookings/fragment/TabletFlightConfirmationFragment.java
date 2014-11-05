@@ -21,6 +21,8 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -102,18 +104,34 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 		// Set up air attach banner if applicable
 		// Currently only handling US POS and no hotel in trip bucket
-		if (PointOfSale.getPointOfSale().shouldShowAirAttach() && getNextBookingItem() == null) {
-			mAirAttach = Db.getTripBucket().getAirAttach();
+		mAirAttach = Db.getTripBucket().getAirAttach();
+		if (PointOfSale.getPointOfSale().shouldShowAirAttach() &&
+			mAirAttach != null &&
+			mAirAttach.isAirAttachQualified()) {
 
-			if (mAirAttach != null && mAirAttach.isAirAttachQualified()) {
+			if (getNextBookingItem() == null) {
 				mAirAttachContainer.setVisibility(View.VISIBLE);
-				setAirAttachText();
+				setAirAttachText(getString(R.string.air_attach_potential_savings));
 
 				mAddHotelContainer.setVisibility(View.VISIBLE);
 				mAddHotelTextView.setText(R.string.air_attach_add_hotel);
 				mWithDiscountsTextView.setText(R.string.air_attach_with_discounts);
 				mConfirmationSeparatorView.setVisibility(View.VISIBLE);
 
+
+			}
+			else if (getNextBookingItem() == LineOfBusiness.HOTELS){
+				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+				if (hotel.getCreateTripResponse() != null && hotel.getCreateTripResponse().getAirAttachRate() != null) {
+					mAirAttachContainer.setVisibility(View.VISIBLE);
+
+					Rate originalRate = hotel.getCreateTripResponse().getNewRate();
+					Rate airAttachRate = hotel.getCreateTripResponse().getAirAttachRate();
+					Money savings = new Money(originalRate.getTotalAmountAfterTax());
+					savings.subtract(airAttachRate.getTotalAmountAfterTax());
+
+					setAirAttachText(getString(R.string.air_attach_amount_discounted_TEMPLATE, savings.getFormattedMoney()));
+				}
 			}
 		}
 
@@ -145,9 +163,9 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 	//////////////////////////////////////////////////////////////////////////
 	// TabletConfirmationFragment
 
-	protected void setAirAttachText() {
+	protected void setAirAttachText(String savingsString) {
 		mAirAttachTextView.setText(R.string.air_attach_alert);
-		mAirAttachSavingsTextView.setText(R.string.air_attach_potential_savings);
+		mAirAttachSavingsTextView.setText(savingsString);
 
 		DateTime currentDate = new DateTime();
 		int numDays = JodaUtils.daysBetween(currentDate, mAirAttach.getExpirationDate());

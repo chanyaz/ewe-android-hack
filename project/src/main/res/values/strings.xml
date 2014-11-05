@@ -1482,6 +1482,8 @@
     <string name="air_attach_alert">Because you booked a flight</string>
     <!-- Air attach savings messaging -->
     <string name="air_attach_potential_savings">Save up to 55% on a hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">You will save %s if you book your hotel now!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">Offer expires in</string>
     <!-- Air attach offer expiration date -->

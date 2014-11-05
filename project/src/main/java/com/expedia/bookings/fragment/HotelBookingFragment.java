@@ -475,6 +475,14 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
+
+		Rate originalRate = response.getNewRate();
+		Rate airAttachRate = response.getAirAttachRate();
+		if (airAttachRate != null && originalRate.compareForPriceChange(airAttachRate) != 0) {
+			Db.getTripBucket().getHotel().setNewRate(airAttachRate);
+			Events.post(new Events.HotelProductRateUp(airAttachRate));
+		}
+
 		switch (mState) {
 		case COUPON_APPLY:
 			startApplyCouponDownloader(mCouponCode);
