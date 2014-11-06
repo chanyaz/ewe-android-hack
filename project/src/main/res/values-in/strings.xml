@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">Untuk mencari penerbangan ke %s,\nharap beritahu kami kapan Anda akan berangkat.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Untuk melihat tren harga tiket, \nsilakan beritahu kami dari mana Anda terbang.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Tren Harga Tiket akan menunjukkan bagi Anda perubahan harga tiket dari waktu ke waktu. Karena harga yang ditampilkan di bawah ini didasarkan pada info real-time, beberapa rute mungkin memiliki info yang lebih sedikit dibandingkan rute yang lainnya.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Perjalanan dimulai</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s Penerbangan Kembali</item>
         <item quantity="other">%s Penerbangan Kembali</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Harga pulang-pergi per orang</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Harga adalah untuk penerbangan pulang-pergi per orang</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Perjalanan Anda kosong.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -129,7 +135,7 @@
     <!-- Short label for "sort by price" button -->
     <string name="price">harga</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">peringkat</string>
+    <string name="rating">skor tamu</string>
     <!-- Short label for "sort by distance" button -->
     <string name="distance">jarak</string>
     <!-- Short label for "sort by discounts" button -->
@@ -235,13 +241,13 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Membuat perjalanan …</string>
+    <string name="spinner_text_hotel_create_trip">Memproses perjalanan …</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Pembayaran</string>
     <!-- Actionbar Title for default search results state -->
-    <string name="Create_a_Trip">Buat Perjalanan</string>
+    <string name="Create_a_Trip">Rencanakan Perjalanan</string>
     <!-- Your Trip -->
     <string name="your_trip">Perjalanan Anda</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -255,9 +261,9 @@
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami sudah memuat informasi Facebook Anda!</string>
     <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">Masuk dengan akun Facebook</string>
+    <string name="Log_in_with_Facebook">Masuk dengan Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Mengambil informasi dari Facebook…</string>
+    <string name="fetching_facebook_info">Mengakses informasi dari Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Mencoba memasukkan Anda dengan kredensial Facebook…</string>
     <!-- We have encountered an error -->
@@ -297,7 +303,7 @@
     <!-- Label for launch screen hotel button secondary text -->
     <string name="launch_hotel_secondary_text">Cari kamar.</string>
     <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Cari sekarang.</string>
+    <string name="launch_flight_secondary_text">Cari tiket.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -360,7 +366,7 @@
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
     <!-- Shop -->
-    <string name="shop">Beli</string>
+    <string name="shop">Pemesanan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Itinerary</string>
     <!-- Enter Itinerary Details -->
@@ -938,9 +944,9 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Pilih</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Penerbangan ke %s</string>
+    <string name="outbound_TEMPLATE">Berangkat ke %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Penerbangan ke %s</string>
+    <string name="inbound_TEMPLATE">Kembali ke %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Maaf, kami tidak dapat terhubung ke server Expedia.  Coba lagi nanti.</string>
     <!-- Sort by departure timelabel -->
@@ -979,7 +985,7 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Pilih tanggal keberangkatan</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Satu Kali Jalan)</string>
+    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Sekali-Jalan)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
@@ -1022,7 +1028,7 @@
     <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
     <string name="calendar_tooltip_bottom_select_return_date">(Opsional) Pilih Tanggal Kembali</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">Tarik Tanggal Selesai untuk Mengubah</string>
+    <string name="calendar_tooltip_bottom_drag_to_modify">Tarik Tanggal Ini untuk Mengubah</string>
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
     <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Pilih Tanggal Check-out</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
@@ -1036,7 +1042,7 @@
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">Sekali jalan hanya &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="one_way_price_TEMPLATE">Sekali-jalan hanya &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
     <string name="round_trip_price_TEMPLATE">Pulang-pergi mulai dari &lt;b&gt; %s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
@@ -1189,13 +1195,13 @@
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Garansi Harga Terbaik</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
-    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis Pembatalan&lt;/b&gt; sebelum &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan gratis&lt;/b&gt; sebelum &lt;b&gt;%s pukul &lt;/b&gt;</string>
     <!-- Log out -->
     <string name="log_out">Keluar</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Anda akan mendapatkan %1$s poin untuk perjalanan ini!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s poin untuk perjalanan ini!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; poin untuk perjalanan ini!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Anda akan mendapatkan poin bonus untuk pemesanan ini</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1622,7 +1628,7 @@
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Traveler:</string>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">Keluar:</string>
+    <string name="share_flight_section_outbound">Berangkat:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Kembali:</string>
     <string name="app_name">Expedia</string>
@@ -1725,9 +1731,9 @@
     <!-- Sort by price label -->
     <string name="sort_description_price">Harga</string>
     <!-- Sort by deals label -->
-    <string name="sort_description_deals">Tawaran</string>
+    <string name="sort_description_deals">Diskon</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Peringkat</string>
+    <string name="sort_description_rating">Skor Tamu</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -1933,7 +1939,7 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s dari %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Tidak ada ulasan kritis untuk hotel ini.</string>
+    <string name="user_review_no_critical_reviews">Tidak ada ulasan negatif untuk hotel ini.</string>
     <!-- User review no favorable reviews -->
     <string name="user_review_no_favorable_reviews">Tidak ada ulasan positif untuk hotel ini.</string>
     <!-- User review no recent reviews -->
@@ -2076,7 +2082,7 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Yakin ingin keluar dari akun Expedia?</string>
     <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Daftar ke Expedia+ Rewards\u2122</string>
+    <string name="enrolled_in_expedia_rewards">Member Expedia+ Rewards\u2122</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2098,7 +2104,7 @@
     <!-- Label for coupon code hint -->
     <string name="optional">Opsional</string>
     <!-- Label applying a coupon -->
-    <string name="apply">Daftar</string>
+    <string name="apply">Gunakan</string>
 
     <!-- Coupon dialog -->
     <!-- Title on dialog imploring users to enter coupons -->
@@ -2788,11 +2794,11 @@
     <!-- Content description for action: Press to sort hotels by popularity -->
     <string name="cd_sort_hotels_by_popularity">Urutkan menurut popularitas</string>
     <!-- Content description for action: Press to sort hotels by deals -->
-    <string name="cd_sort_hotels_by_deals">Urutkan menurut penawaran</string>
+    <string name="cd_sort_hotels_by_deals">Urutkan menurut diskon</string>
     <!-- Content description for action: Press to sort hotels by price -->
     <string name="cd_sort_hotels_by_price">Urutkan menurut harga</string>
     <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">Urutkan menurut peringkat</string>
+    <string name="cd_sort_hotels_by_rating">Urutkan menurut skor tamu</string>
     <!-- Content description for action: Press to open hotel filter options -->
     <string name="cd_filter_open_hotel_filter_options">Buka opsi filter hotel</string>
     <!-- Hotel filter options -->
@@ -2840,7 +2846,7 @@
     <!-- Content description for action: Press to display favorable reviews -->
     <string name="cd_display_favorable_reviews">Tekan untuk menampilkan ulasan positif</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Tekan untuk menampilkan ulasan kritis</string>
+    <string name="cd_display_critical_reviews">Tekan untuk menampilkan ulasan negatif</string>
     <!-- Flight Search -->
     <!-- Content description for action: Edit departure airport -->
     <string name="cd_flights_search_departure_edit_text">Ubah bandara keberangkatan</string>

@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">To browse flights to %s,\ntell us when you\&apos;d like to fly.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">For flight price trends,\ntell us where you\&apos;re flying from.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Flight Trends give you an idea of how flight prices fluctuate over time. Since the prices shown are based on live data through real searches, some routes have less information than others.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Trip starts</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s Inbound Flights</item>
         <item quantity="other">%s Inbound Flights</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Return prices per person</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">One-way prices per person</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Your trip is empty.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\&apos;ll earn %1$s points for this trip!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s points for this trip!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; points for this trip!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">You\&apos;ll earn bonus points for this booking</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

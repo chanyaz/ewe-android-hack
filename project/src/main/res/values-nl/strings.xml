@@ -7,7 +7,7 @@
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Vlieg vanaf %1$s</string>
     <!-- Fly from… -->
-    <string name="Fly_from_dot_dot_dot">Vlieg vanaf…</string>
+    <string name="Fly_from_dot_dot_dot">Vlieg vanaf …</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Datums selecteren</string>
     <!-- Hotels Tonight -->
@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">Vertel ons waar je naartoe wilt vliegen om door vluchten naar %s te bladeren.\n</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Vertel ons vanaf waar je vliegt\nzodat we vluchtprijstrends kunnen ophalen</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Flight Trends geeft je een idee hoe vluchtprijzen over tijd kunnen fluctueren. Aangezien de getoonde prijzen zijn gebaseerd op live informatie van reële zoekopdrachten, is het mogelijk dat sommige routes minder informatie bevatten dan andere.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Begindatum reis</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s terugvluchten</item>
         <item quantity="other">%s terugvluchten</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Retourprijzen per persoon</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Prijzen per persoon (enkele vlucht)</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Je reis is leeg.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s punten deze reis!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; punten voor deze reis!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Je verdient bonuspunten voor deze reis</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
