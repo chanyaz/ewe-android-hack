@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">请告诉我们您要何时出发，\n以便为您搜索飞往%s的航班。</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">如需了解机票价格变化趋势，\n请告诉我们您要飞往哪里。</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">票价趋势功能为您及时追踪机票价格变动情况。由于显示的价格基于实时搜索获得的真实数据，所有部分航线提供的信息相对比较少。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">旅行开始</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s 个返程航班</item>
         <item quantity="other">%s 个返程航班</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">人均往返票价</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">人均单程票价</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行计划是空的。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次旅行将累积 %1$s 分！</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">此次旅行积 %1$s 分！</string>
+    <string name="x_points_for_this_trip_TEMPLATE">此次旅行积 &lt;b&gt;%1$s&lt;/b&gt; 分！</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">此次预订可以累积奖励积分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2280,7 +2286,7 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">公里</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s%2$s外</string>
+    <string name="distance_template">%1$s %2$s外</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
 

@@ -19,7 +19,9 @@
     <!-- Message for missing dates -->
     <string name="missing_dates_flight_TEMPLATE">For å søke på fly til %s,\nangi når du vil fly.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Fortell oss hvor du vil fly fra\nfor å se flypris-trender</string>
+    <string name="flight_trends_missing_origin">Fortell oss hvor du vil fly fra\nfor å se flypris-trender.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Fly-trender gir deg en idé om hvordan flyprisene endres over tid. Da prisene som vises er basert på live data fra ekte søk, vil noen ruter ha mindre informasjon enn andre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Turen begynner</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s returflyvninger</item>
         <item quantity="other">%s returflyvninger</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Priser er for tur-retur per person</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Priser er for én vei per person</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Reisen er tom.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s poeng for denne reisen!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; poeng for denne reisen!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Du vil tjene opp bonuspoeng for denne bestillingen</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

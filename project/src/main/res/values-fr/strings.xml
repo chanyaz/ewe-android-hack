@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">Pour découvrir les vols pour %s, \ndites-nous où vous souhaitez partir.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Pour découvrir une tendance des prix des vols,\ndites-nous d\&apos;où vous partez.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">La Tendance des vols vous donne une idée de la manière dont les prix des billets d\&apos;avion fluctuent dans le temps. Étant donné que les prix affichés sont calculés sur la base des données en direct obtenues par le biais de recherches réelles, certains itinéraires disposent de moins d\&apos;informations que d\&apos;autres.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Début du voyage</string>
     <!-- Denotes the end date of the trip -->
@@ -72,13 +74,17 @@
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
-        <item quantity="zero">%s vols retour</item>
+        <item quantity="zero">%s vol retour</item>
         <item quantity="one">%s vol retour</item>
         <item quantity="two">%s vols retour</item>
         <item quantity="few">%s vols retour</item>
         <item quantity="many">%s vols retour</item>
         <item quantity="other">%s vols retour</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Prix aller-retour par personne</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Prix aller simple par personne</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Votre voyage est vide.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s points pour ce voyage !</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; points pour ce voyage !</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Vous gagnerez des points de bonus avec cette réservation</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

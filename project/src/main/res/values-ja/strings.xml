@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">%sへのフライトを表示するには、\n出発日を入力してください。</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">航空券の料金を表示するには、\n出発地を入力してください。</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">航空券の料金は、常に変動します。表示されている料金は実際の検索結果データに基づいており、一部のルートには最新の情報が反映されていない場合があります。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">旅行開始日</string>
     <!-- Denotes the end date of the trip -->
@@ -63,22 +65,26 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s 便のフライト</item>
-        <item quantity="one">%s 便のフライト</item>
-        <item quantity="two">%s 便のフライト</item>
-        <item quantity="few">%s 便のフライト</item>
-        <item quantity="many">%s 便のフライト</item>
-        <item quantity="other">%s 便のフライト</item>
+        <item quantity="zero">%s 件のフライト</item>
+        <item quantity="one">%s 件のフライト</item>
+        <item quantity="two">%s 件のフライト</item>
+        <item quantity="few">%s 件のフライト</item>
+        <item quantity="many">%s 件のフライト</item>
+        <item quantity="other">%s 件のフライト</item>
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
-        <item quantity="zero">復路 (帰り) %s 便</item>
-        <item quantity="one">復路 (帰り) %s 便</item>
-        <item quantity="two">復路 (帰り) %s 便</item>
-        <item quantity="few">復路 (帰り) %s 便</item>
-        <item quantity="many">復路 (帰り) %s 便</item>
-        <item quantity="other">復路 (帰り) %s 便</item>
+        <item quantity="zero">%s 件の復路 (帰り) 便</item>
+        <item quantity="one">%s 件の復路 (帰り) 便</item>
+        <item quantity="two">%s 件の復路 (帰り) 便</item>
+        <item quantity="few">%s 件の復路 (帰り) 便</item>
+        <item quantity="many">%s 件の復路 (帰り) 便</item>
+        <item quantity="other">%s 件の復路 (帰り) 便</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">1 名あたりの往復料金</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">1 名あたりの片道料金</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行のデータがありません。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回の旅行で %1$s ポイント取得します !</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">今回の旅行で %1$s ポイント取得 !</string>
+    <string name="x_points_for_this_trip_TEMPLATE">今回の旅行で &lt;b&gt;%1$s&lt;/b&gt; ポイント取得 !</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">今回のご予約で、ボーナス ポイントを取得します !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

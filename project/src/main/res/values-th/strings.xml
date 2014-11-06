@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">เพื่อดูเที่ยวบินไปยัง%s \nโปรดระบุวันเดินทางของคุณ</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">บอกเราว่าคุณจะออกเดินทางจากไหน\nเพื่อดูแนวโน้มราคาเที่ยวบิน</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">ฟีเจอร์แนวโน้มราคาเที่ยวบินช่วยให้คุณทราบการเปลี่ยนแปลงของราคาเที่ยวบินที่ผันผวนขึ้นลงได้คร่าวๆ ราคาที่แสดงอ้างอิงจากข้อมูลสดที่รวบรวมจากการค้นหาจริง ดังนั้นบางเส้นทางบินจะมีข้อมูลน้อยกว่าเส้นทางบินอื่นๆ</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">วันเริ่มออกเดินทาง</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s เที่ยวบินขากลับ</item>
         <item quantity="other">%s เที่ยวบินขากลับ</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">ราคาไป-กลับต่อคน</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">ราคาเที่ยวเดียวต่อคน</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">ทริปของคุณว่างเปล่า</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1197,7 +1203,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากทริปนี้!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s คะแนนสำหรับการเดินทางนี้!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; คะแนนสำหรับการเดินทางนี้!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">คุณจะได้รับคะแนนจากการจองนี้!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

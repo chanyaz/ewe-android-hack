@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">Para buscar voos para %s,\ndiga quando gostaria de voar.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Para flutuação de tarifa,\ndiga de onde está partindo.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Com a Flutuação de tarifa, você poderá ter uma ideia de como os preços dos voos variam ao longo do tempo. Visto que os preços exibidos têm como base dados obtidos em tempo real através de pesquisas reais, algumas rotas oferecem menos informações do que outras.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">A viagem começa</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s voos de volta</item>
         <item quantity="other">%s voos de volta</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Preços de ida e volta por pessoa</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Preços somente de ida por pessoa</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Sua viagem está vazia.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -315,7 +321,7 @@
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Explore</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
-    <string name="Destination">Destino:</string>
+    <string name="Destination">Destino</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Este aplicativo necessita dos serviços do Google Play. Instale a última versão dos serviços do Google Play.</string>
     <!-- Label for tablet launch pin button that starts new search -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Você ganhará %1$s pontos com esta viagem!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s pontos para esta viagem!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; pontos com esta viagem!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Você ganhará pontos com esta reserva</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

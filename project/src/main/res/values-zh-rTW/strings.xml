@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">如需瀏覽前往%s的班機，\n請先輸入您的出發日期。</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">如需查詢機票價格趨勢，\n請輸入您的出發地。</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">機票價格趨勢提供您在各時間點的機票價格漲跌資訊。由於顯示的票價是根據即時資料的實際搜尋結果，因此有些航線的資訊比較少。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">行程開始日期</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s 個回程班機</item>
         <item quantity="other">%s 個回程班機</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">每人來回價格</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">每人單程價格</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">您的行程是空的。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此趟旅程您將可獲得 %1$s 點！</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">此行程可獲得 %1$s 點！</string>
+    <string name="x_points_for_this_trip_TEMPLATE">此行程可獲得 &lt;b&gt;%1$s&lt;/b&gt; 點！</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">此次預訂您將可獲得額外獎勵點數！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

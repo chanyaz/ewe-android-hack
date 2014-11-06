@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">Per cercare i tuoi voli per %s,\nindica quando vorresti partire.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Per scoprire i trend sui prezzi dei voli,\nindica da dove vuoi partire.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Le Tendenze di volo ti danno un\&apos;idea di come cambiano i prezzi dei voli nel corso del tempo. Dato che i prezzi indicati si basano sulle informazioni in tempo reale delle ricerche, alcune rotte potrebbero presentare meno dettagli di altre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Inizio del viaggio</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s voli di ritorno</item>
         <item quantity="other">%s voli di ritorno</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Prezzi di andata e ritorno a persona</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Prezzi di sola andata a persona</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Il tuo viaggio è vuoto.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Per questo viaggio riceverai %1$s crediti!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">Riceverai %1$s crediti per questo viaggio!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Per questo viaggio riceverai &lt;b&gt;%1$s&lt;/b&gt; crediti!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Per questo viaggio riceverai crediti bonus!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2116,27 +2122,27 @@
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Siamo spiacenti, ma questo coupon non è valido.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto. .</string>
+    <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto .</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Si è verificato un problema. Riprova in seguito. .</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Siamo spiacenti, ma questo codice coupon è già stato utilizzato..</string>
+    <string name="coupon_error_duplicate">Siamo spiacenti, ma questo codice coupon è già stato utilizzato.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Si è verificato un problema. Riprova in seguito..</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Impossibile applicare il coupon perché il costo della prenotazione è cambiato. Controlla il totale aggiornato e riprova..</string>
+    <string name="coupon_error_price_change">Impossibile applicare il coupon perché il costo della prenotazione è cambiato. Controlla il totale aggiornato e riprova.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Siamo spiacenti, ma questo coupon è valido per un altro paese. .</string>
+    <string name="coupon_error_invalid_region">Siamo spiacenti, ma questo coupon è valido per un altro paese.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Siamo spiacenti, ma non hai selezionato il numero minimo di notti richiesto..</string>
+    <string name="coupon_error_min_stay_not_met">Siamo spiacenti, ma non hai selezionato il numero minimo di notti richiesto.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Siamo spiacenti, ma il coupon non è valido per le date selezionate. .</string>
+    <string name="coupon_error_invalid_travel_dates">Siamo spiacenti, ma il coupon non è valido per le date selezionate .</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon. .</string>
+    <string name="coupon_error_invalid_product">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Siamo spiacenti, ma l\&apos;hotel selezionato non soddisfa i requisiti minimi di spesa previsti..</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Siamo spiacenti, ma la prenotazione non soddisfa i requisiti minimi di spesa previsti.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon..</string>
+    <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Spiacenti, il coupon non può essere utilizzato.</string>
     <!-- Error when applying coupon - our coupon servers are down -->

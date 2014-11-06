@@ -20,6 +20,8 @@
     <string name="missing_dates_flight_TEMPLATE">Om du vill söka efter flyg till %s,\nmåste du ange när du vill flyga.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Ange var du reser ifrån\nför att se flygpristrender.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Flygtrender ger dig ett hum om hur flygpriser varierar över tid. Eftersom priserna som visas baseras på livedata från riktiga sökningar, har vissa rutter mindre information än andra.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Avresa</string>
     <!-- Denotes the end date of the trip -->
@@ -79,6 +81,10 @@
         <item quantity="many">%s returflyg</item>
         <item quantity="other">%s returflyg</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Pris per person för tur- och returresa</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Pris per person för enkelresa</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Din resa är tom.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1195,7 +1201,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du samlar %1$s poäng på den här resan!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s poäng för den här resan!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; poäng för den här resan!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Du kommer att tjäna bonuspoäng med den här bokningen</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
