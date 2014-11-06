@@ -25,6 +25,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.squareup.otto.Subscribe;
 
@@ -39,6 +40,8 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	private ThrobberDialog mCouponRemoveThrobberDialog;
 	private ProgressDialog mGoogleWalletCouponApplyThrobber;
 	private HotelBookingFragment mHotelBookingFragment;
+
+	private boolean mIsCouponBeingReplaced = false;
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
@@ -144,8 +147,13 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	}
 
 	public void onReplaceCoupon(String couponCode) {
-		showReplacingWithWalletCouponDialog();
-		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, couponCode);
+		if (!mIsCouponBeingReplaced) {
+			Log.d("CheckoutCouponFragment.onReplaceCoupon(" + couponCode + ")");
+			mIsCouponBeingReplaced = true;
+			showGoogleWalletCouponLoadingThrobber();
+			showReplacingWithWalletCouponDialog();
+			mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, couponCode);
+		}
 	}
 
 	public void showReplacingWithWalletCouponDialog() {
@@ -232,6 +240,7 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 		updateViews();
 		updateViewVisibilities();
 		dismissDialogs();
+		mIsCouponBeingReplaced = false;
 	}
 
 	@Subscribe
@@ -247,8 +256,9 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 
 	@Subscribe
 	public void onCouponDownloadError(Events.CouponDownloadError event) {
-		dismissDialogs();
 		// Do something on error
+		dismissDialogs();
+		mIsCouponBeingReplaced = false;
 	}
 
 }

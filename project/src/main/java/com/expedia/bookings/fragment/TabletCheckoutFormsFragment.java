@@ -346,14 +346,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				}
 			}
 			else if (Db.getBillingInfo().hasStoredCard() && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				if (Db.getTripBucket().getHotel().isCouponApplied() && mCouponContainer != null) {
-					if (!Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
-						mCouponContainer.onReplaceCoupon(WalletUtils.getWalletCouponCode(getActivity()));
-					}
-					else {
-						applyWalletCoupon();
-					}
-				}
+					applyWalletCoupon();
 			}
 		}
 	}
@@ -944,8 +937,15 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void applyWalletCoupon() {
-		String couponCode = WalletUtils.getWalletCouponCode(getActivity());
-		mCouponContainer.onApplyCoupon(couponCode);
+		if (mCouponContainer != null) {
+			String couponCode = WalletUtils.getWalletCouponCode(getActivity());
+			if (!Db.getTripBucket().getHotel().isCouponApplied()) {
+				mCouponContainer.onApplyCoupon(couponCode);
+			}
+			else if (Db.getTripBucket().getHotel().isCouponApplied() && !Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+				mCouponContainer.onReplaceCoupon(couponCode);
+			}
+		}
 	}
 
 	/*
