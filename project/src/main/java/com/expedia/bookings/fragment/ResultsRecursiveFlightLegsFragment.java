@@ -970,7 +970,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 
 			// Sort and Filter button
-			mListFrag.setTopRightTextButtonEnabled(state == ResultsFlightLegState.DETAILS);
+			mListFrag.setTopRightTextButtonVisibility(state == ResultsFlightLegState.DETAILS);
 		}
 	}
 
