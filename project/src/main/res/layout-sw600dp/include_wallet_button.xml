@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.TabletWalletButton xmlns:android="http://schemas.android.com/apk/res/android"
-                                          android:id="@+id/wallet_container"
-                                          android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
-                                          android:padding="0dp">
+                                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:id="@+id/wallet_container"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:padding="0dp">
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/wallet_promo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="23dp"
         android:layout_below="@id/wallet_button"
-        android:background="@drawable/wallet_promo_bg_tablet"
+        android:background="@drawable/wallet_promo_bg"
         android:gravity="center"
-        android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="4dp"
         android:text="@string/wallet_promo_offer"
-        android:textColor="#f0f0f0"
-        android:textSize="12sp"/>
+        android:textColor="@drawable/wallet_promo_text"
+        android:textSize="14sp"
+        app:textStyle="light"/>
 
     <FrameLayout
         android:id="@+id/wallet_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <View
             android:id="@+id/button"
             style="@style/BookingSection"
