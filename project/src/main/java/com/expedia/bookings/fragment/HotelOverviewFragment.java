@@ -3,15 +3,13 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -38,7 +36,6 @@ import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
@@ -1517,6 +1514,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onCreateTripDownloadError(Events.CreateTripDownloadError event) {
 		dismissDialogs();
+
+		DialogFragment df = new RetryErrorDialogFragment();
+		df.show(getChildFragmentManager(), "retryHotelCreateTripDialog");
 	}
 
 	@Subscribe

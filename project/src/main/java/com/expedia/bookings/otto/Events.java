@@ -201,10 +201,20 @@ public class Events {
 	 * This event notifies CreateTripDownload call completed with an error
 	 */
 	public static class CreateTripDownloadError {
+		private LineOfBusiness mLineOfBusiness;
 		private ServerError mServerError;
 
 		public CreateTripDownloadError(ServerError serverError) {
 			this.mServerError = serverError;
+		}
+
+		public CreateTripDownloadError(LineOfBusiness lob, ServerError error) {
+			mLineOfBusiness = lob;
+			mServerError = error;
+		}
+
+		public LineOfBusiness getLob() {
+			return mLineOfBusiness;
 		}
 	}
 

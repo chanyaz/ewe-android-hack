@@ -504,26 +504,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	// Error handling
 	private void handleCreateTripError(CreateTripResponse response) {
 		if (response == null) {
-			Events.post(new Events.CreateTripDownloadError(null));
-			showRetryErrorDialog();
+			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, null));
 		}
 		else {
 			ServerError firstError = response.getErrors().get(0);
-			Events.post(new Events.CreateTripDownloadError(firstError));
-
-			switch (firstError.getErrorCode()) {
-			case TRIP_SERVICE_ERROR:
-				// Let's show a retry dialog here.
-			case INVALID_INPUT:
-				/*
-				 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
-				 * Hence for now let's show a retry dialog here too (after a chat with API team)
-				 */
-			default: {
-				showRetryErrorDialog();
-				break;
-			}
-			}
+			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, firstError));
 		}
 	}
 
