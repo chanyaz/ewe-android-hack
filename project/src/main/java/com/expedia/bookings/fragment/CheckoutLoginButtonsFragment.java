@@ -369,7 +369,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
 		}
 
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && getLob() == LineOfBusiness.HOTELS) {
 			mWalletCouponListener.applyWalletCoupon();
 		}
 
