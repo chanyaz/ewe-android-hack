@@ -216,6 +216,14 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			&& mCurrentProperty != mProperty) {
 			mAttemptedInitialDownload = false;
 			mUserReviews = null;
+			mPageNumber = 0;
+			mNumReviewsDownloaded = 0;
+			mListView.post(new Runnable() {
+				@Override
+				public void run() {
+					mListView.smoothScrollToPosition(0);
+				}
+			});
 			if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
 				mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
 			}
