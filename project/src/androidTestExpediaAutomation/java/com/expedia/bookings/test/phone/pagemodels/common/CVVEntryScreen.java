@@ -59,10 +59,6 @@ public class CVVEntryScreen extends ScreenActions {
 		return onView(withText(sBookingStringID));
 	}
 
-	public static ViewInteraction creditCardNumberInvalid() {
-		return onView(withText(R.string.error_invalid_card_number));
-	}
-
 	public static ViewInteraction okString() {
 		return onView(withText(R.string.ok));
 	}
@@ -88,15 +84,11 @@ public class CVVEntryScreen extends ScreenActions {
 		bookButton().perform(click());
 	}
 
-	public static void clickDeleteButton() {
-		deleteButton().perform(click());
-	}
-
 	public static void clickOkButton() {
 		okString().perform(click());
 	}
 
-	public static void clickCancelButton() {
-		onView(withText("Cancel")).perform(click());
+	public static ViewInteraction cvvSignatureText() {
+		return onView(withId(R.id.signature_text_view));
 	}
 }
