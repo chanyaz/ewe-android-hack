@@ -81,6 +81,13 @@
         <item name="textStyle">condensed</item>
     </style>
 
+    <style name="CenterCaptionedIcon.Caption.ToolTip">
+        <item name="android:layout_marginLeft">@dimen/gde_tool_tip_margin_sides</item>
+        <item name="android:layout_marginRight">@dimen/gde_tool_tip_margin_sides</item>
+        <item name="android:textSize">@dimen/gde_tool_tip_text_size</item>
+        <item name="textStyle">light</item>
+    </style>
+
     <style name="CenterCaptionedIcon.ActionButton">
         <item name="android:layout_width">182dp</item>
         <item name="android:layout_height">32dp</item>
@@ -91,6 +98,10 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
         <item name="textStyle">medium</item>
+    </style>
+
+    <style name="CenterCaptionedIcon.ActionButton.Done">
+        <item name="android:layout_marginTop">@dimen/gde_tool_tip_button_margin_top</item>
     </style>
 
 </resources>

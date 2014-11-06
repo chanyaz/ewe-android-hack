@@ -61,20 +61,21 @@
         android:id="@+id/gde_tool_tip_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/results_list_header_height"
+        android:layout_marginTop="@dimen/gde_tool_tip_margin_top"
+        android:layout_marginBottom="@dimen/gde_tool_tip_margin_top"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
         <com.expedia.bookings.widget.TextView
-            style="@style/CenterCaptionedIcon.Caption"
+            style="@style/CenterCaptionedIcon.Caption.ToolTip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/flight_trends_tool_tip" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/action_button"
-            style="@style/CenterCaptionedIcon.ActionButton"
+            style="@style/CenterCaptionedIcon.ActionButton.Done"
             android:text="@string/DONE"/>
 
     </LinearLayout>
