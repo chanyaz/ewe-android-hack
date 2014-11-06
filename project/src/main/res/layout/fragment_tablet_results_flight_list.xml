@@ -43,13 +43,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/results_list_header_text_margin_top"
             android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+            android:layout_marginTop="@dimen/results_list_header_text_margin_top"
+            android:drawableLeft="@drawable/tablet_sort_filter_text_icon_selector"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:paddingLeft="8dp"
-            android:textColor="#6a6a6a"
-            android:textSize="12dp"
             android:textAllCaps="true"
+            android:textColor="@color/tablet_sort_filter_text_selector"
+            android:textSize="12dp"
             app:textStyle="bold" />
     </com.expedia.bookings.widget.TouchableFrameLayout>
 
