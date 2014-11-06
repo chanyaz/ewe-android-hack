@@ -356,6 +356,15 @@
         },
         {
             "name": "Visa"
+        },
+        {
+            "name": "Maestro"
+        },
+        {
+            "name": "ChinaUnionPay"
+        },
+        {
+            "name": "CarteBlanche"
         }
     ]
 }
