@@ -37,11 +37,13 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+            android:drawableLeft="@drawable/tablet_sort_filter_text_icon_selector"
+            android:drawablePadding="10dp"
             android:gravity="center_vertical|right"
             android:paddingLeft="8dp"
+            android:textAllCaps="true"
             android:textColor="@color/tablet_sort_filter_text_selector"
             android:textSize="12dp"
-            android:textAllCaps="true"
             app:textStyle="bold" />
     </com.expedia.bookings.widget.TouchableFrameLayout>
 

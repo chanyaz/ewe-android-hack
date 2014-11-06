@@ -36,7 +36,10 @@
     <color name="tablet_hotel_urgency_msg_pressed_selected_overlay">#3971bf</color>
     <color name="tablet_hotel_urgency_msg_pressed_unselected_overlay">#2a538c</color>
     <color name="tablet_hotel_sort_filter_text">#6a6a6a</color>
+    <color name="tablet_hotel_sort_filter_text_pressed">#7ca3da</color>
     <color name="tablet_hotel_sort_filter_text_disabled">#336a6a6a</color>
+    <color name="tablet_hotel_sort_filter_done">#0B4EA4</color>
+    <color name="tablet_hotel_sort_filter_done_pressed">#a6c8f3</color>
 
     <!-- Tablet Flights -->
     <color name="tablet_flight_filter_text_color">#4c5156</color>

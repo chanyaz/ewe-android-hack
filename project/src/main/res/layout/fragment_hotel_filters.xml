@@ -29,7 +29,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:text="@string/Done"
-            android:textColor="#FF0B4EA4"
+            android:textColor="@color/tablet_sort_filter_done_selector"
+            android:drawableLeft="@drawable/tablet_sort_filter_done_icon_selector"
+            android:drawablePadding="10dp"
             android:textSize="18sp"
             app:textStyle="light" />
 
