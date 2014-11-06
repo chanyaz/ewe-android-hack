@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Random;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.tablet.pagemodels.Checkout;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
 import com.expedia.bookings.test.tablet.pagemodels.HotelDetails;
 import com.expedia.bookings.test.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.tablet.pagemodels.Results;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.TabletTestCase;
+
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by dmadan on 9/22/14.
@@ -65,13 +70,40 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 			}
 
 			Checkout.enterCreditCardNumber(creditcardNumber);
+
+			/*
+			* Case 1: verify cards working, test credit card logo displayed
+			*/
 			try {
-				//compare credit card image displayed and desired image
 				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_tablet, testData.getDrawableId());
 			}
 			catch (Exception e) {
 				throw new Exception("Failure-" + testData.getTestName(), e);
 			}
+			Checkout.clickOnDone();
+			Checkout.slideToPurchase();
+
+			/*
+			* Case 2: check cvv sub prompt text view
+			* For Amex cards:"See front of the card" and for other cards: "See back of card"
+			*/
+
+			if (testData.getTestName().equals("Amex")) {
+				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_front_of_card));
+			}
+			else {
+				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_back_of_card));
+			}
+
+			/*
+			* Case 3: Security Code will show the cardholders name Firstname Lastname as: F. Lastname
+			*/
+
+			EspressoUtils.assertContains(onView(withId(R.id.signature_text_view)),"M. Auto");
+
+			//go back and clear credit card edit box for next test data
+			Common.pressBack();
+			Checkout.clickCreditCardSection();
 			EspressoUtils.clear(Checkout.creditCardNumber());
 		}
 	}
@@ -85,25 +117,43 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 
 		recordData("Visa13", new String[] {"4"}, 13, R.drawable.ic_tablet_checkout_visa);
 
-		recordData("MasterCard", new String[] {"51", "52", "53", "54", "55"}, 16, R.drawable.ic_tablet_checkout_mastercard);
+		recordData("MasterCard", new String[] {
+			"51", "52", "53", "54", "55"
+		}, 16, R.drawable.ic_tablet_checkout_mastercard);
 
-		recordData("Maestro16", new String[] {"50", "63", "67"}, 16, R.drawable.ic_tablet_checkout_maestro);
+		recordData("Maestro16", new String[] {
+			"50", "63", "67"
+		}, 16, R.drawable.ic_tablet_checkout_maestro);
 
-		recordData("Maestro18", new String[] {"50", "63", "67"}, 18, R.drawable.ic_tablet_checkout_maestro);
+		recordData("Maestro18", new String[] {
+			"50", "63", "67"
+		}, 18, R.drawable.ic_tablet_checkout_maestro);
 
-		recordData("Maestro19", new String[] {"50", "63", "67"}, 19, R.drawable.ic_tablet_checkout_maestro);
+		recordData("Maestro19", new String[] {
+			"50", "63", "67"
+		}, 19, R.drawable.ic_tablet_checkout_maestro);
 
 		recordData("Discover", new String[] {"60"}, 16, R.drawable.ic_tablet_checkout_discover);
 
-		recordData("DinersClub", new String[] {"30", "36", "38", "60"}, 14, R.drawable.ic_tablet_checkout_diners_club);
+		recordData("DinersClub", new String[] {
+			"30", "36", "38", "60"
+		}, 14, R.drawable.ic_tablet_checkout_diners_club);
 
-		recordData("ChinaUnion17", new String[] {"62"}, 17, R.drawable.ic_tablet_checkout_union_pay);
+		recordData("ChinaUnion17", new String[] {
+			"62"
+		}, 17, R.drawable.ic_tablet_checkout_union_pay);
 
-		recordData("ChinaUnion18", new String[] {"62"}, 18, R.drawable.ic_tablet_checkout_union_pay);
+		recordData("ChinaUnion18", new String[] {
+			"62"
+		}, 18, R.drawable.ic_tablet_checkout_union_pay);
 
-		recordData("ChinaUnion19", new String[] {"62"}, 19, R.drawable.ic_tablet_checkout_union_pay);
+		recordData("ChinaUnion19", new String[] {
+			"62"
+		}, 19, R.drawable.ic_tablet_checkout_union_pay);
 
-		recordData("CarteBlanche", new String[] {"94", "95"}, 14, R.drawable.ic_tablet_checkout_carte_blanche);
+		recordData("CarteBlanche", new String[] {
+			"94", "95"
+		}, 14, R.drawable.ic_tablet_checkout_carte_blanche);
 
 		recordData("Amex", new String[] {"34", "37"}, 15, R.drawable.ic_tablet_checkout_amex);
 
@@ -117,7 +167,19 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 
+		Checkout.clickOnEmptyTravelerDetails();
+		Checkout.enterFirstName("Mobiata");
+		Checkout.enterLastName("Auto");
+		Checkout.enterPhoneNumber("1112223333");
+		Checkout.enterEmailAddress("aaa@aaa.com");
+		Common.closeSoftKeyboard(Checkout.firstName());
+		Checkout.clickOnDone();
+
 		Checkout.clickOnEnterPaymentInformation();
+		Checkout.setExpirationDate(2020, 12);
+		Checkout.enterNameOnCard("Mobiata Auto");
+		Checkout.enterPostalCode("95104");
+		Common.closeSoftKeyboard(Checkout.postalCode());
 
 		//loop through the TestData
 		for (int i = 0; i < mTestData.size(); i++) {
