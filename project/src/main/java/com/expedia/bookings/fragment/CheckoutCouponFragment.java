@@ -24,6 +24,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.squareup.otto.Subscribe;
@@ -147,8 +148,10 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 		if (!mIsCouponBeingReplaced) {
 			Log.d("CheckoutCouponFragment.onReplaceCoupon(" + couponCode + ")");
 			mIsCouponBeingReplaced = true;
-			showGoogleWalletCouponLoadingThrobber();
-			showReplacingWithWalletCouponDialog();
+			if (WalletUtils.isCouponWalletCoupon(couponCode)) {
+				showGoogleWalletCouponLoadingThrobber();
+				showReplacingWithWalletCouponDialog();
+			}
 			mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, couponCode);
 		}
 	}
@@ -183,7 +186,9 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 
 	@Override
 	public void onApplyCoupon(String couponCode) {
-		showGoogleWalletCouponLoadingThrobber();
+		if (WalletUtils.isCouponWalletCoupon(couponCode)) {
+			showGoogleWalletCouponLoadingThrobber();
+		}
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_APPLY, couponCode);
 	}
 

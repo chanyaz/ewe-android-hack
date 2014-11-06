@@ -354,7 +354,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
 			boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
 			final boolean isCouponAvailable = WalletUtils.offerGoogleWalletCoupon(getActivity());
-			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
+			boolean isCouponApplied = Db.getTripBucket().getHotel().isCouponApplied();
+			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && isCouponApplied && usingWalletPromoCoupon()) {
 				clearWalletPromoCoupon();
 			}
 			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet && isCouponAvailable) {
