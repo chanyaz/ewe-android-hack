@@ -81,9 +81,8 @@ class AndroidExpediaPlugin implements Plugin<Project> {
 
     def generateHomescreenLauncherAppNameLabel(project, buildVariant, resourceOverridePairs) {
         def appNameLabel = GradleUtil.getAppName(project, buildVariant)
-
         if (GradleUtil.isDefined(appNameLabel)) {
-            resourceOverridePairs.add(new AndroidResource("string", "app_name", appNameLabel))
+            resourceOverridePairs.add(new AndroidResource("string", "launcher_name", appNameLabel))
         }
     }
 
