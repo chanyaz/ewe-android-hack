@@ -16,14 +16,15 @@ get "extra-android-m2repository"
 get "extra-google-m2repository"
 get "build-tools-19.1.0"
 
-# Disable gradle's fancy log outputting
-TERM=dumb
+function build() {
+    # Disable gradle's fancy log outputting
+    TERM=dumb
 
-./gradlew --no-daemon \
-    assembleExpediaDebug \
-    assembleExpediaDebugTest \
-    assembleExpediaAutoDebug \
-    assembleExpediaAutoDebugTest \
-    assembleTravelocityDebug \
-    assembleAirAsiaGoDebug
+    ./gradlew --no-daemon $*
+}
+
+build assembleExpediaDebug assembleExpediaDebugTest
+build assembleExpediaAutomationDebug assembleExpediaAutomationDebugTest
+build assembleTravelocityDebug
+build assembleAirAsiaGoDebug
 
