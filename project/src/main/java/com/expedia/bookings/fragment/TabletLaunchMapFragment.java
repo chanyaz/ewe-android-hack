@@ -51,6 +51,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	// Store the id of the "clicked" location (i.e. the one expanded to show details)
 	private String mClickedLocation;
 
+	// The alpha ceiling for map markers. If we're viewing details or waypoint selection,
+	// this will be 0f, and if it's in transition, it will be somewhere in between.
+	float mMarkerAlpha = 1f;
+
 	// value taken from google-play-services.jar
 	private static final String MAP_OPTIONS = "MapOptions";
 
@@ -137,6 +141,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		LaunchState.OVERVIEW, LaunchState.DETAILS, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 0f : 1f;
 			if (!isReversed) {
 				adjustMapPadding(false);
 			}
@@ -144,28 +149,31 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			mMarkerAlpha = 1f - percentage;
 			for (LaunchLocation location : mLocations.keySet()) {
 				Marker marker = mLocations.get(location);
 				if (mClickedLocation != null && mClickedLocation.equals(location.id)) {
 					marker.setAlpha(!isReversed || percentage < 1f ? 0f : 1f);
 				}
 				else {
-					marker.setAlpha(1f - percentage);
+					marker.setAlpha(mMarkerAlpha);
 				}
 			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 1f : 0f;
 			if (mClickedLocation != null && isReversed) {
 				for (Marker marker : mLocations.values()) {
-					marker.setAlpha(1f);
+					marker.setAlpha(mMarkerAlpha);
 				}
 			}
 		}
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 1f : 0f;
 			if (isAdded() && isReversed) {
 				adjustMapPadding(true);
 			}
@@ -177,6 +185,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		LaunchState.OVERVIEW, LaunchState.WAYPOINT, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 0f : 1f;
 			if (!isReversed) {
 				adjustMapPadding(false);
 			}
@@ -184,20 +193,22 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			mMarkerAlpha = 1f - percentage;
 			for (Marker marker : mLocations.values()) {
 				if (marker != null) {
-					marker.setAlpha(1f - percentage);
+					marker.setAlpha(mMarkerAlpha);
 				}
 			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
-
+			mMarkerAlpha = isReversed ? 1f : 0f;
 		}
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 1f : 0f;
 			if (isAdded() && isReversed) {
 				adjustMapPadding(true);
 			}
@@ -273,7 +284,9 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	private void replaceAllPins(List<LaunchLocation> locations) {
 		for (Marker marker : mLocations.values()) {
-			marker.remove();
+			if (marker != null) {
+				marker.remove();
+			}
 		}
 		mLocations.clear();
 
@@ -312,37 +325,28 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		}
 	}
 
-	private void inflatePinAndAddMarker(LaunchLocation launchLocation, Bitmap bitmap) {
+	private void inflatePinAndAddMarker(final LaunchLocation launchLocation, Bitmap bitmap) {
 		Bitmap pinBitmap = LaunchPin.createViewBitmap(getActivity(), launchLocation, bitmap);
 
-		Location location = launchLocation.location.getLocation();
 		MarkerOptions options = new MarkerOptions()
-			.position(new LatLng(location.getLatitude(), location.getLongitude()))
+			.position(getLatLng(launchLocation))
 			.icon(BitmapDescriptorFactory.fromBitmap(pinBitmap))
 			.anchor(0.5f, getResources().getDimension(R.dimen.launch_pin_size) / 2 / pinBitmap.getHeight())
-			.title(launchLocation.id);
+			.title(launchLocation.id)
+			.alpha(0f);
 
-		if (AndroidUtils.getSdkVersion() > 15) {
-			// Setup for the animation
-			options.alpha(0);
-		}
-		Marker marker = getMap().addMarker(options);
+		final Marker marker = getMap().addMarker(options);
 
-		if (AndroidUtils.getSdkVersion() > 15) {
-			// Fade this marker in
+		// Add animation effects, if the markers are not already transitioning.
+		if (AndroidUtils.getSdkVersion() > 15 && mMarkerAlpha == 1f) {
 			ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
 
-			// Remove the existing marker
-			if (mLocations.get(launchLocation) != null) {
-				final Marker oldMarker = mLocations.get(launchLocation);
-				anim.addListener(new AnimatorListenerAdapter() {
-					@Override
-					public void onAnimationEnd(Animator animation) {
-						oldMarker.remove();
-						oldMarker.setVisible(false);
-					}
-				});
-			}
+			anim.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					finalizeAddMarker(launchLocation, marker);
+				}
+			});
 
 			Rect pinRect = getPinRect(marker);
 			anim.setDuration(500);
@@ -350,7 +354,23 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 			anim.start();
 		}
+		else {
+			finalizeAddMarker(launchLocation, marker);
+		}
+	}
 
+	private LatLng getLatLng(LaunchLocation launchLocation) {
+		Location location = launchLocation.location.getLocation();
+		return new LatLng(location.getLatitude(), location.getLongitude());
+	}
+
+	private void finalizeAddMarker(LaunchLocation launchLocation, Marker marker) {
+		marker.setAlpha(mMarkerAlpha);
+		Marker oldMarker = mLocations.get(launchLocation);
+		if (oldMarker != null) {
+			oldMarker.remove();
+			oldMarker.setVisible(false);
+		}
 		mLocations.put(launchLocation, marker);
 	}
 
