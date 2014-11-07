@@ -16,6 +16,7 @@ import android.text.Html;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -79,6 +80,8 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mPriceText;
 	private TextView mSaleText;
 	private ImageView mSaleImageView;
+	private ViewGroup mAirAttachC;
+	private TextView mAirAttachTv;
 	private RatingBar mUserRatingBar;
 	private TextView mNotRatedText;
 	private TextView mProximityText;
@@ -125,6 +128,8 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText = Ui.findView(this, R.id.price_text_view);
 		mSaleText = Ui.findView(this, R.id.sale_text_view);
 		mSaleImageView = Ui.findView(this, R.id.sale_image_view);
+		mAirAttachC = Ui.findView(this, R.id.air_attach_sale_container);
+		mAirAttachTv = Ui.findView(this, R.id.air_attach_sale_text_view);
 		mUserRatingBar = Ui.findView(this, R.id.user_rating_bar);
 		mNotRatedText = Ui.findView(this, R.id.not_rated_text_view);
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
@@ -231,12 +236,22 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 
 				mPriceText.setTextColor(mSalePriceTextColor);
-				mSaleText.setVisibility(View.VISIBLE);
-				if (mSaleImageView != null) {
-					mSaleImageView.setVisibility(View.VISIBLE);
+
+				if (rate.isAirAttached()) {
+					mAirAttachC.setVisibility(View.VISIBLE);
+					mSaleText.setVisibility(View.GONE);
+					mAirAttachTv.setText(context.getString(R.string.percent_minus_template,
+						(float) rate.getDiscountPercent()));
 				}
-				mSaleText.setText(context.getString(R.string.percent_minus_template,
-					(float) rate.getDiscountPercent()));
+				else {
+					mAirAttachC.setVisibility(View.GONE);
+					mSaleText.setVisibility(View.VISIBLE);
+					if (mSaleImageView != null) {
+						mSaleImageView.setVisibility(View.VISIBLE);
+					}
+					mSaleText.setText(context.getString(R.string.percent_minus_template,
+						(float) rate.getDiscountPercent()));
+				}
 			}
 
 			// Story #790. Expedia's way of making it seem like they are offering a discount.
