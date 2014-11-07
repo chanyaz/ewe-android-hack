@@ -1,12 +1,10 @@
 package com.expedia.bookings.test.phone.tests.localization;
 
+import java.util.Locale;
+
 import org.joda.time.LocalDate;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.RouterActivity;
-import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.tablet.pagemodels.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
@@ -28,62 +26,44 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScree
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.utils.SpoonScreenshotUtils;
-import com.mobiata.android.util.SettingUtils;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 
 /**
  * Created by dmadan on 6/30/14.
  */
-public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<RouterActivity> {
+public class MarketingSweepPhone extends PhoneTestCase {
 
-	public MarketingSweepPhone() {
-		super(RouterActivity.class);
-	}
-
-	@Override
-	public void runTest() throws Throwable {
-		if (Common.isPhone(getInstrumentation())) {
-			Settings.clearPrivateData(getInstrumentation());
-			SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_which_api_to_use_key, "Production");
-
-			// Espresso will not launch our activity for us, we must launch it via getActivity().
-			getActivity();
-
-			super.runTest();
-		}
-	}
-
-	public void testBookFlight() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+	public void bookFlight() throws Throwable {
+		screenshot("Launch");
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
-		SpoonScreenshotUtils.screenshot("Flights_Search", getInstrumentation());
+		screenshot("Flights_Search");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		FlightsSearchScreen.clickDate(startDate, endDate);
 		FlightsSearchScreen.clickSearchButton();
 
-		SpoonScreenshotUtils.screenshot("Flights_Search_Results", getInstrumentation());
+		screenshot("Flights_Search_Results");
 		FlightsSearchResultsScreen.clickListItem(1);
-		SpoonScreenshotUtils.screenshot("Flight_leg_details1", getInstrumentation());
+		screenshot("Flight_leg_details1");
 		FlightLegScreen.clickSelectFlightButton();
-		SpoonScreenshotUtils.screenshot("Flights_Search_Results2", getInstrumentation());
+		screenshot("Flights_Search_Results2");
 		FlightsSearchResultsScreen.clickListItem(1);
-		SpoonScreenshotUtils.screenshot("Flight_leg_details2", getInstrumentation());
+		screenshot("Flight_leg_details2");
 		FlightLegScreen.clickSelectFlightButton();
-		SpoonScreenshotUtils.screenshot("Flights_checkout_overview", getInstrumentation());
+		screenshot("Flights_checkout_overview");
 		FlightsCheckoutScreen.clickCheckoutButton();
 
 		CommonCheckoutScreen.clickLogInButton();
-		SpoonScreenshotUtils.screenshot("Log_in_screen", getInstrumentation());
+		screenshot("Log_in_screen");
 		Common.closeSoftKeyboard(LogInScreen.logInButton());
 		Common.pressBack();
 		ScreenActions.delay(1);
 
 		FlightsCheckoutScreen.clickTravelerDetails();
-		SpoonScreenshotUtils.screenshot("Traveler_Details", getInstrumentation());
+		screenshot("Traveler_Details");
 		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
 		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
@@ -101,7 +81,7 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 			}
 		}
 		BillingAddressScreen.clickNextButton();
-		SpoonScreenshotUtils.screenshot("Traveler_Details2", getInstrumentation());
+		screenshot("Traveler_Details2");
 		try {
 			BillingAddressScreen.clickNextButton();
 		}
@@ -118,7 +98,7 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		catch (Exception e) {
 			// No add new card option
 		}
-		SpoonScreenshotUtils.screenshot("Payment_Details", getInstrumentation());
+		screenshot("Payment_Details");
 		try {
 			BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 			BillingAddressScreen.typeTextCity("San Francisco");
@@ -144,18 +124,18 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		catch (Exception e) {
 			//No I accept button
 		}
-		SpoonScreenshotUtils.screenshot("Slide_to_checkout", getInstrumentation());
+		screenshot("Slide_to_checkout");
 		FlightsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
-		SpoonScreenshotUtils.screenshot("CVV_Entry", getInstrumentation());
+		screenshot("CVV_Entry");
 		CVVEntryScreen.clickBookButton();
 
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		FlightsConfirmationScreen.clickDoneButton();
 	}
 
-	public void testBookHotel() throws Throwable {
-		SpoonScreenshotUtils.screenshot("Launch", getInstrumentation());
+	public void bookHotel() throws Throwable {
+		screenshot("Launch");
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
@@ -165,19 +145,19 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(startDate, endDate);
-		SpoonScreenshotUtils.screenshot("Hotels_Search", getInstrumentation());
+		screenshot("Hotels_Search");
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		SpoonScreenshotUtils.screenshot("Hotels_Search_Results", getInstrumentation());
+		screenshot("Hotels_Search_Results");
 		HotelsSearchScreen.clickListItem(1);
-		SpoonScreenshotUtils.screenshot("Hotels_Details", getInstrumentation());
+		screenshot("Hotels_Details");
 		HotelsDetailsScreen.clickReviewsTitle();
-		SpoonScreenshotUtils.screenshot("Hotels_Reviews", getInstrumentation());
+		screenshot("Hotels_Reviews");
 		Common.pressBack();
 		HotelsDetailsScreen.clickSelectButton();
-		SpoonScreenshotUtils.screenshot("Hotel_rooms_rates", getInstrumentation());
+		screenshot("Hotel_rooms_rates");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
-		SpoonScreenshotUtils.screenshot("Hotel_checkout", getInstrumentation());
+		screenshot("Hotel_checkout");
 		try {
 			SettingsScreen.clickOKString();
 		}
@@ -186,7 +166,7 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		}
 		HotelsCheckoutScreen.clickCheckoutButton();
 		CommonCheckoutScreen.clickLogInButton();
-		SpoonScreenshotUtils.screenshot("Log_in", getInstrumentation());
+		screenshot("Log_in");
 		Common.closeSoftKeyboard(LogInScreen.logInButton());
 		Common.pressBack();
 		ScreenActions.delay(1);
@@ -197,7 +177,7 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		catch (Exception e) {
 			//No Enter info manually button
 		}
-		SpoonScreenshotUtils.screenshot("Traveler_Details", getInstrumentation());
+		screenshot("Traveler_Details");
 		CommonTravelerInformationScreen.enterFirstName("Mobiata");
 		CommonTravelerInformationScreen.enterLastName("Auto");
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
@@ -205,7 +185,7 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		CommonTravelerInformationScreen.clickDoneButton();
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
-		SpoonScreenshotUtils.screenshot("Payment_Details", getInstrumentation());
+		screenshot("Payment_Details");
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
@@ -221,21 +201,221 @@ public class MarketingSweepPhone extends ActivityInstrumentationTestCase2<Router
 		catch (Exception e) {
 			//No I accept button
 		}
-		SpoonScreenshotUtils.screenshot("Slide_to_checkout", getInstrumentation());
+		screenshot("Slide_to_checkout");
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
-		SpoonScreenshotUtils.screenshot("CVV_Entry", getInstrumentation());
+		screenshot("CVV_Entry");
 
 		CVVEntryScreen.clickBookButton();
-		SpoonScreenshotUtils.screenshot("Confirmation", getInstrumentation());
+		screenshot("Confirmation");
 		HotelsConfirmationScreen.clickDoneButton();
+
+		//go to Launch screen to book a flight
+		Common.pressBack();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		if (Common.isPhone(getInstrumentation())) {
-			Common.pressBackOutOfApp();
-		}
+
+	public void testARGENTINA() throws Throwable {
+		setPOS(PointOfSaleId.ARGENTINA);
+		setLocale(new Locale("es", "AR"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testAUSTRALIA() throws Throwable {
+		setPOS(PointOfSaleId.AUSTRALIA);
+		setLocale(new Locale("en", "AU"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testAUSTRIA() throws Throwable {
+		setPOS(PointOfSaleId.AUSTRIA);
+		setLocale(new Locale("de", "AT"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testBELGIUM() throws Throwable {
+		setPOS(PointOfSaleId.BELGIUM);
+		setLocale(new Locale("nl", "BE"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testBRAZIL() throws Throwable {
+		setPOS(PointOfSaleId.BRAZIL);
+		setLocale(new Locale("pt", "BR"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testCANADA() throws Throwable {
+		setPOS(PointOfSaleId.CANADA);
+		setLocale(new Locale("en", "CA"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testDENMARK() throws Throwable {
+		setPOS(PointOfSaleId.DENMARK);
+		setLocale(new Locale("da", "DK"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testFRANCE() throws Throwable {
+		setPOS(PointOfSaleId.FRANCE);
+		setLocale(new Locale("fr", "FR"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testGERMANY() throws Throwable {
+		setPOS(PointOfSaleId.GERMANY);
+		setLocale(new Locale("de", "DE"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testHONG_KONG() throws Throwable {
+		setPOS(PointOfSaleId.HONG_KONG);
+		setLocale(new Locale("en", "HK"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testINDIA() throws Throwable {
+		setPOS(PointOfSaleId.INDIA);
+		setLocale(new Locale("en", "IN"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testINDONESIA() throws Throwable {
+		setPOS(PointOfSaleId.INDONESIA);
+		setLocale(new Locale("id", "ID"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testIRELAND() throws Throwable {
+		setPOS(PointOfSaleId.IRELAND);
+		setLocale(new Locale("en", "IE"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testITALY() throws Throwable {
+		setPOS(PointOfSaleId.ITALY);
+		setLocale(new Locale("it", "IT"));
+		bookHotel();
+		bookFlight();
+	}
+
+
+	public void testJAPAN() throws Throwable {
+		setPOS(PointOfSaleId.JAPAN);
+		setLocale(new Locale("ja", "jp"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testSOUTH_KOREA() throws Throwable {
+		setPOS(PointOfSaleId.SOUTH_KOREA);
+		setLocale(new Locale("ko", "KR"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testMALAYSIA() throws Throwable {
+		setPOS(PointOfSaleId.MALAYSIA);
+		setLocale(new Locale("ms", "MY"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testMEXICO() throws Throwable {
+		setPOS(PointOfSaleId.MEXICO);
+		setLocale(new Locale("en", "US"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testNETHERLANDS() throws Throwable {
+		setPOS(PointOfSaleId.NETHERLANDS);
+		setLocale(new Locale("nl", "NL"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testNORWAY() throws Throwable {
+		setPOS(PointOfSaleId.NORWAY);
+		setLocale(new Locale("nb", "NO"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testPHILIPPINES() throws Throwable {
+		setPOS(PointOfSaleId.PHILIPPINES);
+		setLocale(new Locale("en", "PH"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testSINGAPORE() throws Throwable {
+		setPOS(PointOfSaleId.SINGAPORE);
+		setLocale(new Locale("en", "SG"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testSPAIN() throws Throwable {
+		setPOS(PointOfSaleId.SPAIN);
+		setLocale(new Locale("es", "ES"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testSWEDEN() throws Throwable {
+		setPOS(PointOfSaleId.SWEDEN);
+		setLocale(new Locale("sv", "SE"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testTAIWAN() throws Throwable {
+		setPOS(PointOfSaleId.TAIWAN);
+		setLocale(new Locale("zh", "TW"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testTHAILAND() throws Throwable {
+		setPOS(PointOfSaleId.THAILAND);
+		setLocale(new Locale("th", "TH"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testUNITED_KINGDOM() throws Throwable {
+		setPOS(PointOfSaleId.UNITED_KINGDOM);
+		setLocale(new Locale("en", "UK"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testUNITED_STATES() throws Throwable {
+		setPOS(PointOfSaleId.UNITED_STATES);
+		setLocale(new Locale("en", "US"));
+		bookHotel();
+		bookFlight();
+	}
+
+	public void testVIETNAM() throws Throwable {
+		setPOS(PointOfSaleId.VIETNAM);
+		setLocale(new Locale("vi", "VN"));
+		bookHotel();
+		bookFlight();
 	}
 }
