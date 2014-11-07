@@ -75,7 +75,7 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 			* Case 1: verify cards working, test credit card logo displayed
 			*/
 			try {
-				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_tablet, testData.getDrawableId());
+				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_tablet, testData.getDrawableId(), R.id.new_card_container);
 			}
 			catch (Exception e) {
 				throw new Exception("Failure-" + testData.getTestName(), e);
@@ -99,7 +99,7 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 			* Case 3: Security Code will show the cardholders name Firstname Lastname as: F. Lastname
 			*/
 
-			EspressoUtils.assertContains(onView(withId(R.id.signature_text_view)),"M. Auto");
+			EspressoUtils.assertContains(onView(withId(R.id.signature_text_view)), "M. Auto");
 
 			//go back and clear credit card edit box for next test data
 			Common.pressBack();
