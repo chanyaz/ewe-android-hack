@@ -55,6 +55,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private static final String INSTANCE_STATUS_RES_ID = "INSTANCE_STATUS_RES_ID";
 	private static final String INSTANCE_PAGE_NUMBER = "INSTANCE_PAGE_NUMBER";
 	private static final String INSTANCE_NUM_DOWNLOADED = "INSTANCE_NUM_DOWNLOADED";
+	private static final String INSTANCE_HAS_CURRENT_PROPERTY = "INSTANCE_HAS_CURRENT_PROPERTY";
 
 	// Network classes
 	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
@@ -76,6 +77,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	private boolean mAttemptedInitialDownload = false;
 	private boolean mHasFilteredOutAReview = false;
+	private boolean mHasCurrentProperty = false;
 	private int mStatusResId;
 
 	private UserReviewsAdapter mUserReviewsAdapter;
@@ -84,6 +86,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	// Use this variable to disable download when onScroll gets invoked automatically when the ScrollListener is set
 	private boolean mScrollListenerSet;
+	private ListView mListView;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Public Overrides
@@ -125,18 +128,19 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			return;
 		}
 
-		ListView listView = getListView();
+		mListView = getListView();
 		if (mHeaderView != null) {
-			listView.addHeaderView(mHeaderView, null, false);
+			mListView.addHeaderView(mHeaderView, null, false);
 		}
 
-		mUserReviewsAdapter = new UserReviewsAdapter(getActivity(), listView);
+		mUserReviewsAdapter = new UserReviewsAdapter(getActivity(), mListView);
 
 		if (savedInstanceState != null) {
 			mPageNumber = savedInstanceState.getInt(INSTANCE_PAGE_NUMBER);
 			mNumReviewsDownloaded = savedInstanceState.getInt(INSTANCE_NUM_DOWNLOADED);
 			mAttemptedInitialDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
 			mHasFilteredOutAReview = savedInstanceState.getBoolean(INSTANCE_HAS_FILTERED_REVIEW, false);
+			mHasCurrentProperty = savedInstanceState.getBoolean(INSTANCE_HAS_CURRENT_PROPERTY, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
 			if (reincarnatedReviews) {
 				mProperty = Db.getHotelSearch().getSelectedProperty();
@@ -150,7 +154,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			}
 		}
 
-		listView.setOnScrollListener(this);
+		mListView.setOnScrollListener(this);
 		setListAdapter(mUserReviewsAdapter);
 		if (mUserReviewsFragmentListener != null) {
 			mUserReviewsFragmentListener.onUserReviewsFragmentReady(this);
@@ -191,6 +195,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		else {
 			outState.putInt(INSTANCE_STATUS_RES_ID, mStatusResId);
 		}
+		outState.putBoolean(INSTANCE_HAS_CURRENT_PROPERTY, mCurrentProperty != null);
 		outState.putBoolean(INSTANCE_HAS_REVIEWS, hasReviews);
 
 		outState.putInt(INSTANCE_PAGE_NUMBER, mPageNumber);
@@ -207,9 +212,18 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Reviews Download
 
 	private void attemptInitialReviewsDownload() {
-		if (mAttemptedInitialDownload && mCurrentProperty != null && mCurrentProperty != mProperty) {
+		if (mAttemptedInitialDownload && (mCurrentProperty != null || mHasCurrentProperty)
+			&& mCurrentProperty != mProperty) {
 			mAttemptedInitialDownload = false;
 			mUserReviews = null;
+			mPageNumber = 0;
+			mNumReviewsDownloaded = 0;
+			mListView.post(new Runnable() {
+				@Override
+				public void run() {
+					mListView.smoothScrollToPosition(0);
+				}
+			});
 			if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
 				mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
 			}
