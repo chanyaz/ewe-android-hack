@@ -84,4 +84,8 @@ public class EspressoUtils {
 	public static void assertContainsImageDrawable(int viewID, int imageID) {
 		onView(allOf(withId(viewID), isDisplayed())).check(matches(withImageDrawable(imageID)));
 	}
+
+	public static void assertContainsImageDrawable(int viewID, int imageID, int siblingID) {
+		onView(allOf(withId(viewID), hasSibling(withId(siblingID)), isDisplayed())).check(matches(withImageDrawable(imageID)));
+	}
 }
