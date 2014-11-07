@@ -25,7 +25,6 @@ public class HotelReceiptModel extends ScreenActions {
 	private static final int GUESTS_TEXT_VIEW_ID = R.id.guests_text;
 	private static final int PRICE_TEXT_VIEW_ID = R.id.price_text;
 	private static final int GRAND_TOTAL_TEXT_VIEW_ID = R.id.grand_total_text;
-	private static final int WALLET_PROMO_APPLIED_TEXT_VIEW_ID = R.id.wallet_promo_applied_text_view;
 	private static final int COST_SUMMARY_STRING_ID = R.string.cost_summary;
 
 	public static ViewInteraction headerImageView() {
@@ -62,10 +61,6 @@ public class HotelReceiptModel extends ScreenActions {
 
 	public static ViewInteraction grandTotalTextView() {
 		return onView(withId(GRAND_TOTAL_TEXT_VIEW_ID));
-	}
-
-	public static ViewInteraction walletPromoAppliedTextView() {
-		return onView(withId(WALLET_PROMO_APPLIED_TEXT_VIEW_ID));
 	}
 
 	public static ViewInteraction costSummaryString() {
