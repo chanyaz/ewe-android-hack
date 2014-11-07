@@ -6,10 +6,12 @@ import java.util.List;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -308,7 +310,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		// Listeners
 		mAccountButton.setListener(this);
-		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 		mTravelerButton.setOnClickListener(mOnClickListener);
 		mTravelerSection.setOnClickListener(mOnClickListener);
 		mPaymentButton.setOnClickListener(mOnClickListener);
@@ -320,6 +321,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
 		mWalletButton.setPromoVisible(true);
+		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
+		mWalletButton.setOnClickListener(mWalletButtonClickListener);
+
 
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -350,7 +354,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
 			boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
 			final boolean isCouponAvailable = WalletUtils.offerGoogleWalletCoupon(getActivity());
-			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
+			boolean isCouponApplied = Db.getTripBucket().getHotel().isCouponApplied();
+			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && isCouponApplied && usingWalletPromoCoupon()) {
 				clearWalletPromoCoupon();
 			}
 			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet && isCouponAvailable) {
@@ -1314,8 +1319,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
 					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
 		}
-
-		mHotelReceipt.bind(appliedWalletPromoCoupon());
 	}
 
 	// Coupons
@@ -1335,6 +1338,32 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					mWalletPromoThrobberDialog = ThrobberDialog.newInstance(getString(R.string.wallet_promo_applying));
 					mWalletPromoThrobberDialog.setCancelListener(HotelOverviewFragment.this);
 					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
+				}
+			});
+		}
+	}
+
+	public void replaceCoupon(String couponCode) {
+		mCouponCode = couponCode;
+		Log.i("Trying to replace current coupon with coupon: " + mCouponCode);
+		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, mCouponCode);
+		updateViewVisibilities();
+		// Show a special spinner dialog for wallet
+		if (usingWalletPromoCoupon()) {
+			mFragmentModLock.runWhenSafe(new Runnable() {
+				@Override
+				public void run() {
+					if (mWalletPromoThrobberDialog == null) {
+						mWalletPromoThrobberDialog = ThrobberDialog.newInstance(getString(R.string.wallet_promo_applying));
+						mWalletPromoThrobberDialog.setCancelListener(HotelOverviewFragment.this);
+					}
+					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
+
+					Fragment frag = getFragmentManager().findFragmentByTag("WALLET_REPLACE_DIALOG");
+					if (isResumed() && frag == null) {
+						SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_replaced_message));
+						df.show(getFragmentManager(), "WALLET_REPLACE_DIALOG");
+					}
 				}
 			});
 		}
@@ -1365,52 +1394,22 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private void applyWalletCoupon() {
 		// If the user already has a coupon applied, clear it (and tell the user)
 		boolean hadCoupon = Db.getTripBucket().getHotel().isCouponApplied();
-
-		onApplyCoupon(WalletUtils.getWalletCouponCode(getActivity()));
-
+		String walletCoupon = WalletUtils.getWalletCouponCode(getActivity());
 		// Apply this later so that this dialog shows up on top of the progress one
 		if (hadCoupon) {
-			mFragmentModLock.runWhenSafe(new Runnable() {
-				@Override
-				public void run() {
-					SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
-							getString(R.string.coupon_replaced_message));
-					df.show(getFragmentManager(), "couponReplacedDialog");
-				}
-			});
+			replaceCoupon(walletCoupon);
+		}
+		else {
+			onApplyCoupon(walletCoupon);
 		}
 	}
 
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
-		mHotelBookingFragment.cancelDownload(HotelBookingState.COUPON_APPLY);
-		Db.getTripBucket().getHotel().setCreateTripResponse(null);
+		clearCoupon();
 
 		if (mWalletPromoThrobberDialog != null) {
 			mWalletPromoThrobberDialog.dismiss();
-		}
-	}
-
-	private void handleWalletPromoErrorIfApplicable() {
-		// We're just detecting if the user is using the Google Wallet coupon code for this
-		if (usingWalletPromoCoupon()) {
-			mFragmentModLock.runWhenSafe(new Runnable() {
-				@Override
-				public void run() {
-					// #1722: If the user tried to book a hotel outside of 2013,
-					// then state that as the reason for failure
-					LocalDate checkOutDate = Db.getTripBucket().getHotel().getHotelSearchParams().getCheckOutDate();
-					int errorStrId = checkOutDate.getYear() >= 2014 ? R.string.wallet_promo_expired
-							: R.string.error_wallet_promo_cannot_apply;
-					SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
-							getString(errorStrId), getString(R.string.ok),
-							SimpleCallbackDialogFragment.CODE_WALLET_PROMO_APPLY_ERROR);
-					df.show(getFragmentManager(), "couponWalletPromoErrorDialog");
-				}
-			});
-
-			// Reset the coupon code
-			mCouponCode = null;
 		}
 	}
 
@@ -1543,7 +1542,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onCouponDownloadError(Events.CouponDownloadError event) {
 		dismissDialogs();
-		handleWalletPromoErrorIfApplicable();
 	}
 
 }

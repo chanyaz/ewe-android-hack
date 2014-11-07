@@ -150,20 +150,6 @@
                     android:text="@string/total_with_tax"
                     android:textColor="@color/hotel_mini_receipt_price_text"
                     android:textSize="12sp" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/wallet_promo_applied_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/grand_total_text"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="4dp"
-                    android:drawableLeft="@drawable/ic_google_wallet_discount"
-                    android:drawablePadding="8dp"
-                    android:text="@string/wallet_promo_in_use_message"
-                    android:textColor="#4581ed"
-                    android:textSize="14dp"
-                    android:visibility="gone" />
             </RelativeLayout>
 
             <LinearLayout

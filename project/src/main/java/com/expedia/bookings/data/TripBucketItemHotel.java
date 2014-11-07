@@ -15,6 +15,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 
 	Rate mCouponRate;
 	boolean mIsCouponApplied;
+	boolean mIsCouponGoogleWallet;
 
 	HotelProductResponse mHotelProductResponse;
 	CreateTripResponse mCreateTripResponse;
@@ -80,6 +81,17 @@ public class TripBucketItemHotel extends TripBucketItem {
 
 	public void setIsCouponApplied(boolean isCouponApplied) {
 		mIsCouponApplied = isCouponApplied;
+		if (!mIsCouponApplied) {
+			setIsCouponGoogleWallet(false);
+		}
+	}
+
+	public boolean isCouponGoogleWallet() {
+		return mIsCouponGoogleWallet;
+	}
+
+	public void setIsCouponGoogleWallet(boolean isCouponGoogleWallet) {
+		mIsCouponGoogleWallet = isCouponGoogleWallet;
 	}
 
 	public void setCouponRate(Rate couponRate) {
@@ -119,6 +131,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mCreateTripResponse = null;
 		mCouponRate = null;
 		mIsCouponApplied = false;
+		mIsCouponGoogleWallet = false;
 		mBookingResponse = null;
 	}
 
@@ -134,6 +147,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 			JSONUtils.putJSONable(obj, "oldRate", mOldRate);
 			obj.put("type", "hotel");
 			obj.put("couponApplied", mIsCouponApplied);
+			obj.put("googleWalletCouponApplied", mIsCouponGoogleWallet);
 			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
 			JSONUtils.putJSONable(obj, "availability", mAvailability);
 			JSONUtils.putJSONable(obj, "hotelProductResponse", mHotelProductResponse);
@@ -154,6 +168,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mRate = JSONUtils.getJSONable(obj, "rate", Rate.class);
 		mOldRate = JSONUtils.getJSONable(obj, "oldRate", Rate.class);
 		mIsCouponApplied = obj.optBoolean("couponApplied");
+		mIsCouponGoogleWallet = obj.optBoolean("googleWalletCouponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);
 		mHotelProductResponse = JSONUtils.getJSONable(obj, "hotelProductResponse", HotelProductResponse.class);

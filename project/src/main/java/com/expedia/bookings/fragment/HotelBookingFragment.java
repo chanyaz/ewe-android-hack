@@ -51,6 +51,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	public static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	public static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_HOTEL_CREATE_TRIP";
 	public static final String KEY_DOWNLOAD_APPLY_COUPON = "KEY_DOWNLOAD_HOTEL_APPLY_COUPON";
+	public static final String KEY_DOWNLOAD_REMOVE_COUPON = "KEY_DOWNLOAD_REMOVE_COUPON";
 
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_HOTELCREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
@@ -68,6 +69,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		CREATE_TRIP,
 		COUPON_APPLY,
 		COUPON_REMOVE,
+		COUPON_REPLACE,
 		CHECKOUT
 	}
 
@@ -211,6 +213,12 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		case COUPON_REMOVE:
 			clearCoupon();
 			break;
+		case COUPON_REPLACE:
+			if (mCouponCode == null) {
+				throw new RuntimeException("Coupon Code is null or not set. Please call startDownload(HotelBookingState, String) instead and pass the coupon code.");
+			}
+			startReplaceCouponDownloadProcess(mCouponCode);
+			break;
 		case CHECKOUT:
 			Events.post(new Events.BookingDownloadStarted());
 			if (Db.getTripBucket().getHotel().getCreateTripResponse() == null) {
@@ -230,6 +238,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			mCouponCode = couponCode;
 			startDownload(HotelBookingState.COUPON_APPLY);
 		}
+		else if (state == HotelBookingState.COUPON_REPLACE) {
+			mCouponCode = couponCode;
+			startDownload(HotelBookingState.COUPON_REPLACE);
+		}
 		else {
 			startDownload(state);
 		}
@@ -246,6 +258,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			break;
 		case COUPON_REMOVE:
 			cancelCreateTripDownload();
+			cancelRemoveCouponDownloader();
 			break;
 		default:
 			break;
@@ -463,13 +476,8 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			startApplyCouponDownloader(mCouponCode);
 			break;
 		case COUPON_REMOVE:
-			Db.getTripBucket().getHotel().setIsCouponApplied(false);
-			Db.getTripBucket().getHotel().setCouponRate(null);
-			Db.saveTripBucket(getActivity());
-
+			startRemoveCouponDownloader();
 			OmnitureTracking.trackHotelCouponRemoved(getActivity());
-			mCouponCode = null;
-			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
 			break;
 		case CHECKOUT:
 			doBooking();
@@ -550,6 +558,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	/////////////////////////////////////////////////////
 	///// Coupon service related
 
+
+	/*******************************
+	 * Applying coupon
+	 *******************************/
+
 	/**
 	 * This method initiates the coupon application process during checkout.
 	 * This fragment handles all the callbacks, errors and retries.
@@ -571,10 +584,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	 * This method initiates the coupon removal process during checkout.
 	 * Add {@link CouponDownloadStatusListener} to listen to coupon download status updates.
 	 */
-	private void clearCoupon() {
-		cancelApplyCouponDownloader();
-		startCreateTripDownload();
-	}
 
 	private void startApplyCouponDownloader(String couponCode) {
 		mCouponCode = couponCode;
@@ -616,7 +625,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
-
+				if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && WalletUtils.isCouponWalletCoupon(mCouponCode)) {
+					Db.getTripBucket().getHotel().setIsCouponGoogleWallet(true);
+				}
 				Db.getTripBucket().getHotel().setIsCouponApplied(true);
 				Db.getTripBucket().getHotel().setCreateTripResponse(response);
 				Db.getTripBucket().getHotel().setCouponRate(response.getNewRate());
@@ -627,6 +638,94 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			}
 		}
 	};
+
+	/*******************************
+	 * Removing coupon
+	 *******************************/
+
+	private void clearCoupon() {
+		cancelApplyCouponDownloader();
+		startRemoveCouponDownloader();
+	}
+
+	private void startRemoveCouponDownloader() {
+		cancelHotelProductDownload();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.startDownload(KEY_DOWNLOAD_REMOVE_COUPON, mRemoveCouponDownload, mRemoveCouponCallback);
+	}
+
+	private void cancelRemoveCouponDownloader() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (isRemovingCoupon()) {
+			bd.cancelDownload(KEY_DOWNLOAD_REMOVE_COUPON);
+		}
+	}
+
+	public boolean isRemovingCoupon() {
+		return BackgroundDownloader.getInstance().isDownloading(KEY_DOWNLOAD_REMOVE_COUPON);
+	}
+
+	private final Download<CreateTripResponse> mRemoveCouponDownload = new Download<CreateTripResponse>() {
+		@Override
+		public CreateTripResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_REMOVE_COUPON, services);
+			return services.removeCoupon(Db.getTripBucket().getHotel());
+		}
+	};
+
+	private final OnDownloadComplete<CreateTripResponse> mRemoveCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			if (!isAdded()) {
+				return;
+			}
+			else if (response == null || response.hasErrors()) {
+				handleCouponError(response);
+			}
+			else {
+				Log.i("Removed coupon from product");
+				Db.getTripBucket().getHotel().setIsCouponApplied(false);
+				Db.getTripBucket().getHotel().setCreateTripResponse(response);
+				Db.getTripBucket().getHotel().setCouponRate(null);
+				Db.saveTripBucket(getActivity());
+				OmnitureTracking.trackHotelCouponRemoved(getActivity());
+				Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
+			}
+		}
+	};
+
+	/*******************************
+	 * Replacing coupon
+	 * Convenience method for setting an apply coupon call
+	 * as the callback to a remove coupon call. Only do this
+	 * if you really need to.
+	 *******************************/
+
+	private void startReplaceCouponDownloadProcess(String couponCode) {
+		mCouponCode = couponCode;
+		cancelHotelProductDownload();
+		cancelRemoveCouponDownloader();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.startDownload(KEY_DOWNLOAD_REMOVE_COUPON, mRemoveCouponDownload, mApplyCouponAfterRemovalCallback);
+	}
+
+
+	private final OnDownloadComplete<CreateTripResponse> mApplyCouponAfterRemovalCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			if (response == null || response.hasErrors()) {
+				handleCouponError(response);
+			}
+			else {
+				applyCoupon(mCouponCode);
+			}
+		}
+	};
+
+	/*
+	 * Coupon Error Handling
+	 */
 
 	private void handleCouponError(CreateTripResponse response) {
 		Log.w("Failed to apply coupon code : " + mCouponCode);

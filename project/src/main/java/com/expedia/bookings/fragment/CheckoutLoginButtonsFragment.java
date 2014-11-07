@@ -27,8 +27,8 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.TabletWalletButton;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
-import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
@@ -56,10 +56,11 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	}
 
 	private AccountButton mAccountButton;
-	private WalletButton mWalletButton;
+	private TabletWalletButton mWalletButton;
 
 	private ILoginStateChangedListener mListener;
 	private IWalletButtonStateChangedListener mWalletListener;
+	private IWalletCouponListener mWalletCouponListener;
 
 	private boolean mWasLoggedIn = false;
 
@@ -76,6 +77,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		super.onAttach(activity);
 		mListener = Ui.findFragmentListener(this, ILoginStateChangedListener.class, false);
 		mWalletListener = Ui.findFragmentListener(this, IWalletButtonStateChangedListener.class, false);
+		mWalletCouponListener = Ui.findFragmentListener(this, IWalletCouponListener.class, false);
 	}
 
 	@Override
@@ -121,7 +123,6 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
@@ -368,6 +369,10 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
 		}
 
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && getLob() == LineOfBusiness.HOTELS) {
+			mWalletCouponListener.applyWalletCoupon();
+		}
+
 		bind();
 		refreshAccountButtonState();
 		updateWalletViewVisibilities();
@@ -385,6 +390,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
 		mWalletButton.setEnabled(!isWalletLoading);
+		mWalletButton.setPromoVisible(getLob() == LineOfBusiness.HOTELS);
 
 		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;
@@ -419,5 +425,13 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			throw new RuntimeException("canUseGoogleWallet() can only evaluate hotel and flight items!");
 		}
 		return item.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
+	}
+
+	/*
+	 * listen, and you'll hear
+	 */
+
+	public interface IWalletCouponListener {
+		public void applyWalletCoupon();
 	}
 }
