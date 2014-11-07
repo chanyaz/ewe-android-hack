@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -177,5 +178,15 @@ public class LaunchPin extends FrameLayout {
 		anim.setDuration(500);
 		anim.setStartDelay(mRandom.nextInt(400));
 		anim.start();
+	}
+
+	public static Bitmap createViewBitmap(Context context, LaunchLocation launchLocation, Bitmap bitmap) {
+		final LaunchPin pin = Ui.inflate(LayoutInflater.from(context),
+			R.layout.snippet_tablet_launch_map_pin, null, false);
+		pin.bind(launchLocation);
+		pin.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		pin.layout(0, 0, pin.getMeasuredWidth(), pin.getMeasuredHeight());
+		pin.setPinBitmap(bitmap);
+		return Ui.createBitmapFromView(pin);
 	}
 }
