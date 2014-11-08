@@ -20,6 +20,7 @@
         android:visibility="visible">
 
         <ImageView
+            android:id="@+id/empty_payment_button_icon"
             android:layout_width="@dimen/checkout_data_button_icon_size"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/tablet_checkout_payment_button_image_left_margin"
@@ -27,7 +28,8 @@
             android:layout_marginTop="@dimen/tablet_checkout_payment_button_image_vertical_margin"
             android:layout_marginBottom="@dimen/tablet_checkout_payment_button_image_vertical_margin"
             android:layout_weight="0"
-            android:src="@drawable/ic_tablet_checkout_generic_credit_card" />
+            android:duplicateParentState="true"
+            android:src="@drawable/ic_checkout_generic_cc" />
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"
