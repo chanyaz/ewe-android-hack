@@ -28,9 +28,13 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 
 	private static final String[] BAD_CREDIT_CARDS = {
 		"378734493671001", // AMEX
-		"94000000000001",  // Carte Blanche
 		"30569309025905",  // Diners Club
 		"6011000990139425",// Discover
+	};
+
+	private static final String[] BAD_PHONE_NUMBERS = {
+		"111",
+		"951-",
 	};
 
 	private void getToCheckout() throws Exception {
@@ -98,6 +102,90 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnDoneButton();
+		HotelsCheckoutScreen.slideToCheckout();
+		CVVEntryScreen.parseAndEnterCVV("1111");
+		CVVEntryScreen.clickBookButton();
+		HotelsConfirmationScreen.clickDoneButton();
+	}
+
+	public void testInvalidPhoneNumbers() throws Throwable {
+		getToCheckout();
+
+		//setup payment info
+		HotelsCheckoutScreen.clickSelectPaymentButton();
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextPostalCode("94015");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		HotelsConfirmationScreen.clickDoneButton();
+
+		HotelsCheckoutScreen.clickGuestDetails();
+		CommonTravelerInformationScreen.enterFirstName("Mobiata");
+		CommonTravelerInformationScreen.enterLastName("Auto");
+		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
+
+		//checkout using invalid phone number
+		for (int i = 0; i < BAD_PHONE_NUMBERS.length; i++) {
+			EspressoUtils.clear(CommonTravelerInformationScreen.phoneNumberEditText());
+			CommonTravelerInformationScreen.enterPhoneNumber(BAD_PHONE_NUMBERS[i]);
+			CommonTravelerInformationScreen.clickDoneButton();
+			HotelsCheckoutScreen.slideToCheckout();
+			CVVEntryScreen.parseAndEnterCVV("1111");
+			CVVEntryScreen.clickBookButton();
+
+			//error popup
+			EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.ean_error_invalid_phone_number));
+			CVVEntryScreen.clickOkButton();
+		}
+
+		//complete checkout using valid phone after error popup
+		EspressoUtils.clear(CommonTravelerInformationScreen.phoneNumberEditText());
+		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
+		CommonTravelerInformationScreen.clickDoneButton();
+		HotelsCheckoutScreen.slideToCheckout();
+		CVVEntryScreen.parseAndEnterCVV("1111");
+		CVVEntryScreen.clickBookButton();
+		HotelsConfirmationScreen.clickDoneButton();
+	}
+
+	public void testInvalidCardHolderName() throws Throwable {
+		getToCheckout();
+
+		HotelsCheckoutScreen.clickGuestDetails();
+		CommonTravelerInformationScreen.enterFirstName("Mobiata");
+		CommonTravelerInformationScreen.enterLastName("Auto");
+		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
+		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
+		CommonTravelerInformationScreen.clickDoneButton();
+
+		HotelsCheckoutScreen.clickSelectPaymentButton();
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextPostalCode("94015");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata");
+		CardInfoScreen.clickOnDoneButton();
+		HotelsCheckoutScreen.slideToCheckout();
+		CVVEntryScreen.parseAndEnterCVV("1111");
+		CVVEntryScreen.clickBookButton();
+
+		//error popup
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_name_on_card_mismatch));
+		CVVEntryScreen.clickOkButton();
+
+		//back to payment details
+		EspressoUtils.clear(CardInfoScreen.nameOnCardEditText());
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.clickOnDoneButton();
+		Common.pressBack();
+
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("1111");
 		CVVEntryScreen.clickBookButton();
