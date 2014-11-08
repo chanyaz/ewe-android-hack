@@ -94,7 +94,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		if (property.getThumbnail() != null) {
 			thumbnailView.setVisibility(View.VISIBLE);
 			property.getThumbnail().fillImageView(thumbnailView,
-					Ui.obtainThemeResID(this, R.attr.hotelImagePlaceHolderDrawable));
+					Ui.obtainThemeResID(this, R.attr.skin_hotelImagePlaceHolderDrawable));
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);

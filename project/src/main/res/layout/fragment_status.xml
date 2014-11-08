@@ -15,7 +15,7 @@
             android:id="@+id/message_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="?attr/flightLoadingMessagePosition"
+            android:layout_above="?attr/skin_flightLoadingMessagePosition"
             android:layout_marginBottom="@dimen/plane_window_text_offset"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"

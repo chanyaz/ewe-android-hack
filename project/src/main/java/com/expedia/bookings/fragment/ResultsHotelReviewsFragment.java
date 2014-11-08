@@ -148,7 +148,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mPagerAdapter.bind();
 
 		// Hotel Image
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
 			property.getThumbnail().fillImageView(mHotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
 		}

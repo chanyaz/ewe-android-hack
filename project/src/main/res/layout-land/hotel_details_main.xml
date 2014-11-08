@@ -72,10 +72,10 @@
                         android:id="@+id/book_now_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?attr/loginBookNowButtonDrawable"
-                        android:text="?attr/hotelBookButtonString"
+                        android:background="?attr/skin_loginBookNowButtonDrawable"
+                        android:text="?attr/skin_hotelBookButtonString"
                         android:textSize="18sp"
-                        android:textColor="?attr/hotelBookButtonColor"/>
+                        android:textColor="?attr/skin_hotelBookButtonColor"/>
 
                     <Button
                         android:id="@+id/book_by_phone_button"

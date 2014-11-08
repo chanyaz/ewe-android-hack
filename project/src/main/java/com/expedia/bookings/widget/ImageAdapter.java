@@ -61,7 +61,7 @@ public class ImageAdapter extends BaseAdapter {
 			imageView = (ImageView) convertView.findViewById(R.id.image);
 		}
 
-		int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.HotelRowThumbPlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 		mMedia.get(position).fillImageView(imageView, placeholderResId);
 
 		return convertView;

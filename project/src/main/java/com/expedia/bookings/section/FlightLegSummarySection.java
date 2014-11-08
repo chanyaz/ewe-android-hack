@@ -247,7 +247,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	protected int getBagWithXDrawableResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.icSuitCaseBaggage);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_icSuitCaseBaggage);
 	}
 
 	/**

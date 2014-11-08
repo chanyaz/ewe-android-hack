@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/hotel_checkout_overview_image_height"
         android:scaleType="centerCrop"
-        android:src="?attr/hotelImagePlaceHolderDrawable" />
+        android:src="?attr/skin_hotelImagePlaceHolderDrawable" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -135,7 +135,7 @@
                     android:layout_toRightOf="@+id/date_range_text"
                     android:gravity="right"
                     android:maxLines="1"
-                    android:textColor="?attr/hotelPriceStandardColor"
+                    android:textColor="?attr/skin_hotelPriceStandardColor"
                     android:textSize="22sp"
                     app:textStyle="bold" />
 

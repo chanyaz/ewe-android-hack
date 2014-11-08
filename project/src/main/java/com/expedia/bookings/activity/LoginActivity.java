@@ -113,11 +113,11 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 		if (!ExpediaBookingApp.IS_EXPEDIA) {
 			switch (mLob) {
 			case HOTELS:
-				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
+				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.skin_webViewPreferencesActionBarLogo));
 				actionBar.setDisplayUseLogoEnabled(false);
 				break;
 			case FLIGHTS:
-				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.flightLoginActionBarIcon));
+				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.skin_flightLoginActionBarIcon));
 				actionBar.setDisplayUseLogoEnabled(false);
 				break;
 			default:

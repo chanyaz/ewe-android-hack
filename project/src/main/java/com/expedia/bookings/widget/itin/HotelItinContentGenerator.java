@@ -59,7 +59,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			return R.drawable.ic_itin_shared_placeholder_hotel;
 		}
 		else {
-			return Ui.obtainThemeResID(getContext(), R.attr.icTypeCircleHotel);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleHotel);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinHotelPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinHotelPlaceholderDrawable);
 	}
 
 	@Override

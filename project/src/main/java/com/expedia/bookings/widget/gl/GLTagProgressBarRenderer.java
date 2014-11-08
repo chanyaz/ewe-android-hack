@@ -167,10 +167,10 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mCropWorkspace = new int[4];
 		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 
-		mTagSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagProgressDrawable));
-		mRingFillSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagProgressRingFillDrawable));
-		mKnobSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagKnobDrawable));
-		mKnobBgSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagKnobBackgroundDrawable));
+		mTagSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagProgressDrawable));
+		mRingFillSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagProgressRingFillDrawable));
+		mKnobSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagKnobDrawable));
+		mKnobBgSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagKnobBackgroundDrawable));
 
 		// Setup sprites
 		mSprites = new GLSprite[4];

@@ -276,7 +276,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		if (enable) {
 			if (section.getTraveler().hasTuid()) {
-				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.travellerInfoPageLogo));
+				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_travellerInfoPageLogo));
 			}
 			else {
 				pic.setImageResource(R.drawable.ic_traveler_blue_entered);
@@ -319,7 +319,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		else {
 			if (section.getTraveler().hasTuid()) {
-				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.travellerInfoPageLogoDisabled));
+				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_travellerInfoPageLogoDisabled));
 			}
 			else {
 				pic.setImageResource(R.drawable.ic_traveler_grey);

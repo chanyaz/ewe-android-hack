@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:drawableLeft="?attr/actionBarCheckMarkDrawable"
+    android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
     android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/actionBarSize"
@@ -13,4 +13,4 @@
     android:paddingRight="8dp"
     android:text="@string/search"
     android:textAppearance="?android:attr/actionMenuTextAppearance"
-    android:textColor="?attr/actionBarButtonTextColor" />
+    android:textColor="?attr/skin_actionBarButtonTextColor" />

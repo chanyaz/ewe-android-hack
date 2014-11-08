@@ -167,7 +167,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		case DIALOG_CLEAR_DATA_SIGNED_OUT: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dialog_title_logged_out_and_cleared_private_data);
-			builder.setMessage(Ui.obtainThemeResID(this, R.attr.clearPrivateDataMsg));
+			builder.setMessage(Ui.obtainThemeResID(this, R.attr.skin_clearPrivateDataMsg));
 			builder.setOnCancelListener(new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {

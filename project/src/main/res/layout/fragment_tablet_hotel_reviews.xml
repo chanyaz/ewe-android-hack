@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/hotel_header_height"
                 android:background="#2a2a2a"
                 android:scaleType="centerCrop"
-                android:src="?attr/hotelImagePlaceHolderDrawable" />
+                android:src="?attr/skin_hotelImagePlaceHolderDrawable" />
 
             <View
                 android:id="@+id/dominant_color_header_mask"

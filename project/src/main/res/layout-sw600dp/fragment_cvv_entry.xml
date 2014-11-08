@@ -52,9 +52,9 @@
             android:paddingLeft="48dp"
             android:paddingRight="48dp"
             android:gravity="center"
-            android:background="?attr/cvvBookButtonKeypadDrawable"
+            android:background="?attr/skin_cvvBookButtonKeypadDrawable"
             android:text="@string/Finish_Booking"
-            android:textColor="?attr/cvvBookButtonTextColor"
+            android:textColor="?attr/skin_cvvBookButtonTextColor"
             android:textSize="@dimen/cvv_keypad_book_text_size"
             app:textStyle="light"/>
 

@@ -140,7 +140,7 @@ public class HotelReceipt extends LinearLayout {
 		mHeaderImageView.setImageDrawable(headerBitmapDrawable);
 
 		Media media = HotelUtils.getRoomMedia(property, rate);
-		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (media != null) {
 			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
 					placeholderResId));
@@ -180,7 +180,7 @@ public class HotelReceipt extends LinearLayout {
 
 		mExtrasLayout.removeAllViews();
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.bestPriceGuaranteeString));
+			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.skin_bestPriceGuaranteeString));
 		}
 
 		if (rate.shouldShowFreeCancellation()) {

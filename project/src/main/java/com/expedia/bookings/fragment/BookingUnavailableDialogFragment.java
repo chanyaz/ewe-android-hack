@@ -43,8 +43,8 @@ public class BookingUnavailableDialogFragment extends DialogFragment implements 
 		boolean isPlural = getArguments().getBoolean(ARG_IS_PLURAL);
 		mIsFlightLOB = getArguments().getBoolean(ARG_IS_FLIGHT);
 		if (mIsFlightLOB) {
-			builder.setMessage(isPlural ? Ui.obtainThemeResID(getActivity(),R.attr.flightsNotAvailableError)
-				: Ui.obtainThemeResID(getActivity(), R.attr.singleFlightNotAvailableError));
+			builder.setMessage(isPlural ? Ui.obtainThemeResID(getActivity(),R.attr.skin_flightsNotAvailableError)
+				: Ui.obtainThemeResID(getActivity(), R.attr.skin_singleFlightNotAvailableError));
 
 			builder.setNeutralButton(isPlural ? R.string.pick_new_flights : R.string.pick_new_flight, this);
 		}

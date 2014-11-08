@@ -95,7 +95,7 @@
         android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view"
-        app:flightLineColor="?attr/itinFlightsTripLineColor"
+        app:flightLineColor="?attr/skin_itinFlightsTripLineColor"
         app:waypointTextColor="@color/itin_offwhite_text"
         app:waypointTextTopMargin="4dp" />
 

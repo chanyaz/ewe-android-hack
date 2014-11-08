@@ -16,7 +16,7 @@
 
     <RatingBar
         android:id="@+id/user_rating"
-        style="?attr/ratingBarUserReviewStyle"
+        style="?attr/skin_ratingBarUserReviewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

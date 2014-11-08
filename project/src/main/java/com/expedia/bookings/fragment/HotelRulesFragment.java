@@ -114,7 +114,7 @@ public class HotelRulesFragment extends Fragment {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
 					builder.setTheme(R.style.HotelWebViewTheme);
-					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
+					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
 					startActivity(builder.getIntent());
 				}
 			});

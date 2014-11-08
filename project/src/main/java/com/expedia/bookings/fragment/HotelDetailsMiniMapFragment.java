@@ -56,8 +56,8 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 		Rate lowestRate = property.getLowestRate();
 		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
 		marker.icon(isOnSale ? BitmapDescriptorFactory
-			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable)) : BitmapDescriptorFactory
-			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable)));
+			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerSaleDrawable)) : BitmapDescriptorFactory
+			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
 
 		mMap.addMarker(marker);
 	}

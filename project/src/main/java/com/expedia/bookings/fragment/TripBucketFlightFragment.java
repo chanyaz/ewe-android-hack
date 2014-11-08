@@ -139,7 +139,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			.resizeExactly(width, height) //
 			.build();
 
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 		UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(getResources(), url, placeholderResId);
 		drawable.setUrlBitmapDrawable(urlBitmapDrawable);
 	}

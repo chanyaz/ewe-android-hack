@@ -82,7 +82,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinCarPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCarPlaceholderDrawable);
 	}
 
 	@Override

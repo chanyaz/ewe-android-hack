@@ -28,7 +28,7 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.save_billing_info)
-				.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.savePaymentToAccountString))
+				.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_savePaymentToAccountString))
 				.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(true);

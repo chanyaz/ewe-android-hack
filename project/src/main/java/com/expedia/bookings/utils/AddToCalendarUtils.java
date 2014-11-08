@@ -65,13 +65,13 @@ public class AddToCalendarUtils {
 
 		StringBuilder sb = new StringBuilder();
 		if (!TextUtils.isEmpty(itineraryNumber)) {
-			sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.calendarFlightDescItinerary), itineraryNumber));
+			sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.skin_calendarFlightDescItinerary), itineraryNumber));
 			sb.append("\n\n");
 		}
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
 			"https://maps.google.com/maps?q=" + origin.mAirportCode));
 		sb.append("\n\n");
-		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.calendarFlightDescSupport),
+		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.skin_calendarFlightDescSupport),
 			pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())));
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());

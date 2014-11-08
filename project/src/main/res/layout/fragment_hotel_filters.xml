@@ -74,7 +74,7 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/sort_by_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
                 android:layout_marginBottom="8dp" >
@@ -122,7 +122,7 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/price_filter_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
                 android:layout_marginBottom="12dp" >
@@ -131,19 +131,19 @@
                     android:id="@+id/price_cheap_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
-                    android:text="?attr/hotelListingFilterPriceCheapString" />
+                    android:text="?attr/skin_hotelListingFilterPriceCheapString" />
 
                 <RadioButton
                     android:id="@+id/price_moderate_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
-                    android:text="?attr/hotelListingFilterPriceModerateString" />
+                    android:text="?attr/skin_hotelListingFilterPriceModerateString" />
 
                 <RadioButton
                     android:id="@+id/price_expensive_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
-                    android:text="?attr/hotelListingFilterPriceExpensiveString" />
+                    android:text="?attr/skin_hotelListingFilterPriceExpensiveString" />
 
                 <RadioButton
                     android:id="@+id/price_all_button"
@@ -155,7 +155,7 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/radius_filter_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
                 android:layout_marginBottom="12dp" >
@@ -185,7 +185,7 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/rating_filter_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
                 android:layout_marginBottom="12dp" >
@@ -237,7 +237,7 @@
 
                 <com.expedia.bookings.widget.Switch
                     android:id="@+id/filter_vip_access_switch"
-                    style="?attr/hotelListingFilterToggleButtonStyle"
+                    style="?attr/skin_hotelListingFilterToggleButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp" />
 

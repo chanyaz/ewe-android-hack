@@ -282,7 +282,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		hotelName.setText(property.getName());
 
 		// Holder image, son
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		hotelImage.setImageResource(placeholderResId);
 
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
@@ -306,7 +306,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		hotelName.setText(property.getName());
 
 		// Hotel Image
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
 			property.getThumbnail().fillImageView(hotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
 		}
@@ -851,7 +851,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			else if (response.hasErrors()) {
 				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.sorryRoomsSoldOutErrorMessage);
+					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage);
 				}
 				else {
 					if (ExpediaBookingApp.IS_AAG) {

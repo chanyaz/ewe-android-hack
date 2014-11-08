@@ -240,7 +240,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		loadSavedState(savedInstanceState);
 
-		mStatusTextContent = getString(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText));
+		mStatusTextContent = getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_loginWithExpediaTitleText));
 		if (mStatusText == null
 				|| mStatusText.equalsIgnoreCase(mStatusTextContent)) {
 			setStatusText(mStatusTextContent, true);

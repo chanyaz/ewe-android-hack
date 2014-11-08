@@ -119,7 +119,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 		body.append("\n\n");
 
 		if (User.isLoggedIn(this) && Db.getUser() != null) {
-			body.append(getString(Ui.obtainThemeResID(this, R.attr.emailUserNameString)) + Db.getUser().getPrimaryTraveler().getEmail());
+			body.append(getString(Ui.obtainThemeResID(this, R.attr.skin_emailUserNameString)) + Db.getUser().getPrimaryTraveler().getEmail());
 
 			body.append("\n\n");
 		}

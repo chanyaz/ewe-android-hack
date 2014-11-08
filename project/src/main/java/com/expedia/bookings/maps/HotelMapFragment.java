@@ -284,9 +284,9 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 		// Load graphics
 		mPin = BitmapDescriptorFactory
-			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable));
+			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable));
 		mPinSale = BitmapDescriptorFactory
-			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
+			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerSaleDrawable));
 
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
