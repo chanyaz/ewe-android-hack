@@ -27,7 +27,6 @@ add_test "com.expedia.bookings.test.unit.tests.JSONUtilsTestCase"
 add_test "com.expedia.bookings.test.unit.tests.JodaUtilsTests"
 add_test "com.expedia.bookings.test.unit.tests.LocalExpertDataTestCase"
 add_test "com.expedia.bookings.test.unit.tests.ShareUtilsTests"
-add_test "com.expedia.bookings.test.unit.tests.StrUtilsTests"
 
 java \
     -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \

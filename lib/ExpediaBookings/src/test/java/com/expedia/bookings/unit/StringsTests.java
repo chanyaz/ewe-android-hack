@@ -1,0 +1,140 @@
+package com.expedia.bookings.unit;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+import com.expedia.bookings.utils.Strings;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class StringsTests {
+
+	@Test
+	public void testStringsIsEmpty() {
+		assertTrue(Strings.isEmpty(null));
+		assertTrue(Strings.isEmpty(""));
+
+		assertFalse(Strings.isEmpty("a"));
+	}
+
+	@Test
+	public void testStringsIsNotEmpty() {
+		assertTrue(Strings.isNotEmpty("a"));
+
+		assertFalse(Strings.isNotEmpty(null));
+		assertFalse(Strings.isNotEmpty(""));
+	}
+
+	@Test
+	public void testStringsJoinWithoutEmpties() {
+		ArrayList<String> list;
+		final String expected = "hello world";
+		String joined;
+
+		// test simple join
+		list = new ArrayList<String>();
+		list.add("hello");
+		list.add("world");
+
+		joined = Strings.joinWithoutEmpties(" ", list);
+		assertEquals(expected, joined);
+
+		// test join with null
+		list = new ArrayList<String>();
+		list.add("hello");
+		list.add(null);
+		list.add("world");
+
+		joined = Strings.joinWithoutEmpties(" ", list);
+		assertEquals(expected, joined);
+
+		// test join with empty
+		list = new ArrayList<String>();
+		list.add("hello");
+		list.add("");
+		list.add("world");
+
+		joined = Strings.joinWithoutEmpties(" ", list);
+		assertEquals(expected, joined);
+
+		// test join with empty and null
+		list = new ArrayList<String>();
+		list.add("");
+		list.add(null);
+		list.add("hello");
+		list.add("");
+		list.add(null);
+		list.add("world");
+		list.add("");
+		list.add(null);
+
+		joined = Strings.joinWithoutEmpties(" ", list);
+		assertEquals(expected, joined);
+	}
+
+	@Test
+	public void testStringsEquals() {
+		final String a = "a";
+		final String b = "b";
+
+		// Trivial positive base cases
+		assertTrue(Strings.equals(null, null));
+		assertTrue(Strings.equals("", ""));
+		assertTrue(Strings.equals("a", "a"));
+		assertTrue(Strings.equals(a, a));
+
+		// Trivial negative base cases
+		assertFalse(Strings.equals(null, ""));
+		assertFalse(Strings.equals("", null));
+		assertFalse(Strings.equals("a", null));
+		assertFalse(Strings.equals("a", ""));
+		assertFalse(Strings.equals(null, "a"));
+		assertFalse(Strings.equals("", "a"));
+		assertFalse(Strings.equals("a", "b"));
+		assertFalse(Strings.equals(a, b));
+		assertFalse(Strings.equals(b, a));
+	}
+
+	@Test
+	public void testStringsCompareTo() {
+		final String a = "a";
+		final String b = "b";
+		final String c = "c";
+
+		assertEquals(Strings.compareTo(null, null), 0);
+		assertEquals(Strings.compareTo(null, ""), 0);
+		assertEquals(Strings.compareTo(a, a), a.compareTo(a));
+
+		assertEquals(Strings.compareTo(a, null), 1);
+		assertEquals(Strings.compareTo(null, a), -1);
+
+		assertEquals(Strings.compareTo(a, b), a.compareTo(b));
+		assertEquals(Strings.compareTo(b, a), b.compareTo(a));
+		assertEquals(Strings.compareTo(c, a), c.compareTo(a));
+	}
+
+	@Test
+	public void testStringsSlice() {
+		assertEquals("", Strings.slice("", 0, 0));
+		assertEquals("", Strings.slice("abcd", 0, 0));
+
+		assertEquals("a", Strings.slice("abcd", 0, 1));
+		assertEquals("ab", Strings.slice("abcd", 0, 2));
+		assertEquals("abc", Strings.slice("abcd", 0, 3));
+		assertEquals("abcd", Strings.slice("abcd", 0, 4));
+
+		assertEquals("d", Strings.slice("abcd", -1));
+		assertEquals("cd", Strings.slice("abcd", -2));
+		assertEquals("c", Strings.slice("abcd", -2, -1));
+	}
+
+	@Test
+	public void testStringsFormatHexString() {
+		assertEquals("", Strings.formatHexString(""));
+		assertEquals("61", Strings.formatHexString("a"));
+		assertEquals("6162636465", Strings.formatHexString("abcde"));
+	}
+}
