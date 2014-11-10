@@ -48,7 +48,7 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/resort_fees_bottom_text"
                 style="@style/TextAppearance.RoomsAndRatesNoticeBottom"
-                android:text="@string/fee_not_included_in_total" />
+                android:text="@string/fees_collected_by_hotel" />
         </LinearLayout>
 
         <ImageView
