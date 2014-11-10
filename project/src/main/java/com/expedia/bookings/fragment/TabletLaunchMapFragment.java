@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -271,6 +272,9 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	private void animateCameraToShowFullCollection() {
+		if (mLocations.size() == 0) {
+			return;
+		}
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
 		for (LaunchLocation location : mLocations.keySet()) {
 			LatLng latlng = new LatLng(location.location.getLocation().getLatitude(), location.location.getLocation().getLongitude());
@@ -284,14 +288,11 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	private void replaceAllPins(List<LaunchLocation> locations) {
 		for (Marker marker : mLocations.values()) {
-			if (marker != null) {
-				marker.remove();
-			}
+			marker.remove();
 		}
 		mLocations.clear();
 
 		for (LaunchLocation location : locations) {
-			mLocations.put(location, null);
 			addPin(location);
 		}
 
@@ -359,11 +360,6 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		}
 	}
 
-	private LatLng getLatLng(LaunchLocation launchLocation) {
-		Location location = launchLocation.location.getLocation();
-		return new LatLng(location.getLatitude(), location.getLongitude());
-	}
-
 	private void finalizeAddMarker(LaunchLocation launchLocation, Marker marker) {
 		marker.setAlpha(mMarkerAlpha);
 		Marker oldMarker = mLocations.get(launchLocation);
@@ -379,8 +375,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		public boolean onMarkerClick(Marker marker) {
 			mClickedLocation = null;
 			for (LaunchLocation location : mLocations.keySet()) {
-				Marker m = mLocations.get(location);
-				if (m != null && m.getTitle().equals(marker.getTitle())) {
+				if (TextUtils.equals(mLocations.get(location).getTitle(), marker.getTitle())) {
 					mClickedLocation = location.id;
 					OmnitureTracking.trackLaunchCitySelect(getActivity(), mClickedLocation);
 					Events.post(new Events.LaunchMapPinClicked(location));
@@ -392,6 +387,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	};
 
 	// Adds a dark blue transparent overlay on top of the map tiles (but under the pins)
+
 	private void addOverlay() {
 		TileOverlayOptions opts = new TileOverlayOptions()
 			.tileProvider(mOverlayProvider);
@@ -420,6 +416,8 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		}
 	};
 
+	// Helper functions
+
 	private String getResizeForPinUrl(String url) {
 		// We request the "detail" size so we don't download duplicates for when you click on a pin
 		int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
@@ -428,4 +426,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			.build();
 		return ret;
 	}
+
+	private LatLng getLatLng(LaunchLocation launchLocation) {
+		Location location = launchLocation.location.getLocation();
+		return new LatLng(location.getLatitude(), location.getLongitude());
+	}
+
 }
