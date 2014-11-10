@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 
 import org.joda.time.format.DateTimeFormat;
@@ -26,14 +27,18 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -179,8 +184,12 @@ public class HotelReceipt extends LinearLayout {
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
 			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.skin_bestPriceGuaranteeString));
 		}
-
-		if (rate.shouldShowFreeCancellation()) {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
+			HotelUtils.showResortFeeInfo(hotel.getProperty(), hotel.getRate())) {
+			addResortFeeRows(hotel.getRate());
+		}
+		else if (rate.shouldShowFreeCancellation()) {
 			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate));
 		}
 
@@ -208,7 +217,13 @@ public class HotelReceipt extends LinearLayout {
 		int numberOfGuests = params.getNumAdults() + params.getNumChildren();
 		mGuestsTextView.setText(res.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests));
 
-		mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
+			HotelUtils.showResortFeeInfo(hotel.getProperty(), hotel.getRate())) {
+			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
+		}
+		else {
+			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
+		}
 
 		if (showMiniReceipt) {
 			mMiniReceiptLoading.setVisibility(View.VISIBLE);
@@ -277,10 +292,8 @@ public class HotelReceipt extends LinearLayout {
 		mExtrasLayout.setVisibility(View.VISIBLE);
 		mExtrasDivider.setVisibility(View.VISIBLE);
 
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		View extraRow = inflater.inflate(R.layout.snippet_hotel_receipt_extra, mExtrasLayout, false);
-		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
-		labelView.setText(label);
+		HotelReceiptExtraSection extraRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		extraRow.bind(label, null);
 		mExtrasLayout.addView(extraRow);
 	}
 
@@ -307,6 +320,22 @@ public class HotelReceipt extends LinearLayout {
 		}
 
 		mExtrasLayout.addView(extraRow);
+	}
+
+	private void addResortFeeRows(Rate rate) {
+		mExtrasLayout.setVisibility(View.VISIBLE);
+		mExtrasDivider.setVisibility(View.VISIBLE);
+
+		HotelReceiptExtraSection resortFeesRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		String resortFees = getResources().getString(R.string.resort_fees);
+		resortFeesRow.bind(resortFees, rate.getTotalMandatoryFees().getFormattedMoney());
+
+		HotelReceiptExtraSection dueToExpediaRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		String dueToExpediaToday = getResources().getString(R.string.due_to_expedia_today);
+		dueToExpediaRow.bind(dueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+
+		mExtrasLayout.addView(resortFeesRow);
+		mExtrasLayout.addView(dueToExpediaRow);
 	}
 
 	public void saveInstanceState(Bundle outState) {

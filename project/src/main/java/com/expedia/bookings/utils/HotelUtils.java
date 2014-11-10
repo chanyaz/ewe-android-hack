@@ -7,6 +7,8 @@ import org.joda.time.DateTime;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
@@ -163,5 +166,26 @@ public class HotelUtils {
 			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
 		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
+	}
+
+	public static boolean showResortFeeInfo(final Property property, final Rate rate) {
+		Money mandatoryFees = rate == null ? null : rate.getTotalMandatoryFees();
+		boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
+		boolean hasResortFeesMessage = rate != null && property != null
+			&& property.getMandatoryFeesText() != null
+			&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
+		boolean mandatoryFeePriceType = rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+
+		return hasMandatoryFees && hasResortFeesMessage && !mandatoryFeePriceType;
+	}
+
+	public static boolean showResortFeeInfo(TripBucketItemHotel hotel) {
+		return showResortFeeInfo(hotel.getProperty(), hotel.getRate());
+	}
+
+	public static Spanned getResortFeesText(Context context, Rate rate) {
+		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
+		String grandTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+		return Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, fees, grandTotal));
 	}
 }

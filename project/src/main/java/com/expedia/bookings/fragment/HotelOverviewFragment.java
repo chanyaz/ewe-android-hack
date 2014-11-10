@@ -141,6 +141,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private View mCouponRemoveView;
 
 	private TextView mLegalInformationTextView;
+	private TextView mResortFeeDisclaimerTextView;
 	private View mScrollSpacerView;
 
 	private FrameLayout mSlideToPurchaseFragmentLayout;
@@ -238,6 +239,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponRemoveView = Ui.findView(view, R.id.coupon_clear);
 
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
+		mResortFeeDisclaimerTextView = Ui.findView(view, R.id.resort_fee_disclaimer);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
 		mSlideToPurchaseFragmentLayout = Ui.findView(view, R.id.slide_to_purchase_fragment_layout);
@@ -266,6 +268,14 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				transaction.setCustomAnimations(0, 0);
 				transaction.commit();
 			}
+		}
+
+		if (HotelUtils.showResortFeeInfo(Db.getTripBucket().getHotel())) {
+			mResortFeeDisclaimerTextView.setText(HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
+			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mResortFeeDisclaimerTextView.setVisibility(View.GONE);
 		}
 
 		mCheckoutLayout.setAlpha(0);

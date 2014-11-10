@@ -999,6 +999,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <!-- Style of line-item receipt extras -->
+    <style name="CheckoutReceiptExtra">
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Tablet Sold out screen, buttons style -->
     <style name="TabletSoldOutButtonStyle">
         <item name="android:textSize">18sp</item>
