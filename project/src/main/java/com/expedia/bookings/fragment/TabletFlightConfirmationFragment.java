@@ -87,7 +87,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackAddHotelClick(getActivity(), getLob());
+				OmnitureTracking.trackAddHotelClick(getActivity());
 				NavUtils.restartHotelSearch(getActivity());
 			}
 		});

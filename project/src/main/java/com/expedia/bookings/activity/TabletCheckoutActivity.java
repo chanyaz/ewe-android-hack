@@ -375,6 +375,11 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 			state = mFragCheckoutController.getCheckoutInformationIsValid() ? CheckoutState.READY_FOR_CHECKOUT : CheckoutState.OVERVIEW;
 		}
 
+		// Tracking
+		boolean isAirAttachScenario = lob == LineOfBusiness.HOTELS &&
+			Db.getTripBucket().getHotel().hasAirAttachRate();
+		OmnitureTracking.trackBookNextClick(this, lob, isAirAttachScenario);
+
 		updateBucketItems(true);
 		setCheckoutState(state, true);
 	}
