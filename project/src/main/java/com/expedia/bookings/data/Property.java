@@ -346,27 +346,6 @@ public class Property implements JSONable {
 		}
 	}
 
-	/**
-	 * This is a backwards-compatible method of getting all the hotel text.  It
-	 * falls back to the old method if the new method is unavailable.
-	 * 
-	 * TODO: Delete this once hotel text sections are standard in all APIs
-	 */
-	public List<HotelTextSection> getAllHotelText(Context context) {
-		List<HotelTextSection> sections = getAllHotelText();
-
-		if (sections.size() == 0) {
-			// Fallback to the old method of parsing the description
-			// TODO: Remove once hotel text is in production
-			HotelDescription.SectionStrings.initSectionStrings(context);
-			HotelDescription hotelDescription = new HotelDescription(context);
-			hotelDescription.parseDescription(mDescriptionText);
-			sections = hotelDescription.getSections();
-		}
-
-		return sections;
-	}
-
 	public boolean isAvailable() {
 		return mAvailable;
 	}

@@ -768,7 +768,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		LinearLayout container = Ui.findView(view, R.id.description_details_sections_container);
 		container.removeAllViews();
 
-		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText();
 
 		if (sections != null && sections.size() > 0) {
 			for (int i = 0; i < sections.size(); i++) {
