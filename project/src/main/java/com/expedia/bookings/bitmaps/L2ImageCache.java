@@ -143,6 +143,14 @@ public class L2ImageCache {
 
 	private DiskLruCache mDiskCache;
 
+	/**
+	 * Returns a Bitmap for the given URL from the cache.
+	 *
+	 * @param url the url to retrieve
+	 * @param checkDisk whether or not to try to retrieve from disk.  This will cause file IO, which should
+	 * 		be avoided if possible.  As such, this should only be true on non-UI threads.
+	 * @return the Bitmap if cached, null if not
+	 */
 	public Bitmap getImage(String url, boolean checkDisk) {
 		return getImage(url, false, checkDisk);
 	}
@@ -150,7 +158,8 @@ public class L2ImageCache {
 	/**
 	 * Returns a blurred Bitmap from the cache.
 	 * @param url - the base URL of the image (unblurred)
-	 * @param checkDisk - whether or not to try to retrieve from disk
+	 * @param checkDisk whether or not to try to retrieve from disk.  This will cause file IO, which should
+	 * 		be avoided if possible.  As such, this should only be true on non-UI threads.
 	 * @return
 	 */
 	public Bitmap getBlurredImage(String url, boolean checkDisk) {
