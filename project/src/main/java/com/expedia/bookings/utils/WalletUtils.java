@@ -96,8 +96,11 @@ public class WalletUtils {
 	}
 
 	public static boolean offerGoogleWalletCoupon(Context context) {
+		boolean hasHotel = Db.getTripBucket().getHotel() != null;
+
 		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
-				&& Db.getTripBucket().getHotel().getProperty().isMerchant();
+			&& hasHotel
+			&& Db.getTripBucket().getHotel().getProperty().isMerchant();
 	}
 
 	public static String getWalletCouponCode(Context context) {
