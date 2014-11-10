@@ -301,7 +301,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	private void addPin(final LaunchLocation launchLocation) {
 		if (getActivity() != null) {
-			final String imageUrl = getResizeForPinUrl(launchLocation.getImageUrl());
+			final String imageUrl = TabletLaunchPinDetailFragment.getResizedImageUrl(getActivity(), launchLocation);
 
 			// Immediately inflate a pin with whatever we have cached (might be null)
 			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/, true /*checkdisk*/);
@@ -309,7 +309,9 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 			// Hook up a listener to download the image and inflate a pin when it's ready
 			if (bitmap == null) {
-				L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
+				String callbackKey = TabletLaunchMapFragment.class.getSimpleName() + imageUrl;
+				L2ImageCache.sGeneralPurpose.loadImage(callbackKey, imageUrl, false,
+					new L2ImageCache.OnBitmapLoaded() {
 					@Override
 					public void onBitmapLoaded(String url, Bitmap bitmap) {
 						if (getActivity() != null) {
@@ -417,15 +419,6 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	};
 
 	// Helper functions
-
-	private String getResizeForPinUrl(String url) {
-		// We request the "detail" size so we don't download duplicates for when you click on a pin
-		int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
-		final String ret = new Akeakamai(url) //
-			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
-			.build();
-		return ret;
-	}
 
 	private LatLng getLatLng(LaunchLocation launchLocation) {
 		Location location = launchLocation.location.getLocation();
