@@ -29,14 +29,7 @@
     <item name="preference_suppress_hotel_booking_checkbox" type="id"/>
     <item name="preference_suppress_flight_booking_checkbox" type="id"/>
 
-    <item name="search_progress_flight_tvly" type="id"/>
     <item name="plane_window_view" type="id"/>
-
-    <item name="calendar_flight_desc_support_TEMPLATE_tvly" type="string"/>
-    <item name="calendar_flight_desc_itinerary_TEMPLATE_tvly" type="string"/>
-
-    <!-- for visibility of Tvly CA Url string id while compiling ExpediaApp-->
-    <item name="travelocity_info_url_CA" type="string"/>
 
     <!-- Tvly tvly itin label text -->
     <item name="tvly_itinerary" type="string"/>
