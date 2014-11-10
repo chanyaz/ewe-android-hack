@@ -2606,7 +2606,7 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer"><b>Save $50 on a $200+ trip</b> with Google Wallet!</string>
+    <string name="wallet_promo_offer">Save <b>$50</b> on a <b>$200+ trip</b> with Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
     <string name="wallet_promo_in_use_message">You saved $50 by using Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
