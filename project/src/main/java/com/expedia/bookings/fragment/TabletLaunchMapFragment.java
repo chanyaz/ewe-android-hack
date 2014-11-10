@@ -13,14 +13,12 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.View.MeasureSpec;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.enums.LaunchState;
@@ -30,7 +28,6 @@ import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,8 +47,14 @@ import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 public class TabletLaunchMapFragment extends SupportMapFragment {
-	private HashMap<LaunchLocation, Marker> mLocations;
-	private LaunchLocation mClickedLocation;
+	private HashMap<LaunchLocation, Marker> mLocations = new HashMap<>();
+
+	// Store the id of the "clicked" location (i.e. the one expanded to show details)
+	private String mClickedLocation;
+
+	// The alpha ceiling for map markers. If we're viewing details or waypoint selection,
+	// this will be 0f, and if it's in transition, it will be somewhere in between.
+	float mMarkerAlpha = 1f;
 
 	// value taken from google-play-services.jar
 	private static final String MAP_OPTIONS = "MapOptions";
@@ -139,6 +142,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		LaunchState.OVERVIEW, LaunchState.DETAILS, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 0f : 1f;
 			if (!isReversed) {
 				adjustMapPadding(false);
 			}
@@ -146,30 +150,31 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			if (mLocations != null) {
-				for (LaunchLocation location : mLocations.keySet()) {
-					Marker marker = mLocations.get(location);
-					if (mClickedLocation != null && mClickedLocation.equals(location)) {
-						marker.setAlpha(!isReversed || percentage < 1f ? 0f : 1f);
-					}
-					else {
-						marker.setAlpha(1f - percentage);
-					}
+			mMarkerAlpha = 1f - percentage;
+			for (LaunchLocation location : mLocations.keySet()) {
+				Marker marker = mLocations.get(location);
+				if (mClickedLocation != null && mClickedLocation.equals(location.id)) {
+					marker.setAlpha(!isReversed || percentage < 1f ? 0f : 1f);
+				}
+				else {
+					marker.setAlpha(mMarkerAlpha);
 				}
 			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 1f : 0f;
 			if (mClickedLocation != null && isReversed) {
-				if (mLocations.get(mClickedLocation) != null) {
-					mLocations.get(mClickedLocation).setAlpha(1f);
+				for (Marker marker : mLocations.values()) {
+					marker.setAlpha(mMarkerAlpha);
 				}
 			}
 		}
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 1f : 0f;
 			if (isAdded() && isReversed) {
 				adjustMapPadding(true);
 			}
@@ -181,6 +186,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		LaunchState.OVERVIEW, LaunchState.WAYPOINT, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 0f : 1f;
 			if (!isReversed) {
 				adjustMapPadding(false);
 			}
@@ -188,22 +194,22 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			if (mLocations != null) {
-				for (Marker marker : mLocations.values()) {
-					if (marker != null) {
-						marker.setAlpha(1f - percentage);
-					}
+			mMarkerAlpha = 1f - percentage;
+			for (Marker marker : mLocations.values()) {
+				if (marker != null) {
+					marker.setAlpha(mMarkerAlpha);
 				}
 			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
-
+			mMarkerAlpha = isReversed ? 1f : 0f;
 		}
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mMarkerAlpha = isReversed ? 1f : 0f;
 			if (isAdded() && isReversed) {
 				adjustMapPadding(true);
 			}
@@ -241,7 +247,16 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	public Rect getClickedPinRect() {
-		return mLocations == null || mClickedLocation == null ? null : getPinRect(mLocations.get(mClickedLocation));
+		if (mClickedLocation != null) {
+			for (LaunchLocation location : mLocations.keySet()) {
+				if (mClickedLocation.equals(location.id)) {
+					Marker marker = mLocations.get(location);
+					return getPinRect(marker);
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/*
@@ -257,12 +272,13 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	private void animateCameraToShowFullCollection() {
+		if (mLocations.size() == 0) {
+			return;
+		}
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-		if (mLocations != null) {
-			for (LaunchLocation location : mLocations.keySet()) {
-				LatLng latlng = new LatLng(location.location.getLocation().getLatitude(), location.location.getLocation().getLongitude());
-				builder.include(latlng);
-			}
+		for (LaunchLocation location : mLocations.keySet()) {
+			LatLng latlng = new LatLng(location.location.getLocation().getLatitude(), location.location.getLocation().getLongitude());
+			builder.include(latlng);
 		}
 		LatLngBounds bounds = builder.build();
 		int padding = 0; // offset from edges of the map in pixels
@@ -271,18 +287,12 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 	private void replaceAllPins(List<LaunchLocation> locations) {
-		if (mLocations == null) {
-			mLocations = new HashMap<>();
+		for (Marker marker : mLocations.values()) {
+			marker.remove();
 		}
-		else {
-			for (LaunchLocation location : mLocations.keySet()) {
-				mLocations.get(location).remove();
-			}
-			mLocations.clear();
-		}
+		mLocations.clear();
 
 		for (LaunchLocation location : locations) {
-			mLocations.put(location, null);
 			addPin(location);
 		}
 
@@ -291,12 +301,17 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 	private void addPin(final LaunchLocation launchLocation) {
 		if (getActivity() != null) {
-			final String imageUrl = getResizeForPinUrl(launchLocation.getImageUrl());
-			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/ , true /*checkdisk*/);
+			final String imageUrl = TabletLaunchPinDetailFragment.getResizedImageUrl(getActivity(), launchLocation);
+
+			// Immediately inflate a pin with whatever we have cached (might be null)
+			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/, true /*checkdisk*/);
 			inflatePinAndAddMarker(launchLocation, bitmap);
 
+			// Hook up a listener to download the image and inflate a pin when it's ready
 			if (bitmap == null) {
-				L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
+				String callbackKey = TabletLaunchMapFragment.class.getSimpleName() + imageUrl;
+				L2ImageCache.sGeneralPurpose.loadImage(callbackKey, imageUrl, false,
+					new L2ImageCache.OnBitmapLoaded() {
 					@Override
 					public void onBitmapLoaded(String url, Bitmap bitmap) {
 						if (getActivity() != null) {
@@ -313,43 +328,28 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		}
 	}
 
-	private Marker inflatePinAndAddMarker(LaunchLocation launchLocation, Bitmap bitmap) {
-		// Create a detached LaunchPin view
-		final LaunchPin pin = Ui.inflate(LayoutInflater.from(getActivity()), R.layout.snippet_tablet_launch_map_pin, null, false);
-		pin.bind(launchLocation);
-		pin.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-		pin.layout(0, 0, pin.getMeasuredWidth(), pin.getMeasuredHeight());
-		pin.setPinBitmap(bitmap);
-		Bitmap pinBitmap = Ui.createBitmapFromView(pin);
+	private void inflatePinAndAddMarker(final LaunchLocation launchLocation, Bitmap bitmap) {
+		Bitmap pinBitmap = LaunchPin.createViewBitmap(getActivity(), launchLocation, bitmap);
 
-		Location location = launchLocation.location.getLocation();
 		MarkerOptions options = new MarkerOptions()
-			.position(new LatLng(location.getLatitude(), location.getLongitude()))
+			.position(getLatLng(launchLocation))
 			.icon(BitmapDescriptorFactory.fromBitmap(pinBitmap))
-			.anchor(0.5f, getResources().getDimension(R.dimen.launch_pin_size) / 2 / pin.getMeasuredHeight())
-			.title(launchLocation.id);
+			.anchor(0.5f, getResources().getDimension(R.dimen.launch_pin_size) / 2 / pinBitmap.getHeight())
+			.title(launchLocation.id)
+			.alpha(0f);
 
-		if (AndroidUtils.getSdkVersion() > 15) {
-			// Setup for the animation
-			options.alpha(0);
-		}
-		Marker marker = getMap().addMarker(options);
+		final Marker marker = getMap().addMarker(options);
 
-		if (AndroidUtils.getSdkVersion() > 15) {
-			// Fade this marker in
+		// Add animation effects, if the markers are not already transitioning.
+		if (AndroidUtils.getSdkVersion() > 15 && mMarkerAlpha == 1f) {
 			ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
 
-			// Remove the existing marker
-			if (mLocations.get(launchLocation) != null) {
-				final Marker oldMarker = mLocations.get(launchLocation);
-				anim.addListener(new AnimatorListenerAdapter() {
-					@Override
-					public void onAnimationEnd(Animator animation) {
-						oldMarker.remove();
-						oldMarker.setVisible(false);
-					}
-				});
-			}
+			anim.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					finalizeAddMarker(launchLocation, marker);
+				}
+			});
 
 			Rect pinRect = getPinRect(marker);
 			anim.setDuration(500);
@@ -357,9 +357,19 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 			anim.start();
 		}
+		else {
+			finalizeAddMarker(launchLocation, marker);
+		}
+	}
 
+	private void finalizeAddMarker(LaunchLocation launchLocation, Marker marker) {
+		marker.setAlpha(mMarkerAlpha);
+		Marker oldMarker = mLocations.get(launchLocation);
+		if (oldMarker != null) {
+			oldMarker.remove();
+			oldMarker.setVisible(false);
+		}
 		mLocations.put(launchLocation, marker);
-		return marker;
 	}
 
 	private GoogleMap.OnMarkerClickListener mMarkerClickListener = new GoogleMap.OnMarkerClickListener() {
@@ -367,11 +377,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		public boolean onMarkerClick(Marker marker) {
 			mClickedLocation = null;
 			for (LaunchLocation location : mLocations.keySet()) {
-				Marker m = mLocations.get(location);
-				if (m != null && m.getTitle().equals(marker.getTitle())) {
-					mClickedLocation = location;
-					OmnitureTracking.trackLaunchCitySelect(getActivity(), mClickedLocation.id);
-					Events.post(new Events.LaunchMapPinClicked(mClickedLocation));
+				if (TextUtils.equals(mLocations.get(location).getTitle(), marker.getTitle())) {
+					mClickedLocation = location.id;
+					OmnitureTracking.trackLaunchCitySelect(getActivity(), mClickedLocation);
+					Events.post(new Events.LaunchMapPinClicked(location));
 					return true;
 				}
 			}
@@ -380,6 +389,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	};
 
 	// Adds a dark blue transparent overlay on top of the map tiles (but under the pins)
+
 	private void addOverlay() {
 		TileOverlayOptions opts = new TileOverlayOptions()
 			.tileProvider(mOverlayProvider);
@@ -408,12 +418,11 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		}
 	};
 
-	private String getResizeForPinUrl(String url) {
-		// We request the "detail" size so we don't download duplicates for when you click on a pin
-		int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
-		final String ret = new Akeakamai(url) //
-			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
-			.build();
-		return ret;
+	// Helper functions
+
+	private LatLng getLatLng(LaunchLocation launchLocation) {
+		Location location = launchLocation.location.getLocation();
+		return new LatLng(location.getLatitude(), location.getLongitude());
 	}
+
 }

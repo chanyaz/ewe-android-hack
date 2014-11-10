@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -77,13 +78,15 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		if (event.launchLocation != null) {
 			clearOldImageDownloadCallback();
 			mLaunchLocation = event.launchLocation;
-			final String imageUrl = getResizedImageUrl(event.launchLocation.getImageUrl());
+			final String imageUrl = getResizedImageUrl(getActivity(), event.launchLocation);
 
 			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, true /*checkDisk*/);
 			mRoundImage.setImageBitmap(bitmap);
 
 			if (bitmap == null) {
-				L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
+				String callbackKey = TabletLaunchPinDetailFragment.class.getSimpleName() + imageUrl;
+				L2ImageCache.sGeneralPurpose.loadImage(callbackKey, imageUrl, false,
+					new L2ImageCache.OnBitmapLoaded() {
 					@Override
 					public void onBitmapLoaded(String url, Bitmap bitmap) {
 						mRoundImage.setImageBitmap(bitmap);
@@ -117,12 +120,13 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 
 	private void clearOldImageDownloadCallback() {
 		if (mLaunchLocation != null) {
-			L2ImageCache.sGeneralPurpose.clearCallbacksByUrl(getResizedImageUrl(mLaunchLocation.getImageUrl()));
+			L2ImageCache.sGeneralPurpose.clearCallbacksByUrl(getResizedImageUrl(getActivity(), mLaunchLocation));
 		}
 	}
 
-	private String getResizedImageUrl(String url) {
-		int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+	public static String getResizedImageUrl(Context context, LaunchLocation launchLocation) {
+		String url = launchLocation.getImageUrl();
+		int width = context.getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
 		return new Akeakamai(url) //
 			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
 			.build();
