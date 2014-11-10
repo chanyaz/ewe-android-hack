@@ -11,11 +11,9 @@
             android:title="Select API" />
 
         <EditTextPreference
-            android:background="#ff888888"
             android:defaultValue="localhost:3000"
             android:key="@string/preference_proxy_server_address"
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
-            android:textColor="#ff0000ff"
             android:title="Server/Proxy Address" />
 
         <Preference
