@@ -58,7 +58,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
-import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
@@ -828,26 +827,6 @@ public class ExpediaServices implements DownloadListener {
 		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null, property);
 
 		return doE3Request("m/api/hotel/info", query, responseHandler, 0);
-	}
-
-	public HotelProductResponse hotelProduct(HotelSearchParams params, Property property, Rate rate) {
-		List<BasicNameValuePair> query = generateHotelProductParmas(params, property, rate);
-		HotelProductResponseHandler responseHandler = new HotelProductResponseHandler(mContext, params, property, rate);
-		return doE3Request("m/api/hotel/product", query, responseHandler, 0);
-	}
-
-	public List<BasicNameValuePair> generateHotelProductParmas(HotelSearchParams params, Property property, Rate rate) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		// Adds sourceType
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-
-		// For room1 parameter
-		addHotelGuestParamater(query, params);
-
-		return query;
 	}
 
 	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate, boolean qualifyAirAttach) {

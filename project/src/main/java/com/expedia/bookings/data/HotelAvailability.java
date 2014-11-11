@@ -59,16 +59,16 @@ public class HotelAvailability implements JSONable {
 		mHotelOffersResponse.removeRate(deadRate);
 	}
 
-	public void updateFrom(String rateKey, HotelProductResponse response) {
+	public void updateFrom(String rateKey, CreateTripResponse response) {
 		if (mHotelOffersResponse != null) {
 			Rate oldRate = getRate(rateKey);
-			Rate newRate = response.getRate();
+			Rate newRate = response.getNewRate();
 
 			if (oldRate == null) {
 				mHotelOffersResponse.addRate(newRate);
 			}
 			else {
-				// Need to copy these because the api does not return with HotelProductResponse
+				// Need to copy these because the api does not return with hotel CreateTrip
 				newRate.setValueAdds(oldRate.getValueAdds());
 
 				mHotelOffersResponse.replaceRate(oldRate, newRate);

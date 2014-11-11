@@ -107,7 +107,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ResultsBackgroundImageFragment mBlurredBgFrag;
 	private BookingUnavailableFragment mBookingUnavailableFragment;
 
-	private static final String TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG = "TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG";
 	private static final String TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG";
 	private static final String TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG";
 
@@ -120,8 +119,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<>(CheckoutState.OVERVIEW, this);
 
-	private ThrobberDialog mHotelProductDownloadThrobber;
-	private ThrobberDialog mCreateTripDownloadThrobber;
+	private ThrobberDialog mHotelCreateTripDownloadThrobber;
 	private ThrobberDialog mFlightCreateTripDownloadThrobber;
 
 	private LineOfBusiness mCurrentLob;
@@ -704,14 +702,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			if (!mHotelBookingFrag.isDownloadingHotelProduct()
-				&& Db.getTripBucket().getHotel().getHotelProductResponse() == null
+			if (!mHotelBookingFrag.isDownloadingCreateTrip()
 				&& Db.getTripBucket().getHotel().getCreateTripResponse() == null
 				&& Db.getTripBucket().getHotel().canBePurchased()) {
-				mHotelProductDownloadThrobber = ThrobberDialog
-					.newInstance(getString(R.string.calculating_taxes_and_fees));
-				mHotelProductDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
-				mHotelBookingFrag.startDownload(HotelBookingState.HOTEL_PRODUCT);
+				mHotelCreateTripDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.calculating_taxes_and_fees));
+				mHotelCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+				mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
 			}
 		}
 	}
@@ -1144,33 +1140,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
-	private void startHotelCreateTrip() {
-		if (mCreateTripDownloadThrobber == null) {
-			mCreateTripDownloadThrobber = ThrobberDialog
-				.newInstance(getString(R.string.spinner_text_hotel_create_trip));
-			mCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
-		}
-		else {
-			mCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
-		}
-		mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
+	private void dismissLoadingDialogs() {
+		dismissDialog(TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+		dismissDialog(TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 	}
 
-	private void dismissLoadingDialogs() {
-		mHotelProductDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-			TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
-		if (mHotelProductDownloadThrobber != null && mHotelProductDownloadThrobber.isAdded()) {
-			mHotelProductDownloadThrobber.dismiss();
-		}
-		mCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-			TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
-		if (mCreateTripDownloadThrobber != null && mCreateTripDownloadThrobber.isAdded()) {
-			mCreateTripDownloadThrobber.dismiss();
-		}
-		mFlightCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-			TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
-		if (mFlightCreateTripDownloadThrobber != null && mFlightCreateTripDownloadThrobber.isAdded()) {
-			mFlightCreateTripDownloadThrobber.dismiss();
+	private void dismissDialog(String key) {
+		ThrobberDialog dialog = Ui.findSupportFragment((FragmentActivity) getActivity(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+		if (dialog != null && dialog.isAdded()) {
+			dialog.dismiss();
 		}
 	}
 
@@ -1212,14 +1190,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	@Subscribe
-	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
-		dismissLoadingDialogs();
-		startHotelCreateTrip();
-	}
-
-	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
-		// TODO test
 		boolean isHotelCreateTripResponse = event.createTripResponse instanceof CreateTripResponse;
 		if (getLob() == LineOfBusiness.FLIGHTS && isHotelCreateTripResponse) {
 			setCheckoutState(CheckoutState.CONFIRMATION, true);
@@ -1247,12 +1218,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
-		if (getLob() == LineOfBusiness.HOTELS) {
-			startHotelCreateTrip();
-		}
-		else if (getLob() == LineOfBusiness.FLIGHTS) {
-			doCreateTrip();
-		}
+		doCreateTrip();
 	}
 
 	@Subscribe

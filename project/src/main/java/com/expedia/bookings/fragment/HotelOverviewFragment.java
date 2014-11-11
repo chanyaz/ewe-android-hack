@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -365,8 +364,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (!mHotelBookingFragment.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
-				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
+			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip() && !mIsDoneLoadingPriceChange) {
+				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
 				mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
 				mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
 			}
@@ -1517,13 +1516,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	@Subscribe
-	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
-		mIsDoneLoadingPriceChange = true;
-		mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
-	}
-
-	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
+		mIsDoneLoadingPriceChange = true;
 		if (event.createTripResponse instanceof CreateTripResponse) {
 			// Now we have the valid payments data
 			Rate rate = Db.getTripBucket().getHotel().getRate();
@@ -1547,9 +1541,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Subscribe
 	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
-		mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
-		mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
-		mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+		mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
+		if (mCreateTripDialog == null) {
+			mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+			mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+		}
 	}
 
 	@Subscribe
