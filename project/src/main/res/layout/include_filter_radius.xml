@@ -2,7 +2,7 @@
 <com.mobiata.android.widget.SegmentedControlGroup xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:id="@+id/radius_filter_button_group"
-    style="?attr/hotelListingFilterGroupStyle"
+    style="?attr/skin_hotelListingFilterGroupStyle"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"

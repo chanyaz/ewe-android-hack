@@ -43,7 +43,7 @@ public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 		Builder builder = new Builder(getActivity());
 
 		// Defaults
-		String messageText = getResources().getString(Ui.obtainThemeResID(getActivity(), R.attr.logoutConfirmationString));
+		String messageText = getResources().getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_logoutConfirmationString));
 
 		// Args
 		Bundle args = getArguments();

@@ -52,7 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="?attr/loadingAccount"
+            android:text="?attr/skin_loadingAccount"
             android:textSize="@dimen/login_button_text_size"
             android:textColor="@color/text_dark" />
 
@@ -81,7 +81,7 @@
             android:layout_marginLeft="@dimen/account_button_padding"
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
-            android:text="?attr/hotelCheckoutLoginButtonText"
+            android:text="?attr/skin_hotelCheckoutLoginButtonText"
             android:textSize="@dimen/login_button_text_size"
             app:textStyle="@integer/login_button_text_style" />
 
@@ -116,7 +116,7 @@
             android:layout_marginLeft="@dimen/account_button_padding"
             android:paddingLeft="@dimen/login_button_icon_padding_left"
             android:paddingRight="@dimen/login_button_icon_padding_right"
-            android:src="?attr/phoneCheckoutLoginLogoDrawable" />
+            android:src="?attr/skin_phoneCheckoutLoginLogoDrawable" />
 
         <LinearLayout
             android:layout_width="0dp"

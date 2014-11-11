@@ -60,7 +60,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 			}
 		}
 
-		return getString(Ui.obtainThemeResID(getActivity(), R.attr.serverErrorMessageString));
+		return getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_serverErrorMessageString));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

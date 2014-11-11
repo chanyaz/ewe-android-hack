@@ -142,28 +142,28 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 				R.drawable.ic_tablet_checkout_expedia_logo, 0, 0, 0);
 			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.tabletCheckoutLoginButtonTextColor));
+				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
 		}
 		else if (ExpediaBookingApp.IS_EXPEDIA) {
 			mLoginContainer.setBackgroundResource(
-				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginButtonDrawable));
+				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
 			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.phoneCheckoutLoginButtonTextColor));
+				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
 		}
 		else if (ExpediaBookingApp.IS_AAG) {
 			mLoginContainer.setBackgroundResource(
-				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginButtonDrawable));
+				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
 			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.phoneCheckoutLoginButtonTextColor));
+				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
 		}
 		else {
 			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
 			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.phoneCheckoutLoginButtonTextColor));
+				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
 		}
 
 
@@ -180,7 +180,7 @@ public class AccountButton extends LinearLayout {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
 		}
 		else if (!traveler.isLoyaltyMember()) {
-			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLogoutLogoDrawable));
+			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
 		}
 
 		// Top text

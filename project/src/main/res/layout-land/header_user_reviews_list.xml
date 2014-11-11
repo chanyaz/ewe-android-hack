@@ -27,7 +27,7 @@
 
     <RatingBar
         android:id="@+id/user_rating"
-        style="?attr/hotelListingUserRatingStyle"
+        style="?attr/skin_hotelListingUserRatingStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

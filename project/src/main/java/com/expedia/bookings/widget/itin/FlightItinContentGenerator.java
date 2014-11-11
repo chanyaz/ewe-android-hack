@@ -99,7 +99,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return R.drawable.ic_itin_shared_placeholder_flights;
 		}
 		else {
-			return Ui.obtainThemeResID(getContext(), R.attr.icTypeCircleFlight);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleFlight);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinFlightPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinFlightPlaceholderDrawable);
 	}
 
 	@Override

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:bufferType="spannable"
-            android:text="?attr/loginWithExpediaTitleText"
+            android:text="?attr/skin_loginWithExpediaTitleText"
             android:textColor="#f3f3f3"
             android:textSize="@dimen/login_header_text_size" />
 
@@ -126,11 +126,11 @@
                 <Button
                     android:id="@+id/log_in_with_expedia_btn"
                     style="@style/LoginFormButton"
-                    android:background="?attr/loginBookNowButtonDrawable"
-                    android:contentDescription="?attr/loginWithExpediaContentDescription"
+                    android:background="?attr/skin_loginBookNowButtonDrawable"
+                    android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
                     android:gravity="center"
-                    android:text="?attr/loginWithExpediaButtonText"
-                    android:textColor="?attr/loginButtonColor" />
+                    android:text="?attr/skin_loginWithExpediaButtonText"
+                    android:textColor="?attr/skin_loginButtonColor" />
 
                 <TextView
                     android:id="@+id/forgot_your_password_link"
@@ -161,7 +161,7 @@
                 android:layout_marginBottom="@dimen/login_bottom_room_spacing"
                 android:layout_marginLeft="@dimen/login_side_margin_medium"
                 android:layout_marginRight="@dimen/login_side_margin_medium"
-                android:hint="?attr/passwordHint"
+                android:hint="?attr/skin_passwordHint"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword" />
         </LinearLayout>

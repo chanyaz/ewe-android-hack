@@ -187,7 +187,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		resetCVVText();
 
 		//1752. VSC Change cvv prompt text
-		int cvvEntryTitleResId = Ui.obtainThemeResID(getActivity(), R.attr.cvvEntryTitleText);
+		int cvvEntryTitleResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_cvvEntryTitleText);
 		mCVVPromptTextView.setText(Html.fromHtml(getString(cvvEntryTitleResId, cardName)));
 
 		// Subprompt, i.e. "see front/back of card"

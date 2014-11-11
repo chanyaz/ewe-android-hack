@@ -101,11 +101,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
+			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
 
 			//Add Website link for Expedia, Travelocity and AAG. Disabled only for VSC.
 			if (!ExpediaBookingApp.IS_VSC) {
-				builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
+				builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 			}
 
 			if (ExpediaBookingApp.IS_EXPEDIA) {
@@ -152,11 +152,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder();
-			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.aboutAppNameString));
-			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.aboutCopyrightString));
-			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.aboutAppLogoDrawable));
+			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.skin_aboutAppNameString));
+			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString));
+			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.skin_aboutAppLogoDrawable));
 			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
-				copyBuilder.setLogoUrl(this.getString(Ui.obtainThemeResID(this, R.attr.aboutInfoUrlString)));
+				copyBuilder.setLogoUrl(this.getString(Ui.obtainThemeResID(this, R.attr.skin_aboutInfoUrlString)));
 			}
 			else {
 				copyBuilder.setLogoUrl(PointOfSale.getPointOfSale().getWebsiteUrl());

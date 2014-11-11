@@ -104,7 +104,7 @@
 
                     <RatingBar
                         android:id="@+id/user_rating_bar"
-                        style="?attr/hotelDetailsUserRatingStyle"
+                        style="?attr/skin_hotelDetailsUserRatingStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -235,7 +235,7 @@
                         android:layout_height="match_parent"
                         android:background="#2a2a2a"
                         android:scaleType="centerCrop"
-                        android:src="?attr/hotelImagePlaceHolderDrawable" />
+                        android:src="?attr/skin_hotelImagePlaceHolderDrawable" />
 
                 </FrameLayout>
 
@@ -309,7 +309,7 @@
 
                     <RatingBar
                         android:id="@+id/star_rating_bar"
-                        style="?attr/hotelDetailsStarRatingStyle"
+                        style="?attr/skin_hotelDetailsStarRatingStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

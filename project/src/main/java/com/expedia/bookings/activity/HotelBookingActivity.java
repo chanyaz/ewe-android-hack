@@ -248,7 +248,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 		Drawable actionBarDrawable = isError
 			? getResources().getDrawable(R.drawable.bg_flight_action_bar_top_red)
-			: Ui.obtainThemeDrawable(this, R.attr.actionBarBackgroundDrawable);
+			: Ui.obtainThemeDrawable(this, R.attr.skin_actionBarBackgroundDrawable);
 
 		actionBar.setBackgroundDrawable(actionBarDrawable);
 

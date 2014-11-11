@@ -350,7 +350,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void loadHotelOffers(HotelOffersResponse offersResponse) {
 		if (offersResponse == null) {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
+			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
 		}
 		else if (offersResponse.isHotelUnavailable()) {
 			// Start an info call, so we can show an unavailable hotel
@@ -359,7 +359,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 		}
 		else if (offersResponse.hasErrors()) {
-			String message = getString(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
+			String message = getString(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
 			for (ServerError error : offersResponse.getErrors()) {
 				message = error.getPresentableMessage(HotelSearchActivity.this);
 			}
@@ -387,7 +387,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
+			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
 		}
 	}
 

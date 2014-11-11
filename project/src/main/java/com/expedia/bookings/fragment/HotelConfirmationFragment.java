@@ -91,7 +91,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
-		int placeholderId = Ui.obtainThemeResID(getActivity(), R.attr.hotelConfirmationPlaceholderDrawable);
+		int placeholderId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelConfirmationPlaceholderDrawable);
 		if (media != null) {
 			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(), placeholderId));
 		}

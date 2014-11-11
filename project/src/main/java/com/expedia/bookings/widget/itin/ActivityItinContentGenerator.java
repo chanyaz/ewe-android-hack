@@ -89,7 +89,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinActivityPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinActivityPlaceholderDrawable);
 	}
 
 	@Override

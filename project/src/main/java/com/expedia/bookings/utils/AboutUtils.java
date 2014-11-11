@@ -40,7 +40,7 @@ public class AboutUtils {
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
 
-		builder.setTitle(Ui.obtainThemeResID(mActivity, R.attr.infoContactUsString));
+		builder.setTitle(Ui.obtainThemeResID(mActivity, R.attr.skin_infoContactUsString));
 
 		// Figure out which items to display to the user
 		List<String> items = new ArrayList<String>();
@@ -98,7 +98,7 @@ public class AboutUtils {
 	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
 
-		builder.setMessage(Ui.obtainThemeResID(mActivity, R.attr.dialogMessageLaunchMobileSite));
+		builder.setMessage(Ui.obtainThemeResID(mActivity, R.attr.skin_dialogMessageLaunchMobileSite));
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -149,7 +149,7 @@ public class AboutUtils {
 	public void contactViaEmail() {
 		trackEmailSupport();
 		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
-			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.infoContactEmailSubjectString)), null);
+			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.skin_infoContactEmailSubjectString)), null);
 	}
 
 	public void openExpediaWebsite() {
@@ -181,8 +181,8 @@ public class AboutUtils {
 	public void tellAFriend() {
 		trackTellAFriend();
 
-		SocialUtils.email(mActivity, mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.tellAFriendSubject)),
-			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.tellAFriendBody)));
+		SocialUtils.email(mActivity, mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.skin_tellAFriendSubject)),
+			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.skin_tellAFriendBody)));
 	}
 
 	public void openCareers() {

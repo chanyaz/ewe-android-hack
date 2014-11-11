@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- VSC/EB attributes used for style switching in themes -->
+    <!-- Hotel Search price styles -->
+    <attr name="skin_hotelPriceStandardColor" format="reference|color" />
+    <attr name="skin_hotelPriceSaleColor" format="reference|color" />
+
+    <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
+    <attr name="skin_hotelSearchActionBarPadding" format="reference|dimension" />
+
+    <!-- ActionBar icon/logo in WebView/Preference/Info Activities -->
+    <attr name="skin_webViewPreferencesActionBarLogo" format="reference" />
+
+    <!-- ActionBar icon/logo in WebView that also sets a title -->
+    <attr name="skin_webViewPreferencesActionBarLogoWithTitle" format="reference" />
+    <!-- ActionBar icon/logo in HotelRulesActivities -->
+    <attr name="skin_hotelWebViewActionBarLogo" format="reference" />
+
+    <attr name="skin_actionBarSpinnerBackground" format="reference" />
+
+    <attr name="skin_actionBarBackgroundDrawable" format="reference" />
+    <!-- ActionBar checkmark drawable -->
+    <attr name="skin_actionBarCheckMarkDrawable" format="reference" />
+    <!-- ActionBar Done/Search button color -->
+    <attr name="skin_actionBarButtonTextColor" format="reference|color" />
+    <!-- ActionBar checkout arrow drawable -->
+    <attr name="skin_actionBarCheckoutDrawable" format="reference" />
+    <attr name="skin_costSummaryHeaderTextColor" format="reference|color" />
+
+    <!-- Ratingbar style in UserReviewsListActivity -->
+    <attr name="skin_ratingBarUserReviewStyle" format="reference" />
+
+    <!-- Hotel calendar related styling -->
+    <attr name="skin_calendarDatePickerCellDrawable" format="reference" />
+    <attr name="skin_calendarDatePickerPopupDrawable" format="reference" />
+    <attr name="skin_calendarDatePickerDateFormat" format="reference|string" />
+
+
+    <!--Flight Calendar related styling -->
+    <attr name="skin_flightCalendarDatePickerCellDrawable" format="reference" />
+    <attr name="skin_flightCalendarDatePickerPopupDrawable" format="reference" />
+
+    <attr name="skin_hotelCancellationPolicyDateFormat" format="reference|string" />
+
+    <!-- Hotel promo pricing related styling -->
+    <attr name="skin_hotelListingSaleDrawable" format="reference" />
+    <attr name="skin_hotelDetailSaleRibbonDrawable" format="reference" />
+    <attr name="skin_roomsRatesSaleRibbonDrawable" format="reference" />
+
+    <!-- Hotel listing user review rating style -->
+    <attr name="skin_hotelListingUserRatingStyle" format="reference" />
+
+    <!-- Hotel listing Sort by price icon -->
+    <attr name="skin_hotelListingSortPriceDrawable" format="reference" />
+
+    <!-- Hotel filters button style, for SegmentedControlGroups -->
+    <attr name="skin_hotelListingFilterGroupStyle" format="reference" />
+
+    <!-- Hotel filters button style for VIP Toggle Button -->
+    <attr name="skin_hotelListingFilterToggleButtonStyle" format="reference" />
+
+    <!-- Hotel listing Filter price strings -->
+    <attr name="skin_hotelListingFilterPriceCheapString" format="reference|string" />
+    <attr name="skin_hotelListingFilterPriceModerateString" format="reference|string" />
+    <attr name="skin_hotelListingFilterPriceExpensiveString" format="reference|string" />
+
+    <!-- Hotel details tablet popup styles -->
+    <attr name="skin_hotelDetailsUserRatingStyle" format="reference" />
+    <attr name="skin_hotelDetailsStarRatingStyle" format="reference" />
+
+    <!-- HangTag assets -->
+    <attr name="skin_hangTagProgressDrawable" format="reference" />
+    <attr name="skin_hangTagProgressRingFillDrawable" format="reference" />
+    <attr name="skin_hangTagKnobDrawable" format="reference" />
+    <attr name="skin_hangTagKnobBackgroundDrawable" format="reference" />
+
+    <!-- Hotel Listing row thumbnail placeholder -->
+    <attr name="skin_HotelRowThumbPlaceHolderDrawable" format="reference" />
+
+    <!-- Cost Summary Breakdown Dialog Stripe -->
+    <attr name="skin_costSummaryDialogStripeDrawable" format="reference" />
+    <attr name="skin_flightsCostSummaryDialogStripeDrawable" format="reference" />
+    <attr name="skin_costSummaryBookingFeesString" format="reference|string" />
+
+    <!-- Log in with Expedia/VSC screen -->
+    <!-- This drawable is used in hotel detail for Book Now button as well -->
+    <attr name="skin_loginBookNowButtonDrawable" format="reference" />
+    <attr name="skin_loginWithExpediaButtonText" format="reference|string" />
+    <attr name="skin_loginWithExpediaTitleText" format="reference|string" />
+    <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
+    <attr name="skin_loginWithExpediaContentDescription" format="reference|string" />
+    <attr name="skin_loginButtonColor" format="reference" />
+    <attr name="skin_hotelBookButtonColor" format="reference" />
+
+    <!-- Hotel Confirmation, Customer support option drawable -->
+    <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
+
+    <!-- Hotel Confirmation Customer support text-->
+    <attr name="skin_hotelConfirmationCallActionText" format="reference" />
+
+    <!-- Hotel confirmation screen, login button text and icons -->
+    <attr name="skin_hotelCheckoutLoginButtonText" format="reference|string" />
+    <attr name="skin_hotelCheckoutLogoutLogoDrawable" format="reference" />
+    <attr name="skin_phoneCheckoutLoginLogoDrawable" format="reference" />
+    <attr name="skin_phoneCheckoutLoginButtonDrawable" format="reference" />
+
+    <!-- Hotel/Flight confirmation screen, login button colors -->
+    <attr name="skin_phoneCheckoutLoginButtonTextColor" format="reference|color" />
+    <attr name="skin_tabletCheckoutLoginButtonTextColor" format="reference|color" />
+
+    <!-- HotelCheckout CVV, Book button -->
+    <attr name="skin_cvvBookButtonKeypadDrawable" format="reference" />
+    <attr name="skin_cvvBookButtonTextColor" format="reference"/>
+
+    <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
+    <attr name="skin_hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
+    <attr name="skin_hotelListMapMarkerSaleDrawable" format="reference" />
+    <attr name="skin_hotelListMapMarkerDrawable" format="reference" />
+
+    <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
+    <attr name="skin_hotelImagePlaceHolderDrawable" format="reference" />
+
+    <!-- Title displayed on the CVV entry screen (defined separately for VSC).
+    The first parameter, if defined, is the user-defined name of the card. -->
+    <attr name="skin_cvvEntryTitleText" format="reference|string" />
+
+    <!-- for hotels and flights travel type -->
+    <attr name="skin_travelerLabelOnCheckout" format="reference|string" />
+
+    <!-- for flight showing Expedia/ Tvly Account label-->
+    <attr name="skin_flightCheckoutAccountLabel" format="reference|string"/>
+
+    <!-- for hotels best price guarantee type -->
+    <attr name="skin_bestPriceGuaranteeString" format="reference|string" />
+    <!-- for hotels details book button -->
+    <attr name="skin_hotelBookButtonString" format="reference|string" />
+
+    <attr name="skin_aboutWebsiteString" format="reference|string" />
+    <attr name="skin_aboutAppSupportString" format="reference|string" />
+    <attr name="skin_aboutCopyrightString" format="reference|string" />
+    <attr name="skin_aboutInfoUrlString" format="reference|string" />
+    <attr name="skin_aboutAppNameString" format="reference|string" />
+    <attr name="skin_aboutAppLogoDrawable" format="reference" />
+
+    <!-- for logout confirmation -->
+    <attr name="skin_logoutConfirmationString" format="reference|string" />
+
+    <!-- Flight loading screen message position -->
+    <attr name="skin_flightLoadingMessagePosition" format="reference" />
+
+    <attr name="skin_flightUnhandledErrorMessage" format="reference|string" />
+    <attr name="skin_serverErrorMessageString" format="reference|string" />
+    <attr name="skin_savePaymentToAccountString" format="reference|string" />
+    <attr name="skin_saveTravelerToAccountString" format="reference|string" />
+
+    <!-- for traveller_info_page logo-->
+    <attr name="skin_travellerInfoPageLogo" format="reference"/>
+    <attr name="skin_travellerInfoPageLogoDisabled" format="reference"/>
+
+    <!-- for itinerary in Trips tab -->
+    <attr name="skin_bgFindItineraryButton" format="reference"/>
+
+    <!-- Itin placeholder drawables -->
+    <attr name="skin_itinActivityPlaceholderDrawable" format="reference" />
+    <attr name="skin_itinCarPlaceholderDrawable" format="reference" />
+    <attr name="skin_itinCruisePlaceholderDrawable" format="reference" />
+    <attr name="skin_itinHotelPlaceholderDrawable" format="reference" />
+    <attr name="skin_itinFlightPlaceholderDrawable" format="reference" />
+    <attr name="skin_itinDefaultPlaceholderDrawable" format="reference" />
+    <attr name="skin_itinCardTitleBackground" format="reference" />
+
+    <!-- trips tab related -->
+    <attr name="skin_itinCardBackground" format="reference"/>
+    <attr name="skin_itinFlightsTripLineColor" format="reference"/>
+
+    <attr name="skin_companyLogoForReceipt" format="reference"/>
+
+    <attr name="skin_itinHotelAttachButtonDrawable" format="reference"/>
+    <attr name="skin_itinDismissListSelectorDrawable" format="reference"/>
+
+    <attr name="skin_itinTabletCardPopupBackgroundDrawable" format="reference"/>
+    <attr name="skin_itinTabletCardPopupHeaderDrawable" format="reference"/>
+
+    <attr name="skin_hotelConfirmationPlaceholderDrawable" format="reference" />
+    <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
+
+    <attr name="skin_infoContactUsString" format="reference|string"/>
+    <attr name="skin_infoContactEmailSubjectString" format="reference|string"/>
+
+    <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
+    <attr name="skin_emailUserNameString" format="reference|string" />
+
+    <!-- Room not Available Error Msg-->
+    <attr name="skin_roomNotAvailableError" format="string"/>
+
+    <!-- Flight(s) not Available Error Msg-->
+    <attr name="skin_singleFlightNotAvailableError" format="string"/>
+    <attr name="skin_flightsNotAvailableError" format="string"/>
+
+    <!--CVV and CVV Error-->
+    <attr name="skin_cvvDivDrawable" format="reference" />
+    <attr name="skin_cvvDivErrorDrawable" format="reference" />
+
+    <!-- Clear Private Data Confirmation Msg-->
+    <attr name="skin_clearPrivateDataMsg" format="string"/>
+
+    <!--Hotel search result messages-->
+    <attr name="skin_hotelSearchResultNotAvailale" format="reference|string" />
+    <attr name="skin_hotelSearchResultSoldOut" format="reference|string" />
+    <attr name="skin_hotelSearchResultTEMPLATE" format="reference|string" />
+
+    <attr name="skin_candycaneProgressDrawable" format="reference" />
+    <attr name="skin_userRatingBarDrawable" format="reference" />
+
+    <attr name="skin_clearEditTextImage" format="reference"/>
+
+    <attr name="skin_icTypeCircleFlight" format="reference" />
+    <attr name="skin_icTypeCircleHotel" format="reference" />
+
+    <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
+
+    <!--Add Calender POS Messages-->
+    <attr name="skin_addToCalenderMessage" format="reference|string" />
+
+    <!--Missing string in AirAsiaGo and Travelocity-->
+    <attr name="skin_tellAFriendBody" format="reference|string" />
+    <attr name="skin_tellAFriendSubject" format="reference|string" />
+    <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
+    <attr name="skin_passwordHint" format="reference|string" />
+    <attr name="skin_loadingAccount" format="reference|string" />
+    <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
+    <attr name="skin_dialogMessageLaunchMobileSite" format="reference|string" />
+    <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
+
+    <!--Change the color of flight circles and lines -->
+    <attr name="skin_flightLineColor" format="reference" />
+
+    <!-- calendar description for flight's itinerary and support-->
+    <attr name="skin_calendarFlightDescItinerary" format="reference|string" />
+    <attr name="skin_calendarFlightDescSupport" format="reference|string" />
+    <attr name="skin_flightPriceTextColor" format="reference|color" />
+    <attr name="skin_icSuitCaseBaggage" format="reference" />
+    <attr name="skin_flightLoginActionBarIcon" format="reference" />
+
+</resources>

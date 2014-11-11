@@ -5,11 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:contentDescription="@string/cd_traveler_information_done"
-    android:drawableLeft="?attr/actionBarCheckMarkDrawable"
+    android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
     android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/actionBarSize"
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/button_done"
     android:textAppearance="?android:attr/actionMenuTextAppearance"
-    android:textColor="?attr/actionBarButtonTextColor" />
+    android:textColor="?attr/skin_actionBarButtonTextColor" />

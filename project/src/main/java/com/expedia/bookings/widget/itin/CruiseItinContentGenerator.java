@@ -52,7 +52,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinCruisePlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCruisePlaceholderDrawable);
 	}
 
 	@Override

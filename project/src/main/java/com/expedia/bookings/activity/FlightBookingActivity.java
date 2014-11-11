@@ -260,7 +260,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		// Set header bg
 		int bgResId = isError
 			? R.drawable.bg_flight_action_bar_top_red
-			: Ui.obtainThemeResID(this, R.attr.actionBarBackgroundDrawable);
+			: Ui.obtainThemeResID(this, R.attr.skin_actionBarBackgroundDrawable);
 
 		actionBar.setBackgroundDrawable(getResources().getDrawable(bgResId));
 

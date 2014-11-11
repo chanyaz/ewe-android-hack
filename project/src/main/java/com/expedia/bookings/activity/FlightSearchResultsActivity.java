@@ -870,7 +870,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 					error.setPresentationMessage(getString(R.string.error_no_internet));
 				}
 				else {
-					error.setPresentationMessage(getString(Ui.obtainThemeResID(mContext, R.attr.serverErrorMessageString)));
+					error.setPresentationMessage(getString(Ui.obtainThemeResID(mContext, R.attr.skin_serverErrorMessageString)));
 				}
 				error.setCode(ERROR_CODE_SIMULATED);
 				response.addError(error);

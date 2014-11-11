@@ -200,7 +200,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			padding = mBedSalePadding;
 			//1747. VSC Change price text to sale color
 			if (ExpediaBookingApp.IS_VSC) {
-				holder.price.setTextColor(Ui.obtainThemeColor((Activity)mContext, R.attr.hotelPriceSaleColor));
+				holder.price.setTextColor(Ui.obtainThemeColor((Activity)mContext, R.attr.skin_hotelPriceSaleColor));
 			}
 		}
 		else {

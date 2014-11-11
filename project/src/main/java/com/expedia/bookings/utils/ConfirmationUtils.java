@@ -13,7 +13,7 @@ public class ConfirmationUtils {
 
 	public static String determineContactText(Context context) {
 
-		return context.getString(Ui.obtainThemeResID(context, R.attr.addToCalenderMessage),
+		return context.getString(Ui.obtainThemeResID(context, R.attr.skin_addToCalenderMessage),
 			PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 
 	}

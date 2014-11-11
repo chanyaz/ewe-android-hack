@@ -44,7 +44,7 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 		// This can happen when we get a null response from the server.
 		String caseNumber = getArguments().getString(ARG_CASE_NUMBER);
 		if (!TextUtils.isEmpty(caseNumber)) {
-			builder.setMessage(getString(Ui.obtainThemeResID(getActivity(), R.attr.flightUnhandledErrorMessage), caseNumber));
+			builder.setMessage(getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_flightUnhandledErrorMessage), caseNumber));
 			builder.setNeutralButton(R.string.call_support, this);
 		}
 		else {

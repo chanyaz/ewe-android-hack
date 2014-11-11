@@ -15,7 +15,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
         android:gravity="right"
-        android:textColor="?attr/flightPriceTextColor"
+        android:textColor="?attr/skin_flightPriceTextColor"
         android:textSize="20dp"
         android:textStyle="bold" />
 

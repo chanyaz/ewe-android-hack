@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_checkout"
-        android:icon="?attr/actionBarCheckoutDrawable"
+        android:icon="?attr/skin_actionBarCheckoutDrawable"
         android:showAsAction="always|withText"
         android:title="@string/menu_checkout"/>
 

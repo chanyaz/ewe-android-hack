@@ -507,7 +507,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if (response.hasErrors()) {
 				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(mContext, R.attr.sorryRoomsSoldOutErrorMessage);
+					messageResId = Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage);
 				}
 				else {
 					if (ExpediaBookingApp.IS_TRAVELOCITY) {
@@ -525,7 +525,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 					|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
 					&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.sorryRoomsSoldOutErrorMessage));
+				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage));
 			}
 			else {
 				Db.kickOffBackgroundHotelSearchSave(mContext);

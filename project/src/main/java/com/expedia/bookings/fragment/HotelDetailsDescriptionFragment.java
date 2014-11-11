@@ -100,7 +100,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
 		allSectionsContainer.removeAllViews();
 
-		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText();
 
 		if (sections != null && sections.size() > 1) {
 			LayoutInflater inflater = getActivity().getLayoutInflater();

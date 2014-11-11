@@ -6,8 +6,8 @@
     android:background="@color/tablet_white_pane_bg"
     android:paddingLeft="@dimen/hotel_flight_card_padding_x"
     android:paddingRight="@dimen/hotel_flight_card_padding_x"
-    app:priceTextColor="?attr/hotelPriceStandardColor"
-    app:salePriceTextColor="?attr/hotelPriceSaleColor">
+    app:priceTextColor="?attr/skin_hotelPriceStandardColor"
+    app:salePriceTextColor="?attr/skin_hotelPriceSaleColor">
 
     <TextView
         android:id="@+id/urgency_text_view_color_matched"
@@ -116,7 +116,7 @@
 
                 <RatingBar
                     android:id="@+id/user_rating_bar"
-                    style="?attr/hotelListingUserRatingStyle"
+                    style="?attr/skin_hotelListingUserRatingStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

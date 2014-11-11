@@ -38,7 +38,7 @@ public class HotelErrorDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();
 		int messageId = args
-			.getInt(ARG_MESSAGE, Ui.obtainThemeResID(getActivity(), R.attr.sorryRoomsSoldOutErrorMessage));
+			.getInt(ARG_MESSAGE, Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
 		mShouldFinishActivity = args.getBoolean(ARG_SHOULD_FINISH_ACTIVITY, true);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

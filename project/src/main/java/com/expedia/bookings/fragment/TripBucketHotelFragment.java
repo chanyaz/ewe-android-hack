@@ -150,12 +150,12 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 					if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && getResources().getBoolean(R.bool.landscape)) {
 						mPriceGuaranteeTv.setVisibility(View.VISIBLE);
-						mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
+						mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
 					}
 				}
 				else if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
 					mPriceGuaranteeTv.setVisibility(View.VISIBLE);
-					mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
+					mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
 				}
 			}
 		}
@@ -182,7 +182,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 	@Override
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
-		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null && hotel.getProperty() != null) {
 			if (hotel.getProperty().getThumbnail() != null) {

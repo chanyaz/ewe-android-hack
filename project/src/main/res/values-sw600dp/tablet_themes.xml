@@ -19,15 +19,15 @@
         <item name="android:actionOverflowButtonStyle">@style/V2.Widget.ActionBar.ActionButton.Overflow</item>
 
         <!-- Custom attrs for Expedia/VSC switching -->
-        <item name="hotelPriceStandardColor">#ffffff</item>
-        <item name="hotelPriceSaleColor">#ffffff</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
-        <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
-        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
-        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
-        <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
-        <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
-        <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
+        <item name="skin_hotelPriceStandardColor">#ffffff</item>
+        <item name="skin_hotelPriceSaleColor">#ffffff</item>
+        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+        <item name="skin_hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
+        <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
+        <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
+        <item name="skin_hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="skin_hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
+        <item name="skin_hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 

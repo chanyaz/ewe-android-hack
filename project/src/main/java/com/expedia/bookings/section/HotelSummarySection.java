@@ -344,7 +344,7 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// See if there's a first image; if there is, use that as the thumbnail
 		if (mThumbnailView != null) {
-			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
+			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
 				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId);
 			}
@@ -386,7 +386,7 @@ public class HotelSummarySection extends RelativeLayout {
 			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
 			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
 
-			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
+			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
 				property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, mHeaderBitmapLoadedCallback);
 			}
@@ -418,7 +418,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 		else {
 			mProximityText.setVisibility(View.VISIBLE);
-			mProximityText.setText(Ui.obtainThemeResID(getContext(), R.attr.hotelSearchResultSoldOut));
+			mProximityText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
 		}
 	}
 

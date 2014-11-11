@@ -140,7 +140,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.costSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.skin_costSummaryDialogStripeDrawable));
 
 		// Breakdown summary
 		int numNights = params.getStayDuration();
@@ -277,7 +277,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.flightsCostSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.skin_flightsCostSummaryDialogStripeDrawable));
 
 		Money totalFarePerTraveler;
 		Money totalBaseFarePerTraveler;
@@ -387,7 +387,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		if (trip.getFees() != null) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.costSummaryBookingFeesString)))
+					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.skin_costSummaryBookingFeesString)))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

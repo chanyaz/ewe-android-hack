@@ -184,7 +184,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateIntroParagraph(View view, Property property) {
-		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText();
 
 		final TextView titleView = Ui.findView(view, R.id.title_text);
 		final TextView bodyView = Ui.findView(view, R.id.body_text);
