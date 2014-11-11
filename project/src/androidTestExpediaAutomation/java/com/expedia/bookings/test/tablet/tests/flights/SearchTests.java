@@ -18,18 +18,6 @@ public class SearchTests extends TabletTestCase {
 	 * Run these search regression tests on Integration/Production api servers only
 	 */
 
-	// Test to check for select airport button on duplicate airport search
-	public void testDuplicateAirportSearchGivesErrorMessage() throws Exception {
-		Launch.clickSearchButton();
-		Launch.clickDestinationEditText();
-		Launch.typeInDestinationEditText("San Francisco, CA");
-		Launch.clickSuggestion("San Francisco, CA");
-		Search.clickOriginButton();
-		Search.typeInOriginEditText("San Francisco, CA");
-		Search.clickSuggestion("San Francisco, CA");
-		Common.checkDisplayed(Search.selectAirportButton());
-	}
-
 	public void testNoSearchesLongerThan28Days() {
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
