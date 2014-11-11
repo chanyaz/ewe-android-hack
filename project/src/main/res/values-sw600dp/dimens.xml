@@ -223,6 +223,7 @@
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_x">12dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_major_y">16dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">8dp</dimen>
+    <dimen name="tablet_wallet_promo_height">24dp</dimen>
 
     <!-- CVV Screen -->
     <dimen name="cvv_keypad_text_size">30sp</dimen>
