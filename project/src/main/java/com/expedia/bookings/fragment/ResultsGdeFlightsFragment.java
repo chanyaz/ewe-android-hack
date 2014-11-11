@@ -54,7 +54,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private TextView mGdeHeaderTv;
 	private ProgressBar mGdeProgressBar;
 	private TextView mGdePriceRangeTv;
-	private ImageView mToolTipInvokeButton;
+	private ViewGroup mToolTipInvokeButton;
 	private LinearLayout mToolTipView;
 	private TextView mToolTipDoneButton;
 
