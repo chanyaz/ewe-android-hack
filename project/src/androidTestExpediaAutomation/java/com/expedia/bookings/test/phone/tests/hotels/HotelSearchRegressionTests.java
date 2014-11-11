@@ -122,8 +122,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.enterSearchText(pointOfInterest);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.ChooseLocation));
-		ScreenActions.enterLog(TAG, "Did you mean' dialog appeared after search for: " + pointOfInterest);
+		EspressoUtils.assertContains(HotelsSearchScreen.searchEditText(),"Statue of Liberty National Monument, New York, NY");
 		Espresso.pressBack();
 	}
 
