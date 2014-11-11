@@ -348,6 +348,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeErrorMessageView.setVisibility(View.GONE);
 		mHistogramC.setVisibility(View.GONE);
 		mToolTipView.setVisibility(View.GONE);
+		mToolTipInvokeButton.setVisibility(View.INVISIBLE);
 		mGdeHeaderTv.setVisibility(View.VISIBLE);
 
 		FlightSearchHistogramResponse response = event.response;
