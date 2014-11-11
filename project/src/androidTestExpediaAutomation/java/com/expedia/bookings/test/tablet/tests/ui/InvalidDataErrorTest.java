@@ -21,7 +21,6 @@ public class InvalidDataErrorTest extends TabletTestCase {
 
 	private static final String[] BAD_CREDIT_CARDS = {
 		"378734493671001", // AMEX
-		"94000000000001",  // Carte Blanche
 		"30569309025905",  // Diners Club
 		"6011000990139425",// Discover
 	};
