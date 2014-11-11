@@ -24,6 +24,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 public class CreditCardsInfoEditTest extends TabletTestCase {
 
 	List<TestData> mTestData = new LinkedList<TestData>();
+	private static final String TAG = CreditCardsInfoEditTest.class.getSimpleName();
 
 	private static class TestData {
 		String mTestName;
@@ -76,6 +77,7 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 			*/
 			try {
 				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_tablet, testData.getDrawableId(), R.id.new_card_container);
+				Common.enterLog(TAG, "Credit card brand logo is correctly displayed for " + testData.getTestName());
 			}
 			catch (Exception e) {
 				throw new Exception("Failure-" + testData.getTestName(), e);
@@ -90,9 +92,11 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 
 			if (testData.getTestName().equals("Amex")) {
 				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_front_of_card));
+				Common.enterLog(TAG, "CVV sub prompt text (See front of the card) is correctly displayed for " + testData.getTestName());
 			}
 			else {
 				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_back_of_card));
+				Common.enterLog(TAG, "CVV sub prompt text (See back of the card) is correctly displayed for " + testData.getTestName());
 			}
 
 			/*
@@ -100,6 +104,7 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 			*/
 
 			EspressoUtils.assertContains(onView(withId(R.id.signature_text_view)), "M. Auto");
+			Common.enterLog(TAG, " Security Code correctly shows the cardholders name for " + testData.getTestName());
 
 			//go back and clear credit card edit box for next test data
 			Common.pressBack();
