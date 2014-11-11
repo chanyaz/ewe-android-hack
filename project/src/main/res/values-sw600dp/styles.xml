@@ -90,7 +90,7 @@
 
     <style name="CenterCaptionedIcon.ActionButton">
         <item name="android:layout_width">182dp</item>
-        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:layout_marginTop">@dimen/pick_airport_button_top_margin</item>
         <item name="android:background">@drawable/bg_tablet_search_result_error_action_button</item>
