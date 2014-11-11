@@ -215,7 +215,7 @@ public class FlightSearchResultsSortTest extends PhoneTestCase {
 			Pair<Integer, Integer> currentDuration;
 
 			//iterate through list of flights, comparing currently indexed flight's duration with flight at index - 1
-			for (int j = 1; j < totalFlights - 2; j = j + 2) {
+			for (int j = 1; j < totalFlights - 2; j++) {
 				DataInteraction currentRow = FlightsSearchResultsScreen.listItem().atPosition(j);
 				FlightsSearchResultsScreen.clickListItem(j);
 				String currentDurationString = EspressoUtils.getText(R.id.left_text_view);
