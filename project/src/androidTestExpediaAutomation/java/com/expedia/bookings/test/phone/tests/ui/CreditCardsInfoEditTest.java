@@ -27,6 +27,7 @@ import com.expedia.bookings.test.utils.PhoneTestCase;
 public class CreditCardsInfoEditTest extends PhoneTestCase {
 
 	List<TestData> mTestData = new LinkedList<TestData>();
+	private static final String TAG = CreditCardsInfoEditTest.class.getSimpleName();
 
 	private static class TestData {
 		String mTestName;
@@ -87,6 +88,8 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 			*/
 			try {
 				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_white, testData.getDrawableId());
+				Common.enterLog(TAG, "Credit card brand logo is correctly displayed for " + testData.getTestName());
+
 			}
 			catch (Exception e) {
 				throw new Exception("Failure-" + testData.getTestName(), e);
@@ -101,9 +104,11 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 
 			if (testData.getTestName().equals("Amex")) {
 				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_front_of_card));
+				Common.enterLog(TAG, "CVV sub prompt text (See front of the card) is correctly displayed for " + testData.getTestName());
 			}
 			else {
 				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_back_of_card));
+				Common.enterLog(TAG, "CVV sub prompt text (See back of the card) is correctly displayed for " + testData.getTestName());
 			}
 
 			/*
@@ -111,6 +116,7 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 			*/
 
 			EspressoUtils.assertContains(CVVEntryScreen.cvvSignatureText(), "M. Auto");
+			Common.enterLog(TAG, " Security Code correctly shows the cardholders name for " + testData.getTestName());
 
 			//go back for next test data
 			Common.pressBack();
