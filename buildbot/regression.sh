@@ -13,14 +13,13 @@ else
 fi
 
 TESTS=""
-TESTS+="com.expedia.bookings.test.tablet.tests.hotels.HotelSearchFilterTests,"
-TESTS+="com.expedia.bookings.test.tablet.tests.hotels.HotelSearchSortTests,"
-
+# eb_tp project: #281 Flight Checkout Validation
+TESTS+="com.expedia.bookings.test.phone.tests.flights.FlightCheckoutUserInfoTests,"
 TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightCheckoutUserInfoTests,"
-TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightDetailsTests,"
-TESTS+="com.expedia.bookings.test.tablet.tests.flights.FlightSearchResultsSortTests,"
 
-TESTS+="com.expedia.bookings.test.phone.tests.hotels.HotelRoomsAndRatesTests,"
+# eb_tp project: #243 Booking - Credit Card Types & Security Code
+TESTS+="com.expedia.bookings.test.phone.tests.ui.CreditCardsInfoEditTest,"
+TESTS+="com.expedia.bookings.test.tablet.tests.ui.CreditCardsInfoEditTest,"
 
 java \
     -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
