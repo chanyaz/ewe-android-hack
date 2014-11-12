@@ -4,18 +4,14 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
-import com.expedia.bookings.server.DateTimeParser;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class AirAttach implements JSONable {
 
 	private boolean mAirAttachQualified;
-	private org.joda.time.DateTime mExpirationDate;
+	private DateTime mExpirationDate;
 
 	public boolean isAirAttachQualified() {
 		return mAirAttachQualified;

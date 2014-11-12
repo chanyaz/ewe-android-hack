@@ -238,13 +238,17 @@ public class HotelSummarySection extends RelativeLayout {
 				mPriceText.setTextColor(mSalePriceTextColor);
 
 				if (rate.isAirAttached()) {
-					mAirAttachC.setVisibility(View.VISIBLE);
+					if (mAirAttachC != null) {
+						mAirAttachC.setVisibility(View.VISIBLE);
+					}
 					mSaleText.setVisibility(View.GONE);
 					mAirAttachTv.setText(context.getString(R.string.percent_minus_template,
 						(float) rate.getDiscountPercent()));
 				}
 				else {
-					mAirAttachC.setVisibility(View.GONE);
+					if (mAirAttachC != null) {
+						mAirAttachC.setVisibility(View.GONE);
+					}
 					mSaleText.setVisibility(View.VISIBLE);
 					if (mSaleImageView != null) {
 						mSaleImageView.setVisibility(View.VISIBLE);

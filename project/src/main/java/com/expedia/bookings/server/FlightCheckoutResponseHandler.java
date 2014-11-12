@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,10 +66,8 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			if (airAttachJson != null) {
 				AirAttach airAttach = new AirAttach();
 				airAttach.setAirAttachQualified(airAttachJson.optBoolean("airAttachQualified", false));
-				String timeStr = airAttachJson.optString("offerExpires");
-				if (!TextUtils.isEmpty(timeStr)) {
-					airAttach.setExpirationDate(DateTimeParser.parseDateTime(timeStr));
-				}
+				DateTime expires = DateTimeParser.parseDateTime(airAttachJson.opt("offerExpires"));
+				airAttach.setExpirationDate(expires);
 
 				Db.getTripBucket().setAirAttach(airAttach);
 				Db.saveTripBucket(mContext);

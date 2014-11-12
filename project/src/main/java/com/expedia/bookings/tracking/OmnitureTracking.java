@@ -1625,7 +1625,6 @@ public class OmnitureTracking {
 	}
 
 	public static void trackBookNextClick(Context context, LineOfBusiness lob, boolean isAirAttachScenario) {
-		// TODO verify with Andrew
 		if (isAirAttachScenario) {
 			ADMS_Measurement s = getFreshTrackingObject(context);
 			addProductsForAirAttach(s, Db.getTripBucket().getHotel().getProperty(), "event58", "Flight|Hotel CKO X-Sell");

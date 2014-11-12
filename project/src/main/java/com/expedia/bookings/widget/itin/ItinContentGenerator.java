@@ -41,6 +41,7 @@ import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
+import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -108,6 +109,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 		else if (itinCardData instanceof ItinCardDataHotelAttach) {
 			return new HotelAttachItinContentGenerator(context, (ItinCardDataHotelAttach) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataAirAttach) {
+			return new AirAttachItinContentGenerator(context, (ItinCardDataAirAttach) itinCardData);
 		}
 		else if (itinCardData instanceof ItinCardDataLocalExpert) {
 			return new LocalExpertItinContentGenerator(context, (ItinCardDataLocalExpert) itinCardData);
