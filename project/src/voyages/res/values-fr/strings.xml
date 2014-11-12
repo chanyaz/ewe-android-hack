@@ -112,7 +112,7 @@
     <string name="contact_phone_template">Si vous avez des questions au sujet de votre réservation, veuillez contacter VSC au %s.</string>
 
     <!-- Rate template strings -->
-    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <!-- Label for total cost paid to expedia (not including "mandatory fees") -->
     <string name="PayToExpedia">Montant dû à VSC</string>
 
     <!-- Label for signin screen -->

@@ -2047,7 +2047,7 @@
     <string name="taxes_and_fees">税金 &amp; サービス料</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">含まれています</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">割引</string>

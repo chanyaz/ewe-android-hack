@@ -2047,7 +2047,7 @@
     <string name="taxes_and_fees">세금 및 수수료</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">포함됨</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">호텔 수수료(호텔에서 결제)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">할인</string>

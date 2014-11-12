@@ -64,7 +64,7 @@ public class Rate implements JSONable {
 	// Surcharges
 	private Money mTotalSurcharge; // The total fees for the rate (NOT per night)
 	private Money mExtraGuestFee;
-	private Money mTotalMandatoryFees; // "bait & switch" fees
+	private Money mTotalMandatoryFees;
 	private Money mTotalPriceWithMandatoryFees;
 	private Money mTotalPriceAdjustments;
 

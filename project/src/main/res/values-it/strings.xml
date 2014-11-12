@@ -2047,7 +2047,7 @@
     <string name="taxes_and_fees">Tasse e spese di gestione</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluse</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">Tasse e tariffe (da pagare in hotel)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Sconto</string>

@@ -2047,7 +2047,7 @@
     <string name="taxes_and_fees">Thuế &amp; Phí</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Bao gồm</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">Phí khách sạn (Thanh toán tại khách sạn)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Giảm giá</string>
