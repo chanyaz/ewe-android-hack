@@ -5,11 +5,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumPushService;
 import com.mobiata.android.util.AndroidUtils;
@@ -18,6 +21,8 @@ import com.mobiata.android.util.AndroidUtils;
 public class LeanPlumUtils {
 	public static Map<String, Object> mUserAtrributes = new HashMap<String, Object>();
 	public static Context mContext;
+	public static final String CAMPAIGN_TEXT_KEY = "campaignText";
+	public static final String DEFAULT_CAMPAIGN_TEXT = "leanplum.notification";
 
 	public static void init(Context context) {
 		mContext = context;
@@ -42,6 +47,14 @@ public class LeanPlumUtils {
 		mUserAtrributes.put("DeviceType", deviceType);
 
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
+		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
+			@Override
+			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
+				//	trackNotificationClick
+				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
+				OmnitureTracking.trackLeanPlumNotification(mContext, campaignText);
+			}
+		});
 		Leanplum.start(mContext, mUserAtrributes);
 
 	}
