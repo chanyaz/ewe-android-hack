@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">稅項及服務費</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包括在內</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">酒店費用 (於酒店支付)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>

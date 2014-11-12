@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">Taxes et frais</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inclus</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">Frais d\&apos;hôtel (à régler sur place)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Réduction</string>
