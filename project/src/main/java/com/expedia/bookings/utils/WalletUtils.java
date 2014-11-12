@@ -62,7 +62,7 @@ public class WalletUtils {
 
 	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
 
-	private static final String WALLET_COUPON_CODE = "MOBILEWALLET50";
+	private static final String WALLET_COUPON_CODE = "MOBILEWALLET50B";
 
 	// Force the separator to be '.', since that's the format that Google Wallet requires
 	static {
