@@ -25,9 +25,12 @@ import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
@@ -72,15 +75,37 @@ public class NavUtils {
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
-		Intent intent = new Intent(context, PhoneLaunchActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-		if (forceShowWaterfall) {
-			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+		if (ExpediaBookingApp.useTabletInterface(context)) {
+			Intent intent = new Intent(context, TabletLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
 		}
+		else {
+			Intent intent = new Intent(context, PhoneLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-		sendKillActivityBroadcast(context);
-		context.startActivity(intent);
+			if (forceShowWaterfall) {
+				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			}
+
+			sendKillActivityBroadcast(context);
+			context.startActivity(intent);
+		}
+	}
+
+	public static void goToTabletResults(Context context, SearchParams searchParams) {
+		Sp.setParams(searchParams, false);
+
+		Intent intent;
+		TaskStackBuilder builder = TaskStackBuilder.create(context);
+		intent = new Intent(context, TabletLaunchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		builder.addNextIntent(intent);
+
+		intent = new Intent(context, TabletResultsActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		builder.addNextIntent(intent);
+		builder.startActivities();
 	}
 
 	public static void goToItin(Context context) {
