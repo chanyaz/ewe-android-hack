@@ -144,13 +144,15 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REMOVE);
 	}
 
-	public void onReplaceCoupon(String couponCode) {
+	public void onReplaceCoupon(String couponCode, boolean showReplaceWarning) {
 		if (!mIsCouponBeingReplaced) {
 			Log.d("CheckoutCouponFragment.onReplaceCoupon(" + couponCode + ")");
 			mIsCouponBeingReplaced = true;
 			if (WalletUtils.isCouponWalletCoupon(couponCode)) {
 				showGoogleWalletCouponLoadingThrobber();
-				showReplacingWithWalletCouponDialog();
+				if (showReplaceWarning) {
+					showReplacingWithWalletCouponDialog();
+				}
 			}
 			mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, couponCode);
 		}

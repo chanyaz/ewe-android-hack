@@ -874,6 +874,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (!User.isLoggedIn(getActivity())) {
 			mCheckoutInfoListener.onLogout();
 		}
+		else {
+			if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+				mCouponContainer.onReplaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
+			}
+		}
 
 		// This calls bindAll() and changes the state if needed
 		onCheckoutDataUpdated();
@@ -943,7 +948,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				mCouponContainer.onApplyCoupon(couponCode);
 			}
 			else if (Db.getTripBucket().getHotel().isCouponApplied() && !Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
-				mCouponContainer.onReplaceCoupon(couponCode);
+				mCouponContainer.onReplaceCoupon(couponCode, true);
 			}
 		}
 	}

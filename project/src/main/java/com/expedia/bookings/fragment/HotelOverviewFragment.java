@@ -989,6 +989,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
 		mRefreshedUserTime = System.currentTimeMillis();
 
+		if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+			replaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
+		}
+
 		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
@@ -1343,7 +1347,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
-	public void replaceCoupon(String couponCode) {
+	public void replaceCoupon(String couponCode, final boolean showReplaceWarning) {
 		mCouponCode = couponCode;
 		Log.i("Trying to replace current coupon with coupon: " + mCouponCode);
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, mCouponCode);
@@ -1360,7 +1364,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
 
 					Fragment frag = getFragmentManager().findFragmentByTag("WALLET_REPLACE_DIALOG");
-					if (isResumed() && frag == null) {
+					if (showReplaceWarning && isResumed() && frag == null) {
 						SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_replaced_message));
 						df.show(getFragmentManager(), "WALLET_REPLACE_DIALOG");
 					}
@@ -1397,7 +1401,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		String walletCoupon = WalletUtils.getWalletCouponCode(getActivity());
 		// Apply this later so that this dialog shows up on top of the progress one
 		if (hadCoupon) {
-			replaceCoupon(walletCoupon);
+			replaceCoupon(walletCoupon, true);
 		}
 		else {
 			onApplyCoupon(walletCoupon);
