@@ -3,7 +3,7 @@
     style="@style/ActionBarMenu"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_actionbar_button"
+    android:background="?android:attr/selectableItemBackground"
     android:contentDescription="@string/cd_hotel_info_select_button"
     android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
     android:paddingRight="8dp"
