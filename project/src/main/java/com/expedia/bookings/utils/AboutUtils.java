@@ -48,20 +48,18 @@ public class AboutUtils {
 
 		// Let's always show the phone option and have the OS take care of how to handle onClick for tablets without telephony.
 		// In which case it pops up a dialog to show the number and give 2 options i.e. "Close" & "Add to Contacts"
-		final String phone = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
-		items.add(getContactItem(mActivity.getString(R.string.contact_expedia_phone), phone));
+		items.add(mActivity.getString(R.string.contact_expedia_phone));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaPhone(phone);
+				contactViaPhone();
 			}
 		});
 
 		// Always show website option
-		final String website = PointOfSale.getPointOfSale().getAppSupportUrl();
-		items.add(getContactItem(mActivity.getString(R.string.contact_expedia_website), website));
+		items.add(mActivity.getString(R.string.contact_expedia_website));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaWeb(website);
+				contactViaWeb();
 			}
 		});
 
@@ -129,21 +127,13 @@ public class AboutUtils {
 		return builder.create();
 	}
 
-	public String getContactItem(String contact, String info) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(contact);
-		sb.append(" : ");
-		sb.append(info);
-		return sb.toString();
-	}
-
-	public void contactViaPhone(String phone) {
+	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, phone);
+		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
-	public void contactViaWeb(String website) {
-		openWebsite(mActivity, website, true);
+	public void contactViaWeb() {
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
 
 	public void contactViaEmail() {
