@@ -19,7 +19,6 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
@@ -50,8 +49,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	public static final String KEY_DOWNLOAD_APPLY_COUPON = "KEY_DOWNLOAD_HOTEL_APPLY_COUPON";
 	public static final String KEY_DOWNLOAD_REMOVE_COUPON = "KEY_DOWNLOAD_REMOVE_COUPON";
 
-	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_HOTELCREATE_TRIP_DIALOG";
-	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
+	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_HOTEL_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_PRODUCT_RATEUP_DIALOG = "HOTEL_PRODUCT_RATEUP_DIALOG";
 
 	private static final String INSTANCE_HOTELBOOKING_STATE = "INSTANCE_HOTELBOOKING_STATE";
@@ -59,6 +57,8 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	private String mCouponCode;
 
 	private HotelBookingState mState = HotelBookingState.DEFAULT;
+
+	private RetryErrorDialogFragment mCreateTripRetryDialog;
 
 	public enum HotelBookingState {
 		DEFAULT,
@@ -303,16 +303,55 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	};
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
+		final Rate originalRate = Db.getTripBucket().getHotel().getRate();
+		final Rate newRate = response.getAirAttachRate() != null ? response.getAirAttachRate() : response.getNewRate();
+
+		// Fake price change
+		if (!AndroidUtils.isRelease(getActivity())) {
+			String priceChangeString = SettingUtils.get(getActivity(),
+				getString(R.string.preference_fake_hotel_price_change),
+				getString(R.string.preference_fake_price_change_default));
+			BigDecimal priceChange = new BigDecimal(priceChangeString);
+
+			//Update total price
+			newRate.getDisplayTotalPrice().add(priceChange);
+
+			//Update all nights total and per/night totals
+			newRate.getNightlyRateTotal().add(priceChange);
+			if (newRate.getRateBreakdownList() != null) {
+				BigDecimal numberOfNights = new BigDecimal(newRate.getRateBreakdownList().size());
+				BigDecimal perNightChange = priceChange.divide(numberOfNights, BigDecimal.ROUND_UP);
+				for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
+					breakdown.getAmount().add(perNightChange);
+				}
+			}
+
+		}
+
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
 
-		Rate originalRate = response.getNewRate();
-		Rate airAttachRate = response.getAirAttachRate();
-		if (airAttachRate != null && originalRate.compareForPriceChange(airAttachRate) != 0) {
+		int priceChange = originalRate.compareForPriceChange(newRate);
+		if (priceChange != 0) {
 			Db.getTripBucket().getHotel().setNewRate(originalRate);
-			Db.getTripBucket().getHotel().setNewRate(airAttachRate);
-			Events.post(new Events.HotelProductRateUp(airAttachRate));
+			Db.getTripBucket().getHotel().setNewRate(newRate);
+
+			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
+			// FIXME: just implement HotelProductRateUp for phone
+			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+				boolean isPriceHigher = priceChange < 0;
+				HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
+					originalRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+				dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
+			}
+			else {
+				Events.post(new Events.HotelProductRateUp(newRate));
+			}
 		}
+
+		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
+		availability.updateFrom(originalRate.getRateKey(), newRate);
+		availability.setSelectedRate(newRate);
 
 		switch (mState) {
 		case COUPON_APPLY:
@@ -334,18 +373,54 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	// Error handling
 	private void handleCreateTripError(CreateTripResponse response) {
-		if (response == null) {
+		if (response == null || response.getErrors() == null || response.getErrors().size() == 0) {
+			showRetryErrorDialog();
 			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, null));
+			return;
 		}
-		else {
-			ServerError firstError = response.getErrors().get(0);
-			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, firstError));
+		if (response.getErrors() != null) {
+			for (ServerError error : response.getErrors()) {
+				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					HotelAvailability availability;
+					final Rate originalRate = Db.getTripBucket().getHotel().getRate();
+					final String originalProductKey = originalRate.getRateKey();
+
+					// Cleanup trip bucket
+					availability = Db.getTripBucket().getHotel().getHotelAvailability();
+					availability.removeRate(originalProductKey);
+
+					// Cleanup search data
+					String id = Db.getTripBucket().getHotel().getProperty().getPropertyId();
+					availability = Db.getHotelSearch().getAvailability(id);
+					if (availability != null) {
+						availability.removeRate(originalProductKey);
+					}
+
+					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
+					return;
+				}
+				// Handling product key expiration.
+				else if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT && error.getExtra("field").equals("productKey")) {
+					Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
+					return;
+				}
+			}
+
+			if (response.getErrors().size() > 0) {
+				ServerError firstError = response.getErrors().get(0);
+				Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, firstError));
+				return;
+			}
 		}
 	}
 
 	private void showRetryErrorDialog() {
-		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
+		if (mCreateTripRetryDialog != null) {
+			mCreateTripRetryDialog.dismiss();
+		}
+
+		mCreateTripRetryDialog = new RetryErrorDialogFragment();
+		mCreateTripRetryDialog.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
 	}
 
 	///////////// Retry CreateTrip call dialog handlers
