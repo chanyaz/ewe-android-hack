@@ -63,6 +63,7 @@
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
         <item name="android:actionMenuTextColor">@color/actionbar_text</item>
         <item name="android:actionModeBackground">@drawable/bg_action_mode</item>
@@ -228,6 +229,7 @@
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -253,7 +255,6 @@
 
     <style name="ItineraryTheme" parent="Theme.Expedia">
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
-        <item name="android:actionOverflowButtonStyle">@style/V2.Widget.ActionBar.ActionButton.Overflow.White</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>

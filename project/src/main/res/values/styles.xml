@@ -476,6 +476,14 @@
         <item name="android:listSelector">@drawable/bg_actionbar_button</item>
     </style>
 
+    <style name="Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_overflow</item>
+    </style>
+
+    <style name="Widget.ActionBar.ActionButton.Overflow.White">
+        <item name="android:src">@drawable/ic_action_overflow_white</item>
+    </style>
+
     <!-- Expedia Flights styles -->
 
     <style name="ExpediaLaunchList">

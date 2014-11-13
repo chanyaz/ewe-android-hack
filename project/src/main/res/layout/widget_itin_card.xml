@@ -93,7 +93,7 @@
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="6dp"
-                        android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark" />
+                        android:src="@drawable/ic_action_overflow_white" />
                 </FrameLayout>
             </LinearLayout>
 
