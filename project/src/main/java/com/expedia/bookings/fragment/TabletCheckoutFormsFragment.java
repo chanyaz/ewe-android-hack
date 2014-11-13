@@ -29,6 +29,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -875,7 +876,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mCheckoutInfoListener.onLogout();
 		}
 		else {
-			if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			if (hotel != null && hotel.isCouponGoogleWallet()) {
 				mCouponContainer.onReplaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
 			}
 		}
