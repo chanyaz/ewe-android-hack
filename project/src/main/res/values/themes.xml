@@ -239,7 +239,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
@@ -263,7 +263,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itinerary_card_popup</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>

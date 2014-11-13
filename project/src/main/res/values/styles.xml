@@ -490,7 +490,7 @@
 
     <style name="FlightAirportAutocomplete">
         <item name="android:drawablePadding">8dp</item>
-        <item name="android:dropDownSelector">@drawable/abs__list_selector_holo_dark</item>
+        <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
         <item name="android:ellipsize">end</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="android:inputType">textCapWords|textNoSuggestions</item>
@@ -697,7 +697,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18dp</item>
-        <item name="android:background">@drawable/abs__item_background_holo_dark</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:drawablePadding">10dp</item>
     </style>
 
@@ -754,7 +754,7 @@
     </style>
 
     <style name="ActionBarButton">
-        <item name="android:background">@drawable/abs__item_background_holo_dark</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="DropDownListView" parent="@android:style/Widget.ListView.DropDown">
