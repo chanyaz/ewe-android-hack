@@ -339,7 +339,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private void checkCouponForGoogleWallet() {
 		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && mStateManager.getState() == CheckoutFormState.OVERVIEW) {
-			if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			if (hotel.isCouponGoogleWallet() && !(hotel.getState() == TripBucketItemState.PURCHASED)) {
 				if (!Db.getBillingInfo().hasStoredCard() || !Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
 					if (mCouponContainer != null) {
 						mCouponContainer.clearCoupon();
