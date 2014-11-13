@@ -74,8 +74,9 @@
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
         <item name="android:logo">@drawable/ic_logo_hotels</item>
-        <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner</item>
+        <item name="skin_actionBarSpinnerBackground">@drawable/ic_ab_arrow</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
