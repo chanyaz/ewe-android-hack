@@ -103,6 +103,13 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			// Reset Google Wallet state each time we get here
 			Db.clearGoogleWallet();
 			mWasLoggedIn = User.isLoggedIn(getActivity());
+
+			// TODO: Dirty bandaid. Make sure there are some traveler details here after clearing out
+			// google wallet. We should probably TabletCheckoutFormsFragment.buildCheckoutForm()
+			// after this at some point.
+			if (Db.getTravelers().size() == 0) {
+				BookingInfoUtils.populateTravelerData(getLob());
+			}
 		}
 	}
 
