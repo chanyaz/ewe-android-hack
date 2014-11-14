@@ -27,12 +27,14 @@ public class LeanPlumUtils {
 	public static void init(Context context) {
 		mContext = context;
 		if (!AndroidUtils.isRelease(mContext)) {
-			Leanplum.setAppIdForDevelopmentMode(mContext.getString(R.string.lean_plum_sdk_app_id),
-				mContext.getString(R.string.lean_plum_sdk_dev_key));
+			String appId = mContext.getString(R.string.lean_plum_sdk_dev_appid);
+			String key = mContext.getString(R.string.lean_plum_sdk_dev_key);
+			Leanplum.setAppIdForDevelopmentMode(appId, key);
 		}
 		else {
-			Leanplum.setAppIdForProductionMode(mContext.getString(R.string.lean_plum_sdk_app_id),
-				mContext.getString(R.string.lean_plum_sdk_prod_key));
+			String appId = mContext.getString(R.string.lean_plum_sdk_prod_appid);
+			String key = mContext.getString(R.string.lean_plum_sdk_prod_key);
+			Leanplum.setAppIdForProductionMode(appId, key);
 		}
 		String localeIdentifier = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		mUserAtrributes.put("PosLocale", localeIdentifier);
