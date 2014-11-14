@@ -52,9 +52,10 @@ public class LeanPlumUtils {
 		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
 			@Override
 			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
-				//	trackNotificationClick
 				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
 				OmnitureTracking.trackLeanPlumNotification(mContext, campaignText);
+
+				builder.setSmallIcon(R.drawable.ic_stat_expedia);
 			}
 		});
 		Leanplum.start(mContext, mUserAtrributes);
