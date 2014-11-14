@@ -138,6 +138,27 @@ public class TravelerUtils {
 			phone.setVisibility(vis);
 		}
 	}
+
+	/**
+	 * If the current traveler is replaced by another traveler from the list, let's reset {@link Traveler#isSelectable()} state.
+	 * We need to do this so that the traveler available to be selected again.
+	 * @param traveler
+	 */
+	public static void resetPreviousTravelerSelectState(Traveler traveler) {
+		ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
+		availableTravelers.add(Db.getUser().getPrimaryTraveler());
+		// Check if the traveler is the primary traveler
+		if (traveler.compareNameTo(Db.getUser().getPrimaryTraveler()) == 0) {
+			Db.getUser().getPrimaryTraveler().setIsSelectable(true);
+			return;
+		}
+		// Check to find the desired traveler and reset his selectable state
+		for (int i = 0; i < availableTravelers.size(); i++) {
+			if (traveler.compareNameTo(availableTravelers.get(i)) == 0) {
+				Db.getUser().getAssociatedTravelers().get(i).setIsSelectable(true);
+			}
+		}
+	}
 }
 
 

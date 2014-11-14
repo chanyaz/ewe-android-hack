@@ -71,6 +71,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	// Is the Traveler from Google Wallet?  Treat them differently!
 	private boolean mFromGoogleWallet;
 
+	private boolean mIsSelectable = true;
+
 	public enum Gender {
 		MALE, FEMALE, OTHER
 	}
@@ -571,7 +573,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return getOrCreatePrimaryPhoneNumber().getCountryName();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
+	public boolean isSelectable() {
+		return mIsSelectable;
+	}
+
+	public void setIsSelectable(boolean isSelectable) {
+		mIsSelectable = isSelectable;
+	}
+//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
@@ -621,6 +630,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("age", mAge);
 
+			obj.putOpt("isSelectable", mIsSelectable);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -669,6 +680,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mFromGoogleWallet = obj.optBoolean("fromGoogleWallet");
 
 		mAge = obj.optInt("age");
+
+		mIsSelectable = obj.optBoolean("isSelectable");
 
 		return true;
 	}

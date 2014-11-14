@@ -27,6 +27,7 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
 		String messageTemplate = getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_saveTravelerToAccountString));
+
 		String message = String.format(messageTemplate, Db.getWorkingTravelerManager().getWorkingTraveler()
 			.getFirstName()
 			+ " " + Db.getWorkingTravelerManager().getWorkingTraveler().getLastName());

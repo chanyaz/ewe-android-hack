@@ -83,6 +83,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		ImageView icon = Ui.findView(retView, android.R.id.icon);
 		tv.setText(trav.getFullName());
+		retView.setEnabled(trav.isSelectable());
 
 		//TODO: This might be sort of heavy because we are generating a new bitmap every time...
 		icon.setImageBitmap(TravelerIconUtils.generateCircularInitialIcon(getContext(), trav.getFullName(),
@@ -97,6 +98,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 		if (User.isLoggedIn(getContext()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
+			availableTravelers.add(Db.getUser().getPrimaryTraveler());
 			for (int i = availableTravelers.size() - 1; i >= 0; i--) {
 				Traveler trav = availableTravelers.get(i);
 
@@ -105,7 +107,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 					&& Db.getWorkingTravelerManager().getWorkingTraveler() != null) {
 					Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 					if (trav.compareNameTo(workingTraveler) == 0) {
-						availableTravelers.remove(i);
+						availableTravelers.get(i).setIsSelectable(false);
 						continue;
 					}
 				}
@@ -116,7 +118,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 					for (int j = 0; j < Db.getTravelers().size(); j++) {
 						Traveler dbTrav = Db.getTravelers().get(j);
 						if ((!removeWorkingTraveler || j != mTravelerNumber) && dbTrav.compareNameTo(trav) == 0) {
-							availableTravelers.remove(i);
+							availableTravelers.get(i).setIsSelectable(false);
 							removed = true;
 							break;
 						}

@@ -74,7 +74,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
 	TravelerButtonFragment.ITravelerIsValidProvider,
-	CheckoutLoginButtonsFragment.IWalletCouponListener {
+	CheckoutLoginButtonsFragment.IWalletCouponListener,
+	TravelerButtonFragment.ITravelerEditButtonListener {
+
+
 
 	public interface ISlideToPurchaseSizeProvider {
 		public View getSlideToPurchaseContainer();
@@ -639,8 +642,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		addActionable(frame, new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
-				openTravelerEntry(travelerNumber);
+				onTravelerEditButtonPressed(travelerNumber);
 			}
 		});
 		dressCheckoutView(frame, true);
@@ -913,6 +915,16 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		else if (caller == mTravelerForm && mStateManager.getState() == CheckoutFormState.EDIT_TRAVELER) {
 			setState(CheckoutFormState.OVERVIEW, animate);
 		}
+	}
+
+	/*
+	 * ITravelerEditButtonListener
+	 */
+
+	@Override
+	public void onTravelerEditButtonPressed(int travelerNumber) {
+		OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
+		openTravelerEntry(travelerNumber);
 	}
 
 	/*

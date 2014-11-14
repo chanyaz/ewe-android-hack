@@ -6,7 +6,8 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingTop="2.5dp"
-    android:paddingBottom="5.5dp" >
+    android:paddingBottom="5.5dp"
+    android:addStatesFromChildren="false" >
 
     <ImageView
         android:id="@+id/display_picture"
@@ -19,11 +20,31 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/traveler_empty_text_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center_vertical|left"
         android:text="@string/enter_traveler_info"
         android:textSize="@dimen/checkout_data_button_text_size"
         app:textStyle="light" />
+
+    <Button
+        android:id="@+id/saved_traveler_fake_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        android:text="Saved"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/edit_traveler_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        android:text="Edit"/>
 
 </LinearLayout>

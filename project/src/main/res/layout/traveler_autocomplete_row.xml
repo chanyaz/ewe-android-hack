@@ -10,7 +10,8 @@
         android:id="@android:id/icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        android:duplicateParentState="true" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@android:id/text1"
@@ -22,5 +23,6 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         app:textStyle="light"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:duplicateParentState="true" />
 </LinearLayout>
