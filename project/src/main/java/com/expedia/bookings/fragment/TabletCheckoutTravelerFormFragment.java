@@ -179,17 +179,24 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	public void bindToDb(int travelerNumber) {
+		if (travelerNumber == -1) {
+			// This is expected behavior
+			return;
+		}
+		if (Db.getTravelers() == null || travelerNumber >= Db.getTravelers().size()) {
+			Log.w("Cannot bind traveler number " + travelerNumber + ". Not enough known travelers.");
+			return;
+		}
+
 		if (mTravelerNumber != travelerNumber
-			|| Db.getWorkingTravelerManager().getWorkingTraveler() == null
-			&& Db.getTravelers() != null
-			&& travelerNumber < Db.getTravelers().size()) {
+			|| Db.getWorkingTravelerManager().getWorkingTraveler() == null) {
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(travelerNumber));
 		}
 		mTravelerNumber = travelerNumber;
 		if (mTravelerAdapter != null) {
 			mTravelerAdapter.setTravelerNumber(mTravelerNumber);
 		}
-		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
+		if (mSectionTraveler != null) {
 			mSectionTraveler.resetValidation();
 
 			//We only show the email field for the first traveler, if we aren't logged in.
