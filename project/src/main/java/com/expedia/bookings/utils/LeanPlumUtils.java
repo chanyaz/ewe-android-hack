@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -44,6 +46,12 @@ public class LeanPlumUtils {
 		mUserAtrributes.put("DeviceType", deviceType);
 
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
+		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
+			@Override
+			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
+				builder.setSmallIcon(R.drawable.ic_stat_expedia);
+			}
+		});
 		Leanplum.start(mContext, mUserAtrributes);
 
 	}
