@@ -31,13 +31,13 @@ import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
@@ -52,7 +52,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -2072,6 +2071,25 @@ public class OmnitureTracking {
 		s.setEvents("event12");
 
 		s.trackLink(null, "o", link, null, null);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Lean Plum Notification Tracking
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String LEAN_PLUM_NOTIFICATION = "App Notification";
+
+	public static void trackLeanPlumNotification(Context context, String campaignText) {
+		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setEvar(11, campaignText);
+		s.setEvents("event12");
+
+		s.trackLink(null, "o", LEAN_PLUM_NOTIFICATION, null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
