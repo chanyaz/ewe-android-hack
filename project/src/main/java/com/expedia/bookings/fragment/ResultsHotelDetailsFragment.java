@@ -42,6 +42,7 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
@@ -792,17 +793,36 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	}
 
+	// Silently don't do anything if our data in Db is messed up.
 	private void addSelectedRoomToTrip() {
 		scrollFragmentToTop();
 
 		HotelSearch search = Db.getHotelSearch();
+		if (search == null) {
+			return;
+		}
+
 		Property property = search.getSelectedProperty();
+		if (property == null) {
+			return;
+		}
+
 		Rate rate = search.getSelectedRate();
 		if (rate == null) {
 			rate = property.getLowestRate();
+			if (rate == null) {
+				return;
+			}
 		}
-		Db.getTripBucket().clearHotel();
-		Db.getTripBucket().add(search, rate, search.getAvailability(property.getPropertyId()));
+
+		HotelAvailability availability = search.getAvailability(property.getPropertyId());
+		if (availability == null) {
+			return;
+		}
+
+		TripBucket bucket = Db.getTripBucket();
+		bucket.clearHotel();
+		bucket.add(search, rate, availability);
 		Db.saveTripBucket(getActivity());
 
 		mAddToBucketListener.onItemAddedToBucket();
