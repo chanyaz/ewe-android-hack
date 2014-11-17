@@ -3017,6 +3017,8 @@
     <string name="tablet_mismatched_products_message">Your selected hotel and flight dates are different. Do you want to remove your current hotel selection and search for hotels with dates that match your flights?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Yes</string>
+    <!-- Dialog negative button message -->
+    <string name="no">No</string>
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
