@@ -587,6 +587,8 @@ public class FlightTrip implements JSONable {
 		}
 
 		if (other.hasPriceChanged()) {
+			// Defect 3440 : Set old fare based on the changed amount from api in case of price change
+			mOldTotalFare.setAmount(other.getTotalFare().getAmount().subtract(other.getPriceChangeAmount().getAmount()));
 			mPassengers = other.mPassengers;
 			mPriceChangeAmount = other.mPriceChangeAmount;
 		}
