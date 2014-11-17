@@ -15,7 +15,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 4/7/14.
  */
-public class LaunchActionBar  {
+public class LaunchActionBar {
 	private static final int sSettingsStringID = R.string.Settings;
 	private static final int sInfoStringID = R.string.Info;
 	private static final int sTripsStringID = R.string.trips;
@@ -86,4 +86,9 @@ public class LaunchActionBar  {
 	public static void pressAddItinButton() {
 		addItinButton().perform(click());
 	}
+
+	public static void clickActionBarHomeIcon() {
+		onView(withId(android.R.id.home)).perform(click());
+	}
+
 }
