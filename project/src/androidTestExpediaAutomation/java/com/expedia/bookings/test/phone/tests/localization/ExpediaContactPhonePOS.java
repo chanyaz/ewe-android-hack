@@ -1,18 +1,18 @@
-package com.expedia.bookings.test.tablet.tests.localization;
+package com.expedia.bookings.test.phone.tests.localization;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.utils.TabletTestCase;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 
 /**
- * Created by dmadan on 11/3/14.
+ * Created by dmadan on 11/17/14.
  */
-public class ExpediaContactPhonePOS extends TabletTestCase {
+public class ExpediaContactPhonePOS extends PhoneTestCase {
 
   /*
    *  Test Info screen phone numbers by POS
-   *  #264 eb_tp [a] Info screen phone numbers by POS in tablet
+   *  #264 eb_tp [a] Info screen phone numbers by POS in phone
    */
 
 	public void runTestCase(String phoneNumber) {
@@ -22,7 +22,7 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testARGENTINA() throws Throwable {
 		setPOS(PointOfSaleId.ARGENTINA);
-		runTestCase(("0-800-444-3589"));
+		runTestCase(("0-800-266-1693"));
 	}
 
 	public void testAUSTRALIA() throws Throwable {
@@ -42,12 +42,12 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testBRAZIL() throws Throwable {
 		setPOS(PointOfSaleId.BRAZIL);
-		runTestCase("0800-762-1479");
+		runTestCase("0800-762-5309");
 	}
 
 	public void testCANADA() throws Throwable {
 		setPOS(PointOfSaleId.CANADA);
-		runTestCase("855-247-9315");
+		runTestCase("855-247-9310");
 	}
 
 	public void testDENMARK() throws Throwable {
@@ -57,12 +57,12 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testFRANCE() throws Throwable {
 		setPOS(PointOfSaleId.FRANCE);
-		runTestCase("01 57 32 47 26");
+		runTestCase("01 57 32 47 22");
 	}
 
 	public void testGERMANY() throws Throwable {
 		setPOS(PointOfSaleId.GERMANY);
-		runTestCase("069-999 915 586");
+		runTestCase("069-999 915 582");
 	}
 
 	public void testHONG_KONG() throws Throwable {
@@ -87,7 +87,7 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testITALY() throws Throwable {
 		setPOS(PointOfSaleId.ITALY);
-		runTestCase("02-23331408");
+		runTestCase("02-23331404");
 	}
 
 	public void testJAPAN() throws Throwable {
@@ -107,7 +107,7 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testMEXICO() throws Throwable {
 		setPOS(PointOfSaleId.MEXICO);
-		runTestCase("001-855-371-1996");
+		runTestCase("001-855-395-8976");
 	}
 
 	public void testNETHERLANDS() throws Throwable {
@@ -152,7 +152,7 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testUNITED_KINGDOM() throws Throwable {
 		setPOS(PointOfSaleId.UNITED_KINGDOM);
-		runTestCase("020 3564 5472");
+		runTestCase("020 3564 5468");
 	}
 
 	public void testUNITED_STATES() throws Throwable {
