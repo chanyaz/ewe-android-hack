@@ -41,6 +41,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	// If we need to defer handling till later
 	private int mGoogleWalletErrorCode;
 
+	private final String UNHANDLED_ERROR_DIALOG_TAG = "unhandledOrNoResultsErrorDialog";
+
 	//////////////////////////////////////////////////////////////////////////
 	// Abstractions/overrideables related to only booking
 
@@ -407,8 +409,10 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		else {
 			caseNumber = "";
 		}
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance(caseNumber);
-		df.show(getFragmentManager(), "unhandledOrNoResultsErrorDialog");
+		if (getFragmentManager().findFragmentByTag(UNHANDLED_ERROR_DIALOG_TAG) == null) {
+			DialogFragment df = UnhandledErrorDialogFragment.newInstance(caseNumber);
+			df.show(getFragmentManager(), UNHANDLED_ERROR_DIALOG_TAG);
+		}
 	}
 
 	private void showBookingUnavailableErrorDialog(LineOfBusiness lob) {
