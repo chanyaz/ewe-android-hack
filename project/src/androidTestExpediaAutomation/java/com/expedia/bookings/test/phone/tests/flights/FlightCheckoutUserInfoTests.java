@@ -14,6 +14,7 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.PhoneTestCase;
@@ -266,7 +267,15 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	}
 
 	private void verifyLoginButtonNotAppearing() throws Exception {
+		Common.pressBack();
+		FlightsCheckoutScreen.clickCheckoutButton();
 		FlightsCheckoutScreen.logInButton().perform(scrollTo(), click());
+		try {
+			Thread.sleep(1000);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 		LogInScreen.facebookButton().check(matches(isDisplayed()));
 		LogInScreen.logInButton().check(matches(not(isDisplayed())));
 		ScreenActions.enterLog(TAG, "Log in button isn't shown until an email address is entered");
