@@ -96,6 +96,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private Drawable mUnselectedBackground;
 	private Drawable mSelectedBackground;
 	private int mSalePriceTextColor;
+	private int mAirAttachPriceTextColor;
 	private int mPriceTextColor;
 	private boolean mIsSelected;
 
@@ -109,8 +110,10 @@ public class HotelSummarySection extends RelativeLayout {
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
 			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor,
 				R.color.hotel_price_sale_text_color);
-			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor,
-				R.color.hotel_price_text_color);
+			mAirAttachPriceTextColor = a.getColor(R.styleable.hotel_summary_section_airAttachPriceTextColor,
+				R.color.hotel_price_air_attach_text_color);
+			mPriceTextColor = a
+				.getColor(R.styleable.hotel_summary_section_priceTextColor, R.color.hotel_price_text_color);
 			a.recycle();
 		}
 	}
@@ -236,7 +239,7 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 
 				mPriceText.setTextColor(mSalePriceTextColor);
-
+				rate.setAirAttached(true);
 				if (rate.isAirAttached()) {
 					// Story #3586. Air Attach Phone - Search Results.
 					if (!ExpediaBookingApp.useTabletInterface(getContext())) {
@@ -244,6 +247,7 @@ public class HotelSummarySection extends RelativeLayout {
 							mSaleImageView.setVisibility(View.VISIBLE);
 							mSaleImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.bg_hotel_cell_sale_air_attach));
 						}
+						mPriceText.setTextColor(getResources().getColor(mAirAttachPriceTextColor));
 						mSaleText.setVisibility(View.VISIBLE);
 						mSaleText.setText(context.getString(R.string.percent_minus_template,
 							(float) rate.getDiscountPercent()));
