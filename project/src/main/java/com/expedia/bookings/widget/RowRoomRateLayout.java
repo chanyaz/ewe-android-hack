@@ -200,13 +200,10 @@ public class RowRoomRateLayout extends FrameLayout {
 		// Show resort fees notice
 		View resortFeesContainer = Ui.findView(this, R.id.room_rate_resort_fees_container);
 		Money mandatoryFees = rate == null ? null : rate.getTotalMandatoryFees();
-		boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
 		boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
 			&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
 
-		if (hasMandatoryFees && hasResortFeesMessage
-			&& rate.getCheckoutPriceType() != Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
-
+		if (rate.showResortFeesMessaging() && hasResortFeesMessage) {
 			final String resortFeesTemplate = res.getString(R.string.tablet_room_rate_resort_fees_template,
 				mandatoryFees.getFormattedMoney());
 			final String resortFeesMoreInfoTitle = res.getString(R.string.additional_fees);

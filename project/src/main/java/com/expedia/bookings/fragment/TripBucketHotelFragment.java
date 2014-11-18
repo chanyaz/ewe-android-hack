@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
+import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -41,8 +43,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private TextView mRoomTypeTv;
 	private TextView mBedTypeTv;
 	private TextView mDatesTv;
-	private TextView mFreeCancellationTv;
-	private TextView mPriceGuaranteeTv;
+	private LinearLayout mExtrasContainer;
 	private TextView mNumTravelersTv;
 	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
@@ -82,9 +83,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		mDatesTv = Ui.findView(vg, R.id.dates_text_view);
 		mNumTravelersTv = Ui.findView(vg, R.id.num_travelers_text_view);
 
-		mFreeCancellationTv = Ui.findView(vg, R.id.free_cancellation_text_view);
-
-		mPriceGuaranteeTv = Ui.findView(vg, R.id.price_guarantee_text_view);
+		mExtrasContainer = Ui.findView(vg, R.id.extras_layout);
 
 		// Price
 		mPriceContainer = Ui.findView(vg, R.id.price_expanded_bucket_container);
@@ -135,23 +134,16 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase(Locale.getDefault())));
 				}
 
-				String price = rate.getDisplayTotalPrice().getFormattedMoney();
+				String price;
+				if (HotelUtils.showResortFeeInfo(itemHotel)) {
+					addResortFeeRows(rate);
+					price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+				}
+				else {
+					price = rate.getDisplayTotalPrice().getFormattedMoney();
+				}
 				mPriceTv.setText(price);
-
-				//Amenities
-				if (rate.shouldShowFreeCancellation()) {
-					mFreeCancellationTv.setVisibility(View.VISIBLE);
-					mFreeCancellationTv.setText(HotelUtils.getRoomCancellationText(getActivity(), rate).toString());
-
-					if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && getResources().getBoolean(R.bool.landscape)) {
-						mPriceGuaranteeTv.setVisibility(View.VISIBLE);
-						mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
-					}
-				}
-				else if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-					mPriceGuaranteeTv.setVisibility(View.VISIBLE);
-					mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
-				}
+				addPrioritizedAmenityRows(rate);
 			}
 		}
 		bindToDbHotelSearch();
@@ -172,6 +164,40 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				mNumTravelersTv.setText(numGuestsStr);
 
 			}
+		}
+	}
+
+	private void addResortFeeRows(Rate rate) {
+		String resortFees = getResources().getString(R.string.resort_fees);
+		addExtraRow(resortFees, rate.getTotalMandatoryFees().getFormattedMoney(), false);
+
+		String dueToExpediaToday = getResources().getString(R.string.due_to_expedia_today);
+		addExtraRow(dueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
+	}
+
+	private static final int LANDSCAPE_EXTRAS_LIMIT = 3;
+	private static final int PORTRAIT_EXTRAS_LIMIT = 2;
+
+	private void addPrioritizedAmenityRows(Rate rate) {
+		int extrasSizeLimit = getResources().getBoolean(R.bool.landscape) ?
+			LANDSCAPE_EXTRAS_LIMIT : PORTRAIT_EXTRAS_LIMIT;
+
+		if (rate.shouldShowFreeCancellation() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
+			addExtraRow(HotelUtils.getRoomCancellationText(getActivity(), rate).toString(), null, true);
+		}
+		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
+			addExtraRow(getResources().getString(R.string.best_price_guarantee), null, true);
+		}
+	}
+
+	public void addExtraRow(String title, String optionalPrice, boolean addToTop) {
+		HotelReceiptExtraSection row = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasContainer, false);
+		row.bind(title, optionalPrice);
+		if (addToTop) {
+			mExtrasContainer.addView(row, 0);
+		}
+		else {
+			mExtrasContainer.addView(row);
 		}
 	}
 
