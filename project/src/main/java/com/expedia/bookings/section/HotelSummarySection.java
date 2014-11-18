@@ -238,21 +238,32 @@ public class HotelSummarySection extends RelativeLayout {
 				mPriceText.setTextColor(mSalePriceTextColor);
 
 				if (rate.isAirAttached()) {
-					if (mAirAttachC != null) {
-						mAirAttachC.setVisibility(View.VISIBLE);
+					// Story #3586. Air Attach Phone - Search Results.
+					if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+						if (mSaleImageView != null) {
+							mSaleImageView.setVisibility(View.VISIBLE);
+							mSaleImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.bg_hotel_cell_sale_air_attach));
+						}
+						mSaleText.setVisibility(View.VISIBLE);
+						mSaleText.setText(context.getString(R.string.percent_minus_template,
+							(float) rate.getDiscountPercent()));
 					}
-					mSaleText.setVisibility(View.GONE);
-					mAirAttachTv.setText(context.getString(R.string.percent_minus_template,
-						(float) rate.getDiscountPercent()));
+					// Story #3512. Air Attach Tablet - Search Results.
+					else if (mAirAttachC != null) {
+						mSaleText.setVisibility(View.GONE);
+						mAirAttachC.setVisibility(View.VISIBLE);
+						mAirAttachTv.setText(context.getString(R.string.percent_minus_template,
+							(float) rate.getDiscountPercent()));
+					}
 				}
 				else {
 					if (mAirAttachC != null) {
 						mAirAttachC.setVisibility(View.GONE);
 					}
-					mSaleText.setVisibility(View.VISIBLE);
 					if (mSaleImageView != null) {
 						mSaleImageView.setVisibility(View.VISIBLE);
 					}
+					mSaleText.setVisibility(View.VISIBLE);
 					mSaleText.setText(context.getString(R.string.percent_minus_template,
 						(float) rate.getDiscountPercent()));
 				}
