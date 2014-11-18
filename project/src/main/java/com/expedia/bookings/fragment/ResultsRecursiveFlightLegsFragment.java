@@ -611,6 +611,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
 				showDetailsAnimCleanUp();
+				clearSelection();
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
 				showNextLegAnimCleanup();
