@@ -3,8 +3,9 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -25,15 +26,14 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -123,15 +123,35 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		// Fill out all the actions
 		Ui.setText(v, R.id.going_to_text_view, getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
-
 		if (PointOfSale.getPointOfSale().showHotelCrossSell()) {
-			Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
-			Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					searchForHotels();
-				}
-			});
+			// Check for air attach qualification
+			if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
+				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.GONE);
+				Ui.findView(v, R.id.air_attach_confirmation_banner).setVisibility(View.VISIBLE);
+				Ui.setOnClickListener(v, R.id.air_attach_confirmation_banner, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						searchForHotels();
+					}
+				});
+				// Set air attach expiration date
+				DateTime expirationDate = Db.getTripBucket().getAirAttach().getExpirationDate();
+				DateTime currentDate = new DateTime();
+				int daysRemaining = JodaUtils.daysBetween(currentDate, expirationDate);
+				TextView expirationDateTv = Ui.findView(v, R.id.itin_air_attach_expiration_date_text_view);
+				expirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+			}
+			else {
+				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.VISIBLE);
+				Ui.findView(v, R.id.air_attach_confirmation_banner).setVisibility(View.GONE);
+				Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
+				Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						searchForHotels();
+					}
+				});
+			}
 		}
 		else {
 			Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.GONE);

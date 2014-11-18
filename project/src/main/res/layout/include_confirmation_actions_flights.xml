@@ -15,7 +15,11 @@
     <TextView
         android:id="@+id/hotels_action_text_view"
         style="@style/Confirmation.Action"
-        android:drawableLeft="@drawable/ic_bed" />
+        android:drawableLeft="@drawable/ic_bed"/>
+
+    <include layout="@layout/itin_air_attach_card"
+        android:id="@+id/air_attach_confirmation_banner"
+        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/more_actions_text_view"

@@ -313,6 +313,10 @@ public class TripBucket implements JSONable {
 		mAirAttach = airAttach;
 	}
 
+	public boolean isUserAirAttachQualified() {
+		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
