@@ -4,14 +4,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayout;
+import com.expedia.bookings.widget.TextView;
 
 public class HotelReceiptExtraSection extends RelativeLayout {
 

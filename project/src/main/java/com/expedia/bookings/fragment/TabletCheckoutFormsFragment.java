@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,6 +56,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.WalletUtils;
@@ -529,6 +531,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		else {
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement(true));
+		}
+
+		if (getLob() == LineOfBusiness.HOTELS && HotelUtils.showResortFeeInfo(Db.getTripBucket().getHotel())) {
+			TextView resortFeesTextView = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
+			Spanned resortBlurb = HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
+			resortFeesTextView.setText(resortBlurb);
+			add(resortFeesTextView);
 		}
 
 		//SET UP THE FORM FRAGMENTS
