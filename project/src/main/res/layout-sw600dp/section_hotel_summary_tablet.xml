@@ -208,6 +208,51 @@
         android:textColor="@android:color/white"
         android:visibility="gone"/>
 
+    <LinearLayout
+        android:id="@+id/air_attach_sale_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/hotel_background_view"
+        android:layout_alignTop="@id/hotel_background_view"
+        android:layout_marginRight="@dimen/hotel_flight_card_content_margin_x"
+        android:layout_marginTop="@dimen/hotel_flight_card_content_margin_y"
+        android:orientation="horizontal"
+        android:background="@drawable/airattach_orange_bg"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@+id/air_attach_sale_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/airattach_light_orange_bg">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:src="@drawable/airattach_plane"/>
+
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="2dp"
+            android:layout_height="22dp"
+            android:src="@drawable/temp_airattach_curve"/>
+
+        <TextView
+            android:id="@+id/air_attach_sale_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="1dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="1dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"

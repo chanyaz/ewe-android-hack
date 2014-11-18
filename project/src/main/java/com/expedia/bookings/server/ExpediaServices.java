@@ -782,6 +782,10 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		}
 
+		// Note: this may stress the mobile API, but the whole point of this flag is so that we can take advantage of
+		// discounted room rates for our mobile use-case.
+		query.add(new BasicNameValuePair("useCacheForAirAttach", "true"));
+
 		if (params != null) {
 			addHotelSearchParams(query, params);
 		}
@@ -821,18 +825,20 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate) {
-		List<BasicNameValuePair> query = generateCreateTripParams(rate, params);
+	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate, boolean qualifyAirAttach) {
+		List<BasicNameValuePair> query = generateCreateTripParams(rate, params, qualifyAirAttach);
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
 		return doE3Request("m/api/hotel/trip/create", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params) {
+	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params, boolean qualifyAirAttach) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 
 		String guests = generateHotelGuestString(params);
 		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
+
+		query.add(new BasicNameValuePair("qualifyAirAttach", Boolean.toString(qualifyAirAttach)));
 
 		return query;
 	}

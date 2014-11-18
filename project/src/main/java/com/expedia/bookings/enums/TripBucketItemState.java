@@ -27,6 +27,7 @@ public enum TripBucketItemState {
 	// in the data model!
 	SHOWING_CHECKOUT_BUTTON, // transient
 	SHOWING_PRICE_CHANGE, // transient
+	SHOWING_AIR_ATTACH_PRICE_CHANGE, // transient
 	EXPANDED, // transient
 	CONFIRMATION, // transient
 }

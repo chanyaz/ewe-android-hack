@@ -1651,6 +1651,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 	@Override
 	public void onItemAddedToBucket() {
+		OmnitureTracking.trackAddAirAttachHotel(getActivity());
+
 		// TODO: EVENTUALLY WE WANT TO ANIMATE THIS THING!
 		setHotelsState(ResultsHotelsState.ADDING_HOTEL_TO_TRIP, false);
 	}

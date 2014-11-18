@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -27,6 +29,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -490,6 +493,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else if (state == CheckoutState.CONFIRMATION) {
 				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
+
+				if (getLob() == LineOfBusiness.FLIGHTS) {
+					OmnitureTracking.trackTabletConfirmationAirAttach(getActivity());
+				}
 			}
 
 			if (state == CheckoutState.BOOKING) {
@@ -1090,7 +1097,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 
 				Db.getTripBucket().getFlight().setCheckoutResponse(response);
-				// TODO save the TripBucket to disk for better persistence?
 				AdTracker.trackFlightBooked();
 
 				if (response == null || response.hasErrors()) {
@@ -1099,7 +1105,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				else {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
 					Db.saveTripBucket(getActivity());
-					setCheckoutState(CheckoutState.CONFIRMATION, true);
+
+					if (Db.getTripBucket().getHotel() != null &&
+						Db.getTripBucket().getHotel().canBePurchased() &&
+						!Db.getTripBucket().getHotel().hasAirAttachRate() &&
+						Db.getTripBucket().getAirAttach().isAirAttachQualified()) {
+
+						mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
+					}
+					else {
+						setCheckoutState(CheckoutState.CONFIRMATION, true);
+					}
 				}
 			}
 			// HotelBookingResponse
@@ -1124,7 +1140,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
-	private void startCreateTripDownload() {
+	private void startHotelCreateTrip() {
 		if (mCreateTripDownloadThrobber == null) {
 			mCreateTripDownloadThrobber = ThrobberDialog
 				.newInstance(getString(R.string.spinner_text_hotel_create_trip));
@@ -1194,25 +1210,40 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
 		dismissLoadingDialogs();
-		startCreateTripDownload();
+		startHotelCreateTrip();
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
-		dismissLoadingDialogs();
-		BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
-		mCheckoutFragment.onCheckoutDataUpdated();
+		// TODO test
+		boolean isHotelCreateTripResponse = event.createTripResponse instanceof CreateTripResponse;
+		if (getLob() == LineOfBusiness.FLIGHTS && isHotelCreateTripResponse) {
+			setCheckoutState(CheckoutState.CONFIRMATION, true);
+		}
+		else {
+			dismissLoadingDialogs();
+			BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
+			mCheckoutFragment.onCheckoutDataUpdated();
+		}
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadError(Events.CreateTripDownloadError event) {
 		dismissLoadingDialogs();
+		boolean isHotelCreateTripFailure = event.getLob() == LineOfBusiness.HOTELS;
+		if (getLob() == LineOfBusiness.FLIGHTS && isHotelCreateTripFailure) {
+			setCheckoutState(CheckoutState.CONFIRMATION, true);
+		}
+		else if (getLob() == LineOfBusiness.HOTELS && isHotelCreateTripFailure) {
+			DialogFragment df = new RetryErrorDialogFragment();
+			df.show(getChildFragmentManager(), "retryHotelCreateTrip");
+		}
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
 		if (getLob() == LineOfBusiness.HOTELS) {
-			startCreateTripDownload();
+			startHotelCreateTrip();
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			doCreateTrip();

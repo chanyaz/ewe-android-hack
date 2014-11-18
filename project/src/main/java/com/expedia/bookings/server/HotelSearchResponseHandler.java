@@ -348,6 +348,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String priceToShowUsers = null;
 		String userPriceType = null;
 		String checkoutPriceType = null;
+		boolean airAttached = false;
 
 		reader.beginObject();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
@@ -389,6 +390,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("priceToShowUsers")) {
 				priceToShowUsers = reader.nextString();
 			}
+			else if (name.equals("airAttached")) {
+				airAttached = reader.nextBoolean();
+			}
 			else {
 				reader.skipValue();
 			}
@@ -406,6 +410,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		rate.setCheckoutPriceType(checkoutPriceType);
 		rate.setPriceToShowUsers(ParserUtils.createMoney(priceToShowUsers, currencyCode));
 		rate.setStrikethroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
+		rate.setAirAttached(airAttached);
 		return rate;
 	}
 

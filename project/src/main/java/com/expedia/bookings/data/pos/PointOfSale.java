@@ -135,6 +135,9 @@ public class PointOfSale {
 	// Does this POS have the VIP Access program?
 	private boolean mSupportsVipAccess;
 
+	// Does this POS support AirAttach pricing?
+	private boolean mShouldShowAirAttach;
+
 	// EAPID value and is used
 	private int mEAPID;
 
@@ -401,6 +404,10 @@ public class PointOfSale {
 
 	public boolean supportsVipAccess() {
 		return mSupportsVipAccess;
+	}
+
+	public boolean shouldShowAirAttach() {
+		return mShouldShowAirAttach;
 	}
 
 	/**
@@ -774,6 +781,7 @@ public class PointOfSale {
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
+		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

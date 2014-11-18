@@ -17,6 +17,8 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.AirAttach;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -24,6 +26,7 @@ import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
@@ -40,7 +43,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		SUMMARY,
 		NORMAL,
 		DETAIL,
-		BUTTON
+		BUTTON,
+		AIR_ATTACH
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +126,19 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			return card;
 		}
+		else if (isItemAnAirAttachCard(position)) {
+			ItinAirAttachCard card;
+			if (convertView instanceof ItinAirAttachCard) {
+				card = (ItinAirAttachCard) convertView;
+			}
+			else {
+				card = new ItinAirAttachCard(mContext);
+			}
+
+			card.bind((ItinCardDataAirAttach) data);
+
+			return card;
+		}
 		else {
 			ItinCard card;
 			if (convertView instanceof ItinCard) {
@@ -159,17 +176,21 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		boolean isSumCard = isItemASummaryCard(position);
 		boolean isDetailCard = isItemDetailCard(position);
 		boolean isButtonCard = isItemAButtonCard(position);
+		boolean isAirAttachCard = isItemAnAirAttachCard(position);
 		if (isDetailCard) {
-			retVal += (TripComponent.Type.values().length * 3);
+			retVal += (TripComponent.Type.values().length * State.DETAIL.ordinal());
 		}
 		else if (isInThePast) {
 			retVal += TripComponent.Type.values().length;
 		}
 		else if (isSumCard && !mSimpleMode) {
-			retVal += (TripComponent.Type.values().length * 2);
+			retVal += (TripComponent.Type.values().length * State.NORMAL.ordinal());
 		}
 		else if (isButtonCard) {
-			retVal += (TripComponent.Type.values().length * 4);
+			retVal += (TripComponent.Type.values().length * State.BUTTON.ordinal());
+		}
+		else if (isAirAttachCard) {
+			retVal += (TripComponent.Type.values().length * State.AIR_ATTACH.ordinal());
 		}
 
 		return retVal;
@@ -177,8 +198,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	@Override
 	public int getViewTypeCount() {
-		//the *3 is so we have one for each type and one for each type that is shaded and one for each type in summary mode
-		// the +1 is for the button card type
 		return TripComponent.Type.values().length * State.values().length;
 	}
 
@@ -205,8 +224,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Add Items
 		mItinCardDatasSync.addAll(mItinManager.getItinCardData());
 
-		// Add hotel attach cards
-		addHotelAttachData(mItinCardDatasSync);
+		// Add air attach and hotel attach cards where applicable
+		addAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
 		addLocalExpertData(mItinCardDatasSync);
@@ -299,6 +318,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			return State.DETAIL;
 		case 4:
 			return State.BUTTON;
+		case 5:
+			return State.AIR_ATTACH;
 		default:
 			return State.NORMAL;
 		}
@@ -332,6 +353,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private boolean isItemAButtonCard(int position) {
 		final ItinCardData item = getItem(position);
 		return item instanceof ItinCardDataHotelAttach || item instanceof ItinCardDataLocalExpert;
+	}
+
+	private boolean isItemAnAirAttachCard(int position) {
+		return getItem(position) instanceof ItinCardDataAirAttach;
 	}
 
 	// Assumes the list is sorted ahead of time
@@ -434,26 +459,32 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		return data.hasSummaryData() && data.hasDetailData() && data.getStartDate() != null;
 	}
 
-	private void addHotelAttachData(List<ItinCardData> itinCardDatas) {
-		// Are we tablet?
-		if (ExpediaBookingApp.useTabletInterface(mContext)) {
-			return;
-		}
+	/*
+	SUMMARY
+	 */
 
-		// Is Hotel Attach turned off?
-		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
-			return;
-		}
-
+	private void addAttachData(List<ItinCardData> itinCardDatas) {
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
 			return;
 		}
+		AirAttach airAttach = new AirAttach();
+	 	airAttach.setAirAttachQualified(true);
+	 	DateTime currentDate = new DateTime();
+	 	currentDate = currentDate.plusDays(10);
+	 	airAttach.setExpirationDate(currentDate);
+	 	Db.getTripBucket().setAirAttach(airAttach);
 
 		// Get previously dismissed buttons
 		final HashSet<String> dismissedTripIds = DismissedItinButton
-				.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
+			.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
+
+		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false);
+		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
+			Db.getTripBucket().getAirAttach() != null &&
+			Db.getTripBucket().getAirAttach().isAirAttachQualified() &&
+			!Db.getTripBucket().getAirAttach().getExpirationDate().isBeforeNow();
 
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);
@@ -480,45 +511,75 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			// Ignore last leg flights
+			// Ignore last leg flights for a multi-leg trip ONLY IF
+			// the origin and final destination airports are the same.
+			FlightLeg itinFlightLeg = ((ItinCardDataFlight) data).getFlightLeg();
+			Waypoint itinDestination = itinFlightLeg.getLastWaypoint();
 			TripFlight tripFlight = (TripFlight) data.getTripComponent();
 			final int legCount = tripFlight.getFlightTrip().getLegCount();
-			if (legCount > 0 && ((ItinCardDataFlight) data).getLegNumber() == legCount - 1) {
-				continue;
+
+			if (legCount > 1) {
+				Waypoint tripOrigin = tripFlight.getFlightTrip().getLeg(0).getFirstWaypoint();
+				if (((ItinCardDataFlight) data).getLegNumber() == legCount - 1 &&
+					itinDestination.mAirportCode.equals(tripOrigin.mAirportCode)) {
+					continue;
+				}
 			}
 
-			// See if this flight is:
-			// 1. Has an ending Flight from the same Trip, arriving and departing from same airport
-			// 2. Has no hotels/flights in between now and the ending flight
-			// 3. There is more than 1 day between this flight and the ending flight
-			for (int j = i + 1; j < len; j++) {
-				ItinCardData nextData = itinCardDatas.get(j);
+			boolean insertButtonCard = false;
+			FlightLeg nextFlightLeg = null;
+
+			// Check if there is a next itin card to compare to
+			if (i < len - 1) {
+				ItinCardData nextData = itinCardDatas.get(i + 1);
 				Type nextType = nextData.getTripComponentType();
+				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
 
-				if (nextType == Type.HOTEL) {
-					break;
-				}
-				else if (nextType == Type.FLIGHT) {
-					if (data.getTripId().equals(nextData.getTripId()) && nextData instanceof ItinCardDataFlight) {
-						FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
-						FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
-						Waypoint waypointOne = firstLeg.getLastWaypoint();
-						Waypoint waypointTwo = secondLeg.getFirstWaypoint();
+				// If the next itin is a flight
+				if (nextType == Type.FLIGHT) {
+					nextFlightLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
+					Waypoint waypointTwo = nextFlightLeg.getFirstWaypoint();
+					DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
 
-						if (waypointOne.mAirportCode.equals(waypointTwo.mAirportCode)) {
-							DateTime dateTimeOne = new DateTime(waypointOne.getMostRelevantDateTime());
-							DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
-							if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) != 0) {
-								// Add HA button
-								itinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
+					// Check if there is more than 1 day between the two flights
+					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
 
-								return;
-							}
+						// Check if the next flight departs from the same airport the current flight arrives at
+						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode))
+							insertButtonCard = true;
+
+						// There is a flight 1+ days later from a different airport
+						else {
+							insertButtonCard = true;
+							nextFlightLeg = null;
 						}
 					}
+				}
+				// If the next itin is a hotel
+				else if (nextType == Type.HOTEL) {
+					DateTime checkInDate = nextData.getStartDate();
+					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0)
+						insertButtonCard = true;
+				}
+			}
+			// The flight is the last itin
+			else if (i == len - 1)
+				insertButtonCard = true;
 
-					// If we get to here, then this means it was a non-valid hotel attaching flight, so break
-					break;
+			if (insertButtonCard) {
+				// Check if user qualifies for air attach
+				if (isUserAirAttachQualified) {
+					itinCardDatas
+						.add(i + 1, new ItinCardDataAirAttach(tripFlight, itinFlightLeg, nextFlightLeg));
+					len ++;
+					i ++;
+				}
+				// Make sure hotel attach is enabled
+				else if (isHotelAttachEnabled) {
+					itinCardDatas
+						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
+					len ++;
+					i ++;
 				}
 			}
 		}

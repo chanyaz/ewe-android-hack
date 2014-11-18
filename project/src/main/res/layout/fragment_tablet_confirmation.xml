@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,20 +7,20 @@
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="@integer/tablet_checkout_forms_left_margin_weight"/>
+        android:layout_weight="@integer/tablet_checkout_forms_left_margin_weight" />
 
     <LinearLayout
-        android:layout_width="0dp"
         style="@style/V2.Fragment.Tablet.Confirmation"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_weight="2"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <FrameLayout
             style="@style/V2.Fragment.Tablet.Confirmation"
             android:layout_width="@dimen/confirmation_width"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/confirmation_image_view"
@@ -34,15 +33,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/confirmation_image_height"
                 android:background="@drawable/bg_tablet_confirmation_main"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="40dp"
                     android:gravity="center"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/confirmation_title_text"
@@ -76,12 +75,18 @@
                     android:id="@+id/confirmation_itinerary_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center"
                     android:textColor="#A6A4A4"
                     android:textSize="15sp"
                     app:textStyle="condensed" />
+
+                <include
+                    layout="@layout/air_attach_banner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
 
             </LinearLayout>
 
@@ -98,17 +103,17 @@
         <LinearLayout
             android:id="@+id/confirmation_button_bar_layout"
             android:layout_width="@dimen/confirmation_width"
-            android:layout_height="@dimen/confirmation_button_bar_height"
-            android:layout_marginTop="26dp"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/confirmation_book_next_container"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/bg_tablet_confirmation_button_left"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <View
                     android:layout_width="0dp"
@@ -135,6 +140,61 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/confirmation_add_hotel_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tablet_confirmation_button_left"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
+                    android:drawablePadding="10dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/add_hotel_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/tablet_confirmation_book_next"
+                        android:textColor="#374F6E"
+                        android:textSize="18sp"
+                        app:textStyle="medium" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/with_discounts_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-2dp"
+                        android:gravity="center"
+                        android:textColor="#374F6E"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
             <View
                 android:id="@+id/confirmation_booking_bar_separator"
                 android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
@@ -150,7 +210,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_tablet_confirmation_button_right"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <View
                     android:layout_width="0dp"

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
@@ -451,7 +452,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			Rate rate = Db.getTripBucket().getHotel().getRate();
 
-			return services.createTrip(params, property, rate);
+			AirAttach airAttach = Db.getTripBucket().getAirAttach();
+			boolean qualifyAirAttach = airAttach != null && airAttach.isAirAttachQualified();
+
+			return services.createTrip(params, property, rate, qualifyAirAttach);
 		}
 	};
 
@@ -471,6 +475,14 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
+
+		Rate originalRate = response.getNewRate();
+		Rate airAttachRate = response.getAirAttachRate();
+		if (airAttachRate != null && originalRate.compareForPriceChange(airAttachRate) != 0) {
+			Db.getTripBucket().getHotel().setNewRate(airAttachRate);
+			Events.post(new Events.HotelProductRateUp(airAttachRate));
+		}
+
 		switch (mState) {
 		case COUPON_APPLY:
 			startApplyCouponDownloader(mCouponCode);
@@ -492,26 +504,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	// Error handling
 	private void handleCreateTripError(CreateTripResponse response) {
 		if (response == null) {
-			Events.post(new Events.CreateTripDownloadError(null));
-			showRetryErrorDialog();
+			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, null));
 		}
 		else {
 			ServerError firstError = response.getErrors().get(0);
-			Events.post(new Events.CreateTripDownloadError(firstError));
-
-			switch (firstError.getErrorCode()) {
-			case TRIP_SERVICE_ERROR:
-				// Let's show a retry dialog here.
-			case INVALID_INPUT:
-				/*
-				 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
-				 * Hence for now let's show a retry dialog here too (after a chat with API team)
-				 */
-			default: {
-				showRetryErrorDialog();
-				break;
-			}
-			}
+			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, firstError));
 		}
 	}
 

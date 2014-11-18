@@ -101,6 +101,9 @@ public class Rate implements JSONable {
 	// #1266: There's sometimes thumbnail associated with the rate (of the specific room)
 	private Media mThumbnail;
 
+	// Air Attach - is this rate discounted as the result of a flight booking?
+	private boolean mAirAttached;
+
 	// These are computed rates, based on the user's current locale.  They should
 	// not be saved, but instead computed on demand (since locale can change).
 	private Money mMandatoryFeesBaseRate = null;
@@ -464,6 +467,14 @@ public class Rate implements JSONable {
 		return mThumbnail;
 	}
 
+	public boolean isAirAttached() {
+		return mAirAttached;
+	}
+
+	public void setAirAttached(boolean isAirAttached) {
+		mAirAttached = isAirAttached;
+	}
+
 	/**
 	 * Returns the qualifier on what the rate means - e.g., is it per night?  Average per night?  Total?
 	 *
@@ -558,7 +569,8 @@ public class Rate implements JSONable {
 			mTaxStatusType = TaxStatusType.NONE;
 		}
 	}
-//////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////
 	// Prices to show users
 	//
 	// Unless you're targeting a specific part of the cost (like surcharges),
@@ -669,6 +681,7 @@ public class Rate implements JSONable {
 
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 
+			obj.putOpt("airAttached", mAirAttached);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -742,6 +755,7 @@ public class Rate implements JSONable {
 
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
 
+		mAirAttached = obj.optBoolean("airAttached", false);
 		return true;
 	}
 

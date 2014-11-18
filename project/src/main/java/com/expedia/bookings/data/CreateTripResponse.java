@@ -14,6 +14,7 @@ public class CreateTripResponse extends Response implements JSONable {
 	private String mTripId;
 	private String mUserId;
 	private Rate mNewRate;
+	private Rate mAirAttachRate;
 	private String mTealeafId;
 	private List<ValidPayment> mValidPayments;
 
@@ -44,6 +45,14 @@ public class CreateTripResponse extends Response implements JSONable {
 
 	public Rate getNewRate() {
 		return mNewRate;
+	}
+
+	public void setAirAttachRate(Rate rate) {
+		mAirAttachRate = rate;
+	}
+
+	public Rate getAirAttachRate() {
+		return mAirAttachRate;
 	}
 
 	public void setTealeafId(String id) {
@@ -85,6 +94,7 @@ public class CreateTripResponse extends Response implements JSONable {
 			obj.put("tealeafId", mTealeafId);
 			JSONUtils.putJSONable(obj, "newRate", mNewRate);
 			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
+			JSONUtils.putJSONable(obj, "airAttachRate", mAirAttachRate);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -102,6 +112,7 @@ public class CreateTripResponse extends Response implements JSONable {
 		mTealeafId = obj.optString("tealeafId", null);
 		mNewRate = JSONUtils.getJSONable(obj, "newRate", Rate.class);
 		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
+		mAirAttachRate = JSONUtils.getJSONable(obj, "airAttachRate", Rate.class);
 		return true;
 	}
 }

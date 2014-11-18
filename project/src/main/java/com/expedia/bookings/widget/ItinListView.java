@@ -38,9 +38,9 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -278,6 +278,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			childEvent.offsetLocation(0, -child.getTop());
 
 			if (child instanceof ItinButtonCard
+					|| child instanceof ItinAirAttachCard
 					|| (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent))) {
 				isChildConsumedTouch = true;
 			}
@@ -859,6 +860,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
 		if (view instanceof ItinButtonCard) {
+			// Do nothing
+		}
+		else if (view instanceof ItinAirAttachCard) {
 			// Do nothing
 		}
 		else if (data.hasDetailData()) {

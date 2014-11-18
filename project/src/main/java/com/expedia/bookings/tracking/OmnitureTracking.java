@@ -30,6 +30,7 @@ import com.adobe.adms.measurement.ADMS_Measurement;
 import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -422,7 +423,12 @@ public class OmnitureTracking {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		// Products
-		addProducts(s, property);
+		if (property.getLowestRate().isAirAttached()) {
+			addProductsForAirAttach(s, property, "event57", "Flight|Hotel Infosite X-Sell");
+		}
+		else {
+			addProducts(s, property);
+		}
 
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
@@ -491,6 +497,14 @@ public class OmnitureTracking {
 		DecimalFormat df = new DecimalFormat("#.##");
 		String products = s.getProducts();
 		products += ";" + numNights + ";" + df.format(totalCost);
+		s.setProducts(products);
+	}
+
+	private static void addProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
+		String evar66Val) {
+		addProducts(s, property);
+		String products = s.getProducts();
+		products += String.format("%s=1;eVar66=%s", eventVar, evar66Val);
 		s.setProducts(products);
 	}
 
@@ -1496,6 +1510,34 @@ public class OmnitureTracking {
 		internalTrackTabletCheckoutPageLoad(context, lob, ".Confirmation", false, true);
 	}
 
+	////////////////////////////
+	// Air Attach
+	// https://confluence/display/Omniture/Tablet+App%3A+Air+Attach
+
+	private static final String AIR_ATTACH_ELIGIBLE = "App.Flight.CKO.AttachEligible";
+	private static final String AIR_ATTACH_HOTEL_ADD = "App.Hotels.IS.AddTrip";
+	private static final String ADD_ATTACH_HOTEL = "App.Flight.CKO.Add.AttachHotel";
+	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
+
+	public static void trackAddAirAttachHotel(Context context) {
+		Property property = Db.getTripBucket().getHotel().getProperty();
+		if (property.getLowestRate().isAirAttached()) {
+			ADMS_Measurement s = getFreshTrackingObject(context);
+			addStandardFields(context, s);
+			addProductsForAirAttach(s, property, "event58", "Flight|Hotel Infosite X-sell");
+			s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
+			s.setProp(16, AIR_ATTACH_HOTEL_ADD);
+			s.trackLink(null, "o", "Infosite", null, null);
+		}
+	}
+
+	public static void trackTabletConfirmationAirAttach(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_ELIGIBLE);
+		s.setProp(16, AIR_ATTACH_ELIGIBLE);
+		s.trackLink(null, "o", "Checkout", null, null);
+	}
 
 	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix,
 															boolean includePaymentInfo, boolean isConfirmation) {
@@ -1582,9 +1624,26 @@ public class OmnitureTracking {
 		s.setEvar(30, sb.toString());
 	}
 
-	public static void trackBookNextClick(Context context, LineOfBusiness lob) {
-		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.BookNext";
-		internalTrackLink(context, link);
+	public static void trackBookNextClick(Context context, LineOfBusiness lob, boolean isAirAttachScenario) {
+		if (isAirAttachScenario) {
+			ADMS_Measurement s = getFreshTrackingObject(context);
+			addProductsForAirAttach(s, Db.getTripBucket().getHotel().getProperty(), "event58", "Flight|Hotel CKO X-Sell");
+			s.setEvar(28, BOOK_NEXT_ATTACH_HOTEL);
+			s.setEvar(16, BOOK_NEXT_ATTACH_HOTEL);
+			s.trackLink(null, "o", "Checkout", null, null);
+		}
+		else {
+			String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.BookNext";
+			internalTrackLink(context, link);
+		}
+	}
+
+	public static void trackAddHotelClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, ADD_ATTACH_HOTEL);
+		s.setProp(16, ADD_ATTACH_HOTEL);
+		s.trackLink(null, "o", "Checkout", null, null);
 	}
 
 	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {
@@ -2537,7 +2596,7 @@ public class OmnitureTracking {
 
 		s.setEvar(56, rewardsStatus);
 
-		// TripBucket State - eVar23
+		// TripBucket State
 		if (Db.getTripBucket() != null) {
 			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 			String hotelState = hotel == null ? "No Hotel" : (hotel.getState() == TripBucketItemState.PURCHASED ? "Hotel" : "UB Hotel");
@@ -2547,6 +2606,19 @@ public class OmnitureTracking {
 
 			String tbState = hotelState + "|" + flightState;
 			s.setEvar(23, tbState);
+
+			// Air attach state
+			AirAttach airAttach = Db.getTripBucket().getAirAttach();
+			boolean userIsAttachEligible = airAttach != null && airAttach.isAirAttachQualified() &&
+				airAttach.getExpirationDate().isBeforeNow();
+			boolean eligibleHotelInBucket = hotel != null && hotel.hasAirAttachRate();
+			String airAttachState = userIsAttachEligible ? "Attach|Hotel Eligible" : "Attach|Non Eligible";
+			s.setEvar(65, airAttachState);
+
+			if (userIsAttachEligible && eligibleHotelInBucket) {
+				addProductsForAirAttach(s, hotel.getProperty(), "event57", "Flight|Hotel CKO X-Sell");
+			}
+
 		}
 
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());

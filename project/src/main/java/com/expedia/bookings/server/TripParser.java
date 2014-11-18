@@ -1,10 +1,6 @@
 package com.expedia.bookings.server;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,8 +37,6 @@ import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripPackage;
-import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -78,8 +72,8 @@ public class TripParser {
 		trip.setTitle(tripJson.optString("title"));
 		trip.setDescription(tripJson.optString("description"));
 		trip.setDetailsUrl(tripJson.optString("webDetailsURL"));
-		trip.setStartDate(parseDateTime(tripJson.opt("startTime")));
-		trip.setEndDate(parseDateTime(tripJson.opt("endTime")));
+		trip.setStartDate(DateTimeParser.parseDateTime(tripJson.opt("startTime")));
+		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.opt("endTime")));
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
@@ -160,50 +154,6 @@ public class TripParser {
 		return tripComponents;
 	}
 
-	private DateTime parseDateTime(Object obj) {
-		if (obj == null) {
-			return null;
-		}
-		else if (obj instanceof JSONObject) {
-			JSONObject json = (JSONObject) obj;
-			long millisFromEpoch = json.optLong("epochSeconds") * 1000;
-			int tzOffsetMillis = json.optInt("timeZoneOffsetSeconds") * 1000;
-			return JodaUtils.fromMillisAndOffset(millisFromEpoch, tzOffsetMillis);
-		}
-		else if (obj instanceof String) {
-			// TODO: DELETE ONCE OBSELETE
-			String str = (String) obj;
-
-			for (DateFormat df : DATE_FORMATS) {
-				try {
-					Date date = df.parse(str);
-
-					// We are going to do this hacky way of parsing the timezone for fun and profit
-					String sign = StrUtils.slice(str, -6, -5);
-					String hourStr = StrUtils.slice(str, -5, -3);
-					String minuteStr = StrUtils.slice(str, -2);
-					int offset = (60 * 60 * Integer.parseInt(hourStr)) + (60 * Integer.parseInt(minuteStr));
-					if (sign.equals("-")) {
-						offset *= -1;
-					}
-
-					return JodaUtils.fromMillisAndOffset(date.getTime(), offset * 1000);
-				}
-				catch (ParseException e) {
-					// Ignore
-				}
-			}
-		}
-
-		throw new RuntimeException("Could not parse date time: " + obj);
-	}
-
-	// Until all date formats are normalized, we must support all of them.
-	private static final DateFormat[] DATE_FORMATS = {
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-	};
-
 	private CustomerSupport parseCustomerSupport(JSONObject customerSupportJson) {
 		CustomerSupport support = new CustomerSupport();
 		if (customerSupportJson != null) {
@@ -254,13 +204,13 @@ public class TripParser {
 		hotel.getShareInfo().setSharableDetailsUrl(obj.optString("sharableItemDetailURL").replace("/api/", "/m/"));
 
 		if (obj.has("checkInDateTime") && obj.has("checkOutDateTime")) {
-			hotel.setStartDate(parseDateTime(obj.opt("checkInDateTime")));
-			hotel.setEndDate(parseDateTime(obj.opt("checkOutDateTime")));
+			hotel.setStartDate(DateTimeParser.parseDateTime(obj.opt("checkInDateTime")));
+			hotel.setEndDate(DateTimeParser.parseDateTime(obj.opt("checkOutDateTime")));
 		}
 		else {
 			// Old version of code, kept because I'm not sure which servers support newer version yet
-			hotel.setStartDate(parseDateTime(obj.opt("checkInDate")));
-			hotel.setEndDate(parseDateTime(obj.opt("checkOutDate")));
+			hotel.setStartDate(DateTimeParser.parseDateTime(obj.opt("checkInDate")));
+			hotel.setEndDate(DateTimeParser.parseDateTime(obj.opt("checkOutDate")));
 		}
 
 		Property property = new Property();
@@ -346,12 +296,12 @@ public class TripParser {
 		parseTripCommon(obj, flight);
 
 		if (obj.has("startTime") && obj.has("endTime")) {
-			flight.setStartDate(parseDateTime(obj.opt("startTime")));
-			flight.setEndDate(parseDateTime(obj.opt("endTime")));
+			flight.setStartDate(DateTimeParser.parseDateTime(obj.opt("startTime")));
+			flight.setEndDate(DateTimeParser.parseDateTime(obj.opt("endTime")));
 		}
 		else {
-			flight.setStartDate(parseDateTime(obj.opt("startDate")));
-			flight.setEndDate(parseDateTime(obj.opt("endDate")));
+			flight.setStartDate(DateTimeParser.parseDateTime(obj.opt("startDate")));
+			flight.setEndDate(DateTimeParser.parseDateTime(obj.opt("endDate")));
 		}
 
 		// We're taking a lack of legs info to mean that this is a non-details call;
@@ -454,8 +404,8 @@ public class TripParser {
 
 		parseTripCommon(obj, tripCar);
 
-		tripCar.setStartDate(parseDateTime(obj.optJSONObject("pickupTime")));
-		tripCar.setEndDate(parseDateTime(obj.optJSONObject("dropOffTime")));
+		tripCar.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("pickupTime")));
+		tripCar.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("dropOffTime")));
 
 		if (obj.has("uniqueID")) {
 			Car car = new Car();
@@ -469,8 +419,8 @@ public class TripParser {
 						priceJson.optString("currency", null)));
 			}
 
-			car.setPickUpDateTime(parseDateTime(obj.optJSONObject("pickupTime")));
-			car.setDropOffDateTime(parseDateTime(obj.optJSONObject("dropOffTime")));
+			car.setPickUpDateTime(DateTimeParser.parseDateTime(obj.optJSONObject("pickupTime")));
+			car.setDropOffDateTime(DateTimeParser.parseDateTime(obj.optJSONObject("dropOffTime")));
 
 			car.setPickUpLocation(parseCarLocation(obj.optJSONObject("pickupLocation")));
 			car.setDropOffLocation(parseCarLocation(obj.optJSONObject("dropOffLocation")));
@@ -501,8 +451,8 @@ public class TripParser {
 
 		parseTripCommon(obj, tripCruise);
 
-		tripCruise.setStartDate(parseDateTime(obj.optJSONObject("startTime")));
-		tripCruise.setEndDate(parseDateTime(obj.optJSONObject("endTime")));
+		tripCruise.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startTime")));
+		tripCruise.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endTime")));
 
 		return tripCruise;
 	}
@@ -512,8 +462,8 @@ public class TripParser {
 
 		parseTripCommon(obj, tripActivity);
 
-		tripActivity.setStartDate(parseDateTime(obj.optJSONObject("startTime")));
-		tripActivity.setEndDate(parseDateTime(obj.optJSONObject("endTime")));
+		tripActivity.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startTime")));
+		tripActivity.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endTime")));
 
 		if (obj.has("uniqueID")) {
 			Activity activity = new Activity();
@@ -802,7 +752,7 @@ public class TripParser {
 
 			JSONObject timeJson = obj.optJSONObject(timeName);
 			if (timeJson != null) {
-				DateTime time = parseDateTime(timeJson);
+				DateTime time = DateTimeParser.parseDateTime(timeJson);
 				waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
 						time.getMillis(), time.getZone().getStandardOffset(0));
 			}

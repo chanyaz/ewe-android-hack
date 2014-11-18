@@ -60,6 +60,15 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 
 			List<ValidPayment> payments = CreateItineraryResponseHandler.parseValidPayments(response);
 			createTripResponse.setValidPayments(payments);
+
+			// Air Attach response - optional
+			JSONObject airAttachHotelResponse = response.optJSONObject("airAttachedProductResponse");
+			if (airAttachHotelResponse != null && airAttachHotelResponse.has("hotelRoomResponse")) {
+				int nights = airAttachHotelResponse.getInt("numberOfNights");
+				Rate airAttachRate = availHandler.parseJsonHotelOffer(airAttachHotelResponse.getJSONObject("hotelRoomResponse"), nights, null);
+				airAttachRate.setAirAttached(true);
+				createTripResponse.setAirAttachRate(airAttachRate);
+			}
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON CreateTrip response.", e);

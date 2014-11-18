@@ -75,6 +75,10 @@ public class TripBucketItemHotel extends TripBucketItem {
 		setHasPriceChanged(true);
 	}
 
+	public boolean hasAirAttachRate() {
+		return mRate != null && mRate.isAirAttached();
+	}
+
 	public boolean isCouponApplied() {
 		return mIsCouponApplied;
 	}
