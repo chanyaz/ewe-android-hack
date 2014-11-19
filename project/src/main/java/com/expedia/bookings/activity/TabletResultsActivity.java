@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,6 +86,8 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
+
+	public static final String INTENT_EXTRA_DEEP_LINK_HOTEL_STATE = "INTENT_EXTRA_DEEP_LINK_HOTEL_STATE";
 
 	//Tags
 	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
@@ -177,6 +180,19 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
+
+		// Deep linking
+		boolean showHotels = false;
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			if (extras.getBoolean(INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, false)) {
+				showHotels = true;
+			}
+		}
+		if (showHotels && savedInstanceState == null) {
+			mHotelsController.enterViaDeepLink();
+			mStateManager.setState(ResultsState.HOTELS, false);
+		}
 
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), false);
@@ -384,7 +400,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	 * State management
 	 */
 
-	public void setState(ResultsState state, boolean animate) {
+	private void setState(ResultsState state, boolean animate) {
 		mStateManager.setState(state, animate);
 	}
 
@@ -758,6 +774,9 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 			if (stateOne.showsActionBar() != stateTwo.showsActionBar()) {
 				float p = stateTwo.showsActionBar() ? percentage : 1f - percentage;
 				mHotelC.findViewById(R.id.action_bar_background).setAlpha(p);
+				if (mFlightsC != null) {
+					mFlightsC.findViewById(R.id.action_bar_background).setAlpha(0f);
+				}
 			}
 		}
 

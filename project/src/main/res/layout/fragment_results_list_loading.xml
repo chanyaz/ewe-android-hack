@@ -62,4 +62,54 @@
 
     </FrameLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/results_list_spacer_height" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_flight_card_height"
+        android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+        android:background="#5c6874" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="top"
+            android:background="@drawable/card_corners_top_white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/card_corners_bottom_white" />
+
+    </FrameLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/results_list_spacer_height" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_flight_card_height"
+        android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+        android:background="#5c6874" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="top"
+            android:background="@drawable/card_corners_top_white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/card_corners_bottom_white" />
+
+    </FrameLayout>
+
 </LinearLayout>

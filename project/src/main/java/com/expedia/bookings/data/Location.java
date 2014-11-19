@@ -42,7 +42,9 @@ public class Location implements JSONable, Parcelable {
 	}
 
 	public Location(Location other) {
-		fromJson(other.toJson());
+		if (other != null) {
+			fromJson(other.toJson());
+		}
 	}
 
 	public void setLocationId(int id) {
