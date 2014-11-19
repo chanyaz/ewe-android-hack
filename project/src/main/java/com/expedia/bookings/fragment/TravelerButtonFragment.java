@@ -7,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -26,6 +25,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -55,8 +55,8 @@ public class TravelerButtonFragment extends LobableFragment {
 	private SectionTravelerInfo mSectionTraveler;
 	private ViewGroup mTravelerSectionContainer;
 	private ViewGroup mEmptyViewContainer;
-	private Button mEditTravelerButton;
-	private Button mSavedTravelerSpinner;
+	private TextView mEditTravelerButton;
+	private TextView mSavedTravelerSpinner;
 	private TravelerAutoCompleteAdapter mTravelerAdapter;
 	private ListPopupWindow mStoredTravelerPopup;
 
@@ -136,6 +136,14 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	private void onStoredTravelerSelected(int position) {
+		if (position == mTravelerAdapter.getCount()-1) {
+			mEditButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
+			mStoredTravelerPopup.dismiss();
+			return;
+		}
+		else if (position == 0) {
+			return;
+		}
 		Traveler traveler = mTravelerAdapter.getItem(position);
 		if (traveler.isSelectable()) {
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);

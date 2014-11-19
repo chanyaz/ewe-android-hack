@@ -28,23 +28,13 @@
         android:textSize="@dimen/checkout_data_button_text_size"
         app:textStyle="light" />
 
-    <Button
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/saved_traveler_fake_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="0"
-        android:text="Saved"
+        style="@style/CheckoutTravelerPaymentButton.Saved"
         android:visibility="gone"/>
 
-    <Button
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/edit_traveler_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="0"
-        android:text="Edit"/>
+        style="@style/CheckoutTravelerPaymentButton.Edit"/>
 
 </LinearLayout>

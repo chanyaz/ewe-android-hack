@@ -25,6 +25,11 @@ import com.mobiata.android.util.Ui;
 
 public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implements Filterable {
 
+	private static final int ITEM_VIEW_TYPE_SELECT_CONTACT = 0;
+	private static final int ITEM_VIEW_TYPE_TRAVELER = 1;
+	private static final int ITEM_VIEW_TYPE_ADD_TRAVELER = 2;
+	private static final int ITEM_VIEW_TYPE_COUNT = 3;
+
 	private TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
 	private int mTravelerNumber = -1;
@@ -35,12 +40,15 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public int getCount() {
-		return getAvailableTravelers().size();
+		return getAvailableTravelers().size() + 2;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return getItem(position).getTuid();
+		if (getItem(position) != null) {
+			return getItem(position).getTuid();
+		}
+		return position;
 	}
 
 	@Override
@@ -50,8 +58,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public Traveler getItem(int position) {
-		if (getCount() > position) {
-			return getAvailableTravelers().get(position);
+		int itemType = getItemViewType(position);
+		if (itemType == ITEM_VIEW_TYPE_TRAVELER) {
+			if (getCount() > position-1) {
+				return getAvailableTravelers().get(position-1);
+			}
 		}
 		return null;
 	}
@@ -74,22 +85,60 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Traveler trav = getItem(position);
-
+		final int itemType = getItemViewType(position);
 		View retView = convertView;
-		if (retView == null) {
-			retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
+		TextView tv;
+		ImageView icon;
+		switch(itemType) {
+		case ITEM_VIEW_TYPE_SELECT_CONTACT:
+			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+			tv = Ui.findView(retView, R.id.text1);
+			icon = Ui.findView(retView, R.id.icon);
+			tv.setText(R.string.select_traveler);
+			icon.setBackgroundResource(R.drawable.select_contact);
+			retView.setEnabled(false);
+			break;
+		case ITEM_VIEW_TYPE_TRAVELER:
+			Traveler trav = getItem(position);
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
+			}
+			tv = Ui.findView(retView, android.R.id.text1);
+			icon = Ui.findView(retView, android.R.id.icon);
+			tv.setText(trav.getFullName());
+			retView.setEnabled(trav.isSelectable());
+
+			//TODO: This might be sort of heavy because we are generating a new bitmap every time...
+			icon.setImageBitmap(TravelerIconUtils.generateCircularInitialIcon(getContext(), trav.getFullName(),
+				Color.parseColor("#FF373F4A")));
+			break;
+		case ITEM_VIEW_TYPE_ADD_TRAVELER:
+			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+			tv = Ui.findView(retView, R.id.text1);
+			icon = Ui.findView(retView, R.id.icon);
+			tv.setText(R.string.add_new_traveler);
+			icon.setBackgroundResource(R.drawable.add_plus);
+			break;
 		}
-		TextView tv = Ui.findView(retView, android.R.id.text1);
-		ImageView icon = Ui.findView(retView, android.R.id.icon);
-		tv.setText(trav.getFullName());
-		retView.setEnabled(trav.isSelectable());
-
-		//TODO: This might be sort of heavy because we are generating a new bitmap every time...
-		icon.setImageBitmap(TravelerIconUtils.generateCircularInitialIcon(getContext(), trav.getFullName(),
-			Color.parseColor("#FF373F4A")));
-
 		return retView;
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return ITEM_VIEW_TYPE_COUNT;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (position == getCount()-1) {
+			return ITEM_VIEW_TYPE_ADD_TRAVELER;
+		}
+		else if (position == 0) {
+			return ITEM_VIEW_TYPE_SELECT_CONTACT;
+		}
+		else {
+			return ITEM_VIEW_TYPE_TRAVELER;
+		}
 	}
 
 	private ArrayList<Traveler> getAvailableTravelers() {
