@@ -30,10 +30,10 @@
     <!-- For Push Notifications (GCM) -->
 
     <permission
-        android:name="com.expedia.bookings.permission.C2D_MESSAGE"
+        android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.expedia.bookings.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
 
     <!-- App receives GCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -284,7 +284,7 @@
                 <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.expedia.bookings" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
 

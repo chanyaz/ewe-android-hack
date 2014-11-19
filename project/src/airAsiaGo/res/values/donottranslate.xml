@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- For app launcher name -->
-    <string name="launcher_name">@string/aag_app_name</string>
+    <string name="app_name">AirAsiaGo</string>
+
     <!-- Email addresses -->
     <string name="email_app_support">airasiago-android@mobiata.com</string>
     <!-- User name label for support email sent to user happiness team -->
