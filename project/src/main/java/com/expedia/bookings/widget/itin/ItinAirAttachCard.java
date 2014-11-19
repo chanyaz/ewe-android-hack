@@ -26,10 +26,11 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 	private OnClickListener mItinButtonOnClickListener;
 	private AirAttach mAirAttach;
 	private DateTime mExpirationDate;
-	private TextView mExpirationDateTv;
 
 	// Views
-	private ViewGroup mAirAttachButtonLayout;
+	private ViewGroup mAirAttachContainerLayout;
+	private TextView mExpirationDateTv;
+	private View mAirAttachButton;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -68,8 +69,9 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 
 		// Get air attach button layout
 		inflate(context, R.layout.itin_air_attach_card, this);
-		mAirAttachButtonLayout = Ui.findView(this, R.id.air_attach_button_layout);
-		mAirAttachButtonLayout.setOnClickListener(mOnClickListener);
+		mAirAttachContainerLayout = Ui.findView(this, R.id.air_attach_button_layout);
+		mAirAttachButton = mAirAttachContainerLayout.findViewById(R.id.action_text_button);
+		mAirAttachButton.setOnClickListener(mOnClickListener);
 		mExpirationDateTv = Ui.findView(this, R.id.itin_air_attach_expiration_date_text_view);
 		mExpirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
 	}

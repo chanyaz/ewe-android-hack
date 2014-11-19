@@ -239,7 +239,7 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 
 				mPriceText.setTextColor(mSalePriceTextColor);
-				rate.setAirAttached(true);
+
 				if (rate.isAirAttached()) {
 					// Story #3586. Air Attach Phone - Search Results.
 					if (!ExpediaBookingApp.useTabletInterface(getContext())) {

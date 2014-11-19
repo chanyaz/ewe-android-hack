@@ -21,27 +21,35 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/itin_orange">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="27dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="27dp"
-                    android:src="@drawable/itin_plane"/>
-
-            </FrameLayout>
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/itin_orange_curve" />
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/itin_orange">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="27dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="27dp"
+                        android:src="@drawable/itin_plane" />
+
+                </FrameLayout>
+
+                <com.larvalabs.svgandroid.widget.SVGView
+                    android:layout_width="9dp"
+                    android:layout_height="match_parent"
+                    app:src="@raw/curve"
+                    app:zoomMode="fitHeight"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -102,17 +110,30 @@
             android:layout_marginRight="8dp"
             android:background="#4D555D" />
 
-        <TextView
-            android:id="@+id/action_text_view"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/action_text_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_hotel_attach"
-            android:drawablePadding="8dp"
-            android:padding="8dp"
-            android:layout_margin="4dp"
-            android:layout_gravity="center"
-            android:textColor="@color/itin_white_text"
-            android:text="@string/add_hotel_air_attach"/>
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/action_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="4dp"
+                android:drawableLeft="@drawable/ic_hotel_attach"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="@string/add_hotel_air_attach"
+                android:textAllCaps="true"
+                android:textColor="@color/itin_white_text"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
