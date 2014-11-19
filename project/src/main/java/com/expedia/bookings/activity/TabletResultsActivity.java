@@ -123,6 +123,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (Sp.isEmpty()) {
+			Log.d("TabletResultsActivity - Not enough info, bailing");
 			finish();
 			mIsBailing = true;
 		}

@@ -42,8 +42,8 @@ public class SuggestionUtils {
 
 		if (loc != null) {
 			ExpediaServices expediaServices = new ExpediaServices(context);
-			SuggestionResponse response = expediaServices.suggestionsNearby(loc.getLatitude(), loc.getLongitude(),
-				SuggestionSort.POPULARITY, 0);
+			SuggestionResponse response = expediaServices.suggestionsAirportsNearby(loc.getLatitude(), loc.getLongitude(),
+				SuggestionSort.POPULARITY);
 
 			Airport airport;
 			if (!response.hasErrors() && !response.getSuggestions().isEmpty()) {

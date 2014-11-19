@@ -85,10 +85,10 @@ public class SearchParams implements Parcelable, JSONable {
 		if (hasOrigin()) {
 			SuggestionV2 origin = (useAirport && mOriginAirport != null ? mOriginAirport : mOrigin);
 			if (origin != null && origin.getLocation() != null) {
-				Location depLocation = new Location(origin.getLocation());
-				depLocation.setDestinationId(origin.getAirportCode());
-				depLocation.setDescription(origin.getFullName());
-				return depLocation;
+				Location loc = new Location(origin.getLocation());
+				loc.setDestinationId(origin.getAirportCode());
+				loc.setDescription(origin.getFullName());
+				return loc;
 			}
 		}
 		return null;
@@ -234,8 +234,10 @@ public class SearchParams implements Parcelable, JSONable {
 	}
 
 	private void modifyDefaultInfantSeatingPreferenceAsNeeded() {
-		if (GuestsPickerUtils.moreInfantsThanAvailableLaps(mNumAdults, mChildTravelers)) {
-			mInfantsInLaps = false;
+		if (mChildTravelers != null) {
+			if (GuestsPickerUtils.moreInfantsThanAvailableLaps(mNumAdults, mChildTravelers)) {
+				mInfantsInLaps = false;
+			}
 		}
 	}
 
@@ -464,6 +466,50 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setInfantSeatingInLap(mInfantsInLaps);
 
 		return params;
+	}
+
+	/**
+	 * TODO support all field conversions
+	 * @param hotelParams
+	 * @return
+	 */
+	public static SearchParams fromHotelSearchParams(HotelSearchParams hotelParams) {
+		SearchParams searchParams = new SearchParams();
+
+		// Who
+		searchParams.setNumAdults(hotelParams.getNumAdults());
+		searchParams.setChildTravelers(hotelParams.getChildren());
+
+		// Where
+		SuggestionV2 destination = new SuggestionV2();
+
+		switch (hotelParams.getSearchType()) {
+		case CITY:
+			destination.setSearchType(SuggestionV2.SearchType.CITY);
+			destination.setFullName(hotelParams.getQuery());
+			destination.setDisplayName(hotelParams.getQuery());
+			break;
+		case HOTEL:
+			destination.setSearchType(SuggestionV2.SearchType.HOTEL);
+			destination.setRegionId(Integer.parseInt(hotelParams.getRegionId()));
+			destination.setDisplayName(hotelParams.getQuery());
+			break;
+		default:
+			destination.setSearchType(SuggestionV2.SearchType.ATTRACTION);
+			break;
+		}
+
+		searchParams.setDestination(destination);
+
+		// When
+		if (hotelParams.getCheckInDate() != null) {
+			searchParams.setStartDate(hotelParams.getCheckInDate());
+		}
+		if (hotelParams.getCheckOutDate() != null) {
+			searchParams.setEndDate(hotelParams.getCheckOutDate());
+		}
+
+		return searchParams;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

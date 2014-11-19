@@ -295,7 +295,8 @@ public class ExpediaServices implements DownloadListener {
 
 	private enum SuggestType {
 		AUTOCOMPLETE,
-		NEARBY
+		NEARBY,
+		HID
 	}
 
 	public SuggestResponse suggest(String query, int flags) {
@@ -342,7 +343,17 @@ public class ExpediaServices implements DownloadListener {
 		return doSuggestionRequest(url, null);
 	}
 
-	public SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort, int flags) {
+	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
+		// 1 == airports
+		return suggestionsNearby(latitude, longitude, sort, "1");
+	}
+
+	public SuggestionResponse suggestionsCityNearby(double latitude, double longitude) {
+		// 2 == city
+		return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, "2");
+	}
+
+	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort, String type) {
 		String url = NetUtils.formatUrl(getSuggestUrl(1, SuggestType.NEARBY));
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
@@ -351,8 +362,7 @@ public class ExpediaServices implements DownloadListener {
 
 		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
 
-		// 1 == airports, which is all that's supported for now
-		params.add(new BasicNameValuePair("type", "1"));
+		params.add(new BasicNameValuePair("type", type));
 		params.add(new BasicNameValuePair("maxradius", "150"));
 		params.add(new BasicNameValuePair("maxresults", "50"));
 
@@ -363,6 +373,18 @@ public class ExpediaServices implements DownloadListener {
 			// Default to popularity sort
 			params.add(new BasicNameValuePair("sort", "p"));
 		}
+
+		return doSuggestionRequest(url, params);
+	}
+
+	public SuggestionResponse suggestionsHotelId(String hotelId) {
+		String url = NetUtils.formatUrl(getSuggestUrl(2, SuggestType.HID));
+
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(params);
+
+		params.add(new BasicNameValuePair("id", hotelId));
 
 		return doSuggestionRequest(url, params);
 	}
@@ -417,6 +439,9 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		case NEARBY:
 			sb.append("nearby/");
+			break;
+		case HID:
+			sb.append("hid/");
 			break;
 		}
 
