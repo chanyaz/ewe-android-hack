@@ -468,7 +468,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		if (len == 0) {
 			return;
 		}
-
 		// Get previously dismissed buttons
 		final HashSet<String> dismissedTripIds = DismissedItinButton
 			.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
@@ -482,7 +481,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);
 			DateTime start = data.getStartDate();
-			DateTime now = DateTime.now(start.getZone());
+			DateTime currentDate = DateTime.now(start.getZone());
 
 			// Ignore dismissed buttons
 			if (dismissedTripIds.contains(data.getTripId())) {
@@ -490,7 +489,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 
 			// Ignore past itineraries
-			if (now.isAfter(start) && now.getDayOfYear() > start.getDayOfYear()) {
+			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
 				continue;
 			}
 
