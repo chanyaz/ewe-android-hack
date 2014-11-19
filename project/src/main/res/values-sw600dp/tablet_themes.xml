@@ -16,7 +16,6 @@
 
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
     <style name="V2.Theme.Activity">
-        <item name="android:actionOverflowButtonStyle">@style/V2.Widget.ActionBar.ActionButton.Overflow</item>
 
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
@@ -85,14 +84,6 @@
         <item name="android:displayOptions">showHome|useLogo|homeAsUp|showTitle</item>
         <item name="android:background">@drawable/bg_action_bar_flight_top</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
-    </style>
-
-    <style name="V2.Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_tablet_overflow</item>
-    </style>
-
-    <style name="V2.Widget.ActionBar.ActionButton.Overflow.White" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_tablet_overflow_white</item>
     </style>
 
     <!-- FrameLayout styling -->

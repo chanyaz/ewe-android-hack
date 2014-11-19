@@ -39,6 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:addStatesFromChildren="true"
         android:contentDescription="@string/cd_hotel_search_open_guest_picker" >
 
         <ImageButton
@@ -71,6 +73,8 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@id/guests_button_container"
+        android:background="?android:attr/selectableItemBackground"
+        android:addStatesFromChildren="true"
         android:contentDescription="@string/cd_hotel_search_open_calendar" >
 
         <ImageButton

@@ -69,6 +69,7 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
@@ -81,7 +82,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.util.Ui;
 
 public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener,
 	IPhoneLaunchActivityLaunchFragment {
@@ -421,7 +421,8 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 
 	private void onHotelDataRetrieved() {
 		mHotelAdapter.setProperties(Db.getLaunchHotelData());
-		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
+
+		mHotelsStreamListView.setSelector(Ui.obtainThemeDrawable(getActivity(), android.R.attr.selectableItemBackground));
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 	}
 
@@ -524,7 +525,7 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 
 	private void onFlightDataRetrieved() {
 		mFlightAdapter.setDestinations(Db.getLaunchFlightData());
-		mFlightsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
+		mFlightsStreamListView.setSelector(Ui.obtainThemeDrawable(getActivity(), android.R.attr.selectableItemBackground));
 		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 	}
 
@@ -625,7 +626,7 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 
 	private void onHotelFallbackDataRetrieved() {
 		mHotelAdapter.setHotelDestinations(Db.getLaunchHotelFallbackData());
-		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
+		mHotelsStreamListView.setSelector(Ui.obtainThemeDrawable(getActivity(), android.R.attr.selectableItemBackground));
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 	}
 

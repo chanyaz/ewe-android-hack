@@ -25,7 +25,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="right"
-            android:background="@drawable/list_selector_holo_dark"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:scaleType="centerInside"
             android:src="@drawable/btn_local_expert_close" />

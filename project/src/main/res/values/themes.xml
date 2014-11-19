@@ -58,28 +58,25 @@
     </style>
 
     <style name="Theme.Expedia" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
-        <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:actionMenuTextColor">@color/actionbar_text</item>
         <item name="android:actionModeBackground">@drawable/bg_action_mode</item>
         <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
         <item name="android:buttonStyle">@style/Widget.Button.Phone</item>
-        <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:textViewStyle">@style/Widget.TextView.Phone</item>
-        <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone</item>
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
         <item name="android:logo">@drawable/ic_logo_hotels</item>
-        <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner</item>
+        <item name="skin_actionBarSpinnerBackground">@drawable/ic_ab_arrow</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
@@ -228,6 +225,7 @@
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -242,7 +240,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
@@ -253,7 +251,6 @@
 
     <style name="ItineraryTheme" parent="Theme.Expedia">
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
-        <item name="android:actionOverflowButtonStyle">@style/V2.Widget.ActionBar.ActionButton.Overflow.White</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -267,7 +264,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itinerary_card_popup</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>

@@ -116,7 +116,6 @@
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
     <color name="bottom_bar_background">#c000</color>
-    <color name="actionbar_button_background_pressed">#60000000</color>
     <color name="tab_text">#d7d9dc</color>
     <color name="actionbar_bg">#232b33</color>
     <color name="bg_signin_dialog_button">@android:color/transparent</color>

@@ -47,12 +47,12 @@
                 android:layout_width="48dp"
                 android:layout_height="46dp"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/list_selector_holo_dark"
+                android:background="?android:attr/selectableItemBackground"
                 android:paddingBottom="6dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="6dp"
-                android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark" />
+                android:src="@drawable/ic_action_overflow_white" />
         </FrameLayout>
     </LinearLayout>
 
