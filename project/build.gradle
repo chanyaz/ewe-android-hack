@@ -8,7 +8,6 @@ def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
 apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
-apply plugin: AndroidExpediaPlugin
 apply plugin: 'checkstyle'
 
 repositories {
@@ -228,4 +227,26 @@ android {
         classpath = files()
         ignoreFailures = true
     }
+}
+
+
+def releaseAccountTokens = [
+    'com.expedia.bookings' : 'expedia.tuid',
+    'com.expedia.bookings.vsc' : 'vsc.tuid',
+    'com.travelocity.android' : 'travelocity.tuid',
+]
+
+android.applicationVariants.all { variant ->
+    // We released apps with the following tokens so we should maintain them so people don't get logged out
+    def token = releaseAccountTokens[variant.applicationId]
+    if (!GradleUtil.isDefined(token)) {
+        token = "${variant.applicationId}.tuid"
+    }
+    variant.resValue "string", "expedia_account_token_type_tuid_identifier", "${token}"
+    variant.resValue "string", "expedia_account_type_identifier", "${variant.applicationId}"
+
+    variant.resValue "string", "authority_autocomplete_hotel", "${variant.applicationId}.autocomplete.hotel"
+    variant.resValue "string", "authority_autocomplete_airport", "${variant.applicationId}.autocomplete.airport"
+    variant.resValue "string", "authority_autocomplete_suggestions", "${variant.applicationId}.suggestions"
+    variant.resValue "string", "authority_account_sync", "${variant.applicationId}.account.sync"
 }

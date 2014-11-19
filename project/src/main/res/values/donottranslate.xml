@@ -30,12 +30,6 @@
     <string name="lean_plum_sdk_prod_appid">xKlVSadJbLLqOI2ox80QLZQ5IBec4VRggWTjdpuQQAk</string>
     <string name="lean_plum_sdk_prod_key">tCIe8ebANwhOqDWxLtscOmvONeW7OGR4f91hm8rT1cg</string>
 
-    <!-- Default AccountManager token -->
-    <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
-
-    <!-- Default AccountManager type id -->
-    <string name="expedia_account_type_identifier">com.expedia.bookings</string>
-
     <!-- MapsV2 -->
     <!-- Maps v2 key configured to work with many application package names -->
     <string name="mapsv2_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
