@@ -6,8 +6,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripFlight extends TripComponent {
@@ -48,6 +50,18 @@ public class TripFlight extends TripComponent {
 
 	public List<FlightConfirmation> getConfirmations() {
 		return mConfirmations;
+	}
+
+	public List<ChildTraveler> getChildTravelers() {
+		List<ChildTraveler> childTravelers = new ArrayList<>();
+		for(Traveler traveler : mTravelers) {
+			if(traveler.getAge() <= GuestsPickerUtils.MAX_CHILD_AGE) {
+				ChildTraveler childTraveler = new ChildTraveler();
+				childTraveler.setAge(traveler.getAge());
+				childTravelers.add(childTraveler);
+			}
+		}
+		return childTravelers;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

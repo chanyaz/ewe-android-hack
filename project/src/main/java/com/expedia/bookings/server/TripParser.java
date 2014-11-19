@@ -526,6 +526,7 @@ public class TripParser {
 		traveler.setMiddleName(obj.optString("middleName"));
 		traveler.setLastName(obj.optString("lastName"));
 		traveler.setFullName(obj.optString("fullName"));
+		traveler.setAge(obj.optInt("age"));
 
 		String gender = obj.optString("gender");
 		if ("Male".equals(gender)) {

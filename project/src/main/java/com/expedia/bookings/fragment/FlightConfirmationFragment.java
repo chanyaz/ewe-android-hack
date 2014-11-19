@@ -240,9 +240,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		FlightLeg firstLeg = trip.getLeg(0);
 		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-		int numTravelers = params.getNumAdults() + params.getNumChildren();
-		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers);
-
+		int numTravelers = params.getNumAdults();
+		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers, params.getChildren());
 		NavUtils.goToHotels(getActivity(), sp);
 
 		OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
