@@ -1134,6 +1134,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					response.setProperty(property);
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
 					Db.saveTripBucket(getActivity());
+					WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 					setCheckoutState(CheckoutState.CONFIRMATION, true);
 				}
 			}
