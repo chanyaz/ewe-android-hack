@@ -94,6 +94,7 @@ public class HistogramView extends View {
 			}
 		}
 		setData(data);
+		postInvalidate();
 	}
 
 	@Override
