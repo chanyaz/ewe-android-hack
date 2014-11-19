@@ -17,7 +17,6 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
@@ -469,12 +468,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		if (len == 0) {
 			return;
 		}
-		AirAttach airAttach = new AirAttach();
-	 	airAttach.setAirAttachQualified(true);
-	 	DateTime currentDate = new DateTime();
-	 	currentDate = currentDate.plusDays(10);
-	 	airAttach.setExpirationDate(currentDate);
-	 	Db.getTripBucket().setAirAttach(airAttach);
 
 		// Get previously dismissed buttons
 		final HashSet<String> dismissedTripIds = DismissedItinButton
