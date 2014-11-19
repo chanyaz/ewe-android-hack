@@ -66,10 +66,11 @@ android {
     }
 
     defaultConfig {
-        versionCode 42
-        versionName "4.2.1"
+        versionCode 1
+        versionName "undefined"
+
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 21
 
         testApplicationId "com.expedia.bookings.test"
         testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
@@ -92,6 +93,8 @@ android {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.expedia.bookings"
+            versionCode 42
+            versionName "4.2.1"
         }
 
         voyages {
