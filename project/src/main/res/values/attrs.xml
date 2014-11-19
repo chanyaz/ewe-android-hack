@@ -100,7 +100,8 @@
     <!-- So that we can define this in the layout xml rather than in code -->
     <declare-styleable name="hotel_summary_section">
         <attr name="selectedBackground" format="color|reference" />
-        <attr name="salePriceTextColor" format="color" />
+        <attr name="salePriceTextColor" format="color"/>
+        <attr name="airAttachPriceTextColor" format="color"/>
         <attr name="priceTextColor" format="color" />
     </declare-styleable>
 
