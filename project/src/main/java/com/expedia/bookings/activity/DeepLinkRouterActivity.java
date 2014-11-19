@@ -161,6 +161,14 @@ public class DeepLinkRouterActivity extends Activity {
 					mSearchParams.setChildTravelers(children);
 				}
 
+				// Validation
+				if (!mSearchParams.isDurationValid()) {
+					mSearchParams.setDefaultDuration();
+				}
+				if (!mSearchParams.areGuestsValid()) {
+					mSearchParams.setDefaultGuests();
+				}
+
 				BackgroundDownloader bgd = BackgroundDownloader.getInstance();
 
 				// Determine the search location.  Defaults to "current location" if none supplied
@@ -332,6 +340,15 @@ public class DeepLinkRouterActivity extends Activity {
 				if (numAdults != 0) {
 					mSearchParams.setNumAdults(numAdults);
 				}
+
+				// Validation
+				if (!mSearchParams.isDurationValid()) {
+					mSearchParams.setDefaultDuration();
+				}
+				if (!mSearchParams.areGuestsValid()) {
+					mSearchParams.setDefaultGuests();
+				}
+
 				if (originAirportCode != null) {
 					SuggestionV2 origin = new SuggestionV2();
 					origin.setAirportCode(originAirportCode);
