@@ -112,7 +112,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.expedia.bookings.gcm" />
+                <category android:name="${applicationId}.gcm" />
             </intent-filter>
         </receiver>
         <service android:name="com.leanplum.LeanplumPushService" />
