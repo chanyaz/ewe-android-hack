@@ -115,15 +115,16 @@ public class HotelDetailsIntroFragment extends Fragment {
 			reviewsSummaryLayout.setOnClickListener(null);
 		}
 		else {
-			reviewsSummaryLayout.setBackgroundResource(R.drawable.bg_clickable_row);
-			reviewsSummaryLayout.setOnClickListener(new OnClickListener() {
+			OnClickListener userReviewsClickListener = new OnClickListener() {
 				public synchronized void onClick(final View v) {
 					Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
 					newIntent.fillIn(getActivity().getIntent(), 0);
 					OmnitureTracking.trackPageLoadHotelsDetailsReviews(getActivity());
 					startActivity(newIntent);
 				}
-			});
+			};
+			reviewsSummaryLayout.setBackgroundResource(R.drawable.bg_clickable_row);
+			reviewsSummaryLayout.setOnClickListener(userReviewsClickListener);
 		}
 
 		// Banner messages

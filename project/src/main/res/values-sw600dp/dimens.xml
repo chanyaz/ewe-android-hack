@@ -183,6 +183,7 @@
 
     <!-- Tablet User review dimens -->
     <dimen name="user_review_text_padding_right">32dp</dimen>
+    <dimen name="row_user_review_horizontal_padding">32dp</dimen>
 
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
     <dimen name="hotel_flight_card_height">120dp</dimen>

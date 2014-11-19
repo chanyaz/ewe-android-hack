@@ -249,6 +249,7 @@
 
     <!-- User review dimens -->
     <dimen name="user_review_text_padding_right">0dp</dimen>
+    <dimen name="row_user_review_horizontal_padding">16dp</dimen>
 
     <!-- CVV Screen -->
     <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>

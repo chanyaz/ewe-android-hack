@@ -270,7 +270,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			convertView.setBackgroundResource(R.drawable.bg_row_selected);
 		}
 		else {
-			convertView.setBackgroundResource(R.drawable.bg_row);
+			convertView.setBackgroundResource(R.drawable.bg_clickable_row);
 		}
 
 		return convertView;
