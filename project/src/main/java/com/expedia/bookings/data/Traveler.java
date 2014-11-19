@@ -55,6 +55,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private AssistanceType mAssistance = AssistanceType.NONE;
 	private PassengerCategory mPassengerCategory;
 	private int mSearchedAge = -1;
+	private int mAge;
+
 
 	private static final int MIN_CHILD_AGE = 2;
 	private static final int MIN_ADULT_CHILD_AGE = 12;
@@ -617,6 +619,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("fromGoogleWallet", mFromGoogleWallet);
 
+			obj.putOpt("age", mAge);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -663,6 +667,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mSaveTravelerToExpediaAccount = obj.optBoolean("saveToExpediaAccount");
 
 		mFromGoogleWallet = obj.optBoolean("fromGoogleWallet");
+
+		mAge = obj.optInt("age");
 
 		return true;
 	}
@@ -854,5 +860,13 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		String jsonA = a != null ? a.toJson().toString() : "";
 		String jsonB = b != null ? b.toJson().toString() : "";
 		return jsonA.compareTo(jsonB);
+	}
+
+	public int getAge() {
+		return mAge;
+	}
+
+	public void setAge(int mAge) {
+		this.mAge = mAge;
 	}
 }
