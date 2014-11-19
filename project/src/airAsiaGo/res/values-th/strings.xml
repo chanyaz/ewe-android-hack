@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="aag_app_name">AirAsiaGo</string>
-   
     <string name="customer_support_text">โทรติดต่อฝ่ายบริการลูกค้า AirAsiaGo</string>
 
     <!-- Log in with AirAsiaGo -->

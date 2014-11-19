@@ -1631,7 +1631,6 @@
     <string name="share_flight_section_outbound">Viaje de ida:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Viaje de regreso:</string>
-    <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->

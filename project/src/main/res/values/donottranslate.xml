@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- User name label for support email sent to user happiness team -->
+    <string name="email_user_name">Expedia user name:</string>
+    <!-- App Support URL -->
+    <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
 
     <!-- Generic strings/characters we use in various places that don't need translation -->
     <string name="forward_slash">/</string>
@@ -411,8 +415,6 @@
     <string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
     <string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
 
-    <!-- For app launcher name -->
-    <string name="launcher_name">@string/app_name</string>
     <!-- Non-localized content descriptions (Automation) -->
     <string name="cd_top_flight_calendar">Top of flight calendar</string>
     <string name="cd_hotel_calendar_header">Top of hotel calendar</string>
@@ -429,8 +431,4 @@
     <string name="cd_nine_btn">Nine</string>
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
-    <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name">Expedia user name:</string>
-    <!-- App Support URL -->
-    <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
 </resources>

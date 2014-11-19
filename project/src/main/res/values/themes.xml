@@ -138,7 +138,7 @@
         <item name="skin_aboutAppSupportString">@string/app_support</item>
         <item name="skin_aboutCopyrightString">@string/copyright</item>
         <item name="skin_aboutInfoUrlString">@string/app_mobiata_info_url</item>
-        <item name="skin_aboutAppNameString">@string/app_name</item>
+        <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/mobiata</item>
         <item name="skin_logoutConfirmationString">@string/logout_confirmation</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>

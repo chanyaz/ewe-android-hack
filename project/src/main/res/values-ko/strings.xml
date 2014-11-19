@@ -1631,7 +1631,6 @@
     <string name="share_flight_section_outbound">출국편:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">귀국편:</string>
-    <string name="app_name">익스피디아</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
