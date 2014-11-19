@@ -230,8 +230,10 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		builder.addDivider();
 
+		Money total;
 		// Mandatory fees
 		if (originalRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+			total = couponRate == null ? originalRate.getTotalPriceWithMandatoryFees() : couponRate.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(R.string.total_due_today))
@@ -254,9 +256,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 					.build())
 				.build());
 		}
+		else {
+			total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+		}
 
 		// Total
-		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
 		builder.addLineItem((new LineItemBuilder())
 			.setItemLeft((new ItemBuilder())
 				.setText(context.getString(R.string.total_price_label))
