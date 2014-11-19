@@ -137,13 +137,13 @@ android {
         debug {
             applicationIdSuffix ".debug"
 
-            runProguard false
+            minifyEnabled false
             proguardFile 'proguard.cfg'
         }
 
         latest.initWith(buildTypes.debug)
         latest {
-            runProguard shouldRunProguard
+            minifyEnabled shouldRunProguard
 
             applicationIdSuffix ".latest"
 
@@ -153,7 +153,7 @@ android {
 
         feature.initWith(buildTypes.debug)
         feature {
-            runProguard shouldRunProguard
+            minifyEnabled shouldRunProguard
 
             applicationIdSuffix (".feature." + featureName)
 
@@ -162,7 +162,7 @@ android {
         }
 
         release {
-            runProguard true
+            minifyEnabled true
             proguardFile 'proguard.cfg'
         }
     }
