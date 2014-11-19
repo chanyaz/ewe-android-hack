@@ -16,8 +16,8 @@ buildscript {
 ext.supportLibVersion="19.0.1"
 ext.googlePlayServicesVersion="4.4.52"
 
-ext.compileSdkVersion=19
-ext.buildToolsVersion="19.1.0"
+ext.compileSdkVersion=21
+ext.buildToolsVersion="21.1.1"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')
 
