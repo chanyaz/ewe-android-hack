@@ -3,12 +3,6 @@
 
     <item android:state_focused="true" android:drawable="@android:color/transparent" />
     <item android:state_pressed="true" android:drawable="@color/bg_row_state_pressed" />
-    <item>
-        <shape android:shape="rectangle">
-            <gradient
-                android:angle="270"
-                android:endColor="#f7f3d7"
-                android:startColor="#f7f3d7" />
-        </shape>
-	</item>
+    <item android:drawable="@color/bg_row_state_pressed" />
+
 </selector>

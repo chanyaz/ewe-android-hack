@@ -146,7 +146,7 @@ public class RowRoomRateLayout extends FrameLayout {
 					 OnClickListener selectRateClickListener, OnClickListener addRoomClickListener) {
 		Resources res = getResources();
 
-		setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed)));
+		setBackgroundColor(res.getColor(R.color.bg_row_state_pressed));
 		getBackground().setAlpha(0);
 
 		setRate(rate);
@@ -236,13 +236,13 @@ public class RowRoomRateLayout extends FrameLayout {
 		}
 
 		if (unique.size() > 0) {
-			urgencyMessagingView.setText(Html.fromHtml(getResources().getString(R.string.value_add_template,
+			urgencyMessagingView.setText(Html.fromHtml(res.getString(R.string.value_add_template,
 				FormatUtils.series(getContext(), unique, ",", null).toLowerCase(Locale.getDefault()))));
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
 		else if (showUrgencyMessaging()) {
-			String urgencyString = getResources()
-				.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, mRate.getNumRoomsLeft(), mRate.getNumRoomsLeft());
+			String urgencyString = res.getQuantityString(R.plurals.n_rooms_left_TEMPLATE,
+				mRate.getNumRoomsLeft(), mRate.getNumRoomsLeft());
 			urgencyMessagingView.setText(urgencyString);
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
@@ -262,10 +262,10 @@ public class RowRoomRateLayout extends FrameLayout {
 		int lengthCutOff;
 		// Let's try to show as much text to begin with as possible, without exceeding the row height.
 		if (Ui.findView(this, R.id.room_rate_urgency_text).getVisibility() == View.VISIBLE) {
-			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_less);
+			lengthCutOff = res.getInteger(R.integer.room_rate_description_body_length_cutoff_less);
 		}
 		else {
-			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_more);
+			lengthCutOff = res.getInteger(R.integer.room_rate_description_body_length_cutoff_more);
 		}
 
 		if (roomLongDescription.length() > lengthCutOff) {
@@ -274,7 +274,7 @@ public class RowRoomRateLayout extends FrameLayout {
 			SpannableBuilder builder = new SpannableBuilder();
 			builder.append(descriptionReduced);
 			builder.append(" ");
-			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
+			builder.append(res.getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
 				FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 			mIsDescriptionTextSpanned = true;
 			roomLongDescriptionTextView.setText(builder.build());
@@ -308,7 +308,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		// Rooms and Rates detail image media
 		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (mRate.getThumbnail() != null) {
-			int width = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_thumbnail_width);
+			int width = res.getDimensionPixelSize(R.dimen.hotel_room_rate_thumbnail_width);
 			mRate.getThumbnail().fillImageView(roomDetailImageView, width, placeholderResId, null);
 		}
 		else {
@@ -318,7 +318,8 @@ public class RowRoomRateLayout extends FrameLayout {
 		// Room discount ribbon
 		if (mRate.getDiscountPercent() > 0) {
 			roomRateDiscountRibbon.setVisibility(View.VISIBLE);
-			roomRateDiscountRibbon.setText(getResources().getString(R.string.percent_minus_template, (float) mRate.getDiscountPercent()));
+			roomRateDiscountRibbon.setText(res.getString(R.string.percent_minus_template,
+				(float) mRate.getDiscountPercent()));
 		}
 		else {
 			roomRateDiscountRibbon.setVisibility(View.GONE);
