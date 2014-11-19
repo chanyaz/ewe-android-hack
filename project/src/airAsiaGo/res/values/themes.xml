@@ -159,7 +159,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinFlightsTripLineColor">@color/flight_trip_color_aag</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_aag</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_aag</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_aag</item>
