@@ -1631,6 +1631,7 @@
     <string name="share_flight_section_outbound">出发：</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">返程：</string>
+    <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->

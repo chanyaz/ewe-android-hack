@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <string name="aag_app_name">亞航假日</string>
+   
     <string name="customer_support_text">致電亞航假日客戶支援</string>
 
     <!-- Log in with AirAsiaGo -->

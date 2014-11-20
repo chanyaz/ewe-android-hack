@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="aag_app_name">AirAsiaGo</string>
+   
     <string name="call_aag_customer_support">Call AirAsiaGo Customer Support</string>
 
     <!-- Log in with AirAsiaGo -->
