@@ -74,6 +74,7 @@
     <!-- Credit card input section -->
     <string name="book">Payer</string>
     <string name="cvv_explanation_vsc">Veuillez saisir votre cryptogramme</string>
+    <string name="app_name">Hôtel Voyages-sncf</string>
 
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>
@@ -146,6 +147,8 @@
     <string name="VSC_Voyages_SNF_description">Avec l’application Voyages-sncf.com</string>
     <!-- VSC Copyright information -->
     <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF.\nTous droits réservés.</string>
+    <!-- VSC app name -->
+    <string name="VSC_app_name">Agence Voyages-sncf Hôtels</string>
 
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>

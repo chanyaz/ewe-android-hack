@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <string name="travelocity_app_name">Travelocity</string>
     <string name="travelocity_best_price_guarantee">Garantie du prix Travelocity</string>
 
     <string name="customer_support_text">Téléphoner au soutien à la clientèle Travelocity</string>

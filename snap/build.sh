@@ -11,10 +11,10 @@ function get() {
 }
 
 get "platform-tools"
-get "android-21"
+get "android-19"
 get "extra-android-m2repository"
 get "extra-google-m2repository"
-get "build-tools-21.1.1"
+get "build-tools-19.1.0"
 
 function build() {
     # Disable gradle's fancy log outputting
