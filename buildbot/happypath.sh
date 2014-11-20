@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Run tests
-APK="project/build/outputs/apk/project-expediaAutomation-debug-unaligned.apk"
-TEST_APK="project/build/outputs/apk/project-expediaAutomation-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-expedia-debug-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-expedia-debug-test-unaligned.apk"
 OUTPUT_TAR="spoon-happy-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
 if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then
@@ -16,7 +16,7 @@ java \
     -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
-    --class-name "com.expedia.bookings.test.happy.TabletHappyPath,com.expedia.bookings.test.happy.PhoneHappyPath" \
+    --class-name "com.expedia.bookings.test.ui.happy.TabletHappyPath,com.expedia.bookings.test.ui.happy.PhoneHappyPath" \
     --no-animations \
     --fail-on-failure \
     --output "$OUTPUT_DIR"

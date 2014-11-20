@@ -6,8 +6,8 @@ function add_test() {
 }
 
 # Run tests
-APK="project/build/outputs/apk/project-expediaAutomation-debug-unaligned.apk"
-TEST_APK="project/build/outputs/apk/project-expediaAutomation-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-expedia-debug-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-expedia-debug-test-unaligned.apk"
 TYPE="regression"
 OUTPUT_TAR="spoon-${TYPE}-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
@@ -18,12 +18,12 @@ else
 fi
 
 # eb_tp project: #281 Flight Checkout Validation
-add_test "com.expedia.bookings.test.phone.tests.flights.FlightCheckoutUserInfoTests"
-add_test "com.expedia.bookings.test.tablet.tests.flights.FlightCheckoutUserInfoTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightCheckoutUserInfoTests"
+add_test "com.expedia.bookings.test.ui.tablet.tests.flights.FlightCheckoutUserInfoTests"
 
 # eb_tp project: #243 Booking - Credit Card Types & Security Code
-add_test "com.expedia.bookings.test.phone.tests.ui.CreditCardsInfoEditTest"
-add_test "com.expedia.bookings.test.tablet.tests.ui.CreditCardsInfoEditTest"
+add_test "com.expedia.bookings.test.ui.phone.tests.ui.CreditCardsInfoEditTest"
+add_test "com.expedia.bookings.test.ui.tablet.tests.ui.CreditCardsInfoEditTest"
 
 java \
     -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
