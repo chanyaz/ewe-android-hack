@@ -393,6 +393,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
 		rate.setCheckoutPriceType(chargeableRateInfo.optString("checkoutPriceType"));
+		rate.setShowResortFeesMessaging(chargeableRateInfo.optBoolean("showResortFeeMessage", false));
 
 		rate.setTaxStatusType(chargeableRateInfo.optString("taxStatusType"));
 

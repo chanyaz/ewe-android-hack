@@ -536,7 +536,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement(true));
 		}
 
-		if (getLob() == LineOfBusiness.HOTELS && HotelUtils.showResortFeeInfo(Db.getTripBucket().getHotel())) {
+		if (getLob() == LineOfBusiness.HOTELS && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
 			TextView resortFeesTextView = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
 			Spanned resortBlurb = HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
 			resortFeesTextView.setText(resortBlurb);

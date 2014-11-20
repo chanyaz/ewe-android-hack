@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.math.BigDecimal;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -20,10 +18,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -272,7 +268,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			resortFeeRate = (Rate) mAdapter.getItem(0);
 		}
 
-		if (HotelUtils.showResortFeeInfo(response.getProperty(), resortFeeRate)) {
+		if (resortFeeRate.showResortFeesMessaging()) {
 			LayoutInflater inflater = this.getLayoutInflater(null);
 			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
 					mNoticeContainer);

@@ -186,7 +186,7 @@ public class HotelReceipt extends LinearLayout {
 		}
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
-			HotelUtils.showResortFeeInfo(hotel.getProperty(), hotel.getRate())) {
+			hotel.getRate().showResortFeesMessaging()) {
 			addResortFeeRows(hotel.getRate());
 		}
 		else if (rate.shouldShowFreeCancellation()) {
@@ -218,7 +218,7 @@ public class HotelReceipt extends LinearLayout {
 		mGuestsTextView.setText(res.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests));
 
 		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
-			HotelUtils.showResortFeeInfo(hotel.getProperty(), hotel.getRate())) {
+			hotel.getRate().showResortFeesMessaging()) {
 			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
 		}
 		else {

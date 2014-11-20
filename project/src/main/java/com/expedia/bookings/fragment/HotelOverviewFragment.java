@@ -270,7 +270,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 		}
 
-		if (HotelUtils.showResortFeeInfo(Db.getTripBucket().getHotel())) {
+		if (Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
 			mResortFeeDisclaimerTextView.setText(HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
 			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
 		}
