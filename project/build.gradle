@@ -7,12 +7,12 @@ def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
+apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 
 repositories {
     mavenCentral()
-    maven { url 'http://download.crashlytics.com/maven' }
+    maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
 }
 
@@ -39,8 +39,10 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.leanplum:Leanplum:1.2.6'
+
+    compile 'io.fabric.sdk.android:fabric:1.0.1'
+    compile 'com.crashlytics.sdk.android:crashlytics:2.0.1@aar'
 
     androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r3'
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
@@ -76,6 +78,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
 
+        multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
         testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
 
