@@ -140,7 +140,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				}
 
 				String price;
-				if (HotelUtils.showResortFeeInfo(itemHotel)) {
+				if (rate.showResortFeesMessaging()) {
 					addResortFeeRows(rate);
 					price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
 				}

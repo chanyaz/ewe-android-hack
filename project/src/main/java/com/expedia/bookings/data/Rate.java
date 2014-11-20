@@ -90,6 +90,7 @@ public class Rate implements JSONable {
 	private boolean mHasFreeCancellation = false;
 	private DateTime mFreeCancellationWindowDate;
 	private boolean mNonRefundable = false;
+	private boolean mShowResortFees = false;
 
 	private TaxStatusType mTaxStatusType;
 
@@ -524,6 +525,14 @@ public class Rate implements JSONable {
 		return !isNonRefundable() && hasFreeCancellation();
 	}
 
+	public boolean showResortFeesMessaging() {
+		return mShowResortFees;
+	}
+
+	public void setShowResortFeesMessaging(boolean showResortFees) {
+		mShowResortFees = showResortFees;
+	}
+
 	public void setMobileExlusivity(boolean bool) {
 		mIsMobileExclusive = bool;
 	}
@@ -658,6 +667,7 @@ public class Rate implements JSONable {
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			obj.putOpt("hasFreeCancellation", mHasFreeCancellation);
+			obj.putOpt("showResortFeeMessage", mShowResortFees);
 			if (mFreeCancellationWindowDate != null) {
 				JodaUtils.putDateTimeInJson(obj, "freeCancellationWindowDateTime", mFreeCancellationWindowDate);
 			}
@@ -732,6 +742,7 @@ public class Rate implements JSONable {
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");
+		mShowResortFees = obj.optBoolean("showResortFeeMessage");
 
 		List<BedType> bedTypes = JSONUtils.getJSONableList(obj, "bedTypes", BedType.class);
 		if (bedTypes != null) {
