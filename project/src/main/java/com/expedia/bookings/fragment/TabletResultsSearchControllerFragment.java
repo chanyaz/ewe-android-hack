@@ -1280,7 +1280,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.tablet_redeye_products_message), //
 				getString(R.string.yes) /*button*/, //
 				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-				getString(R.string.cancel) /*negativeButton*/);
+				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
 			OmnitureTracking.trackRedeyeAlert(getActivity());
