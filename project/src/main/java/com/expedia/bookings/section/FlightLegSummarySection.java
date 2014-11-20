@@ -194,7 +194,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			if (daySpan != 0) {
 				mMultiDayTextView.setVisibility(View.VISIBLE);
 				String daySpanStr = sDaySpanFormatter.format(daySpan);
-				mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
+				mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, Math.abs(daySpan), daySpanStr));
 			}
 			else {
 				mMultiDayTextView.setVisibility(View.INVISIBLE);
