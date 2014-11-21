@@ -474,9 +474,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false);
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
-			Db.getTripBucket().getAirAttach() != null &&
-			Db.getTripBucket().getAirAttach().isAirAttachQualified() &&
-			!Db.getTripBucket().getAirAttach().getExpirationDate().isBeforeNow();
+			Db.getTripBucket().isUserAirAttachQualified();
 
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);
