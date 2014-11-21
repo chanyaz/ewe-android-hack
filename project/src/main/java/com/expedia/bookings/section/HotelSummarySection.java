@@ -173,7 +173,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, boolean shouldShowVipIcon, float priceTextSize,
-		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
 
 		Rate lowestRate = property.getLowestRate();
 		bind(property, lowestRate, shouldShowVipIcon, priceTextSize, showDistance, distanceUnit, isSelected, false);
@@ -191,7 +191,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, final Rate rate, boolean shouldShowVipIcon, float priceTextSize,
-		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
 		mIsSelected = isSelected;
@@ -239,7 +239,6 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 
 				mPriceText.setTextColor(mSalePriceTextColor);
-
 				if (rate.isAirAttached()) {
 					// Story #3586. Air Attach Phone - Search Results.
 					if (!ExpediaBookingApp.useTabletInterface(getContext())) {
@@ -287,6 +286,9 @@ public class HotelSummarySection extends RelativeLayout {
 					mSaleImageView.setVisibility(View.GONE);
 				}
 				mPriceText.setTextColor(mPriceTextColor);
+				if (mAirAttachC != null) {
+					mAirAttachC.setVisibility(View.GONE);
+				}
 			}
 
 			else {
@@ -295,6 +297,9 @@ public class HotelSummarySection extends RelativeLayout {
 				mSaleText.setVisibility(View.GONE);
 				if (mSaleImageView != null) {
 					mSaleImageView.setVisibility(View.GONE);
+				}
+				if (mAirAttachC != null) {
+					mAirAttachC.setVisibility(View.GONE);
 				}
 			}
 		}
@@ -480,9 +485,15 @@ public class HotelSummarySection extends RelativeLayout {
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void setDominantColor(int color) {
 		StateListDrawable stateListDrawable = new StateListDrawable();
-		stateListDrawable.addState(new int[] {android.R.attr.state_pressed, android.R.attr.state_selected}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_selected_overlay)));
-		stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_unselected_overlay)));
-		stateListDrawable.addState(new int[] {android.R.attr.state_selected}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
+		stateListDrawable.addState(new int[] {
+			android.R.attr.state_pressed, android.R.attr.state_selected
+		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_selected_overlay)));
+		stateListDrawable.addState(new int[] {
+			android.R.attr.state_pressed
+		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_unselected_overlay)));
+		stateListDrawable.addState(new int[] {
+			android.R.attr.state_selected
+		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
 
 		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
 		if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.JELLY_BEAN) {

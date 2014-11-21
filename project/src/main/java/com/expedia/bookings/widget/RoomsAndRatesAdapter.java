@@ -82,7 +82,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			}
 			if (unique.size() > 0) {
 				mValueAdds.add(Html.fromHtml(context.getString(R.string.value_add_template,
-						FormatUtils.series(context, unique, ",", null).toLowerCase(Locale.getDefault()))));
+					FormatUtils.series(context, unique, ",", null).toLowerCase(Locale.getDefault()))));
 			}
 			else {
 				mValueAdds.add(null);
@@ -170,9 +170,16 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Check if there should be a strike-through rate, if this is on sale
 		if (rate.isOnSale()) {
 			mBuilder.append(mContext.getString(R.string.strike_template,
-					StrUtils.formatHotelPrice(rate.getDisplayBasePrice())));
+				StrUtils.formatHotelPrice(rate.getDisplayBasePrice())));
 			mBuilder.append(' ');
-
+			if (rate.isSaleTenPercentOrBetter() && rate.isAirAttached()) {
+				holder.saleLabel.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.skin_roomsRatesAirAttachRibbonDrawable));
+				holder.price.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_hotelPriceAirAttachColor));
+			}
+			else {
+				holder.saleLabel.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.skin_roomsRatesSaleRibbonDrawable));
+				holder.price.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_hotelPriceStandardColor));
+			}
 			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getDiscountPercent()));
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
@@ -200,7 +207,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			padding = mBedSalePadding;
 			//1747. VSC Change price text to sale color
 			if (ExpediaBookingApp.IS_VSC) {
-				holder.price.setTextColor(Ui.obtainThemeColor((Activity)mContext, R.attr.skin_hotelPriceSaleColor));
+				holder.price.setTextColor(Ui.obtainThemeColor((Activity) mContext, R.attr.skin_hotelPriceSaleColor));
 			}
 		}
 		else {
@@ -211,12 +218,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				// We have to do some special acrobatics here because the beds view won't properly align
 				// to othe bottom on API 7 or less.
 				padding = (holder.priceExplanation.getVisibility() == View.VISIBLE) ? mBedSalePadding : (int) Math
-						.round(mResources.getDisplayMetrics().density * 10);
+					.round(mResources.getDisplayMetrics().density * 10);
 			}
 		}
 
 		holder.beds.setPadding(holder.beds.getPaddingLeft(), padding, holder.beds.getPaddingRight(),
-				holder.beds.getPaddingBottom());
+			holder.beds.getPaddingBottom());
 
 		mBuilder.setLength(0);
 

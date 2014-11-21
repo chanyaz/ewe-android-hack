@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,12 +10,12 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.maps.SupportMapFragment;
+import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.mobiata.android.util.Ui;
 
 public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 
@@ -55,10 +54,18 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 
 		Rate lowestRate = property.getLowestRate();
 		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
-		marker.icon(isOnSale ? BitmapDescriptorFactory
-			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerSaleDrawable)) : BitmapDescriptorFactory
-			.fromResource(com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
-
+		boolean isAirAttach = lowestRate != null && lowestRate.isAirAttached();
+		if (isOnSale) {
+			if (isAirAttach) {
+				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable)));
+			}
+			else {
+				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerSaleDrawable)));
+			}
+		}
+		else {
+			marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
+		}
 		mMap.addMarker(marker);
 	}
 
