@@ -54,7 +54,6 @@ public class LeanPlumUtils {
 			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
 				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
 				OmnitureTracking.trackLeanPlumNotification(mContext, campaignText);
-
 				builder.setSmallIcon(R.drawable.ic_stat_expedia);
 			}
 		});
