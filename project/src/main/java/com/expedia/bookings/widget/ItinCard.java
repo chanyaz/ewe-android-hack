@@ -12,6 +12,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -31,7 +32,6 @@ import android.widget.TextView;
 
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -192,6 +192,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		updateLayout();
 
 		setWillNotDraw(false);
+
+		int orientation = getResources().getConfiguration().orientation;
+		if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			mChevronImageView.setVisibility(View.INVISIBLE);
+		}
+		else {
+			mChevronImageView.setVisibility(View.VISIBLE);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
