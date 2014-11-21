@@ -7,7 +7,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
@@ -49,7 +48,6 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -76,6 +74,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	private BitmapDescriptor mPin;
 	private BitmapDescriptor mPinSale;
+	private BitmapDescriptor mPinAirAttach;
 
 	private Map<Property, Marker> mPropertiesToMarkers = new HashMap<Property, Marker>();
 	private Map<Marker, Property> mMarkersToProperties = new HashMap<Marker, Property>();
@@ -287,6 +286,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable));
 		mPinSale = BitmapDescriptorFactory
 			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerSaleDrawable));
+		mPinAirAttach = BitmapDescriptorFactory
+			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable));
 
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
@@ -454,18 +455,18 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		marker.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
 		marker.title(property.getName());
-
+		Rate lowestRate = property.getLowestRate();
+		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
+		boolean isAirAttached = lowestRate != null && lowestRate.isAirAttached();
 		// We don't care about this for tablet because we use an Info Window
 		if (!mIsTablet) {
 			String snippet = "";
 			Distance distanceFromuser = property.getDistanceFromUser();
-			Rate lowestRate = property.getLowestRate();
-			boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
+
 			if (lowestRate != null) {
 				String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 				snippet = getString(R.string.map_snippet_price_template, formattedMoney);
 			}
-
 			String secondSnippet = null;
 			if (mShowDistances && distanceFromuser != null) {
 				secondSnippet = distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit());
@@ -481,12 +482,20 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			if (!TextUtils.isEmpty(snippet)) {
 				marker.snippet(snippet);
 			}
-
-			marker.icon(isOnSale ? mPinSale : mPin);
+			if (isOnSale) {
+				if (isAirAttached) {
+					marker.icon(mPinAirAttach);
+				}
+				else {
+					marker.icon(mPinSale);
+				}
+			}
+			else {
+				marker.icon(mPin);
+			}
 		}
 		else {
 			marker.icon(mPin);
-			Rate lowestRate = property.getLowestRate();
 			if (lowestRate != null && mTextView != null) {
 				final String label = lowestRate.getDisplayPrice().getFormattedMoney();
 				BitmapDescriptor pin = mPricePins.get(label);
@@ -496,15 +505,30 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					PriceRange range = Db.getHotelSearch().getSearchResponse().getPriceRange(property);
 					switch (range) {
 					case MODERATE:
-						backgroundId = R.drawable.bg_tablet_hotel_price_pin_moderate;
+						if (isOnSale && isAirAttached) {
+							backgroundId = R.drawable.bg_tablet_hotel_price_pin_airattach_moderate;
+						}
+						else {
+							backgroundId = R.drawable.bg_tablet_hotel_price_pin_moderate;
+						}
 						break;
 					case EXPENSIVE:
-						backgroundId = R.drawable.bg_tablet_hotel_price_pin_expensive;
+						if (isOnSale && isAirAttached) {
+							backgroundId = R.drawable.bg_tablet_hotel_price_pin_airattach_expensive;
+						}
+						else {
+							backgroundId = R.drawable.bg_tablet_hotel_price_pin_expensive;
+						}
 						break;
 					case CHEAP:
 					case ALL:
 					default:
-						backgroundId = R.drawable.bg_tablet_hotel_price_pin_cheap;
+						if (isOnSale && isAirAttached) {
+							backgroundId = R.drawable.bg_tablet_hotel_price_pin_airattach_cheap;
+						}
+						else {
+							backgroundId = R.drawable.bg_tablet_hotel_price_pin_cheap;
+						}
 						break;
 					}
 					mTextView.setBackgroundResource(backgroundId);
@@ -714,18 +738,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		mShowInfoWindow = showInfoWindow;
 	}
 
-	public interface HotelMapFragmentListener {
-		public void onMapClicked();
-
-		public void onPropertyClicked(Property property);
-
-		public void onExactLocationClicked();
-
-		public void onPropertyBubbleClicked(Property property);
-
-		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
-	}
-
 	@Override
 	public void onFilterChanged() {
 		notifyFilterChanged();
@@ -743,5 +755,17 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			0
 		);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
+	}
+
+	public interface HotelMapFragmentListener {
+		public void onMapClicked();
+
+		public void onPropertyClicked(Property property);
+
+		public void onExactLocationClicked();
+
+		public void onPropertyBubbleClicked(Property property);
+
+		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
 	}
 }

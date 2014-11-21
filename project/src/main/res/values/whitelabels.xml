@@ -5,6 +5,7 @@
     <!-- Hotel Search price styles -->
     <attr name="skin_hotelPriceStandardColor" format="reference|color" />
     <attr name="skin_hotelPriceSaleColor" format="reference|color" />
+    <attr name="skin_hotelPriceAirAttachColor" format="reference|color" />
 
     <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
     <attr name="skin_hotelSearchActionBarPadding" format="reference|dimension" />
@@ -47,6 +48,8 @@
     <attr name="skin_hotelListingSaleDrawable" format="reference" />
     <attr name="skin_hotelDetailSaleRibbonDrawable" format="reference" />
     <attr name="skin_roomsRatesSaleRibbonDrawable" format="reference" />
+    <attr name="skin_hotelDetailAirAttachRibbonDrawable" format="reference"/>
+    <attr name="skin_roomsRatesAirAttachRibbonDrawable" format="reference"/>
 
     <!-- Hotel listing user review rating style -->
     <attr name="skin_hotelListingUserRatingStyle" format="reference" />
@@ -117,6 +120,7 @@
     <attr name="skin_hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerSaleDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerDrawable" format="reference" />
+    <attr name="skin_hotelListMapMarkerAirAttachDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
     <attr name="skin_hotelImagePlaceHolderDrawable" format="reference" />

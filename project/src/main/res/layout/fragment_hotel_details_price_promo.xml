@@ -33,11 +33,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="?attr/skin_hotelDetailSaleRibbonDrawable"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="20dp"
-                android:textColor="@color/price_promo_banner_text_color"
-                android:textStyle="bold" />
+                style="@style/BannerTextView"
+            />
+            <TextView
+                android:id="@+id/air_attach_banner_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/skin_hotelDetailAirAttachRibbonDrawable"
+                android:layout_gravity="center_vertical"
+                style="@style/BannerTextView"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:id="@+id/promo_text_view"
