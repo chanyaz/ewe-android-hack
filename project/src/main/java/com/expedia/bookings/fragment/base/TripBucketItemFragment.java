@@ -249,14 +249,18 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	public void refreshPriceChange() {
-		if (mPriceChangedTv != null) {
-			if (getItem() != null && getItem().hasPriceChanged()) {
+
+		if (getItem() != null && getItem().hasPriceChanged()) {
+			if (mTripPriceText != null) {
 				mTripPriceText.setText(getTripPrice());
 				mTripPriceText.setTextColor(getResources().getColor(getPriceChangeTextColor()));
+			}
+			if (mPriceChangedTv != null) {
 				mPriceChangedTv.setText(getPriceChangeMessage());
 				mExclamationIv.setImageResource(getPriceChangeDrawable());
 			}
 		}
+
 	}
 
 	public void setRoundedCornersVisible(boolean visible) {
