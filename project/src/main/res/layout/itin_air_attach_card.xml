@@ -22,6 +22,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/air_attach_plane_container"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -44,10 +45,12 @@
                 </FrameLayout>
 
                 <com.larvalabs.svgandroid.widget.SVGView
+                    android:id="@+id/air_attach_curve"
                     android:layout_width="9dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="-1dp"
                     app:src="@raw/curve"
-                    app:zoomMode="fitHeight"/>
+                    />
 
             </LinearLayout>
 
