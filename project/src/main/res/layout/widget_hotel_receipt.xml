@@ -147,7 +147,6 @@
                     android:layout_below="@+id/price_text"
                     android:drawablePadding="6dp"
                     android:drawableRight="@drawable/ic_info_receipt"
-                    android:text="@string/total_with_tax"
                     android:textColor="@color/hotel_mini_receipt_price_text"
                     android:textSize="12sp" />
             </RelativeLayout>
