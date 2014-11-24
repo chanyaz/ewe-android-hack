@@ -340,6 +340,10 @@ public class PointOfSale {
 		return mPointOfSale == PointOfSaleId.UNITED_KINGDOM;
 	}
 
+	public boolean showFTCResortRegulations() {
+		return mPointOfSale == PointOfSaleId.UNITED_STATES;
+	}
+
 	public String getLocaleIdentifier() {
 		return getPosLocale().mLocaleIdentifier;
 	}

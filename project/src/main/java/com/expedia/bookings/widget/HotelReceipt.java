@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 
 import org.joda.time.format.DateTimeFormat;
@@ -30,12 +29,10 @@ import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.section.HotelReceiptExtraSection;
@@ -185,14 +182,16 @@ public class HotelReceipt extends LinearLayout {
 			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.skin_bestPriceGuaranteeString));
 		}
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
+		if (PointOfSale.getPointOfSale().showFTCResortRegulations() &&
 			hotel.getRate().showResortFeesMessaging()) {
 			addResortFeeRows(hotel.getRate());
 			mGrandTotalTextView.setText(getResources().getString(R.string.trip_total));
+			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
 		}
 		else if (rate.shouldShowFreeCancellation()) {
 			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate));
 			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
+			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 		}
 
 		final Resources res = getContext().getResources();
@@ -205,14 +204,6 @@ public class HotelReceipt extends LinearLayout {
 
 		int numberOfGuests = params.getNumAdults() + params.getNumChildren();
 		mGuestsTextView.setText(res.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests));
-
-		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
-			hotel.getRate().showResortFeesMessaging()) {
-			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
-		}
-		else {
-			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
-		}
 
 		if (showMiniReceipt) {
 			mMiniReceiptLoading.setVisibility(View.VISIBLE);

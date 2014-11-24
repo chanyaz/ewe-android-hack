@@ -267,8 +267,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				transaction.commit();
 			}
 		}
-
-		if (Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
+		if (PointOfSale.getPointOfSale().showFTCResortRegulations() && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
 			mResortFeeDisclaimerTextView.setText(HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
 			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
 		}
