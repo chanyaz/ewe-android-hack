@@ -180,7 +180,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 			return obj;
 		}
 		catch (JSONException e) {
-			throw new RuntimeException("Unable to FlightSearchHistogramResponse.toJson()");
+			throw new RuntimeException("Unable to FlightSearchHistogramResponse.toJson()", e);
 		}
 	}
 
