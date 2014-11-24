@@ -23,7 +23,7 @@ function build() {
     ./gradlew --no-daemon $*
 }
 
-build assembleExpediaDebug assembleExpediaDebugTest
+build assembleExpediaDebug
 build assembleTravelocityDebug
 build assembleAirAsiaGoDebug
 

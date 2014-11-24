@@ -6,8 +6,8 @@ function add_test() {
 }
 
 # Run tests
-APK="project/build/outputs/apk/project-expedia-debug-unaligned.apk"
-TEST_APK="project/build/outputs/apk/project-expedia-debug-test-unaligned.apk"
+APK="project/build/outputs/apk/project-expedia-latest-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-expedia-latest-test-unaligned.apk"
 TYPE="regression"
 OUTPUT_TAR="spoon-${TYPE}-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
 
