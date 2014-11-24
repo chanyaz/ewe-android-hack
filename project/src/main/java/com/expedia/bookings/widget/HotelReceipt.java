@@ -188,9 +188,11 @@ public class HotelReceipt extends LinearLayout {
 		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES) &&
 			hotel.getRate().showResortFeesMessaging()) {
 			addResortFeeRows(hotel.getRate());
+			mGrandTotalTextView.setText(getResources().getString(R.string.trip_total));
 		}
 		else if (rate.shouldShowFreeCancellation()) {
 			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate));
+			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
 		}
 
 		final Resources res = getContext().getResources();
