@@ -15,6 +15,7 @@ java \
     -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
+    --class-name "com.expedia.bookings.test.unit" \
     --no-animations \
     --fail-on-failure \
     --output "$OUTPUT_DIR"
