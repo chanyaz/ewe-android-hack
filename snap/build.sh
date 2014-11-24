@@ -24,7 +24,6 @@ function build() {
 }
 
 build assembleExpediaDebug assembleExpediaDebugTest
-build assembleExpediaAutomationDebug assembleExpediaAutomationDebugTest
 build assembleTravelocityDebug
 build assembleAirAsiaGoDebug
 

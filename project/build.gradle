@@ -66,7 +66,7 @@ android {
         targetSdkVersion 19
 
         testApplicationId "com.expedia.bookings.test"
-        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
 
         buildConfigField "boolean", "IS_EXPEDIA", "false"
         buildConfigField "boolean", "IS_VSC", "false"
@@ -86,6 +86,7 @@ android {
         expedia {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "boolean", "IS_AUTOMATION", project.hasProperty('auto') ? "true" : "false"
             applicationId "com.expedia.bookings"
         }
 
@@ -111,22 +112,6 @@ android {
             applicationId "com.airasiago.android"
             versionCode 2
             versionName "2.0"
-        }
-
-        expediaAutomation {
-            buildConfigField "boolean", "IS_EXPEDIA", "true"
-            buildConfigField "boolean", "IS_AUTOMATION", "true"
-            buildConfigField "String", "MEDIA_URL", "\"http://0.0.0.0\""
-            applicationId "com.expedia.bookings.auto"
-            testInstrumentationRunner "com.expedia.bookings.test.utils.SpoonInstrumentationTestRunner"
-        }
-
-        travelocityAutomation {
-            buildConfigField "boolean", "IS_TRAVELOCITY", "true"
-            buildConfigField "boolean", "IS_AUTOMATION", "true"
-            applicationId "com.travelocity.android.auto"
-            versionCode 1
-            versionName "1.0"
         }
     }
 
@@ -171,23 +156,6 @@ android {
 
         feature {
             java.srcDirs = ['src/debug/java']
-        }
-
-        androidTestTravelocityAutomation {
-            java.srcDirs = ['src/androidTestExpediaAutomation/java']
-            res.srcDirs = ['src/androidTestExpediaAutomation/res']
-        }
-
-        expediaAutomation {
-            java.srcDirs = ['src/expedia/java']
-            res.srcDirs = ['src/expedia/res']
-            manifest.srcFile 'src/expedia/AndroidManifest.xml'
-        }
-
-        travelocityAutomation {
-            java.srcDirs = ['src/travelocity/java']
-            res.srcDirs = ['src/travelocity/res']
-            manifest.srcFile 'src/travelocity/AndroidManifest.xml'
         }
 
         signingConfigs {
