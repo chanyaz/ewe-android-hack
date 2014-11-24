@@ -52,6 +52,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private TextView mNumTravelersTv;
 	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
+	private TextView mTotalTitleTv;
 
 
 	@Override
@@ -89,6 +90,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		mNumTravelersTv = Ui.findView(vg, R.id.num_travelers_text_view);
 
 		mExtrasContainer = Ui.findView(vg, R.id.extras_layout);
+		mTotalTitleTv = Ui.findView(vg, R.id.total_text);
 
 		// Price
 		mPriceContainer = Ui.findView(vg, R.id.price_expanded_bucket_container);
@@ -139,14 +141,18 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase()));
 				}
 
+				String totalTitle;
 				String price;
 				if (rate.showResortFeesMessaging()) {
 					addResortFeeRows(rate);
+					totalTitle = getResources().getString(R.string.trip_total);
 					price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
 				}
 				else {
+					totalTitle = getResources().getString(R.string.total_with_tax);
 					price = rate.getDisplayTotalPrice().getFormattedMoney();
 				}
+				mTotalTitleTv.setText(totalTitle);
 				mPriceTv.setText(price);
 				addPrioritizedAmenityRows(rate);
 			}
