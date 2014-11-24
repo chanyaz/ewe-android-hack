@@ -666,7 +666,7 @@ public class L2ImageCache {
 			// In the case that we can't open the disk cache, blow up catastrophically (as not having
 			// the disk cache will really screw things up down the line).
 			String path = diskCacheDir == null ? "" : diskCacheDir.getPath();
-			throw new RuntimeException("Failed to create DiskLruCache. We require it. path=" + path);
+			throw new RuntimeException("Failed to create DiskLruCache. We require it. path=" + path, e);
 		}
 	}
 
