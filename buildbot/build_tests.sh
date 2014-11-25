@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./gradlew --info --no-daemon -Pauto clean assembleExpediaLatest assembleExpediaLatestTest
+./gradlew --info --no-daemon clean assembleExpediaLatest assembleExpediaLatestTest

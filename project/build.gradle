@@ -74,7 +74,6 @@ android {
         buildConfigField "boolean", "IS_VSC", "false"
         buildConfigField "boolean", "IS_TRAVELOCITY", "false"
         buildConfigField "boolean", "IS_AAG", "false"
-        buildConfigField "boolean", "IS_AUTOMATION", "false"
 
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
@@ -88,7 +87,6 @@ android {
         expedia {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
-            buildConfigField "boolean", "IS_AUTOMATION", project.hasProperty('auto') ? "true" : "false"
             applicationId "com.expedia.bookings"
         }
 

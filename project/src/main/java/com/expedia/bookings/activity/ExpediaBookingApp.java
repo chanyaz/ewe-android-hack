@@ -64,7 +64,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	public static final boolean IS_TRAVELOCITY = BuildConfig.IS_TRAVELOCITY;
 	public static final boolean IS_AAG = BuildConfig.IS_AAG;
 
-	public static final boolean IS_AUTOMATION = BuildConfig.IS_AUTOMATION;
+	public static boolean IS_AUTOMATION = false;
 
 	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
 
@@ -75,6 +75,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	// with unit tests.  This allows a unit test to wait until it knows that
 	// we've initialized key parts of the app.
 	private boolean mInitialized = false;
+
+	public static void setAutomation(boolean isAutomation) {
+		IS_AUTOMATION = isAutomation;
+	}
 
 	@Override
 	public void onCreate() {
@@ -240,7 +244,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			@Override
 			public void run() {
 				boolean walletPromoEnabled = SettingUtils.get(getApplicationContext(),
-						WalletUtils.SETTING_SHOW_WALLET_COUPON, false);
+					WalletUtils.SETTING_SHOW_WALLET_COUPON, false);
 
 				ExpediaServices services = new ExpediaServices(getApplicationContext());
 				WalletPromoResponse response = services.googleWalletPromotionEnabled();
@@ -249,7 +253,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				if (walletPromoEnabled != isNowEnabled) {
 					Log.i("Google Wallet promo went from \"" + walletPromoEnabled + "\" to \"" + isNowEnabled + "\"");
 					SettingUtils.save(getApplicationContext(), WalletUtils.SETTING_SHOW_WALLET_COUPON,
-							isNowEnabled);
+						isNowEnabled);
 				}
 				else {
 					Log.d("Google Wallet promo enabled: " + walletPromoEnabled);
@@ -284,7 +288,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			setCrashlyticsMetadata();
 
 			Log.d("ExpediaBookingApp exception handler w/ class:" + ex.getClass() + "; root cause="
-					+ rootCause.getClass());
+				+ rootCause.getClass());
 			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
 				L2ImageCache.sGeneralPurpose.debugInfo();
 				L2ImageCache.sDestination.debugInfo();
@@ -358,7 +362,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
-		if(IS_EXPEDIA) {
+		if (IS_EXPEDIA) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
 		}
@@ -387,7 +391,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (IS_TRAVELOCITY) {
 			action = TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 		}
-		else if(IS_AAG) {
+		else if (IS_AAG) {
 			action = AirAsiaGoLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 		}
 

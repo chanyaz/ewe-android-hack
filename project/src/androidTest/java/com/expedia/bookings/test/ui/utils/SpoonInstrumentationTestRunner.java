@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.os.PowerManager;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner;
 
 import static android.content.Context.KEYGUARD_SERVICE;
@@ -15,6 +16,8 @@ import static android.os.PowerManager.ON_AFTER_RELEASE;
 public class SpoonInstrumentationTestRunner extends GoogleInstrumentationTestRunner {
 	@Override
 	public void onStart() {
+		ExpediaBookingApp.setAutomation(true);
+
 		runOnMainSync(new Runnable() {
 			@Override
 			public void run() {
