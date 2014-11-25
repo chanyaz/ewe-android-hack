@@ -225,13 +225,15 @@ public class RoomsAndRatesFragment extends ListFragment {
 			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
 			feeAmountTv.setText(resortFeeRate.getTotalMandatoryFees().getFormattedMoney());
 
-			final String resortFeesText = response.getProperty().getMandatoryFeesText().getContent();
-			feesContainer.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					openWebViewWithText(getString(R.string.additional_fees), resortFeesText, false);
-				}
-			});
+			final String resortFeesText = response.getProperty().getMandatoryFeesText() == null ? null : response.getProperty().getMandatoryFeesText().getContent();
+			if (resortFeesText != null) {
+				feesContainer.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						openWebViewWithText(getString(R.string.additional_fees), resortFeesText, false);
+					}
+				});
+			}
 			return true;
 		}
 		return false;
