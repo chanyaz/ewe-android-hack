@@ -326,6 +326,15 @@ public class SuggestionProvider extends ContentProvider {
 	public static SuggestionV2 rowToSuggestion(Cursor c) {
 		SuggestionV2 suggestion = new SuggestionV2();
 
+		Location location = new Location();
+		location.addStreetAddressLine(c.getString(COL_ADDRESS));
+		location.setCity(c.getString(COL_CITY));
+		location.setStateCode(c.getString(COL_STATE_CODE));
+		location.setCountryCode(c.getString(COL_COUNTRY_CODE));
+		location.setLatitude(c.getDouble(COL_LATITUDE));
+		location.setLongitude(c.getDouble(COL_LONGITUDE));
+		suggestion.setLocation(location);
+
 		int resultTypeOrdinal = c.getInt(COL_RESULT_TYPE);
 		if (resultTypeOrdinal != -1) {
 			suggestion.setResultType(ResultType.values()[resultTypeOrdinal]);
@@ -339,6 +348,7 @@ public class SuggestionProvider extends ContentProvider {
 		int regionTypeOrdinal = c.getInt(COL_REGION_TYPE);
 		if (regionTypeOrdinal != -1) {
 			suggestion.setRegionType(RegionType.values()[regionTypeOrdinal]);
+			location.setRegionType(suggestion.getRegionType().name());
 		}
 
 		suggestion.setFullName(c.getString(COL_FULL_NAME));
@@ -347,15 +357,6 @@ public class SuggestionProvider extends ContentProvider {
 		suggestion.setMultiCityRegionId(c.getInt(COL_MULTI_CITY_REGION_ID));
 		suggestion.setRegionId(c.getInt(COL_REGION_ID));
 		suggestion.setAirportCode(c.getString(COL_AIRPORT_CODE));
-
-		Location location = new Location();
-		location.addStreetAddressLine(c.getString(COL_ADDRESS));
-		location.setCity(c.getString(COL_CITY));
-		location.setStateCode(c.getString(COL_STATE_CODE));
-		location.setCountryCode(c.getString(COL_COUNTRY_CODE));
-		location.setLatitude(c.getDouble(COL_LATITUDE));
-		location.setLongitude(c.getDouble(COL_LONGITUDE));
-		suggestion.setLocation(location);
 
 		return suggestion;
 	}

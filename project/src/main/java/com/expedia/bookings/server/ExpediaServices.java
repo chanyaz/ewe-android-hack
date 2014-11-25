@@ -1029,6 +1029,9 @@ public class ExpediaServices implements DownloadListener {
 	// Example outgoing trip url:
 	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX
 	//
+	// Example outgoing trip url from a metro code:
+	// http://deals.expedia.com/beta/stats/flights.json?tripTo=IBZ&tripFromMetroAirportCode=QSF
+	//
 	// Exmaple return trip url:
 	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX&departDate=2014-10-01&key=returnDate
 
