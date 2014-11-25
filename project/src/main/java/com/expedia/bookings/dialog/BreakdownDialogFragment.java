@@ -232,15 +232,16 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		Money total;
 		// Mandatory fees
-		if (originalRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
-			total = couponRate == null ? originalRate.getTotalPriceWithMandatoryFees() : couponRate.getTotalPriceWithMandatoryFees();
+		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
+		if (rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(R.string.total_due_today))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney())
+					.setText(rateWeCareAbout.getTotalAmountAfterTax().getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
@@ -251,13 +252,13 @@ public class BreakdownDialogFragment extends DialogFragment {
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(originalRate.getTotalMandatoryFees().getFormattedMoney())
+					.setText(rateWeCareAbout.getTotalMandatoryFees().getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
 		}
 		else {
-			total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+			total = rateWeCareAbout.getDisplayTotalPrice();
 		}
 
 		// Total
