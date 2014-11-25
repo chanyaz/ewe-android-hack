@@ -104,21 +104,15 @@
             android:id="@+id/confirmation_button_bar_layout"
             android:layout_width="@dimen/confirmation_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/confirmation_book_next_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/bg_tablet_confirmation_button_left"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/book_next"
@@ -131,78 +125,88 @@
                     android:padding="10dp"
                     android:text="@string/tablet_confirmation_book_next"
                     android:textColor="#374F6E"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:textStyle="medium" />
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                    android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#b3adaf" />
 
-            <LinearLayout
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/confirmation_add_hotel_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/bg_tablet_confirmation_button_left"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
-                    android:drawablePadding="10dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/add_hotel_text_view"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/tablet_confirmation_book_next"
-                        android:textColor="#374F6E"
-                        android:textSize="18sp"
-                        app:textStyle="medium" />
+                        android:orientation="horizontal">
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/with_discounts_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-2dp"
-                        android:gravity="center"
-                        android:textColor="#374F6E"
-                        android:textSize="12dp" />
+                        <com.expedia.bookings.widget.TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
+                            android:drawablePadding="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/add_hotel_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="@string/tablet_confirmation_book_next"
+                                android:textColor="#374F6E"
+                                android:textSize="14sp"
+                                app:textStyle="medium" />
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/with_discounts_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-2dp"
+                                android:gravity="center"
+                                android:textColor="#374F6E"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                    android:id="@+id/confirmation_booking_bar_separator"
+                    android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#b3adaf" />
+            </FrameLayout>
 
-            <View
-                android:id="@+id/confirmation_booking_bar_separator"
-                android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:background="#10000000" />
 
             <LinearLayout
                 android:id="@+id/confirmation_done_booking_container"
@@ -210,12 +214,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_tablet_confirmation_button_right"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/done_booking"
@@ -228,15 +227,37 @@
                     android:padding="10dp"
                     android:text="@string/tablet_confirmation_done_booking"
                     android:textColor="#374F6E"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:textStyle="medium" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/confirmation_done_booking_standalone_container"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tablet_confirmation_button_standalone"
+                android:orientation="vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/done_booking_standalone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_tablet_confirmation_done_booking"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/tablet_confirmation_done_booking"
+                    android:textColor="#374F6E"
+                    android:textSize="14sp"
+                    app:textStyle="medium" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>

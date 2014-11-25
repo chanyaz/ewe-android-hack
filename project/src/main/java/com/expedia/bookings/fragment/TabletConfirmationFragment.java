@@ -38,7 +38,8 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 	protected abstract void addItineraryToCalendar();
 
 	private ViewGroup mBookNextContainer;
-	private ViewGroup mDoneBookingContainer;
+	private ViewGroup mDoneBookingContainerRight;
+	private ViewGroup mDoneBookingContainerStandalone;
 	private View mImageCard;
 
 	@Override
@@ -97,13 +98,8 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 			}
 		});
 
-		if (getNextBookingItem() == null) {
-			mBookNextContainer.setVisibility(View.GONE);
-			Ui.findView(v, R.id.confirmation_booking_bar_separator).setVisibility(View.GONE);
-		}
-
-		mDoneBookingContainer = Ui.findView(v, R.id.confirmation_done_booking_container);
-		mDoneBookingContainer.setOnClickListener(new OnClickListener() {
+		mDoneBookingContainerRight = Ui.findView(v, R.id.confirmation_done_booking_container);
+		mDoneBookingContainerRight.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -112,6 +108,25 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 				getActivity().finish();
 			}
 		});
+
+		mDoneBookingContainerStandalone = Ui.findView(v, R.id.confirmation_done_booking_standalone_container);
+		mDoneBookingContainerStandalone.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
+				NavUtils.goToItin(getActivity());
+				getActivity().finish();
+			}
+		});
+
+		if (getNextBookingItem() == null) {
+			mBookNextContainer.setVisibility(View.GONE);
+			mDoneBookingContainerRight.setVisibility(View.GONE);
+		}
+		else {
+			mDoneBookingContainerStandalone.setVisibility(View.GONE);
+		}
 
 		//////////////////////////
 		/// Action button layout related

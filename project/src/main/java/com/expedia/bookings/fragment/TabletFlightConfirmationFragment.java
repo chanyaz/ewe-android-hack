@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import org.joda.time.DateTime;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -10,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.joda.time.DateTime;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.AirAttach;
@@ -19,15 +19,13 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
@@ -52,8 +50,9 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 	private ViewGroup mFlightCard;
 	private ViewGroup mAddHotelContainer;
+	private ViewGroup mDoneBookingContainerRight;
+	private ViewGroup mDoneBookingContainerStandalone;
 	private ViewGroup mAirAttachContainer;
-	private View mConfirmationSeparatorView;
 	private TextView mConfirmationTitleText;
 	private TextView mShareButtonText;
 	private TextView mAddHotelTextView;
@@ -92,9 +91,11 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			}
 		});
 
+		mDoneBookingContainerRight = Ui.findView(v, R.id.confirmation_done_booking_container);
+		mDoneBookingContainerStandalone = Ui.findView(v, R.id.confirmation_done_booking_standalone_container);
+
 		mAddHotelTextView = Ui.findView(v, R.id.add_hotel_text_view);
 		mWithDiscountsTextView = Ui.findView(v, R.id.with_discounts_text_view);
-		mConfirmationSeparatorView = Ui.findView(v, R.id.confirmation_booking_bar_separator);
 
 		mAirAttachContainer = Ui.findView(v, R.id.air_attach_banner_container);
 		mAirAttachTextView = Ui.findView(v, R.id.air_attach_text_view);
@@ -116,9 +117,9 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 				mAddHotelContainer.setVisibility(View.VISIBLE);
 				mAddHotelTextView.setText(R.string.air_attach_add_hotel);
 				mWithDiscountsTextView.setText(R.string.air_attach_with_discounts);
-				mConfirmationSeparatorView.setVisibility(View.VISIBLE);
 
-
+				mDoneBookingContainerRight.setVisibility(View.VISIBLE);
+				mDoneBookingContainerStandalone.setVisibility(View.GONE);
 			}
 			else if (getNextBookingItem() == LineOfBusiness.HOTELS){
 				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
