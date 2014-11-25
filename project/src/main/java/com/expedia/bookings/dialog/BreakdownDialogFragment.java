@@ -527,7 +527,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		private Params(Parcel in) {
 			mTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
 			mTitleDividerResId = in.readInt();
-			in.readList(mLineItems, null);
+			in.readList(mLineItems, getClass().getClassLoader());
 		}
 
 		@Override
@@ -574,8 +574,8 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		private LineItem(Parcel in) {
 			mIsDivider = in.readByte() == 1;
-			mLeftItem = in.readParcelable(null);
-			mRightItem = in.readParcelable(null);
+			mLeftItem = in.readParcelable(getClass().getClassLoader());
+			mRightItem = in.readParcelable(getClass().getClassLoader());
 			mIndent = in.readByte() == 1;
 			mAddTopMargin = in.readByte() == 1;
 		}
