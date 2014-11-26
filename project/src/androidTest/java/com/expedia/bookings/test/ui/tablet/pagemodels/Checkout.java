@@ -243,7 +243,7 @@ public class Checkout {
 	}
 
 	public static void clickDoneBooking() {
-		onView(allOf(withId(R.id.done_booking))).perform(click());
+		onView(allOf(withId(R.id.done_booking_standalone))).perform(click());
 	}
 
 	public static void clickBookNextItem() {
