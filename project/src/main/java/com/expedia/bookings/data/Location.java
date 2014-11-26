@@ -11,7 +11,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -287,7 +287,7 @@ public class Location implements JSONable, Parcelable {
 			locationParts.add(mCountryCode);
 		}
 
-		return StrUtils.joinWithoutEmpties(", ", locationParts);
+		return Strings.joinWithoutEmpties(", ", locationParts);
 	}
 
 	public String toLongFormattedString() {
@@ -301,7 +301,7 @@ public class Location implements JSONable, Parcelable {
 		locationParts.add(getStreetAddressString());
 		locationParts.add(toShortFormattedString());
 		locationParts.add(mPostalCode);
-		return StrUtils.joinWithoutEmpties(", ", locationParts);
+		return Strings.joinWithoutEmpties(", ", locationParts);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

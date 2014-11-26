@@ -28,6 +28,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -93,7 +94,7 @@ public class PushNotificationUtils {
 			return false;
 		}
 		else {
-			Log.d("PushNotificationUtils.sendPayloadCheck() payloadHash: " + StrUtils.formatHexString(payloadHash));
+			Log.d("PushNotificationUtils.sendPayloadCheck() payloadHash: " + Strings.formatHexString(payloadHash));
 		}
 
 		if (!sPayloadMap.containsKey(regId)) {

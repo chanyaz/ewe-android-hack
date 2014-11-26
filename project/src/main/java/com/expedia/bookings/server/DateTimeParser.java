@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 import org.json.JSONObject;
 
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 
 public class DateTimeParser {
 
@@ -39,9 +39,9 @@ public class DateTimeParser {
 					Date date = df.parse(str);
 
 					// We are going to do this hacky way of parsing the timezone for fun and profit
-					String sign = StrUtils.slice(str, -6, -5);
-					String hourStr = StrUtils.slice(str, -5, -3);
-					String minuteStr = StrUtils.slice(str, -2);
+					String sign = Strings.slice(str, -6, -5);
+					String hourStr = Strings.slice(str, -5, -3);
+					String minuteStr = Strings.slice(str, -2);
 					int offset = (60 * 60 * Integer.parseInt(hourStr)) + (60 * Integer.parseInt(minuteStr));
 					if (sign.equals("-")) {
 						offset *= -1;

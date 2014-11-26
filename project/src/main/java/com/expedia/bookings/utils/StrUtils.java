@@ -268,84 +268,6 @@ public class StrUtils {
 		return location.getDestinationId();
 	}
 
-	/**
-	 * Joins together a bunch of Strings, much like in Python,
-	 * except that it ignores nulls and empty strings
-	 *
-	 * For example, joining [ "a", "", "b", "c" ] with ", " would
-	 * result in "a, b, c"
-	 *
-	 * @param items a collection of strings
-	 * @param sep the separator between each item
-	 * @return joined string
-	 */
-	public static String joinWithoutEmpties(final CharSequence sep, final Collection<? extends CharSequence> items) {
-		if (items == null) {
-			return null;
-		}
-
-		StringBuilder sb = new StringBuilder();
-		int a = 0;
-		Iterator<? extends CharSequence> it = items.iterator();
-		while (it.hasNext()) {
-			CharSequence str = it.next();
-			if (!TextUtils.isEmpty(str)) {
-				if (a > 0) {
-					sb.append(sep);
-				}
-				sb.append(str);
-			}
-			a++;
-		}
-
-		return sb.toString();
-	}
-
-	public static int compareTo(String a, String b) {
-		if (TextUtils.equals(a, b)) {
-			return 0;
-		}
-
-		if (a == null) {
-			a = "";
-		}
-		if (b == null) {
-			b = "";
-		}
-		return a.compareTo(b);
-	}
-
-	public static String slice(String str, int start) {
-		return slice(str, start, null);
-	}
-
-	/**
-	 * Does a string slice in the style of Python
-	 *
-	 * If you enter bullshit params, you will get an empty string.
-	 */
-	public static String slice(String str, int start, Integer end) {
-		int len = str.length();
-
-		if (start < 0) {
-			start = len + start;
-		}
-
-		if (end == null) {
-			end = len;
-		}
-		else if (end < 0) {
-			end = len + end;
-		}
-
-		// If the user put us in an awkward place, just return the empty string
-		if (start > len || end < start) {
-			return "";
-		}
-
-		return str.substring(start, end);
-	}
-
 	public static String printIntent(Intent intent) {
 		if (intent == null) {
 			return "";
@@ -403,14 +325,6 @@ public class StrUtils {
 		while (start < query.length());
 
 		return Collections.unmodifiableSet(names);
-	}
-
-	public static String formatHexString(String str) {
-		StringBuilder sb = new StringBuilder();
-		for (byte b: str.getBytes()) {
-			sb.append(String.format("%02x", b & 0xff));
-		}
-		return sb.toString();
 	}
 
 	public static String formatCity(SuggestionV2 suggestion) {
