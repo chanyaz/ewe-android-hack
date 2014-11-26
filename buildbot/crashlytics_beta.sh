@@ -25,8 +25,8 @@ if [ -z "${TARGET}" ] ; then
     exit 1
 fi
 
-./gradlew --info --stacktrace --no-daemon -PdisablePreDex "clean" "assemble${TARGET}Latest" \
-    && ./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
+TERM=dumb
+./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
 
 RESULT=$?
 
