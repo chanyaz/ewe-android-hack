@@ -15,11 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
@@ -84,7 +80,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	// JSON
 
 	public static void putDateTime(Bundle bundle, String key, DateTime dateTime) {
-		if (bundle != null && !TextUtils.isEmpty(key) && dateTime != null) {
+		if (bundle != null && Strings.isNotEmpty(key) && dateTime != null) {
 			bundle.putString(key, dateTime.toString());
 		}
 	}
@@ -97,7 +93,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static void putLocalDateInJson(JSONObject obj, String key, LocalDate localDate) throws JSONException {
-		if (obj != null && !TextUtils.isEmpty(key) && localDate != null) {
+		if (obj != null && Strings.isNotEmpty(key) && localDate != null) {
 			obj.put(key, localDate.toString());
 		}
 	}
@@ -115,7 +111,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static void putDateTimeInJson(JSONObject obj, String key, DateTime dateTime) throws JSONException {
-		if (obj != null && !TextUtils.isEmpty(key) && dateTime != null) {
+		if (obj != null && Strings.isNotEmpty(key) && dateTime != null) {
 			obj.put(key, dateTime.toString());
 		}
 	}
@@ -134,7 +130,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static void putDateTimeListInJson(JSONObject obj, String key, List<DateTime> dateTimes) throws JSONException {
-		if (obj != null && !TextUtils.isEmpty(key) && dateTimes != null) {
+		if (obj != null && Strings.isNotEmpty(key) && dateTimes != null) {
 			JSONArray arr = new JSONArray();
 			for (DateTime dateTime : dateTimes) {
 				arr.put(dateTime.toString());
