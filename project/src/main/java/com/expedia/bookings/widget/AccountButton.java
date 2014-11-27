@@ -253,8 +253,7 @@ public class AccountButton extends LinearLayout {
 		}
 
 		// Logo
-		mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
-
+		mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
 		//TODO: if (ExpediaBookingApp.IS_EXPEDIA)
 	}
 
