@@ -30,7 +30,9 @@ dependencies {
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
-    compile project(':lib:ExpediaBookings')
+    compile (project(':lib:ExpediaBookings')) {
+        exclude group: 'joda-time'
+    }
 
     // Google Play Services includes the support lib transitively
     compile "com.google.android.gms:play-services:${rootProject.ext.googlePlayServicesVersion}"
