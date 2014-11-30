@@ -4,4 +4,7 @@
     <string name="vsc_app_name">Hôtel Voyages-sncf</string>
     <string name="app_vsc_info_url">http://www.voyages-sncf.com</string>
     <string name="country_vs">VSC</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC Account</string>
+
 </resources>

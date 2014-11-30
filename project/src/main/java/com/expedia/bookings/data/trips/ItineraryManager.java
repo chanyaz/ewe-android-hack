@@ -1076,11 +1076,6 @@ public class ItineraryManager implements JSONable {
 
 		@Override
 		protected Collection<Trip> doInBackground(Void... params) {
-			//1712. VSC Disable Itins for VSC
-			if (ExpediaBookingApp.IS_VSC) {
-				mTrips = new HashMap<String, Trip>();
-				return null;
-			}
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
 
