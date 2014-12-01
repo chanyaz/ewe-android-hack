@@ -9,9 +9,15 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.data.LaunchDb;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.dialog.NoLocationServicesDialog;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionStack;
 import com.expedia.bookings.widget.HorizontalScrollView;
@@ -155,8 +161,23 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 			@Override
 			public void onClick(View view) {
 				OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), collectionToAdd.id);
-				if (collectionToAdd.id.equals("last-search")) {
+				if (collectionToAdd.id.equals(LaunchDb.YOUR_SEARCH_TILE_ID)) {
 					Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location, null, true));
+				}
+				else if (collectionToAdd.id.equals(LaunchDb.CUREENT_LOCATION_SEARCH_TILE_ID)) {
+					if (null == collectionToAdd.locations || collectionToAdd.locations.isEmpty()) {
+						// Show the message to user to enable location
+						NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
+						dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
+					}
+					else {
+						//Deeplink the current location to Hotel Mode
+						SuggestionV2 destination = collectionToAdd.locations.get(0).location;
+						destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
+						SearchParams mSearchParams = new SearchParams();
+						mSearchParams.setDestination(destination);
+						NavUtils.goToTabletResults(getActivity(), mSearchParams, LineOfBusiness.HOTELS);
+					}
 				}
 				else if (mSelectedStack != (CollectionStack) view) {
 					// Only fire event if the stack isn't already selected

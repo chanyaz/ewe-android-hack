@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.enums.LaunchState;
@@ -78,6 +80,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private TabletLaunchDestinationTilesFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
 	private TabletLaunchPinDetailFragment mPinFragment;
+	// Invisible Fragment that handles FusedLocationProvider
+	private FusedLocationProviderFragment mLocationFragment;
 	private View mGlobeBackground;
 
 	private TextView mAbText1;
@@ -135,6 +139,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		registerStateListener(mNoConnectivityStateListener, false);
 		registerStateListener(mCheckedForServicesListener, false);
+		registerStateListener(mCurrentLocationStateListener, false);
 		registerStateListener(mDetailsStateListener, false);
 		registerStateListener(mWaypointStateListener, false);
 		registerStateListener(new StateListenerLogger<LaunchState>(), false);
@@ -147,6 +152,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			}
 		});
 		mSearchBarC.setVisibility(View.INVISIBLE);
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
+
 		return mRootC;
 	}
 
@@ -196,6 +203,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		Events.unregister(this);
 		mBackManager.unregisterWithParent(this);
+		if (mLocationFragment != null) {
+			mLocationFragment.stop();
+		}
 	}
 
 	@Override
@@ -362,7 +372,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	}
 
 	private SingleStateListener<LaunchState> mCheckedForServicesListener = new SingleStateListener<>(
-		LaunchState.CHECKING_GOOGLE_PLAY_SERVICES, LaunchState.OVERVIEW, true, new ISingleStateListener() {
+		LaunchState.GETTING_CURRENT_LOCATION, LaunchState.OVERVIEW, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
 			// ignore
@@ -384,6 +394,37 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mSearchBarC.setVisibility(isOverview ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
+	);
+
+	private SingleStateListener<LaunchState> mCurrentLocationStateListener = new SingleStateListener<>(
+		LaunchState.CHECKING_GOOGLE_PLAY_SERVICES, LaunchState.GETTING_CURRENT_LOCATION, true,
+		new ISingleStateListener() {
+			@Override
+			public void onStateTransitionStart(boolean isReversed) {
+				// ignore
+			}
+
+			@Override
+			public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+				// ignore
+			}
+
+			@Override
+			public void onStateTransitionEnd(boolean isReversed) {
+				// ignore
+			}
+
+			@Override
+			public void onStateFinalized(boolean isReversed) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					if (!isReversed) {
+						//Get the current Location and update the tiles
+						mLocationFragment.find(mFindCurrentLocation);
+						setLaunchState(LaunchState.OVERVIEW, false);
+					}
+				}
+			}
+		}
 	);
 
 	private SingleStateListener<LaunchState> mWaypointStateListener = new SingleStateListener<>(
@@ -553,8 +594,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
 			// We check in every onResume
 			// But we only care to change to OVERVIEW if we are still in the checking state
-			if (getLaunchState() == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES) {
-				setLaunchState(LaunchState.OVERVIEW, false);
+			if (getLaunchState() == LaunchState.CHECKING_GOOGLE_PLAY_SERVICES
+				|| getLaunchState() == LaunchState.OVERVIEW) {
+				setLaunchState(LaunchState.GETTING_CURRENT_LOCATION, false);
 			}
 		}
 	}
@@ -627,5 +669,17 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		frag.setCancelable(false);
 		frag.show(getActivity().getSupportFragmentManager(), FRAG_TAG_INTERNET_DEAD);
 	}
+
+	FusedLocationProviderFragment.FusedLocationProviderListener mFindCurrentLocation = new FusedLocationProviderFragment.FusedLocationProviderListener() {
+		@Override
+		public void onFound(Location currentLocation) {
+			LaunchDb.generateNearByCollection(getActivity(), currentLocation);
+		}
+
+		@Override
+		public void onError() {
+
+		}
+	};
 
 }

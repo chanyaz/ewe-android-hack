@@ -14,9 +14,15 @@ public class LaunchCollection {
 
 	// Not parsed from json
 	public CharSequence stylizedTitle;
+	public boolean isDestinationImageCode;
 
 	public String getImageUrl() {
-		return Images.getTabletLaunch(imageCode);
+		if (!isDestinationImageCode) {
+			return Images.getTabletLaunch(imageCode);
+		}
+		else {
+			return Images.getTabletDestination(imageCode);
+		}
 	}
 
 	public boolean hasStylizedTitle() {

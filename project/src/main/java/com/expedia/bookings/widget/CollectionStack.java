@@ -178,8 +178,9 @@ public class CollectionStack extends FrameLayout {
 
 			}
 		});
-		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getContext().getResources(), urls, Ui.obtainThemeResID(getContext(), R.attr.skin_collection_placeholder)));
 
+		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getContext().getResources(), urls,
+			Ui.obtainThemeResID(getContext(), R.attr.skin_collection_placeholder)));
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
 		return headerBitmapDrawable;

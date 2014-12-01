@@ -25,8 +25,11 @@ public class LaunchDb {
 	private static final LaunchDb sDb = new LaunchDb();
 
 	private static final String LAUNCH_DOWNLOAD_KEY = "LAUNCH_DOWNLOAD_KEY";
+	private static final String NEAR_BY_KEY = "NEAR_BY_KEY";
+	private static final String NEAR_BY_TILE_DEFAULT_IMAGE_CODE = "nearby_hotels_tonight";
 
 	private static final int LAST_SEARCH_COLLECTION_INDEX = 0;
+	private static int NEAR_BY_TILE_COLLECTION_INDEX = 0;
 
 	private LaunchDb() {
 		// Singleton
@@ -37,10 +40,15 @@ public class LaunchDb {
 	private LaunchCollection mSelectedCollection;
 	private LaunchLocation mSelectedPin;
 	private LastSearchLaunchCollection mYourSearchCollection;
-	private static final String YOUR_SEARCH_TILE_ID = "last-search";
+	private LaunchCollection mNearByCollection = null;
+	public static final String YOUR_SEARCH_TILE_ID = "last-search";
+	public static final String CUREENT_LOCATION_SEARCH_TILE_ID = "current-location";
 
 	public static void getCollections(Context context) {
 		sDb.mYourSearchCollection = generateYourSearchCollection(context, Sp.getParams());
+		if (null == sDb.mNearByCollection) {
+			generateNearByCollection(context, null);
+		}
 		if (sDb.mCollections == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			// If we are already downloading our singleton is already registered
@@ -56,6 +64,7 @@ public class LaunchDb {
 
 	public static void clear() {
 		sDb.mCollections = null;
+		NEAR_BY_TILE_COLLECTION_INDEX = 0;
 	}
 
 	@Produce
@@ -129,8 +138,10 @@ public class LaunchDb {
 			span.append(title);
 			span.append("\n");
 
-			TextAppearanceSpan subtitleSpan = new TextAppearanceSpan(context, R.style.V2_TextAppearance_Launch_YourSearchSubtitle);
-			span.append(context.getString(R.string.your_search).toUpperCase(), subtitleSpan, FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM));
+			TextAppearanceSpan subtitleSpan = new TextAppearanceSpan(context,
+				R.style.V2_TextAppearance_Launch_YourSearchSubtitle);
+			span.append(context.getString(R.string.your_search).toUpperCase(), subtitleSpan,
+				FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM));
 
 			lastSearch.stylizedTitle = span.build();
 			lastSearch.title = lastSearch.stylizedTitle.toString();
@@ -138,13 +149,37 @@ public class LaunchDb {
 		return lastSearch;
 	}
 
+	public static void generateNearByCollection(final Context context,
+		final android.location.Location location) {
+		sDb.mNearByCollection = new LaunchCollection();
+		sDb.mNearByCollection.id = CUREENT_LOCATION_SEARCH_TILE_ID;
+		sDb.mNearByCollection.title = context.getString(R.string.current_location_tile);
+		sDb.mNearByCollection.imageCode=LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE;
+
+		//Downloading image for Current Location Tile
+		if (location != null) {
+			BackgroundDownloader bgd = BackgroundDownloader.getInstance();
+			bgd.startDownload(NEAR_BY_KEY, new BackgroundDownloader.Download<SuggestionResponse>() {
+				@Override
+				public SuggestionResponse doDownload() {
+					ExpediaServices services = new ExpediaServices(context);
+					return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
+				}
+			}, mSuggestCallback);
+		}
+
+	}
+
 	private static void injectLastSearch(LastSearchLaunchCollection collection) {
 		// If there is already a "Last Search" collection, nuke it.
-		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
+		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(
+			LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
+			NEAR_BY_TILE_COLLECTION_INDEX = 0;
 		}
 		if (collection != null && sDb.mCollections != null) {
 			sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, collection);
+			NEAR_BY_TILE_COLLECTION_INDEX = 1;
 		}
 	}
 
@@ -153,10 +188,32 @@ public class LaunchDb {
 		public void onDownload(List<LaunchCollection> collections) {
 			sDb.mCollections = collections;
 			if (collections != null && collections.size() > 0) {
-				sDb.mSelectedCollection = collections.get(0);
+				sDb.mCollections.add(NEAR_BY_TILE_COLLECTION_INDEX, sDb.mNearByCollection);
+				sDb.mSelectedCollection = collections.get(1);
 			}
 			injectLastSearch(sDb.mYourSearchCollection);
 			Events.post(sDb.produceLaunchCollections());
 		}
 	};
+
+	private static BackgroundDownloader.OnDownloadComplete<SuggestionResponse> mSuggestCallback = new BackgroundDownloader.OnDownloadComplete<SuggestionResponse>() {
+		@Override
+		public void onDownload(SuggestionResponse results) {
+			if (results != null && results.getSuggestions().size() > 0) {
+				LaunchLocation loc = new LaunchLocation();
+				loc.location = results.getSuggestions().get(0);
+				sDb.mNearByCollection.locations = new ArrayList<LaunchLocation>();
+				sDb.mNearByCollection.locations.add(loc);
+				sDb.mNearByCollection.isDestinationImageCode = true;
+				sDb.mNearByCollection.imageCode = results.getSuggestions().get(0).getAirportCode();
+				if (sDb.mCollections != null && !sDb.mCollections.isEmpty()) {
+					sDb.mCollections.remove(NEAR_BY_TILE_COLLECTION_INDEX);
+					sDb.mCollections.add(NEAR_BY_TILE_COLLECTION_INDEX, sDb.mNearByCollection);
+					Events.post(sDb.produceLaunchCollections());
+				}
+			}
+
+		}
+	};
+
 }

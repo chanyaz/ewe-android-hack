@@ -6,4 +6,5 @@ public enum LaunchState {
 	WAYPOINT,
 	DETAILS,
 	NO_CONNECTIVITY,
+	GETTING_CURRENT_LOCATION,
 }
