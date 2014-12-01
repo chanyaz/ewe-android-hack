@@ -874,15 +874,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage);
 				}
 				else {
-					if (ExpediaBookingApp.IS_AAG) {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
-					}
-					else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
-					}
-					else {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
-					}
+					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
 				}
 				Log.w(getString(messageResId));
 				//showErrorDialog(messageResId);

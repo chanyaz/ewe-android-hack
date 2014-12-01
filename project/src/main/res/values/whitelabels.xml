@@ -224,6 +224,9 @@
 
     <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
 
+    <!--Hotel Offers Hotel Service Failure Error Message-->
+    <attr name="skin_errorHotelOffersHotelServiceFailureString" format="string" />
+
     <!--Add Calender POS Messages-->
     <attr name="skin_addToCalenderMessage" format="reference|string" />
 

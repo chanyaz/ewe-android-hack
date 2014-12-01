@@ -28,6 +28,7 @@ import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFr
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
@@ -379,13 +380,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		}
 		else {
 			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-			int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				messageId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				messageId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
-			}
+			int messageId = Ui.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
 
 			if (response.getErrors() != null) {
 				for (ServerError error : response.getErrors()) {

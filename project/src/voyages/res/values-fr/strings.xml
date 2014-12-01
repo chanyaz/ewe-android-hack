@@ -155,7 +155,7 @@
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Frais de réservation VSC</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Désolés, nous n\&apos;avons pas pu vous connecter à VSC. Veuillez réessayer.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à VSC. Veuillez réessayer.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>
