@@ -52,6 +52,7 @@
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>
         <item name="skin_emailUserNameString">@string/email_user_name_vsc</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_orange</item>
+        <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_vsc</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
