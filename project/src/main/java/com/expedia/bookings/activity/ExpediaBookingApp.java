@@ -17,6 +17,7 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -189,18 +190,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
 
-		String serverUrlPath = "ExpediaSharedData/ExpediaServerURLs.json";
-		if (IS_VSC) {
-			serverUrlPath = "ExpediaSharedData/VSCServerURLs.json";
-		}
-		else if (IS_TRAVELOCITY) {
-			serverUrlPath = "ExpediaSharedData/TVLYServerURLs.json";
-		}
-		else if (IS_AAG) {
-			serverUrlPath = "ExpediaSharedData/AirAsiaGoServerURLs.json";
-		}
-
-		EndPoint.init(this, serverUrlPath);
+		String serverEndpointsConfigurationPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
+		EndPoint.init(this, serverEndpointsConfigurationPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
 
 		CarDb.setServicesEndpoint(EndPoint.getE3EndpointUrl(this, true), isRelease);

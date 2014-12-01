@@ -93,6 +93,7 @@ import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.facebook.Session;
@@ -1542,22 +1543,12 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
-		String appName = "ExpediaBookings";
-		if (ExpediaBookingApp.IS_AAG) {
-			appName = "AAGBookings";
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			appName = "TvlyBookings";
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			appName = "VSCBookings";
-		}
-
+		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
-			post.addHeader("MobiataPushName", appName);
+			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader);
 		}
 		else {
-			post.addHeader("MobiataPushName", appName + "Alpha");
+			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader + "Alpha");
 		}
 
 		if (AndroidUtils.isRelease(mContext)
