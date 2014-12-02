@@ -1,34 +1,10 @@
 package com.expedia.bookings.utils;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 
 public class CurrencyUtils {
-
-	private static final String[] AMEX_CURRENCIES = new String[] {
-		"CAD",
-		"CHF",
-		"DKK",
-		"EUR",
-		"GBP",
-		"HKD",
-		"NOK",
-		"SEK",
-		"SGD",
-		"USD",
-	};
-
-	public static boolean currencySupportedByAmex(Context context, String currencyCode) {
-		for (String currency : AMEX_CURRENCIES) {
-			if (currency.equals(currencyCode)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * Determines the type of credit card based on the card number.
@@ -51,7 +27,7 @@ public class CurrencyUtils {
 	 */
 	public static CreditCardType detectCreditCardBrand(String cardNumber) {
 		//If we dont have any input, we dont get any output
-		if (TextUtils.isEmpty(cardNumber)) {
+		if (Strings.isEmpty(cardNumber)) {
 			return null;
 		}
 

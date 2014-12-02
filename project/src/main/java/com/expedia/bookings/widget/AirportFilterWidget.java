@@ -23,7 +23,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.mobiata.android.Log;
@@ -95,7 +95,7 @@ public class AirportFilterWidget extends TextView {
 			sb.append(getResources().getString(R.string.all_airports), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 		}
 		else {
-			sb.append(StrUtils.joinWithoutEmpties(", ", airportsInFilter),
+			sb.append(Strings.joinWithoutEmpties(", ", airportsInFilter),
 					FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 		}
 		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);

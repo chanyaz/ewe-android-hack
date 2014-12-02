@@ -16,7 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -732,19 +732,19 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		int diff = 0;
 
 		// First name
-		diff = StrUtils.compareTo(getFirstName(), another.getFirstName());
+		diff = Strings.compareTo(getFirstName(), another.getFirstName());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Middle name
-		diff = StrUtils.compareTo(getMiddleName(), another.getMiddleName());
+		diff = Strings.compareTo(getMiddleName(), another.getMiddleName());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Last name
-		diff = StrUtils.compareTo(getLastName(), another.getLastName());
+		diff = Strings.compareTo(getLastName(), another.getLastName());
 		if (diff != 0) {
 			return diff;
 		}
@@ -756,19 +756,19 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Phone number
-		diff = StrUtils.compareTo(getPhoneNumber(), another.getPhoneNumber());
+		diff = Strings.compareTo(getPhoneNumber(), another.getPhoneNumber());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Phone country code
-		diff = StrUtils.compareTo(getPhoneCountryCode(), another.getPhoneCountryCode());
+		diff = Strings.compareTo(getPhoneCountryCode(), another.getPhoneCountryCode());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Email
-		diff = StrUtils.compareTo(getEmail(), another.getEmail());
+		diff = Strings.compareTo(getEmail(), another.getEmail());
 		if (diff != 0) {
 			return diff;
 		}
@@ -795,7 +795,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Redress #
-		diff = StrUtils.compareTo(getRedressNumber(), another.getRedressNumber());
+		diff = Strings.compareTo(getRedressNumber(), another.getRedressNumber());
 		if (diff != 0) {
 			return diff;
 		}
@@ -815,7 +815,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			// Compare each item
 			for (int a = 0; a < mySize; a++) {
-				diff = StrUtils.compareTo(mPassportCountries.get(a), another.mPassportCountries.get(a));
+				diff = Strings.compareTo(mPassportCountries.get(a), another.mPassportCountries.get(a));
 				if (diff != 0) {
 					return diff;
 				}

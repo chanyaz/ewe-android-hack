@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -129,7 +129,7 @@ public class Rate implements JSONable {
 			}
 		}
 
-		return StrUtils.joinWithoutEmpties(", ", bedNames);
+		return Strings.joinWithoutEmpties(", ", bedNames);
 	}
 
 	public void addBedType(String bedTypeId, String bedTypeDescription) {

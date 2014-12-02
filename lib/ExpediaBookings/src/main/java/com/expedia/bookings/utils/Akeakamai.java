@@ -3,8 +3,6 @@ package com.expedia.bookings.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
-
 // Class used to construct urls for the akamai image converter
 public class Akeakamai {
 
