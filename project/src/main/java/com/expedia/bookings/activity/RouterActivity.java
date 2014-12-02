@@ -47,28 +47,22 @@ public class RouterActivity extends Activity {
 		//Hi Facebook!
 		facebookInstallTracking();
 
-		// If VSC app, then go directly to hotelListing screen.
-		if (ExpediaBookingApp.IS_VSC) {
-			NavUtils.goToVSC(this);
+		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
+			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
 		else {
-			if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
-				// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
-			}
-			else {
-				boolean forceShowWaterfall = false;
-				if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-					// We're being ultra-safe here and only sending a kill broadcast if opened from
-					// the widget.  This is so that the widget *always* opens to the launch screen.
-					NavUtils.sendKillActivityBroadcast(this);
+			boolean forceShowWaterfall = false;
+			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
+				// We're being ultra-safe here and only sending a kill broadcast if opened from
+				// the widget.  This is so that the widget *always* opens to the launch screen.
+				NavUtils.sendKillActivityBroadcast(this);
 
-					// If opened from widget, we want to always show the reverse waterfall
-					forceShowWaterfall = true;
-				}
-
-				// On default, go to launch screen
-				NavUtils.goToLaunchScreen(this, forceShowWaterfall);
+				// If opened from widget, we want to always show the reverse waterfall
+				forceShowWaterfall = true;
 			}
+
+			// On default, go to launch screen
+			NavUtils.goToLaunchScreen(this, forceShowWaterfall);
 		}
 
 		// Finish this Activity after routing
