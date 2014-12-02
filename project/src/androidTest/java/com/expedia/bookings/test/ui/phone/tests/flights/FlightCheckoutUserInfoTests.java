@@ -60,6 +60,12 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
+		try {
+			Thread.sleep(1000);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 		CommonCheckoutScreen.flightsLegalTextView().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
 		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
