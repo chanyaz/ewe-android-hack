@@ -423,7 +423,9 @@ public class OmnitureTracking {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		// Products
-		if (property.getLowestRate().isAirAttached()) {
+		// Sometimes we load the infosite when we don't have rate info. In that case,
+		// don't add air attach products.
+		if (property.getLowestRate() != null && property.getLowestRate().isAirAttached()) {
 			addProductsForAirAttach(s, property, "event57", "Flight|Hotel Infosite X-Sell");
 		}
 		else {
