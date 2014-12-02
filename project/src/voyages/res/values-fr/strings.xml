@@ -14,7 +14,7 @@
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation d’hôtel est nécessaire.</string>
     <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Mot de passe VSC</string>
+    <string name="vsc_password_hint">Mot de passe VSC</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -96,7 +96,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Désolé, cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
+    <string name="error_hotel_is_now_sold_out_vsc">Désolé, cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Booking info -->
     <!-- Title for dialog confirming the clearing of private data -->
@@ -108,7 +108,7 @@
 
     <!-- Confirmation activity -->
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Si vous avez des questions au sujet de votre réservation, veuillez contacter VSC au %s.</string>
+    <string name="contact_phone_template_vsc">Si vous avez des questions au sujet de votre réservation, veuillez contacter VSC au %s.</string>
 
     <!-- Rate template strings -->
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
@@ -118,7 +118,7 @@
     <string name="vsc_account">Compte hôtel dédié</string>
 
     <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Chargement compte VSC…</string>
+    <string name="loading_vsc_account">Chargement compte VSC…</string>
 
     <!-- Sharing bookings via email -->
     <!-- The title of the share subject line -->
@@ -148,9 +148,9 @@
     <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF.\nTous droits réservés.</string>
 
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>
+    <string name="error_server_vsc">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Frais de réservation VSC</string>
+    <string name="vsc_booking_fee">Frais de réservation VSC</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à VSC. Veuillez réessayer.</string>
 
@@ -166,5 +166,51 @@
     <string name="share_template_long_ad_vsc">A bientôt sur notre application. Voyages-sncf vous souhaite un bon voyage.</string>
     <!-- VSC Itinerary -->
     <string name="vsc_itinerary">N° de voyage VSC</string>
+
+    <!-- Content description for action: Press to log in with your VSC account -->
+    <string name="cd_checkout_log_in_with_vsc">Appuyez pour vous connecter à votre compte VSC</string>
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_vsc">Êtes-vous sûr de vouloir vous déconnecter de votre compte VSC ?</string>
+    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flight_no_longer_available_vsc">Désolés, votre vol n\&apos;est plus disponible sur VSC.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flights_no_longer_available_vsc">Désolés, un de vos vols n\&apos;est plus disponible sur VSC.</string>
+    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <string name="error_flight_unhandled_TEMPLATE_vsc">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou appeler l\&apos;assistance clientèle d\&apos;VSC et communiquer le numéro de voyage suivant : %s</string>
+    <!-- save billing info message -->
+    <string name="save_billing_info_message_vsc">Enregistrer ce mode de paiement dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_message_TEMPLATE_vsc">Enregistrer les informations sur %1$s dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="not_currently_available_vsc">Actuellement non disponible sur VSC</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
+    <string name="not_currently_available_vsc_TEMPLATE">Actuellement non disponible sur VSC %s</string>
+    <!-- A message stating this hotel is sold out on VSC -->
+    <string name="sold_out_on_vsc">Complet sur VSC</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "VSC Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_vsc">N° de voyage VSC : %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "VSC Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_vsc">Assistance clientèle VSC : %s</string>
+    <!-- Subject line for "tell a friend" feature -->
+    <string name="tell_a_friend_subject_vsc">VSC Hôtels</string>
+    <!-- Message body for "tell a friend" feature -->
+    <string name="tell_a_friend_body_vsc">Bonjour,\n\nVenez découvrir VSC Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
+    <!-- A message stating this hotel is all sold out for the given dates searched -->
+    <string name="sorry_rooms_sold_out_vsc">Désolé, plus aucune chambre n\&apos;est libre sur VSC.</string>
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message_vsc">Pour vous connecter à VSC, vous devez utiliser un profil sans restrictions d\&apos;accès sur votre appareil mobile.</string>
+    <!-- Title for different ways to connect to VSC -->
+    <string name="contact_vsc_via">Contacter VSC par…</string>
+    <!-- Contact VSC via email subject -->
+    <string name="contact_vsc_email_subject">Assistance réservations VSC</string>
+    <!-- Label for "VSC website" button in info page -->
+    <string name="vsc_website">Site Internet VSC</string>
+    <!-- Button label for calling vsc customer support -->
+    <string name="call_vsc_customer_support">Appeler l\&apos;assistance clientèle VSC</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_vsc">Vous vous êtes déconnecté de votre compte VSC. Toutes les coordonnées et les données de facturation sauvegardées ont été supprimées.</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the vsc mobile site in an external browser -->
+    <string name="dialog_message_launch_vsc_mobile_site">Ouvrir le site mobile d\&apos;VSC ?</string>
 
 </resources>
