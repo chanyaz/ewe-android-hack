@@ -101,28 +101,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		return intent;
 	}
 
-	/**
-	 * Create intent to open this Activity from a widget.
-	 * @param context
-	 * @param appWidgetId
-	 * @param params
-	 * @param property
-	 * @return
-	 */
-	public static Intent createIntent(Context context, int appWidgetId, HotelSearchParams params, Property property) {
-		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
-
-		intent.putExtra(OPENED_FROM_WIDGET, true);
-
-		intent.putExtra(Codes.APP_WIDGET_ID, appWidgetId);
-		intent.putExtra(Codes.SEARCH_PARAMS, params.toJson().toString());
-		if (property != null) {
-			intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		}
-
-		return intent;
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -139,25 +117,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		Intent intent = getIntent();
-
-		if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-			com.expedia.bookings.utils.NavUtils.sendKillActivityBroadcast(mContext);
-
-			Property property = JSONUtils.getJSONable(getIntent(), Codes.PROPERTY, Property.class);
-			if (property != null) {
-				// #1496: We need to create a fake SearchResponse and stuff this Property into it, based on
-				// how things are architected now
-				HotelSearch search = Db.getHotelSearch();
-				search.resetSearchData();
-				HotelSearchResponse searchResponse = new HotelSearchResponse();
-				searchResponse.addProperty(property);
-				search.setSearchResponse(searchResponse);
-				search.setSelectedProperty(property);
-			}
-			else {
-				// It means we came back from the reviews activity and Db.getSelectedProperty is already valid
-			}
-		}
 
 		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
 			HotelSearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
@@ -248,11 +207,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isFinishing()) {
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
-
-			// Don't keep widget HotelSearch in Db after leaving, otherwise it will stick around. 1811
-			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				Db.getHotelSearch().resetSearchData();
-			}
 		}
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
@@ -380,14 +334,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		// Tracking
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
-
-			// Track here if user opened app from widget.  Currently assumes that all widget searches
-			// are "nearby" - if this ever changes, this needs to be updated.
-			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				OmnitureTracking.trackSimpleEvent(this, null, null, "App.Widget.Deal.Nearby");
-				mApp.broadcastSearchParamsChangedInWidget(JSONUtils.getJSONable(intent, Codes.SEARCH_PARAMS,
-						HotelSearchParams.class));
-			}
 		}
 
 		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
