@@ -29,6 +29,7 @@ import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -93,17 +94,20 @@ public class NavUtils {
 		}
 	}
 
-	public static void goToTabletResults(Context context, SearchParams searchParams) {
+	public static void goToTabletResults(Context context, SearchParams searchParams, LineOfBusiness lob) {
 		Sp.setParams(searchParams, false);
 
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
 		intent = new Intent(context, TabletLaunchActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		builder.addNextIntent(intent);
 
 		intent = new Intent(context, TabletResultsActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		if (lob == LineOfBusiness.HOTELS) {
+			intent.putExtra(TabletResultsActivity.INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, true);
+		}
 		builder.addNextIntent(intent);
 		builder.startActivities();
 	}

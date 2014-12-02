@@ -312,7 +312,8 @@ public class SearchParams implements Parcelable, JSONable {
 	}
 
 	public boolean isDurationValid() {
-		if (mStartDate != null && mEndDate != null && mStartDate.isAfter(mEndDate)) {
+		if (mStartDate != null && mEndDate != null && (mStartDate.isAfter(mEndDate) ||
+			mStartDate.isBefore(org.joda.time.DateTime.now().toLocalDate()))) {
 			Log.w("SearchParams validation error: Start date is after end date");
 			return false;
 		}

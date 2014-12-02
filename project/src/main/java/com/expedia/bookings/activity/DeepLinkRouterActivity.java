@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
@@ -51,6 +52,7 @@ public class DeepLinkRouterActivity extends Activity {
 
 
 	private SearchParams mSearchParams;
+	private LineOfBusiness mLobToLaunch = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +149,7 @@ public class DeepLinkRouterActivity extends Activity {
 
 			if (ExpediaBookingApp.useTabletInterface(this)) {
 				mSearchParams = new SearchParams();
+				mLobToLaunch = LineOfBusiness.HOTELS;
 
 				if (startDate != null) {
 					mSearchParams.setStartDate(startDate);
@@ -159,6 +162,14 @@ public class DeepLinkRouterActivity extends Activity {
 				}
 				if (children != null) {
 					mSearchParams.setChildTravelers(children);
+				}
+
+				// Validation
+				if (!mSearchParams.isDurationValid()) {
+					mSearchParams.setDefaultDuration();
+				}
+				if (!mSearchParams.areGuestsValid()) {
+					mSearchParams.setDefaultGuests();
 				}
 
 				BackgroundDownloader bgd = BackgroundDownloader.getInstance();
@@ -220,7 +231,8 @@ public class DeepLinkRouterActivity extends Activity {
 					SuggestionV2 destination = new SuggestionV2();
 					destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
 					mSearchParams.setDestination(destination);
-					NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams);
+					NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams,
+						LineOfBusiness.HOTELS);
 				}
 			}
 			else {
@@ -332,6 +344,15 @@ public class DeepLinkRouterActivity extends Activity {
 				if (numAdults != 0) {
 					mSearchParams.setNumAdults(numAdults);
 				}
+
+				// Validation
+				if (!mSearchParams.isDurationValid()) {
+					mSearchParams.setDefaultDuration();
+				}
+				if (!mSearchParams.areGuestsValid()) {
+					mSearchParams.setDefaultGuests();
+				}
+
 				if (originAirportCode != null) {
 					SuggestionV2 origin = new SuggestionV2();
 					origin.setAirportCode(originAirportCode);
@@ -447,7 +468,7 @@ public class DeepLinkRouterActivity extends Activity {
 		public void onDownload(SuggestionResponse results) {
 			if (results != null && results.getSuggestions().size() > 0) {
 				mSearchParams.setDestination(results.getSuggestions().get(0));
-				NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams);
+				NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams, mLobToLaunch);
 			}
 			else {
 				Intent launchIntent = new Intent(DeepLinkRouterActivity.this, TabletLaunchActivity.class);

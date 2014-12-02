@@ -5,6 +5,7 @@ public enum ResultsHotelsState {
 	SEARCH_ERROR,
 	HOTEL_LIST_DOWN,
 	HOTEL_LIST_UP,
+	LOADING_HOTEL_LIST_UP,
 	MAP,
 	HOTEL_LIST_AND_FILTERS,
 	ROOMS_AND_RATES,
@@ -23,6 +24,7 @@ public enum ResultsHotelsState {
 		case ZERO_RESULT:
 			return ResultsState.OVERVIEW;
 		case HOTEL_LIST_UP:
+		case LOADING_HOTEL_LIST_UP:
 		case MAP:
 		case HOTEL_LIST_AND_FILTERS:
 		case ROOMS_AND_RATES:
@@ -57,6 +59,7 @@ public enum ResultsHotelsState {
 		case ZERO_RESULT:
 			return false;
 		case HOTEL_LIST_UP:
+		case LOADING_HOTEL_LIST_UP:
 		case MAP:
 		case HOTEL_LIST_AND_FILTERS:
 		case ROOMS_AND_RATES:
@@ -66,6 +69,10 @@ public enum ResultsHotelsState {
 		default:
 			return true;
 		}
+	}
+
+	public boolean showLoading() {
+		return this == LOADING || this == LOADING_HOTEL_LIST_UP;
 	}
 
 }

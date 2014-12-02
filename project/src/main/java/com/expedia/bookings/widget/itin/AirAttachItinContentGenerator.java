@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletLaunchActivity;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
@@ -52,7 +53,7 @@ public class AirAttachItinContentGenerator extends ItinButtonContentGenerator<It
 						public void onDownload(SuggestionResponse results) {
 							if (results != null && results.getSuggestions().size() > 0) {
 								mSearchParams.setDestination(results.getSuggestions().get(0));
-								NavUtils.goToTabletResults(context, mSearchParams);
+								NavUtils.goToTabletResults(context, mSearchParams, LineOfBusiness.HOTELS);
 							}
 							else {
 								// Do nothing
