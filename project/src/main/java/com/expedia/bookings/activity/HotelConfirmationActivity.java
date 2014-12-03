@@ -63,7 +63,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, Db.getBillingInfo(),
-					selectedRate, bookingResponse);
+				selectedRate, bookingResponse);
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);
@@ -133,14 +133,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_done:
-			//1370. VSC After hotel confirmation redirect back to HotelListing since VSC doesnt support Itins
-			if (ExpediaBookingApp.IS_VSC) {
-				Db.getHotelSearch().resetSearchParams();
-				NavUtils.goToVSC(this);
-			}
-			else {
-				NavUtils.goToItin(this);
-			}
+			NavUtils.goToItin(this);
 			finish();
 			return true;
 		}

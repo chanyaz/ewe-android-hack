@@ -252,6 +252,7 @@
         <item name="skin_addToCalenderMessage">@string/contact_phone_template</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
+        <item name="skin_itineraryNumberString">@string/expedia_itinerary</item>
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Expedia">

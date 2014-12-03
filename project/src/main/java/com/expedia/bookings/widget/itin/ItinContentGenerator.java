@@ -57,10 +57,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -372,13 +372,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
 
-			int itineraryLabelResId = R.string.expedia_itinerary;
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				itineraryLabelResId = R.string.tvly_itinerary;
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				itineraryLabelResId = R.string.aag_itinerary;
-			}
+			int itineraryLabelResId = (Ui.obtainThemeResID(mContext, R.attr.skin_itineraryNumberString));
 
 			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
 			if (view != null) {

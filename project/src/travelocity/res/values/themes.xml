@@ -132,6 +132,7 @@
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itineraryNumberString">@string/tvly_itinerary</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">

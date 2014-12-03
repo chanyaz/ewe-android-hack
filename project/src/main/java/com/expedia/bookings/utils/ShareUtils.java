@@ -442,7 +442,10 @@ public class ShareUtils {
 			body.append(mContext.getString(R.string.share_template_long_ad_tvly, PointOfSale.getPointOfSale()
 				.getAppInfoUrl()));
 		}
-
+		else if (ExpediaBookingApp.IS_VSC) {
+			body.append(mContext.getString(R.string.share_template_long_ad_vsc, PointOfSale.getPointOfSale()
+				.getAppInfoUrl()));
+		}
 
 		return body.toString();
 	}
@@ -565,6 +568,10 @@ public class ShareUtils {
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			builder.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
+		}
+		else if (ExpediaBookingApp.IS_VSC) {
+			builder.append(mContext.getString(R.string.share_template_long_ad_vsc, PointOfSale.getPointOfSale()
+				.getAppInfoUrl()));
 		}
 
 		return builder.toString();
@@ -883,7 +890,7 @@ public class ShareUtils {
 		if (generator instanceof FlightItinContentGenerator) {
 			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
 		}
-		if ((ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) && AndroidUtils.isPackageInstalled(mContext, "com.facebook.katana")) {
+		if (ExpediaBookingApp.IS_EXPEDIA &&  AndroidUtils.isPackageInstalled(mContext, "com.facebook.katana")) {
 			intents.add(FacebookShareActivity.createIntent(mContext, generator));
 		}
 
