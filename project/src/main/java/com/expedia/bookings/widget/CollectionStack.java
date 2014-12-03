@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
@@ -148,10 +148,16 @@ public class CollectionStack extends FrameLayout {
 					.darkenBy(0.4f)
 					.setAlpha(224)
 					.build();
-				int fullColor = new ColorBuilder(color)
-					.darkenBy(0.3f)
-					.setAlpha(217)
-					.build();
+
+				ColorBuilder fullColorBuilder;
+				if (ExpediaBookingApp.IS_TRAVELOCITY) {
+					fullColorBuilder = new ColorBuilder(Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
+				}
+				else {
+					fullColorBuilder = new ColorBuilder(color)
+						.darkenBy(0.3f);
+				}
+				int fullColor = fullColorBuilder.setAlpha(217).build();
 
 				GradientDrawable textViewBackground = (GradientDrawable) getResources().getDrawable(R.drawable.bg_collection_title);
 				textViewBackground.setColor(textColor);
@@ -172,7 +178,7 @@ public class CollectionStack extends FrameLayout {
 
 			}
 		});
-		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getContext().getResources(), urls, R.drawable.bg_itin_placeholder));
+		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getContext().getResources(), urls, Ui.obtainThemeResID(getContext(), R.attr.skin_collection_placeholder)));
 
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 

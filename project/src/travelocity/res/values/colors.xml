@@ -10,4 +10,10 @@
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color_tvly">#7baed4</color>
+    <color name="collection_overlay_color">#4da0d1</color>
+    <color name="tablet_book_button_text_color_travelocity">#57B3FF</color>
+    <color name="hotel_room_rate_select_room_button_tvly">#53A0D3</color>
+    <color name="hotel_room_rate_select_room_button_pressed_tvly">#004E93</color>
+    <color name="hotel_room_rate_add_room_button_tvly">#608405</color>
+    <color name="hotel_room_rate_add_room_button_pressed_tvly">#2F5806</color>
 </resources>

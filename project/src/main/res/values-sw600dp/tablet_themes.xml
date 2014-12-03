@@ -12,23 +12,9 @@
     <style name="V2" />
 
     <!-- Values that go into *everything*.  Don't put anything here unless you want it *everywhere* -->
-    <style name="V2.Theme" parent="Theme.Expedia" />
-
+    <style name="V2.Theme"/>
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
-    <style name="V2.Theme.Activity">
-
-        <!-- Custom attrs for Expedia/VSC switching -->
-        <item name="skin_hotelPriceStandardColor">#ffffff</item>
-        <item name="skin_hotelPriceSaleColor">#ffffff</item>
-        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
-        <item name="skin_hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
-        <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
-        <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
-        <item name="skin_hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
-        <item name="skin_hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
-        <item name="skin_hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
-        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
-    </style>
+    <style name="V2.Theme.Activity"/>
 
     <style name="V2.Theme.Activity.TabletLaunchBase">
         <item name="android:windowBackground">@color/tablet_launch_bg</item>
@@ -64,7 +50,7 @@
     <style name="V2.Widget" />
 
     <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:logo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="android:logo">?attr/skin_action_bar_logo_tablet</item>
         <item name="android:background">@null</item>
     </style>
 
@@ -157,13 +143,13 @@
 
     <style name="V2.Widget.TextView.RateButton.AddToTrip">
         <item name="android:text">@string/room_rate_button_add_to_trip</item>
-        <item name="android:background">@drawable/tablet_hotel_room_add_button</item>
+        <item name="android:background">?attr/skin_tablet_addToTrip_button</item>
         <item name="android:textSize">@dimen/tablet_flight_details_price_textsize</item>
     </style>
 
     <style name="V2.Widget.TextView.RateButton.SelectRoom">
         <item name="android:text">@string/room_rate_button_select_room</item>
-        <item name="android:background">@drawable/tablet_hotel_room_select_button</item>
+        <item name="android:background">?attr/skin_tablet_hotel_room_rate_select_button</item>
     </style>
 
     <style name="V2.Widget.TextView.FlightDetailsHeader" />
