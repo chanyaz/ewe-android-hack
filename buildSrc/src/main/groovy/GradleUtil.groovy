@@ -16,11 +16,11 @@ class GradleUtil {
     }
 
     static def shouldEnableProguard(Project project) {
-        def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
+        def buildNumber = "$System.env.BUILD_NUMBER"
         def boolean shouldRunProguard = false
 
         // If BUILD_NUMBER defined turn on proguard
-        if (GradleUtil.isDefined(jenkinsBuildNumber)) {
+        if (GradleUtil.isDefined(buildNumber)) {
             shouldRunProguard = true
         }
 

@@ -48,7 +48,7 @@
         <item name="skin_aboutAppSupportString">@string/app_support</item>
         <item name="skin_aboutCopyrightString">@string/VSC_copyright</item>
         <item name="skin_aboutInfoUrlString">@string/app_vsc_info_url</item>
-        <item name="skin_aboutAppNameString">@string/VSC_app_name</item>
+        <item name="skin_aboutAppNameString">@string/vsc_full_app_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>
         <item name="skin_emailUserNameString">@string/email_user_name_vsc</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_orange</item>

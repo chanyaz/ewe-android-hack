@@ -7,13 +7,12 @@ def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
-apply plugin: AndroidExpediaPlugin
+apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 
 repositories {
     mavenCentral()
-    maven { url 'http://download.crashlytics.com/maven' }
+    maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
 }
 
@@ -40,8 +39,10 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.leanplum:Leanplum:1.2.6'
+
+    compile 'io.fabric.sdk.android:fabric:1.0.1'
+    compile 'com.crashlytics.sdk.android:crashlytics:2.0.1@aar'
 
     androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r3'
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
@@ -56,6 +57,11 @@ android {
 
     testBuildType "latest"
 
+
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+
     lintOptions {
         checkReleaseBuilds false
         showAll true
@@ -66,11 +72,13 @@ android {
     }
 
     defaultConfig {
-        versionCode 42
-        versionName "4.2.1"
-        minSdkVersion 15
-        targetSdkVersion 19
+        versionCode 1
+        versionName "undefined"
 
+        minSdkVersion 15
+        targetSdkVersion 21
+
+        multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
         testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
 
@@ -92,6 +100,8 @@ android {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.expedia.bookings"
+            versionCode 42
+            versionName "4.2.1"
         }
 
         voyages {
@@ -123,14 +133,13 @@ android {
         debug {
             applicationIdSuffix ".debug"
 
-            runProguard false
-            proguardFile 'proguard.cfg'
+            minifyEnabled false
+            proguardFile file('proguard.cfg')
         }
 
         latest.initWith(buildTypes.debug)
         latest {
-            runProguard shouldRunProguard
-            proguardFile 'proguard.cfg'
+            minifyEnabled shouldRunProguard
 
             applicationIdSuffix ".latest"
 
@@ -140,8 +149,7 @@ android {
 
         feature.initWith(buildTypes.debug)
         feature {
-            runProguard shouldRunProguard
-            proguardFile 'proguard.cfg'
+            minifyEnabled shouldRunProguard
 
             applicationIdSuffix (".feature." + featureName)
 
@@ -150,8 +158,8 @@ android {
         }
 
         release {
-            runProguard true
-            proguardFile 'proguard.cfg'
+            minifyEnabled true
+            proguardFile file('proguard.cfg')
         }
     }
 
@@ -200,4 +208,33 @@ android {
         classpath = files()
         ignoreFailures = true
     }
+}
+
+
+def releaseAccountTokens = [
+    'com.expedia.bookings' : 'expedia.tuid',
+    'com.expedia.bookings.vsc' : 'vsc.tuid',
+    'com.travelocity.android' : 'travelocity.tuid',
+]
+
+android.applicationVariants.all { variant ->
+    // We released apps with the following tokens so we should maintain them so people don't get logged out
+    def token = releaseAccountTokens[variant.applicationId]
+    if (!GradleUtil.isDefined(token)) {
+        token = "${variant.applicationId}.tuid"
+    }
+    variant.resValue "string", "expedia_account_token_type_tuid_identifier", "${token}"
+    variant.resValue "string", "expedia_account_type_identifier", "${variant.applicationId}"
+
+    variant.resValue "string", "authority_autocomplete_hotel", "${variant.applicationId}.autocomplete.hotel"
+    variant.resValue "string", "authority_autocomplete_airport", "${variant.applicationId}.autocomplete.airport"
+    variant.resValue "string", "authority_autocomplete_suggestions", "${variant.applicationId}.suggestions"
+    variant.resValue "string", "authority_account_sync", "${variant.applicationId}.account.sync"
+
+    def launcherName = GradleUtil.getAppName(project, variant)
+    if (!GradleUtil.isDefined(launcherName)) {
+        // Must be a release build, so we default to app_name
+        launcherName = "@string/app_name"
+    }
+    variant.resValue "string", "launcher_name", "${launcherName}"
 }

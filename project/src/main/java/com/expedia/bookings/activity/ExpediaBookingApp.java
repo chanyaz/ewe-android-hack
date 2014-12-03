@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -45,10 +46,10 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
+import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.ResourceZoneInfoProvider;
 
-public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
+public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
 	private static final String PREF_FIRST_LAUNCH_OCCURED = "PREF_FIRST_LAUNCH";
 
@@ -85,7 +86,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		super.onCreate();
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 
-		Crashlytics.start(this);
+		Fabric.with(this, new Crashlytics());
 		startupTimer.addSplit("Crashlytics started.");
 
 		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this, getString(R.string.preference_should_start_hierarchy_server), false)) {
