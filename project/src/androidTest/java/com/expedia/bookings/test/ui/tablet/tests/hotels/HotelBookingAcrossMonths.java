@@ -83,7 +83,14 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 
 		//test room rate will appear for each night on the calendar
 		EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(0));
-		EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(1));
+
+		//make it work for dates in next year
+		try {
+			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(1));
+		}
+		catch (Exception e) {
+			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDateWithYear(1));
+		}
 	}
 
 	//helper methods
@@ -115,6 +122,10 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 
 	private String getFromattedDate(int daysInAdvance) {
 		return mStartDate.plusDays(daysInAdvance).toString("M/d");
+	}
+
+	private String getFromattedDateWithYear(int daysInAdvance) {
+		return mStartDate.plusDays(daysInAdvance).toString("M/d/y");
 	}
 
 }
