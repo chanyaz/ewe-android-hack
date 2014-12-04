@@ -21,7 +21,6 @@ public class CardInfoScreen extends ScreenActions {
 	private static final int POSTAL_CODE_EDIT_TEXT_ID = R.id.edit_address_postal_code;
 	private static final int DONE_BUTTON_ID = R.id.menu_done;
 	private static final int NEXT_BUTTON_ID = R.id.menu_next;
-
 	private static final int MONTH_UP_BUTTON_ID = R.id.month_up;
 	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
@@ -59,10 +58,6 @@ public class CardInfoScreen extends ScreenActions {
 
 	public static ViewInteraction postalCodeEditText() {
 		return onView(withId(POSTAL_CODE_EDIT_TEXT_ID));
-	}
-
-	public static ViewInteraction cardInfo() {
-		return onView(withText(R.string.card_info));
 	}
 
 	// Object access expiration date dialog

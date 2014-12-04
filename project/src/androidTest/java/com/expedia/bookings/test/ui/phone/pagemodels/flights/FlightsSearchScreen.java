@@ -30,10 +30,8 @@ public class FlightsSearchScreen extends ScreenActions {
 	private static final int SELECT_DEPARTURE_VIEW_ID = R.id.dates_button;
 	private static final int CLEAR_DATE_BUTTON_ID = R.id.clear_dates_btn;
 	private static final int PASSENGER_SELECTION_BUTTON_ID = R.id.num_travelers_button;
-	private static final int NUMBER_OF_PASSENGERS_TEXT_VIEW_ID = R.id.num_travelers_text_view;
 	private static final int CALENDAR_DATE_PICKER_ID = R.id.calendar_date_picker;
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
-	private static final int DEPARTURE_ARRIVAL_SAME_ERROR_MESSAGE_ID = R.string.error_same_flight_departure_arrival;
 	private static final int OK_STRING_ID = R.string.ok;
 
 	//Object retrievers
@@ -58,16 +56,8 @@ public class FlightsSearchScreen extends ScreenActions {
 		return onView(withId(PASSENGER_SELECTION_BUTTON_ID));
 	}
 
-	public static ViewInteraction passengerNumberTextView() {
-		return onView(withId(NUMBER_OF_PASSENGERS_TEXT_VIEW_ID));
-	}
-
 	public static ViewInteraction searchButton() {
 		return onView(withId(SEARCH_BUTTON_ID));
-	}
-
-	public static ViewInteraction departureAndArrivalAreTheSameErrorMessage() {
-		return onView(withText(DEPARTURE_ARRIVAL_SAME_ERROR_MESSAGE_ID));
 	}
 
 	public static ViewInteraction calendarDatePicker() {
@@ -76,14 +66,6 @@ public class FlightsSearchScreen extends ScreenActions {
 
 	public static ViewInteraction okString() {
 		return onView(withText(OK_STRING_ID));
-	}
-
-	public static ViewInteraction departureAirportSpinner() {
-		return onView(withId(R.id.departure_airport_spinner));
-	}
-
-	public static ViewInteraction arrivalAirportSpinner() {
-		return onView(withId(R.id.arrival_airport_spinner));
 	}
 
 	// Object interactions
