@@ -1664,7 +1664,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.ZERO_RESULT, false);
 		}
 		else {
-			handleNewDataAndChangeState();
+			handleNewDataAndChangeState(false);
 			AdTracker.trackHotelSearch();
 		}
 	}
@@ -1681,16 +1681,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			Property property = response.getProperty();
 			Db.getHotelSearch().setSelectedProperty(property);
 
-			handleNewDataAndChangeState();
+			handleNewDataAndChangeState(true);
 		}
 	}
 
-	private void handleNewDataAndChangeState() {
+	private void handleNewDataAndChangeState(boolean showDetails) {
 		if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
 			mHotelListFrag.updateAdapter();
 		}
 		if (mHotelsStateManager.getState() == ResultsHotelsState.LOADING_HOTEL_LIST_UP) {
-			boolean showDetails = mHotelsDeepLink;
+			showDetails &= mHotelsDeepLink;
 			mHotelsDeepLink = false;
 			mHotelsStateManager.setDefaultState(getBaseState());
 			ResultsHotelsState state = showDetails ?
