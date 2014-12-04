@@ -731,11 +731,13 @@ public class PointOfSale {
 			while (keys.hasNext()) {
 				String posName = keys.next();
 				PointOfSale pos = parsePointOfSale(context, posData.optJSONObject(posName));
-				pos.mTwoLetterCountryCode = posName.toLowerCase(Locale.ENGLISH);
-				sPointOfSale.put(pos.mPointOfSale, pos);
+				if (pos != null) {
+					pos.mTwoLetterCountryCode = posName.toLowerCase(Locale.ENGLISH);
+					sPointOfSale.put(pos.mPointOfSale, pos);
 
-				// For backwards compatibility
-				sBackCompatPosMap.put(pos.mUrl, pos.mPointOfSale);
+					// For backwards compatibility
+					sBackCompatPosMap.put(pos.mUrl, pos.mPointOfSale);
+				}
 			}
 		}
 		catch (Exception e) {
@@ -748,10 +750,14 @@ public class PointOfSale {
 	}
 
 	private static PointOfSale parsePointOfSale(Context context, JSONObject data) throws JSONException {
+
+		PointOfSaleId pointOfSaleFromId = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
+		if (pointOfSaleFromId == null) {
+			return null;
+		}
+
 		PointOfSale pos = new PointOfSale();
-
-		pos.mPointOfSale = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
-
+		pos.mPointOfSale = pointOfSaleFromId;
 		// POS data
 		pos.mThreeLetterCountryCode = data.optString("countryCode", null);
 
