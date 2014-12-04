@@ -13,15 +13,10 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  * Created by dmadan on 4/7/14.
  */
 public class FlightsConfirmationScreen extends ConfirmationScreen {
-	private static final int GOING_TO_TEXT_VIEW_ID = R.id.going_to_text_view;
 	private static final int GET_A_ROOM_TEXT_VIEW_ID = R.id.hotels_action_text_view;
 	private static final int FLIGHT_TRACK_ACTION_VIEW_ID = R.id.flighttrack_action_text_view;
 
 	// Object access
-
-	public static ViewInteraction goingToTextView() {
-		return onView(withId(GOING_TO_TEXT_VIEW_ID));
-	}
 
 	public static ViewInteraction getARoomTextView() {
 		return onView(withId(GET_A_ROOM_TEXT_VIEW_ID));

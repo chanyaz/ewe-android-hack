@@ -20,7 +20,6 @@ public class BillingAddressScreen {
 	private static final int sAddressCityEditTextID = R.id.edit_address_city;
 	private static final int sAddressStateEditTextID = R.id.edit_address_state;
 	private static final int sAddressPostalCodeEditTextID = R.id.edit_address_postal_code;
-	private static final int sAddressCountrySpinnerID = R.id.edit_country_spinner;
 	private static final int sNextButtonID = R.id.menu_next;
 
 	//Object access
@@ -45,10 +44,6 @@ public class BillingAddressScreen {
 		return onView(withId(sAddressPostalCodeEditTextID));
 	}
 
-	public static ViewInteraction countrySpinner() {
-		return onView(withId(sAddressCountrySpinnerID));
-	}
-
 	public static ViewInteraction nextButton() {
 		return onView(withId(sNextButtonID));
 	}
@@ -57,10 +52,6 @@ public class BillingAddressScreen {
 
 	public static void typeTextAddressLineOne(String text) {
 		addressLineOneEditText().perform(typeText(text), closeSoftKeyboard());
-	}
-
-	public static void typeTextAddressLineTwo(String text) {
-		addressLineTwoEditText().perform(typeText(text), closeSoftKeyboard());
 	}
 
 	public static void typeTextCity(String text) {
@@ -73,10 +64,6 @@ public class BillingAddressScreen {
 
 	public static void typeTextPostalCode(String text) {
 		postalCodeEditText().perform(typeText(text), closeSoftKeyboard());
-	}
-
-	public static void clickCountrySpinner() {
-		countrySpinner().perform(click());
 	}
 
 	public static void clickNextButton() {

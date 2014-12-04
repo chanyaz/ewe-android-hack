@@ -25,10 +25,6 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 		redressEditText().perform(typeText(redressText));
 	}
 
-	public static ViewInteraction passportString() {
-		return onView(withText(R.string.passport));
-	}
-
 	public static void clickSetButton() {
 		onView(withText("Set")).perform(click());
 	}

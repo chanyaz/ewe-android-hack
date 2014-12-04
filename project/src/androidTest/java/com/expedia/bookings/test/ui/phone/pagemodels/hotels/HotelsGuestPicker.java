@@ -21,17 +21,9 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 public class HotelsGuestPicker extends ScreenActions {
 
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
-
 	private static final int INCREMENT_BUTTON_ID = R.id.increment;
-	private static final int DECREMENT_BUTTON_ID = R.id.decrement;
-
 	private static final int ADULT_PICKER_VIEW_ID = R.id.adults_number_picker;
 	private static final int CHILD_PICKER_VIEW_ID = R.id.children_number_picker;
-
-	private static final int LOWER_TEXT_VIEW_ID = R.id.text_lower;
-	private static final int CURRENT_TEXT_VIEW_ID = R.id.text_current;
-	private static final int HIGHER_TEXT_VIEW_ID = R.id.text_higher;
-
 	private static final int SELECT_CHILD_AGE_PLURAL_ID = R.plurals.select_each_childs_age;
 	private static final int NUMBER_OF_ADULTS_PLURAL_ID = R.plurals.number_of_adults_TEMPLATE;
 	private static final int NUMBER_OF_CHILDREN_PLURAL_ID = R.plurals.number_of_children;
@@ -76,14 +68,6 @@ public class HotelsGuestPicker extends ScreenActions {
 		onView(allOf(withId(level), withParent(withId(resID)))).perform(getString(value));
 		String stringValue=value.get();
 		return stringValue;
-	}
-
-	public static ViewInteraction adultPicker() {
-		return onView(withId(ADULT_PICKER_VIEW_ID));
-	}
-
-	public static ViewInteraction childrenPicker() {
-		return onView(withId(CHILD_PICKER_VIEW_ID));
 	}
 
 	// Object interaction

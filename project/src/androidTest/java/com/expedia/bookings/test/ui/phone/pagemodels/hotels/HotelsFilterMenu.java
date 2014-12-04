@@ -51,10 +51,6 @@ public class HotelsFilterMenu extends ScreenActions {
 		return onView(withId(LARGE_RADIUS_BUTTON_ID));
 	}
 
-	public static ViewInteraction allRadiusFilterButton() {
-		return onView(withId(ALL_RADIUS_BUTTON_ID));
-	}
-
 	public static ViewInteraction lowRatingFilterButton() {
 		return onView(withId(LOW_RATING_BUTTON_ID));
 	}
@@ -109,10 +105,6 @@ public class HotelsFilterMenu extends ScreenActions {
 		(largeRadiusFilterButton()).perform(click());
 	}
 
-	public static void clickAllRadiusFilterButton() {
-		(smallRadiusFilterButton()).perform(click());
-	}
-
 	public static void clickLowRatingFilterButton() {
 		(lowRatingFilterButton()).perform(click());
 	}
@@ -127,22 +119,6 @@ public class HotelsFilterMenu extends ScreenActions {
 
 	public static void clickAllRatingFilterButton() {
 		(allRatingFilterButton()).perform(click());
-	}
-
-	public static void clickLowPriceFilterButton() {
-		(lowPriceFilterButton()).perform(click());
-	}
-
-	public static void clickModeratePriceFilterButton() {
-		(moderatePriceFilterButton()).perform(click());
-	}
-
-	public static void clickExpensivePriceFilterButton() {
-		(expensivePriceFilterButton()).perform(click());
-	}
-
-	public static void clickAllPriceFilterButton() {
-		(allPriceFilterButton()).perform(click());
 	}
 
 	public static void clickVIPAccessFilterButton() {

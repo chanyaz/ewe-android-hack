@@ -25,14 +25,6 @@ public class HotelsReviewsScreen extends ScreenActions {
 
 	// Object access
 
-	public static ViewInteraction titleView() {
-		return onView(withId(sTitleViewID));
-	}
-
-	public static ViewInteraction ratingBar() {
-		return onView(withId(sRatingViewID));
-	}
-
 	public static ViewInteraction selectButton() {
 		return onView(withId(sSelectButtonID));
 	}
@@ -53,10 +45,6 @@ public class HotelsReviewsScreen extends ScreenActions {
 		return onView(withId(sBackButtonID));
 	}
 
-	public static ViewInteraction loadingUserReviews() {
-		return onView(withText(sLoadingReviewsStringID));
-	}
-
 	// Object interaction
 
 	public static void clickSelectButton() {
@@ -73,10 +61,6 @@ public class HotelsReviewsScreen extends ScreenActions {
 
 	public static void clickCriticalTab() {
 		(criticalString()).perform(click());
-	}
-
-	public static void clickBackButton() {
-		(backButton()).perform(click());
 	}
 
 }

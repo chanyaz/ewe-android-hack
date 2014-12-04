@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 
-import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -15,11 +14,8 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
@@ -36,7 +32,6 @@ public class HotelsSearchScreen extends ScreenActions {
 	private static final int SEARCH_EDIT_TEXT_ID = R.id.search_edit_text;
 	private static final int CLEAR_SEARCH_EDIT_TEXT_ID = R.id.clear_search_button;
 	private static final int GUESTS_BUTTON_ID = R.id.guests_button;
-	private static final int GUEST_NUMBER_TEXTVIEW_ID = R.id.guests_text_view;
 	private static final int CALENDAR_BUTTON_ID = R.id.dates_button;
 	private static final int CALENDAR_TEXT_VIEW_ID = R.id.dates_text_view;
 	private static final int CALENDAR_DATE_PICKER_ID = R.id.dates_date_picker;
@@ -51,7 +46,6 @@ public class HotelsSearchScreen extends ScreenActions {
 	// Bottom action bar
 	private static final int SORT_BUTTON_ID = R.id.menu_select_sort;
 	private static final int FILTER_BUTTON_ID = R.id.menu_select_filter;
-	private static final int MAP_BUTTON_ID = R.id.menu_select_change_view;
 
 	// Fragments
 	private static HotelsSortMenu mSortMenu;
@@ -96,10 +90,6 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	public static ViewInteraction guestsButton() {
 		return onView(withId(GUESTS_BUTTON_ID));
-	}
-
-	public static ViewInteraction guestNumberTextView() {
-		return onView(withId(GUEST_NUMBER_TEXTVIEW_ID));
 	}
 
 	public static ViewInteraction calendarButton() {
@@ -174,10 +164,6 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	public static void clickDate(final LocalDate start) {
 		calendarDatePicker().perform(ViewActions.clickDate(start));
-	}
-
-	public static void selectHotelFromList() {
-		hotelResultsListView().perform(click());
 	}
 
 	public static void clickSuggestionAtIndex(Activity activity, int index) {

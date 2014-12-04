@@ -16,9 +16,6 @@ import static org.hamcrest.Matchers.anything;
  * Created by dmadan on 4/7/14.
  */
 public class FlightsSearchResultsScreen extends ScreenActions {
-	private static final int TITLE_TEXTVIEW_ID = R.id.title_text_view;
-	private static final int SUBTITLE_TEXTVIEW_ID = R.id.subtitle_text_view;
-	private static final int NO_FLIGHTS_WERE_FOUND_STRING_ID = R.string.error_no_flights_found;
 	private static final int FLIGHT_LIST_ID = android.R.id.list;
 	private static final int SORT_FLIGHTS_VIEW_ID = R.id.menu_sort;
 	private static final int SORT_PRICE_STRING = R.string.sort_description_price;
@@ -28,14 +25,6 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 	private static final int SEARCH_BUTTON_ID = R.id.menu_search;
 
 // Object access
-
-	public static ViewInteraction titleTextView() {
-		return onView(withId(TITLE_TEXTVIEW_ID));
-	}
-
-	public static ViewInteraction subtitleTextView() {
-		return onView(withId(SUBTITLE_TEXTVIEW_ID));
-	}
 
 	public static ViewInteraction searchResultListView() {
 		return onView(withId(FLIGHT_LIST_ID));
@@ -67,10 +56,6 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 
 	public static DataInteraction listItem() {
 		return onData(anything()).inAdapterView(withId(android.R.id.list));
-	}
-
-	public static ViewInteraction noFlightsWereFound() {
-		return onView(withText(NO_FLIGHTS_WERE_FOUND_STRING_ID));
 	}
 
 	// Object interactions
