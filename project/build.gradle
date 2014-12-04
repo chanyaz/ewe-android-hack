@@ -218,6 +218,68 @@ def releaseAccountTokens = [
     'com.travelocity.android' : 'travelocity.tuid',
 ]
 
+public class GradleUtil {
+    static def isDefined(s) {
+        return s != null && !s.isEmpty() && s != "null"
+    }
+
+    static def shouldEnableProguard(Project project) {
+        def buildNumber = "$System.env.BUILD_NUMBER"
+        def boolean shouldRunProguard = false
+
+        // If BUILD_NUMBER defined turn on proguard
+        if (isDefined(buildNumber)) {
+            shouldRunProguard = true
+        }
+
+        // This setting supercedes BUILD_NUMBER
+        if (project.hasProperty("runProguard")) {
+            shouldRunProguard = project.getProperty("runProguard").toBoolean()
+        }
+
+        return shouldRunProguard;
+    }
+
+    static def getPropertyWithDefault(Project project, String key, String thedefault) {
+        if (project.hasProperty(key)) {
+            return project.getProperty(key).toString()
+        }
+
+        return thedefault
+    }
+
+    static def getFeatureName(Project project) {
+        return getPropertyWithDefault(project, "featureName", "none")
+    }
+
+    static def getAppName(Project project, variant) {
+        // Don't touch release builds
+        if (variant.buildType.name == "release") {
+            return null
+        }
+
+        def flavor = variant.productFlavors.get(0).name
+        flavor = flavor.capitalize()
+
+        def type = variant.buildType.name
+        if (type == "feature") {
+            type = getFeatureName(project)
+        }
+        type = type.capitalize()
+
+        return flavor + " " + type
+    }
+
+    static def getGitRevision() {
+        def hash = "git rev-parse --short HEAD".execute().text.trim()
+        def hasLocalChanges = "git diff --raw".execute().text
+        if (hasLocalChanges) {
+            hash = "!" + hash
+        }
+        return hash
+    }
+}
+
 android.applicationVariants.all { variant ->
     // We released apps with the following tokens so we should maintain them so people don't get logged out
     def token = releaseAccountTokens[variant.applicationId]
