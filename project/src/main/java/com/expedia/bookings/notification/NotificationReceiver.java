@@ -264,6 +264,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 			else if (ExpediaBookingApp.IS_AAG) {
 				builder.setSmallIcon(R.drawable.ic_stat_aag);
 			}
+			else if (ExpediaBookingApp.IS_VSC) {
+				builder.setSmallIcon(R.drawable.ic_stat_vsc);
+			}
 
 			long flags = mNotification.getFlags();
 			ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());
