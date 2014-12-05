@@ -39,11 +39,11 @@ public class DateTimeParser {
 					Date date = df.parse(str);
 
 					// We are going to do this hacky way of parsing the timezone for fun and profit
-					String sign = Strings.slice(str, -6, -5);
-					String hourStr = Strings.slice(str, -5, -3);
-					String minuteStr = Strings.slice(str, -2);
-					int offset = (60 * 60 * Integer.parseInt(hourStr)) + (60 * Integer.parseInt(minuteStr));
-					if (sign.equals("-")) {
+					CharSequence sign = Strings.slice(str, -6, -5);
+					int hours = Integer.parseInt(Strings.slice(str, -5, -3).toString());
+					int minutes = Integer.parseInt(Strings.slice(str, -2).toString());
+					int offset = (60 * 60 * hours) + (60 * minutes);
+					if (Strings.equals(sign, "-")) {
 						offset *= -1;
 					}
 
