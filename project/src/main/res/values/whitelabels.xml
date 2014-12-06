@@ -194,7 +194,7 @@
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
     <attr name="skin_emailUserNameString" format="reference|string" />
-    <attr name="skin_itineraryNumberString" format="string" />
+    <attr name="skin_itineraryNumberString" format="reference|string" />
 
     <!-- Room not Available Error Msg-->
     <attr name="skin_roomNotAvailableError" format="string"/>

@@ -275,6 +275,7 @@
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itineraryNumberString">@string/expedia_itinerary</item>
     </style>
 
     <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
