@@ -307,6 +307,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			Rate rate = hotel.getRate();
 			String price = rate.getDisplayTotalPrice().getFormattedMoney();
 			mPriceTv.setText(price);
+			if (rate.showResortFeesMessaging()) {
+				mExtrasContainer.removeAllViews();
+				addResortFeeRows(rate);
+				addPrioritizedAmenityRows(rate);
+			}
 
 			refreshPriceChange();
 		}
@@ -317,7 +322,9 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate oldRate = hotel.getOldRate();
-			String amount = oldRate.getTotalAmountAfterTax().getFormattedMoney();
+			Money weCareAbout = hotel.getRate().getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES ?
+				oldRate.getTotalPriceWithMandatoryFees() : oldRate.getDisplayTotalPrice();
+			String amount = weCareAbout.getFormattedMoney();
 			String message = getString(R.string.price_changed_from_TEMPLATE, amount);
 			return message;
 		}
