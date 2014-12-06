@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -65,8 +64,6 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 	private ImageView mDestinationImageView;
 	private HeaderBitmapDrawable mHeaderBitmapDrawable;
 
-	private AirAttach mAirAttach;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (FragmentBailUtils.shouldBail(getActivity())) {
@@ -104,12 +101,8 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		mAirAttachExpirationDateTextView = Ui.findView(v, R.id.air_attach_expiration_date_text_view);
 
 		// Set up air attach banner if applicable
-		// Currently only handling US POS and no hotel in trip bucket
-		mAirAttach = Db.getTripBucket().getAirAttach();
-		if (PointOfSale.getPointOfSale().shouldShowAirAttach() &&
-			mAirAttach != null &&
-			mAirAttach.isAirAttachQualified()) {
-
+		// Currently only handling US POS
+		if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
 			if (getNextBookingItem() == null) {
 				mAirAttachContainer.setVisibility(View.VISIBLE);
 				setAirAttachText(getString(R.string.air_attach_potential_savings));
@@ -169,7 +162,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		mAirAttachSavingsTextView.setText(savingsString);
 
 		DateTime currentDate = new DateTime();
-		int numDays = JodaUtils.daysBetween(currentDate, mAirAttach.getExpirationDate());
+		int numDays = JodaUtils.daysBetween(currentDate, Db.getTripBucket().getAirAttach().getExpirationDate());
 		mAirAttachExpiresTextView.setText(R.string.air_attach_expires);
 		mAirAttachExpirationDateTextView.setText(getString(R.string.air_attach_expiration_date_TEMPLATE, numDays));
 	}

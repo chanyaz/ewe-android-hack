@@ -30,7 +30,6 @@ import com.adobe.adms.measurement.ADMS_Measurement;
 import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -2610,9 +2609,7 @@ public class OmnitureTracking {
 			s.setEvar(23, tbState);
 
 			// Air attach state
-			AirAttach airAttach = Db.getTripBucket().getAirAttach();
-			boolean userIsAttachEligible = airAttach != null && airAttach.isAirAttachQualified() &&
-				airAttach.getExpirationDate().isBeforeNow();
+			boolean userIsAttachEligible = Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified();
 			boolean eligibleHotelInBucket = hotel != null && hotel.hasAirAttachRate();
 			String airAttachState = userIsAttachEligible ? "Attach|Hotel Eligible" : "Attach|Non Eligible";
 			s.setEvar(65, airAttachState);

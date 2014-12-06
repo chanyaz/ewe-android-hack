@@ -447,8 +447,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			Rate rate = Db.getTripBucket().getHotel().getRate();
 
-			AirAttach airAttach = Db.getTripBucket().getAirAttach();
-			boolean qualifyAirAttach = airAttach != null && airAttach.isAirAttachQualified();
+			boolean qualifyAirAttach = Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified();
 
 			return services.createTrip(params, property, rate, qualifyAirAttach);
 		}
