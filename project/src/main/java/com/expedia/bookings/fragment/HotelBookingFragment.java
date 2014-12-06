@@ -336,6 +336,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 			//Update total price
 			newRate.getDisplayTotalPrice().add(priceChange);
+			newRate.getTotalAmountAfterTax().add(priceChange);
 
 			//Update all nights total and per/night totals
 			newRate.getNightlyRateTotal().add(priceChange);
@@ -363,6 +364,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			else {
 				Events.post(new Events.HotelProductRateUp(newRate));
 			}
+		}
+		else if (newRate.showResortFeesMessaging()) {
+			Db.getTripBucket().getHotel().setNewRate(newRate);
 		}
 
 		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();

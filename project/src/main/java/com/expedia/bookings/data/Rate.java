@@ -569,7 +569,7 @@ public class Rate implements JSONable {
 	}
 
 	public int compareTo(Rate other) {
-		return getDisplayPrice().compareTo(other.getDisplayPrice());
+		return getDisplayPrice().compareTo(other.getTotalAmountAfterTax());
 	}
 
 	public TaxStatusType getTaxStatusType() {
