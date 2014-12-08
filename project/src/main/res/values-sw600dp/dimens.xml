@@ -128,6 +128,7 @@
     <dimen name="tablet_reviews_header_height">112dp</dimen>
     <dimen name="hotel_details_star_rating_margin">15dp</dimen>
     <dimen name="hotel_details_hotel_name_margin">4dp</dimen>
+    <dimen name="hotel_details_pin_padding">36dp</dimen>
     <dimen name="hotel_details_reviews_section_height">72dp</dimen>
     <dimen name="hotel_details_reviews_section_top_padding">0dp</dimen>
     <dimen name="hotel_details_ring_size">36dp</dimen>
