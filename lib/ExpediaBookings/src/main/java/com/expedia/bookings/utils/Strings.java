@@ -87,11 +87,11 @@ public class Strings {
 	 * If you enter bullshit params, you will get an empty string.
 	 */
 
-	public static <T extends CharSequence> T slice(CharSequence str, int start) {
-		return (T) slice(str, start, null);
+	public static CharSequence slice(CharSequence str, int start) {
+		return slice(str, start, null);
 	}
 
-	public static <T extends CharSequence> T slice(CharSequence str, int start, Integer end) {
+	public static CharSequence slice(CharSequence str, int start, Integer end) {
 		int len = str.length();
 
 		if (start < 0) {
@@ -107,10 +107,10 @@ public class Strings {
 
 		// If the user put us in an awkward place, just return the empty string
 		if (start > len || end < start) {
-			return (T) str.subSequence(0, 0);
+			return str.subSequence(0, 0);
 		}
 
-		return (T) str.subSequence(start, end);
+		return str.subSequence(start, end);
 	}
 
 	/**
