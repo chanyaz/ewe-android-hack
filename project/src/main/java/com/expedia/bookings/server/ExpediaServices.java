@@ -1147,6 +1147,12 @@ public class ExpediaServices implements DownloadListener {
 		if (ExpediaBookingApp.IS_AAG) {
 			shortUrl.append("a.aago.co");
 		}
+		else if(ExpediaBookingApp.IS_TRAVELOCITY){
+			shortUrl.append("t.tvly.co");
+		}
+		else if(ExpediaBookingApp.IS_VSC){
+			shortUrl.append("v.vygs.co");
+		}
 		else {
 			shortUrl.append("e.xpda.co");
 		}
