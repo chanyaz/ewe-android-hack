@@ -871,6 +871,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	private void showPurchaseViews(boolean animate) {
+		if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
+			mScrollView.fullScroll(View.FOCUS_DOWN);
+		}
 		if (mSlideToPurchaseFragmentLayout.getVisibility() == View.VISIBLE) {
 			if (mPurchaseViewsAnimation != null) {
 				mPurchaseViewsAnimation.setAnimationListener(null);
