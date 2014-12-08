@@ -41,8 +41,8 @@ public class SuggestionsAdapter extends CursorAdapter {
 	@Override
 	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
 		Uri uri = Uri.withAppendedPath(
-				SuggestionProvider.getContentFilterUri(mContext),
-				Uri.encode(constraint.toString()));
+			SuggestionProvider.getContentFilterUri(mContext),
+			Uri.encode(constraint.toString()));
 
 		return mContent.query(uri, null, null, null, null);
 	}

@@ -170,7 +170,8 @@ public class SuggestionProvider extends ContentProvider {
 			}
 
 			if (sShowNearbyAirports) {
-				List<SuggestionV2> airportSuggestions = SuggestionUtils.getNearbyAirportSuggestions(getContext(), MAX_NUM_NEARBY_AIRPORTS);
+				List<SuggestionV2> airportSuggestions = SuggestionUtils
+					.getNearbyAirportSuggestions(getContext(), MAX_NUM_NEARBY_AIRPORTS);
 				for (SuggestionV2 suggestion : airportSuggestions) {
 					addSuggestion(suggestion);
 				}
@@ -252,11 +253,29 @@ public class SuggestionProvider extends ContentProvider {
 			suggestion.fromJson(obj);
 			mRecents.addItem(suggestion);
 			mRecents.saveList(getContext(), RECENTS_FILENAME);
-			return getContentFilterUri(getContext());
+			getContext().getContentResolver().notifyChange(uri, null);
+			return uri;
 		}
 		catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * Delete will always delete all of them. It'll ignore the selection and selectionArgs.
+	 *
+	 * @param uri
+	 * @param selection
+	 * @param selectionArgs
+	 * @return
+	 */
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		int count = mRecents.getList().size();
+		mRecents.clear();
+		mRecents.saveList(getContext(), RECENTS_FILENAME);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -374,17 +393,11 @@ public class SuggestionProvider extends ContentProvider {
 		throw new UnsupportedOperationException("You cannot update suggestions.");
 	}
 
-	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		throw new UnsupportedOperationException("You cannot delete suggestions.");
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Clear
 
 	public static void clearRecents(Context context) {
-		RecentList<SuggestionV2> recents = new RecentList<SuggestionV2>(SuggestionV2.class, context, RECENTS_FILENAME, MAX_RECENTS);
-		recents.clear();
-		recents.saveList(context, RECENTS_FILENAME);
+		Uri uri = getContentFilterUri(context);
+		context.getContentResolver().delete(uri, null, null);
 	}
 }
