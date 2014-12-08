@@ -18,6 +18,7 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightLeg implements JSONable, ItinSharable {
@@ -165,7 +166,12 @@ public class FlightLeg implements JSONable, ItinSharable {
 			return null;
 		}
 
-		return mSegments.get(0).getPrimaryFlightCode().mAirlineCode;
+		FlightCode code = mSegments.get(0).getPrimaryFlightCode();
+		if (code == null) {
+			return null;
+		}
+
+		return code.mAirlineCode;
 	}
 
 	public String getAirlinesFormatted() {
