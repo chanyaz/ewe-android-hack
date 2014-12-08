@@ -1,7 +1,6 @@
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
-def buildNumber = "$System.env.BUILD_NUMBER"
 
 def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
@@ -90,7 +89,7 @@ android {
 
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
-        buildConfigField "String", "BUILD_NUMBER",  "\"${buildNumber}\""
+        buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
 
         // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
         resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
@@ -211,20 +210,13 @@ android {
     }
 }
 
-
-def releaseAccountTokens = [
-    'com.expedia.bookings' : 'expedia.tuid',
-    'com.expedia.bookings.vsc' : 'vsc.tuid',
-    'com.travelocity.android' : 'travelocity.tuid',
-]
-
 public class GradleUtil {
     static def isDefined(s) {
         return s != null && !s.isEmpty() && s != "null"
     }
 
     static def shouldEnableProguard(Project project) {
-        def buildNumber = "$System.env.BUILD_NUMBER"
+        def buildNumber = "${System.env.BUILD_NUMBER}"
         def boolean shouldRunProguard = false
 
         // If BUILD_NUMBER defined turn on proguard
@@ -279,6 +271,12 @@ public class GradleUtil {
         return hash
     }
 }
+
+def releaseAccountTokens = [
+    'com.expedia.bookings' : 'expedia.tuid',
+    'com.expedia.bookings.vsc' : 'vsc.tuid',
+    'com.travelocity.android' : 'travelocity.tuid',
+]
 
 android.applicationVariants.all { variant ->
     // We released apps with the following tokens so we should maintain them so people don't get logged out
