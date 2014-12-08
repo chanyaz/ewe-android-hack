@@ -463,6 +463,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateFinalized(CheckoutState state) {
 			setFragmentState(state);
 			setVisibilityState(state);
+			if (mCheckoutFragment != null) {
+				mCheckoutFragment.setCheckoutStateForScrollView(state);
+			}
 
 			if (state == CheckoutState.OVERVIEW) {
 				setShowCvvPercentage(0f);

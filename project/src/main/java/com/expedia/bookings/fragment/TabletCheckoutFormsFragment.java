@@ -37,6 +37,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
+import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
@@ -64,6 +65,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SizeCopyView;
+import com.expedia.bookings.widget.TabletCheckoutScrollView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -112,6 +114,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private ViewGroup mPaymentFormC;
 	private View mPaymentView;
 	private TouchableFrameLayout mTouchBlocker;
+	private TabletCheckoutScrollView mScrollC;
 
 	private CheckoutInformationListener mCheckoutInfoListener;
 
@@ -161,6 +164,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 		mSizeCopyView = Ui.findView(mRootC, R.id.slide_container_size_copy_view);
 		mTouchBlocker = Ui.findView(mRootC, R.id.forms_touch_blocker);
+		mScrollC = Ui.findView(mRootC, R.id.checkout_scroll);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CHECKOUTFORMSTATE)) {
 			String stateName = savedInstanceState.getString(STATE_CHECKOUTFORMSTATE);
@@ -842,6 +846,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				mHorizontalTripItemContainer.setAlpha(1f - percentage);
 			}
 			mCheckoutRowsC.setAlpha(1f - percentage);
+		}
+	}
+
+	// ScrollView helper
+
+	public void setCheckoutStateForScrollView(CheckoutState state) {
+		if (mScrollC != null) {
+			mScrollC.setCheckoutState(state);
 		}
 	}
 
