@@ -1,7 +1,6 @@
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
-def buildNumber = "$System.env.BUILD_NUMBER"
 
 def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
@@ -90,7 +89,7 @@ android {
 
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
-        buildConfigField "String", "BUILD_NUMBER",  "\"${buildNumber}\""
+        buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
 
         // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
         resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
@@ -211,6 +210,67 @@ android {
     }
 }
 
+public class GradleUtil {
+    static def isDefined(s) {
+        return s != null && !s.isEmpty() && s != "null"
+    }
+
+    static def shouldEnableProguard(Project project) {
+        def buildNumber = "${System.env.BUILD_NUMBER}"
+        def boolean shouldRunProguard = false
+
+        // If BUILD_NUMBER defined turn on proguard
+        if (isDefined(buildNumber)) {
+            shouldRunProguard = true
+        }
+
+        // This setting supercedes BUILD_NUMBER
+        if (project.hasProperty("runProguard")) {
+            shouldRunProguard = project.getProperty("runProguard").toBoolean()
+        }
+
+        return shouldRunProguard;
+    }
+
+    static def getPropertyWithDefault(Project project, String key, String thedefault) {
+        if (project.hasProperty(key)) {
+            return project.getProperty(key).toString()
+        }
+
+        return thedefault
+    }
+
+    static def getFeatureName(Project project) {
+        return getPropertyWithDefault(project, "featureName", "none")
+    }
+
+    static def getAppName(Project project, variant) {
+        // Don't touch release builds
+        if (variant.buildType.name == "release") {
+            return null
+        }
+
+        def flavor = variant.productFlavors.get(0).name
+        flavor = flavor.capitalize()
+
+        def type = variant.buildType.name
+        if (type == "feature") {
+            type = getFeatureName(project)
+        }
+        type = type.capitalize()
+
+        return flavor + " " + type
+    }
+
+    static def getGitRevision() {
+        def hash = "git rev-parse --short HEAD".execute().text.trim()
+        def hasLocalChanges = "git diff --raw".execute().text
+        if (hasLocalChanges) {
+            hash = "!" + hash
+        }
+        return hash
+    }
+}
 
 def releaseAccountTokens = [
     'com.expedia.bookings' : 'expedia.tuid',
