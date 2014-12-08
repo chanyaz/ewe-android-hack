@@ -60,8 +60,8 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
-import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.SlideToWidgetJB;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -461,6 +461,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateFinalized(CheckoutState state) {
 			setFragmentState(state);
 			setVisibilityState(state);
+			if (mCheckoutFragment != null) {
+				mCheckoutFragment.setCheckoutStateForScrollView(state);
+			}
 
 			if (state == CheckoutState.OVERVIEW) {
 				setShowCvvPercentage(0f);
