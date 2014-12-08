@@ -49,6 +49,9 @@ dependencies {
     androidTestCompile('com.squareup.okhttp:mockwebserver:2.0.0') {
         exclude group: 'com.squareup.okhttp'
     }
+    androidTestCompile (project(':lib:mocke3:mocke3')) {
+        transitive = false
+    }
 }
 
 android {
