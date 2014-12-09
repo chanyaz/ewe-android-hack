@@ -222,6 +222,10 @@ public class Notification extends Model implements JSONable {
 			return R.drawable.ic_stat_aag;
 		}
 
+		else if (ExpediaBookingApp.IS_VSC && (resId == 0 || mIconId == 1)) {
+			return R.drawable.ic_stat_vsc;
+		}
+
 		return resId == 0 ? R.drawable.ic_stat_expedia : resId;
 	}
 
