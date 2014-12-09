@@ -370,7 +370,13 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			}
 		}
 		else if (newRate.showResortFeesMessaging()) {
-			Db.getTripBucket().getHotel().setNewRate(newRate);
+			Db.getTripBucket().getHotel().setNewRate(newRate, false);
+			// Having resort fees means we want to display the new info we
+			// got from the product call, that we did not necessarily get from
+			// offers. We should message this across all components.
+			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+				Events.post(new Events.HotelProductRateUp(newRate));
+			}
 		}
 
 		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
