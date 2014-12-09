@@ -136,20 +136,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase(Locale.getDefault())));
 				}
 
-				String totalTitle;
-				String price;
-				if (PointOfSale.getPointOfSale().showFTCResortRegulations() && rate.showResortFeesMessaging()) {
-					addResortFeeRows(rate);
-					totalTitle = getResources().getString(R.string.trip_total);
-					price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
-				}
-				else {
-					totalTitle = getResources().getString(R.string.total_with_tax);
-					price = rate.getDisplayTotalPrice().getFormattedMoney();
-				}
-				mTotalTitleTv.setText(totalTitle);
-				mPriceTv.setText(price);
-				addPrioritizedAmenityRows(rate);
+				refreshRate();
 			}
 		}
 		bindToDbHotelSearch();
@@ -300,14 +287,24 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate rate = hotel.getRate();
-			String price = rate.getDisplayTotalPrice().getFormattedMoney();
+			String totalTitle;
+			String price;
+			if (PointOfSale.getPointOfSale().showFTCResortRegulations() && rate.showResortFeesMessaging()) {
+				addResortFeeRows(rate);
+				totalTitle = getResources().getString(R.string.trip_total);
+				price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+			}
+			else {
+				totalTitle = getResources().getString(R.string.total_with_tax);
+				price = rate.getDisplayTotalPrice().getFormattedMoney();
+			}
+			mTotalTitleTv.setText(totalTitle);
 			mPriceTv.setText(price);
 			if (rate.showResortFeesMessaging()) {
 				mExtrasContainer.removeAllViews();
 				addResortFeeRows(rate);
-				addPrioritizedAmenityRows(rate);
 			}
-
+			addPrioritizedAmenityRows(rate);
 			refreshPriceChange();
 		}
 	}
