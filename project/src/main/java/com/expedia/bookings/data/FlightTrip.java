@@ -346,9 +346,9 @@ public class FlightTrip implements JSONable {
 			String countryCode = mLegs.get(0).getFirstWaypoint().getAirport().mCountryCode;
 			for (FlightLeg leg : mLegs) {
 				for (Flight flight : leg.getSegments()) {
-					if (flight.mDestination != null && flight.mDestination.getAirport() != null
-						&& flight.mDestination.getAirport().mCountryCode != null
-						&& !flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
+					if (flight.getDestinationWaypoint() != null && flight.getDestinationWaypoint().getAirport() != null
+						&& flight.getDestinationWaypoint().getAirport().mCountryCode != null
+						&& !flight.getDestinationWaypoint().getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
 						//Country codes don't match so we consider the flight to be international
 						retVal = true;
 						break;
@@ -380,9 +380,9 @@ public class FlightTrip implements JSONable {
 				}
 
 				for (Flight flight : leg.getSegments()) {
-					if (flight.mDestination != null && flight.mDestination.getAirport() != null
-						&& flight.mDestination.getAirport().mCountryCode != null
-						&& flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
+					if (flight.getDestinationWaypoint() != null && flight.getDestinationWaypoint().getAirport() != null
+						&& flight.getDestinationWaypoint().getAirport().mCountryCode != null
+						&& flight.getDestinationWaypoint().getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
 						retVal = true;
 						break;
 					}

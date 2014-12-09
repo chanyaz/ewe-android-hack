@@ -200,8 +200,10 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 
 	private Flight readSegment(JsonReader reader) throws IOException {
 		Flight segment = new Flight();
-		Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
-		Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
+		segment.setOriginWaypoint(new Waypoint(Waypoint.ACTION_DEPARTURE));
+		Waypoint departure = segment.getOriginWaypoint();
+		segment.setDestinationWaypoint(new Waypoint(Waypoint.ACTION_ARRIVAL));
+		Waypoint arrival = segment.getDestinationWaypoint();
 		FlightCode flightCode = new FlightCode();
 
 		// Add a default status code

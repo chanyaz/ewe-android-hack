@@ -243,7 +243,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 				Flight prevFlight = flightLeg.getSegment(i - 1);
 				Layover layover = new Layover(prevFlight, flight);
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 
 				ViewGroup layoverC = Ui.inflate(R.layout.snippet_tablet_flight_layover, mFlightLegsC, false);
 				TextView tv = Ui.findView(layoverC, R.id.flight_details_layover_text_view);

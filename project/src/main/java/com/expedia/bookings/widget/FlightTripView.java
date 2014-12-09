@@ -414,7 +414,7 @@ public class FlightTripView extends View {
 				text = mFlightLeg.getFirstWaypoint().mAirportCode;
 			}
 			else {
-				text = mFlightLeg.getSegment(a).mDestination.mAirportCode;
+				text = mFlightLeg.getSegment(a).getDestinationWaypoint().mAirportCode;
 			}
 
 			float textWidth = mTextPaint.measureText(text);
@@ -451,17 +451,17 @@ public class FlightTripView extends View {
 				// Flight
 				drawComponent.mDrawType = DrawType.FLIGHT_LINE;
 				Flight segment = mFlightLeg.getSegment(a / 2);
-				startMillis = segment.mOrigin.getBestSearchDateTime().getTimeInMillis();
-				endMillis = segment.mDestination.getBestSearchDateTime().getTimeInMillis();
+				startMillis = segment.getOriginWaypoint().getBestSearchDateTime().getTimeInMillis();
+				endMillis = segment.getDestinationWaypoint().getBestSearchDateTime().getTimeInMillis();
 			}
 			else {
 				// Layover
 				drawComponent.mDrawType = DrawType.AIRPORT_LAYOVER;
 				Flight flight1 = mFlightLeg.getSegment((a - 1) / 2);
 				Flight flight2 = mFlightLeg.getSegment((a + 1) / 2);
-				drawComponent.mAirportCode = flight1.mDestination.mAirportCode;
-				startMillis = flight1.mDestination.getBestSearchDateTime().getTimeInMillis();
-				endMillis = flight2.mOrigin.getBestSearchDateTime().getTimeInMillis();
+				drawComponent.mAirportCode = flight1.getDestinationWaypoint().mAirportCode;
+				startMillis = flight1.getDestinationWaypoint().getBestSearchDateTime().getTimeInMillis();
+				endMillis = flight2.getOriginWaypoint().getBestSearchDateTime().getTimeInMillis();
 			}
 			// Ensure we don't go over/under our max/min (this can happen if one of our intermediate
 			// waypoints gets rerouted or the max min values provided are bunk)

@@ -379,15 +379,15 @@ public class PushNotificationUtils {
 
 	private static JSONObject buildFlightJSON(Flight flight, boolean shared) {
 		try {
-			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime());
-			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime());
+			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(flight.getOriginWaypoint().getBestSearchDateTime());
+			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(flight.getDestinationWaypoint().getBestSearchDateTime());
 
 			JSONObject flightJson = new JSONObject();
 			flightJson.put("__type__", "Flight");
 			flightJson.put("departure_date", sFlightDateFormat.format(departureDate));
 			flightJson.put("arrival_date", sFlightDateFormat.format(arrivalDate));
-			flightJson.put("destination", flight.mDestination.mAirportCode);
-			flightJson.put("origin", flight.mOrigin.mAirportCode);
+			flightJson.put("destination", flight.getDestinationWaypoint().mAirportCode);
+			flightJson.put("origin", flight.getOriginWaypoint().mAirportCode);
 			flightJson.put("airline", flight.getPrimaryFlightCode().mAirlineCode);
 			flightJson.put("flight_no", flight.getPrimaryFlightCode().mNumber);
 			flightJson.put("shared", shared);

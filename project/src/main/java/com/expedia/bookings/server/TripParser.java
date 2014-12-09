@@ -360,8 +360,8 @@ public class TripParser {
 				//required for flight map
 				segment.mStatusCode = Flight.STATUS_UNKNOWN;
 
-				segment.mOrigin = parseWaypoint(segmentJson, Waypoint.F_DEPARTURE);
-				segment.mDestination = parseWaypoint(segmentJson, Waypoint.F_ARRIVAL);
+				segment.setOriginWaypoint(parseWaypoint(segmentJson, Waypoint.F_DEPARTURE));
+				segment.setDestinationWaypoint(parseWaypoint(segmentJson, Waypoint.F_ARRIVAL));
 
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");

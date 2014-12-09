@@ -174,14 +174,16 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			// Parse departure
-			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
+			segment.setOriginWaypoint(new Waypoint(Waypoint.ACTION_DEPARTURE));
+			Waypoint departure = segment.getOriginWaypoint();
 			departure.mAirportCode = segmentJson.optString("departureAirportCode");
 			departure.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
 				segmentJson.optLong("departureTimeEpochSeconds") * 1000,
 				segmentJson.optInt("departureTimeZoneOffsetSeconds") * 1000);
 
 			// Parse arrival
-			Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
+			segment.setDestinationWaypoint(new Waypoint(Waypoint.ACTION_ARRIVAL));
+			Waypoint arrival = segment.getDestinationWaypoint();
 			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
 			arrival.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
 				segmentJson.optLong("arrivalTimeEpochSeconds") * 1000,

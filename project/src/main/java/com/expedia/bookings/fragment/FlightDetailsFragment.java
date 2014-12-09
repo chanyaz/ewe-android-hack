@@ -109,7 +109,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		// Depart from row
 		FlightInfoSection departFromSection = FlightInfoSection.inflate(inflater, container);
 		departFromSection.bind(R.drawable.ic_departure_arrow_small, getString(R.string.depart_from_TEMPLATE,
-				StrUtils.formatWaypoint(leg.getSegment(0).mOrigin)));
+				StrUtils.formatWaypoint(leg.getSegment(0).getOriginWaypoint())));
 		mInfoContainer.addView(departFromSection);
 
 		// Add each card, with layovers in between
@@ -125,7 +125,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 				Flight prevFlight = leg.getSegment(a - 1);
 				Layover layover = new Layover(prevFlight, flight);
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 				flightLayoverSection.bind(R.drawable.ic_clock_small,
 						Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
 				mInfoContainer.addView(flightLayoverSection);
@@ -142,7 +142,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		// Arrive at row
 		FlightInfoSection arriveAtSection = FlightInfoSection.inflate(inflater, container);
 		arriveAtSection.bind(R.drawable.ic_return_arrow_small, getString(R.string.arrive_at_TEMPLATE,
-				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
+				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).getDestinationWaypoint())));
 		mInfoContainer.addView(arriveAtSection);
 
 		// Footer: https://mingle/projects/eb_ad_app/cards/660

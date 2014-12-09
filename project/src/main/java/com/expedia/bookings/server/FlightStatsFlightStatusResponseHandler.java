@@ -47,23 +47,23 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 
 		parseFlightCode(json, flight, true);
 
-		flight.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
-		flight.mOrigin.mAirportCode = json.getString("departureAirportFsCode");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, json, "departureDate");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "publishedDeparture");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_GATE, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "scheduledGateDeparture");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_GATE, Waypoint.ACCURACY_ESTIMATED, operationalTimes, "estimatedGateDeparture");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_GATE, Waypoint.ACCURACY_ACTUAL, operationalTimes, "actualGateDeparture");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "flightPlanPlannedDeparture");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_ESTIMATED, operationalTimes, "estimatedRunwayDeparture");
-		addDateTime(flight.mOrigin, Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_ACTUAL, operationalTimes, "actualRunwayDeparture");
+		flight.setOriginWaypoint(new Waypoint(Waypoint.ACTION_DEPARTURE));
+		flight.getOriginWaypoint().mAirportCode = json.getString("departureAirportFsCode");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, json, "departureDate");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "publishedDeparture");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_GATE, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "scheduledGateDeparture");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_GATE, Waypoint.ACCURACY_ESTIMATED, operationalTimes, "estimatedGateDeparture");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_GATE, Waypoint.ACCURACY_ACTUAL, operationalTimes, "actualGateDeparture");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "flightPlanPlannedDeparture");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_ESTIMATED, operationalTimes, "estimatedRunwayDeparture");
+		addDateTime(flight.getOriginWaypoint(), Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_ACTUAL, operationalTimes, "actualRunwayDeparture");
 
-		flight.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
-		flight.mDestination.mAirportCode = json.getString("arrivalAirportFsCode");
+		flight.setDestinationWaypoint(new Waypoint(Waypoint.ACTION_ARRIVAL));
+		flight.getDestinationWaypoint().mAirportCode = json.getString("arrivalAirportFsCode");
 
 		if (json.has("divertedAirportFsCode")) {
-			flight.mDiverted = new Waypoint(Waypoint.ACTION_DIVERTED);
-			flight.mDiverted.mAirportCode = json.getString("divertedAirportFsCode");
+			flight.setDivertedWaypoint(new Waypoint(Waypoint.ACTION_DIVERTED));
+			flight.getDivertedWaypoint().mAirportCode = json.getString("divertedAirportFsCode");
 		}
 
 		Waypoint arrival = flight.getArrivalWaypoint();
@@ -85,8 +85,8 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 
 		if (json.has("airportResources")) {
 			JSONObject airportResources = json.getJSONObject("airportResources");
-			flight.mOrigin.setTerminal(airportResources.optString("departureTerminal", null));
-			flight.mOrigin.setGate(airportResources.optString("departureGate", null));
+			flight.getOriginWaypoint().setTerminal(airportResources.optString("departureTerminal", null));
+			flight.getOriginWaypoint().setGate(airportResources.optString("departureGate", null));
 			arrival.setTerminal(airportResources.optString("arrivalTerminal", null));
 			arrival.setGate(airportResources.optString("arrivalGate", null));
 			flight.mBaggageClaim = airportResources.optString("baggage", null);

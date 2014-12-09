@@ -86,14 +86,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public Waypoint getFirstWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {
-			return mSegments.get(0).mOrigin;
+			return mSegments.get(0).getOriginWaypoint();
 		}
 		return null;
 	}
 
 	public Waypoint getLastWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {
-			return mSegments.get(mSegments.size() - 1).mDestination;
+			return mSegments.get(mSegments.size() - 1).getDestinationWaypoint();
 		}
 		return null;
 	}
@@ -116,9 +116,9 @@ public class FlightLeg implements JSONable, ItinSharable {
 				if (flight.mDistanceToTravel > 0) {
 					totalDistance += flight.mDistanceToTravel;
 				}
-				else if (flight.mOrigin != null && flight.mDestination != null) {
-					origin = flight.mOrigin.getAirport();
-					destination = flight.mDestination.getAirport();
+				else if (flight.getOriginWaypoint() != null && flight.getDestinationWaypoint() != null) {
+					origin = flight.getOriginWaypoint().getAirport();
+					destination = flight.getDestinationWaypoint().getAirport();
 
 					// Airports shouldn't be null here, but we'll check anyway since this
 					// else if block should be relatively uncommon

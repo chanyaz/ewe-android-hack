@@ -422,8 +422,8 @@ public class HotelSearchParams implements JSONable {
 		if (latitude == 0 && longitude == 0) {
 			// We try the origin of the last segment - this isn't great,
 			// but in the case of a bus ride, it might be about all we have
-			latitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLatitude();
-			longitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLongitude();
+			latitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).getOriginWaypoint().getAirport().getLatitude();
+			longitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).getOriginWaypoint().getAirport().getLongitude();
 		}
 
 		// These should only be zero in rare cases, at which time we just use our cityStr
