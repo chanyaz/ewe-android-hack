@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -13,10 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Spinner;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -47,7 +51,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	// even need FilterDialogFragment after 4.0?
 
 	private EditText mHotelNameEditText;
-	private SlidingRadioGroup mSortByButtonGroup;
+	private Spinner mSortByButtonGroup;
 	private SlidingRadioGroup mRadiusButtonGroup;
 	private SlidingRadioGroup mRatingButtonGroup;
 	private SlidingRadioGroup mPriceButtonGroup;
@@ -87,7 +91,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		});
 
 		mHotelNameEditText = Ui.findView(view, R.id.filter_hotel_name_edit_text);
-		mSortByButtonGroup = Ui.findView(view, R.id.sort_by_button_group);
+		mSortByButtonGroup = Ui.findView(view, R.id.sort_by_selection_spinner);
 		mRadiusButtonGroup = Ui.findView(view, R.id.radius_filter_button_group);
 		mRatingButtonGroup = Ui.findView(view, R.id.rating_filter_button_group);
 		mPriceButtonGroup = Ui.findView(view, R.id.price_filter_button_group);
@@ -98,7 +102,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		// Configure functionality of each filter control
 		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
-		mSortByButtonGroup.setOnCheckedChangeListener(mSortCheckedChangeListener);
+		mSortByButtonGroup.setOnItemSelectedListener(mSortCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mRadiusCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mStarRatingCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
@@ -117,36 +121,22 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		// Show/hide "sort by distance" depending on if this is a distance type search
 		boolean showDistance = search != null
-				&& search.getSearchParams() != null
-				&& search.getSearchParams().getSearchType().shouldShowDistance();
-		Ui.findView(getActivity(), R.id.sort_by_distance_button).setVisibility(showDistance ? View.VISIBLE : View.GONE);
+			&& search.getSearchParams() != null
+			&& search.getSearchParams().getSearchType().shouldShowDistance();
+
+		List<String> sortOptions = Arrays.asList(getResources().getStringArray(R.array.sort_options));
+		if (showDistance) {
+			sortOptions.add(getString(R.string.distance));
+		}
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_sort_item, sortOptions);
+		adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item);
+
+		mSortByButtonGroup.setAdapter(adapter);
+		int selectedPosition = filter.getSort().ordinal();
+		mSortByButtonGroup.setSelection(selectedPosition);
 
 		int checkId;
-		switch (filter.getSort()) {
-		case PRICE: {
-			checkId = R.id.sort_by_price_button;
-			break;
-		}
-		case RATING: {
-			checkId = R.id.sort_by_rating_button;
-			break;
-		}
-		case DISTANCE: {
-			checkId = R.id.sort_by_distance_button;
-			break;
-		}
-		case DEALS: {
-			checkId = R.id.sort_by_deals_button;
-			break;
-		}
-		case POPULAR:
-		default: {
-			checkId = R.id.sort_by_popular_button;
-			break;
-		}
-		}
-		mSortByButtonGroup.check(checkId);
-
 		switch (filter.getSearchRadius()) {
 		case SMALL: {
 			checkId = R.id.radius_small_button;
@@ -251,38 +241,22 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 	};
 
-	private final OnCheckedChangeListener mSortCheckedChangeListener = new OnCheckedChangeListener() {
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			Sort sort;
-			switch (checkedId) {
-			case R.id.sort_by_price_button: {
-				sort = Sort.PRICE;
-				break;
-			}
-			case R.id.sort_by_rating_button: {
-				sort = Sort.RATING;
-				break;
-			}
-			case R.id.sort_by_distance_button: {
-				sort = Sort.DISTANCE;
-				break;
-			}
-			case R.id.sort_by_deals_button: {
-				sort = Sort.DEALS;
-				break;
-			}
-			case R.id.sort_by_popular_button:
-			default: {
-				sort = Sort.POPULAR;
-				break;
-			}
-			}
+	private final AdapterView.OnItemSelectedListener mSortCheckedChangeListener = new AdapterView.OnItemSelectedListener() {
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			Sort sort = Sort.values()[position];
 
 			HotelFilter filter = Db.getFilter();
 			filter.setSort(sort);
 			filter.notifyFilterChanged();
 
 			onSortChanged();
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+
 		}
 	};
 
@@ -415,25 +389,25 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private void onSortChanged() {
 		if (mAllowSortFilterOmnitureReporting) {
 			Log.d("Tracking \"App.Hotels.Search.Sort\" change...");
-
-			switch (mSortByButtonGroup.getCheckedRadioButtonId()) {
-			case R.id.sort_by_price_button: {
+			Sort sort = Sort.values()[mSortByButtonGroup.getSelectedItemPosition()];
+			switch (sort) {
+			case PRICE: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
 				break;
 			}
-			case R.id.sort_by_rating_button: {
+			case RATING: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
 				break;
 			}
-			case R.id.sort_by_distance_button: {
+			case DISTANCE: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 				break;
 			}
-			case R.id.sort_by_deals_button: {
+			case DEALS: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 				break;
 			}
-			case R.id.sort_by_popular_button:
+			case POPULAR:
 			default: {
 				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
 				break;
