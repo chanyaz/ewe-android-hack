@@ -57,7 +57,6 @@ android {
 
     testBuildType "latest"
 
-
     dexOptions {
         javaMaxHeapSize "2g"
     }
@@ -69,6 +68,12 @@ android {
 
     packagingOptions {
         exclude 'LICENSE.txt'
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../common/debug.keystore")
+        }
     }
 
     defaultConfig {
@@ -171,12 +176,6 @@ android {
 
         feature {
             java.srcDirs = ['src/debug/java']
-        }
-
-        signingConfigs {
-            debug {
-                storeFile file("../common/debug.keystore")
-            }
         }
     }
 
