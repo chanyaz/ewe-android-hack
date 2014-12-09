@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 
@@ -24,7 +23,9 @@ import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.expedia.bookings.widget.CheckoutInfoStatusImageView;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -47,6 +48,10 @@ public class TravelerButtonFragment extends LobableFragment {
 		public void onTravelerEditButtonPressed(int travelerNumber);
 	}
 
+	public interface ITravelerChosenListener {
+		public void onTravelerChosen();
+	}
+
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 	private static final String DL_FETCH_TRAVELER_INFO = "DL_FETCH_TRAVELER_INFO";
 	private static final String FTAG_FETCH_TRAVELER_INFO = "FTAG_FETCH_TRAVELER_INFO";
@@ -63,6 +68,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	private String mEmptyViewLabel;
 	private ITravelerIsValidProvider mValidationProvider;
 	private ITravelerEditButtonListener mEditButtonListener;
+	private ITravelerChosenListener mTravelerChosenListener;
 
 	private boolean mShowValidMarker = false;
 
@@ -77,6 +83,7 @@ public class TravelerButtonFragment extends LobableFragment {
 		super.onAttach(activity);
 		mValidationProvider = Ui.findFragmentListener(this, ITravelerIsValidProvider.class);
 		mEditButtonListener = Ui.findFragmentListener(this, ITravelerEditButtonListener.class);
+		mTravelerChosenListener = Ui.findFragmentListener(this, ITravelerChosenListener.class);
 	}
 
 	@Override
@@ -118,8 +125,8 @@ public class TravelerButtonFragment extends LobableFragment {
 	public void onResume() {
 		super.onResume();
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
-			dl.registerDownloadCallback(DL_FETCH_TRAVELER_INFO, mTravelerDetailsCallback);
+		if (dl.isDownloading(getTravelerDownloadKey())) {
+			dl.registerDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);
 		}
 	}
 
@@ -128,10 +135,10 @@ public class TravelerButtonFragment extends LobableFragment {
 		super.onPause();
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
-			dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
+			dl.cancelDownload(getTravelerDownloadKey());
 		}
 		else {
-			dl.unregisterDownloadCallback(DL_FETCH_TRAVELER_INFO, mTravelerDetailsCallback);
+			dl.unregisterDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);
 		}
 	}
 
@@ -149,8 +156,8 @@ public class TravelerButtonFragment extends LobableFragment {
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
 			//Cancel previous download
 			BackgroundDownloader dl = BackgroundDownloader.getInstance();
-			if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
-				dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
+			if (dl.isDownloading(getTravelerDownloadKey())) {
+				dl.cancelDownload(getTravelerDownloadKey());
 			}
 
 			// Begin loading flight details in the background, if we haven't already
@@ -158,7 +165,7 @@ public class TravelerButtonFragment extends LobableFragment {
 			ThrobberDialog df = ThrobberDialog
 				.newInstance(getString(R.string.loading_traveler_info));
 			df.show(getChildFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
-			dl.startDownload(DL_FETCH_TRAVELER_INFO, mTravelerDetailsDownload,
+			dl.startDownload(getTravelerDownloadKey(), mTravelerDetailsDownload,
 				mTravelerDetailsCallback);
 			mStoredTravelerPopup.dismiss();
 		}
@@ -210,7 +217,7 @@ public class TravelerButtonFragment extends LobableFragment {
 			else {
 				//Empty button
 				setShowTravelerView(false);
-				setShowValidMarker(mShowValidMarker, false);
+				setShowSavedTravelers(User.isLoggedIn(getActivity()));
 			}
 		}
 	}
@@ -239,8 +246,9 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	private void setShowValidMarker(boolean showMarker, boolean valid) {
-		int visibility = showMarker && valid ? View.VISIBLE : View.GONE;
-		Ui.findView(mTravelerSectionContainer, R.id.validation_checkmark).setVisibility(visibility);
+		CheckoutInfoStatusImageView v = Ui.findView(mTravelerSectionContainer, R.id.display_picture);
+		v.setTravelerName(getDbTraveler().getFullName());
+		v.setStatusComplete(valid);
 		setShowSavedTravelers(showMarker && User.isLoggedIn(getActivity()));
 	}
 
@@ -347,16 +355,26 @@ public class TravelerButtonFragment extends LobableFragment {
 			});
 		}
 		mStoredTravelerPopup.setAnchorView(mSavedTravelerSpinner);
+		// TODO Need to ask design for specific offSet for landscape/portrait and devices.
+		mStoredTravelerPopup.setHorizontalOffset(200);
 		mStoredTravelerPopup.setAdapter(mTravelerAdapter);
 		mStoredTravelerPopup.setContentWidth(measureContentWidth(mTravelerAdapter));
 		mStoredTravelerPopup.show();
+	}
+
+	/**
+	 * There can be more than one instance of {@link TravelerButtonFragment}, so let's make sure the download key used is unique.
+	 * @return
+	 */
+	private String getTravelerDownloadKey() {
+		return DL_FETCH_TRAVELER_INFO + mTravelerNumber;
 	}
 
 	private BackgroundDownloader.Download<SignInResponse> mTravelerDetailsDownload = new BackgroundDownloader.Download<SignInResponse>() {
 		@Override
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(DL_FETCH_TRAVELER_INFO, services);
+			BackgroundDownloader.getInstance().addDownloadListener(getTravelerDownloadKey(), services);
 			return services.travelerDetails(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
 		}
 	};
@@ -400,6 +418,7 @@ public class TravelerButtonFragment extends LobableFragment {
 				Db.getTravelers().add(mTravelerNumber, results.getTraveler());
 				Db.saveTravelers(getActivity());
 				bindToDb();
+				mTravelerChosenListener.onTravelerChosen();
 			}
 		}
 	};

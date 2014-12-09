@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:addStatesFromChildren="false" >
 
-    <ImageView
+    <com.expedia.bookings.widget.CheckoutInfoStatusImageView
         android:id="@+id/display_picture"
         android:layout_width="@dimen/checkout_data_button_icon_size"
         android:layout_height="@dimen/checkout_data_button_icon_size"

@@ -75,7 +75,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
 	TravelerButtonFragment.ITravelerIsValidProvider,
 	CheckoutLoginButtonsFragment.IWalletCouponListener,
-	TravelerButtonFragment.ITravelerEditButtonListener {
+	TravelerButtonFragment.ITravelerEditButtonListener,
+	TravelerButtonFragment.ITravelerChosenListener {
 
 
 
@@ -925,6 +926,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onTravelerEditButtonPressed(int travelerNumber) {
 		OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
 		openTravelerEntry(travelerNumber);
+	}
+
+	/*
+	 * ITravelerChosenListener
+	 */
+	@Override
+	public void onTravelerChosen() {
+		onCheckoutDataUpdated();
 	}
 
 	/*
