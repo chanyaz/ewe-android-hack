@@ -191,4 +191,5 @@
     <color name="price_change_default">#FFFFFF</color>
     <color name="price_change_air_attach">#fd8126</color>
 
+    <color name="tablet_book_button_text_color">#FFDB4C</color>
 </resources>

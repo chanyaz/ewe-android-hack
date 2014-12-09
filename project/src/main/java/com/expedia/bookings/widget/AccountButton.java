@@ -140,7 +140,7 @@ public class AccountButton extends LinearLayout {
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.INVISIBLE);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				R.drawable.ic_tablet_checkout_expedia_logo, 0, 0, 0);
+				Ui.obtainThemeResID(mContext, R.attr.skin_tabletCheckoutLoginLogoDrawable), 0, 0, 0);
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
 		}
