@@ -48,7 +48,7 @@
                     android:id="@+id/air_attach_curve"
                     android:layout_width="9dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="-1dp"
+                    android:layout_marginLeft="0dp"
                     app:src="@raw/curve"
                     />
 
