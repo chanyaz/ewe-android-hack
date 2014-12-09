@@ -2,6 +2,8 @@ package com.expedia.bookings.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -397,6 +399,15 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 
 		return screen;
+	}
+
+	public static int getNavigationBarHeight(Context context) {
+		Resources resources = context.getResources();
+		int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+		if (resourceId > 0 && resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			return resources.getDimensionPixelSize(resourceId);
+		}
+		return 0;
 	}
 
 	public static Bitmap createBitmapFromView(View v) {

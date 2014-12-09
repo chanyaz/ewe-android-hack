@@ -19,6 +19,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -41,6 +42,8 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -1963,6 +1966,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		showFragment(newFragmentTag);
 	}
 
+
 	private void showFilterOptions() {
 		if (mFilterPopupWindow.isShowing()) {
 			return;
@@ -2047,6 +2051,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 				// Get vertical offset
 				Drawable background = mFilterPopupWindow.getBackground();
+
 				if (background != null) {
 					Rect padding = new Rect();
 					background.getPadding(padding);
@@ -2077,6 +2082,11 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				}
 				else {
 					anchor = findViewById(R.id.menu_select_change_view);
+					// On 4.0+ the horizontal offset needs to account for the System Navigation Bar for
+					// certain devices when in landscape mode.
+					int padding = Math.round(
+						TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
+					offsetX = ((anchor.getWidth() - width) / 2) - Ui.getNavigationBarHeight(mContext) - padding;
 				}
 
 				mFilterPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
@@ -3008,4 +3018,5 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return true;
 		}
 	}
+
 }

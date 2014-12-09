@@ -6,12 +6,13 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_tablet_hotel_details">
+    android:background="@drawable/ic_hotel_details_background_layer_list">
 
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/scrolling_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/hotel_details_pin_padding"
         android:gravity="top">
 
         <RelativeLayout
