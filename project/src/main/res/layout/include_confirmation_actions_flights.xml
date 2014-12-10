@@ -17,8 +17,12 @@
         style="@style/Confirmation.Action"
         android:drawableLeft="@drawable/ic_bed"/>
 
-    <include layout="@layout/itin_air_attach_card"
+    <include layout="@layout/include_air_attach_button"
         android:id="@+id/air_attach_confirmation_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:visibility="gone"/>
 
     <com.expedia.bookings.widget.TextView
