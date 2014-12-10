@@ -1079,6 +1079,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
 		}
+		updateResortFeeText();
 	}
 
 	@Subscribe
