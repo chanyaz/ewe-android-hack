@@ -11,6 +11,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.net.MailTo;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -74,12 +77,12 @@ public class WebViewFragment extends DialogFragment {
 	private TrackingName mTrackingName;
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-											  boolean allowUseableNetRedirects, String name) {
+		boolean allowUseableNetRedirects, String name) {
 		return newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, false, name);
 	}
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-			boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name) {
+		boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
@@ -107,7 +110,7 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	public static WebViewFragment newDialogInstance(String url, boolean enableSignIn, boolean loadCookies,
-			boolean allowUseableNetRedirects, String name, String title, String dismissButtonText) {
+		boolean allowUseableNetRedirects, String name, String title, String dismissButtonText) {
 		WebViewFragment frag = newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, name);
 
 		frag.setArguments(addDialogArgs(frag.getArguments(), title, dismissButtonText));
@@ -403,7 +406,11 @@ public class WebViewFragment extends DialogFragment {
 
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				if (mLoadCookies) {
+				if (url.startsWith("mailto:")) {
+					doSupportEmail(url);
+					return true;
+				}
+				else if (mLoadCookies) {
 					view.loadUrl(url);
 					return false;
 				}
@@ -413,6 +420,13 @@ public class WebViewFragment extends DialogFragment {
 			}
 
 		});
+	}
+
+	private void doSupportEmail(String url) {
+		MailTo mt = MailTo.parse(url);
+		Intent mailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+			"mailto", mt.getTo(), null));
+		startActivity(Intent.createChooser(mailIntent, getString(R.string.mailto_title)));
 	}
 
 	private void attachWebView() {
