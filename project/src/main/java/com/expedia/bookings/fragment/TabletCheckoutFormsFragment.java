@@ -73,11 +73,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
-	TravelerButtonFragment.ITravelerIsValidProvider,
 	CheckoutLoginButtonsFragment.IWalletCouponListener,
-	TravelerButtonFragment.ITravelerEditButtonListener,
-	TravelerButtonFragment.ITravelerChosenListener,
-	TravelerButtonFragment.ITravelerAddNewListener {
+	TravelerButtonFragment.ITravelerButtonListener {
 
 
 	public interface ISlideToPurchaseSizeProvider {
@@ -919,7 +916,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	/*
-	 * ITravelerEditButtonListener
+	 * ITravelerButtonListener
 	 */
 
 	@Override
@@ -928,17 +925,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		openTravelerEntry(travelerNumber);
 	}
 
-	/*
-	 * ITravelerChosenListener
-	 */
 	@Override
 	public void onTravelerChosen() {
 		onCheckoutDataUpdated();
 	}
 
-	/*
-	 * ITravelerAddNewListener
-	 */
 	@Override
 	public void onAddNewTravelerSelected(int travelerNumber) {
 		/*
@@ -954,10 +945,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		openTravelerEntry(travelerNumber);
 	}
-
-	/*
-	 * ITravelerIsValidProvider
-	 */
 
 	@Override
 	public boolean travelerIsValid(int travelerNumber) {

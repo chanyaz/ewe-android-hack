@@ -40,19 +40,10 @@ public class TravelerButtonFragment extends LobableFragment {
 		return frag;
 	}
 
-	public interface ITravelerIsValidProvider {
+	public interface ITravelerButtonListener {
 		public boolean travelerIsValid(int travelerNumber);
-	}
-
-	public interface ITravelerEditButtonListener {
 		public void onTravelerEditButtonPressed(int travelerNumber);
-	}
-
-	public interface ITravelerChosenListener {
 		public void onTravelerChosen();
-	}
-
-	public interface ITravelerAddNewListener {
 		public void onAddNewTravelerSelected(int travelerNumber);
 	}
 
@@ -70,10 +61,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	private ListPopupWindow mStoredTravelerPopup;
 
 	private String mEmptyViewLabel;
-	private ITravelerIsValidProvider mValidationProvider;
-	private ITravelerEditButtonListener mEditButtonListener;
-	private ITravelerChosenListener mTravelerChosenListener;
-	private ITravelerAddNewListener mAddNewTravelerListener;
+	private ITravelerButtonListener mTravelerButtonListener;
 
 	private boolean mShowValidMarker = false;
 
@@ -86,10 +74,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mValidationProvider = Ui.findFragmentListener(this, ITravelerIsValidProvider.class);
-		mEditButtonListener = Ui.findFragmentListener(this, ITravelerEditButtonListener.class);
-		mTravelerChosenListener = Ui.findFragmentListener(this, ITravelerChosenListener.class);
-		mAddNewTravelerListener = Ui.findFragmentListener(this, ITravelerAddNewListener.class);
+		mTravelerButtonListener = Ui.findFragmentListener(this, ITravelerButtonListener.class);
 	}
 
 	@Override
@@ -110,7 +95,7 @@ public class TravelerButtonFragment extends LobableFragment {
 		mEditTravelerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mEditButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
+				mTravelerButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
 			}
 		});
 
@@ -150,7 +135,7 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	private void onStoredTravelerSelected(int position) {
 		if (position == mTravelerAdapter.getCount()-1) {
-			mAddNewTravelerListener.onAddNewTravelerSelected(mTravelerNumber);
+			mTravelerButtonListener.onAddNewTravelerSelected(mTravelerNumber);
 			mStoredTravelerPopup.dismiss();
 			return;
 		}
@@ -248,7 +233,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	public boolean isValid() {
-		return mValidationProvider.travelerIsValid(mTravelerNumber);
+		return mTravelerButtonListener.travelerIsValid(mTravelerNumber);
 	}
 
 	private void setShowValidMarker(boolean showMarker, boolean valid) {
@@ -344,7 +329,7 @@ public class TravelerButtonFragment extends LobableFragment {
 		mEditTravelerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mEditButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
+				mTravelerButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
 			}
 		});
 		return v;
@@ -424,7 +409,7 @@ public class TravelerButtonFragment extends LobableFragment {
 				Db.getTravelers().add(mTravelerNumber, results.getTraveler());
 				Db.saveTravelers(getActivity());
 				bindToDb();
-				mTravelerChosenListener.onTravelerChosen();
+				mTravelerButtonListener.onTravelerChosen();
 			}
 		}
 	};
