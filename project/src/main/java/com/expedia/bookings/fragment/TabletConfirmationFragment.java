@@ -15,7 +15,9 @@ import android.view.animation.OvershootInterpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -70,6 +72,9 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 					return false;
 				}
 			});
+
+			// Add guest itin to itin manager
+			addGuestTripToItin();
 		}
 
 		//////////////////////////
@@ -205,4 +210,11 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 		//We don't need to do anything else.
 	}
 
+	private void addGuestTripToItin() {
+		if (Db.getBillingInfo() != null && !User.isLoggedIn(getActivity())) {
+			String email = Db.getBillingInfo().getEmail();
+			String tripId = getItinNumber();
+			ItineraryManager.getInstance().addGuestTrip(email, tripId);
+		}
+	}
 }
