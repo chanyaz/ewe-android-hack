@@ -12,7 +12,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
@@ -320,6 +319,13 @@ public class RowRoomRateLayout extends FrameLayout {
 			roomRateDiscountRibbon.setVisibility(View.VISIBLE);
 			roomRateDiscountRibbon.setText(res.getString(R.string.percent_minus_template,
 				(float) mRate.getDiscountPercent()));
+
+			if (mRate.isAirAttached()) {
+				roomRateDiscountRibbon.setBackgroundResource(R.drawable.bg_air_attach_sale_text_view);
+			}
+			else {
+				roomRateDiscountRibbon.setBackgroundResource(R.drawable.bg_sale_text_view);
+			}
 		}
 		else {
 			roomRateDiscountRibbon.setVisibility(View.GONE);

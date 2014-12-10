@@ -12,7 +12,6 @@ import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -31,7 +30,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
@@ -62,7 +60,6 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
@@ -323,7 +320,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// "25% OFF"
 		Rate rate = property.getLowestRate();
-		if (rate != null && rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
+		if (rate != null && rate.isOnSale() && rate.isSaleTenPercentOrBetter() && !rate.isAirAttached()) {
 			saleText.setVisibility(View.VISIBLE);
 			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
 				rate.getDiscountPercent()));
