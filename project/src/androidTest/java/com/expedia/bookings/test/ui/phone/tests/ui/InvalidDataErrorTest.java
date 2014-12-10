@@ -184,7 +184,6 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 		EspressoUtils.clear(CardInfoScreen.nameOnCardEditText());
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.clickOnDoneButton();
-		Common.pressBack();
 
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("1111");
