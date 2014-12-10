@@ -121,6 +121,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private CheckoutCouponFragment mCouponContainer;
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
+	private TextView mResortFeeText;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
 	private TripBucketHorizontalFlightFragment mHorizontalFlightFrag;
@@ -539,10 +540,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		if (getLob() == LineOfBusiness.HOTELS && PointOfSale.getPointOfSale().showFTCResortRegulations() &&
 			Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
-			TextView resortFeesTextView = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
-			Spanned resortBlurb = HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
-			resortFeesTextView.setText(resortBlurb);
-			add(resortFeesTextView);
+			if (mResortFeeText == null) {
+				mResortFeeText = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
+				add(mResortFeeText);
+			}
+			updateResortFeeText();
 		}
 
 		//SET UP THE FORM FRAGMENTS
@@ -586,6 +588,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		bindAll();
 
+	}
+
+	private void updateResortFeeText() {
+		if (mResortFeeText != null) {
+			Spanned resortBlurb = HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
+			mResortFeeText.setText(resortBlurb);
+		}
 	}
 
 	protected View addGroupHeading(int resId) {
@@ -1008,6 +1017,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
 		}
+		updateResortFeeText();
 	}
 
 	@Subscribe
@@ -1015,5 +1025,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
 		}
+		updateResortFeeText();
 	}
 }
