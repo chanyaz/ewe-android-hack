@@ -76,8 +76,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	TravelerButtonFragment.ITravelerIsValidProvider,
 	CheckoutLoginButtonsFragment.IWalletCouponListener,
 	TravelerButtonFragment.ITravelerEditButtonListener,
-	TravelerButtonFragment.ITravelerChosenListener {
-
+	TravelerButtonFragment.ITravelerChosenListener,
+	TravelerButtonFragment.ITravelerAddNewListener {
 
 
 	public interface ISlideToPurchaseSizeProvider {
@@ -934,6 +934,25 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onTravelerChosen() {
 		onCheckoutDataUpdated();
+	}
+
+	/*
+	 * ITravelerAddNewListener
+	 */
+	@Override
+	public void onAddNewTravelerSelected(int travelerNumber) {
+		/*
+		 Let's reset selectable state for the current traveler and remove him from DB.
+		 Since we are adding a new traveler, let's add a new blank traveler and set state to new.
+		 */
+		Traveler currentTraveler = Db.getTravelers().get(travelerNumber);
+		TravelerUtils.resetPreviousTravelerSelectState(currentTraveler);
+		Db.getTravelers().remove(travelerNumber);
+		Traveler traveler = new Traveler();
+		traveler.setIsNew(true);
+		Db.getTravelers().add(travelerNumber, traveler);
+
+		openTravelerEntry(travelerNumber);
 	}
 
 	/*

@@ -118,6 +118,9 @@ public class TravelerUtils {
 					return true;
 				}
 			}
+			else {
+				return Db.getWorkingTravelerManager().getWorkingTraveler().isNew();
+			}
 		}
 		return false;
 	}

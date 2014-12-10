@@ -52,6 +52,10 @@ public class TravelerButtonFragment extends LobableFragment {
 		public void onTravelerChosen();
 	}
 
+	public interface ITravelerAddNewListener {
+		public void onAddNewTravelerSelected(int travelerNumber);
+	}
+
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 	private static final String DL_FETCH_TRAVELER_INFO = "DL_FETCH_TRAVELER_INFO";
 	private static final String FTAG_FETCH_TRAVELER_INFO = "FTAG_FETCH_TRAVELER_INFO";
@@ -69,6 +73,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	private ITravelerIsValidProvider mValidationProvider;
 	private ITravelerEditButtonListener mEditButtonListener;
 	private ITravelerChosenListener mTravelerChosenListener;
+	private ITravelerAddNewListener mAddNewTravelerListener;
 
 	private boolean mShowValidMarker = false;
 
@@ -84,6 +89,7 @@ public class TravelerButtonFragment extends LobableFragment {
 		mValidationProvider = Ui.findFragmentListener(this, ITravelerIsValidProvider.class);
 		mEditButtonListener = Ui.findFragmentListener(this, ITravelerEditButtonListener.class);
 		mTravelerChosenListener = Ui.findFragmentListener(this, ITravelerChosenListener.class);
+		mAddNewTravelerListener = Ui.findFragmentListener(this, ITravelerAddNewListener.class);
 	}
 
 	@Override
@@ -144,7 +150,7 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	private void onStoredTravelerSelected(int position) {
 		if (position == mTravelerAdapter.getCount()-1) {
-			mEditButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
+			mAddNewTravelerListener.onAddNewTravelerSelected(mTravelerNumber);
 			mStoredTravelerPopup.dismiss();
 			return;
 		}
