@@ -355,6 +355,10 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 			finish();
 			break;
+		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
+			launchHotelPaymentCreditCardFragment();
+			finish();
+			break;
 		case SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER:
 			launchHotelTravelerPhoneNumberFragment();
 			finish();

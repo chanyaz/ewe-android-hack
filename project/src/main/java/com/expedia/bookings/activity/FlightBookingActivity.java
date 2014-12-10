@@ -383,6 +383,13 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			gotoCCOverviewIntent.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.OPTIONS.name());
 			startActivity(gotoCCOverviewIntent);
 			break;
+		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
+			Intent gotoCCNameIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
+			gotoCCNameIntent
+				.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.CREDITCARD.name());
+			startActivity(gotoCCNameIntent);
+			break;
 		default:
 			// For now, do the same thing - leave this activity
 			finish();
