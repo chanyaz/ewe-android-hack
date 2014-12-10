@@ -1565,6 +1565,10 @@ public class ExpediaServices implements DownloadListener {
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			APP_NAME = "TravelocityBookings";
 		}
+		else if(ExpediaBookingApp.IS_VSC) {
+			APP_NAME = "VSCBookings";
+		}
+
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
 			post.addHeader("MobiataPushName", APP_NAME);
 		}
@@ -1572,9 +1576,8 @@ public class ExpediaServices implements DownloadListener {
 			post.addHeader("MobiataPushName", APP_NAME + "Alpha");
 		}
 
-		if (!ExpediaBookingApp.IS_VSC && (AndroidUtils.isRelease(mContext)
-			|| !SettingUtils
-			.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false))) {
+		if (AndroidUtils.isRelease(mContext)
+			|| !SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
 
 			synchronized (PushNotificationUtils.getLockObject(regId)) {
 				//We first check to see if we have already sent this payload for this regId
