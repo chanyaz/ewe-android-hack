@@ -269,13 +269,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				transaction.commit();
 			}
 		}
-		if (PointOfSale.getPointOfSale().showFTCResortRegulations() && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
-			mResortFeeDisclaimerTextView.setText(HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
-			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
-		}
-		else {
-			mResortFeeDisclaimerTextView.setVisibility(View.GONE);
-		}
 
 		mCheckoutLayout.setAlpha(0);
 
@@ -634,6 +627,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				rate.getTotalPriceAdjustments().getFormattedMoney()));
 		}
 
+		updateResortFeeLegalText();
+
 		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
@@ -710,6 +705,16 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		updateWalletViewVisibilities();
+	}
+
+	private void updateResortFeeLegalText() {
+		if (PointOfSale.getPointOfSale().showFTCResortRegulations() && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
+			mResortFeeDisclaimerTextView.setText(HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
+			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mResortFeeDisclaimerTextView.setVisibility(View.GONE);
+		}
 	}
 
 	public void setScrollSpacerViewHeight() {
