@@ -305,8 +305,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			}
 			mTotalTitleTv.setText(totalTitle);
 			mPriceTv.setText(price);
+			mExtrasContainer.removeAllViews();
 			if (rate.showResortFeesMessaging()) {
-				mExtrasContainer.removeAllViews();
 				addResortFeeRows(rate);
 			}
 			addPrioritizedAmenityRows(rate);
