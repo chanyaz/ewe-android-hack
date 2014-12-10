@@ -109,8 +109,8 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 			retView.setEnabled(trav.isSelectable());
 
 			//TODO: This might be sort of heavy because we are generating a new bitmap every time...
-			icon.setImageBitmap(TravelerIconUtils.generateCircularInitialIcon(getContext(), trav.getFullName(),
-				Color.parseColor("#FF373F4A")));
+			icon.setImageBitmap(TravelerIconUtils.generateInitialIcon(getContext(), trav.getFullName(),
+				Color.parseColor("#FF373F4A"), true));
 			break;
 		case ITEM_VIEW_TYPE_ADD_TRAVELER:
 			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);

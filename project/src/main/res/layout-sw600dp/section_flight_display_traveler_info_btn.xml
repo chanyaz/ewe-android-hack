@@ -16,8 +16,7 @@
         android:layout_height="@dimen/checkout_data_button_icon_size"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="@dimen/checkout_info_container_padding"
-        android:layout_weight="0"
-        android:src="@drawable/ic_checkout_traveler_info_status" />
+        android:layout_weight="0" />
 
     <LinearLayout
         android:layout_width="wrap_content"

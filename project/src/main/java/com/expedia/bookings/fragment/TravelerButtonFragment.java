@@ -23,7 +23,6 @@ import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.widget.CheckoutInfoStatusImageView;
 import com.expedia.bookings.widget.TextView;
@@ -238,7 +237,7 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	private void setShowValidMarker(boolean showMarker, boolean valid) {
 		CheckoutInfoStatusImageView v = Ui.findView(mTravelerSectionContainer, R.id.display_picture);
-		v.setTravelerName(getDbTraveler().getFullName());
+		v.setTraveler(getDbTraveler());
 		v.setStatusComplete(valid);
 		setShowSavedTravelers(showMarker && User.isLoggedIn(getActivity()));
 	}
@@ -355,6 +354,7 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	/**
 	 * There can be more than one instance of {@link TravelerButtonFragment}, so let's make sure the download key used is unique.
+	 *
 	 * @return
 	 */
 	private String getTravelerDownloadKey() {
