@@ -179,9 +179,6 @@ public class HotelReceipt extends LinearLayout {
 		}
 
 		mExtrasLayout.removeAllViews();
-		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.skin_bestPriceGuaranteeString));
-		}
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (PointOfSale.getPointOfSale().showFTCResortRegulations() &&
 			hotel.getRate().showResortFeesMessaging()) {
@@ -189,11 +186,11 @@ public class HotelReceipt extends LinearLayout {
 			mGrandTotalTextView.setText(getResources().getString(R.string.trip_total));
 			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
 		}
-		else if (rate.shouldShowFreeCancellation()) {
-			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate));
+		else {
 			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
 			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 		}
+		addPrioritizedAmenityRows(rate);
 
 		final Resources res = getContext().getResources();
 
@@ -278,17 +275,21 @@ public class HotelReceipt extends LinearLayout {
 		return "(" + rangeString + ")";
 	}
 
-	private void addExtraRow(int stringId) {
-		addExtraRow(getContext().getString(stringId));
+	private void addExtraRow(int stringId, boolean addToTop) {
+		addExtraRow(getContext().getString(stringId), addToTop);
 	}
 
-	private void addExtraRow(CharSequence label) {
+	private void addExtraRow(CharSequence label, boolean addToTop) {
 		mExtrasLayout.setVisibility(View.VISIBLE);
 		mExtrasDivider.setVisibility(View.VISIBLE);
-
 		HotelReceiptExtraSection extraRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 		extraRow.bind(label, null);
-		mExtrasLayout.addView(extraRow);
+		if (addToTop) {
+			mExtrasLayout.addView(extraRow, 0);
+		}
+		else {
+			mExtrasLayout.addView(extraRow);
+		}
 	}
 
 	private void addExtraRowETP(CharSequence label, CharSequence rate, boolean isDepositRequired) {
@@ -330,6 +331,17 @@ public class HotelReceipt extends LinearLayout {
 
 		mExtrasLayout.addView(resortFeesRow);
 		mExtrasLayout.addView(dueToExpediaRow);
+	}
+
+	private static final int MAX_AMENITY_ROWS = 3;
+	private void addPrioritizedAmenityRows(Rate rate) {
+		if (rate.shouldShowFreeCancellation() && mExtrasLayout.getChildCount() < MAX_AMENITY_ROWS) {
+			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate), true);
+		}
+		// Amenity rows
+		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasLayout.getChildCount() < MAX_AMENITY_ROWS) {
+			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.skin_bestPriceGuaranteeString), true);
+		}
 	}
 
 	public void saveInstanceState(Bundle outState) {
