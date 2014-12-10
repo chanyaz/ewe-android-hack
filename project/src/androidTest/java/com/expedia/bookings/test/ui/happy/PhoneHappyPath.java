@@ -2,6 +2,7 @@ package com.expedia.bookings.test.ui.happy;
 
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
@@ -22,6 +23,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 public class PhoneHappyPath extends PhoneTestCase {
+
 	public void testBookFlight() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.launchFlights();
@@ -92,7 +94,6 @@ public class PhoneHappyPath extends PhoneTestCase {
 		FlightsConfirmationScreen.clickDoneButton();
 	}
 
-
 	public void testBookHotel() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.launchHotels();
@@ -109,7 +110,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		screenshot("Search_Results");
-		HotelsSearchScreen.clickHotelWithName("happy_path");
+		HotelsSearchScreen.clickHotelWithName("happypath");
 		screenshot("Details");
 		HotelsDetailsScreen.clickSelectButton();
 		screenshot("RoomsAndRates");

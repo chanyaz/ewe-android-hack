@@ -146,7 +146,7 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 	// And I select the first hotel from the results list
 	private void selectFirstHotel() throws Exception {
 		try {
-			HotelsSearchScreen.clickHotelWithName("Hotel_2_night_stay");
+			HotelsSearchScreen.clickHotelWithName("happypath");
 		}
 		catch (Exception e) {
 			HotelsSearchScreen.clickListItem(1);
@@ -156,7 +156,7 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 
 	//And I select the first type from Rooms & Rates
 	private void selectFirstType() throws Exception {
-		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsRoomsRatesScreen.selectRoomItem(1);
 	}
 
 	private String getFromattedDate(int daysInAdvance) {

@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Confirmation;
@@ -112,11 +113,12 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 		mCalendarDuration = EspressoUtils.getText(R.id.calendar_btn);
 		Results.swipeUpHotelList();
 		try {
-			Results.clickHotelWithName("Hotel_2_night_stay");
+			Results.clickHotelWithName("happypath");
 		}
 		catch (Exception e) {
 			Results.clickHotelAtIndex(1);
 		}
+		HotelDetails.clickSelectHotelWithRoomDescription("happypath_2_night_stay_0");
 		HotelDetails.clickAddHotel();
 	}
 

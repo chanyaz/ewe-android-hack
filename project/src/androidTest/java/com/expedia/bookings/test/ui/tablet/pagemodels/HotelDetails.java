@@ -4,14 +4,17 @@ import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
+import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeUp;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withChild;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
@@ -36,7 +39,7 @@ public class HotelDetails {
 			allOf(
 				withId(R.id.room_rate_button_add),
 				isDescendantOfA(allOf(withId(R.id.room_rate_add_select_container), hasSibling(allOf(withId(R.id.room_rate_detail_container),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
+					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
 			)
 		);
 	}
@@ -49,6 +52,12 @@ public class HotelDetails {
 	public static void clickAddHotel() {
 		addHotel().perform(scrollTo(), click());
 	}
+
+	public static void clickSelectHotelWithRoomDescription(String roomDescription) {
+		onView(withId(R.id.header_container)).perform(swipeUp());
+		onView(withText(roomDescription)).perform(click());
+	}
+
 
 	public static void clickReviews() {
 		onView(withId(R.id.user_rating_text)).perform(click());

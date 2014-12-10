@@ -177,6 +177,10 @@ android {
             java.srcDirs = ['src/debug/java']
         }
 
+        androidTest {
+            assets.srcDirs = ['src/androidTest/assets', '../lib/mocke3/templates']
+        }
+
         feature {
             java.srcDirs = ['src/debug/java']
         }
