@@ -21,6 +21,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -84,7 +85,9 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			@Override
 			public void onClick(View v) {
 				OmnitureTracking.trackAddHotelClick(getActivity());
-				NavUtils.restartHotelSearch(getActivity());
+				SearchParams sp = SearchParams
+					.fromFlightSearchParams(Db.getTripBucket().getFlight().getFlightSearchParams());
+				NavUtils.goToTabletResults(getActivity(), sp, LineOfBusiness.HOTELS);
 			}
 		});
 

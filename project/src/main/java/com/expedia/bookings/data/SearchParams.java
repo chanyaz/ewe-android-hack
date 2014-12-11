@@ -471,6 +471,7 @@ public class SearchParams implements Parcelable, JSONable {
 
 	/**
 	 * TODO support all field conversions
+	 *
 	 * @param hotelParams
 	 * @return
 	 */
@@ -508,6 +509,32 @@ public class SearchParams implements Parcelable, JSONable {
 		}
 		if (hotelParams.getCheckOutDate() != null) {
 			searchParams.setEndDate(hotelParams.getCheckOutDate());
+		}
+
+		return searchParams;
+	}
+
+	public static SearchParams fromFlightSearchParams(FlightSearchParams flightParams) {
+		SearchParams searchParams = new SearchParams();
+
+		// Who
+		searchParams.setNumAdults(flightParams.getNumAdults());
+		searchParams.setChildTravelers(flightParams.getChildren());
+
+		// Where
+		SuggestionV2 destination = new SuggestionV2();
+		destination.setSearchType(SuggestionV2.SearchType.AIRPORT);
+		destination.setRegionId(flightParams.getDestinationId());
+		// Change the Display Name to some more relevant for flights?
+		destination.setDisplayName(flightParams.getArrivalLocation().getDestinationId());
+		searchParams.setDestination(destination);
+
+		// When
+		if (flightParams.getDepartureDate() != null) {
+			searchParams.setStartDate(flightParams.getDepartureDate());
+		}
+		if (flightParams.getReturnDate() != null) {
+			searchParams.setEndDate(flightParams.getReturnDate());
 		}
 
 		return searchParams;
