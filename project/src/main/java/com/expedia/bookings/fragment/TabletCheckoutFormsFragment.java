@@ -542,8 +542,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
 			if (mResortFeeText == null) {
 				mResortFeeText = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
-				add(mResortFeeText);
 			}
+			add(mResortFeeText);
 			updateResortFeeText();
 		}
 
