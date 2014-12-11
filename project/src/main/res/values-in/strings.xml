@@ -2184,7 +2184,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Kebijakan Privasi</string>
     <!-- Copyright information -->
-    <string name="copyright">© Hak cipta 2012-2014 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
+    <string name="copyright">© Hak cipta 2012-2015 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Anda sudah keluar dan data sudah dihapus</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
