@@ -1664,7 +1664,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean isBadResponse = response.hasErrors();
 		boolean isZeroResults = response.getPropertiesCount() == 0;
 
-		if (isBadResponse) {
+		if (!dateRangeSupportsHotelSearch()) {
+			setHotelsState(ResultsHotelsState.MAX_HOTEL_STAY, false);
+		}
+		else if (isBadResponse) {
 			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 		}
 		else if (isZeroResults) {
