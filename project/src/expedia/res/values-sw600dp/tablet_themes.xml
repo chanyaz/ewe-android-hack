@@ -18,7 +18,6 @@
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder</item>
         <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button</item>
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
         <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter</item>
         <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color</item>
     </style>

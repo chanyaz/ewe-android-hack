@@ -8,7 +8,6 @@
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
         <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button_travelocity</item>
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button_travelocity</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
