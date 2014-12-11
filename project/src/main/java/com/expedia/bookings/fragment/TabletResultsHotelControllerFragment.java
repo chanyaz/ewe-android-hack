@@ -323,6 +323,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mBgHotelMapC.setTouchPassThroughEnabled(false);
 		}
 
+		if (hotelsState == ResultsHotelsState.LOADING_HOTEL_LIST_UP) {
+			mMapDimmer.setConsumeTouch(true);
+		}
+		else {
+			mMapDimmer.setConsumeTouch(false);
+		}
+
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
 			mHotelDetailsC.setBlockNewEventsEnabled(true);
 		}
@@ -1657,7 +1664,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean isBadResponse = response.hasErrors();
 		boolean isZeroResults = response.getPropertiesCount() == 0;
 
-		if (isBadResponse) {
+		if (!dateRangeSupportsHotelSearch()) {
+			setHotelsState(ResultsHotelsState.MAX_HOTEL_STAY, false);
+		}
+		else if (isBadResponse) {
 			setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 		}
 		else if (isZeroResults) {
