@@ -21,7 +21,7 @@ public class TabletHappyPath extends TabletTestCase {
 		screenshot("Search_Results");
 
 		Results.swipeUpHotelList();
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelWithName("happypath");
 		screenshot("Details");
 		HotelDetails.clickAddHotel();
 		screenshot("Trip_Bucket");
@@ -135,7 +135,7 @@ public class TabletHappyPath extends TabletTestCase {
 		// Add Hotel to trip bucket
 		Results.swipeUpHotelList();
 		screenshot("Hotel_Search_Results");
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelWithName("happypath");
 		screenshot("Hotel_Details");
 		HotelDetails.clickAddHotel();
 

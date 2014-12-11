@@ -34,7 +34,7 @@ public class MockDataTests extends TabletTestCase {
 
 		//click on Select another hotel
 		onView(withId(R.id.select_new_item_button)).perform(click());
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelWithName("happypath");
 	}
 
 	public void testCheckoutSessionTimeout(){

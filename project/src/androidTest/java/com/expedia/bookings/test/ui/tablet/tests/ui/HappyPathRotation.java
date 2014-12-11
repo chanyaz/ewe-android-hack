@@ -27,7 +27,7 @@ public class HappyPathRotation extends TabletTestCase {
 		rotateScreenTwice();
 		Results.swipeUpHotelList();
 		rotateScreenTwice();
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelWithName("happypath");
 		screenshot("Details");
 		rotateScreenTwice();
 		HotelDetails.clickAddHotel();
@@ -184,7 +184,7 @@ public class HappyPathRotation extends TabletTestCase {
 		// Add Hotel to trip bucket
 		Results.swipeUpHotelList();
 		screenshot("Hotel_Search_Results");
-		Results.clickHotelWithName("happy_path");
+		Results.clickHotelWithName("happypath");
 		screenshot("Hotel_Details");
 		HotelDetails.clickAddHotel();
 		rotateScreenTwice();

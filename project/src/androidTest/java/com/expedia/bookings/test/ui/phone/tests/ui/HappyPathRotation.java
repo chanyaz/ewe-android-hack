@@ -142,7 +142,7 @@ public class HappyPathRotation extends PhoneTestCase {
 		rotateScreenTwice();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		screenshot("Search_Results");
-		HotelsSearchScreen.clickHotelWithName("happy_path");
+		HotelsSearchScreen.clickHotelWithName("happypath");
 		screenshot("Details");
 		rotateScreenTwice();
 		HotelsDetailsScreen.clickSelectButton();

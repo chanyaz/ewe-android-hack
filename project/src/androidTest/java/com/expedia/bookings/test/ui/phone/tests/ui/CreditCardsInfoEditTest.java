@@ -185,7 +185,7 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		HotelsSearchScreen.clickHotelWithName("happy_path");
+		HotelsSearchScreen.clickHotelWithName("happypath");
 		HotelsDetailsScreen.clickSelectButton();
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		HotelsCheckoutScreen.clickCheckoutButton();
