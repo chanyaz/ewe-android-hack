@@ -18,6 +18,8 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.mocke3.ExpediaDispatcher;
+import com.mobiata.mocke3.FileOpener;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import static com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils.getCurrentActivity;
@@ -52,7 +54,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			mMockWebServer = new MockWebServer();
 			mMockWebServer.play();
 			mFileOpener = new AndroidFileOpener(getInstrumentation().getContext());
-			CustomDispatcher dispatcher = new CustomDispatcher(mFileOpener);
+			ExpediaDispatcher dispatcher = new ExpediaDispatcher(mFileOpener);
 			mMockWebServer.setDispatcher(dispatcher);
 
 			//get mock web server address

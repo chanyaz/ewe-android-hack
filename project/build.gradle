@@ -49,6 +49,9 @@ dependencies {
     androidTestCompile('com.squareup.okhttp:mockwebserver:2.0.0') {
         exclude group: 'com.squareup.okhttp'
     }
+    androidTestCompile (project(':lib:mocke3:mocke3')) {
+        transitive = false
+    }
 }
 
 android {
@@ -172,6 +175,10 @@ android {
         latest {
             manifest.srcFile 'src/debug/AndroidManifest.xml'
             java.srcDirs = ['src/debug/java']
+        }
+
+        androidTest {
+            assets.srcDirs = ['src/androidTest/assets', '../lib/mocke3/templates']
         }
 
         feature {

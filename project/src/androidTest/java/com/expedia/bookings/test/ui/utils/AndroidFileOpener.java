@@ -5,6 +5,8 @@ import java.io.InputStream;
 
 import android.content.Context;
 
+import com.mobiata.mocke3.FileOpener;
+
 /**
  * Created by dmadan on 7/28/14.
  */
