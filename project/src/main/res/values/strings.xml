@@ -2994,7 +2994,7 @@
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Your flight is booked!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Itinerary #%1$s sent to %2$s</string>
     <!-- Share button text for hotels -->
