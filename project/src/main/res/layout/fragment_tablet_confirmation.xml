@@ -58,7 +58,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="middle"
-                        android:singleLine="true"
+                        android:maxLines="2"
+                        android:gravity="center_horizontal"
                         android:textColor="#333333"
                         android:textSize="18sp"
                         app:textStyle="light" />
