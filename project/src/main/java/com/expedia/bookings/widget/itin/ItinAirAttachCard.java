@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -83,5 +84,20 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		}
 	};
 
+	public boolean isTouchOnAirAttachButton(MotionEvent event) {
+		if (mAirAttachButton != null && mAirAttachButton.getVisibility() == View.VISIBLE && event != null) {
+			int ex = (int) event.getX();
+			int ey = (int) event.getY();
 
+			int ax1 = mAirAttachButton.getLeft();
+			int ax2 = mAirAttachButton.getRight();
+			int ay1 = mAirAttachButton.getTop();
+			int ay2 = mAirAttachButton.getBottom();
+
+			if (ax1 <= ex && ax2 >= ex && ay1 <= ey && ay2 >= ey) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
