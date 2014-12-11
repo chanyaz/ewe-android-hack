@@ -259,5 +259,9 @@
     <attr name="skin_tablet_hotel_room_rate_select_button" format="reference" />
     <attr name="skin_tablet_addToTrip_button" format="reference" />
     <attr name="skin_tabletCheckoutLoginLogoDrawable" format="reference" />
+    <attr name="skin_tablet_bucket_item_counter" format="reference" />
+    <attr name="skin_tablet_bucket_text_color" format="reference|color" />
+    <attr name="skin_tablet_hotel_details_star_drawable" format="reference" />
+    <attr name="skin_tablet_hotel_details_star_small_drawable" format="reference" />
 
 </resources>

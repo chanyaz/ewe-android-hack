@@ -18,9 +18,11 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder_travelocity</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="skin_hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
-        <item name="skin_hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
+        <item name="skin_hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 
+        <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter_travelocity</item>
+        <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color_tvly</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />
