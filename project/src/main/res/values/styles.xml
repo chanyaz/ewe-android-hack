@@ -208,11 +208,6 @@
 
     <style name="RatingBar.UserReview.Yellow" />
 
-    <!-- VSC Rating bar -->
-    <style name="RatingBar.UserReview.Orange">
-        <item name="android:progressDrawable">@drawable/ratingbar_userreview_orange</item>
-    </style>
-
     <style name="RatingBar.UserReview.White">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_white</item>
         <item name="android:minHeight">9dp</item>
