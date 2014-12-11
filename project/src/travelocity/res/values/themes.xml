@@ -167,6 +167,7 @@
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_travelocity</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itineraryNumberString">@string/tvly_itinerary</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
