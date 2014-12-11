@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -47,8 +46,8 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.ResourceZoneInfoProvider;
+import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity

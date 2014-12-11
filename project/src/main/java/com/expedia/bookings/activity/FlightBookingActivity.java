@@ -25,7 +25,6 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
