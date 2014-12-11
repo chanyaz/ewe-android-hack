@@ -30,9 +30,11 @@ import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
@@ -46,6 +48,7 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AirAttachUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -55,6 +58,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Waypoint;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -1743,6 +1747,111 @@ public class ItineraryManager implements JSONable {
 			mType = Type.SYNC_ERROR;
 			mError = error;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Air Attach
+	//
+	// Note: This code was ripped from ItinCardDataAdapter.addAttachData
+	// TODO consolidate implementations, write unit tests
+
+	public HotelSearchParams getHotelSearchParamsForAirAttach() {
+		List<ItinCardData> itinCardDatas = mItinCardDatas;
+
+		// Nothing to do if there are no itineraries
+		int len = itinCardDatas.size();
+		if (len == 0) {
+			return null;
+		}
+		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
+			Db.getTripBucket().isUserAirAttachQualified();
+
+		for (int i = 0; i < len; i++) {
+			ItinCardData data = itinCardDatas.get(i);
+			DateTime start = data.getStartDate();
+			DateTime currentDate = DateTime.now(start.getZone());
+
+			// Ignore past itineraries
+			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
+				continue;
+			}
+
+			// Ignore non-flight itineraries
+			if (!data.getTripComponentType().equals(Type.FLIGHT) || !(data instanceof ItinCardDataFlight)) {
+				continue;
+			}
+
+			// Ignore shared itins
+			if (data.getTripComponent().getParentTrip().isShared()) {
+				continue;
+			}
+
+			// Ignore last leg flights for a multi-leg trip ONLY IF
+			// the origin and final destination airports are the same.
+			FlightLeg itinFlightLeg = ((ItinCardDataFlight) data).getFlightLeg();
+			Waypoint itinDestination = itinFlightLeg.getLastWaypoint();
+			TripFlight tripFlight = (TripFlight) data.getTripComponent();
+			final int legCount = tripFlight.getFlightTrip().getLegCount();
+
+			if (legCount > 1) {
+				Waypoint tripOrigin = tripFlight.getFlightTrip().getLeg(0).getFirstWaypoint();
+				if (((ItinCardDataFlight) data).getLegNumber() == legCount - 1 &&
+					itinDestination.mAirportCode.equals(tripOrigin.mAirportCode)) {
+					continue;
+				}
+			}
+
+			boolean insertButtonCard = false;
+			FlightLeg nextFlightLeg = null;
+
+			// Check if there is a next itin card to compare to
+			if (i < len - 1) {
+				ItinCardData nextData = itinCardDatas.get(i + 1);
+				Type nextType = nextData.getTripComponentType();
+				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
+
+				// If the next itin is a flight
+				if (nextType == Type.FLIGHT) {
+					nextFlightLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
+					Waypoint waypointTwo = nextFlightLeg.getFirstWaypoint();
+					DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
+
+					// Check if there is more than 1 day between the two flights
+					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
+
+						// Check if the next flight departs from the same airport the current flight arrives at
+						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode))
+							insertButtonCard = true;
+
+							// There is a flight 1+ days later from a different airport
+						else {
+							insertButtonCard = true;
+							nextFlightLeg = null;
+						}
+					}
+				}
+				// If the next itin is a hotel
+				else if (nextType == Type.HOTEL) {
+					DateTime checkInDate = nextData.getStartDate();
+					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0) {
+						insertButtonCard = true;
+					}
+				}
+			}
+			// The flight is the last itin
+			else if (i == len - 1) {
+				insertButtonCard = true;
+			}
+
+			if (insertButtonCard) {
+				// Check if user qualifies for air attach
+				if (isUserAirAttachQualified) {
+					return AirAttachUtils.generateHotelSearchParamsFromItinData(tripFlight,
+						itinFlightLeg, nextFlightLeg);
+				}
+			}
+		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

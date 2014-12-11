@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -12,6 +13,8 @@ import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -49,6 +52,7 @@ import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.LaunchHotelFallbackData;
@@ -56,6 +60,8 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
@@ -112,6 +118,9 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 	private LaunchHotelAdapter mHotelAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
+
+	private ViewGroup mAirAttachC;
+	private View mAirAttachClose;
 
 	// Used to prevent launching of both flight and hotel activities at once
 	// (as it is otherwise possible to quickly click on both sides).
@@ -180,6 +189,24 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 				}
 			}
 		});
+
+		// Air Attach
+		mAirAttachC = Ui.findView(v, R.id.air_attach_banner_container);
+		mAirAttachClose = Ui.findView(v, R.id.air_attach_banner_close);
+		if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
+			final ItineraryManager itinMan = ItineraryManager.getInstance();
+			if (itinMan.isSyncing()) {
+				itinMan.addSyncListener(new ItineraryManager.ItinerarySyncAdapter() {
+					@Override
+					public void onSyncFinished(Collection<Trip> trips) {
+						showAirAttachBannerIfNecessary();
+					}
+				});
+			}
+			else {
+				showAirAttachBannerIfNecessary();
+			}
+		}
 
 		return v;
 	}
@@ -842,6 +869,61 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 		Db.setLaunchFlightData(null);
 		Db.setLaunchHotelData(null);
 		Db.setLaunchHotelFallbackData(null);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Air Attach
+
+	private void showAirAttachBannerIfNecessary() {
+		final ItineraryManager itinMan = ItineraryManager.getInstance();
+		final HotelSearchParams hotelSearchParams = itinMan.getHotelSearchParamsForAirAttach();
+		if (hotelSearchParams != null) {
+			if (mAirAttachC.getVisibility() == View.GONE) {
+				mAirAttachC.setVisibility(View.VISIBLE);
+				mAirAttachC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						if (mAirAttachC.getHeight() == 0 || mAirAttachC.getVisibility() == View.GONE) {
+							return true;
+						}
+						mAirAttachC.getViewTreeObserver().removeOnPreDrawListener(this);
+						animateAirAttachBanner(hotelSearchParams, true);
+						return false;
+					}
+				});
+			}
+			else {
+				animateAirAttachBanner(hotelSearchParams, false);
+			}
+
+			mAirAttachClose.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mAirAttachC.animate()
+						.translationY(mAirAttachC.getHeight())
+						.setDuration(300)
+						.setListener(new AnimatorListenerAdapter() {
+							@Override
+							public void onAnimationEnd(Animator animation) {
+								mAirAttachC.setVisibility(View.GONE);
+							}
+						});
+				}
+			});
+		}
+	}
+
+	private void animateAirAttachBanner(final HotelSearchParams hotelSearchParams, boolean animate) {
+		mAirAttachC.setTranslationY(mAirAttachC.getHeight());
+		mAirAttachC.animate()
+			.translationY(0f)
+			.setDuration(animate ? 300 : 0);
+		mAirAttachC.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.goToHotels(getActivity(), hotelSearchParams);
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////

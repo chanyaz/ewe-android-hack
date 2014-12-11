@@ -1,10 +1,8 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.List;
-
-import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.utils.AirAttachUtils;
 
 public class ItinCardDataAirAttach extends ItinCardData {
 
@@ -25,9 +23,7 @@ public class ItinCardDataAirAttach extends ItinCardData {
 	}
 
 	public HotelSearchParams getSearchParams() {
-		List<ChildTraveler> childTravelersInTrip = mTripFlight.getChildTravelers();
-		int numAdults = mTripFlight.getTravelers().size() - childTravelersInTrip.size();
-		return HotelSearchParams.fromFlightParams(mFirstLeg, mNextLeg, numAdults, childTravelersInTrip);
+		return AirAttachUtils.generateHotelSearchParamsFromItinData(mTripFlight, mFirstLeg, mNextLeg);
 	}
 
 	@Override
