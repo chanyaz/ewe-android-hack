@@ -1133,18 +1133,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		StringBuffer shortUrl = new StringBuffer("http://");
-		if (ExpediaBookingApp.IS_AAG) {
-			shortUrl.append("a.aago.co");
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			shortUrl.append("t.tvly.co");
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			shortUrl.append("v.vygs.co");
-		}
-		else {
-			shortUrl.append("e.xpda.co");
-		}
+		shortUrl.append(ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl());
 		shortUrl.append("/v1/shorten");
 
 		Request.Builder post = new Request.Builder().url(shortUrl.toString());

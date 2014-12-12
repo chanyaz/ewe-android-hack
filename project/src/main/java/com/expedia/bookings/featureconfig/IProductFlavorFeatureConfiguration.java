@@ -7,4 +7,5 @@ public interface IProductFlavorFeatureConfiguration {
 	String getAppNameForMobiataPushNameHeader();
 	String getAppSupportUrl(Context context);
 	int getCrossSellStringResourceIdForShareEmail();
+	String getHostnameForShortUrl();
 }

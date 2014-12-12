@@ -20,4 +20,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getCrossSellStringResourceIdForShareEmail() {
 		return R.string.share_template_long_ad_aag;
 	}
+
+	public String getHostnameForShortUrl() {
+		return "a.aago.co";
+	}
 }

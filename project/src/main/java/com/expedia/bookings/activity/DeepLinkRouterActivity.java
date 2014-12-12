@@ -32,6 +32,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -102,10 +103,7 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if ("e.xpda.co".equalsIgnoreCase(host)
-			|| "a.aago.co".equalsIgnoreCase(host)
-			|| "t.tvly.co".equalsIgnoreCase(host)
-			|| "v.vygs.co".equalsIgnoreCase(host)) {
+		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
 			new Thread(new Runnable() {
