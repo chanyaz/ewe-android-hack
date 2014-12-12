@@ -3,7 +3,7 @@
 set -e
 
 # Skip pull requests
-test -z "${SNAP_PULL_REQUEST_NUMBER}"
+test -z "${SNAP_PULL_REQUEST_NUMBER}" || exit 0
 
 source snap/common.sh
 
