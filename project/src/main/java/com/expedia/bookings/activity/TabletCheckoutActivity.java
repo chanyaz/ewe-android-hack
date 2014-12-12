@@ -162,7 +162,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		updateLob(lob);
 	}
 
-	private void updateLob(LineOfBusiness lob) {
+	public void updateLob(LineOfBusiness lob) {
 		mLob = lob;
 		if (mFragCheckoutController != null) {
 			mFragCheckoutController.setLob(lob);

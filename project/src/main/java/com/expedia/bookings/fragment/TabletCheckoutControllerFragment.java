@@ -705,6 +705,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (lob == LineOfBusiness.HOTELS) {
 			if (!mHotelBookingFrag.isDownloadingHotelProduct()
 				&& Db.getTripBucket().getHotel().getHotelProductResponse() == null
+				&& Db.getTripBucket().getHotel().getCreateTripResponse() == null
 				&& Db.getTripBucket().getHotel().canBePurchased()) {
 				mHotelProductDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.calculating_taxes_and_fees));
@@ -1311,8 +1312,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onBookNext(Events.BookingConfirmationBookNext event) {
-		if (event.nextItem != null) {
-			setLob(event.nextItem);
+		if (event.nextItem != null && getActivity() != null && !getActivity().isFinishing()) {
+			((TabletCheckoutActivity) getActivity()).updateLob(event.nextItem);
 			setCheckoutState(CheckoutState.OVERVIEW, false);
 		}
 	}
