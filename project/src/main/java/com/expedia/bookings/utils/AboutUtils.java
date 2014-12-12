@@ -17,6 +17,7 @@ import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -155,21 +156,7 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_vsc), false, true);
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_aag), false, true);
-		}
-		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url), false, true);
-		}
-		else {
-			throw new RuntimeException("Did not handle app support url for current build flavor");
-		}
+		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false, true);
 	}
 
 	public void tellAFriend() {
