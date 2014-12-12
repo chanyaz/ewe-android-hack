@@ -13,7 +13,7 @@
     <string name="contact_aag">Contact AirAsiaGo</string>
     <string name="aag_website">AirAsiaGo Website</string>
     <string name="aag_app_support">AirAsiaGo App Support</string>
-    <string name="aag_copyright">© Copyright 2012-2014 AirAsiaGo\nAll rights reserved.</string>
+    <string name="aag_copyright_TEMPLATE">© Copyright 2012-%1$s AirAsiaGo\nAll rights reserved.</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_aag">Are you sure you want to log out of your AirAsiaGo account?</string>
