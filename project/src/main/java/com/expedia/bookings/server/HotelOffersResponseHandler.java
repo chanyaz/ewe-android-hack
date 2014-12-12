@@ -72,6 +72,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			property.setTelephoneSalesNumber(response.optString("telesalesNumber", null));
 			property.setIsDesktopOverrideNumber(response.optBoolean("deskTopOverrideNumber", true));
 			property.setIsVipAccess(response.optBoolean("isVipAccess", false));
+			property.setShowCircles(!response.optBoolean("allowedToDisplayRatingAsStars", true));
 
 			// Parse text sections
 			JSONArray overviewTextArr = response.optJSONArray("hotelOverviewText");
