@@ -226,9 +226,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Add air attach and hotel attach cards where applicable
 		addAttachData(mItinCardDatasSync);
 
-		// Add local expert cards
-		addLocalExpertData(mItinCardDatasSync);
-
 		// Do some calculations on the data
 		Pair<Integer, Integer> summaryCardPositions = calculateSummaryCardPositions(mItinCardDatasSync);
 
