@@ -12,7 +12,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  */
 public class HotelsCheckoutScreen extends CommonCheckoutScreen {
 	private static final int TITLE_VIEW_ID = R.id.title;
-	private static final int RATING_VIEW_ID = R.id.rating;
+	private static final int RATING_VIEW_ID = R.id.rating_stars;
 	private HotelReceiptModel mHotelReceiptModel;
 
 	public HotelReceiptModel hotelReceiptModel() {
