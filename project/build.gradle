@@ -223,10 +223,16 @@ public class GradleUtil {
 
     static def shouldEnableProguard(Project project) {
         def buildNumber = "${System.env.BUILD_NUMBER}"
+        def ci = "${System.env.CI}"
         def boolean shouldRunProguard = false
 
         // If BUILD_NUMBER defined turn on proguard
         if (isDefined(buildNumber)) {
+            shouldRunProguard = true
+        }
+
+        // If CI defined turn on proguard
+        if (isDefined(ci)) {
             shouldRunProguard = true
         }
 
