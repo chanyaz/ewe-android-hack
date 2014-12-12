@@ -8,7 +8,7 @@
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
         <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button_travelocity</item>
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button_travelocity</item>
-        
+
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
@@ -17,11 +17,13 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder_travelocity</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="skin_hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
-        <item name="skin_hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 
         <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter_travelocity</item>
         <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color_tvly</item>
+
+        <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
+        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />
