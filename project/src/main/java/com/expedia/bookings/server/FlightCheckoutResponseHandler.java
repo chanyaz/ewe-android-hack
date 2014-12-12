@@ -69,8 +69,10 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 				DateTime expires = DateTimeParser.parseDateTime(airAttachJson.opt("offerExpires"));
 				airAttach.setExpirationDate(expires);
 
-				Db.getTripBucket().setAirAttach(airAttach);
-				Db.saveTripBucket(mContext);
+				if (airAttach.isAirAttachQualified()) {
+					Db.getTripBucket().setAirAttach(airAttach);
+					Db.saveTripBucket(mContext);
+				}
 			}
 		}
 		catch (JSONException e) {
