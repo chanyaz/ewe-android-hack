@@ -338,7 +338,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setRateKey(jsonRate.getString("productKey"));
 		rate.setRatePlanCode(jsonRate.optString("rateCode", null));
 		rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
-		rate.setAirAttached(jsonRate.optBoolean("airAttached", false));
+		rate.setAirAttached(chargeableRateInfo.optBoolean("airAttached", false));
 		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
 		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
 		rate.setThumbnail(ParserUtils.parseUrl(jsonRate.optString("roomThumbnailUrl", null)));
