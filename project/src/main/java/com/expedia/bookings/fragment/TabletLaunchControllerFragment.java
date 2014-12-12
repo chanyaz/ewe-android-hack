@@ -584,8 +584,11 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				else {
 					Sp.getParams().setDefaultCustomDestinationQryText();
 				}
-				Db.deleteTripBucket(getActivity());
+				// Deleting the trip bucket removes air attach qualification
+				// so lets just clear it out and leave air attach alone
+				// Db.deleteTripBucket(getActivity());
 				Db.getTripBucket().clear();
+				Db.saveTripBucket(getActivity());
 			}
 			doSearch();
 		}
