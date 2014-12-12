@@ -95,6 +95,10 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		if (Db.getTripBucket().isEmpty()) {
+			Db.loadTripBucket(this);
+		}
+
 		super.onCreate(savedInstanceState);
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
