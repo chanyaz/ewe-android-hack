@@ -35,6 +35,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
@@ -429,23 +430,9 @@ public class ShareUtils {
 
 		body.append("\n");
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			body.append(mContext.getString(R.string.share_template_long_ad_aag, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			body.append(mContext.getString(R.string.share_template_long_ad_tvly, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			body.append(mContext.getString(R.string.share_template_long_ad_vsc, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
+		body.append(mContext.getString(
+			ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
+			PointOfSale.getPointOfSale().getAppInfoUrl()));
 
 		return body.toString();
 	}
@@ -523,7 +510,6 @@ public class ShareUtils {
 
 		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, LONG_SHARE_DATE_FLAGS);
 		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, LONG_SHARE_DATE_FLAGS);
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		int nights = JodaUtils.daysBetween(startDate, endDate);
 		String lengthOfStay = mContext.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
@@ -558,21 +544,9 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		//1754. VSC Show the requested text which doesn't contain link to app.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			builder.append(mContext.getString(R.string.share_template_long_ad_aag, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			builder.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			builder.append(mContext.getString(R.string.share_template_long_ad_vsc, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
+		builder.append(mContext.getString(
+			ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
+			PointOfSale.getPointOfSale().getAppInfoUrl()));
 
 		return builder.toString();
 	}

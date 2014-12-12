@@ -17,4 +17,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getAppSupportUrl(Context context) {
 		return PointOfSale.getPointOfSale().getAppSupportUrl();
 	}
+
+	public int getCrossSellStringResourceIdForShareEmail() {
+		return R.string.share_template_long_ad_tvly;
+	}
 }
