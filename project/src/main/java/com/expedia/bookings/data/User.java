@@ -311,6 +311,12 @@ public class User implements JSONable {
 				Db.getWorkingTravelerManager().clearWorkingTraveler(context);
 			}
 
+			// Trip Bucket
+			if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
+				Db.getTripBucket().setAirAttach(null);
+				Db.saveTripBucket(context);
+			}
+
 			Db.loadBillingInfo(context);
 			Db.getBillingInfo().delete(context);
 			Db.getTravelers().clear();
