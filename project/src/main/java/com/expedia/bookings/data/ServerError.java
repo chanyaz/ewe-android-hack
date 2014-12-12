@@ -36,7 +36,6 @@ public class ServerError implements JSONable {
 		BACKGROUND_IMAGE,
 		TRIPS,
 		TRIP_DETAILS,
-		SAMSUNG_WALLET,
 	}
 
 	public static enum ErrorCode {

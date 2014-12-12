@@ -71,7 +71,6 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
-import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.Scenario;
 import com.expedia.bookings.data.ScenarioResponse;
 import com.expedia.bookings.data.ScenarioSetResponse;
@@ -1270,14 +1269,6 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		query.add(new BasicNameValuePair("profileTypes", TextUtils.join(",", profileTypes)));
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Samsung Wallet ticket creation
-
-	public SamsungWalletResponse getSamsungWalletTicketId(String itineraryId) {
-		return doE3Request("api/common/samsungwallet/" + itineraryId, null, new SamsungWalletResponseHandler(
-			mContext), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

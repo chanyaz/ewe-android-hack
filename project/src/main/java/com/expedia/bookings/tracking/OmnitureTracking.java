@@ -1676,41 +1676,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, base + PICKER_REMOVE + travelerType);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Samsung Wallet Click Tracking
-	//
-
-	private static final String SAMSUNG_WALLET = "App.Hotels.Checkout.Confirmation.SamsungWallet";
-
-	public static void trackSamsungWalletDownloadShown(Context context) {
-		internalTrackSamsungWallet(context, "Download.Shown");
-	}
-
-	public static void trackSamsungWalletDownloadClicked(Context context) {
-		internalTrackSamsungWallet(context, "Download.Clicked");
-	}
-
-	public static void trackSamsungWalletLoadShown(Context context) {
-		internalTrackSamsungWallet(context, "Load.Shown");
-	}
-
-	public static void trackSamsungWalletLoadClicked(Context context) {
-		internalTrackSamsungWallet(context, "Load.Clicked");
-	}
-
-	public static void trackSamsungWalletViewShown(Context context) {
-		internalTrackSamsungWallet(context, "View.Shown");
-	}
-
-	public static void trackSamsungWalletViewClicked(Context context) {
-		internalTrackSamsungWallet(context, "View.Clicked");
-	}
-
-	private static void internalTrackSamsungWallet(Context context, String which) {
-		internalTrackLink(context, SAMSUNG_WALLET + "." + which);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Itin Tracking
 	//
