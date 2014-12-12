@@ -80,6 +80,7 @@
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_tvly</item>
 
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
