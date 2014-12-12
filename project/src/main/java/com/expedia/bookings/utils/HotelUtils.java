@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -72,10 +75,29 @@ public class HotelUtils {
 		Db.getHotelSearch().updateFrom(offersResponse);
 	}
 
+	public static void setupActionBarHotelNameAndRating(Activity activity, Property property) {
+		ViewGroup actionBarView = Ui.inflate(activity, R.layout.actionbar_hotel_name_with_stars, null);
+
+		TextView titleView = Ui.findView(actionBarView, R.id.title);
+		titleView.setText(property.getName());
+
+		RatingBar ratingBar;
+		if (property.shouldShowCircles()) {
+			ratingBar = Ui.findView(actionBarView, R.id.rating_circles);
+		}
+		else {
+			ratingBar = Ui.findView(actionBarView, R.id.rating_stars);
+		}
+		ratingBar.setRating((float) property.getHotelRating());
+		ratingBar.setVisibility(View.VISIBLE);
+
+		activity.getActionBar().setCustomView(actionBarView);
+	}
+
 	/**
 	 * Sets up the "checkmark" action bar item
 	 */
-	public static Button setupActionBarCheckmark(final FragmentActivity activity, final MenuItem menuItem,
+	public static Button setupActionBarCheckmark(final Activity activity, final MenuItem menuItem,
 			boolean enabled) {
 		Button tv = Ui.inflate(activity, R.layout.actionbar_checkmark_item, null);
 		ViewUtils.setAllCaps(tv);

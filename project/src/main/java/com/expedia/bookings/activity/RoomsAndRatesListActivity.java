@@ -108,7 +108,14 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		TextView locationView = (TextView) findViewById(R.id.location_text_view);
 		locationView.setText(StrUtils.formatAddressShort(property.getLocation()));
 
-		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
+		RatingBar hotelRating;
+		if (property.shouldShowCircles()) {
+			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_circles);
+		}
+		else {
+			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_stars);
+		}
+		hotelRating.setVisibility(View.VISIBLE);
 		hotelRating.setRating((float) property.getHotelRating());
 
 		// Only display nights header if orientation landscape

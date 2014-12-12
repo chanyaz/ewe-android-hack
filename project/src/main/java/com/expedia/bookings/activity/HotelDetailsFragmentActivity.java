@@ -6,8 +6,10 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -240,16 +242,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(true);
 
-		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
-
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		String title = property.getName();
-		((TextView) titleView.findViewById(R.id.title)).setText(title);
-
-		float rating = (float) property.getHotelRating();
-		((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
-
-		actionBar.setCustomView(titleView);
+		HotelUtils.setupActionBarHotelNameAndRating(this, property);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		HotelUtils.setupActionBarCheckmark(this, select, property.isAvailable());

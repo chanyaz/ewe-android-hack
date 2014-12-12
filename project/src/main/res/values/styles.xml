@@ -200,6 +200,16 @@
         <item name="android:progressDrawable">@drawable/ratingbar_star_gray</item>
     </style>
 
+    <style name="RatingBar.Circle" parent="@style/RatingBar.Star"/>
+
+    <style name="RatingBar.Circle.White">
+        <item name="android:progressDrawable">@drawable/ratingbar_circle_white</item>
+    </style>
+
+    <style name="RatingBar.Circle.Gray">
+        <item name="android:progressDrawable">@drawable/ratingbar_circle_gray</item>
+    </style>
+
     <style name="RatingBar.UserReview">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_yellow</item>
         <item name="android:minHeight">12dp</item>
