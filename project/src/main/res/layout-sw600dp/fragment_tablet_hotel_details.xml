@@ -310,13 +310,25 @@
 
                     <RatingBar
                         android:id="@+id/star_rating_bar"
-                        style="?attr/skin_hotelDetailsStarRatingStyle"
+                        style="?attr/skin_tabletHotelDetailsStarRatingStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:stepSize=".5" />
+                        android:stepSize=".5"
+                        android:visibility="gone" />
+
+                    <RatingBar
+                        android:id="@+id/circle_rating_bar"
+                        style="?attr/skin_tabletHotelDetailsCircleRatingStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:stepSize=".5"
+                        android:visibility="gone" />
 
                 </FrameLayout>
 
