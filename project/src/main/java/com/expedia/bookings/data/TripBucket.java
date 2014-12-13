@@ -42,7 +42,7 @@ public class TripBucket implements JSONable {
 	public void clear() {
 		mRefreshCount = 0;
 		mItems.clear();
-		mAirAttach = null;
+		//mAirAttach = null;
 	}
 
 	/**
