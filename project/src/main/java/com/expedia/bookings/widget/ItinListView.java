@@ -279,7 +279,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			childEvent.offsetLocation(0, -child.getTop());
 
 			if (child instanceof ItinButtonCard
-				|| (child instanceof ItinAirAttachCard && ((ItinAirAttachCard) child).isTouchOnAirAttachButton(childEvent))
+				|| (child instanceof ItinAirAttachCard
+				&& (((ItinAirAttachCard) child).isTouchOnAirAttachButton(childEvent)
+				|| ((ItinAirAttachCard) child).isTouchOnDismissButton(childEvent)))
 				|| (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent))) {
 				isChildConsumedTouch = true;
 			}
