@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/itin_button_layout"
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="wrap_content"
         android:background="?attr/skin_itinHotelAttachButtonDrawable"
         android:orientation="vertical">
 
