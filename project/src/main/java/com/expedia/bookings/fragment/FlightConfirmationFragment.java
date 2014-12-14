@@ -128,7 +128,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
 				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.GONE);
 				Ui.findView(v, R.id.air_attach_confirmation_banner).setVisibility(View.VISIBLE);
-				Ui.setOnClickListener(v, R.id.action_text_button, new OnClickListener() {
+				Ui.setOnClickListener(v, R.id.button_action_layout, new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();

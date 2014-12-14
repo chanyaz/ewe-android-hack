@@ -132,6 +132,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 			else {
 				card = new ItinAirAttachCard(mContext);
+				card.setOnHideListener(this);
 			}
 
 			card.bind((ItinCardDataAirAttach) data);
@@ -468,8 +469,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Get previously dismissed buttons
 		final HashSet<String> dismissedTripIds = DismissedItinButton
 			.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
+		final HashSet<String> dismissedAirAttach = DismissedItinButton
+			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
+		dismissedTripIds.addAll(dismissedAirAttach);
 
 		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false);
+		boolean isAirAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_air_attach, false);
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
 
@@ -555,14 +560,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			if (insertButtonCard) {
 				// Check if user qualifies for air attach
-				if (isUserAirAttachQualified) {
+				if (isUserAirAttachQualified && isAirAttachEnabled) {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataAirAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;
 					i ++;
 				}
 				// Make sure hotel attach is enabled
-				else if (isHotelAttachEnabled) {
+				else if (isHotelAttachEnabled && isAirAttachEnabled) {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;

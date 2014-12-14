@@ -37,7 +37,8 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 	public enum ItinButtonType {
 		HOTEL_ATTACH,
-		LOCAL_EXPERT;
+		LOCAL_EXPERT,
+		AIR_ATTACH;
 
 		public static ItinButtonType fromClass(Class<? extends ItinCardData> clazz) {
 			if (clazz.equals(ItinCardDataHotelAttach.class)) {
