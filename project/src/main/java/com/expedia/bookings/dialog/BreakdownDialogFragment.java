@@ -158,7 +158,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		// Breakdown of each night
 		if (originalRate.getRateBreakdownList() != null) {
 			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
-				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), DateFormatUtils.FLAGS_DATE_NUMERIC);
+				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), DateFormatUtils.FLAGS_DATE_NUMERIC | DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 				Money amount = breakdown.getAmount();
 				CharSequence amountStr = (amount.isZero()) ? context.getString(R.string.free) :
 					amount.getFormattedMoney();
