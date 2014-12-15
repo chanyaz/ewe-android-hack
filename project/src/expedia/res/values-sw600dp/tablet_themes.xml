@@ -30,6 +30,8 @@
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list</item>
         <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
         <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Circle.HotelDetails</item>
+        <!-- Flight Map -->
+        <item name="skin_tablet_flight_map_arrival_pin">@drawable/tablet_flight_map_arrival</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />
