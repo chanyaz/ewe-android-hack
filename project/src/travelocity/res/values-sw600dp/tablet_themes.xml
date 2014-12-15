@@ -22,6 +22,9 @@
 
         <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter_travelocity</item>
         <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color_tvly</item>
+
+        <!-- Flight Map -->
+        <item name="skin_tablet_flight_map_arrival_pin">@drawable/tablet_flight_map_arrival_tvly</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />

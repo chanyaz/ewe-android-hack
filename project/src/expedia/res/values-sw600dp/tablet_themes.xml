@@ -20,6 +20,9 @@
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button</item>
         <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter</item>
         <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color</item>
+
+        <!-- Flight Map -->
+        <item name="skin_tablet_flight_map_arrival_pin">@drawable/tablet_flight_map_arrival</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />
