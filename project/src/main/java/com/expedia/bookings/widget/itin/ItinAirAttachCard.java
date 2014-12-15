@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.itin;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -69,6 +71,21 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		mTripId = itinCardData.getTripComponent().getParentTrip().getTripId();
 
 		mItinButtonOnClickListener = mItinContentGenerator.getOnItemClickListener();
+
+		final String buttonText;
+		FlightLeg flightLeg = itinCardData.getFlightLeg();
+
+		if (flightLeg != null && flightLeg.getLastWaypoint() != null
+			&& flightLeg.getLastWaypoint().getAirport() != null
+			&& !TextUtils.isEmpty(flightLeg.getLastWaypoint().getAirport().mCity)) {
+			buttonText = getResources().getString(R.string.add_hotel_TEMPLATE,
+				itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity);
+		}
+		else {
+			buttonText = getResources().getString(R.string.add_hotel_air_attach);
+		}
+
+		Ui.setText(this, R.id.action_text_view, buttonText);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
