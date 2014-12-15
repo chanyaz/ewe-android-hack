@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:addStatesFromChildren="true"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -17,7 +16,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/traveler_button_padding"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:addStatesFromChildren="false">
 
         <ImageView
             android:id="@+id/empty_payment_button_icon"
@@ -39,6 +39,15 @@
             android:text="@string/enter_payment_information"
             android:textSize="@dimen/checkout_data_button_text_size"
             app:textStyle="light" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/empty_saved_creditcard_fake_spinner"
+            style="@style/CheckoutTravelerPaymentButton.Saved"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/empty_edit_creditcard_button"
+            style="@style/CheckoutTravelerPaymentButton.Edit"/>
+
     </LinearLayout>
 
     <!-- Section for a newly entered credit card -->
@@ -50,7 +59,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/traveler_button_padding"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:addStatesFromChildren="false">
 
         <ImageView
             android:id="@+id/display_credit_card_brand_icon_tablet"
@@ -83,15 +93,13 @@
                 app:textStyle="light" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/validation_checkmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0"
-            android:src="?attr/skin_icCheckoutCheckmarkDrawable"
-            android:visibility="gone" />
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/new_creditcard_fake_spinner"
+            style="@style/CheckoutTravelerPaymentButton.Saved"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/new_creditcard_edit_button"
+            style="@style/CheckoutTravelerPaymentButton.Edit"/>
 
     </com.expedia.bookings.section.SectionBillingInfo>
 

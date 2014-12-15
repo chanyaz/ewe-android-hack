@@ -74,8 +74,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
 	CheckoutLoginButtonsFragment.IWalletCouponListener,
-	TravelerButtonFragment.ITravelerButtonListener {
-
+	TravelerButtonFragment.ITravelerButtonListener,
+	PaymentButtonFragment.IPaymentButtonListener {
 
 	public interface ISlideToPurchaseSizeProvider {
 		public View getSlideToPurchaseContainer();
@@ -501,8 +501,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		addActionable(mPaymentView, new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
-				openPaymentForm();
+				onCreditCardEditButtonPressed();
 			}
 		});
 
@@ -963,6 +962,26 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 		return false;
+	}
+
+	/*
+	 * IPaymentButtonListener
+	 */
+
+	@Override
+	public void onCreditCardEditButtonPressed() {
+		OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
+		openPaymentForm();
+	}
+
+	@Override
+	public void onAddNewCreditCardSelected() {
+
+	}
+
+	@Override
+	public void onStoredCreditCardChosen() {
+		onCheckoutDataUpdated();
 	}
 
 	/*

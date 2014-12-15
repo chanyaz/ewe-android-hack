@@ -241,8 +241,15 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				final Money cardFee = item.getCardFee(type);
 				if (!item.isCardTypeSupported(type)) {
 					Resources res = getResources();
-					mIconView.setImageResource(R.drawable.ic_lcc_no_card_payment_selection);
-					mDescriptionView.setTextColor(res.getColor(R.color.flight_card_invalid_cc_type_text_color));
+					int errorIconResId;
+					if (AndroidUtils.isTablet(getContext())) {
+						errorIconResId = R.drawable.ic_checkout_error_state;
+					}
+					else {
+						errorIconResId = R.drawable.ic_lcc_no_card_payment_selection;
+						mDescriptionView.setTextColor(res.getColor(R.color.flight_card_invalid_cc_type_text_color));
+					}
+					mIconView.setImageResource(errorIconResId);
 				}
 				else if (cardFee != null) {
 					final String feeText = cardFee.getFormattedMoney();
