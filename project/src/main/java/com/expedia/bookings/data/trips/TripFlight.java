@@ -24,6 +24,11 @@ public class TripFlight extends TripComponent {
 		super(Type.FLIGHT);
 	}
 
+	public TripFlight(JSONObject other) {
+		super(Type.FLIGHT);
+		fromJson(other);
+	}
+
 	public void setFlightTrip(FlightTrip flightTrip) {
 		mFlightTrip = flightTrip;
 	}
