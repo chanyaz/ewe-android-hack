@@ -34,6 +34,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AdvertisingIdUtils;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.SocketActivityHierarchyServer;
@@ -425,7 +426,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
 		String api = ExpediaServices.getEndPoint(context).name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
-		String mc1Cookie = AboutWebViewActivity.getMC1CookieStr(context);
+		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
 
 		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		int memClass = am.getMemoryClass();

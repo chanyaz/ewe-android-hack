@@ -11,9 +11,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.net.MailTo;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -31,7 +29,9 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -424,9 +424,7 @@ public class WebViewFragment extends DialogFragment {
 
 	private void doSupportEmail(String url) {
 		MailTo mt = MailTo.parse(url);
-		Intent mailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-			"mailto", mt.getTo(), null));
-		startActivity(Intent.createChooser(mailIntent, getString(R.string.mailto_title)));
+		SocialUtils.email(getActivity(), mt.getTo(), "", DebugInfoUtils.generateEmailBody(getActivity()));
 	}
 
 	private void attachWebView() {
