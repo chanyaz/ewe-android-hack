@@ -2,8 +2,8 @@
 
 set -e
 
-# Skip pull requests
-test -z "${SNAP_PULL_REQUEST_NUMBER}" || exit 0
+# Skip non master branch
+test "${SNAP_BRANCH}" "=" "master" || exit 0
 
 source snap/common.sh
 
