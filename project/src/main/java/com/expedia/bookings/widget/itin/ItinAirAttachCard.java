@@ -194,4 +194,21 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		return false;
 	}
 
+	public boolean isTouchOnDismissButton(MotionEvent event) {
+		if (mDismissImageView != null && mDismissImageView.getVisibility() == View.VISIBLE && event != null) {
+			int ex = (int) event.getX();
+			int ey = (int) event.getY();
+
+			int ax1 = mDismissImageView.getLeft();
+			int ax2 = mDismissImageView.getRight();
+			int ay1 = mDismissImageView.getTop();
+			int ay2 = mDismissImageView.getBottom();
+
+			if (ax1 <= ex && ax2 >= ex && ay1 <= ey && ay2 >= ey) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
