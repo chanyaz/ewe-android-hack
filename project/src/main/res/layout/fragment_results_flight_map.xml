@@ -23,6 +23,6 @@
         android:id="@+id/arrival_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/tablet_flight_map_arrival" />
+        android:src="?attr/skin_tablet_flight_map_arrival_pin" />
 
 </FrameLayout>
