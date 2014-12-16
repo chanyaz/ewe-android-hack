@@ -1751,16 +1751,10 @@ public class ItineraryManager implements JSONable {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Air Attach
+	//
+	// Note: This code was ripped from ItinCardDataAdapter.addAttachData
+	// TODO consolidate implementations, write unit tests
 
-	/**
-	 * Looks at the trips and attempts to find a flight itinerary that is suitable for cross-selling
-	 * hotels! Picks the most recent flight itinerary for cross-selling purposes. Returns null if there
-	 * does not exist a suitable flight itinerary.
-	 *
-	 *  Note: This code was ripped from ItinCardDataAdapter.addAttachData
-	 *  TODO consolidate implementations, write unit tests
-	 *
-	 */
 	public HotelSearchParams getHotelSearchParamsForAirAttach() {
 		List<ItinCardData> itinCardDatas = mItinCardDatas;
 
@@ -1772,8 +1766,6 @@ public class ItineraryManager implements JSONable {
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
 
-		TripFlight tripFlightMostRecent = null;
-		FlightLeg firstLegMostRecent = null, secondLegMostRecent = null;
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);
 			DateTime start = data.getStartDate();
@@ -1854,22 +1846,12 @@ public class ItineraryManager implements JSONable {
 			if (insertButtonCard) {
 				// Check if user qualifies for air attach
 				if (isUserAirAttachQualified) {
-					tripFlightMostRecent = new TripFlight(tripFlight.toJson());
-					firstLegMostRecent = new FlightLeg(itinFlightLeg.toJson());
-					if (nextFlightLeg != null) {
-						secondLegMostRecent = new FlightLeg(nextFlightLeg.toJson());
-					}
+					return AirAttachUtils.generateHotelSearchParamsFromItinData(tripFlight,
+						itinFlightLeg, nextFlightLeg);
 				}
 			}
 		}
-
-		if (tripFlightMostRecent != null) {
-			return AirAttachUtils.generateHotelSearchParamsFromItinData(tripFlightMostRecent,
-				firstLegMostRecent, secondLegMostRecent);
-		}
-		else {
-			return null;
-		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
