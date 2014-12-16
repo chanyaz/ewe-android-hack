@@ -5,17 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AirAttachUtils;
-import com.expedia.bookings.utils.NavUtils;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.util.AndroidUtils;
 
 public class AirAttachItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataAirAttach> {
 
@@ -25,7 +18,7 @@ public class AirAttachItinContentGenerator extends ItinButtonContentGenerator<It
 
 	@Override
 	public Type getType() {
-		return Type.AIR_ATTACH;
+		return Type.FLIGHT;
 	}
 
 	@Override
