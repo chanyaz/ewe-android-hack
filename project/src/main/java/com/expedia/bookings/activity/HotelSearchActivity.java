@@ -886,12 +886,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
 
-		// #1169. Add "About/Info" menu and debug API status menu item if VSC build.
-		if (ExpediaBookingApp.IS_VSC) {
-			getMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
-			DebugMenu.onCreateOptionsMenu(this, menu);
-		}
-
 		boolean ret = super.onCreateOptionsMenu(menu);
 
 		mIsOptionsMenuCreated = true;
@@ -954,17 +948,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
-
-		// #1169. VSC app related menu arrangement.
-		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
-		if (ExpediaBookingApp.IS_VSC && AndroidUtils.isRelease(this)) {
-			MenuItem settingsBtn = menu.findItem(R.id.settings);
-			if (settingsBtn != null) {
-				settingsBtn.setVisible(false);
-			}
-
-			DebugMenu.onPrepareOptionsMenu(this, menu);
-		}
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -1073,11 +1056,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (invalidateOptionsMenu) {
 			supportInvalidateOptionsMenu();
-		}
-
-		// VSC related menu
-		if (ExpediaBookingApp.IS_VSC && DebugMenu.onOptionsItemSelected(this, item)) {
-			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

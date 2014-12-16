@@ -44,6 +44,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 
 public class PhoneLaunchActivity extends FragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
@@ -284,7 +285,12 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 				logOutBtn.setEnabled(logoutBtnEnabled);
 			}
 		}
-
+		if (ExpediaBookingApp.IS_VSC && AndroidUtils.isRelease(this)) {
+			MenuItem settingsBtn = menu.findItem(R.id.settings);
+			if (settingsBtn != null) {
+				settingsBtn.setVisible(false);
+			}
+		}
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
 		return retVal;
