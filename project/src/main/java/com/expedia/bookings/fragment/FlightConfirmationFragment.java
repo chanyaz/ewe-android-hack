@@ -132,6 +132,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();
+						OmnitureTracking.trackAddHotelClick(getActivity());
 					}
 				});
 				// Set air attach expiration date
@@ -140,6 +141,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				int daysRemaining = JodaUtils.daysBetween(currentDate, expirationDate);
 				TextView expirationDateTv = Ui.findView(v, R.id.itin_air_attach_expiration_date_text_view);
 				expirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+
+				OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
 			}
 			else {
 				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.VISIBLE);
@@ -149,6 +152,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();
+						OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
 					}
 				});
 			}
@@ -243,8 +247,6 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		int numTravelers = params.getNumAdults();
 		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers, params.getChildren());
 		NavUtils.goToHotels(getActivity(), sp);
-
-		OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

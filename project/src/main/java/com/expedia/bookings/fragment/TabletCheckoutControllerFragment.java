@@ -29,7 +29,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItem;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -495,7 +494,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
 
 				if (getLob() == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackTabletConfirmationAirAttach(getActivity());
+					OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
 				}
 			}
 
