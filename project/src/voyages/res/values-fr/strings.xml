@@ -145,7 +145,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Avec l’application Voyages-sncf.com</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF.\nTous droits réservés.</string>
+    <string name="VSC_copyright_TEMPLATE">© Copyright 2012-%1$s Agence Voyages-SNCF.\nTous droits réservés.</string>
 
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server_vsc">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>

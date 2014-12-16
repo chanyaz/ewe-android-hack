@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
@@ -153,7 +155,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		if (copyrightFragment == null) {
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder();
 			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.skin_aboutAppNameString));
-			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString));
+			copyBuilder.setCopyright(getCopyrightString());
 			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.skin_aboutAppLogoDrawable));
 			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
 				copyBuilder.setLogoUrl(this.getString(Ui.obtainThemeResID(this, R.attr.skin_aboutInfoUrlString)));
@@ -182,6 +184,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		if (savedInstanceState == null) {
 			mAboutUtils.trackAboutActivityPageLoad();
 		}
+	}
+
+	private String getCopyrightString() {
+		int templateId = Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString);
+		return getString(templateId, AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR));
 	}
 
 	private AboutSectionFragment buildVSCOtherAppsSection(Context context) {
