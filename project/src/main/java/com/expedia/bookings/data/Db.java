@@ -122,10 +122,6 @@ public class Db {
 	//The working copy manager of billingInfo
 	private WorkingBillingInfoManager mWorkingBillingInfoManager;
 
-	// To store the samsung ticketId we get from the server
-	// Do not persist!
-	private String mSamsungWalletTicketId;
-
 	// To store the fullscreen average color for the ui
 	private int mFullscreenAverageColor = 0x66000000;
 
@@ -211,14 +207,6 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
-	}
-
-	public static void setSamsungWalletTicketId(String id) {
-		sDb.mSamsungWalletTicketId = id;
-	}
-
-	public static String getSamsungWalletTicketId() {
-		return sDb.mSamsungWalletTicketId;
 	}
 
 	public static void setFlightRoutes(FlightRoutes routes) {
