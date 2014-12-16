@@ -294,6 +294,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			Rate rate = hotel.getRate();
 			String totalTitle;
 			String price;
+
+			mExtrasContainer.removeAllViews();
 			if (PointOfSale.getPointOfSale().showFTCResortRegulations() && rate.showResortFeesMessaging()) {
 				addResortFeeRows(rate);
 				totalTitle = getResources().getString(R.string.trip_total);
@@ -305,10 +307,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			}
 			mTotalTitleTv.setText(totalTitle);
 			mPriceTv.setText(price);
-			mExtrasContainer.removeAllViews();
-			if (rate.showResortFeesMessaging()) {
-				addResortFeeRows(rate);
-			}
 			addPrioritizedAmenityRows(rate);
 			refreshPriceChange();
 		}
