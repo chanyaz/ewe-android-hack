@@ -675,6 +675,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			}
 
+			if (!mGrid.isLandscape()) {
+				if (stateTwo == ResultsSearchState.TRAVELER_PICKER || (stateOne == ResultsSearchState.TRAVELER_PICKER
+					&& stateTwo == ResultsSearchState.DEFAULT)) {
+					mGrid.setContainerToRowSpan(mBottomRightC, 4, 5);
+				}
+				else {
+					mGrid.setContainerToRow(mBottomRightC, 4);
+				}
+			}
+
 			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
 				setPopupAnimationPercentage(percentage, stateTwo.showsSearchPopup());
 			}
