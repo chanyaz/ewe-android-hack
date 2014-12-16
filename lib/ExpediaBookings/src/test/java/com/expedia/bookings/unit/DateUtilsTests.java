@@ -9,6 +9,11 @@ import static org.junit.Assert.assertEquals;
 
 public class DateUtilsTests {
 	@Test
+	public void testDateUtilsConstructor() {
+		new DateUtils();
+	}
+
+	@Test
 	public void testStringsConvertDatetoInt() {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy/MM/dd");
 

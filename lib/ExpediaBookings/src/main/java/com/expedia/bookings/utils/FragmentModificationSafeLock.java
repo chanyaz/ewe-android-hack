@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class FragmentModificationSafeLock {
 
-	private List<Runnable> mRunWhenSafe;
+	private List<Runnable> mRunWhenSafe = new ArrayList<>();
 
 	private boolean mSafe = false;
 
@@ -30,7 +30,7 @@ public class FragmentModificationSafeLock {
 			mSafe = isSafe;
 
 			// If we're safe now, run anything we were deferring to later
-			if (mSafe && mRunWhenSafe != null) {
+			if (mSafe) {
 				for (Runnable runnable : mRunWhenSafe) {
 					runnable.run();
 				}
@@ -49,10 +49,6 @@ public class FragmentModificationSafeLock {
 			runnable.run();
 		}
 		else {
-			if (mRunWhenSafe == null) {
-				mRunWhenSafe = new ArrayList<Runnable>();
-			}
-
 			mRunWhenSafe.add(runnable);
 		}
 	}

@@ -11,6 +11,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class StringsTests {
+	@Test
+	public void testStringsConstructor() {
+		new Strings();
+	}
 
 	@Test
 	public void testStringsIsEmpty() {
@@ -33,6 +37,10 @@ public class StringsTests {
 		ArrayList<String> list;
 		final String expected = "hello world";
 		String joined;
+
+		// null returns null
+		joined = Strings.joinWithoutEmpties(" ", null);
+		assertEquals(null, joined);
 
 		// test simple join
 		list = new ArrayList<String>();
@@ -96,6 +104,28 @@ public class StringsTests {
 		assertFalse(Strings.equals("a", "b"));
 		assertFalse(Strings.equals(a, b));
 		assertFalse(Strings.equals(b, a));
+
+		// Non Strings
+		final StringBuilder empty = new StringBuilder();
+		final StringBuilder first = new StringBuilder();
+		final StringBuilder second = new StringBuilder();
+		final StringBuilder third = new StringBuilder();
+		final StringBuilder forth = new StringBuilder();
+		first.append("aa");
+		second.append("bb");
+		third.append("aaa");
+		forth.append("aa");
+
+		assertTrue(Strings.equals(first, first));
+		assertTrue(Strings.equals(first, "aa"));
+		assertTrue(Strings.equals("aa", first));
+
+		assertTrue(Strings.equals(empty, ""));
+		assertTrue(Strings.equals("", empty));
+
+		assertFalse(Strings.equals(first, second));
+		assertFalse(Strings.equals(first, third));
+		assertFalse(Strings.equals(empty, first));
 	}
 
 	@Test
@@ -129,6 +159,11 @@ public class StringsTests {
 		assertEquals("d", Strings.slice("abcd", -1));
 		assertEquals("cd", Strings.slice("abcd", -2));
 		assertEquals("c", Strings.slice("abcd", -2, -1));
+
+		// Stupid input gives us the empty string
+		assertEquals("", Strings.slice("abcd", -100, 0));
+		assertEquals("", Strings.slice("abcd", 0, -100));
+		assertEquals("", Strings.slice("abcd", 5, 6));
 	}
 
 	@Test
