@@ -28,4 +28,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getHostnameForShortUrl() {
 		return "e.xpda.co";
 	}
+
+	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+		return true;
+	}
 }

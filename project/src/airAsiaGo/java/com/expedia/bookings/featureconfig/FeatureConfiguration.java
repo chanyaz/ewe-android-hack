@@ -28,4 +28,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getHostnameForShortUrl() {
 		return "a.aago.co";
 	}
+
+	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+		return false;
+	}
 }

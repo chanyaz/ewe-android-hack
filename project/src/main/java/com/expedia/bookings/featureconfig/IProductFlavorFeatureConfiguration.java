@@ -9,4 +9,5 @@ public interface IProductFlavorFeatureConfiguration {
 	String getAppSupportUrl(Context context);
 	int getCrossSellStringResourceIdForShareEmail();
 	String getHostnameForShortUrl();
+	Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard();
 }

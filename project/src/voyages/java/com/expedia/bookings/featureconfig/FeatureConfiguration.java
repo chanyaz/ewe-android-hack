@@ -28,4 +28,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getHostnameForShortUrl() {
 		return "v.vygs.co";
 	}
+
+	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+		return true;
+	}
 }

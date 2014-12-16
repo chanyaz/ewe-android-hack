@@ -29,4 +29,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getHostnameForShortUrl() {
 		return "t.tvly.co";
 	}
+
+	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+		return true;
+	}
 }
