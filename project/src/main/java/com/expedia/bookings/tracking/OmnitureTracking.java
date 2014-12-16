@@ -1521,6 +1521,9 @@ public class OmnitureTracking {
 	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
 	private static final String AIR_ATTACH_ITIN_XSELL = "Itinerary X-Sell";
 	private static final String AIR_ATTACH_ITIN_XSELL_REF = "App.Itin.X-Sell.Hotel";
+	private static final String AIR_ATTACH_PHONE_BANNER = "Launch Screen";
+	private static final String AIR_ATTACH_PHONE_BANNER_REF = "App.LS.AttachEligible";
+	private static final String AIR_ATTACH_PHONE_BANNER_CLICK = "App.LS.AttachHotel";
 
 	public static void trackAirAttachItinCrossSell(Context context) {
 		ADMS_Measurement s = getFreshTrackingObject(context);
@@ -1528,6 +1531,22 @@ public class OmnitureTracking {
 		s.setEvar(28, AIR_ATTACH_ITIN_XSELL_REF);
 		s.setProp(16, AIR_ATTACH_ITIN_XSELL_REF);
 		s.trackLink(null, "o", AIR_ATTACH_ITIN_XSELL, null, null);
+	}
+
+	public static void trackPhoneAirAttachBanner(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_REF);
+		s.setProp(16, AIR_ATTACH_PHONE_BANNER_REF);
+		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
+	}
+
+	public static void trackPhoneAirAttachBannerClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_CLICK);
+		s.setProp(16, AIR_ATTACH_PHONE_BANNER_CLICK);
+		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
 	}
 
 	public static void trackAddAirAttachHotel(Context context) {
@@ -1542,7 +1561,7 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackTabletConfirmationAirAttach(Context context) {
+	public static void trackFlightConfirmationAirAttach(Context context) {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 		s.setEvar(28, AIR_ATTACH_ELIGIBLE);
