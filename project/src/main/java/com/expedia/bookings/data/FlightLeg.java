@@ -31,14 +31,6 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mBaggageFeesUrl;
 
-	public FlightLeg() {
-
-	}
-
-	public FlightLeg(JSONObject other) {
-		fromJson(other);
-	}
-
 	public String getLegId() {
 		return mLegId;
 	}
