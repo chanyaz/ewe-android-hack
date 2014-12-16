@@ -27,8 +27,6 @@ public class AirAttachUtils {
 
 	public static void launchTabletResultsFromItinCrossSell(final Context context,
 			final HotelSearchParams hotelSearchParams, final String airportCode) {
-		OmnitureTracking.trackCrossSellItinToHotel(context);
-
 		if (AndroidUtils.isTablet(context)) {
 			final SearchParams searchParams = SearchParams.fromHotelSearchParams(hotelSearchParams);
 			BackgroundDownloader.getInstance().startDownload("itinCrossSellSuggest", new BackgroundDownloader.Download<SuggestionResponse>() {

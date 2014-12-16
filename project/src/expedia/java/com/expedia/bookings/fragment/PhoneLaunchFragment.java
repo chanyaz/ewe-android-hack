@@ -922,8 +922,10 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 			@Override
 			public void onClick(View v) {
 				NavUtils.goToHotels(getActivity(), hotelSearchParams);
+				OmnitureTracking.trackPhoneAirAttachBannerClick(getActivity());
 			}
 		});
+		OmnitureTracking.trackPhoneAirAttachBanner(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
