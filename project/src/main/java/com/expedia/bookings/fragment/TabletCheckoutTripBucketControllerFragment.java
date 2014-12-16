@@ -373,7 +373,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 				}
 
 				else if (!lobMatches && item.getLineOfBusiness() == LineOfBusiness.HOTELS &&
-					((TripBucketItemHotel) item).hasAirAttachRate()) {
+					((TripBucketItemHotel) item).hasAirAttachRate() &&
+					!(state == TripBucketItemState.PURCHASED)) {
 					state = TripBucketItemState.SHOWING_AIR_ATTACH_PRICE_CHANGE;
 				}
 
