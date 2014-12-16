@@ -212,5 +212,7 @@
     <string name="dialog_message_logged_out_and_cleared_private_data_vsc">Vous vous êtes déconnecté de votre compte VSC. Toutes les coordonnées et les données de facturation sauvegardées ont été supprimées.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the vsc mobile site in an external browser -->
     <string name="dialog_message_launch_vsc_mobile_site">Ouvrir le site mobile d\&apos;VSC ?</string>
+    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+    <string name="e3_error_checkout_booking_succeeded_with_errors_vsc">Votre hôtel a bien été réservé ! Veuillez contacter le service clients VSC si vous avez besoin d\&apos;un voyage immédiatement.</string>
 
 </resources>

@@ -106,6 +106,9 @@ public class ServerError implements JSONable {
 			else if (ExpediaBookingApp.IS_AAG) {
 				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_aag);
 			}
+			else if (ExpediaBookingApp.IS_VSC) {
+				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_vsc);
+			}
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_checkout_hotel_room_unavailable);
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_checkout_invalid_input);
 			put(ErrorCode.PAYMENT_FAILED, R.string.e3_error_checkout_payment_failed);
@@ -130,6 +133,9 @@ public class ServerError implements JSONable {
 			}
 			else if (ExpediaBookingApp.IS_AAG) {
 				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_aag);
+			}
+			else if (ExpediaBookingApp.IS_VSC) {
+				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_vsc);
 			}
 			else {
 				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
