@@ -99,6 +99,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 			icon = Ui.findView(retView, android.R.id.icon);
 			tv.setText(card.getDescription());
 			icon.setImageResource(BookingInfoUtils.getTabletCardIcon(card.getType()));
+			retView.setEnabled(card.isSelectable());
 
 			// Show a special icon for an invalid credit card (can happen in flights mode)
 			boolean isValidCard = true;

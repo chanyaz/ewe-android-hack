@@ -209,7 +209,7 @@ public class PaymentButtonFragment extends LobableFragment {
 							return;
 						}
 						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
-						if (card != null) {
+						if (card != null && card.isSelectable()) {
 							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 							// Don't allow selection of invalid card types.
 
@@ -224,6 +224,10 @@ public class PaymentButtonFragment extends LobableFragment {
 							}
 
 							if (isValidCard) {
+								StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
+								if (currentCC != null) {
+									BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+								}
 								Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
 								Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 								bindToDb();

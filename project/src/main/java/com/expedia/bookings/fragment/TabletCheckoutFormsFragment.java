@@ -24,10 +24,13 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -970,13 +973,25 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void onCreditCardEditButtonPressed() {
-		OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
-		openPaymentForm();
+		openPaymentFormWithTracking();
 	}
 
 	@Override
 	public void onAddNewCreditCardSelected() {
+		// Let's reset the selectable/clickable state (in the stored card picker, checkout overview screen) of the currentCC
+		StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
+		if (currentCC != null) {
+			BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+		}
+		Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
+		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		openPaymentFormWithTracking();
+	}
 
+	private void openPaymentFormWithTracking() {
+		OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
+		openPaymentForm();
 	}
 
 	@Override
