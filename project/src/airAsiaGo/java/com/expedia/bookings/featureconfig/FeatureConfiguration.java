@@ -9,6 +9,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "ExpediaSharedData/AirAsiaGoServerURLs.json";
 	}
 
+	public String getPOSConfigurationPath() {
+		return "ExpediaSharedData/AirAsiaGoPointOfSaleConfig.json";
+	}
+
 	public String getAppNameForMobiataPushNameHeader() {
 		return "AAGBookings";
 	}

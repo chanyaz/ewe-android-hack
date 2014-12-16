@@ -9,6 +9,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "ExpediaSharedData/VSCServerURLs.json";
 	}
 
+	public String getPOSConfigurationPath() {
+		return "ExpediaSharedData/VSCPointOfSaleConfig.json";
+	}
+
 	public String getAppNameForMobiataPushNameHeader() {
 		return "VSCBookings";
 	}

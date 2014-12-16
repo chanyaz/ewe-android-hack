@@ -33,6 +33,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
@@ -743,19 +744,7 @@ public class PointOfSale {
 		sPointOfSale.clear();
 
 		try {
-			InputStream is;
-			if (ExpediaBookingApp.IS_VSC) {
-				is = context.getAssets().open("ExpediaSharedData/VSCPointOfSaleConfig.json");
-			}
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				is = context.getAssets().open("ExpediaSharedData/TravelocityPointOfSaleConfig.json");
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				is = context.getAssets().open("ExpediaSharedData/AirAsiaGoPointOfSaleConfig.json");
-			}
-			else {
-				is = context.getAssets().open("ExpediaSharedData/ExpediaPointOfSaleConfig.json");
-			}
+			InputStream is = context.getAssets().open(ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
 			String data = IoUtils.convertStreamToString(is);
 			JSONObject posData = new JSONObject(data);
 			Iterator<String> keys = posData.keys();

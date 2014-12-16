@@ -10,6 +10,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "ExpediaSharedData/TVLYServerURLs.json";
 	}
 
+	public String getPOSConfigurationPath() {
+		return "ExpediaSharedData/TravelocityPointOfSaleConfig.json";
+	}
+
 	public String getAppNameForMobiataPushNameHeader() {
 		return "TravelocityBookings";
 	}
