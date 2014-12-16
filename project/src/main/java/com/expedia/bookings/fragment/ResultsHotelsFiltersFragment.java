@@ -30,7 +30,6 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
-import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -124,7 +123,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			&& search.getSearchParams() != null
 			&& search.getSearchParams().getSearchType().shouldShowDistance();
 
-		List<String> sortOptions = Arrays.asList(getResources().getStringArray(R.array.sort_options));
+		List<String> sortOptions = new ArrayList<>();
+		sortOptions.addAll(Arrays.asList(getResources().getStringArray(R.array.sort_options)));
 		if (showDistance) {
 			sortOptions.add(getString(R.string.distance));
 		}
