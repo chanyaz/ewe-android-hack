@@ -264,4 +264,7 @@
     <attr name="skin_tablet_hotel_details_star_drawable" format="reference" />
     <attr name="skin_tablet_hotel_details_star_small_drawable" format="reference" />
 
+    <attr name="skin_tabletHotelDetailsStarRatingStyle" format="reference" />
+    <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
+
 </resources>

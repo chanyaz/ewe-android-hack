@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
@@ -27,6 +25,7 @@ import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
@@ -144,8 +143,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
-
 		Property property;
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel == null) {
@@ -157,10 +154,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 			property = hotel.getProperty();
 		}
 
-		((TextView) titleView.findViewById(R.id.title)).setText(property.getName());
-		((RatingBar) titleView.findViewById(R.id.rating)).setRating((float) property.getHotelRating());
-
-		actionBar.setCustomView(titleView);
+		HotelUtils.setupActionBarHotelNameAndRating(this, property);
 
 		final MenuItem checkoutItem = menu.findItem(R.id.menu_checkout);
 		Button tv = Ui.inflate(this, R.layout.actionbar_checkout, null);
