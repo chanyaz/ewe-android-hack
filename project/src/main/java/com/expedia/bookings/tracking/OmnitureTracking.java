@@ -1519,6 +1519,16 @@ public class OmnitureTracking {
 	private static final String AIR_ATTACH_HOTEL_ADD = "App.Hotels.IS.AddTrip";
 	private static final String ADD_ATTACH_HOTEL = "App.Flight.CKO.Add.AttachHotel";
 	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
+	private static final String AIR_ATTACH_ITIN_XSELL = "Itinerary X-Sell";
+	private static final String AIR_ATTACH_ITIN_XSELL_REF = "App.Itin.X-Sell.Hotel";
+
+	public static void trackAirAttachItinCrossSell(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_ITIN_XSELL_REF);
+		s.setProp(16, AIR_ATTACH_ITIN_XSELL_REF);
+		s.trackLink(null, "o", AIR_ATTACH_ITIN_XSELL, null, null);
+	}
 
 	public static void trackAddAirAttachHotel(Context context) {
 		Property property = Db.getTripBucket().getHotel().getProperty();

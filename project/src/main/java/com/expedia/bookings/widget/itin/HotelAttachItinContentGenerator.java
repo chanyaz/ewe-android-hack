@@ -57,6 +57,7 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 			public void onClick(View v) {
 				AirAttachUtils.launchTabletResultsFromItinCrossSell(v.getContext(), getItinCardData().getSearchParams(),
 					getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode);
+				OmnitureTracking.trackCrossSellItinToHotel(v.getContext());
 			}
 		};
 	}
