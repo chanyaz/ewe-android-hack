@@ -107,9 +107,11 @@
             <ImageView
                 android:id="@+id/dismiss_image_view"
                 android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_action_overflow_white"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:scaleType="centerInside"
+                android:gravity="top"
+                android:src="@drawable/ic_action_overflow_white"
                 android:visibility="gone" />
 
         </LinearLayout>
