@@ -17,4 +17,7 @@
     <color name="hotel_room_rate_add_room_button_tvly">#608405</color>
     <color name="hotel_room_rate_add_room_button_pressed_tvly">#2F5806</color>
     <color name="tablet_trip_bucket_text_color_tvly">#FFFFFF</color>
+    <color name="tablet_search_result_error_button_tvly">#004E93</color>
+    <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
+    <color name="tablet_results_search_blue_tvly">#608405</color>
 </resources>
