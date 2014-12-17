@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,10 +19,8 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class AccountButton extends LinearLayout {
@@ -171,7 +168,7 @@ public class AccountButton extends LinearLayout {
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
 		final boolean isFlights = lob == LineOfBusiness.FLIGHTS;
-		final boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
+		final boolean isRewardsEnabled = PointOfSale.getPointOfSale().shouldShowRewards();
 
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
@@ -221,7 +218,10 @@ public class AccountButton extends LinearLayout {
 			points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 		}
 		else {
-			//TODO: do we know points for hotel stays?
+			// Need to verify hotel rewards points
+			// TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			// CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
+			// points = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
 		}
 
 		CharSequence pointsText = "";
@@ -234,7 +234,7 @@ public class AccountButton extends LinearLayout {
 		}
 
 		// If we should show rewards
-		if (bottomTextResId != 0 && USA) {
+		if (bottomTextResId != 0 && isRewardsEnabled) {
 			bottom.setText(bottomTextResId);
 			bottom.setVisibility(View.VISIBLE);
 			bottom.setTextColor(getResources().getColor(colorResId));

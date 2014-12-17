@@ -16,6 +16,7 @@ public class CreateTripResponse extends Response implements JSONable {
 	private Rate mNewRate;
 	private Rate mAirAttachRate;
 	private String mTealeafId;
+	private String mRewardsPoints;
 	private List<ValidPayment> mValidPayments;
 
 	@Override
@@ -67,6 +68,14 @@ public class CreateTripResponse extends Response implements JSONable {
 		mValidPayments = validPayments;
 	}
 
+	public void setRewardsPoints(String rewardsPoints) {
+		mRewardsPoints = rewardsPoints;
+	}
+
+	public String getRewardsPoints() {
+		return mRewardsPoints;
+	}
+
 	public List<ValidPayment> getValidPayments() {
 		return mValidPayments;
 	}
@@ -92,6 +101,7 @@ public class CreateTripResponse extends Response implements JSONable {
 			obj.put("tripId", mTripId);
 			obj.put("userId", mUserId);
 			obj.put("tealeafId", mTealeafId);
+			obj.putOpt("rewardsPoints", mRewardsPoints);
 			JSONUtils.putJSONable(obj, "newRate", mNewRate);
 			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
 			JSONUtils.putJSONable(obj, "airAttachRate", mAirAttachRate);
@@ -110,6 +120,7 @@ public class CreateTripResponse extends Response implements JSONable {
 		mTripId = obj.optString("tripId", null);
 		mUserId = obj.optString("userId", null);
 		mTealeafId = obj.optString("tealeafId", null);
+		mRewardsPoints = obj.optString("rewardsPoints");
 		mNewRate = JSONUtils.getJSONable(obj, "newRate", Rate.class);
 		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
 		mAirAttachRate = JSONUtils.getJSONable(obj, "airAttachRate", Rate.class);
