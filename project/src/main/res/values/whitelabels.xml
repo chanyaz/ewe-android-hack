@@ -264,4 +264,7 @@
     <attr name="skin_tablet_hotel_details_star_drawable" format="reference" />
     <attr name="skin_tablet_hotel_details_star_small_drawable" format="reference" />
 
+    <!-- Flight Map -->
+    <attr name="skin_tablet_flight_map_arrival_pin" format="reference" />
+
 </resources>
