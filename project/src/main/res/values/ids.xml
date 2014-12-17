@@ -48,6 +48,7 @@
 
     <!-- adding aag_hotel_error string id, to avoid errors in Expedia app compilation -->
     <item name="e3_error_hotel_offers_hotel_service_failure_aag" type="string"/>
+    <item name="e3_error_hotel_offers_hotel_service_failure_vsc" type="string"/>
 
     <!-- AirAsiaGo itin label text -->
     <item name="aag_itinerary" type="string"/>
@@ -55,6 +56,8 @@
     <!-- adding aag and tvly checkout_booking_succeeded_with_errors string id, to avoid errors in Expedia app compilation -->
     <item name="e3_error_checkout_booking_succeeded_with_errors_aag" type="string"/>
     <item name="e3_error_checkout_booking_succeeded_with_errors_tvly" type="string"/>
+    <item name="e3_error_checkout_booking_succeeded_with_errors_vsc" type="string"/>
+
     <item name="ic_stat_aag" type="drawable"/>
 
     <!-- adding aag crossSell text and link to avoid errors in Expedia app compilation -->
