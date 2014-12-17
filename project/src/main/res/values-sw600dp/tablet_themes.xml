@@ -301,8 +301,8 @@
         <item name="android:maxHeight">10dp</item>
     </style>
 
-    <style name="V2.Widget.RatingBar.UserReview.Yellow">
-        <item name="android:progressDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
+    <style name="V2.Widget.RatingBar.UserReview.Square">
+        <item name="android:progressDrawable">?attr/skin_userRatingBarDrawable</item>
     </style>
 
     <!-- SegmentedControlGroup styling -->
