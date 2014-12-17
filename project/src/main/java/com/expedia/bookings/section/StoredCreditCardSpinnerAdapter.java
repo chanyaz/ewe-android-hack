@@ -22,6 +22,11 @@ import com.mobiata.android.util.Ui;
 
 public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
 
+	private static final int ITEM_VIEW_TYPE_SELECT_CREDITCARD = 0;
+	private static final int ITEM_VIEW_TYPE_CREDITCARD = 1;
+	private static final int ITEM_VIEW_TYPE_ADD_CREDITCARD = 2;
+	private static final int ITEM_VIEW_TYPE_COUNT = 3;
+
 	private TripBucketItem mTripBucketItem;
 
 	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item) {
@@ -31,13 +36,16 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	@Override
 	public int getCount() {
-		return getAvailableStoredCards().size();
+		return getAvailableStoredCards().size() + 2;
 	}
 
 	@Override
 	public StoredCreditCard getItem(int position) {
-		if (getCount() > position) {
-			return getAvailableStoredCards().get(position);
+		int itemType = getItemViewType(position);
+		if (itemType == ITEM_VIEW_TYPE_CREDITCARD) {
+			if (getCount() > position-1) {
+				return getAvailableStoredCards().get(position-1);
+			}
 		}
 		return null;
 	}
@@ -48,28 +56,69 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	}
 
 	@Override
+	public int getViewTypeCount() {
+		return ITEM_VIEW_TYPE_COUNT;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (position == getCount()-1) {
+			return ITEM_VIEW_TYPE_ADD_CREDITCARD;
+		}
+		else if (position == 0) {
+			return ITEM_VIEW_TYPE_SELECT_CREDITCARD;
+		}
+		else {
+			return ITEM_VIEW_TYPE_CREDITCARD;
+		}
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		StoredCreditCard card = getItem(position);
+		final int itemType = getItemViewType(position);
 
 		View retView = convertView;
-		if (retView == null) {
-			retView = View.inflate(getContext(), R.layout.stored_creditcard_autocomplete_row, null);
+		TextView tv;
+		ImageView icon;
+		switch(itemType) {
+		case ITEM_VIEW_TYPE_SELECT_CREDITCARD:
+			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+			tv = Ui.findView(retView, R.id.text1);
+			icon = Ui.findView(retView, R.id.icon);
+			tv.setText(R.string.saved_creditcards);
+			icon.setBackgroundResource(R.drawable.saved_payment);
+			retView.setEnabled(false);
+			break;
+		case ITEM_VIEW_TYPE_CREDITCARD:
+			StoredCreditCard card = getItem(position);
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
+			}
+
+			tv = Ui.findView(retView, android.R.id.text1);
+			icon = Ui.findView(retView, android.R.id.icon);
+			tv.setText(card.getDescription());
+			icon.setImageResource(BookingInfoUtils.getTabletCardIcon(card.getType()));
+			retView.setEnabled(card.isSelectable());
+
+			// Show a special icon for an invalid credit card (can happen in flights mode)
+			boolean isValidCard = true;
+			if (mTripBucketItem != null) {
+				isValidCard = mTripBucketItem.isCardTypeSupported(card.getType());
+			}
+
+			int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(card.getType()) :
+				R.drawable.ic_tablet_checkout_disabled_credit_card;
+			icon.setImageResource(imgRes);
+			break;
+		case ITEM_VIEW_TYPE_ADD_CREDITCARD:
+			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+			tv = Ui.findView(retView, R.id.text1);
+			icon = Ui.findView(retView, R.id.icon);
+			tv.setText(R.string.add_new_creditcard);
+			icon.setBackgroundResource(R.drawable.add_plus);
+			break;
 		}
-
-		TextView tv = Ui.findView(retView, android.R.id.text1);
-		ImageView icon = Ui.findView(retView, android.R.id.icon);
-		tv.setText(card.getDescription());
-		icon.setImageResource(BookingInfoUtils.getTabletCardIcon(card.getType()));
-
-		// Show a special icon for an invalid credit card (can happen in flights mode)
-		boolean isValidCard = true;
-		if (mTripBucketItem != null) {
-			isValidCard = mTripBucketItem.isCardTypeSupported(card.getType());
-		}
-
-		int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(card.getType()) :
-			R.drawable.ic_tablet_checkout_disabled_credit_card;
-		icon.setImageResource(imgRes);
 
 		return retView;
 	}

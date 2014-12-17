@@ -24,10 +24,13 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
@@ -73,8 +76,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
-	TravelerButtonFragment.ITravelerIsValidProvider,
-	CheckoutLoginButtonsFragment.IWalletCouponListener {
+	CheckoutLoginButtonsFragment.IWalletCouponListener,
+	TravelerButtonFragment.ITravelerButtonListener,
+	PaymentButtonFragment.IPaymentButtonListener {
 
 	public interface ISlideToPurchaseSizeProvider {
 		public View getSlideToPurchaseContainer();
@@ -500,8 +504,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		addActionable(mPaymentView, new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
-				openPaymentForm();
+				onCreditCardEditButtonPressed();
 			}
 		});
 
@@ -639,8 +642,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		addActionable(frame, new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
-				openTravelerEntry(travelerNumber);
+				onTravelerEditButtonPressed(travelerNumber);
 			}
 		});
 		dressCheckoutView(frame, true);
@@ -916,8 +918,35 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	/*
-	 * ITravelerIsValidProvider
+	 * ITravelerButtonListener
 	 */
+
+	@Override
+	public void onTravelerEditButtonPressed(int travelerNumber) {
+		OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
+		openTravelerEntry(travelerNumber);
+	}
+
+	@Override
+	public void onTravelerChosen() {
+		onCheckoutDataUpdated();
+	}
+
+	@Override
+	public void onAddNewTravelerSelected(int travelerNumber) {
+		/*
+		 Let's reset selectable state for the current traveler and remove him from DB.
+		 Since we are adding a new traveler, let's add a new blank traveler and set state to new.
+		 */
+		Traveler currentTraveler = Db.getTravelers().get(travelerNumber);
+		TravelerUtils.resetPreviousTravelerSelectState(currentTraveler);
+		Db.getTravelers().remove(travelerNumber);
+		Traveler traveler = new Traveler();
+		traveler.setIsNew(true);
+		Db.getTravelers().add(travelerNumber, traveler);
+
+		openTravelerEntry(travelerNumber);
+	}
 
 	@Override
 	public boolean travelerIsValid(int travelerNumber) {
@@ -936,6 +965,38 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 		return false;
+	}
+
+	/*
+	 * IPaymentButtonListener
+	 */
+
+	@Override
+	public void onCreditCardEditButtonPressed() {
+		openPaymentFormWithTracking();
+	}
+
+	@Override
+	public void onAddNewCreditCardSelected() {
+		// Let's reset the selectable/clickable state (in the stored card picker, checkout overview screen) of the currentCC
+		StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
+		if (currentCC != null) {
+			BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+		}
+		Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
+		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		openPaymentFormWithTracking();
+	}
+
+	private void openPaymentFormWithTracking() {
+		OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
+		openPaymentForm();
+	}
+
+	@Override
+	public void onStoredCreditCardChosen() {
+		onCheckoutDataUpdated();
 	}
 
 	/*

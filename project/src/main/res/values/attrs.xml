@@ -219,6 +219,11 @@
         <attr name="svg" format="reference" />
     </declare-styleable>
 
+    <!-- CheckoutInfoStatusIcon -->
+    <declare-styleable name="CheckoutInfoStatusIcon">
+        <attr name="state_info_complete" format="boolean" />
+    </declare-styleable>
+
     <!-- ContentClickableRelativeLayout -->
     <declare-styleable name="ContentClickableRelativeLayout">
         <attr name="contentPadding" format="dimension" />

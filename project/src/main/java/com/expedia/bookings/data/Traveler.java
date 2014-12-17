@@ -71,6 +71,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	// Is the Traveler from Google Wallet?  Treat them differently!
 	private boolean mFromGoogleWallet;
 
+	// (Tablet Checkout) When user is logged in, can this traveler be selected from the list of saved travelers or disabled?
+	private boolean mIsSelectable = true;
+
+	// (Tablet Checkout) Is the current Traveler being newly added. ONLY used when a user is logged in.
+	private boolean mIsNew;
+
 	public enum Gender {
 		MALE, FEMALE, OTHER
 	}
@@ -571,7 +577,22 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return getOrCreatePrimaryPhoneNumber().getCountryName();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
+	public boolean isSelectable() {
+		return mIsSelectable;
+	}
+
+	public void setIsSelectable(boolean isSelectable) {
+		mIsSelectable = isSelectable;
+	}
+
+	public boolean isNew() {
+		return mIsNew;
+	}
+
+	public void setIsNew(boolean isNew) {
+		mIsNew = isNew;
+	}
+//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
@@ -621,6 +642,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("age", mAge);
 
+			obj.putOpt("isSelectable", mIsSelectable);
+
+			obj.putOpt("isNew", mIsNew);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -669,6 +694,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mFromGoogleWallet = obj.optBoolean("fromGoogleWallet");
 
 		mAge = obj.optInt("age");
+
+		mIsSelectable = obj.optBoolean("isSelectable");
+
+		mIsNew = obj.optBoolean("isNew");
 
 		return true;
 	}

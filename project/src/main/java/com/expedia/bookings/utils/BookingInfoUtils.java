@@ -98,10 +98,40 @@ public class BookingInfoUtils {
 		}
 
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards.addAll(Db.getUser().getStoredCreditCards());
+			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
+			StoredCreditCard currentCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+			if (currentCard != null) {
+				for (int i = 0; i < dbCards.size(); i++) {
+					if (currentCard.compareTo(dbCards.get(i)) == 0) {
+						Db.getUser().getStoredCreditCards().get(i).setIsSelectable(false);
+					}
+				}
+			}
+			cards.addAll(dbCards);
 		}
 
 		return cards;
+	}
+
+	/**
+	 * If the current card is replaced by another stored card from the list, let's reset {@link StoredCreditCard#isSelectable()} state.
+	 * We need to do this so that the stored card is available to be selected again.
+	 * @param creditCard
+	 */
+	public static void resetPreviousCreditCardSelectState(Context context, StoredCreditCard creditCard) {
+		// Check to find the desired credit card and reset his selectable state
+		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
+			for (int i = 0; i < dbCards.size(); i++) {
+				if (creditCard.compareTo(dbCards.get(i)) == 0) {
+					StoredCreditCard c = Db.getUser().getStoredCreditCards().get(i);
+					Db.getUser().getStoredCreditCards().remove(i);
+					c.setIsSelectable(true);
+					Db.getUser().getStoredCreditCards().add(i, c);
+				}
+			}
+		}
+
 	}
 
 	public static List<Traveler> getAlternativeTravelers(Context context) {
