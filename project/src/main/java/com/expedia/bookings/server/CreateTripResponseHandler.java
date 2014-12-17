@@ -69,6 +69,10 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 				airAttachRate.setAirAttached(true);
 				createTripResponse.setAirAttachRate(airAttachRate);
 			}
+
+			//Hotel loyalty rewards
+			String points = availHandler.parseRewardPoints(response);
+			createTripResponse.setRewardsPoints(points);
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON CreateTrip response.", e);

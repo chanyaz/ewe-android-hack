@@ -138,6 +138,9 @@ public class PointOfSale {
 	// Does this POS support AirAttach pricing?
 	private boolean mShouldShowAirAttach;
 
+	// Does this POS support loyalty rewards?
+	private boolean mShouldShowRewards;
+
 	// EAPID value and is used
 	private int mEAPID;
 
@@ -408,6 +411,10 @@ public class PointOfSale {
 
 	public boolean shouldShowAirAttach() {
 		return mShouldShowAirAttach;
+	}
+
+	public boolean shouldShowRewards() {
+		return mShouldShowRewards;
 	}
 
 	/**
@@ -788,6 +795,7 @@ public class PointOfSale {
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
+		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

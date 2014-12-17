@@ -566,4 +566,19 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		return rate;
 	}
+
+	public String parseRewardPoints(JSONObject obj) {
+		String points = "";
+		try {
+			JSONObject expediaRewards = obj.getJSONObject("expediaRewards");
+			if (expediaRewards != null) {
+				points = expediaRewards.optString("totalPointsToEarn");
+			}
+		}
+		catch (JSONException e) {
+			Log.e("Error parsing Expedia rewards", e);
+		}
+
+		return points;
+	}
 }
