@@ -166,11 +166,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	private void addResortFeeRows(Rate rate) {
-		String resortFees = getResources().getString(R.string.resort_fees);
-		addExtraRow(resortFees, rate.getTotalMandatoryFees().getFormattedMoney(), false);
+		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
+		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
 
-		String dueToExpediaToday = getResources().getString(R.string.due_to_expedia_today);
-		addExtraRow(dueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
+		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
+		addExtraRow(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
 	}
 
 	private static final int LANDSCAPE_EXTRAS_LIMIT = 3;
