@@ -1003,9 +1003,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				int retVal = ValidationError.NO_ERROR;
 				if (hasBoundData()) {
 					if (getData().getExpirationDate() != null) {
-						LocalDate expDate = getData().getExpirationDate();
-						LocalDate lastMonth = LocalDate.now().minusMonths(1);
-						if (expDate.isBefore(lastMonth)) {
+						LocalDate expDate = getData().getExpirationDate().dayOfMonth().withMaximumValue();
+						LocalDate currentDate = LocalDate.now();
+						if (expDate.isBefore(currentDate)) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
