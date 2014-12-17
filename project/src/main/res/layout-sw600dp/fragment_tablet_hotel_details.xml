@@ -267,27 +267,6 @@
                     android:visibility="gone"
                     app:textStyle="expedia_light" />
 
-                <!-- Sale/discount rate -->
-
-                <TextView
-                    android:id="@+id/sale_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/hotel_details_callout_text_margin_x"
-                    android:layout_marginTop="@dimen/hotel_details_callout_text_margin_y"
-                    android:background="@drawable/bg_sale_text_view"
-                    android:paddingBottom="@dimen/hotel_details_callout_text_padding_y"
-                    android:paddingLeft="@dimen/hotel_details_callout_text_padding_x"
-                    android:paddingRight="@dimen/hotel_details_callout_text_padding_x"
-                    android:paddingTop="@dimen/hotel_details_callout_text_padding_y"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
                 <FrameLayout
                     android:id="@+id/star_rating_container"
                     android:layout_width="wrap_content"

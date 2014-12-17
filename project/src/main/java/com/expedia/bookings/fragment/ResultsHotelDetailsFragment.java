@@ -291,9 +291,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		ratingBar = Ui.findView(view, R.id.star_rating_bar);
 		ratingBar.setVisibility(View.GONE);
 
-		TextView saleText = Ui.findView(view, R.id.sale_text_view);
-		saleText.setVisibility(View.GONE);
-
 		setupReviews(view, property);
 	}
 
@@ -309,7 +306,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			ratingBar = Ui.findView(view, R.id.star_rating_bar);
 		}
 		View vipView = Ui.findView(view, R.id.vip_badge);
-		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
 		// Hotel Name
 		hotelName.setText(property.getName());
@@ -328,17 +324,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			&& property.isVipAccess();
 		vipView.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
 		vipView.setOnClickListener(new VipBadgeClickListener(getResources(), getFragmentManager()));
-
-		// "25% OFF"
-		Rate rate = property.getLowestRate();
-		if (rate != null && rate.isOnSale() && rate.isSaleTenPercentOrBetter() && !rate.isAirAttached()) {
-			saleText.setVisibility(View.VISIBLE);
-			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
-				rate.getDiscountPercent()));
-		}
-		else {
-			saleText.setVisibility(View.GONE);
-		}
 
 		// Star Rating
 		float starRatingValue = (float) property.getHotelRating();

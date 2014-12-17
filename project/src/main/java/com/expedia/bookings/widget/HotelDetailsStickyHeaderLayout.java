@@ -33,7 +33,6 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private ColorDrawable mDominantColorBackground;
 
 	private View mHotelHeaderImageFrame;
-	private View mSaleTextView;
 	private View mVipBadge;
 	private View mStarRatingContainer;
 	private View mGradientMask;
@@ -91,7 +90,6 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		super.onFinishInflate();
 
 		mHotelHeaderImageFrame = Ui.findView(this, R.id.hotel_header_image_touch_target);
-		mSaleTextView = Ui.findView(this, R.id.sale_text_view);
 		mVipBadge = Ui.findView(this, R.id.vip_badge);
 		mStarRatingContainer = Ui.findView(this, R.id.star_rating_container);
 		mHotelName = Ui.findView(this, R.id.hotel_header_hotel_name);
@@ -135,9 +133,6 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mHotelName.setTranslationY(extraPct * nameOffset);
 
 		mStarRatingContainer.setAlpha(1 - extraPct);
-
-		mSaleTextView.setTranslationY(extra);
-		mSaleTextView.setAlpha(1 - extraPct);
 
 		mVipBadge.setTranslationY(extra);
 		mVipBadge.setAlpha(1 - extraPct);
