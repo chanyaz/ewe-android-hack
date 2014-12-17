@@ -146,7 +146,23 @@ public class HotelUtils {
 		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
 	}
 
-	public static Spanned getResortFeesText(Context context, Rate rate) {
+	// Convenience method for getting secondary resort fee banner text for phone
+	public static String getPhoneResortFeeBannerText(Context context, Rate rate) {
+		int stringId = rate.resortFeeInclusion() ? R.string.included_in_the_price : R.string.not_included_in_the_price;
+		return context.getString(stringId);
+	}
+
+	// Convenience method for getting secondary resort fee banner text for tablet
+	public static String getTabletResortFeeBannerText(Context context, Rate rate) {
+		int stringId = rate.resortFeeInclusion() ? R.string.tablet_room_rate_resort_fees_included_template :
+			R.string.tablet_room_rate_resort_fees_not_included_template;
+		String mandatoryFees = rate.getTotalMandatoryFees().getFormattedMoney();
+		return context.getString(stringId, mandatoryFees);
+	}
+
+	// Convenience method for getting resort fee text that goes at the bottom of checkout,
+	// for either device type.
+	public static Spanned getCheckoutResortFeesText(Context context, Rate rate) {
 		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
 		String grandTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
 		return Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, fees, grandTotal));

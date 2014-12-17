@@ -592,7 +592,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private void updateResortFeeText() {
 		if (mResortFeeText != null) {
-			Spanned resortBlurb = HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
+			Spanned resortBlurb = HotelUtils.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
 			mResortFeeText.setText(resortBlurb);
 		}
 	}
