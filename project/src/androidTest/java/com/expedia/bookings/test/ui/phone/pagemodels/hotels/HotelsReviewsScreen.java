@@ -17,7 +17,7 @@ public class HotelsReviewsScreen extends ScreenActions {
 	private static final int sSelectButtonID = R.id.menu_select_hotel;
 	private static final int sLoadingReviewsStringID = R.string.user_review_loading_text;
 	private static final int sTitleViewID = R.id.title;
-	private static final int sRatingViewID = R.id.rating;
+	private static final int sRatingViewID = R.id.rating_stars;
 	private static final int sFavorableStringID = R.string.user_review_sort_button_favorable;
 	private static final int sRecentStringID = R.string.user_review_sort_button_recent;
 	private static final int sCriticalStringID = R.string.user_review_sort_button_critical;
