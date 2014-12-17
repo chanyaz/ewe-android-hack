@@ -71,7 +71,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mListView = Ui.findView(mRootC, android.R.id.list);
 		mListView.setContentDescription(mListViewContentDescription);
 		mStickyHeader = Ui.findView(mRootC, R.id.sticky_header_container);
-		mStickyHeader.setConsumeTouch(false);
+		mStickyHeader.setConsumeTouch(true);
 		mStickyHeaderTv = Ui.findView(mRootC, R.id.sticky_number_of_items);
 		mTopRightTextButton = Ui.findView(mRootC, R.id.top_right_text_button);
 
