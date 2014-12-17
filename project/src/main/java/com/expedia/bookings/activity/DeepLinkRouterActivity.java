@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +68,17 @@ public class DeepLinkRouterActivity extends Activity {
 		Intent intent = getIntent();
 		Uri data = intent.getData();
 		String host = data.getHost();
-		Log.d(TAG, "Got deeplink: " + host + "/" + data.toString());
+		String dataString = data.toString();
+
+		// Decoding the URL, as it is not being captured because of the encoding of the url on the test server's.
+		try {
+			dataString = URLDecoder.decode(data.toString(), "UTF-8");
+		}
+		catch (UnsupportedEncodingException e) {
+			Log.w(TAG, "Could not decode deep link data" +data.toString(), e);
+		}
+
+		Log.d(TAG, "Got deeplink: " + host + "/" + dataString);
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
 		AdX.trackDeepLinkLaunch(data);
@@ -77,18 +89,18 @@ public class DeepLinkRouterActivity extends Activity {
 		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
 		 * We intercept this uri too, extract the link and then send to fetch the itin.
 		 */
-		if (host.equals("addSharedItinerary") && data.toString().contains("m/trips/shared")) {
+		if (host.equals("addSharedItinerary") && dataString.contains("m/trips/shared")) {
 			goFetchSharedItin(data.getQueryParameter("url"));
 			finish();
 			return;
 		}
-		else if (data.toString().contains("m/trips/shared")) {
-			goFetchSharedItin(data.toString());
+		else if (dataString.contains("m/trips/shared")) {
+			goFetchSharedItin(dataString);
 			finish();
 			return;
 		}
 		else if ("e.xpda.co".equalsIgnoreCase(host) || "a.aago.co".equalsIgnoreCase(host) || "t.tvly.co".equalsIgnoreCase(host) || "v.vygs.co".equalsIgnoreCase(host)) {
-			final String shortUrl = data.toString();
+			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
 			new Thread(new Runnable() {
 				@Override
