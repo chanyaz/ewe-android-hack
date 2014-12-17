@@ -277,6 +277,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
 			feeAmountTv.setText(resortFeeRate.getTotalMandatoryFees().getFormattedMoney());
 
+			TextView bottomTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_bottom_text);
+			bottomTv.setText(HotelUtils.getPhoneResortFeeBannerText(getActivity(), resortFeeRate));
+
 			final String resortFeesText = response.getProperty().getMandatoryFeesText() == null ? null : response.getProperty().getMandatoryFeesText().getContent();
 			if (resortFeesText != null) {
 				feesContainer.setOnClickListener(new OnClickListener() {

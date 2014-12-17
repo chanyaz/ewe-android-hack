@@ -709,7 +709,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void updateResortFeeLegalText() {
 		if (PointOfSale.getPointOfSale().showFTCResortRegulations() && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
-			mResortFeeDisclaimerTextView.setText(HotelUtils.getResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
+			mResortFeeDisclaimerTextView.setText(HotelUtils.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
 			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
 		}
 		else {
