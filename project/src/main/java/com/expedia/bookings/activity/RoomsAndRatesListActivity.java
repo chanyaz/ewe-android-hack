@@ -264,6 +264,10 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
+
+		if (rate.isAirAttached()) {
+			OmnitureTracking.trackAddAirAttachHotel(this);
+		}
 	}
 
 	@Override
