@@ -985,7 +985,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void doFragmentSetup(String tag, Fragment frag) {
 		switch (tag) {
 		case FTAG_CALENDAR: {
-			((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
+			// Don't reset the calendar month unless the user has set a start or end date
+			if (mLocalParams.getStartDate() != null || mLocalParams.getEndDate() != null) {
+				((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
+			}
 			break;
 		}
 		case FTAG_TRAV_PICKER: {
