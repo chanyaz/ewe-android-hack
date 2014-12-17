@@ -41,7 +41,7 @@
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="@dimen/cvv_text_view_right_margin_other"
             android:layout_marginTop="@dimen/cvv_text_view_top_margin_other"
-            android:background="@drawable/div_cvv"
+            android:background="?attr/skin_cvvDivDrawable"
             android:freezesText="true"
             android:gravity="center_horizontal"
             android:maxLength="4"

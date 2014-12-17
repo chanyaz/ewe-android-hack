@@ -60,6 +60,8 @@
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv_tvly</item>
+        <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_tvly</item>
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_tvly</item>
         <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available_tvly</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_tvly</item>
