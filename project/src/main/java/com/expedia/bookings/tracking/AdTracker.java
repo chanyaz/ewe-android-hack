@@ -1,19 +1,16 @@
 package com.expedia.bookings.tracking;
 
-import org.joda.time.DateTime;
-
 import android.content.Context;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LeanPlumUtils;
 import com.mobiata.android.Log;
 
 public class AdTracker {
@@ -31,16 +28,19 @@ public class AdTracker {
 	public static void trackFirstLaunch() {
 		// Other
 		AdX.trackFirstLaunch();
+		LeanPlumUtils.tracking("FirstLaunch");
 	}
 
 	public static void trackLaunch(Context context) {
 		// Other
 		AdX.trackLaunch();
+		LeanPlumUtils.tracking("Launch");
 	}
 
 	public static void trackLogin() {
 		// Other
 		AdX.trackLogin();
+		LeanPlumUtils.tracking("Login");
 	}
 
 	public static void trackViewHomepage() {
@@ -49,6 +49,11 @@ public class AdTracker {
 
 	public static void trackViewItinList() {
 		AdX.trackViewItinList();
+		LeanPlumUtils.tracking("Itinerary");
+	}
+
+	public static void trackViewItinExpanded() {
+		LeanPlumUtils.tracking("Expand Itinerary");
 	}
 
 	public static void trackHotelBooked() {
@@ -65,6 +70,7 @@ public class AdTracker {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
+		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 	}
 
 	public static void trackFlightBooked() {
@@ -76,6 +82,8 @@ public class AdTracker {
 					String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse() != null ?
 						Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId() : "";
 					AdX.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
+						money.getCurrency(), money.getAmount().doubleValue());
+					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
 				}
 			}
@@ -91,24 +99,28 @@ public class AdTracker {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {
 		if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
 			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 			AdX.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+			LeanPlumUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		}
 	}
 
 	public static void trackHotelSearch() {
 		if (Db.getHotelSearch() != null) {
 			AdX.trackHotelSearch(Db.getHotelSearch());
+			LeanPlumUtils.trackHotelSearch();
 		}
 	}
 
 	public static void trackFlightSearch() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
 			AdX.trackFlightSearch(Db.getFlightSearch());
+			LeanPlumUtils.trackFlightSearch();
 		}
 	}
 }
