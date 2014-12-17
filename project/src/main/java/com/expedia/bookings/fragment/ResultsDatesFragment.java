@@ -132,6 +132,19 @@ public class ResultsDatesFragment extends Fragment implements
 	@Subscribe
 	public void onGdeItemSelected(Events.GdeItemSelected event) {
 		mCalendarPicker.setDisplayYearMonth(new YearMonth(event.week.getWeekStart()));
+		if (mStartDate == null) {
+			setDates(new LocalDate(event.week.getWeekStart()), null);
+		}
+		else {
+			LocalDate startDate = new LocalDate(event.week.getWeekStart());
+			LocalDate endDate = new LocalDate(event.week.getWeekEnd());
+			if (mStartDate.isBefore(endDate)) {
+				setDates(mStartDate, endDate);
+			}
+			else {
+				setDates(startDate, endDate);
+			}
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
