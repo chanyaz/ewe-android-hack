@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
@@ -468,7 +469,7 @@ public class Rate implements JSONable {
 	}
 
 	public boolean isAirAttached() {
-		return mAirAttached;
+		return mAirAttached && PointOfSale.getPointOfSale().shouldShowAirAttach();
 	}
 
 	public void setAirAttached(boolean isAirAttached) {
