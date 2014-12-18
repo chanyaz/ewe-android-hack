@@ -37,7 +37,7 @@
 
         <RatingBar
             android:id="@+id/user_review_rating_bar"
-            style="@style/V2.Widget.RatingBar.UserReview.Yellow"
+            style="@style/V2.Widget.RatingBar.UserReview.Square"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:isIndicator="true"

@@ -66,7 +66,7 @@
         <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available_tvly</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_tvly</item>
         <item name="skin_hotelSearchResultTEMPLATE">@string/not_currently_available_tvly_TEMPLATE</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_blue</item>
+        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_tvly</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_tvly</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_tvly</item>
