@@ -505,9 +505,17 @@ public class OmnitureTracking {
 			String evar66Val) {
 		addProducts(s, property);
 		String products = s.getProducts();
-		products += String.format("eVar66=%s", evar66Val);
+		products += String.format(";;;;eVar66=%s", evar66Val);
 		s.setProducts(products);
-		s.setEvents(eventVar);
+		String eventsStr = s.getEvents();
+		if (TextUtils.isEmpty(eventsStr)) {
+			eventsStr = eventVar;
+		}
+		else {
+			eventsStr += ",";
+			eventsStr += eventVar;
+		}
+		s.setEvents(eventsStr);
 	}
 
 	public static void trackPageLoadHotelsRoomsRates(Context context) {
@@ -1556,7 +1564,7 @@ public class OmnitureTracking {
 			ADMS_Measurement s = getFreshTrackingObject(context);
 			addStandardFields(context, s);
 			Property property = Db.getTripBucket().getHotel().getProperty();
-			addEventsAndProductsForAirAttach(s, property, "event58", "Flight|Hotel Infosite X-sell");
+			addEventsAndProductsForAirAttach(s, property, "event58", "Flight:Hotel Infosite X-sell");
 			s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
 			s.setProp(16, AIR_ATTACH_HOTEL_ADD);
 			s.trackLink(null, "o", "Infosite", null, null);
@@ -1659,7 +1667,7 @@ public class OmnitureTracking {
 	public static void trackBookNextClick(Context context, LineOfBusiness lob, boolean isAirAttachScenario) {
 		if (isAirAttachScenario) {
 			ADMS_Measurement s = getFreshTrackingObject(context);
-			addEventsAndProductsForAirAttach(s, Db.getTripBucket().getHotel().getProperty(), "event58", "Flight|Hotel CKO X-Sell");
+			addEventsAndProductsForAirAttach(s, Db.getTripBucket().getHotel().getProperty(), "event58", "Flight:Hotel CKO X-Sell");
 			s.setEvar(28, BOOK_NEXT_ATTACH_HOTEL);
 			s.setEvar(16, BOOK_NEXT_ATTACH_HOTEL);
 			s.trackLink(null, "o", "Checkout", null, null);
