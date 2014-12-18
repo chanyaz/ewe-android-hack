@@ -1551,10 +1551,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAddAirAttachHotel(Context context) {
-		Property property = Db.getTripBucket().getHotel().getProperty();
-		if (property.getLowestRate().isAirAttached()) {
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		if (rate.isAirAttached()) {
 			ADMS_Measurement s = getFreshTrackingObject(context);
 			addStandardFields(context, s);
+			Property property = Db.getTripBucket().getHotel().getProperty();
 			addEventsAndProductsForAirAttach(s, property, "event58", "Flight|Hotel Infosite X-sell");
 			s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
 			s.setProp(16, AIR_ATTACH_HOTEL_ADD);
