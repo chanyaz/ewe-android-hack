@@ -3020,5 +3020,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の Travelocity モバイル アプリを今すぐダウンロードしてください。\n%s</string>
+    <string name="fees_paid_at_hotel">ホテルでのお支払い料金 :</string>
+    <string name="total_due_to_expedia_today">本日エクスペディアにお支払いの合計金額 :</string>
+    <string name="hotel_fees_for_this_stay">ホテル料金</string>
+    <string name="included_in_the_price">料金に含まれる</string>
+    <string name="not_included_in_the_price">料金に含まれない</string>
+    <string name="tablet_room_rate_resort_fees_included_template">ホテル料金 (含む) : &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">ホテル料金 (含まない) : &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>
