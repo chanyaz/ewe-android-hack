@@ -192,15 +192,10 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 		// Air Attach
 		mAirAttachC = Ui.findView(v, R.id.air_attach_banner_container);
 		mAirAttachClose = Ui.findView(v, R.id.air_attach_banner_close);
+		final ItineraryManager itinMan = ItineraryManager.getInstance();
 		if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
-			final ItineraryManager itinMan = ItineraryManager.getInstance();
 			if (itinMan.isSyncing()) {
-				itinMan.addSyncListener(new ItineraryManager.ItinerarySyncAdapter() {
-					@Override
-					public void onSyncFinished(Collection<Trip> trips) {
-						showAirAttachBannerIfNecessary();
-					}
-				});
+				itinMan.addSyncListener(mItinListener);
 			}
 			else {
 				showAirAttachBannerIfNecessary();
@@ -270,6 +265,8 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
 		bd.unregisterDownloadCallback(KEY_HOTEL_DESTINATIONS);
 		getActivity().unregisterReceiver(mConnReceiver);
+
+		ItineraryManager.getInstance().removeSyncListener(mItinListener);
 	}
 
 	@Override
@@ -872,6 +869,13 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 
 	//////////////////////////////////////////////////////////////////////////
 	// Air Attach
+
+	private final ItineraryManager.ItinerarySyncAdapter mItinListener = new ItineraryManager.ItinerarySyncAdapter() {
+		@Override
+		public void onSyncFinished(Collection<Trip> trips) {
+			showAirAttachBannerIfNecessary();
+		}
+	};
 
 	private void showAirAttachBannerIfNecessary() {
 		final ItineraryManager itinMan = ItineraryManager.getInstance();
