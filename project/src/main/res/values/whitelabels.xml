@@ -181,6 +181,7 @@
     <attr name="skin_companyLogoForReceipt" format="reference"/>
 
     <attr name="skin_itinHotelAttachButtonDrawable" format="reference"/>
+    <attr name="skin_itinAirAttachButtonDrawable" format="reference"/>
     <attr name="skin_itinDismissListSelectorDrawable" format="reference"/>
 
     <attr name="skin_itinTabletCardPopupBackgroundDrawable" format="reference"/>
