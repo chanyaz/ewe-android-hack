@@ -425,7 +425,7 @@ public class OmnitureTracking {
 		// Sometimes we load the infosite when we don't have rate info. In that case,
 		// don't add air attach products.
 		if (property.getLowestRate() != null && property.getLowestRate().isAirAttached()) {
-			addEventsAndProductsForAirAttach(s, property, "event57", "Flight|Hotel Infosite X-Sell");
+			addEventsAndProductsForAirAttach(s, property, "event57", "Flight:Hotel Infosite X-Sell");
 		}
 		else {
 			addProducts(s, property);
@@ -507,6 +507,7 @@ public class OmnitureTracking {
 		String products = s.getProducts();
 		products += String.format(";;;;eVar66=%s", evar66Val);
 		s.setProducts(products);
+
 		String eventsStr = s.getEvents();
 		if (TextUtils.isEmpty(eventsStr)) {
 			eventsStr = eventVar;
@@ -1564,7 +1565,7 @@ public class OmnitureTracking {
 			ADMS_Measurement s = getFreshTrackingObject(context);
 			addStandardFields(context, s);
 			Property property = Db.getTripBucket().getHotel().getProperty();
-			addEventsAndProductsForAirAttach(s, property, "event58", "Flight:Hotel Infosite X-sell");
+			addEventsAndProductsForAirAttach(s, property, "event58", "Flight:Hotel Infosite X-Sell");
 			s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
 			s.setProp(16, AIR_ATTACH_HOTEL_ADD);
 			s.trackLink(null, "o", "Infosite", null, null);
@@ -1572,11 +1573,16 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightConfirmationAirAttach(Context context) {
-		ADMS_Measurement s = getFreshTrackingObject(context);
-		addStandardFields(context, s);
-		s.setEvar(28, AIR_ATTACH_ELIGIBLE);
-		s.setProp(16, AIR_ATTACH_ELIGIBLE);
-		s.trackLink(null, "o", "Checkout", null, null);
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		if (rate.isAirAttached()) {
+			ADMS_Measurement s = getFreshTrackingObject(context);
+			addStandardFields(context, s);
+			Property property = Db.getTripBucket().getHotel().getProperty();
+			addEventsAndProductsForAirAttach(s, property, "event57", "Flight:Hotel CKO X-Sell");
+			s.setEvar(28, AIR_ATTACH_ELIGIBLE);
+			s.setProp(16, AIR_ATTACH_ELIGIBLE);
+			s.trackLink(null, "o", "Checkout", null, null);
+		}
 	}
 
 	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix,
@@ -2614,14 +2620,8 @@ public class OmnitureTracking {
 
 			// Air attach state
 			boolean userIsAttachEligible = Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified();
-			boolean eligibleHotelInBucket = hotel != null && hotel.hasAirAttachRate();
 			String airAttachState = userIsAttachEligible ? "Attach|Hotel Eligible" : "Attach|Non Eligible";
 			s.setEvar(65, airAttachState);
-
-			if (userIsAttachEligible && eligibleHotelInBucket) {
-				addEventsAndProductsForAirAttach(s, hotel.getProperty(), "event57", "Flight|Hotel CKO X-Sell");
-			}
-
 		}
 
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
