@@ -474,6 +474,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		Rate originalRate = response.getNewRate();
 		Rate airAttachRate = response.getAirAttachRate();
 		if (airAttachRate != null && originalRate.compareForPriceChange(airAttachRate) != 0) {
+			Db.getTripBucket().getHotel().setNewRate(originalRate);
 			Db.getTripBucket().getHotel().setNewRate(airAttachRate);
 			Events.post(new Events.HotelProductRateUp(airAttachRate));
 		}
