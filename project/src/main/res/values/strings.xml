@@ -590,7 +590,7 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Hide</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Hide Forever</string>
+    <string name="itin_button_hide_forever">Hide All</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
