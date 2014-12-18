@@ -3021,5 +3021,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">訂飯店、訂機票，查看和分享您的行程。立即下載 Travelocity 行動裝置 App\n%s</string>
+    <string name="fees_paid_at_hotel">需要在飯店支付的費用：</string>
+    <string name="total_due_to_expedia_today">今天需要付給 Expedia 的金額：</string>
+    <string name="hotel_fees_for_this_stay">此次住宿的飯店費用</string>
+    <string name="included_in_the_price">已含在房價內</string>
+    <string name="not_included_in_the_price">未含在房價內</string>
+    <string name="tablet_room_rate_resort_fees_included_template">此次住宿的飯店費用 (已含)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">此次住宿的飯店費用 (未含)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>

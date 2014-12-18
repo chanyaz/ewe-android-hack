@@ -3021,5 +3021,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Book hoteller, flyrejser og se/del dine rejseplaner. Download Travelocitys gratis mobil-app i dag.\n%s</string>
+    <string name="fees_paid_at_hotel">Gebyrer der betales på hotellet:</string>
+    <string name="total_due_to_expedia_today">Samlet beløb der skal betales til Expedia i dag:</string>
+    <string name="hotel_fees_for_this_stay">Hotelgebyrer for dette ophold</string>
+    <string name="included_in_the_price">Inkluderet i prisen</string>
+    <string name="not_included_in_the_price">Ikke inkluderet i prisen</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Hotelgebyrer for dette ophold (inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hotelgebyrer for dette ophold (ikke inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>

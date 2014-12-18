@@ -2003,8 +2003,6 @@
     <string name="free_cancellation">Free Cancellation</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">These fees are not included in the total</string>
-    <!-- This fee will be collected by hotel at time of stay -->
-    <string name="fees_collected_by_hotel">These fees will be collected by the hotel.</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
     <!-- Included in the price -->
