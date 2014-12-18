@@ -101,8 +101,11 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		ActionBar ab = getActionBar();
-		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayShowTitleEnabled(false);
+		// ab is null on tablet
+		if (ab != null) {
+			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setDisplayShowTitleEnabled(false);
+		}
 		return true;
 	}
 
