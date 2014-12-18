@@ -241,7 +241,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Creating the trip ...</string>
+    <string name="spinner_text_hotel_create_trip">Creating the trip…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -3049,6 +3049,6 @@
     <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
 
     <!-- Mail intent chooser dialog title -->
-    <string name="mailto_title">Send email...</string>
+    <string name="mailto_title">Send email…</string>
 
 </resources>
