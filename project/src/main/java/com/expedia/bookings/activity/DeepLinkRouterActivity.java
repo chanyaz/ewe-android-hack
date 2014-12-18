@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.TimeFormatException;
 
 import com.expedia.bookings.R;
@@ -32,6 +33,7 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -228,11 +230,22 @@ public class DeepLinkRouterActivity extends Activity {
 					}, mSuggestCallback);
 				}
 				else {
-					SuggestionV2 destination = new SuggestionV2();
-					destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
-					mSearchParams.setDestination(destination);
-					NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams,
-						LineOfBusiness.HOTELS);
+					android.location.Location location = LocationServices.getLastBestLocation(this,
+						DateUtils.HOUR_IN_MILLIS);
+					if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
+						SuggestionV2 destination = new SuggestionV2();
+						Location ebLoc = new Location();
+						ebLoc.setLatitude(location.getLatitude());
+						ebLoc.setLongitude(location.getLongitude());
+						destination.setLocation(ebLoc);
+						destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
+						mSearchParams.setDestination(destination);
+						NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams,
+							LineOfBusiness.HOTELS);
+					}
+					else {
+						NavUtils.goToLaunchScreen(DeepLinkRouterActivity.this);
+					}
 				}
 			}
 			else {
