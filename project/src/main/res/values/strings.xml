@@ -3055,9 +3055,6 @@
     <!-- Dialog negative button message -->
     <string name="no">No</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
-
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Send email...</string>
 

@@ -59,7 +59,7 @@
     <string name="merchant_name">Travelocity</string>
 
     <string name="share_template_long_ad_tvly">Réservez des hôtels et des billets d’avion. Consultez et partagez vos voyages.
-    Téléchargez l’appli gratuite Travelocity !\\n%s
+    Téléchargez l’appli gratuite Travelocity !\n%s
     </string>
     <string name="sorry_rooms_sold_out_tvly">Désolé, plus aucune chambre n’est libre sur Travelocity.</string>
     <string name="dialog_message_launch_tvly_mobile_site">Ouvrir le site mobile de Travelocity ?

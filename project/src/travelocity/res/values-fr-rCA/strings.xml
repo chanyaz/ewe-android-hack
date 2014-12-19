@@ -59,7 +59,7 @@
     <string name="merchant_name">Travelocity</string>
 
     <string name="share_template_long_ad_tvly">Réservez hôtels, vols, consultez et partagez vos itinéraires.
-    Téléchargez l’appli mobile gratuite Travelocity aujourd’hui.\\n%s
+    Téléchargez l’appli mobile gratuite Travelocity aujourd’hui.\n%s
     </string>
     <string name="sorry_rooms_sold_out_tvly">Désolé, aucune chambre n’est disponible sur Travelocity.</string>
     <string name="dialog_message_launch_tvly_mobile_site">Lancer le site Web Travelocity mobile?
