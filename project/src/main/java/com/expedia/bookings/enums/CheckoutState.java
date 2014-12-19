@@ -22,4 +22,8 @@ public enum CheckoutState {
 		return this == CVV || this == BOOKING || this == CONFIRMATION;
 	}
 
+	public boolean shouldShowConfirmation() {
+		return this == CONFIRMATION;
+	}
+
 }

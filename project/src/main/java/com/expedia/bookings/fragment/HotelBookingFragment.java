@@ -418,7 +418,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 						Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
 					}
 					// Handling product key expiration.
-					else if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT && error.getExtra("field").equals("productKey")) {
+					else if (error.isProductKeyExpiration()) {
 						Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
 					}
 				}
