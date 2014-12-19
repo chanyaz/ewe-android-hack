@@ -28,6 +28,7 @@ import com.expedia.bookings.activity.TabletLaunchActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
@@ -96,6 +97,13 @@ public class NavUtils {
 
 	public static void goToTabletResults(Context context, SearchParams searchParams, LineOfBusiness lob) {
 		Sp.setParams(searchParams, false);
+
+		// Reset HotelFilter
+		if (Db.getFilter() != null) {
+			HotelFilter filter = Db.getFilter();
+			filter.reset();
+			filter.notifyFilterChanged();
+		}
 
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
