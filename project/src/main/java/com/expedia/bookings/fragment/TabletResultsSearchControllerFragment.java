@@ -138,6 +138,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		importParams();
 	}
 
+	private boolean mIsDeepLink = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -1232,7 +1234,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		// Let's not update the origin when destination is CURRENT_LOCATION
-		if (!mLocalParams.hasOrigin() && mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION) {
+		// Also, lets not kick off a new search if the user entered via deep link
+		if (!mLocalParams.hasOrigin() && mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION && !mIsDeepLink) {
 			mLocalParams.setOrigin(suggestion);
 			if (copyTempValuesToParams()) {
 				doSpUpdate();
@@ -1334,5 +1337,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else {
 			setState(ResultsSearchState.CALENDAR_WITH_POPUP, true);
 		}
+	}
+
+	public void setDeepLink(boolean isDeepLink) {
+		mIsDeepLink = isDeepLink;
 	}
 }

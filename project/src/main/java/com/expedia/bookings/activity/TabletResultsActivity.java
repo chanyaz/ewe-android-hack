@@ -202,6 +202,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		}
 		if (showHotels && savedInstanceState == null) {
 			mHotelsController.enterViaDeepLink();
+			mSearchController.setDeepLink(true);
 			mStateManager.setState(ResultsState.HOTELS, false);
 		}
 
