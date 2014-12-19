@@ -344,6 +344,18 @@ public class PointOfSale {
 		return mPointOfSale == PointOfSaleId.UNITED_STATES;
 	}
 
+	// Special case breakdown dialog string for some points of sale
+	public CharSequence getCostSummaryMandatoryFeeTitle(Context context) {
+		if (mPointOfSale == PointOfSaleId.GERMANY || mPointOfSale == PointOfSaleId.NEW_ZEALND ||
+			mPointOfSale == PointOfSaleId.AUSTRALIA || mPointOfSale == PointOfSaleId.NETHERLANDS ||
+			mPointOfSale == PointOfSaleId.NORWAY || mPointOfSale == PointOfSaleId.SWEDEN) {
+			return context.getString(R.string.fees_paid_at_hotel);
+		}
+		else {
+			return context.getString(R.string.MandatoryFees);
+		}
+	}
+
 	public String getLocaleIdentifier() {
 		return getPosLocale().mLocaleIdentifier;
 	}
