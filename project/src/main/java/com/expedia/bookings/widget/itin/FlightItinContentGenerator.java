@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
@@ -58,6 +59,7 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LeanPlumFlags;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -581,9 +583,16 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		if (leg == null) {
 			return null;
 		}
-
-		ArrayList<Notification> notifications = new ArrayList<Notification>(1);
-		notifications.add(generateCheckinNotification(leg));
+		ArrayList<Notification> notifications = null;
+		if (ExpediaBookingApp.IS_EXPEDIA && LeanPlumFlags.mShowShareFlightNotification) {
+			notifications = new ArrayList<Notification>(2);
+			notifications.add(generateCheckinNotification(leg));
+			notifications.add(generateShareNotification(leg));
+		}
+		else {
+			notifications = new ArrayList<Notification>(1);
+			notifications.add(generateCheckinNotification(leg));
+		}
 		return notifications;
 	}
 
@@ -630,6 +639,35 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		notification.setBody(body);
 
+		notification.setImageDestination(R.drawable.bg_itin_placeholder_flight, destinationCode);
+
+		return notification;
+	}
+
+	// Given I have a flight, when it is 48 hours prior to the scheduled departure of that flight,
+	// then I want to receive a notification that reads "Share your flight and allow others to get
+	// live updates while you travel."
+	private Notification generateShareNotification(FlightLeg leg) {
+		Context context = getContext();
+		ItinCardDataFlight data = getItinCardData();
+		String itinId = data.getId();
+
+		int checkInIntervalSeconds = AirlineCheckInIntervals.get(context, leg.getFirstAirlineCode());
+		long triggerTimeMillis = data.getStartDate().getMillis() - DateUtils.HOUR_IN_MILLIS * 48;
+		long expirationTimeMillis =
+			data.getStartDate().getMillis() - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
+
+		Notification notification = new Notification(itinId + "_flightshare", itinId, triggerTimeMillis);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
+		notification.setNotificationType(NotificationType.FLIGHT_SHARE);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_VIEW | Notification.FLAG_SHARE);
+		notification.setIconResId(R.drawable.ic_stat_flight);
+		notification.setTicker(getContext().getString(R.string.Share_flight_itinerary_title));
+		notification.setTitle(getContext().getString(R.string.Share_flight_itinerary_title));
+		Waypoint lastWaypoint = leg.getLastWaypoint();
+		String destinationCode = lastWaypoint.mAirportCode;
+		String body = context.getString(R.string.Share_flight_itinerary_content);
+		notification.setBody(body);
 		notification.setImageDestination(R.drawable.bg_itin_placeholder_flight, destinationCode);
 
 		return notification;
