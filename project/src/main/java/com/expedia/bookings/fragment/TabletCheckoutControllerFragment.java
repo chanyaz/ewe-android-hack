@@ -682,7 +682,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingUnavailableContainer.setVisibility(View.VISIBLE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
 		}
-		else if (state == CheckoutState.CONFIRMATION) {
+		else if (state.shouldShowConfirmation()) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.GONE);
@@ -748,8 +748,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean cvvAvailable =
 			state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 
-		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
-		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
+		boolean mFlightConfAvailable = state.shouldShowConfirmation() && getLob() == LineOfBusiness.FLIGHTS;
+		boolean mHotelConfAvailable = state.shouldShowConfirmation() && getLob() == LineOfBusiness.HOTELS;
 
 		//if (mBucketFlightFrag != null && mBucketFlightFragStateListener != null) {
 		//	mBucketFlightFrag.unRegisterStateListener(mBucketFlightFragStateListener);
@@ -1239,9 +1239,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (getLob() == LineOfBusiness.FLIGHTS && isHotelCreateTripFailure) {
 			setCheckoutState(CheckoutState.CONFIRMATION, true);
 		}
-		else if (getLob() == LineOfBusiness.HOTELS && isHotelCreateTripFailure) {
-			DialogFragment df = new RetryErrorDialogFragment();
-			df.show(getChildFragmentManager(), "retryHotelCreateTrip");
+
+		if (event.getServerError() != null &&
+			event.getServerError().isProductKeyExpiration()) {
+			Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
 		}
 	}
 
@@ -1563,6 +1564,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPIRED);
 		}
 
-		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
+		boolean lobMatches = event.lineOfBusiness == getLob();
+		CheckoutState state = lobMatches ? CheckoutState.BOOKING_UNAVAILABLE : mStateManager.getState();
+		setCheckoutState(state, true);
 	}
 }

@@ -215,6 +215,10 @@ public class Events {
 		public LineOfBusiness getLob() {
 			return mLineOfBusiness;
 		}
+
+		public ServerError getServerError() {
+			return mServerError;
+		}
 	}
 
 	/**

@@ -446,6 +446,10 @@ public class ServerError implements JSONable {
 		return message;
 	}
 
+	public boolean isProductKeyExpiration() {
+		return mErrorCode == ServerError.ErrorCode.INVALID_INPUT && getExtra("field").equals("productKey");
+	}
+
 	@Override
 	public JSONObject toJson() {
 		try {
