@@ -1569,6 +1569,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightConfirmationAirAttach(Context context) {
+		if (Db.getTripBucket() == null || Db.getTripBucket().getHotel() == null) {
+			return;
+		}
+
 		Rate rate = Db.getTripBucket().getHotel().getRate();
 		if (rate.isAirAttached()) {
 			ADMS_Measurement s = getFreshTrackingObject(context);
