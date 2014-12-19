@@ -38,7 +38,6 @@ import com.mobiata.android.Log;
 public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
-	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
@@ -130,29 +129,13 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
-		}
-		else {
-			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
-		}
-
-		if (mLastSearchTime == null) {
-			mLastSearchTime = DateTime.now();
-		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putSerializable(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsRoomsRates(this);
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
 	}
 
 	@Override
