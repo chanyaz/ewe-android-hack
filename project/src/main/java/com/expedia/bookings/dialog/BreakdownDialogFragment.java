@@ -29,6 +29,7 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -248,7 +249,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.MandatoryFees))
+					.setText(PointOfSale.getPointOfSale().getCostSummaryMandatoryFeeTitle(context))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
