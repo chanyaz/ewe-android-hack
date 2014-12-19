@@ -2,7 +2,6 @@ package com.expedia.bookings.server;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -30,8 +29,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.mobiata.android.FormatUtils;
-import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
@@ -392,6 +389,8 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
 		rate.setCheckoutPriceType(chargeableRateInfo.optString("checkoutPriceType"));
+		rate.setShowResortFeesMessaging(chargeableRateInfo.optBoolean("showResortFeeMessage", false));
+		rate.setResortFeesInclusion(chargeableRateInfo.optBoolean("resortFeeInclusion", false));
 
 		rate.setTaxStatusType(chargeableRateInfo.optString("taxStatusType"));
 

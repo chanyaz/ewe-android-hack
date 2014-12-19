@@ -16,6 +16,7 @@ import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
@@ -337,6 +338,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 			//Update total price
 			newRate.getDisplayTotalPrice().add(priceChange);
+			newRate.getTotalAmountAfterTax().add(priceChange);
 
 			//Update all nights total and per/night totals
 			newRate.getNightlyRateTotal().add(priceChange);
@@ -356,12 +358,25 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
 			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+				// The rules for what we show between rooms and rates and checkout as the
+				// "total" differ. Thus, we must defer to what the new rate is trying to display.
+				Money oldPrice = newRate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES ?
+					selectedRate.getTotalPriceWithMandatoryFees() : selectedRate.getDisplayTotalPrice();
 				boolean isPriceHigher = priceChange < 0;
 				HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-					selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+					oldPrice, newRate.getDisplayTotalPrice());
 				dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
 			}
 			else {
+				Events.post(new Events.HotelProductRateUp(newRate));
+			}
+		}
+		else if (newRate.showResortFeesMessaging()) {
+			Db.getTripBucket().getHotel().setNewRate(newRate, false);
+			// Having resort fees means we want to display the new info we
+			// got from the product call, that we did not necessarily get from
+			// offers. We should message this across all components.
+			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
 				Events.post(new Events.HotelProductRateUp(newRate));
 			}
 		}

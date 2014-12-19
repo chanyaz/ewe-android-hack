@@ -2048,7 +2048,7 @@
     <string name="taxes_and_fees">ภาษีและค่าธรรมเนียม</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">รวม</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">ค่าธรรมเนียมโรงแรม (จ่ายที่โรงแรม)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">ส่วนลด</string>
@@ -2185,7 +2185,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nสงวนลิขสิทธิ์</string>
+    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nสงวนลิขสิทธิ์</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3022,5 +3022,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">จองโรงแรม เที่ยวบิน ดูและแชร์แผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจาก Travelocity วันนี้\n%s</string>
+    <string name="fees_paid_at_hotel">ค่าธรรมเนียมที่จ่ายที่โรงแรม:</string>
+    <string name="total_due_to_expedia_today">ยอดที่ต้องจ่ายเอ็กซ์พีเดียวันนี้:</string>
+    <string name="hotel_fees_for_this_stay">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้</string>
+    <string name="included_in_the_price">รวมอยู่ในราคา</string>
+    <string name="not_included_in_the_price">ไม่รวมอยู่ในราคา</string>
+    <string name="tablet_room_rate_resort_fees_included_template">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้ (รวมแล้ว): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้ (ยังไม่รวม): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>

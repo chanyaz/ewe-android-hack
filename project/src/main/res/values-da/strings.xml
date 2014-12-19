@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">Skatter og afgifter</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkluderet</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">Hotelgebyr (betales på hotellet)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Rabat</string>
@@ -2183,7 +2183,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Beskyttelse af personlige oplysninger</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
+    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Du er logget ud og oplysningerne er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3020,5 +3020,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Book hoteller, flyrejser og se/del dine rejseplaner. Download Travelocitys gratis mobil-app i dag.\n%s</string>
+    <string name="fees_paid_at_hotel">Gebyrer der betales på hotellet:</string>
+    <string name="total_due_to_expedia_today">Samlet beløb der skal betales til Expedia i dag:</string>
+    <string name="hotel_fees_for_this_stay">Hotelgebyrer for dette ophold</string>
+    <string name="included_in_the_price">Inkluderet i prisen</string>
+    <string name="not_included_in_the_price">Ikke inkluderet i prisen</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Hotelgebyrer for dette ophold (inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hotelgebyrer for dette ophold (ikke inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>

@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">Tasse e spese di gestione</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluse</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">Tasse e tariffe (da pagare in hotel)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Sconto</string>
@@ -2183,7 +2183,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Informativa sulla Privacy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nTutti i diritti riservati.</string>
+    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nTutti i diritti riservati.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Uscita effettuata e dati eliminati</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3020,5 +3020,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Prenota hotel, voli e visualizza e condividi i tuoi itinerari. Scarica subito l\&apos;app gratuita di Travelocity per dispositivi mobili.\n%s</string>
+    <string name="fees_paid_at_hotel">Costi pagati in hotel:</string>
+    <string name="total_due_to_expedia_today">Totale dovuto oggi a Expedia:</string>
+    <string name="hotel_fees_for_this_stay">Costi hotel per questo soggiorno</string>
+    <string name="included_in_the_price">Inclusi nel prezzo</string>
+    <string name="not_included_in_the_price">Non inclusi nel prezzo</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Costi hotel per questo soggiorno (inclusi): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Costi hotel per questo soggiorno (non inclusi): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>

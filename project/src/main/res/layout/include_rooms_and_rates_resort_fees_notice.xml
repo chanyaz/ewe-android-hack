@@ -43,12 +43,11 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/resort_fees_top_text"
                 style="@style/TextAppearance.RoomsAndRatesNoticeTop"
-                android:text="@string/additional_fees" />
+                android:text="@string/hotel_fees_for_this_stay" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/resort_fees_bottom_text"
-                style="@style/TextAppearance.RoomsAndRatesNoticeBottom"
-                android:text="@string/fee_not_included_in_total" />
+                style="@style/TextAppearance.RoomsAndRatesNoticeBottom" />
         </LinearLayout>
 
         <ImageView

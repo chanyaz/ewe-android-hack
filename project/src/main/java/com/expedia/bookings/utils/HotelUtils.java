@@ -7,6 +7,8 @@ import org.joda.time.DateTime;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
@@ -163,5 +166,27 @@ public class HotelUtils {
 			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
 		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
+	}
+
+	// Convenience method for getting secondary resort fee banner text for phone
+	public static String getPhoneResortFeeBannerText(Context context, Rate rate) {
+		int stringId = rate.resortFeeInclusion() ? R.string.included_in_the_price : R.string.not_included_in_the_price;
+		return context.getString(stringId);
+	}
+
+	// Convenience method for getting secondary resort fee banner text for tablet
+	public static String getTabletResortFeeBannerText(Context context, Rate rate) {
+		int stringId = rate.resortFeeInclusion() ? R.string.tablet_room_rate_resort_fees_included_template :
+			R.string.tablet_room_rate_resort_fees_not_included_template;
+		String mandatoryFees = rate.getTotalMandatoryFees().getFormattedMoney();
+		return context.getString(stringId, mandatoryFees);
+	}
+
+	// Convenience method for getting resort fee text that goes at the bottom of checkout,
+	// for either device type.
+	public static Spanned getCheckoutResortFeesText(Context context, Rate rate) {
+		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
+		String grandTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+		return Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, fees, grandTotal));
 	}
 }

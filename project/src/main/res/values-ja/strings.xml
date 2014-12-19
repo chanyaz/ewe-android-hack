@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">税金 &amp; サービス料</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">含まれています</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">割引</string>
@@ -2183,7 +2183,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">プライバシー ポリシー</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">ログアウト済み、データ削除済み</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3020,5 +3020,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の Travelocity モバイル アプリを今すぐダウンロードしてください。\n%s</string>
+    <string name="fees_paid_at_hotel">ホテルでのお支払い料金 :</string>
+    <string name="total_due_to_expedia_today">本日エクスペディアにお支払いの合計金額 :</string>
+    <string name="hotel_fees_for_this_stay">ホテル料金</string>
+    <string name="included_in_the_price">料金に含まれる</string>
+    <string name="not_included_in_the_price">料金に含まれない</string>
+    <string name="tablet_room_rate_resort_fees_included_template">ホテル料金 (含む) : &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">ホテル料金 (含まない) : &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>
