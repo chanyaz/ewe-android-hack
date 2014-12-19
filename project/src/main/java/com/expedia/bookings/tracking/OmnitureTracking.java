@@ -519,10 +519,6 @@ public class OmnitureTracking {
 		s.setEvents(eventsStr);
 	}
 
-	public static void trackPageLoadHotelsRoomsRates(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_ROOMS_RATES);
-	}
-
 	public static void trackPageLoadHotelsRateDetails(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_RATE_DETAILS);
 	}

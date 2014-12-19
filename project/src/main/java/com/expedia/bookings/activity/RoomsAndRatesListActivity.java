@@ -133,16 +133,13 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
-		}
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsRoomsRates(this);
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
 	}
 
 	@Override
