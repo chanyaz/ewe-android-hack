@@ -717,10 +717,14 @@ public class ShareUtils {
 
 		sb.append("\n");
 
+		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 		//1683. VSC Don't show Android App crossSell text and link.
 		//  Disabling Android App crossSell for Tvly app also.
 		if (ExpediaBookingApp.IS_EXPEDIA) {
-			sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			sb.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
 		}
 
 		return sb.toString();
@@ -815,6 +819,9 @@ public class ShareUtils {
 		// Tvly also dont show the App CrossSell text and link
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		}
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			sb.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
 		}
 
 		return sb.toString();
