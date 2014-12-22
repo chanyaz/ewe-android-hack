@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Locale;
-
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -136,8 +135,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			.build();
 
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
-		UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(getResources(), url, placeholderResId);
-		drawable.setUrlBitmapDrawable(urlBitmapDrawable);
+		new PicassoHelper.Builder(getActivity()).setPlaceholder(placeholderResId).setTarget(
+			drawable.getCallBack()).build().load(url);
 	}
 
 	@Override

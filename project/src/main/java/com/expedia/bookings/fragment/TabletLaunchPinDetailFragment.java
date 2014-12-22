@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.interfaces.ISingleStateListener;
@@ -23,6 +25,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ContentClickableRelativeLayout;
 import com.expedia.bookings.widget.RoundImageView;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
 	private ContentClickableRelativeLayout mRootC;
@@ -73,6 +76,27 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		onLaunchMapPinClicked(new Events.LaunchMapPinClicked(event.selectedLocation));
 	}
 
+	private PicassoTarget callback = new PicassoTarget() {
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			mRoundImage.setImageBitmap(bitmap);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+			mRoundImage.setImageDrawable(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			mRoundImage.setImageDrawable(placeHolderDrawable);
+		}
+	};
+
 	@Subscribe
 	public void onLaunchMapPinClicked(final Events.LaunchMapPinClicked event) {
 		if (event.launchLocation != null) {
@@ -80,25 +104,9 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			mLaunchLocation = event.launchLocation;
 			final String imageUrl = getResizedImageUrl(getActivity(), event.launchLocation);
 
-			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, true /*checkDisk*/);
-			mRoundImage.setImageBitmap(bitmap);
-
-			if (bitmap == null) {
-				String callbackKey = TabletLaunchPinDetailFragment.class.getSimpleName() + imageUrl;
-				L2ImageCache.sGeneralPurpose.loadImage(callbackKey, imageUrl, false,
-					new L2ImageCache.OnBitmapLoaded() {
-					@Override
-					public void onBitmapLoaded(String url, Bitmap bitmap) {
-						mRoundImage.setImageBitmap(bitmap);
-					}
-
-					@Override
-					public void onBitmapLoadFailed(String url) {
-						Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), R.drawable.launch_circle_placeholder, false);
-						mRoundImage.setImageBitmap(bitmap);
-					}
-				});
-			}
+			new PicassoHelper.Builder(mRoundImage).setError(R.drawable.launch_circle_placeholder).setTarget(
+				callback).build()
+				.load(imageUrl);
 
 			TextView textTitle = Ui.findView(mRootC, R.id.text_title);
 			textTitle.setText(event.launchLocation.title);
@@ -119,9 +127,6 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	}
 
 	private void clearOldImageDownloadCallback() {
-		if (mLaunchLocation != null) {
-			L2ImageCache.sGeneralPurpose.clearCallbacksByUrl(getResizedImageUrl(getActivity(), mLaunchLocation));
-		}
 	}
 
 	public static String getResizedImageUrl(Context context, LaunchLocation launchLocation) {

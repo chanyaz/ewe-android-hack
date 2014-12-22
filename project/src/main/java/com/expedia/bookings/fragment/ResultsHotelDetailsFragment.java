@@ -12,6 +12,7 @@ import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -31,7 +32,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PaletteCallback;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -63,6 +65,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
+import com.squareup.picasso.Picasso;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -294,7 +297,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void setupHeader(View view, Property property) {
-		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
+		final ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
@@ -307,7 +310,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
-			property.getThumbnail().fillImageView(hotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
+			PaletteCallback mHeaderBitmapLoadedCallback = new PaletteCallback(hotelImage) {
+				@Override
+				public void onSuccess(int vibrantColor) {
+					ColorBuilder builder = new ColorBuilder(vibrantColor).darkenBy(0.4f);
+					mHeaderContainer.setDominantColor(builder.build());
+				}
+
+				@Override
+				public void onFailed() {
+					mHeaderContainer.resetDominantColor();
+				}
+			};
+
+			property.getThumbnail().fillImageView(hotelImage, placeholderResId, mHeaderBitmapLoadedCallback, null);
 		}
 		else {
 			hotelImage.setImageResource(placeholderResId);
@@ -896,21 +912,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Async handling of Header / ColorScheme
-
-	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
-		@Override
-		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
-			mHeaderContainer.setDominantColor(builder.build());
-		}
-
-		@Override
-		public void onBitmapLoadFailed(String url) {
-			mHeaderContainer.resetDominantColor();
-		}
-	};
 
 	/*
 	MEASUREMENT HELPER

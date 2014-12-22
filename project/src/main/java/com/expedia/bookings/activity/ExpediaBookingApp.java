@@ -17,7 +17,7 @@ import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LocalExpertSite;
@@ -85,6 +85,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	public void onCreate() {
 		super.onCreate();
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		PicassoHelper.init(this);
+		Boolean isLoggingEnabled = SettingUtils.get(this, getString(R.string.preference_enable_picasso_logging), false);
+		new PicassoHelper.Builder(this).build().setLoggingEnabled(isLoggingEnabled);
+		startupTimer.addSplit("Picasso started.");
 
 		Fabric.with(this, new Crashlytics());
 		startupTimer.addSplit("Crashlytics started.");
@@ -171,9 +176,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
-
-		L2ImageCache.initAllCacheInstances(this);
-		startupTimer.addSplit("L2ImageCache Init");
 
 		LocalExpertSite.init(this);
 		startupTimer.addSplit("LocalExpertSite Init");
@@ -291,8 +293,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			Log.d("ExpediaBookingApp exception handler w/ class:" + ex.getClass() + "; root cause="
 				+ rootCause.getClass());
 			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
-				L2ImageCache.sGeneralPurpose.debugInfo();
-				L2ImageCache.sDestination.debugInfo();
+				new PicassoHelper.Builder(this).build().getDebugInfo();
 
 				if (MemoryUtils.dumpMemoryStateToDisk(getApplicationContext())) {
 					SettingUtils.save(this, getString(R.string.preference_debug_notify_oom_crash), true);

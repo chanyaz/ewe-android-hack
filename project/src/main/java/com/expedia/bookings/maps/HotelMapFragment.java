@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -22,8 +23,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -53,6 +53,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.android.Log;
+import com.squareup.picasso.Callback;
 
 public class HotelMapFragment extends SupportMapFragment implements OnFilterChangedListener {
 
@@ -96,6 +97,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private TextView mTextView;
 	private int mPricePinSidePadding;
 	private int mPricePinTopPadding;
+
+	private WeakHashMap<Marker, Boolean> markerMap = new WeakHashMap<Marker, Boolean>();
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -201,8 +204,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				}
 
 				@Override
-				public View getInfoWindow(Marker marker) {
-					final Marker theMarker = marker;
+				public View getInfoWindow(final Marker marker) {
 					View v = mInflater.inflate(R.layout.snippet_map_hotel_info_window, null);
 					Property property = mMarkersToProperties.get(marker);
 
@@ -250,30 +252,21 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					else {
 						List<String> urls = media.getBestUrls(
 							(int) (getResources().getDimension(R.dimen.hotel_map_popup_thumbnail_width)));
-						Bitmap bitmap = null;
-						for (String url : urls) {
-							bitmap = L2ImageCache.sGeneralPurpose.getImage(url, false);
-							if (bitmap != null) {
-								UrlBitmapDrawable bm = new UrlBitmapDrawable(getResources(), url);
-								bm.configureImageView(imageView);
-								break;
+						Callback callback = new Callback() {
+							@Override
+							public void onSuccess() {
+								if (!markerMap.containsKey(marker)) {
+									markerMap.put(marker, true);
+									marker.showInfoWindow();
+								}
 							}
-						}
 
-						if (bitmap == null) {
-							UrlBitmapDrawable drawable = new UrlBitmapDrawable(getActivity().getResources(), urls);
-							drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-								@Override
-								public void onBitmapLoaded(String url, Bitmap bitmap) {
-									theMarker.showInfoWindow();
-								}
+							@Override
+							public void onError() {
 
-								@Override
-								public void onBitmapLoadFailed(String url) {
-									// ignore
-								}
-							});
-						}
+							}
+						};
+						new PicassoHelper.Builder(imageView).setCallback(callback).build().load(urls);
 					}
 
 					return v;

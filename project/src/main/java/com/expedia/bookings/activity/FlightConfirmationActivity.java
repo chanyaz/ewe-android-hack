@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -9,8 +8,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.BitmapDrawable;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.User;
@@ -23,7 +21,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class FlightConfirmationActivity extends FragmentActivity {
+public class FlightConfirmationActivity extends FragmentActivity{
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -65,13 +63,8 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/, true /*checkDisk*/);
-		if (bitmap != null) {
-			onBitmapLoaded(bitmap);
-		}
-		else {
-			onBitmapLoadFailed();
-		}
+		new PicassoHelper.Builder(mBgImageView).setError(R.drawable.default_flights_background).build().load(url);
+
 	}
 
 	@Override
@@ -132,15 +125,5 @@ public class FlightConfirmationActivity extends FragmentActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void onBitmapLoaded(Bitmap bitmap) {
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-		mBgImageView.setImageDrawable(drawable);
-	}
-
-	public void onBitmapLoadFailed() {
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true /*blurred*/);
-		onBitmapLoaded(bitmap);
 	}
 }

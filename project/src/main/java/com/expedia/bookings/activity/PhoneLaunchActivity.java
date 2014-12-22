@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -168,10 +167,6 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		// Clear mem caches
-		L2ImageCache.sGeneralPurpose.clearMemoryCache();
-		L2ImageCache.sDestination.clearMemoryCache();
 
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();

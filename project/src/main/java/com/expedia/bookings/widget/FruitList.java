@@ -23,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -55,6 +56,9 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	//Start percentage (1f == start at bottom , 0f == start at top)
 	private float mPercentage = 1f;
+
+	//Scroll listener for pausing/resuming image downloads while the list flings
+	private PicassoScrollListener mPicassoScrollListener;
 
 	/*
 	 * CONSTRUCTORS AND INITIALIZERS
@@ -582,6 +586,10 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	@Override
 	public void onScrollStateChanged(AbsListView listView, int scrollState) {
+		if (mPicassoScrollListener != null) {
+			mPicassoScrollListener.onScrollStateChanged(listView, scrollState);
+		}
+
 		boolean wasFlinging = mIsFlinging;
 		mIsFlinging = scrollState == OnScrollListener.SCROLL_STATE_FLING;
 
@@ -633,6 +641,9 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		return isUserInteraction() || isAnimatingScroll();
 	}
 
+	public void addPicassoScrollListener(PicassoScrollListener scrollListener) {
+		mPicassoScrollListener = scrollListener;
+	}
 	/*
 	 * STATE MANAGEMENT
 	 */

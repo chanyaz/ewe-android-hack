@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -92,8 +91,6 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Db.getHotelSearch().resetSearchData();
 			Db.getHotelSearch().resetSearchParams();
 
-			// Clear the cache just to be safe
-			L2ImageCache.sGeneralPurpose.clearMemoryCache();
 		}
 
 		OmnitureTracking.onPause();

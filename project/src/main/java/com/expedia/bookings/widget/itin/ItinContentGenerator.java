@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -52,6 +51,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -61,6 +61,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.squareup.picasso.Target;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -150,7 +151,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	/**
 	 * @return a UrlBitmapDrawable to display, or null if we want to use the placeholder
 	 */
-	public abstract UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height);
+	public abstract void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target);
 
 	public abstract String getHeaderText();
 

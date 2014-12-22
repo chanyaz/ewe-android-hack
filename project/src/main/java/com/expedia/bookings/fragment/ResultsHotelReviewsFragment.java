@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +25,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PaletteCallback;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -44,6 +46,7 @@ import com.expedia.bookings.widget.RowRoomRateLayout;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsHotelReviewsFragment extends Fragment implements UserReviewsFragmentListener,
@@ -150,7 +153,19 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
-			property.getThumbnail().fillImageView(mHotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
+			PaletteCallback mHeaderBitmapLoadedCallback = new PaletteCallback(mHotelImage) {
+				@Override
+				public void onSuccess(int vibrantColor) {
+					ColorBuilder builder = new ColorBuilder(vibrantColor).darkenBy(0.4f);
+					setDominantColor(builder.build());
+				}
+
+				@Override
+				public void onFailed() {
+					resetDominantColor();
+				}
+			};
+			property.getThumbnail().fillImageView(mHotelImage, placeholderResId, mHeaderBitmapLoadedCallback, null);
 		}
 		else {
 			mHotelImage.setImageResource(placeholderResId);
@@ -321,22 +336,6 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mDominantColorBackground.setAlpha(229);
 		mDominantColorBackground.invalidateSelf();
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Async handling of Header / ColorScheme
-
-	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
-		@Override
-		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
-			setDominantColor(builder.build());
-		}
-
-		@Override
-		public void onBitmapLoadFailed(String url) {
-			resetDominantColor();
-		}
-	};
 
 	/*
 	MEASUREMENT HELPER

@@ -113,7 +113,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 					hasMore = false;
 					if (left > 0) {
 						left--;
-						media.get(left).preloadHighResImage(context, null);
+						media.get(left).preloadHighResImage(context);
 						loaded++;
 						hasMore = true;
 					}
@@ -122,7 +122,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 					}
 					if (right < len - 1) {
 						right++;
-						media.get(right).preloadHighResImage(context, null);
+						media.get(right).preloadHighResImage(context);
 						loaded++;
 						hasMore = true;
 					}

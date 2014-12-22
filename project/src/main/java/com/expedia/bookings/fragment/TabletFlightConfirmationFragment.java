@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -151,7 +151,8 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			.resizeExactly(imageWidth, imageHeight) //
 			.build();
 
-		mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, R.drawable.bg_itin_placeholder));
+		new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.bg_itin_placeholder)
+			.setTarget(mHeaderBitmapDrawable.getCallBack()).build().load(url);
 		setLob(LineOfBusiness.FLIGHTS);
 
 		return v;

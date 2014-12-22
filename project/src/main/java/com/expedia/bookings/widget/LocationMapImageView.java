@@ -3,15 +3,16 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Location;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
+import com.squareup.picasso.Picasso;
 
 public class LocationMapImageView extends ImageView {
 
@@ -80,20 +81,28 @@ public class LocationMapImageView extends ImageView {
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
-			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					LocationMapImageView.this.setBackgroundDrawable(null);
-				}
-
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					// nothing
-				}
-			});
+			Picasso.with(getContext()).load(mStaticMapUri).into(callback);
 		}
 	}
+
+	private PicassoTarget callback = new PicassoTarget() {
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			setImageBitmap(bitmap);
+			LocationMapImageView.this.setBackgroundDrawable(null);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+		}
+	};
 
 	private String colorToHexString(int color) {
 		return String.format("0x%06X", (0xFFFFFF & color));

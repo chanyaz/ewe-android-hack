@@ -20,10 +20,10 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Pair;
@@ -36,7 +36,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
@@ -60,8 +60,8 @@ import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragment
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.fragment.FlightNoFlightsFragment;
-import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.fragment.FlightNoFlightsFragment.NoFlightsFragmentListener;
+import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
@@ -83,6 +83,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.picasso.Picasso;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
@@ -799,7 +800,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
-		L2ImageCache.sDestination.loadImage(url, true /*blurred*/, new L2ImageCache.OnBitmapLoadedAdapter());
+		new PicassoHelper.Builder(this).build().load(url);
 	}
 
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {

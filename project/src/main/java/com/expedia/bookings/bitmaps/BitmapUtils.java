@@ -24,21 +24,6 @@ import com.mobiata.android.util.TimingLogger;
 public class BitmapUtils {
 
 	/**
-	 * Get the avg color of a bitmap via shrinking the bmap down to one pixel and sampling the color of that pixel
-	 * <p/>
-	 * Note: This will not return the true average color. It makes use of some pretty serious optomizations to be able
-	 * to do this so quickly. If we are really after the true average we need to iteratively shrink the image by half
-	 * until only 1px remains, and that pixel should be the true average. This is faster and what iOS is doing.
-	 *
-	 * @param bmap - bitmap to determine the average color of
-	 * @return average color of image.
-	 */
-	public static int getAvgColorOnePixelTrick(Bitmap bmap) {
-		Bitmap px = Bitmap.createScaledBitmap(bmap, 1, 1, false);
-		return px.getPixel(0, 0);
-	}
-
-	/**
 	 * This will return a copy of a the supplied bitmap that has been stack blurred and darkened
 	 * according to the supplied params
 	 *
