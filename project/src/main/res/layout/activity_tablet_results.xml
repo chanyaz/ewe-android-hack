@@ -45,7 +45,7 @@
 
     <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/trip_bucket_container"
-        android:background="@drawable/bg_tablet_portrait_trip_bucket_shadow"
+        android:background="@drawable/bg_tablet_trip_bucket_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
