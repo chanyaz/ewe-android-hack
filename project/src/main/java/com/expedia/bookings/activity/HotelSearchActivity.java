@@ -1237,8 +1237,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
 			mFilterLayout.getMeasuredHeight(), true);
-		mFilterPopupWindow.setBackgroundDrawable(getResources().getDrawable(
-			R.drawable.abs__menu_dropdown_panel_holo_dark));
+		mFilterPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_autocomplete));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
 
