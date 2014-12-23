@@ -484,7 +484,7 @@ public class OmnitureTracking {
 		}
 		String properCaseSupplierType;
 		if (supplierType.length() > 1) {
-			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase() + supplierType.substring(1).toLowerCase();
+			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase(Locale.US) + supplierType.substring(1).toLowerCase(Locale.US);
 		}
 		else {
 			properCaseSupplierType = supplierType;
@@ -1757,7 +1757,7 @@ public class OmnitureTracking {
 
 	public static void trackItinReload(Context context, Type type) {
 		String value = type.toString();
-		String formatted = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
+		String formatted = value.substring(0, 1).toUpperCase(Locale.US) + value.substring(1).toLowerCase(Locale.US);
 		internalTrackLink(context, String.format(ITIN_RELOAD_TEMPLATE, formatted));
 	}
 

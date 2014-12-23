@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
@@ -15,9 +16,9 @@ public class DateTimeParser {
 
 	// Until all date formats are normalized, we must support all of them.
 	private static final DateFormat[] DATE_FORMATS = {
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US),
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US),
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US)
 	};
 
 	public static DateTime parseDateTime(Object obj) {

@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -414,7 +415,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 				Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
 				boolean returnFlight = mLegPosition > 0;
-				String code = StrUtils.getLocationCityOrCode(location).toUpperCase();
+				String code = StrUtils.getLocationCityOrCode(location).toUpperCase(Locale.getDefault());
 				int templateResId = returnFlight
 					? R.string.select_a_flight_back_to_TEMPLATE
 					: R.string.select_a_flight_to_TEMPLATE;

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
@@ -1651,7 +1652,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public LaunchDestinationCollections getLaunchCollections(String localeString) {
-		String lowerPos = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase();
+		String lowerPos = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String url = getLaunchEndpointUrl() + "/" + lowerPos + "/collections_" + localeString + ".json";
 		GsonResponse<LaunchDestinationCollections> result = doLaunchDataRequest(url, null, LaunchDestinationCollections.class);
 		if (result == null) {

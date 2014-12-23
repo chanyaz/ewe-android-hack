@@ -9,7 +9,6 @@
         android:layout_height="fill_parent"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/calendar_button_container"
-        android:autoText="false"
         android:background="@drawable/edit_text_holo_dark"
         android:contentDescription="@string/cd_hotel_search_edittext"
         android:dropDownHorizontalOffset="-38dp"

@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -795,7 +796,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				return;
 			}
 
-			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity).toUpperCase();
+			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity).toUpperCase(Locale.getDefault());
 
 			SpannableStringBuilder ssb = new SpannableStringBuilder(routeDescription);
 

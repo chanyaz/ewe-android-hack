@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -374,7 +375,7 @@ public class PushNotificationUtils {
 		return retObj;
 	}
 
-	private static SimpleDateFormat sFlightDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat sFlightDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
 	private static JSONObject buildFlightJSON(Flight flight, boolean shared) {
 		try {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.model;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,7 +108,7 @@ public class Search extends Model implements JSONable {
 	public static void delete(Context context, HotelSearchParams searchParams) {
 		new Delete()
 				.from(Search.class)
-				.where("lower(FreeFormLocation) = ?", searchParams.getQuery().toLowerCase().trim())
+				.where("lower(FreeFormLocation) = ?", searchParams.getQuery().toLowerCase(Locale.US).trim())
 				.execute();
 	}
 

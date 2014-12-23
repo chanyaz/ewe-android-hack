@@ -140,7 +140,7 @@ public class LaunchDb {
 
 			TextAppearanceSpan subtitleSpan = new TextAppearanceSpan(context,
 				R.style.V2_TextAppearance_Launch_YourSearchSubtitle);
-			span.append(context.getString(R.string.your_search).toUpperCase(), subtitleSpan,
+			span.append(context.getString(R.string.your_search).toUpperCase(Locale.getDefault()), subtitleSpan,
 				FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM));
 
 			lastSearch.stylizedTitle = span.build();

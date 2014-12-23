@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
@@ -422,7 +423,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public void setLoyaltyMembershipTier(String tierString) {
 		try {
 			if (tierString != null) {
-				setLoyaltyMembershipTier(LoyaltyMembershipTier.valueOf(tierString.toUpperCase()));
+				setLoyaltyMembershipTier(LoyaltyMembershipTier.valueOf(tierString.toUpperCase(Locale.US)));
 				return;
 			}
 		}

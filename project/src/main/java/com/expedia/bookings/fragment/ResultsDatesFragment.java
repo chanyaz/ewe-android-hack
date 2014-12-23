@@ -117,11 +117,11 @@ public class ResultsDatesFragment extends Fragment implements
 	@Override
 	public String renderDayOfWeek(LocalDate.Property dayOfWeek) {
 		if (Build.VERSION.SDK_INT >= 18) {
-			SimpleDateFormat sdf = new SimpleDateFormat("EEEEE");
+			SimpleDateFormat sdf = new SimpleDateFormat("EEEEE", Locale.getDefault());
 			return sdf.format(dayOfWeek.getLocalDate().toDate());
 		}
 		else if (Locale.getDefault().getLanguage().equals("en")) {
-			return dayOfWeek.getAsShortText().toUpperCase().substring(0, 1);
+			return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1);
 		}
 		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
 	}
