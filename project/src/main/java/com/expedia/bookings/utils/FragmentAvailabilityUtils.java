@@ -12,7 +12,7 @@ public class FragmentAvailabilityUtils {
 	public static final int INVISIBLE_FRAG = -1;
 	public static final int DIALOG_FRAG = -2;
 
-	private static final String ARG_IS_IT_FUCKING_ADDED = "ARG_IS_IT_FUCKING_ADDED";
+	private static final String ARG_IS_FRAGMENT_ADDED_EBAD = "ARG_IS_FRAGMENT_ADDED_EBAD";
 
 	public interface IFragmentAvailabilityProvider {
 		public Fragment getExistingLocalInstanceFromTag(String tag);
@@ -40,7 +40,7 @@ public class FragmentAvailabilityUtils {
 				}
 
 				if (!frag.isAdded()) {
-					if (noSeriouslyIsItFuckingAdded(frag)) {
+					if (internalCheckIsFragmentAdded(frag)) {
 						Log.v("FragAvailability", tag + " add ignored");
 						return frag;
 					}
@@ -75,10 +75,10 @@ public class FragmentAvailabilityUtils {
 		return frag;
 	}
 
-	private static boolean noSeriouslyIsItFuckingAdded(Fragment frag) {
+	private static boolean internalCheckIsFragmentAdded(Fragment frag) {
 		Bundle args = frag.getArguments();
 		if (args != null) {
-			if (args.containsKey(ARG_IS_IT_FUCKING_ADDED)) {
+			if (args.containsKey(ARG_IS_FRAGMENT_ADDED_EBAD)) {
 				return true;
 			}
 		}
@@ -92,7 +92,7 @@ public class FragmentAvailabilityUtils {
 			args = new Bundle();
 		}
 
-		args.putBoolean(ARG_IS_IT_FUCKING_ADDED, true);
+		args.putBoolean(ARG_IS_FRAGMENT_ADDED_EBAD, true);
 		frag.setArguments(args);
 	}
 
