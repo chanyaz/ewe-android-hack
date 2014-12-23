@@ -1113,7 +1113,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 						Db.getTripBucket().getHotel().canBePurchased() &&
 						!Db.getTripBucket().getHotel().hasAirAttachRate() &&
 						Db.getTripBucket().isUserAirAttachQualified()) {
-
 						mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
 					}
 					else {
