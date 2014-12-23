@@ -1563,7 +1563,7 @@ public class ExpediaServices implements DownloadListener {
 			APP_NAME = "AAGBookings";
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			APP_NAME = "TravelocityBookings";
+			APP_NAME = "TvlyBookings";
 		}
 		else if(ExpediaBookingApp.IS_VSC) {
 			APP_NAME = "VSCBookings";
