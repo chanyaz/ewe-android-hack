@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class Strings {
+
 	public static boolean isEmpty(CharSequence seq) {
 		return seq == null || seq.length() <= 0;
 	}
@@ -101,12 +102,15 @@ public class Strings {
 		if (end == null) {
 			end = len;
 		}
-		else if (end < 0) {
+		if (end < 0) {
 			end = len + end;
 		}
 
 		// If the user put us in an awkward place, just return the empty string
-		if (start > len || end < start) {
+		if (start < 0 || start > len) {
+			return str.subSequence(0, 0);
+		}
+		if (end < start) {
 			return str.subSequence(0, 0);
 		}
 

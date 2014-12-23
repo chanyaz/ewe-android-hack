@@ -11,6 +11,21 @@ import static org.junit.Assert.assertTrue;
 
 public class FragmentModificationSafeLockTests {
 	@Test
+	public void testLockSafeWorks() {
+		FragmentModificationSafeLock lock = new FragmentModificationSafeLock();
+		assertFalse("expected not to be safe", lock.isSafe());
+
+		lock.setSafe(true);
+		assertTrue("expected to be safe", lock.isSafe());
+
+		lock.setSafe(true);
+		assertTrue("expected to be safe", lock.isSafe());
+
+		lock.setSafe(false);
+		assertFalse("expected not to be safe", lock.isSafe());
+	}
+
+	@Test
 	public void testLockBlocksRunnable() {
 		final CountDownLatch runnableRan = new CountDownLatch(1);
 
