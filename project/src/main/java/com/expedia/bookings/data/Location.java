@@ -37,6 +37,9 @@ public class Location implements JSONable, Parcelable {
 	// Returned in the FlightSearchResponse for the given search airport codes
 	private String mSearchType;
 
+	// Returned from SuggestionResponseHandler for the region type of the given search
+	private String mRegionType;
+
 	public Location() {
 		// Default constructor
 	}
@@ -158,8 +161,17 @@ public class Location implements JSONable, Parcelable {
 		mSearchType = searchType;
 	}
 
+	public String getRegionType() {
+		return mRegionType;
+	}
+
+	public void setRegionType(String regionType) {
+		mRegionType = regionType;
+	}
+
 	public boolean isMetroCode() {
-		return "METROCODE".equals(mSearchType);
+		return "METROCODE".equals(mSearchType)
+			|| SuggestionV2.RegionType.METROCODE.name().equals(mRegionType);
 	}
 
 	// Update this Location's fields with data from another, without blowing
@@ -216,6 +228,7 @@ public class Location implements JSONable, Parcelable {
 			obj.putOpt("longitude", mLongitude);
 			obj.putOpt("destinationId", mDestinationId);
 			obj.putOpt("searchType", mSearchType);
+			obj.putOpt("regionType", mRegionType);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -236,6 +249,7 @@ public class Location implements JSONable, Parcelable {
 		mLongitude = obj.optDouble("longitude", 0);
 		mDestinationId = obj.optString("destinationId", null);
 		mSearchType = obj.optString("searchType", null);
+		mRegionType = obj.optString("regionType", null);
 		return true;
 	}
 
