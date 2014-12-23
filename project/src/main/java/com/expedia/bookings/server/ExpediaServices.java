@@ -1621,6 +1621,9 @@ public class ExpediaServices implements DownloadListener {
 		if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			params.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
 		}
+		else if (ExpediaBookingApp.IS_VSC) {
+			params.add(new BasicNameValuePair("origin", "VSC"));
+		}
 		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
 	}
 
