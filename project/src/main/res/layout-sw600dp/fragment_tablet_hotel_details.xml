@@ -6,7 +6,7 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_hotel_details_background_layer_list">
+    android:background="?attr/skin_tablet_hotel_details_background_drawable">
 
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/scrolling_content"
