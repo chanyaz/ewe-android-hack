@@ -133,7 +133,12 @@ public class AboutUtils {
 	}
 
 	public void contactViaWeb() {
-		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
+		if(ExpediaBookingApp.IS_VSC){
+			openContactUsVSC();
+		}
+		else{
+			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
+		}
 	}
 
 	public void contactViaEmail() {

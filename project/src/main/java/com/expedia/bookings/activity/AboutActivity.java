@@ -105,10 +105,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
 
-			//Add Website link for Expedia, Travelocity and AAG. Disabled only for VSC.
-			if (!ExpediaBookingApp.IS_VSC) {
-				builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
-			}
+			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 
 			if (ExpediaBookingApp.IS_EXPEDIA) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
@@ -295,13 +292,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_BOOKING_SUPPORT: {
-			// 1245. VSC Show app support url
-			if (ExpediaBookingApp.IS_VSC) {
-				mAboutUtils.openContactUsVSC();
-			}
-			else {
-				showDialog(DIALOG_CONTACT_EXPEDIA);
-			}
+			showDialog(DIALOG_CONTACT_EXPEDIA);
 			return true;
 		}
 		case ROW_EXPEDIA_WEBSITE: {

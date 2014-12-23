@@ -149,9 +149,9 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_vsc</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
-        <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
+        <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
+        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
+        <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
         <item name="skin_itineraryNumberString">@string/vsc_itinerary</item>
     </style>
 
