@@ -1,10 +1,13 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Random;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
@@ -19,6 +22,12 @@ import com.mobiata.android.util.Ui;
  */
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 	private boolean mLaunchingActivity = false;
+	private ImageView mSlidingImage;
+	private int mCurrentImageIndex = 0;
+
+	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
+		R.drawable.vsc_home_page_background,
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,6 +35,11 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		final View view = inflater.inflate(R.layout.fragment_phone_launch, container, false);
 		Ui.findView(view, R.id.vsc_hotel_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(view, R.id.vsc_flight_button).setOnClickListener(mHeaderItemOnClickListener);
+		mSlidingImage = Ui.findView(view, R.id.vsc_home_bg_view);
+
+		//Randomly select an image to display
+		mCurrentImageIndex = new Random().nextInt(BACKGROUND_RES_IDS.length);
+		mSlidingImage.setImageResource(BACKGROUND_RES_IDS[mCurrentImageIndex]);
 
 		return view;
 	}
