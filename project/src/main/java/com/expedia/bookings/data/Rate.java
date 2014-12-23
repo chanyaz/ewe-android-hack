@@ -104,6 +104,9 @@ public class Rate implements JSONable {
 	// Air Attach - is this rate discounted as the result of a flight booking?
 	private boolean mAirAttached;
 
+	// ETP: is there a pay later offer associated with this rate?
+	private Rate mEtpRate;
+
 	// These are computed rates, based on the user's current locale.  They should
 	// not be saved, but instead computed on demand (since locale can change).
 	private Money mMandatoryFeesBaseRate = null;
@@ -570,6 +573,14 @@ public class Rate implements JSONable {
 		}
 	}
 
+	public Rate getEtpRate() {
+		return mEtpRate;
+	}
+
+	public void addEtpOffer(Rate etpRate) {
+		mEtpRate = etpRate;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Prices to show users
 	//
@@ -682,6 +693,8 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 
 			obj.putOpt("airAttached", mAirAttached);
+
+			JSONUtils.putJSONable(obj, "etpRate", mEtpRate);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -756,6 +769,8 @@ public class Rate implements JSONable {
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
 
 		mAirAttached = obj.optBoolean("airAttached", false);
+
+		mEtpRate = JSONUtils.getJSONable(obj, "etpRate", Rate.class);
 		return true;
 	}
 
