@@ -273,5 +273,5 @@
     <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
     <!-- Flight Map -->
     <attr name="skin_tablet_flight_map_arrival_pin" format="reference" />
-
+    <attr name="skin_tablet_hotel_details_background_drawable" format="reference" />
 </resources>
