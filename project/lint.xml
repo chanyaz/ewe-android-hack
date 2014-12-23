@@ -6,7 +6,11 @@
     <!-- Start turning checks back on -->
     <!-- Issue categories like Usability:Typography DO NOT WORK! -->
 
+    <!-- Category Usability:Typography -->
+    <!-- <issue id="TypographyDashes" severity="error" /> -->
     <issue id="TypographyEllipsis" severity="error" />
+    <issue id="TypographyFractions" severity="error" />
+    <!-- <issue id="TypographyQuotes" severity="error" /> -->
     <issue id="TypographyOther" severity="error" />
 
     <!-- Category Usability:Icons -->
@@ -22,7 +26,7 @@
     <issue id="IconMixedNinePatch" severity="error" />
     <issue id="MissingApplicationIcon" severity="error" />
     <!-- <issue id="IconDensities" severity="error" /> -->
-    <!-- <issue id="IconDuplicates" severity="error" /> -->
+    <issue id="IconDuplicates" severity="error" />
     <issue id="IconExtension" severity="error" />
     <!-- <issue id="IconMissingDensityFolder" severity="error" /> -->
 
