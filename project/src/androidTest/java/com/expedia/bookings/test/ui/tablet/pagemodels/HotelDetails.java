@@ -54,7 +54,7 @@ public class HotelDetails {
 	}
 
 	public static void clickSelectHotelWithRoomDescription(String roomDescription) {
-		onView(withId(R.id.header_container)).perform(swipeUp());
+		onView(withId(R.id.scrolling_content)).perform(swipeUp());
 		onView(withText(roomDescription)).perform(click());
 	}
 
