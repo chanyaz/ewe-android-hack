@@ -4,58 +4,66 @@
              android:layout_height="match_parent"
              android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/vsc_home_bg_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="false"
-        android:background="@drawable/vsc_home_page_background"
-        android:scaleType="centerCrop" />
 
-    <ImageView
-        android:id="@+id/vsc_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/vsc_text_logo"
-        android:textColor="@android:color/white"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/vsc_home_bg_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="false"
+            android:background="@drawable/bg_launch_vsc_paris"
+            android:scaleType="centerCrop"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|center"
-        android:paddingBottom="20dp">
-
-        <TextView
-            android:id="@+id/vsc_hotel_button"
+        <ImageView
+            android:id="@+id/vsc_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/vsc_hotel_button_selector"
-            android:gravity="center"
-            android:paddingRight="60dp"
-            android:drawablePadding="15dp"
-            android:textColor="@android:color/white"
-            android:text="@string/nav_hotels"
-            android:textSize="15dp"
-            android:contentDescription="@string/cd_launch_hotels" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/vsc_text_logo"
+            android:textColor="@android:color/white"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/vsc_line_split"/>
+            android:scaleType="center"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="35dp"
+            android:src="@drawable/vsc_line_split"/>
 
-        <TextView
-            android:id="@+id/vsc_flight_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/vsc_flight_button_selector"
-            android:gravity="center"
-            android:paddingLeft="55dp"
-            android:drawablePadding="15dp"
-            android:textColor="@android:color/white"
-            android:text="@string/nav_flights"
-            android:textSize="15dp"
-            android:contentDescription="@string/cd_launch_flights" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center"
+            android:paddingBottom="35dp">
+
+            <TextView
+                android:id="@+id/vsc_hotel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/vsc_hotel_button_selector"
+                android:gravity="center"
+                android:paddingRight="55dp"
+                android:drawablePadding="15dp"
+                android:textColor="@android:color/white"
+                android:text="@string/nav_hotels"
+                android:textSize="15dp"
+                android:contentDescription="@string/cd_launch_hotels"/>
+
+            <TextView
+                android:id="@+id/vsc_flight_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/vsc_flight_button_selector"
+                android:gravity="center"
+                android:paddingLeft="55dp"
+                android:drawablePadding="15dp"
+                android:textColor="@android:color/white"
+                android:text="@string/nav_flights"
+                android:textSize="15dp"
+                android:contentDescription="@string/cd_launch_flights"/>
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
