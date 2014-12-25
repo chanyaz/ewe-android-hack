@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -26,6 +27,8 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
 
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
+	//Sponsored hotels are displayed at the index 1, 51, 52
+	private static final int[] sponsoredIndexes = { 0, 50, 51 };
 
 	// The original list of properties in this response
 	private List<Property> mProperties;
@@ -256,7 +259,29 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			break;
 		}
 
+		//Put the sponsored listings into their correct position
+		reorderSponsoredProperties(sortedProperties);
+
 		return sortedProperties;
+	}
+
+	private void reorderSponsoredProperties(ArrayList<Property> properties) {
+
+		ArrayList<Property> sponsored = new ArrayList<Property>();
+		ListIterator<Property> it = properties.listIterator();
+		while (it.hasNext()) {
+			Property prop = it.next();
+			if (prop.isSponsored()) {
+				it.remove();
+				sponsored.add(prop);
+			}
+		}
+
+		for (int i = 0; i < sponsored.size() && i < sponsoredIndexes.length; i++) {
+			if (sponsoredIndexes[i] <= properties.size()) {
+				properties.add(sponsoredIndexes[i], sponsored.get(i));
+			}
+		}
 	}
 
 	public List<Property> getFilteredAndSortedProperties(Sort sort, int count, HotelSearchParams searchParams) {

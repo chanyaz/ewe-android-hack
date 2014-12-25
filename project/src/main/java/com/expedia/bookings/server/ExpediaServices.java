@@ -785,7 +785,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
-
+		query.add(new BasicNameValuePair("enableSponsoredListings", "true"));
 		return query;
 	}
 
@@ -1795,6 +1795,51 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
+	private boolean doGet(String url, List<BasicNameValuePair> params) {
+		Log.d(TAG_REQUEST, "" + url + "?" + NetUtils.getParamsForLogging(params));
+
+		Request.Builder request = createHttpGet(url, params);
+		final String userAgent = getUserAgentString(mContext);
+
+		mClient = sCachedClient;
+		request.addHeader("User-Agent", userAgent);
+		request.addHeader("Accept-Encoding", "gzip");
+
+		mClient = makeOkHttpClient(mContext);
+		mClient.setCookieHandler(sBlackHoleCookieManager);
+
+		// Make the request
+		long start = System.currentTimeMillis();
+		mCancellingDownload = false;
+		com.squareup.okhttp.Response response = null;
+		try {
+			mRequest = request.build();
+			response = mClient.newCall(mRequest).execute();
+			return response.code() == 200;
+		}
+		catch (IOException e) {
+			if (mCancellingDownload) {
+				Log.d("Request was canceled.", e);
+			}
+			else {
+				Log.e("Server request failed.", e);
+			}
+		}
+		finally {
+			if (response != null) {
+				try {
+					response.body().close();
+				}
+				catch (IOException e) {
+					Log.e("Response body failed to close:", e);
+				}
+			}
+			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
+			mRequest = null;
+		}
+
+		return false;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// Endpoints
 
@@ -2049,5 +2094,12 @@ public class ExpediaServices implements DownloadListener {
 		RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), data);
 		req.post(body);
 		return req;
+	}
+
+	public boolean trackTravelAd(String url) {
+		if (TextUtils.isEmpty(url)) {
+			return false;
+		}
+		return doGet(url, null);
 	}
 }

@@ -290,6 +290,21 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("isSameDayDRR")) {
 				property.setIsLowestRateTonightOnly(reader.nextBoolean());
 			}
+			else if (name.equals("isSponsoredListing")) {
+				property.setIsSponsored(reader.nextBoolean());
+			}
+			else if (name.equals("clickTrackingUrl")) {
+				property.setClickTrackingUrl(reader.nextString());
+			}
+			else if (name.equals("impressionTrackingUrl")) {
+				property.setImpressionTrackingUrl(reader.nextString());
+			}
+			else if (name.equals("omnitureAdDisplayedUrl")) {
+				property.setOmnitureAdDisplayedUrl(reader.nextString());
+			}
+			else if (name.equals("omnitureAdClickedUrl")) {
+				property.setOmnitureAdClickedUrl(reader.nextString());
+			}
 			else if (name.equals("highestSurveyPriceAsPrice")) {
 				Money money = readMoney(reader);
 				property.setHighestPriceFromSurvey(money);

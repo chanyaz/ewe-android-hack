@@ -1759,6 +1759,8 @@
     <string name="mobile_exclusive">Mobile Exclusive</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Tonight Only!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Sponsored</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for hotel stays longer than %1$s days.</string>
     <!-- Search Error title text "Search Error" -->

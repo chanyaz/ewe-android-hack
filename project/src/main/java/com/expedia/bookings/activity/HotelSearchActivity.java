@@ -97,6 +97,7 @@ import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -519,7 +520,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			Db.loadHotelSearchFromDisk(this);
 		}
 
-		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 
@@ -534,7 +534,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			restoreActivityState(savedInstanceState);
-
+			HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 			if (searchResponse != null) {
 				if (searchResponse.hasErrors()) {
 					handleError();
@@ -2839,7 +2839,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	public void onListItemClicked(Property property, int position) {
 		Db.getHotelSearch().setSelectedProperty(property);
-
+		if (property.isSponsored()) {
+			AdImpressionTracking.trackAdClickOrImpression(mContext, property.getClickTrackingUrl());
+		}
 		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 		startActivity(intent);
 	}

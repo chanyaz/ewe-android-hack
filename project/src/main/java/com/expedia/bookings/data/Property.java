@@ -124,6 +124,45 @@ public class Property implements JSONable {
 	// ETP pay later offer associated with one or more rates
 	private boolean mHasEtpOffer;
 
+	// Travel Ad data
+	private boolean mIsSponsored;
+	private boolean mHasShownImpression;
+	private String mClickTrackingUrl;
+	private String mImpressionTrackingUrl;
+	private String mOmnitureAdDisplayedUrl;
+	private String mOmnitureAdClickedUrl;
+
+	public void setHasShownImpression(Boolean value) {
+		this.mHasShownImpression = value;
+	}
+	public void setClickTrackingUrl(String url) {
+		this.mClickTrackingUrl = url;
+	}
+	public void setImpressionTrackingUrl(String url) {
+		this.mImpressionTrackingUrl = url;
+	}
+	public void setOmnitureAdDisplayedUrl(String url) {
+		this.mOmnitureAdDisplayedUrl = url;
+	}
+	public void setOmnitureAdClickedUrl(String url) {
+		this.mOmnitureAdClickedUrl = url;
+	}
+	public boolean hasShownImpression() {
+		return this.mHasShownImpression;
+	}
+	public String getClickTrackingUrl() {
+		return this.mClickTrackingUrl;
+	}
+	public String getImpressionTrackingUrl() {
+		return this.mImpressionTrackingUrl;
+	}
+	public String getOmnitureAdDisplayedUrl() {
+		return this.mOmnitureAdDisplayedUrl;
+	}
+	public String getOmnitureAdClickedUrl() {
+		return this.mOmnitureAdClickedUrl;
+	}
+
 	public String getName() {
 		return mName;
 	}
@@ -510,6 +549,14 @@ public class Property implements JSONable {
 		mHasEtpOffer = hasEtpOffer;
 	}
 
+	public void setIsSponsored(boolean isSponsored) {
+		mIsSponsored = isSponsored;
+	}
+
+	public boolean isSponsored() {
+		return mIsSponsored;
+	}
+
 	// Updates a Property from another Property (currently, one returned via an HotelOffersResponse)
 	public void updateFrom(Property property) {
 		if (property.hasAmenitiesSet()) {
@@ -586,7 +633,12 @@ public class Property implements JSONable {
 			obj.putOpt("itinBedType", mItinBedType);
 			obj.putOpt("itinRoomType", mItinRoomType);
 			obj.putOpt("hasEtpOffer", mHasEtpOffer);
-
+			obj.putOpt("isSponsored", mIsSponsored);
+			obj.putOpt("clickTrackingUrl", mClickTrackingUrl);
+			obj.putOpt("impressionTrackingUrl", mImpressionTrackingUrl);
+			obj.putOpt("hasShownImpression", mHasShownImpression);
+			obj.putOpt("omnitureAdClickedUrl", mOmnitureAdClickedUrl);
+			obj.putOpt("omnitureAdDisplayedUrl", mOmnitureAdDisplayedUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -632,7 +684,12 @@ public class Property implements JSONable {
 		mItinRoomType = obj.optString("itinRoomType", null);
 		mItinBedType = obj.optString("itinBedType", null);
 		mHasEtpOffer = obj.optBoolean("hasEtpOffer", false);
-
+		mIsSponsored = obj.optBoolean("isSponsored", false);
+		mClickTrackingUrl = obj.optString("clickTrackingUrl", null);
+		mImpressionTrackingUrl = obj.optString("impressionTrackingUrl", null);
+		mHasShownImpression = obj.optBoolean("hasShownImpression", false);
+		mOmnitureAdClickedUrl = obj.optString("omnitureAdClickedUrl", null);
+		mOmnitureAdDisplayedUrl = obj.optString("omnitureAdDisplayedUrl", null);
 		return true;
 	}
 
@@ -709,6 +766,7 @@ public class Property implements JSONable {
 		public int compare(Property property1, Property property2) {
 			double rating1 = property1.getAverageExpediaRating();
 			double rating2 = property2.getAverageExpediaRating();
+
 			if (rating1 == rating2) {
 				return PRICE_COMPARATOR.compare(property1, property2);
 			}
