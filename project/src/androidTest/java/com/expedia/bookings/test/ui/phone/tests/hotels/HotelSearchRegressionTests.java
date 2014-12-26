@@ -122,7 +122,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.enterSearchText(pointOfInterest);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.assertContains(HotelsSearchScreen.searchEditText(),"Statue of Liberty National Monument, New York, NY");
+		EspressoUtils.assertContains(HotelsSearchScreen.searchEditText(),"Statue of Liberty");
 		Espresso.pressBack();
 	}
 
