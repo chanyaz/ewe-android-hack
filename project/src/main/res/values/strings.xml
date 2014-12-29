@@ -282,6 +282,12 @@
     <string name="link_accounts">Link Accounts</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Failure to fetch updated user information.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Grant Email Permission</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">Email Permission</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">To login with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant Expedia permission to verify your email address. Thank you!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts…</string>
     <!-- Log In -->

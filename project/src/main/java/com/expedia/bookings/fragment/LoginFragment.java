@@ -121,6 +121,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private ViewGroup mFacebookSigninContainer;
 	private ViewGroup mFacebookButtonContainer;
 	private ViewGroup mLoginExtenderContainer;
+	private ViewGroup mFacebookEmailDeniedContainer;
 	private LinearLayout mOuterContainer;
 
 	private TextView mStatusMessageTv;
@@ -130,6 +131,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private Button mLinkAccountsBtn;
 	private Button mCancelLinkAccountsBtn;
 	private View mLoginStatusDivider;
+	private Button mTryFacebookAgain;
+	private Button mTryFacebookAgainCancel;
 
 	private EditText mExpediaUserName;
 	private EditText mExpediaPassword;
@@ -163,7 +166,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private boolean loginWithFacebook = false;
 
 	private enum VisibilityState {
-		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON, LOGGED_IN
+		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON, LOGGED_IN, FACEBOOK_EMAIL_DENIED
 	}
 
 	public static LoginFragment newInstance(LineOfBusiness mode) {
@@ -203,6 +206,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		mFacebookSigninContainer = Ui.findView(v, R.id.facebook_signin_container);
 		mFacebookButtonContainer = Ui.findView(v, R.id.facebook_button_container);
 		mLoginExtenderContainer = Ui.findView(v, R.id.login_extension_container);
+		mFacebookEmailDeniedContainer = Ui.findView(v, R.id.facebook_email_denied_container);
 
 		mStatusMessageTv = Ui.findView(v, R.id.login_status_textview);
 		mLoginStatusDivider = Ui.findView(v, R.id.login_status_divider);
@@ -215,11 +219,15 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		mExpediaPassword = Ui.findView(v, R.id.password_edit_text);
 		mLinkPassword = Ui.findView(v, R.id.link_password_edit_text);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
+		mTryFacebookAgain = Ui.findView(v, R.id.try_facebook_again);
+		mTryFacebookAgainCancel = Ui.findView(v, R.id.try_facebook_again_cancel);
 
 		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mLogInWithFacebookBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mSignInWithExpediaBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mForgotYourPasswordTv, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mTryFacebookAgain, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mTryFacebookAgainCancel, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mLinkAccountsBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mCancelLinkAccountsBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mExpediaUserName, Font.ROBOTO_LIGHT);
@@ -557,6 +565,33 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				}
 			});
 
+			mTryFacebookAgain.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					//Cancel regular login download if it is happening...
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (bd.isDownloading(NET_MANUAL_LOGIN)) {
+						bd.cancelDownload(NET_MANUAL_LOGIN);
+					}
+
+					// Do facebook things!!!
+					loginWithFacebook = true;
+					Session currentSession = Session.getActiveSession();
+					List<String> permissions = new ArrayList<String>();
+					permissions.add("email");
+					Session.NewPermissionsRequest request = new Session.NewPermissionsRequest(LoginFragment.this, permissions);
+					currentSession.requestNewReadPermissions(request);
+					setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
+				}
+			});
+
+			mTryFacebookAgainCancel.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
+				}
+			});
+
 			mLogInWithFacebookBtn.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -569,9 +604,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 					// Do facebook things!!!
 					loginWithFacebook = true;
-					doFacebookLogin();
 
-					setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
+					doFacebookLogin();
 				}
 			});
 
@@ -638,7 +672,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					return true;
 				}
 				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_SEARCH ||
-						actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+					actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
 					Ui.hideKeyboard(getActivity());
 					return true;
 				}
@@ -679,6 +713,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.VISIBLE);
+			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.already_logged_in));
 			break;
 		case FACEBOOK_LINK:
@@ -689,7 +724,19 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mFacebookSigninContainer.setVisibility(View.VISIBLE);
 			mFacebookButtonContainer.setVisibility(View.VISIBLE);
 			mAccountButton.setVisibility(View.GONE);
+			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.link_accounts));
+			break;
+		case FACEBOOK_EMAIL_DENIED:
+			setStatusTextVisibility(View.VISIBLE);
+			mExpediaSigninContainer.setVisibility(View.GONE);
+			mOrFacebookContainer.setVisibility(View.GONE);
+			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
+			mFacebookSigninContainer.setVisibility(View.GONE);
+			mFacebookButtonContainer.setVisibility(View.GONE);
+			mAccountButton.setVisibility(View.GONE);
+			mFacebookEmailDeniedContainer.setVisibility(View.VISIBLE);
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Facebook));
 			break;
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
 			setStatusTextVisibility(View.VISIBLE);
@@ -699,6 +746,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
+			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
 			toggleLoginButtons(false, animate);
 			break;
@@ -710,6 +758,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
+			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
 			toggleLoginButtons(true, animate);
@@ -805,6 +854,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		else {
 			if (ldf != null) {
 				ldf.dismiss();
+			}
+			if (mLoadingFragment != null) {
+				mLoadingFragment.dismiss();
 			}
 		}
 	}
@@ -1192,7 +1244,14 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 						bd.startDownload(NET_LOG_IN, mLoginDownload, mLoginHandler);
 					}
 				}
+				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.nofbdatafound) == 0 && TextUtils.isEmpty(mFbUserEmail)) {
+					setFBEmailDeniedState();
+				}
+				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.notLinked) == 0) {
+					setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
+				}
 				else {
+					//notLinked
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					if (!bd.isDownloading(NET_LINK_NEW_USER)) {
 						setLoadingText(R.string.linking_your_accounts);
@@ -1220,7 +1279,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
 					}
 				}
-				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.existing) == 0) {
+				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.existing) == 0 ||
+					results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.loginFailed) == 0) {
 					setStatusTextExpediaAccountFound(mFbUserName);
 					setIsLoading(false);
 				}
@@ -1355,7 +1415,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		Log.d("FB: fetchFacebookUserInfo");
 
 		// make request to the /me API
-		Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+		Request.newMeRequest(session, new Request.GraphUserCallback() {
 
 			// callback after Graph API response with user object
 			@Override
@@ -1377,9 +1437,15 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					setIsLoading(false);
 				}
 			}
-		});
+		}).executeAsync();
 	}
 
+	private boolean hasRequiredInfoFromFB(Session session) {
+		if (session.isPermissionGranted("email")) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Login with facebook.
 	 *
@@ -1389,6 +1455,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	protected void doFacebookLogin() {
 		Log.d("FB: doFacebookLogin");
 
+		setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
 		setIsLoading(true);
 		setLoadingText(R.string.fetching_facebook_info);
 		setStatusText(R.string.Log_in_with_Facebook, true);
@@ -1419,9 +1486,20 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		}
 		else {
 			Log.d("FB: doFacebookLogin - currentSession.isOpened()");
-			fetchFacebookUserInfo(currentSession);
+			if (hasRequiredInfoFromFB(currentSession)) {
+				fetchFacebookUserInfo(currentSession);
+			}
+			else {
+				setFBEmailDeniedState();
+			}
 		}
 
+	}
+
+	private void setFBEmailDeniedState() {
+		setIsLoading(false);
+		setStatusText(R.string.user_denied_permission_email_heading, true);
+		setVisibilityState(VisibilityState.FACEBOOK_EMAIL_DENIED, false);
 	}
 
 	/////////////////////////////

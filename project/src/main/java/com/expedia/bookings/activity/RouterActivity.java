@@ -9,6 +9,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
+import com.facebook.AppEventsLogger;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -86,7 +87,7 @@ public class RouterActivity extends Activity {
 	 * This is asynchronous, and after we get a success message back from FB this call no longer does anything at all.
 	 */
 	private void facebookInstallTracking() {
-		com.facebook.Settings.publishInstallAsync(this, ExpediaServices.getFacebookAppId(this));
+		AppEventsLogger.activateApp(this, ExpediaServices.getFacebookAppId(this));
 	}
 
 }
