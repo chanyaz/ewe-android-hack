@@ -195,6 +195,10 @@
     <string name="all_airports">All Airports</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Due now</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%s Total</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/night</string>
     <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
@@ -1201,6 +1205,10 @@
     <string name="best_price_guarantee">Best Price Guarantee</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Resort Fee:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Due to Expedia today:</string>
     <!-- Log out -->
     <string name="log_out">Log Out</string>
     <!-- You'll earn points for this trip -->
@@ -2994,6 +3002,11 @@
     <string name="cd_tablet_results_hotel_list">Hotel Search Results</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Flight Search Results</string>
+
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Press the button to pay now</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Press the button to pay later</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->

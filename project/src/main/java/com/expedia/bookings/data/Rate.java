@@ -72,6 +72,7 @@ public class Rate implements JSONable {
 	private UserPriceType mUserPriceType;
 	private CheckoutPriceType mCheckoutPriceType;
 	private Money mPriceToShowUsers;
+	private Money mDepositToShowUsers;
 	private Money mStrikethroughPriceToShowUsers;
 
 	// StayHIP unique fields
@@ -106,6 +107,9 @@ public class Rate implements JSONable {
 
 	// ETP: is there a pay later offer associated with this rate?
 	private Rate mEtpRate;
+
+	//ETP: is this rate a pay later rate?
+	private boolean mIsPayLater;
 
 	// These are computed rates, based on the user's current locale.  They should
 	// not be saved, but instead computed on demand (since locale can change).
@@ -403,6 +407,10 @@ public class Rate implements JSONable {
 		mPriceToShowUsers = m;
 	}
 
+	public void setDepositToShowUsers(Money m) {
+		mDepositToShowUsers = m;
+	}
+
 	public void setStrikethroughPriceToShowUsers(Money m) {
 		mStrikethroughPriceToShowUsers = m;
 	}
@@ -581,6 +589,14 @@ public class Rate implements JSONable {
 		mEtpRate = etpRate;
 	}
 
+	//Tells us if this rate is paylater from the create trip response
+	public void setIsPayLater(boolean value) {
+		mIsPayLater = value;
+	}
+
+	public boolean isPayLater() {
+		return mIsPayLater;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// Prices to show users
 	//
@@ -594,6 +610,9 @@ public class Rate implements JSONable {
 		return mPriceToShowUsers;
 	}
 
+	public Money getDisplayDeposit() {
+		return mDepositToShowUsers;
+	}
 	/**
 	 * @return the *base* (aka, pre-discount) rate we should show users
 	 */
@@ -677,6 +696,7 @@ public class Rate implements JSONable {
 			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
 			JSONUtils.putEnum(obj, "taxStatusType", mTaxStatusType);
 			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
+			JSONUtils.putJSONable(obj, "depositToShowUsers", mDepositToShowUsers);
 			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
@@ -687,14 +707,11 @@ public class Rate implements JSONable {
 			obj.putOpt("nonRefundable", mNonRefundable);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
 			JSONUtils.putJSONableList(obj, "bedTypes", mBedTypes);
-
 			JSONUtils.putJSONable(obj, "rateRules", mRateRules);
-
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
-
 			obj.putOpt("airAttached", mAirAttached);
-
 			JSONUtils.putJSONable(obj, "etpRate", mEtpRate);
+			obj.putOpt("isPayLater", mIsPayLater);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -753,6 +770,7 @@ public class Rate implements JSONable {
 		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
 		mTaxStatusType = JSONUtils.getEnum(obj, "taxStatusType", TaxStatusType.class);
 		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
+		mDepositToShowUsers  = JSONUtils.getJSONable(obj, "depositToShowUsers", Money.class);
 		mStrikethroughPriceToShowUsers = JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
 				Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
@@ -763,14 +781,11 @@ public class Rate implements JSONable {
 		if (bedTypes != null) {
 			mBedTypes = new HashSet<BedType>(bedTypes);
 		}
-
 		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
-
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
-
 		mAirAttached = obj.optBoolean("airAttached", false);
-
 		mEtpRate = JSONUtils.getJSONable(obj, "etpRate", Rate.class);
+		mIsPayLater = obj.optBoolean("isPayLater", false);
 		return true;
 	}
 

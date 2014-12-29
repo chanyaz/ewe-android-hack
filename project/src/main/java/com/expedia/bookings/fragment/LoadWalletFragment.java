@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -89,12 +90,14 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	 *
 	 * 1. Google wallet is enabled
 	 * 2. The stored credit card is not a Google Wallet card
+	 * 3. The room being booked is not Pay Later
 	 * @return
 	 */
 	protected boolean showWalletButton() {
 		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
 		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
-		return isGoogleWalletEnabled() && !storedCardIsGoogleWallet;
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		return isGoogleWalletEnabled() && !storedCardIsGoogleWallet && !rate.isPayLater();
 	}
 
 	/**

@@ -28,6 +28,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -185,6 +186,19 @@ public class HotelReceipt extends LinearLayout {
 
 		final Resources res = getContext().getResources();
 
+		if (rate.isPayLater()) {
+			//Resort Fee
+			Money mandatoryFees = rate.getTotalMandatoryFees();
+			if (!mandatoryFees.isZero()) {
+				addExtraRowETP(res.getString(R.string.resort_fee), mandatoryFees.getFormattedMoney(), true);
+			}
+
+			//Deposit Amount
+			Money deposit = rate.getDisplayDeposit();
+			boolean isDepositRequired = !deposit.isZero();
+			addExtraRowETP(res.getString(R.string.pay_later), deposit.getFormattedMoney(), isDepositRequired);
+		}
+
 		int numNights = params.getStayDuration();
 		String numNightsString = res.getQuantityString(R.plurals.number_of_nights, numNights, numNights);
 		mNightsTextView.setText(numNightsString);
@@ -267,6 +281,31 @@ public class HotelReceipt extends LinearLayout {
 		View extraRow = inflater.inflate(R.layout.snippet_hotel_receipt_extra, mExtrasLayout, false);
 		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
 		labelView.setText(label);
+		mExtrasLayout.addView(extraRow);
+	}
+
+	private void addExtraRowETP(CharSequence label, CharSequence rate, boolean isDepositRequired) {
+		mExtrasLayout.setVisibility(View.VISIBLE);
+		mExtrasDivider.setVisibility(View.VISIBLE);
+
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		View extraRow = inflater.inflate(R.layout.snippet_hotel_receipt_extra_etp, mExtrasLayout, false);
+		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
+		TextView rateView = (TextView) extraRow.findViewById(R.id.extra_label_rate);
+		labelView.setText(label);
+		rateView.setText(rate);
+
+		if (!isDepositRequired) {
+			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_etp_overview_checkmark, 0, 0, 0);
+			labelView.setTextColor(getResources().getColor(R.color.etp_text_color));
+			rateView.setTextColor(getResources().getColor(R.color.etp_text_color));
+		}
+		else {
+			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_overview_checkmark, 0, 0, 0);
+			labelView.setTextColor(getResources().getColor(R.color.dark_blue));
+			rateView.setTextColor(getResources().getColor(R.color.dark_blue));
+		}
+
 		mExtrasLayout.addView(extraRow);
 	}
 
