@@ -45,4 +45,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getSearchProgressImageResId() {
 		return R.id.search_progress_image_aag;
 	}
+
+	public int getNotificationIconResourceId() {
+		return R.drawable.ic_stat_aag;
+	}
+
+	public int getNotificationIndicatorLEDColor() {
+		return 0xfbc51e;
+	}
 }

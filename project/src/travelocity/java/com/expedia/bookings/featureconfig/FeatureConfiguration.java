@@ -46,4 +46,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getSearchProgressImageResId() {
 		return R.id.search_progress_image_tvly;
 	}
+
+	public int getNotificationIconResourceId() {
+		return R.drawable.ic_stat_travelocity;
+	}
+
+	public int getNotificationIndicatorLEDColor() {
+		return 0x072b61;
+	}
 }

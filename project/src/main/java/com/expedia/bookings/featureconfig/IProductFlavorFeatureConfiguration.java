@@ -13,4 +13,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String getActionForLocaleChangeEvent();
 	Boolean wantsCustomHandlingForLocaleConfiguration();
 	int getSearchProgressImageResId();
+	int getNotificationIconResourceId();
+	int getNotificationIndicatorLEDColor();
 }
