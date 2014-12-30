@@ -26,7 +26,11 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private int mCurrentImageIndex = 0;
 
 	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
-		R.drawable.vsc_home_page_background,
+		R.drawable.bg_launch_vsc_paris,
+		R.drawable.bg_launch_vsc_london,
+		R.drawable.bg_launch_vsc_lyon,
+		R.drawable.bg_launch_vsc_marseille,
+		R.drawable.bg_launch_vsc_paris,
 	};
 
 	@Override
