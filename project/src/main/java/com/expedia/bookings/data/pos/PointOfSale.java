@@ -35,6 +35,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.server.EndPoint;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
@@ -145,6 +146,9 @@ public class PointOfSale {
 
 	// Does this POS require FTC warnings to be shown on checkout?
 	private boolean mShouldShowFTCResortRegulations;
+
+	// Used to determine if this POS is disabled in Production App
+	private boolean mDisableForProduction;
 
 	// EAPID value and is used
 	private int mEAPID;
@@ -439,6 +443,10 @@ public class PointOfSale {
 		return mShouldShowRewards;
 	}
 
+	public boolean isDisabledForProduction() {
+		return mDisableForProduction;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -584,48 +592,38 @@ public class PointOfSale {
 
 		String posSetting = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
 		if (posSetting == null) {
-			// VSC default
-			if (ExpediaBookingApp.IS_VSC) {
-				sCachedPOS = PointOfSaleId.VSC;
-				savePos = true;
-			}
-			else {
-				// Get the default POS.  This is rare, thus we can excuse this excessive code.
-				Locale locale = Locale.getDefault();
-				String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
-				String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
+			// Get the default POS.  This is rare, thus we can excuse this excessive code.
+			Locale locale = Locale.getDefault();
+			String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
+			String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
-				for (PointOfSale posInfo : sPointOfSale.values()) {
-					for (String defaultLocale : posInfo.mDefaultLocales) {
-						defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
-						if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
-							sCachedPOS = posInfo.mPointOfSale;
-							break;
-						}
-					}
+			EndPoint endPoint = EndPoint.getEndPoint(context);
+			for (PointOfSale posInfo : sPointOfSale.values()) {
+				//Skip Non-Prod POS, if we are in PROD Environment
+				if(endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
+					continue;
+				}
 
-					if (sCachedPOS != null) {
+				for (String defaultLocale : posInfo.mDefaultLocales) {
+					defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
+					if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
+						sCachedPOS = posInfo.mPointOfSale;
 						break;
 					}
 				}
 
-				// Default to US POS if nothing matches the user's locale && IS_TRAVELOCITY
-				if (sCachedPOS == null && ExpediaBookingApp.IS_TRAVELOCITY) {
-					sCachedPOS = PointOfSaleId.TRAVELOCITY;
+				if (sCachedPOS != null) {
+					break;
 				}
-				// Default to MY POS if nothing matches the user's locale && IS_AAG
-				else if (sCachedPOS == null && ExpediaBookingApp.IS_AAG) {
-					sCachedPOS = PointOfSaleId.AIRASIAGO_MALAYSIA;
-				}
-				// Default to UK POS if nothing matches the user's locale
-				else if (sCachedPOS == null) {
-					sCachedPOS = PointOfSaleId.UNITED_KINGDOM;
-				}
-
-				savePos = true;
-
-				Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 			}
+
+			if(sCachedPOS == null) {
+				sCachedPOS = ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS();
+			}
+
+			savePos = true;
+
+			Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 		}
 		else {
 			try {
@@ -810,6 +808,7 @@ public class PointOfSale {
 		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
+		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

@@ -5,6 +5,7 @@ import java.lang.UnsupportedOperationException;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.Ui;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
@@ -66,5 +67,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean doesLoginTextViewHaveCompoundDrawables() {
 		return true;
+	}
+
+	public PointOfSaleId getDefaultPOS() {
+		return PointOfSaleId.UNITED_KINGDOM;
 	}
 }

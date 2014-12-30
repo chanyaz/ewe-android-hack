@@ -5,6 +5,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -65,5 +66,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean doesLoginTextViewHaveCompoundDrawables() {
 		return true;
+	}
+
+	public PointOfSaleId getDefaultPOS() {
+		return PointOfSaleId.TRAVELOCITY;
 	}
 }

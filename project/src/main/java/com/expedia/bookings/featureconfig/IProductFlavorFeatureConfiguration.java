@@ -2,6 +2,8 @@ package com.expedia.bookings.featureconfig;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.pos.PointOfSaleId;
+
 public interface IProductFlavorFeatureConfiguration {
 	String getServerEndpointsConfigurationPath();
 	String getPOSConfigurationPath();
@@ -18,4 +20,5 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean shouldShowBrandLogoOnAccountButton();
 	int getLoginContainerBackgroundResId(Context context);
 	Boolean doesLoginTextViewHaveCompoundDrawables();
+	PointOfSaleId getDefaultPOS();
 }
