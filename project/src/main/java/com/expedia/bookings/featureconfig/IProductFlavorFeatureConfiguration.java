@@ -12,4 +12,5 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard();
 	String getActionForLocaleChangeEvent();
 	Boolean wantsCustomHandlingForLocaleConfiguration();
+	int getSearchProgressImageResId();
 }

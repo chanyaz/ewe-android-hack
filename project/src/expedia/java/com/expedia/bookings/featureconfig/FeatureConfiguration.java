@@ -42,4 +42,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean wantsCustomHandlingForLocaleConfiguration() {
 		return false;
 	}
+
+	public int getSearchProgressImageResId() {
+		return 0;
+	}
 }

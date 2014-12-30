@@ -41,4 +41,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean wantsCustomHandlingForLocaleConfiguration() {
 		return true;
 	}
+
+	public int getSearchProgressImageResId() {
+		return R.id.search_progress_image_aag;
+	}
 }

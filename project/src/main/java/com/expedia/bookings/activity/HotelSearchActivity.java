@@ -90,6 +90,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.HotelListFragment;
@@ -2129,11 +2130,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			findViewById(R.id.search_progress_image_tvly).bringToFront();
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			findViewById(R.id.search_progress_image_aag).bringToFront();
+		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
+		if(searchProgressImageResId != 0) {
+			findViewById(searchProgressImageResId).bringToFront();
 		}
 
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
