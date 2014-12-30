@@ -57,4 +57,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean shouldShowBrandLogoOnAccountButton() {
 		return false;
 	}
+
+	public int getLoginContainerBackgroundResId(Context context) {
+		return R.drawable.btn_login_hotels;
+	}
+
+	public Boolean doesLoginTextViewHaveCompoundDrawables() {
+		return true;
+	}
 }

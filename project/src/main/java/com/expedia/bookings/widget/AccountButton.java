@@ -143,29 +143,19 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
 		}
-		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			mLoginContainer.setBackgroundResource(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			mLoginContainer.setBackgroundResource(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
-		}
 		else {
-			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+			int bgResourceId = ProductFlavorFeatureConfiguration.getInstance().getLoginContainerBackgroundResId(mContext);
+			mLoginContainer.setBackgroundResource(bgResourceId);
+
+			Boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance().doesLoginTextViewHaveCompoundDrawables();
+			if(doesLoginTextViewHaveCompoundDrawables) {
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+			}
+
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
 		}
-
-
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {

@@ -16,4 +16,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getNotificationIconResourceId();
 	int getNotificationIndicatorLEDColor();
 	Boolean shouldShowBrandLogoOnAccountButton();
+	int getLoginContainerBackgroundResId(Context context);
+	Boolean doesLoginTextViewHaveCompoundDrawables();
 }

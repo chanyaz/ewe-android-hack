@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver;
+import com.expedia.bookings.utils.Ui;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -56,5 +57,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean shouldShowBrandLogoOnAccountButton() {
 		return true;
+	}
+
+	public int getLoginContainerBackgroundResId(Context context) {
+		return Ui.obtainThemeResID(context, R.attr.skin_phoneCheckoutLoginButtonDrawable);
+	}
+
+	public Boolean doesLoginTextViewHaveCompoundDrawables() {
+		return false;
 	}
 }
