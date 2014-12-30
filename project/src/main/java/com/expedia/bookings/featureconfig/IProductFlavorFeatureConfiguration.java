@@ -15,4 +15,5 @@ public interface IProductFlavorFeatureConfiguration {
 	int getSearchProgressImageResId();
 	int getNotificationIconResourceId();
 	int getNotificationIndicatorLEDColor();
+	Boolean shouldShowBrandLogoOnAccountButton();
 }

@@ -53,4 +53,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getNotificationIndicatorLEDColor() {
 		return 0xfbc51e;
 	}
+
+	public Boolean shouldShowBrandLogoOnAccountButton() {
+		return false;
+	}
 }

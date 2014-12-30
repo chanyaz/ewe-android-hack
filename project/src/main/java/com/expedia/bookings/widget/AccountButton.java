@@ -20,6 +20,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
@@ -174,7 +175,8 @@ public class AccountButton extends LinearLayout {
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
 
-		if (ExpediaBookingApp.IS_AAG) {
+		Boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
+		if (!showBrandLogo) {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
 		}
 		else if (!traveler.isLoyaltyMember()) {
