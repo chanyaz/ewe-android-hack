@@ -164,7 +164,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		PointOfSale.init(this);
 		startupTimer.addSplit("PointOfSale Init");
 
-		if (!IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 
 			Locale locale = getLocaleForWhiteLabels();
 
@@ -366,11 +366,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 	}
 
-	private Locale mOldLocale;
-
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
-		if (IS_EXPEDIA) {
+		Boolean wantsCustomHandling = ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration();
+
+		if (!wantsCustomHandling) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
 		}
@@ -394,16 +394,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
 
 		// Send broadcast so that we can re-create activities
-		String action = VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+		String localeChangeAction = ProductFlavorFeatureConfiguration.getInstance().getActionForLocaleChangeEvent();
 
-		if (IS_TRAVELOCITY) {
-			action = TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
-		}
-		else if (IS_AAG) {
-			action = AirAsiaGoLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
-		}
-
-		Intent intent = new Intent(action);
+		Intent intent = new Intent(localeChangeAction);
 		sendBroadcast(intent);
 
 		super.onConfigurationChanged(newConfig);

@@ -10,4 +10,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getCrossSellStringResourceIdForShareEmail();
 	String getHostnameForShortUrl();
 	Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard();
+	String getActionForLocaleChangeEvent();
+	Boolean wantsCustomHandlingForLocaleConfiguration();
 }

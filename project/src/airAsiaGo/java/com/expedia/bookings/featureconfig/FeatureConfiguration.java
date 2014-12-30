@@ -3,6 +3,7 @@ package com.expedia.bookings.featureconfig;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -31,5 +32,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return false;
+	}
+
+	public String getActionForLocaleChangeEvent() {
+		return AirAsiaGoLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+	}
+
+	public Boolean wantsCustomHandlingForLocaleConfiguration() {
+		return true;
 	}
 }

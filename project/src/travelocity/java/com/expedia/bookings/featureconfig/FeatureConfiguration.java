@@ -3,6 +3,7 @@ package com.expedia.bookings.featureconfig;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
@@ -31,6 +32,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+		return true;
+	}
+
+	public String getActionForLocaleChangeEvent() {
+		return TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+	}
+
+	public Boolean wantsCustomHandlingForLocaleConfiguration() {
 		return true;
 	}
 }

@@ -1,5 +1,7 @@
 package com.expedia.bookings.featureconfig;
 
+import java.lang.UnsupportedOperationException;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
@@ -31,5 +33,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
+	}
+
+	public String getActionForLocaleChangeEvent() {
+		throw new UnsupportedOperationException("Not Required/Implemented for Expedia App");
+	}
+
+	public Boolean wantsCustomHandlingForLocaleConfiguration() {
+		return false;
 	}
 }
