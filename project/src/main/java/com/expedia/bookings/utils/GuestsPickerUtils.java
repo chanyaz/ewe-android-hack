@@ -122,7 +122,7 @@ public class GuestsPickerUtils {
 		for (int i = 0; i < children.size(); i++) {
 			editor.putInt("default_child_age_" + i, children.get(i).getAge());
 		}
-		SettingUtils.commitOrApply(editor);
+		editor.apply();
 	}
 
 	public static void updateDefaultChildTravelers(Context context, List<ChildTraveler> children) {
@@ -133,7 +133,7 @@ public class GuestsPickerUtils {
 				"" + i, children.get(i).getAge());
 			editor.putBoolean("default_child_seat_use_" + i, children.get(i).usingSeat());
 		}
-		SettingUtils.commitOrApply(editor);
+		editor.apply();
 	}
 
 	public static void setChildSpinnerPositions(View container, List<ChildTraveler> children) {

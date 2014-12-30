@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Locale;
+
 import org.joda.time.LocalDate;
 
 import android.text.Html;
@@ -199,7 +201,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			if (mNowBookingTv != null) {
 				String cityName = StrUtils.getWaypointCityOrCode(mFlightTrip.getLeg(0).getLastWaypoint());
 				String flightTo = getString(R.string.flights_to_TEMPLATE, cityName);
-				mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase()));
+				mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase(Locale.getDefault())));
 			}
 		}
 

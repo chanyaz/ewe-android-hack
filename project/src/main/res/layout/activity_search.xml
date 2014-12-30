@@ -9,7 +9,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal" />
 
     <com.expedia.bookings.widget.DisableableViewPager
         android:id="@+id/content_viewpager"

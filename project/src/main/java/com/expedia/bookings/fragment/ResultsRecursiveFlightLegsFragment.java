@@ -60,11 +60,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
 	IResultsFlightSelectedListener, ResultsFlightListFragment.IFlightListHeaderClickListener, IAcceptingListenersListener {
 
-	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
-		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
-		return frag;
-	}
-
 	//State
 	private static final String INSTANCE_STATE = "INSTANCE_STATE";
 	private static final String INSTANCE_LEG_NUMBER = "INSTANCE_LEG_NUMBER";
@@ -112,14 +107,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private boolean mListHasTouch = false;
 	private ISiblingListTouchListener mListener;
 
-	public ResultsRecursiveFlightLegsFragment() {
-		this(0);
-	}
-
-	//Constructor
-	public ResultsRecursiveFlightLegsFragment(int legNumber) {
-		super();
-		initLegNumber(legNumber);
+	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
+		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment();
+		Bundle args = new Bundle();
+		args.putInt(INSTANCE_LEG_NUMBER, legNumber);
+		frag.setArguments(args);
+		frag.initLegNumber(legNumber);
+		return frag;
 	}
 
 	private void initLegNumber(int legNumber) {
@@ -139,9 +133,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		if (savedInstanceState != null) {
 			int legNumber = savedInstanceState.getInt(INSTANCE_LEG_NUMBER);
-			if (mLegNumber != legNumber) {
-				initLegNumber(legNumber);
-			}
+			initLegNumber(legNumber);
 			mStateManager.setDefaultState(ResultsFlightLegState.valueOf(savedInstanceState.getString(INSTANCE_STATE)));
 		}
 

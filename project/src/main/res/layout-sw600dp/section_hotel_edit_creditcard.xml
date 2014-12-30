@@ -76,7 +76,6 @@
                 android:layout_weight="1"
                 android:bufferType="spannable"
                 android:gravity="center_vertical"
-                android:imeOptions="flagNoExtractUi"
                 android:hint="@string/expiration_date"
                 android:paddingLeft="5dp"
                 android:textSize="18dp"/>

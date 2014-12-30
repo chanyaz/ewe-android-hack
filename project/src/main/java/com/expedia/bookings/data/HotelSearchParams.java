@@ -20,7 +20,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.SettingUtils;
 
 public class HotelSearchParams implements JSONable {
 
@@ -559,7 +558,7 @@ public class HotelSearchParams implements JSONable {
 	public void saveToSharedPreferences(SharedPreferences prefs) {
 		Editor editor = prefs.edit();
 		editor.putString(SEARCH_PARAMS_KEY, toJson().toString());
-		SettingUtils.commitOrApply(editor);
+		editor.apply();
 	}
 
 	@Override

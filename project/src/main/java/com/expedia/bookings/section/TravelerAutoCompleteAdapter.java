@@ -1,6 +1,7 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -179,7 +180,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 				//Remove travelers based on filter text
 				if (!TextUtils.isEmpty(mFilterStr) && !TextUtils.isEmpty(trav.getFullName()) && !trav.getFullName()
-					.toLowerCase().contains(mFilterStr.toLowerCase())) {
+					.toLowerCase(Locale.getDefault()).contains(mFilterStr.toLowerCase(Locale.getDefault()))) {
 					availableTravelers.remove(i);
 					continue;
 				}

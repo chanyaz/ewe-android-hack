@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Locale;
+
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
@@ -137,7 +139,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				}
 				if (mNowBookingTv != null) {
 					String hotelName = itemHotel.getProperty().getName();
-					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase()));
+					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase(Locale.getDefault())));
 				}
 
 				String price = rate.getDisplayTotalPrice().getFormattedMoney();
