@@ -27,6 +27,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -319,7 +320,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
-		mWalletButton.setPromoVisible(true);
+		mWalletButton.setPromoVisible(ExpediaBookingApp.IS_EXPEDIA);
 		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 

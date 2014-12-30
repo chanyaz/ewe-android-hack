@@ -13,6 +13,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -98,7 +99,7 @@ public class WalletUtils {
 	public static boolean offerGoogleWalletCoupon(Context context) {
 		boolean hasHotel = Db.getTripBucket().getHotel() != null;
 
-		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
+		return ExpediaBookingApp.IS_EXPEDIA && SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
 			&& hasHotel
 			&& Db.getTripBucket().getHotel().getProperty().isMerchant();
 	}
