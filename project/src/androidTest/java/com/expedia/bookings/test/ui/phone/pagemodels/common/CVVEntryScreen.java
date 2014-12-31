@@ -64,11 +64,11 @@ public class CVVEntryScreen extends ScreenActions {
 		onView(withId(resourceID)).perform(click());
 	}
 
-	public static void parseAndEnterCVV(String CVV) {
+	public static void parseAndEnterCVV(String cvv) {
 		char c;
 		int n;
-		for (int i = 0; i < CVV.length(); i++) {
-			c = CVV.charAt(i);
+		for (int i = 0; i < cvv.length(); i++) {
+			c = cvv.charAt(i);
 			n = Character.getNumericValue(c);
 			clickNumberButton(n);
 		}

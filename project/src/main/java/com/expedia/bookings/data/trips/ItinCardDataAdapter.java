@@ -109,7 +109,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	@Override
-	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
+	public synchronized View getView(final int position, View convertView, ViewGroup parent) {
 		final ItinCardData data = getItem(position);
 		if (isItemAButtonCard(position)) {
 			ItinButtonCard card;
