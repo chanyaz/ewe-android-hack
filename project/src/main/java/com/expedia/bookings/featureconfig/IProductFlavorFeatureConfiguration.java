@@ -23,4 +23,5 @@ public interface IProductFlavorFeatureConfiguration {
 	PointOfSaleId getDefaultPOS();
 	Boolean isAdXEnabled();
 	int getAdXPosIdentifier();
+	String getOmnitureReportSuiteIds(Context context);
 }

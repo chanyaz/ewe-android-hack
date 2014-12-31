@@ -7,6 +7,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -79,5 +80,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public int getAdXPosIdentifier() {
 		return 2601;
+	}
+
+	public String getOmnitureReportSuiteIds(Context context) {
+		if (AndroidUtils.isRelease(context)) {
+			return "expediaglobalapp";
+		}
+		else {
+			return "expediaglobalappdev";
+		}
 	}
 }

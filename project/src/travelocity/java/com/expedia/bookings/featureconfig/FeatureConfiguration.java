@@ -6,6 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -85,5 +86,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		}
 
 		return adXPosIdentifier;
+	}
+
+	public String getOmnitureReportSuiteIds(Context context) {
+		if (AndroidUtils.isRelease(context)) {
+			return "tvlglobalapp";
+		}
+		else {
+			return "tvlglobalappdev";
+		}
 	}
 }

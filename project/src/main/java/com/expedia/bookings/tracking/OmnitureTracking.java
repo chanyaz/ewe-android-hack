@@ -57,6 +57,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
@@ -2638,34 +2639,7 @@ public class OmnitureTracking {
 	}
 
 	private static String getReportSuiteIds(Context context) {
-		String id = "";
-		if (AndroidUtils.isRelease(context)) {
-			//for Travelocity we will only send data to 1 Omniture Report Suite
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalapp";
-			}
-			//For Travelocity, VSC and AirAsiaGo
-			else {
-				id = "expediaglobalapp";
-			}
-
-			if (ExpediaBookingApp.IS_VSC) {
-				id += ",expedia7androidapp";
-			}
-		}
-		else {
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalappdev";
-			}
-			else {
-				id = "expediaglobalappdev";
-			}
-
-			if (ExpediaBookingApp.IS_VSC) {
-				id += ",expedia7androidappdev";
-			}
-		}
-		return id;
+		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds(context);
 	}
 
 	private static String getTrackingServer(Context context) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -77,5 +78,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public int getAdXPosIdentifier() {
 		throw new UnsupportedOperationException("AdX not enabled for VSC.");
+	}
+
+	public String getOmnitureReportSuiteIds(Context context) {
+		if (AndroidUtils.isRelease(context)) {
+			return "expediaglobalapp" + ",expedia7androidapp";
+		}
+		else {
+			return "expediaglobalappdev" + ",expedia7androidappdev";
+		}
 	}
 }
