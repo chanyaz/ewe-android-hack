@@ -95,7 +95,7 @@ public class OmnitureTracking {
 	public static void init(Context context) {
 		Log.d(TAG, "init");
 
-		if (!ExpediaBookingApp.IS_AUTOMATION) {
+		if (!ExpediaBookingApp.sIsAutomation) {
 			ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 			s.configureMeasurement(getReportSuiteIds(context), getTrackingServer(context));
 		}
@@ -1206,8 +1206,8 @@ public class OmnitureTracking {
 	///////////////////////////
 	// Launch Screen
 
-	private static String TABLET_LAUNCH_DEST_SELECT = "App.Dest-Search";
-	private static String TABLET_SEARCH_RESULTS = "App.Dest-Search.Results";
+	private static final String TABLET_LAUNCH_DEST_SELECT = "App.Dest-Search";
+	private static final String TABLET_SEARCH_RESULTS = "App.Dest-Search.Results";
 
 	private static final String BASE_RFFR_FEATURED_LINK = "App.LS.Featured.";
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
@@ -1812,7 +1812,7 @@ public class OmnitureTracking {
 	// https://confluence/display/Omniture/Download+-+Retargeting+-+Deeplink+Campaign+Tracking
 
 	// TODO candidate for ExpediaPointOfSale JSON?
-	private static Set<String> KNOWN_DEEP_LINK_ARGS = new HashSet<String>() {
+	private static final Set<String> KNOWN_DEEP_LINK_ARGS = new HashSet<String>() {
 		{
 			add("emlcid");
 			add("semcid");
@@ -2472,7 +2472,7 @@ public class OmnitureTracking {
 		}
 
 		// Add offline tracking, so user doesn't have to be online to be tracked
-		if (ExpediaBookingApp.IS_AUTOMATION) {
+		if (ExpediaBookingApp.sIsAutomation) {
 			s.setOfflineTrackingEnabled(false);
 			s.clearTrackingQueue();
 		}

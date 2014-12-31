@@ -40,7 +40,7 @@ import com.mobiata.android.util.Ui;
 public class UserReviewsFragment extends ListFragment implements OnScrollListener {
 
 	// Constants
-	private static String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload.";
+	private static final String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload.";
 	private static final int BODY_LENGTH_CUTOFF = 300;
 	private static final int BODY_LENGTH_CUT = 220;
 

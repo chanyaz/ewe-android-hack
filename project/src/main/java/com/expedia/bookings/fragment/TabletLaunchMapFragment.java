@@ -63,7 +63,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		int mapType = GoogleMap.MAP_TYPE_SATELLITE;
 
-		if (ExpediaBookingApp.IS_AUTOMATION) {
+		if (ExpediaBookingApp.sIsAutomation) {
 			mapType = GoogleMap.MAP_TYPE_NONE;
 		}
 

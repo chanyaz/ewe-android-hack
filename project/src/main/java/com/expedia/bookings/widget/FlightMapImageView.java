@@ -20,7 +20,7 @@ import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightMapImageView extends ImageView {
 
-	private static int DENSITY_SCALE_FACTOR = 1; // This has to be calculated at runtime
+	private static int sDensityScaleFactor = 1; // This has to be calculated at runtime
 
 	private String mStaticMapUri;
 	private List<Flight> mFlights;
@@ -45,7 +45,7 @@ public class FlightMapImageView extends ImageView {
 		// High DPI screens should utilize scale=2 for this API
 		// https://developers.google.com/maps/documentation/staticmaps/
 		if (res.getDisplayMetrics().density > 1.5) {
-			DENSITY_SCALE_FACTOR = 2;
+			sDensityScaleFactor = 2;
 		}
 	}
 
@@ -76,10 +76,10 @@ public class FlightMapImageView extends ImageView {
 
 		String oldUri = mStaticMapUri;
 
-		mStaticMapUri = GoogleServices.getStaticPathMapUrl(width / DENSITY_SCALE_FACTOR, height
-				/ DENSITY_SCALE_FACTOR, MapType.SATELLITE,
+		mStaticMapUri = GoogleServices.getStaticPathMapUrl(width / sDensityScaleFactor, height
+				/ sDensityScaleFactor, MapType.SATELLITE,
 				buildStaticMapPathValueString(Color.WHITE, 4, true, mFlights),
-				buildStaticMapMarkerStrings(mFlights)) + "&scale=" + DENSITY_SCALE_FACTOR;
+				buildStaticMapMarkerStrings(mFlights)) + "&scale=" + sDensityScaleFactor;
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {

@@ -15,7 +15,7 @@ public class LocationSelectUtils extends ActivityInstrumentationTestCase2<Router
 	}
 
 	//20 busiest US Airports
-	public static String[] AIRPORT_LIST_USA = new String[] {
+	public static final String[] AIRPORT_LIST_USA = new String[] {
 			"ATL", "ORD", "LAX", "DFW", "DEN",
 			"JFK", "SFO", "LAS", "PHX", "IAH",
 			"CLT", "MIA", "MCO", "EWR", "SEA",
@@ -23,14 +23,14 @@ public class LocationSelectUtils extends ActivityInstrumentationTestCase2<Router
 	};
 
 	//20 big international airports
-	public static String[] AIRPORT_LIST_INTL = new String[] {
+	public static final String[] AIRPORT_LIST_INTL = new String[] {
 			"LHR", "CDG", "HND", "FRA", "CGK",
 			"DXB", "HKG", "BKK", "AMS", "SIN",
 			"CAN", "MAD", "PVG", "IST", "ICN",
 	};
 
 	//Arbitrarily selected international cities
-	public static String[] HOTEL_CITIES_INTL = new String[] {
+	public static final String[] HOTEL_CITIES_INTL = new String[] {
 			"Tokyo, JP", "London, UK", "Barcelona, Spain", "Paris, FR",
 			"Vancouver, CA", "Montreal, CA", "Prague", "Rio de Janeiro, Brazil",
 			"Budapest, Hungary", "Bahamas", "Beijing", "Tel Aviv", "Hong Kong",
@@ -39,7 +39,7 @@ public class LocationSelectUtils extends ActivityInstrumentationTestCase2<Router
 	};
 
 	//Arbitrarily selected US cities
-	public static String[] HOTEL_CITIES_USA = new String[] {
+	public static final String[] HOTEL_CITIES_USA = new String[] {
 			"Washington D.C.", "Detroit, MI", "Chicago, IL", "New York, NY",
 			"Boston, MA", "Philadelphia, PA", "Pittsburgh, PA", "Atlanta, GA",
 			"Miami, FL", "Tampa, FL", "Jacksonville, FL", "Houston, TX",

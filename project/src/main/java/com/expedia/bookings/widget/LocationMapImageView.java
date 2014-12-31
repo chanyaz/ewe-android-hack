@@ -15,8 +15,8 @@ import com.mobiata.android.services.GoogleServices.MapType;
 
 public class LocationMapImageView extends ImageView {
 
-	private static int ZOOM = 13; // We want this to be different depending on dpi too
-	private static int DENSITY_SCALE_FACTOR = 1; // This has to be calculated at runtime
+	private static int sZoom = 13; // We want this to be different depending on dpi too
+	private static int sDensityScaleFactor = 1; // This has to be calculated at runtime
 
 	private String mStaticMapUri;
 	private Location mLocation;
@@ -41,8 +41,8 @@ public class LocationMapImageView extends ImageView {
 		// High DPI screens should utilize scale=2 for this API
 		// https://developers.google.com/maps/documentation/staticmaps/
 		if (res.getDisplayMetrics().density > 1.5) {
-			DENSITY_SCALE_FACTOR = 2;
-			ZOOM = 12;
+			sDensityScaleFactor = 2;
+			sZoom = 12;
 		}
 	}
 
@@ -73,9 +73,9 @@ public class LocationMapImageView extends ImageView {
 
 		String oldUri = mStaticMapUri;
 
-		mStaticMapUri = GoogleServices.getStaticMapUrl(width / DENSITY_SCALE_FACTOR, height / DENSITY_SCALE_FACTOR,
-				ZOOM, MapType.ROADMAP, mLocation.getLatitude(), mLocation.getLongitude(),
-				getMarkerString(mLocation, 0x126299)) + "&scale=" + DENSITY_SCALE_FACTOR;
+		mStaticMapUri = GoogleServices.getStaticMapUrl(width / sDensityScaleFactor, height / sDensityScaleFactor,
+				sZoom, MapType.ROADMAP, mLocation.getLatitude(), mLocation.getLongitude(),
+				getMarkerString(mLocation, 0x126299)) + "&scale=" + sDensityScaleFactor;
 
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 

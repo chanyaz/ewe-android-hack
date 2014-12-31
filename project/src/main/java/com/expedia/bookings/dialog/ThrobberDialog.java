@@ -18,7 +18,7 @@ public class ThrobberDialog extends DialogFragment {
 		public void onCancel();
 	}
 
-	private static String ARG_MESSAGE = "ARG_MESSAGE";
+	private static final String ARG_MESSAGE = "ARG_MESSAGE";
 
 	public static ThrobberDialog newInstance(CharSequence message) {
 		ThrobberDialog dialog = new ThrobberDialog();

@@ -746,7 +746,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	private static final int BEFORE = -1;
-	private static final int EQUAL = 0;
 	private static final int AFTER = 1;
 
 	@Override

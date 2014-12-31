@@ -250,7 +250,7 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 
 		onReactToUserActive();
 
-		if (!ExpediaBookingApp.IS_AUTOMATION) {
+		if (!ExpediaBookingApp.sIsAutomation) {
 			startMarquee();
 		}
 
