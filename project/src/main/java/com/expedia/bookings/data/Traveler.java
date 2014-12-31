@@ -895,7 +895,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mAge;
 	}
 
-	public void setAge(int mAge) {
-		this.mAge = mAge;
+	public void setAge(int age) {
+		mAge = age;
 	}
 }
