@@ -431,7 +431,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	//This list contains the keys of our downloads, since we are generating our download keys we need to keep track.
 	private ArrayList<String> mCurrentTravelerDownloads = new ArrayList<String>();
 	//If a traveler's last update was older than this, don't hesitate to refresh again (this would be an app backgrounded case)
-	private long TRAVELER_EXPIRATION_MS = 1000 * 60 * 5;
+	private static final long TRAVELER_EXPIRATION_MS = 1000 * 60 * 5;
 
 	private String genDlTag(long tuid) {
 		return "TRAV_DL_TUID_" + tuid;
