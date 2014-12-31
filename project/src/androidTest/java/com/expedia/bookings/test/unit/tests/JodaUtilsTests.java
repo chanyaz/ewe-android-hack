@@ -31,7 +31,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 /*
- * A class of tests intended to be a "safety cushion" for the 
+ * A class of tests intended to be a "safety cushion" for the
  * JodaUtils class.
  */
 

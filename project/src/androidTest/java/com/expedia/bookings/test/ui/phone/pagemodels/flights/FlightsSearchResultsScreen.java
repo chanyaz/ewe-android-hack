@@ -24,7 +24,7 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 	private static final int SORT_DURATION_STRING = R.string.sort_description_duration;
 	private static final int SEARCH_BUTTON_ID = R.id.menu_search;
 
-// Object access
+	// Object access
 
 	public static ViewInteraction searchResultListView() {
 		return onView(withId(FLIGHT_LIST_ID));

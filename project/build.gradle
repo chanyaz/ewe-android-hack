@@ -196,11 +196,11 @@ android {
     }
 
     checkstyle {
-        toolVersion = '5.7'
+        toolVersion = '6.2'
     }
 
     task checkstyle(type: Checkstyle) {
-        configFile file('../common/checkstyle.xml')
+        configFile file('checkstyle.xml')
         source 'src/'
         include '**/*.java'
 

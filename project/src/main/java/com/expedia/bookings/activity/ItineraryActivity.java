@@ -155,7 +155,6 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 				showPopupWindow(mJumpToItinId, true);
 			}
 		}
-		
 	}
 
 	/**

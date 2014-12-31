@@ -275,9 +275,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					field.setText("");
 				}
 			}
-            else {
-                field.setText("");
-            }
+			else {
+				field.setText("");
+			}
 		}
 
 		@Override

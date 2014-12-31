@@ -10,10 +10,10 @@ import com.expedia.bookings.test.ui.utils.TabletTestCase;
  */
 public class ExpediaContactPhonePOS extends TabletTestCase {
 
-  /*
-   *  Test Info screen phone numbers by POS
-   *  #264 eb_tp [a] Info screen phone numbers by POS in tablet
-   */
+	/*
+	 *  Test Info screen phone numbers by POS
+	 *  #264 eb_tp [a] Info screen phone numbers by POS in tablet
+	 */
 
 	public void runTestCase(String phoneNumber) {
 		final String phone = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
