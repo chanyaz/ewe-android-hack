@@ -216,7 +216,7 @@ android {
         )
 
         classpath = files()
-        ignoreFailures = true
+        ignoreFailures = false
     }
 }
 
