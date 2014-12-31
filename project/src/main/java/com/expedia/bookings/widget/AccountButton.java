@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -218,10 +219,9 @@ public class AccountButton extends LinearLayout {
 			points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 		}
 		else {
-			// Need to verify hotel rewards points
-			// TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			// CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
-			// points = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
+			points = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
 		}
 
 		CharSequence pointsText = "";
