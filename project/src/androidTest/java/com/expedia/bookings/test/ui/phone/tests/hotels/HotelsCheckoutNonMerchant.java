@@ -74,7 +74,7 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		try {
-			SettingsScreen.clickOKString();
+			SettingsScreen.clickOkString();
 		}
 		catch (Exception e) {
 			ScreenActions.enterLog(TAG, "OK popup");

@@ -67,7 +67,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		try {
-			SettingsScreen.clickOKString();
+			SettingsScreen.clickOkString();
 			if (numberOfRooms > 1) {
 				HotelsRoomsRatesScreen.selectRoomItem(1);
 			}

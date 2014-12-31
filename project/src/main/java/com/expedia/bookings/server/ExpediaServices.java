@@ -1553,22 +1553,22 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
-		String APP_NAME = "ExpediaBookings";
+		String appName = "ExpediaBookings";
 		if (ExpediaBookingApp.IS_AAG) {
-			APP_NAME = "AAGBookings";
+			appName = "AAGBookings";
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			APP_NAME = "TvlyBookings";
+			appName = "TvlyBookings";
 		}
 		else if(ExpediaBookingApp.IS_VSC) {
-			APP_NAME = "VSCBookings";
+			appName = "VSCBookings";
 		}
 
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
-			post.addHeader("MobiataPushName", APP_NAME);
+			post.addHeader("MobiataPushName", appName);
 		}
 		else {
-			post.addHeader("MobiataPushName", APP_NAME + "Alpha");
+			post.addHeader("MobiataPushName", appName + "Alpha");
 		}
 
 		if (AndroidUtils.isRelease(mContext)

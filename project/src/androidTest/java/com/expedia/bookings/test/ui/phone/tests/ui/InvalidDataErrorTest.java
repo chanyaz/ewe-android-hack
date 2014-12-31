@@ -53,7 +53,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 		HotelsDetailsScreen.clickSelectButton();
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		try {
-			SettingsScreen.clickOKString();
+			SettingsScreen.clickOkString();
 		}
 		catch (Exception e) {
 			//No popup

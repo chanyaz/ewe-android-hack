@@ -168,7 +168,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		EspressoUtils.assertViewWithTextIsDisplayed(searchError);
-		SettingsScreen.clickOKString();
+		SettingsScreen.clickOkString();
 		Espresso.pressBack();
 		Espresso.pressBack();
 	}

@@ -133,7 +133,7 @@ public class HappyPathRotation extends PhoneTestCase {
 
 		//rotate screen on Search error:hotel stay longer than 28 days
 		rotateScreenTwice();
-		SettingsScreen.clickOKString();
+		SettingsScreen.clickOkString();
 		endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(startDate, endDate);
