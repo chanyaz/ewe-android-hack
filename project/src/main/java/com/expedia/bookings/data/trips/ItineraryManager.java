@@ -1818,11 +1818,11 @@ public class ItineraryManager implements JSONable {
 					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
 
 						// Check if the next flight departs from the same airport the current flight arrives at
-						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode))
+						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode)) {
 							insertButtonCard = true;
-
-							// There is a flight 1+ days later from a different airport
+						}
 						else {
+							// There is a flight 1+ days later from a different airport
 							insertButtonCard = true;
 							nextFlightLeg = null;
 						}

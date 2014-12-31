@@ -55,7 +55,7 @@ public class DateTestCase extends AndroidTestCase {
 			fail("Should have thrown exception");
 		}
 		catch (IllegalArgumentException e) {
-
+			//ignore
 		}
 
 		try {
@@ -63,7 +63,7 @@ public class DateTestCase extends AndroidTestCase {
 			fail("Should have thrown exception");
 		}
 		catch (IllegalArgumentException e) {
-
+			//ignore
 		}
 	}
 

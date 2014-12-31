@@ -58,6 +58,20 @@
         </module>
         <module name="GenericWhitespace" />
 
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html -->
+        <module name="AvoidNestedBlocks">
+            <property name="allowInSwitchCase" value="true" />
+        </module>
+        <module name="EmptyBlock">
+            <property name="option" value="text" />
+        </module>
+        <module name="LeftCurly" /> <!-- default=eol -->
+        <module name="NeedBraces" />
+        <module name="RightCurly">
+            <property name="option" value="alone" />
+        </module>
+
         <!-- Checks for common coding problems               -->
         <!-- See http://checkstyle.sf.net/config_coding.html -->
         <!--module name="AvoidInlineConditionals"/-->

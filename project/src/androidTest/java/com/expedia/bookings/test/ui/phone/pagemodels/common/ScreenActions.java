@@ -23,7 +23,7 @@ public class ScreenActions {
 			Thread.sleep(seconds);
 		}
 		catch (InterruptedException e) {
-
+			//ignore
 		}
 	}
 
