@@ -1,5 +1,10 @@
 package com.expedia.bookings.featureconfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.message.BasicNameValuePair;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
@@ -100,5 +105,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public int getResIdForErrorHotelServiceFatalFailure() {
 		return R.string.e3_error_hotel_offers_hotel_service_failure_vsc;
+	}
+
+	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
+		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "VSC"));
+		return additionalParamsForReviewsRequest;
 	}
 }
