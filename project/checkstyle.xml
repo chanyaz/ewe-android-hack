@@ -82,5 +82,8 @@
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="UpperEll"/>
 
+        <!-- See http://checkstyle.sourceforge.net/config_annotation.html -->
+        <module name="AnnotationLocation"/>
+
     </module>
 </module>

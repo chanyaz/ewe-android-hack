@@ -26,7 +26,8 @@ public class TabletWalletButton extends WalletButton {
 		super(context, attrs, defStyle);
 	}
 
-	@Override @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@Override
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void setPromoVisible(boolean visible) {
 		super.setPromoVisible(visible);
 		if (mIsPromoVisible != visible) {
