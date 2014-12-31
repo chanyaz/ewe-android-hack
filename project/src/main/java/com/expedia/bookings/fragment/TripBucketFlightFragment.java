@@ -2,8 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.Locale;
 
-import org.joda.time.LocalDate;
-
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;

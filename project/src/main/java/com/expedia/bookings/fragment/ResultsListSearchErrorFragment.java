@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.sql.Struct;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -23,7 +22,6 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
-import com.expedia.bookings.widget.TextView;
 
 /**
  * ResultsListSearchErrorFragment for Tablet

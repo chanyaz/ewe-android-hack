@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.joda.time.LocalDate;
 
-import android.text.format.DateUtils;
 import android.util.Pair;
 
 import com.expedia.bookings.R;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.view.View;
 
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * This is a class for managing SectionField<?,?> instances within an ISection<?>

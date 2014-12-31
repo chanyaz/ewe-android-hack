@@ -12,7 +12,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;

@@ -14,7 +14,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.FragmentBailUtils;

@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.UpdateAppearance;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;

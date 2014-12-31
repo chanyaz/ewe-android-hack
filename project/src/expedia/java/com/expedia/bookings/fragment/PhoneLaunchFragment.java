@@ -52,7 +52,6 @@ import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.LaunchHotelFallbackData;

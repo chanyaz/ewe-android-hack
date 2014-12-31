@@ -9,13 +9,11 @@ import java.util.Currency;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 
 public class Money implements JSONable {
 

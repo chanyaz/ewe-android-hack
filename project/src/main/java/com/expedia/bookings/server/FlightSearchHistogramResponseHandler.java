@@ -1,7 +1,6 @@
 package com.expedia.bookings.server;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -9,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;

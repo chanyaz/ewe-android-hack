@@ -3,7 +3,6 @@ package com.expedia.bookings.utils;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.Build;
 
 public class ClipboardUtils {
 

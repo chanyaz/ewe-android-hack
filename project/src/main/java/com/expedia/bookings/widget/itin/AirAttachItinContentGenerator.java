@@ -1,13 +1,10 @@
 package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletLaunchActivity;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;

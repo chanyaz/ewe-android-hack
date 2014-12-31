@@ -47,6 +47,7 @@
         <!-- <module name="AvoidStaticImport" /> -->
         <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
         <module name="RedundantImport" />
+        <module name="UnusedImports" />
 
     </module>
 </module>

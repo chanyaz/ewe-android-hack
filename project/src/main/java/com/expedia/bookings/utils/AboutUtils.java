@@ -20,7 +20,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {

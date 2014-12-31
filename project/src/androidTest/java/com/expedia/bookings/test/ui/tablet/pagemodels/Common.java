@@ -10,7 +10,6 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.mobiata.android.Log;
 
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static org.hamcrest.CoreMatchers.not;

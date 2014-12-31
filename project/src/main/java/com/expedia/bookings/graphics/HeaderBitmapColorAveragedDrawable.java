@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.utils.ColorBuilder;
-import com.mobiata.android.Log;
 
 public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 

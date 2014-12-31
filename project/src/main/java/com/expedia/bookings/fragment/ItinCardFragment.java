@@ -17,7 +17,6 @@ import android.widget.ScrollView;
 
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;

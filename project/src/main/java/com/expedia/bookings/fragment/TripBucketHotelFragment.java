@@ -2,10 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.Locale;
 
-import java.util.concurrent.TimeUnit;
-
-import org.joda.time.LocalDate;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.text.Html;
@@ -29,7 +25,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 

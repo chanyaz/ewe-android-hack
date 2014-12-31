@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.mobiata.android.json.JSONable;
 

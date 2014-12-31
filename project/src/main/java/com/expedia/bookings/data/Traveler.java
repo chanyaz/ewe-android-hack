@@ -18,7 +18,6 @@ import com.expedia.bookings.data.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 

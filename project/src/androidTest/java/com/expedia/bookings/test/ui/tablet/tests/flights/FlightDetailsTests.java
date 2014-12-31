@@ -3,7 +3,6 @@ package com.expedia.bookings.test.ui.tablet.tests.flights;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.FlightDetails;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;

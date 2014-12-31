@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.net.CookieStore;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.util.List;

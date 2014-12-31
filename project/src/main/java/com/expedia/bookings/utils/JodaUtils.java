@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 

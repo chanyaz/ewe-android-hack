@@ -27,7 +27,6 @@ import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.widget.LaunchPin;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;

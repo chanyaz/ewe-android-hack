@@ -22,7 +22,6 @@ import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
-import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.TabletFlightAdapter;
 import com.expedia.bookings.widget.TextView;

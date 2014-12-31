@@ -2,11 +2,9 @@ package com.expedia.bookings.fragment;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -15,7 +13,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
 
 public class HotelSearchDownloadFragment extends Fragment {
 
