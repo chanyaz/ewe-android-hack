@@ -133,7 +133,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	private void onStoredTravelerSelected(int position) {
-		if (position == mTravelerAdapter.getCount()-1) {
+		if (position == mTravelerAdapter.getCount() - 1) {
 			mTravelerButtonListener.onAddNewTravelerSelected(mTravelerNumber);
 			mStoredTravelerPopup.dismiss();
 			return;

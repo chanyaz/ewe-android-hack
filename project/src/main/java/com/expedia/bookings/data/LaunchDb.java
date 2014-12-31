@@ -154,7 +154,7 @@ public class LaunchDb {
 		sDb.mNearByCollection = new LaunchCollection();
 		sDb.mNearByCollection.id = CUREENT_LOCATION_SEARCH_TILE_ID;
 		sDb.mNearByCollection.title = context.getString(R.string.current_location_tile);
-		sDb.mNearByCollection.imageCode=LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE;
+		sDb.mNearByCollection.imageCode = LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE;
 
 		//Downloading image for Current Location Tile
 		if (location != null) {

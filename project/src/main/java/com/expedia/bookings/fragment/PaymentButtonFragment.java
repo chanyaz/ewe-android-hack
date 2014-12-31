@@ -200,7 +200,7 @@ public class PaymentButtonFragment extends LobableFragment {
 				mStoredCardPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-						if (position == mStoredCreditCardAdapter.getCount()-1) {
+						if (position == mStoredCreditCardAdapter.getCount() - 1) {
 							mPaymentButtonListener.onAddNewCreditCardSelected();
 							mStoredCardPopup.dismiss();
 							return;

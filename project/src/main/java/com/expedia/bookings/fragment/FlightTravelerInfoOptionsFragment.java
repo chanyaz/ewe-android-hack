@@ -84,7 +84,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
 
-		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() {}.getType();
+		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() { }.getType();
 	}
 
 	@Override

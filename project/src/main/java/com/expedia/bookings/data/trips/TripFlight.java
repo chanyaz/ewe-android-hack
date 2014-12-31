@@ -54,8 +54,8 @@ public class TripFlight extends TripComponent {
 
 	public List<ChildTraveler> getChildTravelers() {
 		List<ChildTraveler> childTravelers = new ArrayList<>();
-		for(Traveler traveler : mTravelers) {
-			if(traveler.getAge() <= GuestsPickerUtils.MAX_CHILD_AGE) {
+		for (Traveler traveler : mTravelers) {
+			if (traveler.getAge() <= GuestsPickerUtils.MAX_CHILD_AGE) {
 				ChildTraveler childTraveler = new ChildTraveler();
 				childTraveler.setAge(traveler.getAge());
 				childTravelers.add(childTraveler);

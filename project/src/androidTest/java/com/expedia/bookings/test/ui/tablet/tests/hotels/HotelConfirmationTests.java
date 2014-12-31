@@ -35,7 +35,7 @@ public class HotelConfirmationTests extends TabletTestCase {
 
 		Results.swipeUpHotelList();
 		Results.clickHotelAtIndex(1);
-		mHotelName =EspressoUtils.getText(R.id.hotel_header_hotel_name);
+		mHotelName = EspressoUtils.getText(R.id.hotel_header_hotel_name);
 		HotelDetails.clickAddHotel();
 		Results.clickBookHotel();
 	}

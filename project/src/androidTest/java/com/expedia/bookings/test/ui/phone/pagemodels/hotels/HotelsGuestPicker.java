@@ -66,7 +66,7 @@ public class HotelsGuestPicker extends ScreenActions {
 	public static String getGuestTextViewValue(int level, int resID) {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(allOf(withId(level), withParent(withId(resID)))).perform(getString(value));
-		String stringValue=value.get();
+		String stringValue = value.get();
 		return stringValue;
 	}
 

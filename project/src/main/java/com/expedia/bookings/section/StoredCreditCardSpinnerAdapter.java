@@ -38,8 +38,8 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	public StoredCreditCard getItem(int position) {
 		int itemType = getItemViewType(position);
 		if (itemType == ITEM_VIEW_TYPE_CREDITCARD) {
-			if (getCount() > position-1) {
-				return getAvailableStoredCards().get(position-1);
+			if (getCount() > position - 1) {
+				return getAvailableStoredCards().get(position - 1);
 			}
 		}
 		return null;
@@ -57,7 +57,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	@Override
 	public int getItemViewType(int position) {
-		if (position == getCount()-1) {
+		if (position == getCount() - 1) {
 			return ITEM_VIEW_TYPE_ADD_CREDITCARD;
 		}
 		else if (position == 0) {

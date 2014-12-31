@@ -615,7 +615,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private static boolean flightBookingHasKids(List<Traveler> travelers) {
-		for(Traveler traveler : travelers) {
+		for (Traveler traveler : travelers) {
 			PassengerCategory category = traveler.getPassengerCategory();
 			if (category != PassengerCategory.ADULT && category != PassengerCategory.SENIOR) {
 				return true;
@@ -1150,10 +1150,10 @@ public class ExpediaServices implements DownloadListener {
 		if (ExpediaBookingApp.IS_AAG) {
 			shortUrl.append("a.aago.co");
 		}
-		else if(ExpediaBookingApp.IS_TRAVELOCITY){
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			shortUrl.append("t.tvly.co");
 		}
-		else if(ExpediaBookingApp.IS_VSC){
+		else if (ExpediaBookingApp.IS_VSC) {
 			shortUrl.append("v.vygs.co");
 		}
 		else {
@@ -1560,7 +1560,7 @@ public class ExpediaServices implements DownloadListener {
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			appName = "TvlyBookings";
 		}
-		else if(ExpediaBookingApp.IS_VSC) {
+		else if (ExpediaBookingApp.IS_VSC) {
 			appName = "VSCBookings";
 		}
 
@@ -1850,7 +1850,7 @@ public class ExpediaServices implements DownloadListener {
 
 			String serverURL = String.format(urlTemplate, protocol, domain);
 			//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
-			if(ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
+			if (ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
 				serverURL = serverURL.replaceFirst("w{3}\\.?", "");
 			}
 			return serverURL;

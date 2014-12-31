@@ -85,7 +85,7 @@ public class ResultsDatesFragment extends Fragment implements
 		setDates(searchParams.getStartDate(), searchParams.getEndDate());
 	}
 
-	public void setDates(LocalDate startDate, LocalDate endDate){
+	public void setDates(LocalDate startDate, LocalDate endDate) {
 		mStartDate = startDate;
 		mEndDate = endDate;
 

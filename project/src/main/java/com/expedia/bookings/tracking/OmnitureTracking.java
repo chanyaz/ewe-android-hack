@@ -1327,9 +1327,9 @@ public class OmnitureTracking {
 	// Search Results Screen - TripBucket
 
 	private static final String BUCKET_HOTEL_REMOVAL = "App.DSR.DeleteHotel";
-	private static final String UNDO_BUCKET_HOTEL_REMOVAL ="App.DSR.DeleteHotel.Undo";
+	private static final String UNDO_BUCKET_HOTEL_REMOVAL = "App.DSR.DeleteHotel.Undo";
 	private static final String BUCKET_FLIGHT_REMOVAL = "App.DSR.DeleteFlight";
-	private static final String UNDO_BUCKET_FLIGHT_REMOVAL ="App.DSR.DeleteFlight.Undo";
+	private static final String UNDO_BUCKET_FLIGHT_REMOVAL = "App.DSR.DeleteFlight.Undo";
 
 	// Removing and undoing things
 

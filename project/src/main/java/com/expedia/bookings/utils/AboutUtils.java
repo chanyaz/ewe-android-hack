@@ -132,10 +132,10 @@ public class AboutUtils {
 	}
 
 	public void contactViaWeb() {
-		if(ExpediaBookingApp.IS_VSC){
+		if (ExpediaBookingApp.IS_VSC) {
 			openContactUsVSC();
 		}
-		else{
+		else {
 			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 		}
 	}
