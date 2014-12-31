@@ -101,4 +101,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
+
+	public int getResIdForErrorBookingSucceededWithErrors() {
+		return R.string.e3_error_checkout_booking_succeeded_with_errors_tvly;
+	}
+
+	public int getResIdForErrorHotelServiceFatalFailure() {
+		return R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+	}
 }

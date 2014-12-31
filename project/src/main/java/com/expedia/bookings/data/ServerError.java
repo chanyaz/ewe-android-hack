@@ -10,7 +10,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -97,18 +97,7 @@ public class ServerError implements JSONable {
 	public static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
 		{
 			put(ErrorCode.BOOKING_FAILED, R.string.e3_error_checkout_booking_failed);
-			if (ExpediaBookingApp.IS_EXPEDIA) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors);
-			}
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_tvly);
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_aag);
-			}
-			else if (ExpediaBookingApp.IS_VSC) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_vsc);
-			}
+			put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, ProductFlavorFeatureConfiguration.getInstance().getResIdForErrorBookingSucceededWithErrors());
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_checkout_hotel_room_unavailable);
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_checkout_invalid_input);
 			put(ErrorCode.PAYMENT_FAILED, R.string.e3_error_checkout_payment_failed);
@@ -128,18 +117,7 @@ public class ServerError implements JSONable {
 		{
 			put(ErrorCode.HOTEL_OFFER_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_offer_unavailable);
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_room_unavailable);
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_aag);
-			}
-			else if (ExpediaBookingApp.IS_VSC) {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_vsc);
-			}
-			else {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
-			}
+			put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, ProductFlavorFeatureConfiguration.getInstance().getResIdForErrorHotelServiceFatalFailure());
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_offers_invalid_input);
 			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_offers_unknown_error);
 		}

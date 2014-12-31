@@ -25,4 +25,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getAdXPosIdentifier();
 	String getOmnitureReportSuiteIds(Context context);
 	void contactUsViaWeb(Context context);
+	int getResIdForErrorHotelServiceFatalFailure();
+	int getResIdForErrorBookingSucceededWithErrors();
 }
