@@ -142,6 +142,11 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					if (TextUtils.isEmpty(property.getSupplierType())) {
 						property.setSupplierType(jsonRate.optString("supplierType", null));
 					}
+
+					// If this rate has an associated pay later offer, reflect that in hotel's info
+					if (rate.getEtpRate() != null && !property.hasEtpOffer()) {
+						property.setHasEtpOffer(true);
+					}
 				}
 			}
 
@@ -309,7 +314,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			Log.e("Could not parse JSON availability response.", e);
 			return null;
 		}
-
 		return availResponse;
 	}
 

@@ -120,6 +120,9 @@ public class Property implements JSONable {
 	private String mItinRoomType;
 	private String mItinBedType;
 
+	// ETP pay later offer associated with one or more rates
+	private boolean mHasEtpOffer;
+
 	public String getName() {
 		return mName;
 	}
@@ -490,6 +493,14 @@ public class Property implements JSONable {
 		mHighestPriceFromSurvey = highestPriceFromSurvey;
 	}
 
+	public boolean hasEtpOffer() {
+		return mHasEtpOffer;
+	}
+
+	public void setHasEtpOffer(boolean hasEtpOffer) {
+		mHasEtpOffer = hasEtpOffer;
+	}
+
 	// Updates a Property from another Property (currently, one returned via an HotelOffersResponse)
 	public void updateFrom(Property property) {
 		if (property.hasAmenitiesSet()) {
@@ -513,6 +524,7 @@ public class Property implements JSONable {
 		mMandatoryFeesText = property.mMandatoryFeesText;
 		mRenovationText = property.mRenovationText;
 		mIsFromSearchByHotel = property.mIsFromSearchByHotel;
+		mHasEtpOffer = property.mHasEtpOffer;
 
 		// Only switch on with an update
 		mIsVipAccess |= property.isVipAccess();
@@ -562,6 +574,7 @@ public class Property implements JSONable {
 			obj.putOpt("isFromSearchByHotel", mIsFromSearchByHotel);
 			obj.putOpt("itinBedType", mItinBedType);
 			obj.putOpt("itinRoomType", mItinRoomType);
+			obj.putOpt("hasEtpOffer", mHasEtpOffer);
 
 			return obj;
 		}
@@ -606,6 +619,7 @@ public class Property implements JSONable {
 		mIsFromSearchByHotel = obj.optBoolean("isFromSearchByHotel", false);
 		mItinRoomType = obj.optString("itinRoomType", null);
 		mItinBedType = obj.optString("itinBedType", null);
+		mHasEtpOffer = obj.optBoolean("hasEtpOffer", false);
 
 		return true;
 	}
