@@ -109,7 +109,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	@Override
-	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
+	public synchronized View getView(final int position, View convertView, ViewGroup parent) {
 		final ItinCardData data = getItem(position);
 		if (isItemAButtonCard(position)) {
 			ItinButtonCard card;
@@ -537,8 +537,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
 
 						// Check if the next flight departs from the same airport the current flight arrives at
-						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode))
+						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode)) {
 							insertButtonCard = true;
+						}
 
 						// There is a flight 1+ days later from a different airport
 						else {
@@ -550,13 +551,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				// If the next itin is a hotel
 				else if (nextType == Type.HOTEL) {
 					DateTime checkInDate = nextData.getStartDate();
-					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0)
+					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0) {
 						insertButtonCard = true;
+					}
 				}
 			}
 			// The flight is the last itin
-			else if (i == len - 1)
+			else if (i == len - 1) {
 				insertButtonCard = true;
+			}
 
 			if (insertButtonCard) {
 				// Check if user qualifies for air attach

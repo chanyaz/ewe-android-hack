@@ -587,7 +587,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		mIsActivityResumed = false;
 
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.IS_AUTOMATION) {
+		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
 			mProgressBar.onPause();
 		}
 
@@ -622,7 +622,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		if (mDisplayType != DisplayType.CALENDAR) {
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.IS_AUTOMATION) {
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1816,7 +1816,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			hideFilterOptions();
 
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.IS_AUTOMATION) {
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1851,7 +1851,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.IS_AUTOMATION) {
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onPause();
 			}
 
@@ -2113,7 +2113,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.IS_AUTOMATION) {
+		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
 			mProgressBar.postDelayed(new Runnable() {
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
@@ -2144,7 +2144,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// In the case that the user is an emulator and this isn't a release build,
 			// disable the hanging tag for speed purposes
 
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.IS_AUTOMATION) {
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
 				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
 					mProgressBar.setVisibility(View.GONE);
 				}

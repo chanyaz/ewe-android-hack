@@ -1,10 +1,8 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -35,9 +33,9 @@ import com.mobiata.flightlib.data.Waypoint;
 public class StrUtils {
 
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA
-	private static Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
+	private static final Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> Kuantan, Malyasia
-	private static Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
+	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.

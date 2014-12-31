@@ -2,7 +2,6 @@ package com.expedia.bookings.test.ui.happy;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;

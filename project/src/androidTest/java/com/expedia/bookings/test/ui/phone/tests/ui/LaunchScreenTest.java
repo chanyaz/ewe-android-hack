@@ -1,17 +1,12 @@
 package com.expedia.bookings.test.ui.phone.tests.ui;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchActionBar;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by dmadan on 11/17/14.

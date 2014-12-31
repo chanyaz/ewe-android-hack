@@ -17,8 +17,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Region;
 import android.graphics.Shader;
 import android.os.Build;
 import android.util.AttributeSet;

@@ -8,7 +8,6 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by dmadan on 4/10/14.

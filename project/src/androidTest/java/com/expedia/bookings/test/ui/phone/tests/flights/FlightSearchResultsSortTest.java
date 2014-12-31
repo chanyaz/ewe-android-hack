@@ -76,17 +76,17 @@ public class FlightSearchResultsSortTest extends PhoneTestCase {
 		return hourAndMinutes;
 	}
 
-	private float getTimeMillisFromTextView(String str, int searchOffset, DateTime mNow) {
+	private float getTimeMillisFromTextView(String str, int searchOffset, DateTime now) {
 		Pair<Integer, Integer> hourAndMinutes = getHourMinutePairFromTimeTextView(str);
-		int month = mNow.getMonthOfYear();
-		int day = mNow.getDayOfMonth() + searchOffset;
+		int month = now.getMonthOfYear();
+		int day = now.getDayOfMonth() + searchOffset;
 		int daysInMonth = new GregorianCalendar().getActualMaximum(Calendar.DAY_OF_MONTH);
 		if (day > daysInMonth) {
 			day = day - daysInMonth;
 			month = month + 1;
 		}
-		DateTime flightTime = new DateTime(mNow.getYear(), month, day, hourAndMinutes.first, hourAndMinutes.second, 0);
-		float diffInMillis = flightTime.getMillis() - mNow.getMillis();
+		DateTime flightTime = new DateTime(now.getYear(), month, day, hourAndMinutes.first, hourAndMinutes.second, 0);
+		float diffInMillis = flightTime.getMillis() - now.getMillis();
 		return diffInMillis;
 	}
 

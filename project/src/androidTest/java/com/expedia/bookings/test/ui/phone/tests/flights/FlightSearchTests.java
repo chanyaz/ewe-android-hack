@@ -34,7 +34,7 @@ public class FlightSearchTests extends PhoneTestCase {
 		FlightsSearchScreen.clickSearchButton();
 		EspressoUtils.assertViewWithTextIsDisplayed("Departure and arrival airports must be different.");
 		ScreenActions.enterLog(TAG, "Duplicate airport search error message displayed.");
-		SettingsScreen.clickOKString();
+		SettingsScreen.clickOkString();
 		pressBack();
 		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");

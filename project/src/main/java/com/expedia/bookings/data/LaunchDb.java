@@ -29,7 +29,7 @@ public class LaunchDb {
 	private static final String NEAR_BY_TILE_DEFAULT_IMAGE_CODE = "nearby_hotels_tonight";
 
 	private static final int LAST_SEARCH_COLLECTION_INDEX = 0;
-	private static int NEAR_BY_TILE_COLLECTION_INDEX = 0;
+	private static int sNearByTileCollectionIndex = 0;
 
 	private LaunchDb() {
 		// Singleton
@@ -64,7 +64,7 @@ public class LaunchDb {
 
 	public static void clear() {
 		sDb.mCollections = null;
-		NEAR_BY_TILE_COLLECTION_INDEX = 0;
+		sNearByTileCollectionIndex = 0;
 	}
 
 	@Produce
@@ -154,7 +154,7 @@ public class LaunchDb {
 		sDb.mNearByCollection = new LaunchCollection();
 		sDb.mNearByCollection.id = CUREENT_LOCATION_SEARCH_TILE_ID;
 		sDb.mNearByCollection.title = context.getString(R.string.current_location_tile);
-		sDb.mNearByCollection.imageCode=LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE;
+		sDb.mNearByCollection.imageCode = LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE;
 
 		//Downloading image for Current Location Tile
 		if (location != null) {
@@ -175,11 +175,11 @@ public class LaunchDb {
 		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(
 			LAST_SEARCH_COLLECTION_INDEX) instanceof LastSearchLaunchCollection) {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
-			NEAR_BY_TILE_COLLECTION_INDEX = 0;
+			sNearByTileCollectionIndex = 0;
 		}
 		if (collection != null && sDb.mCollections != null) {
 			sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, collection);
-			NEAR_BY_TILE_COLLECTION_INDEX = 1;
+			sNearByTileCollectionIndex = 1;
 		}
 	}
 
@@ -188,7 +188,7 @@ public class LaunchDb {
 		public void onDownload(List<LaunchCollection> collections) {
 			sDb.mCollections = collections;
 			if (collections != null && collections.size() > 0) {
-				sDb.mCollections.add(NEAR_BY_TILE_COLLECTION_INDEX, sDb.mNearByCollection);
+				sDb.mCollections.add(sNearByTileCollectionIndex, sDb.mNearByCollection);
 				sDb.mSelectedCollection = collections.get(1);
 			}
 			injectLastSearch(sDb.mYourSearchCollection);
@@ -207,8 +207,8 @@ public class LaunchDb {
 				sDb.mNearByCollection.isDestinationImageCode = true;
 				sDb.mNearByCollection.imageCode = results.getSuggestions().get(0).getAirportCode();
 				if (sDb.mCollections != null && !sDb.mCollections.isEmpty()) {
-					sDb.mCollections.remove(NEAR_BY_TILE_COLLECTION_INDEX);
-					sDb.mCollections.add(NEAR_BY_TILE_COLLECTION_INDEX, sDb.mNearByCollection);
+					sDb.mCollections.remove(sNearByTileCollectionIndex);
+					sDb.mCollections.add(sNearByTileCollectionIndex, sDb.mNearByCollection);
 					Events.post(sDb.produceLaunchCollections());
 				}
 			}

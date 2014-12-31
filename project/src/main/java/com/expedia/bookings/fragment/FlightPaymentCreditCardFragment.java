@@ -20,7 +20,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;

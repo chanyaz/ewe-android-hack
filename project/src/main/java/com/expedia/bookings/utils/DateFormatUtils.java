@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;

@@ -18,7 +18,6 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
-import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;

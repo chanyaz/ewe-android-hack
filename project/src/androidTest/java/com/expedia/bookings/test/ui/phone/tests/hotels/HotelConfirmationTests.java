@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.joda.time.LocalDate;
 
-import android.text.format.DateUtils;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
@@ -68,7 +67,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		try {
-			SettingsScreen.clickOKString();
+			SettingsScreen.clickOkString();
 			if (numberOfRooms > 1) {
 				HotelsRoomsRatesScreen.selectRoomItem(1);
 			}

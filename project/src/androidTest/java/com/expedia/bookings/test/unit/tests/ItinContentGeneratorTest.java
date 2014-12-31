@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
 
-import android.content.res.Resources;
 import android.test.AndroidTestCase;
 import android.text.format.DateUtils;
 
@@ -14,7 +13,6 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.mobiata.android.Log;
 
 public class ItinContentGeneratorTest extends AndroidTestCase {
 

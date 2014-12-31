@@ -117,7 +117,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 				mDoneBookingContainerRight.setVisibility(View.VISIBLE);
 				mDoneBookingContainerStandalone.setVisibility(View.GONE);
 			}
-			else if (getNextBookingItem() == LineOfBusiness.HOTELS){
+			else if (getNextBookingItem() == LineOfBusiness.HOTELS) {
 				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 				if (hotel.getCreateTripResponse() != null && hotel.getCreateTripResponse().getAirAttachRate() != null) {
 					mAirAttachContainer.setVisibility(View.VISIBLE);

@@ -71,7 +71,7 @@ public class DeepLinkRouterActivity extends Activity {
 			dataString = URLDecoder.decode(data.toString(), "UTF-8");
 		}
 		catch (UnsupportedEncodingException e) {
-			Log.w(TAG, "Could not decode deep link data" +data.toString(), e);
+			Log.w(TAG, "Could not decode deep link data" + data.toString(), e);
 		}
 
 		Log.d(TAG, "Got deeplink: " + host + "/" + dataString);

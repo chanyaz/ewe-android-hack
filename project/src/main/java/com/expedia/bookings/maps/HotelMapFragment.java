@@ -59,7 +59,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private static final String INSTANCE_INFO_WINDOW_SHOWING = "INSTANCE_INFO_WINDOW_SHOWING";
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
 
-	private static float DEFAULT_ZOOM = 12.0f;
+	private static final float DEFAULT_ZOOM = 12.0f;
 
 	private GoogleMap mMap;
 	private LayoutInflater mInflater;
@@ -142,7 +142,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		super.onViewCreated(view, savedInstanceState);
 
 		mMap = getMap();
-		if (ExpediaBookingApp.IS_AUTOMATION) {
+		if (ExpediaBookingApp.sIsAutomation) {
 			// We don't want to waste time loading tiles on an automation build
 			mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 		}

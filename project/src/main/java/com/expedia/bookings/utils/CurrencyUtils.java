@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils;
 
 import com.expedia.bookings.data.CreditCardType;
-import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 
 public class CurrencyUtils {

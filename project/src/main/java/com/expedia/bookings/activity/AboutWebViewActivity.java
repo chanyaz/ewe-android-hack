@@ -1,28 +1,15 @@
 package com.expedia.bookings.activity;
 
-import java.net.HttpCookie;
-import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.notification.GCMRegistrationKeeper;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DebugInfoUtils;
-import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.DebugUtils;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 public class AboutWebViewActivity extends WebViewActivity {
 	private static final String ARG_SHOW_EMAIL_BUTTON = "ARG_SHOW_EMAIL_BUTTON";

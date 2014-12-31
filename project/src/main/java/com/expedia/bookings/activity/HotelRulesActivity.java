@@ -13,10 +13,10 @@ public class HotelRulesActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		setTitle(R.string.legal_information);
-		setTheme(ExpediaBookingApp.IS_TRAVELOCITY ||ExpediaBookingApp.IS_AAG ? R.style.Theme_Phone_WebView_WithTitle : R.style.Theme_Phone_WebView);
+		setTheme(ExpediaBookingApp.IS_TRAVELOCITY || ExpediaBookingApp.IS_AAG ? R.style.Theme_Phone_WebView_WithTitle : R.style.Theme_Phone_WebView);
 		setContentView(R.layout.activity_hotel_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if(ExpediaBookingApp.IS_EXPEDIA) {
+		if (ExpediaBookingApp.IS_EXPEDIA) {
 			getActionBar().setLogo(R.drawable.ic_expedia_action_bar_logo_dark);
 		}
 	}

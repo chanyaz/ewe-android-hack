@@ -1,8 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 import org.joda.time.LocalDate;
 import org.json.JSONObject;

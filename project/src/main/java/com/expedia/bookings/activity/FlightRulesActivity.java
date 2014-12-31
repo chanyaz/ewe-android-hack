@@ -17,7 +17,7 @@ public class FlightRulesActivity extends FragmentActivity {
 		setContentView(R.layout.activity_flight_rules);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if(ExpediaBookingApp.IS_EXPEDIA) {
+		if (ExpediaBookingApp.IS_EXPEDIA) {
 			getActionBar().setLogo(R.drawable.ic_expedia_action_bar_logo_dark);
 		}
 	}

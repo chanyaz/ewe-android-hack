@@ -280,7 +280,7 @@ public class TabletWaypointFragment extends Fragment
 		@Override
 		public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				if (mSuggestionsFragment != null && mLoadingLocation == false) {
+				if (mSuggestionsFragment != null && !mLoadingLocation) {
 					SuggestionV2 suggest = mSuggestionsFragment.getBestChoiceForFilter();
 					if (suggest != null) {
 						handleSuggestion(suggest, mWaypointEditText.getText().toString());

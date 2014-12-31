@@ -26,7 +26,6 @@ import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 public class UserReviewsAdapter extends BaseAdapter {

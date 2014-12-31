@@ -57,7 +57,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.ViewUtils;
 
 public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener {

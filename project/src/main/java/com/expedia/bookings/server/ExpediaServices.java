@@ -615,7 +615,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private static boolean flightBookingHasKids(List<Traveler> travelers) {
-		for(Traveler traveler : travelers) {
+		for (Traveler traveler : travelers) {
 			PassengerCategory category = traveler.getPassengerCategory();
 			if (category != PassengerCategory.ADULT && category != PassengerCategory.SENIOR) {
 				return true;
@@ -1150,10 +1150,10 @@ public class ExpediaServices implements DownloadListener {
 		if (ExpediaBookingApp.IS_AAG) {
 			shortUrl.append("a.aago.co");
 		}
-		else if(ExpediaBookingApp.IS_TRAVELOCITY){
+		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			shortUrl.append("t.tvly.co");
 		}
-		else if(ExpediaBookingApp.IS_VSC){
+		else if (ExpediaBookingApp.IS_VSC) {
 			shortUrl.append("v.vygs.co");
 		}
 		else {
@@ -1553,22 +1553,22 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
-		String APP_NAME = "ExpediaBookings";
+		String appName = "ExpediaBookings";
 		if (ExpediaBookingApp.IS_AAG) {
-			APP_NAME = "AAGBookings";
+			appName = "AAGBookings";
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			APP_NAME = "TvlyBookings";
+			appName = "TvlyBookings";
 		}
-		else if(ExpediaBookingApp.IS_VSC) {
-			APP_NAME = "VSCBookings";
+		else if (ExpediaBookingApp.IS_VSC) {
+			appName = "VSCBookings";
 		}
 
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
-			post.addHeader("MobiataPushName", APP_NAME);
+			post.addHeader("MobiataPushName", appName);
 		}
 		else {
-			post.addHeader("MobiataPushName", APP_NAME + "Alpha");
+			post.addHeader("MobiataPushName", appName + "Alpha");
 		}
 
 		if (AndroidUtils.isRelease(mContext)
@@ -1850,7 +1850,7 @@ public class ExpediaServices implements DownloadListener {
 
 			String serverURL = String.format(urlTemplate, protocol, domain);
 			//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
-			if(ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
+			if (ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
 				serverURL = serverURL.replaceFirst("w{3}\\.?", "");
 			}
 			return serverURL;

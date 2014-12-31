@@ -21,7 +21,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;

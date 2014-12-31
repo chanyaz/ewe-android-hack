@@ -37,7 +37,7 @@ public class MockDataTests extends TabletTestCase {
 		Results.clickHotelWithName("happypath");
 	}
 
-	public void testCheckoutSessionTimeout(){
+	public void testCheckoutSessionTimeout() {
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");

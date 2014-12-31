@@ -13,7 +13,6 @@ import com.expedia.bookings.bitmaps.BitmapDrawable;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;

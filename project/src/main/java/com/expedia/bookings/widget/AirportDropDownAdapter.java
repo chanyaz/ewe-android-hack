@@ -1,11 +1,9 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -26,14 +24,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
-import com.expedia.bookings.data.SuggestionResponse;
-import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionUtils;
-import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;

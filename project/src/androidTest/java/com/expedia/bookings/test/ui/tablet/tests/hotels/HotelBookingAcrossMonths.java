@@ -7,7 +7,6 @@ import org.joda.time.LocalDate;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Confirmation;

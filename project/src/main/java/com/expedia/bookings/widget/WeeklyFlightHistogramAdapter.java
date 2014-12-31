@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

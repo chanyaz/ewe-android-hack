@@ -106,11 +106,11 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 		return true;
 	}
 
+	private static final int BEFORE = -1;
+	private static final int EQUAL = 0;
+
 	@Override
 	public int compareTo(StoredCreditCard another) {
-		final int BEFORE = -1;
-		final int EQUAL = 0;
-
 		if (this == another) {
 			//same ref
 			return EQUAL;

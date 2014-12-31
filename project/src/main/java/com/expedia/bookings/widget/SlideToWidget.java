@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 public class SlideToWidget extends RelativeLayout {

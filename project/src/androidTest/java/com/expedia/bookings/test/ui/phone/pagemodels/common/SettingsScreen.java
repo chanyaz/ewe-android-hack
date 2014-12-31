@@ -3,15 +3,10 @@ package com.expedia.bookings.test.ui.phone.pagemodels.common;
 import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
-import org.hamcrest.Matchers;
 
 /**
  * Created by dmadan on 4/7/14.
@@ -26,7 +21,7 @@ public class SettingsScreen extends ScreenActions {
 
 	// Object access
 
-	public static ViewInteraction OKString() {
+	public static ViewInteraction okString() {
 		return onView(withText(OK_STRING_ID));
 	}
 
@@ -34,7 +29,7 @@ public class SettingsScreen extends ScreenActions {
 		return onView(withText(CANCEL_STRING_ID));
 	}
 
-	public static ViewInteraction AcceptString() {
+	public static ViewInteraction acceptString() {
 		return onView(withText(ACCEPT_STRING_ID));
 	}
 
@@ -48,15 +43,15 @@ public class SettingsScreen extends ScreenActions {
 		country().perform(click());
 	}
 
-	public static void clickOKString() {
-		OKString().perform(click());
+	public static void clickOkString() {
+		okString().perform(click());
 	}
 
 	public static void clickCancelString() {
 		cancelString().perform(click());
 	}
 
-	public static void clickAcceptString() {
-		AcceptString().perform(click());
+	public static void clickacceptString() {
+		acceptString().perform(click());
 	}
 }

@@ -9,13 +9,11 @@ import java.util.Currency;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 
 public class Money implements JSONable {
 
@@ -25,12 +23,12 @@ public class Money implements JSONable {
 	/**
 	 * Flag to automatically round down in formatting
 	 */
-	public static int F_ROUND_DOWN = 1;
+	public static final int F_ROUND_DOWN = 1;
 
 	/**
 	 * Flag to remove all value past the decimal point in formatting.
 	 */
-	public static int F_NO_DECIMAL = 2;
+	public static final int F_NO_DECIMAL = 2;
 
 	private BigDecimal mAmount;
 	private String mCurrency = null;

@@ -104,10 +104,10 @@ public class TripsLoginTestsE extends ActivityInstrumentationTestCase2<PhoneLaun
 		ScreenActions.enterLog(TAG, "Selecting different POS.");
 		onView(withText(mRes.getString(R.string.country_ar))).perform(click());
 		try {
-			SettingsScreen.clickOKString();
+			SettingsScreen.clickOkString();
 		}
 		catch (Exception e) {
-			SettingsScreen.clickAcceptString();
+			SettingsScreen.clickacceptString();
 		}
 		ScreenActions.enterLog(TAG, "Pressed the affirmative button on the changing POS dialog.");
 		assertFalse("User should no longer have been logged in after the POS was changed.", User.isLoggedIn(mContext));

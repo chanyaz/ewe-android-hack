@@ -64,7 +64,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 				String roomName = EspressoUtils.getListItemValues(rowModel, R.id.room_description_text_view);
 				HotelsRoomsRatesScreen.selectRoomItem(j);
 				try {
-					SettingsScreen.clickOKString();
+					SettingsScreen.clickOkString();
 					try {
 						HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
 						ScreenActions.enterLog(TAG, "Great news popup");
@@ -143,7 +143,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 				for (int k = 0; k < numberOfRooms; k++) {
 					HotelsRoomsRatesScreen.selectRoomItem(k);
 					try {
-						SettingsScreen.clickOKString();
+						SettingsScreen.clickOkString();
 						try {
 							HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
 							ScreenActions.enterLog(TAG, "Great news popup");
@@ -171,7 +171,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 
 	public void testHotelNightsNumber() throws Exception {
 		ScreenActions.enterLog(TAG, "START: HOTEL RECEIPT NIGHTS NUMBER TESTS");
-		int dateOffsets[] = {
+		int[] dateOffsets = {
 			3, 7, 10, 25,
 		};
 		LaunchScreen.launchHotels();
@@ -196,7 +196,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 				for (int k = 0; k < numberOfRooms; k++) {
 					HotelsRoomsRatesScreen.selectRoomItem(k);
 					try {
-						SettingsScreen.clickOKString();
+						SettingsScreen.clickOkString();
 						try {
 							HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
 							ScreenActions.enterLog(TAG, "Great news popup");
@@ -248,7 +248,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 			for (int k = 0; k < numberOfRooms; k++) {
 				HotelsRoomsRatesScreen.selectRoomItem(k);
 				try {
-					SettingsScreen.clickOKString();
+					SettingsScreen.clickOkString();
 					try {
 						HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
 						ScreenActions.enterLog(TAG, "Great news popup");

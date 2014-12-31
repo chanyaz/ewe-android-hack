@@ -180,7 +180,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			if (!NetUtils.isOnline(getActivity())) {
 				Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS));
 				mCurrentProperty = null;
-			} else {
+			}
+			else {
 				downloadDetails();
 			}
 		}

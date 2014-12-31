@@ -18,7 +18,7 @@ import com.mobiata.android.Log;
 
 public class LocalizationTests extends AndroidTestCase {
 
-	private Locale[] TEST_LOCALES = new Locale[] {
+	private static final Locale[] TEST_LOCALES = new Locale[] {
 			new Locale("en", "US"),
 			new Locale("zh", "TW"),
 			new Locale("da"),

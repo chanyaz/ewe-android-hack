@@ -37,6 +37,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -550,13 +551,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	private boolean workingTravelerNameChanged() {
 		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
 			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
-			if (mStartFirstName.trim().compareTo(working.getFirstName().trim()) == 0
-					&& mStartLastName.trim().compareTo(working.getLastName().trim()) == 0) {
-				return false;
-			}
-			else {
-				return true;
-			}
+			return !Strings.equals(mStartFirstName.trim(), working.getFirstName().trim())
+				|| !Strings.equals(mStartLastName.trim(), working.getLastName().trim());
 		}
 		return false;
 	}

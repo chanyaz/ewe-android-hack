@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.HotelDetails;

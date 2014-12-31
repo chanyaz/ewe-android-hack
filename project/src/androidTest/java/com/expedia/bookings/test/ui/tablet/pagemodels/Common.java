@@ -10,7 +10,6 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.mobiata.android.Log;
 
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static org.hamcrest.CoreMatchers.not;
@@ -36,8 +35,8 @@ public class Common {
 		v.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 	}
 
-	public static void enterLog(String TAG, String logText) {
-		android.util.Log.v(TAG, logText);
+	public static void enterLog(String tag, String logText) {
+		android.util.Log.v(tag, logText);
 	}
 
 	public static boolean isTablet(Instrumentation inst) {

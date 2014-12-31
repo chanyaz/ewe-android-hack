@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
-import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;

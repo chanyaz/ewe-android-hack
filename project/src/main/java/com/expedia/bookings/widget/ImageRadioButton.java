@@ -3,10 +3,8 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RadioButton;
 
 import com.expedia.bookings.R;

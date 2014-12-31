@@ -76,7 +76,7 @@ public class TravelerUtils {
 					useTemplate = true;
 					break;
 				case INFANT_IN_LAP:
-					if (numInfantsLap>1) {
+					if (numInfantsLap > 1) {
 						sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
 						displayNumber = ++numInfantsInLap;
 						useTemplate = true;
@@ -86,7 +86,7 @@ public class TravelerUtils {
 					}
 					break;
 				case INFANT_IN_SEAT:
-					if (numInfantsSeat>1) {
+					if (numInfantsSeat > 1) {
 						sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
 						displayNumber = ++numInfantsInSeat;
 						useTemplate = true;

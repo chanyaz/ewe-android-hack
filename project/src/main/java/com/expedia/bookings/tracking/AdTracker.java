@@ -17,7 +17,7 @@ public class AdTracker {
 
 	public static void initialize(Context context) {
 		// AdX
-		if (ExpediaBookingApp.IS_AUTOMATION || ExpediaBookingApp.IS_VSC) {
+		if (ExpediaBookingApp.sIsAutomation || ExpediaBookingApp.IS_VSC) {
 			AdX.initialize(context, false);
 		}
 		else {

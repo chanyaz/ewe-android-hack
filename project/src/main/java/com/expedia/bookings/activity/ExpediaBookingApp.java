@@ -65,7 +65,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	public static final boolean IS_TRAVELOCITY = BuildConfig.IS_TRAVELOCITY;
 	public static final boolean IS_AAG = BuildConfig.IS_AAG;
 
-	public static boolean IS_AUTOMATION = false;
+	public static boolean sIsAutomation = false;
 
 	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
 
@@ -78,7 +78,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private boolean mInitialized = false;
 
 	public static void setAutomation(boolean isAutomation) {
-		IS_AUTOMATION = isAutomation;
+		sIsAutomation = isAutomation;
 	}
 
 	@Override

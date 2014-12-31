@@ -74,7 +74,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	private int mIndex;
 
 	// "id" denotes regionId but it denotes the hotel id if RegionType == "HOTEL"
-	private final int UNKNOWN_REGION_ID = -1;
+	private static final int UNKNOWN_REGION_ID = -1;
 	private int mRegionId = UNKNOWN_REGION_ID;
 
 	// "a" denotes the airport TLA

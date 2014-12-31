@@ -5,10 +5,8 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.text.Html;
-import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.mobiata.android.text.format.Time;

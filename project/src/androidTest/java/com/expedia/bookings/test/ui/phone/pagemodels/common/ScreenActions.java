@@ -13,8 +13,8 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  */
 public class ScreenActions {
 
-	public static void enterLog(String TAG, String logText) {
-		Log.v(TAG, logText);
+	public static void enterLog(String tag, String logText) {
+		Log.v(tag, logText);
 	}
 
 	public static void delay(int seconds) {
@@ -23,7 +23,7 @@ public class ScreenActions {
 			Thread.sleep(seconds);
 		}
 		catch (InterruptedException e) {
-
+			//ignore
 		}
 	}
 

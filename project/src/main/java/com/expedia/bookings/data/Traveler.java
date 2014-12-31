@@ -18,7 +18,6 @@ import com.expedia.bookings.data.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -714,6 +713,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 	}
 
+	private static final int NOT_EQUAL = -1;
+	private static final int EQUAL = 0;
+
 	/**
 	 * Compare the name of this traveler to another traveler (currently we just compare first and last name)
 	 * If either traveler has null for their first or last name we consider them not equal
@@ -721,8 +723,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	 * @return
 	 */
 	public int compareNameTo(Traveler another) {
-		final int NOT_EQUAL = -1;
-		final int EQUAL = 0;
 
 		if (this == another) {
 			//same ref
@@ -745,12 +745,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return NOT_EQUAL;
 	}
 
+	private static final int BEFORE = -1;
+	private static final int AFTER = 1;
+
 	@Override
 	public int compareTo(Traveler another) {
-		final int BEFORE = -1;
-		final int EQUAL = 0;
-		final int AFTER = 1;
-
 		if (this == another) {
 			//same ref
 			return EQUAL;
@@ -896,7 +895,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mAge;
 	}
 
-	public void setAge(int mAge) {
-		this.mAge = mAge;
+	public void setAge(int age) {
+		mAge = age;
 	}
 }

@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import com.expedia.bookings.R;
 
 public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
-	private static Map<String, Integer> COUNTRY_CODES = new HashMap<String, Integer>();
+	private static final Map<String, Integer> COUNTRY_CODES = new HashMap<String, Integer>();
 
 	private int[] mCountryPhoneCodes;
 	private String[] mCountryNames;

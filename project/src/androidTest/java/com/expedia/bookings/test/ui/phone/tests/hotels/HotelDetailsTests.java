@@ -51,7 +51,7 @@ public class HotelDetailsTests extends PhoneTestCase {
 			String hotelName = EspressoUtils.getText(R.id.title);
 			ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
 			try {
-				SettingsScreen.clickOKString();
+				SettingsScreen.clickOkString();
 				HotelsGuestPicker.searchButton().check(matches(isDisplayed()));
 				ScreenActions.enterLog(TAG, "Room sold out popup was displayed");
 			}

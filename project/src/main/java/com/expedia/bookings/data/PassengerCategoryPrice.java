@@ -14,7 +14,7 @@ public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice
 	private Money mBasePrice;
 	private Money mTaxesPrice;
 
-	public PassengerCategoryPrice(){
+	public PassengerCategoryPrice() {
 		//Default constructor, required by some of our JSONUtils functions
 	}
 

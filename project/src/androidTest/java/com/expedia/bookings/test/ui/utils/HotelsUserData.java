@@ -247,16 +247,16 @@ public class HotelsUserData {
 		return mLoginEmail;
 	}
 
-	public void setLoginEmail(String mLoginEmail) {
-		this.mLoginEmail = mLoginEmail;
+	public void setLoginEmail(String loginEmail) {
+		mLoginEmail = loginEmail;
 	}
 
 	public String getLoginPassword() {
 		return mLoginPassword;
 	}
 
-	public void setLoginPassword(String mLoginPassword) {
-		this.mLoginPassword = mLoginPassword;
+	public void setLoginPassword(String loginPassword) {
+		mLoginPassword = loginPassword;
 	}
 
 	public boolean getLogInForCheckout() {
@@ -273,8 +273,8 @@ public class HotelsUserData {
 		return mFilterText;
 	}
 
-	public void setFilterText(String mFilterText) {
-		this.mFilterText = mFilterText;
+	public void setFilterText(String filterText) {
+		mFilterText = filterText;
 	}
 
 	public String getDepartureAirport() {

@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.unit.tests;
 
-import java.util.ArrayList;
 
 import junit.framework.TestCase;
 

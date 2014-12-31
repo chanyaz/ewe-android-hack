@@ -374,7 +374,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	private final OnDownloadComplete<MailChimpResult> mMailChimpCallback = new OnDownloadComplete<MailChimpResult>() {
 		@Override
 		public void onDownload(MailChimpResult result) {
-			if (result == null || result.mSuccess == false) {
+			if (result != null && result.mSuccess) {
 				MailChimpFailureDialogFragment dialogFragment = new MailChimpFailureDialogFragment();
 				Bundle args = new Bundle();
 				if (!TextUtils.isEmpty(result.mErrorMessage)) {

@@ -25,7 +25,7 @@ import com.mobiata.flightlib.data.Flight;
 
 public class FlightTrip implements JSONable {
 
-	private static double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
+	private static final double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
 
 	private String mProductKey;
 
