@@ -5,6 +5,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.utils.AboutUtils;
 import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
@@ -87,5 +88,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		else {
 			return "expediaglobalappdev" + ",expedia7androidappdev";
 		}
+	}
+
+	public void contactUsViaWeb(Context context) {
+		AboutUtils.openWebsite(context, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
 	}
 }

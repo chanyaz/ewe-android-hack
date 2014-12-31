@@ -59,7 +59,7 @@ public class AboutUtils {
 		items.add(mActivity.getString(R.string.contact_expedia_website));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaWeb();
+				ProductFlavorFeatureConfiguration.getInstance().contactUsViaWeb(mActivity);
 			}
 		});
 
@@ -132,15 +132,6 @@ public class AboutUtils {
 		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
-	public void contactViaWeb() {
-		if (ExpediaBookingApp.IS_VSC) {
-			openContactUsVSC();
-		}
-		else {
-			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
-		}
-	}
-
 	public void contactViaEmail() {
 		trackEmailSupport();
 		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
@@ -181,11 +172,11 @@ public class AboutUtils {
 		openWebsite(mActivity, posInfo.getPrivacyPolicyUrl(), false);
 	}
 
-	private void openWebsite(Context context, String url, boolean useExternalBrowser) {
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {
 		openWebsite(context, url, useExternalBrowser, false);
 	}
 
-	private void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
 		if (useExternalBrowser) {
 			SocialUtils.openSite(context, url);
 		}

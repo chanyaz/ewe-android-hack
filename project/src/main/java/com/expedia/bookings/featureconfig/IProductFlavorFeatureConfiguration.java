@@ -24,4 +24,5 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean isAdXEnabled();
 	int getAdXPosIdentifier();
 	String getOmnitureReportSuiteIds(Context context);
+	void contactUsViaWeb(Context context);
 }

@@ -5,7 +5,9 @@ import java.lang.UnsupportedOperationException;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -89,5 +91,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		else {
 			return "expediaglobalappdev";
 		}
+	}
+
+	public void contactUsViaWeb(Context context) {
+		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
 }
