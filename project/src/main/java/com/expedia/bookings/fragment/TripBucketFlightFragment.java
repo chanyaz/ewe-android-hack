@@ -117,12 +117,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		if (flight != null) {
 			mNewDestination = flight.getFlightSearchParams().getArrivalLocation().getDestinationId();
 		}
-		if (mPreviousDestination != null && mPreviousDestination.equals(mNewDestination)) {
-			return false;
-		}
-		else {
-			return true;
-		}
+
+		return mPreviousDestination == null || !mPreviousDestination.equals(mNewDestination);
 	}
 
 	@Override

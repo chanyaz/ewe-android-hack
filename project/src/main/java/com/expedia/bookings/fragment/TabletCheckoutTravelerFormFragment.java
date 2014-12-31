@@ -466,12 +466,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	public boolean showBoardingMessage() {
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return getLob() == LineOfBusiness.FLIGHTS;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -58,5 +58,30 @@
         </module>
         <module name="GenericWhitespace" />
 
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <!--module name="AvoidInlineConditionals"/-->
+        <!--module name="DoubleCheckedLocking"/-->
+        <!--module name="EmptyStatement"/-->
+        <!--module name="EqualsHashCode"/-->
+        <!--module name="HiddenField"/-->
+        <!--module name="IllegalInstantiation"/-->
+        <!--module name="InnerAssignment"/-->
+        <!--module name="MagicNumber"/-->
+        <!--module name="MissingSwitchDefault"/-->
+        <!--module name="RedundantThrows"/-->
+        <!--module name="SimplifyBooleanExpression"/-->
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+        <module name="CovariantEquals"/>
+        <module name="NoFinalizer"/>
+        <module name="PackageDeclaration"/>
+        <module name="StringLiteralEquality" />
+        <module name="DefaultComesLast" />
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="UpperEll"/>
+
     </module>
 </module>
