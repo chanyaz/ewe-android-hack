@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.Ui;
 
@@ -70,5 +71,20 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.AIRASIAGO_MALAYSIA;
+	}
+
+	public Boolean isAdXEnabled() {
+		return true;
+	}
+
+	public int getAdXPosIdentifier() {
+		int adXPosIdentifier = 6259;
+
+		// For AirAsiaGo Thailand setting a separate ID.
+		if (PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase().equals("th")) {
+			adXPosIdentifier = 6258;
+		}
+
+		return adXPosIdentifier;
 	}
 }

@@ -72,4 +72,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.UNITED_KINGDOM;
 	}
+
+	public Boolean isAdXEnabled() {
+		return true;
+	}
+
+	public int getAdXPosIdentifier() {
+		return 2601;
+	}
 }

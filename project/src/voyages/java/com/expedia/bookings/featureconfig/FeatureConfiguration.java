@@ -70,4 +70,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.VSC;
 	}
+
+	public Boolean isAdXEnabled() {
+		return false;
+	}
+
+	public int getAdXPosIdentifier() {
+		throw new UnsupportedOperationException("AdX not enabled for VSC.");
+	}
 }

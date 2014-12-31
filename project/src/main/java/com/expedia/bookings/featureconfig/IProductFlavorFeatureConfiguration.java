@@ -21,4 +21,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getLoginContainerBackgroundResId(Context context);
 	Boolean doesLoginTextViewHaveCompoundDrawables();
 	PointOfSaleId getDefaultPOS();
+	Boolean isAdXEnabled();
+	int getAdXPosIdentifier();
 }

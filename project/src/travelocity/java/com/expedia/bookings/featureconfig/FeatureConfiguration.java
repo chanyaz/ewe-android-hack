@@ -71,4 +71,19 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.TRAVELOCITY;
 	}
+
+	public Boolean isAdXEnabled() {
+		return true;
+	}
+
+	public int getAdXPosIdentifier() {
+		int adXPosIdentifier = 13292;
+
+		// For Travelocity canada setting a separate ID.
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.TRAVELOCITY_CA) {
+			adXPosIdentifier = 14776;
+		}
+
+		return adXPosIdentifier;
+	}
 }

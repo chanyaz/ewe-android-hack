@@ -10,19 +10,15 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.mobiata.android.Log;
 
 public class AdTracker {
 
 	public static void initialize(Context context) {
-		// AdX
-		if (ExpediaBookingApp.sIsAutomation || ExpediaBookingApp.IS_VSC) {
-			AdX.initialize(context, false);
-		}
-		else {
-			AdX.initialize(context, true);
-		}
+		Boolean adxEnabled = !ExpediaBookingApp.sIsAutomation && ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled();
+		AdX.initialize(context, adxEnabled);
 	}
 
 	public static void trackFirstLaunch() {
