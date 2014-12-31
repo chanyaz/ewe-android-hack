@@ -164,6 +164,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFiltersC.setConsumeTouch(true);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
+		mHotelFilteredCountC.setConsumeTouch(true);
 		mHotelDetailsC = Ui.findView(view, R.id.hotel_details);
 		mHotelReviewsC = Ui.findView(view, R.id.hotel_reviews);
 		mHotelGalleryC = Ui.findView(view, R.id.hotel_gallery);
