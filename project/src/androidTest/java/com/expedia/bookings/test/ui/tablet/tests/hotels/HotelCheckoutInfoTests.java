@@ -93,7 +93,7 @@ public class HotelCheckoutInfoTests extends TabletTestCase {
 
 	public void testHotelNightsNumber() throws Exception {
 		Common.enterLog(TAG, "START: HOTEL RECEIPT NIGHTS NUMBER TESTS");
-		int dateOffsets[] = {
+		int[] dateOffsets = {
 			3, 7, 10, 25,
 		};
 

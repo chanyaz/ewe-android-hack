@@ -61,11 +61,9 @@
         <!-- Checks for common coding problems               -->
         <!-- See http://checkstyle.sf.net/config_coding.html -->
         <!--module name="AvoidInlineConditionals"/-->
+        <module name="CovariantEquals"/>
         <module name="EmptyStatement"/>
-        <!--module name="IllegalInstantiation"/-->
-        <!--module name="InnerAssignment"/-->
-        <!--module name="MagicNumber"/-->
-        <!--module name="MissingSwitchDefault"/-->
+        <module name="IllegalInstantiation"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
@@ -77,6 +75,7 @@
 
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="ArrayTypeStyle"/>
         <module name="UpperEll"/>
 
         <!-- See http://checkstyle.sourceforge.net/config_annotation.html -->

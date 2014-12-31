@@ -223,7 +223,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 			Log.i("Got new intent, deselecting leg id=" + legId);
 
-			FlightTripLeg selectedLegs[] = Db.getFlightSearch().getSelectedLegs();
+			FlightTripLeg[] selectedLegs = Db.getFlightSearch().getSelectedLegs();
 			for (mDeselectLegPos = 0; mDeselectLegPos < selectedLegs.length; mDeselectLegPos++) {
 				if (selectedLegs[mDeselectLegPos].getFlightLeg().getLegId().equals(legId)) {
 					break;

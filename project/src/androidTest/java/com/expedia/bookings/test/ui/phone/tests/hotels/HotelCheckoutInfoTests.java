@@ -171,7 +171,7 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 
 	public void testHotelNightsNumber() throws Exception {
 		ScreenActions.enterLog(TAG, "START: HOTEL RECEIPT NIGHTS NUMBER TESTS");
-		int dateOffsets[] = {
+		int[] dateOffsets = {
 			3, 7, 10, 25,
 		};
 		LaunchScreen.launchHotels();
