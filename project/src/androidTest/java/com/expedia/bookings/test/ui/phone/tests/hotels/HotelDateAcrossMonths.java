@@ -24,7 +24,7 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import com.expedia.bookings.utils.JodaUtils;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import android.support.test.espresso.ViewInteraction;
 
 /*
 card link : https://expedia.mingle.thoughtworks.com/projects/eb_tp/cards/184?

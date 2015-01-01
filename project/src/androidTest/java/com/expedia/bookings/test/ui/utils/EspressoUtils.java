@@ -2,21 +2,21 @@ package com.expedia.bookings.test.ui.utils;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getCount;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getRating;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 

@@ -20,7 +20,7 @@ import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import com.mobiata.android.util.SettingUtils;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
+import static android.support.test.espresso.action.ViewActions.pressBack;
 
 /**
  * Created by dmadan on 4/22/14.

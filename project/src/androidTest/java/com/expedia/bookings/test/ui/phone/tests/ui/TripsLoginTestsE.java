@@ -17,14 +17,14 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import android.support.test.espresso.Espresso;
 import com.mobiata.android.util.SettingUtils;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by dmadan on 5/23/14.

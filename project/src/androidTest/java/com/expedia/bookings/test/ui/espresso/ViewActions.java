@@ -2,6 +2,8 @@ package com.expedia.bookings.test.ui.espresso;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -17,19 +19,24 @@ import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
-import com.google.android.apps.common.testing.ui.espresso.UiController;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
-import com.google.android.apps.common.testing.ui.espresso.action.CoordinatesProvider;
-import com.google.android.apps.common.testing.ui.espresso.action.GeneralLocation;
-import com.google.android.apps.common.testing.ui.espresso.action.GeneralSwipeAction;
-import com.google.android.apps.common.testing.ui.espresso.action.PrecisionDescriber;
-import com.google.android.apps.common.testing.ui.espresso.action.Press;
-import com.google.android.apps.common.testing.ui.espresso.action.Swipe;
-import com.google.android.apps.common.testing.ui.espresso.action.Swiper;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.action.CoordinatesProvider;
+import android.support.test.espresso.action.GeneralLocation;
+import android.support.test.espresso.action.GeneralSwipeAction;
+import android.support.test.espresso.action.PrecisionDescriber;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Swipe;
+import android.support.test.espresso.action.Swiper;
+import android.support.test.espresso.matcher.ViewMatchers;
+
+import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
+import com.expedia.bookings.widget.SlideToWidget;
+import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.widget.CalendarDatePicker;
 
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 
 public final class ViewActions {
 
@@ -53,15 +60,26 @@ public final class ViewActions {
 	}
 
 	public static ViewAction swipeRight() {
-		return new LaxSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
+		return new LaxSwipeAction(Swipe.FAST,
 			GeneralLocation.CENTER_RIGHT, Press.FINGER);
 	}
 
 	public static class LaxSwipeAction implements ViewAction {
 		private GeneralSwipeAction mAction;
 
-		public LaxSwipeAction(Swiper swiper, CoordinatesProvider startCoordinatesProvider, CoordinatesProvider endCoordinatesProvider, PrecisionDescriber precisionDescriber) {
-			mAction = new GeneralSwipeAction(swiper, startCoordinatesProvider, endCoordinatesProvider, precisionDescriber);
+		public LaxSwipeAction(Swiper swiper, CoordinatesProvider endCoordinatesProvider, PrecisionDescriber precisionDescriber) {
+			CoordinatesProvider startCoordinates = new CoordinatesProvider() {
+				@Override
+				public float[] calculateCoordinates(View view) {
+					View v = view.findViewById(R.id.touch_target);
+					final int[] screenPos = new int[2];
+					v.getLocationOnScreen(screenPos);
+					final float startX = screenPos[0];
+					final float startY = screenPos[1];
+					return new float[] {startX, startY};
+				}
+			};
+			mAction = new GeneralSwipeAction(swiper, startCoordinates, endCoordinatesProvider, precisionDescriber);
 		}
 
 		@Override
@@ -242,6 +260,7 @@ public final class ViewActions {
 			}
 		};
 	}
+
 }
 
 

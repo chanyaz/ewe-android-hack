@@ -6,9 +6,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import android.app.Activity;
 import android.app.Instrumentation;
 
-import com.google.android.apps.common.testing.testrunner.ActivityLifecycleMonitorRegistry;
-import com.google.android.apps.common.testing.testrunner.Stage;
-import com.google.common.collect.Iterables;
+import android.support.test.internal.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+
+import android.support.test.runner.lifecycle.Stage;
+import  com.android.support.test.deps.guava.collect.Iterables;
 import com.mobiata.android.Log;
 import com.squareup.spoon.Spork;
 

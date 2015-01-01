@@ -19,9 +19,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
-import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
+import android.support.test.espresso.matcher.BoundedMatcher;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.android.support.test.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
 
 /**

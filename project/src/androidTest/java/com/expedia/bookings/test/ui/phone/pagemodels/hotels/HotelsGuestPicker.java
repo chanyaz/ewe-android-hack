@@ -5,15 +5,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import android.content.res.Resources;
 
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import android.support.test.espresso.ViewInteraction;
 
 /**
  * Created by dmadan on 4/10/14.

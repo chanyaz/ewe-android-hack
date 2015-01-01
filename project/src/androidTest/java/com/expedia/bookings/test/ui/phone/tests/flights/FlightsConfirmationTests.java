@@ -19,7 +19,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import android.support.test.espresso.Espresso;
 
 /**
  * Created by dmadan on 4/30/14.

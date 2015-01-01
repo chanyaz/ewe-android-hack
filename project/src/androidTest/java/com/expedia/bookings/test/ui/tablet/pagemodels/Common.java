@@ -4,14 +4,18 @@ import android.app.Instrumentation;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
+
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.ViewActions;
+
 import com.mobiata.android.Log;
 
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
+
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+
 import static org.hamcrest.CoreMatchers.not;
 
 public class Common {
