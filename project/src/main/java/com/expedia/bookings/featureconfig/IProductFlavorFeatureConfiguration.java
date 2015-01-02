@@ -7,6 +7,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.server.ExpediaServices;
 
 public interface IProductFlavorFeatureConfiguration {
 	String getServerEndpointsConfigurationPath();
@@ -48,8 +49,14 @@ public interface IProductFlavorFeatureConfiguration {
 	String getOmnitureReportSuiteIds(Context context);
 
 	void contactUsViaWeb(Context context);
+
 	int getResIdForErrorHotelServiceFatalFailure();
+
 	int getResIdForErrorBookingSucceededWithErrors();
 
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();
+
+	Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint);
+
+	String touchupE3EndpointUrlIfRequired(String e3EndpointUrl);
 }

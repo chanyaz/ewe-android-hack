@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -119,5 +120,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
 		return additionalParamsForReviewsRequest;
+	}
+
+	public Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint) {
+		return endpoint != ExpediaServices.EndPoint.PRODUCTION && endpoint != ExpediaServices.EndPoint.INTEGRATION;
+	}
+
+	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
+		return e3EndpointUrl;
 	}
 }

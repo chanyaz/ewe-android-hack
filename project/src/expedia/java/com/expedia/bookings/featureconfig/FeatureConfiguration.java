@@ -10,6 +10,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
@@ -110,5 +111,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		return null;
+	}
+
+	public Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint) {
+		return endpoint != ExpediaServices.EndPoint.PRODUCTION;
+	}
+
+	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
+		return e3EndpointUrl;
 	}
 }
