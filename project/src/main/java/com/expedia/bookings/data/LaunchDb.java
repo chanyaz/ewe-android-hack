@@ -43,6 +43,7 @@ public class LaunchDb {
 	private LaunchCollection mNearByCollection = null;
 	public static final String YOUR_SEARCH_TILE_ID = "last-search";
 	public static final String CUREENT_LOCATION_SEARCH_TILE_ID = "current-location";
+	private static android.location.Location mCurrentLocation;
 
 	public static void getCollections(Context context) {
 		sDb.mYourSearchCollection = generateYourSearchCollection(context, Sp.getParams());
@@ -158,12 +159,14 @@ public class LaunchDb {
 
 		//Downloading image for Current Location Tile
 		if (location != null) {
+			LaunchDb.mCurrentLocation = location;
 			BackgroundDownloader bgd = BackgroundDownloader.getInstance();
 			bgd.startDownload(NEAR_BY_KEY, new BackgroundDownloader.Download<SuggestionResponse>() {
 				@Override
 				public SuggestionResponse doDownload() {
 					ExpediaServices services = new ExpediaServices(context);
-					return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
+					return services.suggestionsAirportsNearby(location.getLatitude(), location.getLongitude(),
+						SuggestionSort.POPULARITY);
 				}
 			}, mSuggestCallback);
 		}
@@ -202,6 +205,8 @@ public class LaunchDb {
 			if (results != null && results.getSuggestions().size() > 0) {
 				LaunchLocation loc = new LaunchLocation();
 				loc.location = results.getSuggestions().get(0);
+				loc.location.getLocation().setLatitude(mCurrentLocation.getLatitude());
+				loc.location.getLocation().setLongitude(mCurrentLocation.getLongitude());
 				sDb.mNearByCollection.locations = new ArrayList<LaunchLocation>();
 				sDb.mNearByCollection.locations.add(loc);
 				sDb.mNearByCollection.isDestinationImageCode = true;
