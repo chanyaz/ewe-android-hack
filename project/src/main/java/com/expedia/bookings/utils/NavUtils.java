@@ -103,7 +103,7 @@ public class NavUtils {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		builder.addNextIntent(intent);
 
-		intent = new Intent(context, TabletResultsActivity.class);
+		intent = TabletResultsActivity.createIntent(context);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		if (lob == LineOfBusiness.HOTELS) {
 			intent.putExtra(TabletResultsActivity.INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, true);

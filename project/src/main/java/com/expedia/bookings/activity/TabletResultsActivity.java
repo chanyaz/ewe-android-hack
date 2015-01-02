@@ -6,6 +6,8 @@ import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -121,6 +123,16 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	private boolean mDoingHotelsAddToBucket = false;
 
 	boolean mIsBailing = false;
+
+	/**
+	 * Create intent to open this activity in a standard way.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, TabletResultsActivity.class);
+		return intent;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
