@@ -2646,11 +2646,9 @@ public class OmnitureTracking {
 		if (EndPoint.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
 			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			return "om.travelocity.com";
+		else {
+			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();
 		}
-
-		return "om.expedia.com";
 	}
 
 	private static String md5(String s) {

@@ -48,6 +48,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getOmnitureReportSuiteIds(Context context);
 
+	String getOmnitureTrackingServer();
+
 	void contactUsViaWeb(Context context);
 
 	int getResIdForErrorHotelServiceFatalFailure();

@@ -96,6 +96,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		}
 	}
 
+	public String getOmnitureTrackingServer() {
+		return "om.expedia.com";
+	}
+
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
 	}
