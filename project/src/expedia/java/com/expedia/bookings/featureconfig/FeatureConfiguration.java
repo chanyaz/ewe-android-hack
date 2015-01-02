@@ -36,6 +36,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad;
 	}
 
+	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+		return true;
+	}
+
+	public Boolean isAppCrossSellInCarShareContentEnabled() {
+		return true;
+	}
+
 	public String getHostnameForShortUrl() {
 		return "e.xpda.co";
 	}

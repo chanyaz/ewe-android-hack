@@ -691,14 +691,10 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
-		//1683. VSC Don't show Android App crossSell text and link.
-		//  Disabling Android App crossSell for Tvly app also.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			sb.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
+		if(ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
+			sb.append(mContext.getString(
+				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
+				PointOfSale.getPointOfSale().getAppInfoUrl()));
 		}
 
 		return sb.toString();
@@ -751,7 +747,6 @@ public class ShareUtils {
 
 		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
 		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		StringBuilder sb = new StringBuilder();
 
@@ -789,13 +784,10 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		// Tvly also dont show the App CrossSell text and link
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			sb.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
+		if(ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
+			sb.append(mContext.getString(
+				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
+				PointOfSale.getPointOfSale().getAppInfoUrl()));
 		}
 
 		return sb.toString();

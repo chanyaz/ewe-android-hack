@@ -20,6 +20,10 @@ public interface IProductFlavorFeatureConfiguration {
 
 	int getCrossSellStringResourceIdForShareEmail();
 
+	Boolean isAppCrossSellInActivityShareContentEnabled();
+
+	Boolean isAppCrossSellInCarShareContentEnabled();
+
 	String getHostnameForShortUrl();
 
 	Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard();

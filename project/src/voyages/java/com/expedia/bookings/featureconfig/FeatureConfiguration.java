@@ -35,6 +35,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad_vsc;
 	}
 
+	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+		return false;
+	}
+
+	public Boolean isAppCrossSellInCarShareContentEnabled() {
+		return false;
+	}
+
 	public String getHostnameForShortUrl() {
 		return "v.vygs.co";
 	}

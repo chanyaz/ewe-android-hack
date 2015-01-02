@@ -36,6 +36,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad_aag;
 	}
 
+	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+		return false;
+	}
+
+	public Boolean isAppCrossSellInCarShareContentEnabled() {
+		return false;
+	}
+
 	public String getHostnameForShortUrl() {
 		return "a.aago.co";
 	}

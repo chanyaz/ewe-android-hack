@@ -36,6 +36,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad_tvly;
 	}
 
+	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+		return true;
+	}
+
+	public Boolean isAppCrossSellInCarShareContentEnabled() {
+		return true;
+	}
+
 	public String getHostnameForShortUrl() {
 		return "t.tvly.co";
 	}
