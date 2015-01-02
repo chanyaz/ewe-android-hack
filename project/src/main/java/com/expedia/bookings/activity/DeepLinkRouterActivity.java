@@ -111,331 +111,374 @@ public class DeepLinkRouterActivity extends Activity {
 			return;
 		}
 
-		boolean finish = true;
-		if (host.equals("home")) {
+		boolean finish;
+		switch (host) {
+		case "home":
 			Log.i(TAG, "Launching home screen from deep link!");
 			NavUtils.goToLaunchScreen(this, true);
-		}
-		else if (host.equals("showTrips") || host.equals("trips")) {
+			finish = true;
+			break;
+		case "showTrips":
+		case "trips":
 			Log.i(TAG, "Launching itineraries from deep link!");
 			NavUtils.goToItin(this);
-		}
-		else if (host.equals("hotelSearch")) {
-			LocalDate startDate = null;
-			LocalDate endDate = null;
-			int numAdults = 0;
-			List<ChildTraveler> children = null;
-
-			// Add dates (if supplied)
-			if (queryData.contains("checkInDate")) {
-				String checkInDateStr = data.getQueryParameter("checkInDate");
-				try {
-					startDate = LocalDate.parse(checkInDateStr);
-					Log.d(TAG, "Set hotel check in date: " + startDate);
-				}
-				catch (TimeFormatException e) {
-					Log.w(TAG, "Could not parse check in date: " + checkInDateStr, e);
-				}
-			}
-
-			if (queryData.contains("checkOutDate")) {
-				String checkOutDateStr = data.getQueryParameter("checkOutDate");
-				try {
-					endDate = LocalDate.parse(checkOutDateStr);
-					Log.d(TAG, "Set hotel check out date: " + endDate);
-				}
-				catch (TimeFormatException e) {
-					Log.w(TAG, "Could not parse check out date: " + checkOutDateStr, e);
-				}
-			}
-
-			// Add adults (if supplied)
-			if (queryData.contains("numAdults")) {
-				numAdults = parseNumAdults(data.getQueryParameter("numAdults"));
-			}
-
-			// Add children (if supplied)
-			if (queryData.contains("childAges")) {
-				children = parseChildAges(data.getQueryParameter("childAges"), numAdults);
-			}
-
-			if (ExpediaBookingApp.useTabletInterface(this)) {
-				mSearchParams = new SearchParams();
-				mLobToLaunch = LineOfBusiness.HOTELS;
-
-				if (startDate != null) {
-					mSearchParams.setStartDate(startDate);
-				}
-				if (endDate != null) {
-					mSearchParams.setEndDate(endDate);
-				}
-				if (numAdults != 0) {
-					mSearchParams.setNumAdults(numAdults);
-				}
-				if (children != null) {
-					mSearchParams.setChildTravelers(children);
-				}
-
-				// Validation
-				if (!mSearchParams.isDurationValid()) {
-					mSearchParams.setDefaultDuration();
-				}
-				if (!mSearchParams.areGuestsValid()) {
-					mSearchParams.setDefaultGuests();
-				}
-
-				BackgroundDownloader bgd = BackgroundDownloader.getInstance();
-
-				// Determine the search location.  Defaults to "current location" if none supplied
-				// or the supplied variables could not be parsed.
-				if (queryData.contains("hotelId")) {
-					finish = false;
-					final String hotelId = data.getQueryParameter("hotelId");
-					bgd.startDownload(DL_KEY_HOTEL_ID, new BackgroundDownloader.Download<SuggestionResponse>() {
-						@Override
-						public SuggestionResponse doDownload() {
-							ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-							return services.suggestionsHotelId(hotelId);
-						}
-					}, mSuggestCallback);
-				}
-				else if (queryData.contains("latitude") && queryData.contains("longitude")) {
-					String latStr = data.getQueryParameter("latitude");
-					String lngStr = data.getQueryParameter("longitude");
-
-					try {
-						final double lat = Double.parseDouble(latStr);
-						final double lng = Double.parseDouble(lngStr);
-
-						// Check that lat/lng are valid
-						if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-							Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
-							finish = false;
-							bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
-								@Override
-								public SuggestionResponse doDownload() {
-									ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-									return services.suggestionsCityNearby(lat, lng);
-								}
-							}, mSuggestCallback);
-						}
-						else {
-							Log.w(TAG, "Lat/lng out of valid range: (" + latStr + ", " + lngStr + ")");
-						}
-					}
-					catch (NumberFormatException e) {
-						Log.w(TAG, "Could not parse latitude/longitude (" + latStr + ", " + lngStr + ")", e);
-					}
-				}
-				else if (queryData.contains("location")) {
-					final String query = data.getQueryParameter("location");
-					Log.d(TAG, "Setting hotel search location: " + query);
-					finish = false;
-					bgd.startDownload(DL_KEY_LOCATION_SUGGEST, new BackgroundDownloader.Download<SuggestionResponse>() {
-						@Override
-						public SuggestionResponse doDownload() {
-							ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-							return services.suggestions(query, 0);
-						}
-					}, mSuggestCallback);
-				}
-				else {
-					SuggestionV2 destination = new SuggestionV2();
-					destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
-					mSearchParams.setDestination(destination);
-					NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams,
-						LineOfBusiness.HOTELS);
-				}
-			}
-			else {
-				// Fill HotelSearchParams with query data
-				HotelSearchParams params = new HotelSearchParams();
-
-				if (startDate != null) {
-					params.setCheckInDate(startDate);
-				}
-				if (endDate != null) {
-					params.setCheckOutDate(endDate);
-				}
-				if (numAdults != 0) {
-					params.setNumAdults(numAdults);
-				}
-				if (children != null) {
-					params.setChildren(children);
-				}
-
-				// Determine the search location.  Defaults to "current location" if none supplied
-				// or the supplied variables could not be parsed.
-				if (queryData.contains("hotelId")) {
-					params.setSearchType(SearchType.HOTEL);
-					String hotelId = data.getQueryParameter("hotelId");
-					params.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
-					params.setRegionId(hotelId);
-					Log.d(TAG, "Setting hotel search id: " + params.getRegionId());
-				}
-				else if (queryData.contains("latitude") && queryData.contains("longitude")) {
-					String latStr = data.getQueryParameter("latitude");
-					String lngStr = data.getQueryParameter("longitude");
-
-					try {
-						double lat = Double.parseDouble(latStr);
-						double lng = Double.parseDouble(lngStr);
-
-						// Check that lat/lng are valid
-						if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-							params.setSearchType(SearchType.ADDRESS);
-							params.setQuery("(" + lat + ", " + lng + ")");
-							params.setSearchLatLon(lat, lng);
-							Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
-						}
-						else {
-							Log.w(TAG, "Lat/lng out of valid range: (" + latStr + ", " + lngStr + ")");
-						}
-					}
-					catch (NumberFormatException e) {
-						Log.w(TAG, "Could not parse latitude/longitude (" + latStr + ", " + lngStr + ")", e);
-					}
-				}
-				else if (queryData.contains("location")) {
-					params.setSearchType(SearchType.CITY);
-					params.setQuery(data.getQueryParameter("location"));
-					Log.d(TAG, "Setting hotel search location: " + params.getQuery());
-				}
-
-				// Launch hotel search
-				Log.i(TAG, "Launching hotel search from deep link!");
-				NavUtils.goToHotels(this, params, null, NavUtils.FLAG_DEEPLINK);
-			}
-		}
-		else if (host.equals("flightSearch")) {
-			String originAirportCode = null;
-			String destinationAirportCode = null;
-			LocalDate startDate = null;
-			LocalDate endDate = null;
-			int numAdults = 0;
-			List<ChildTraveler> children = null;
-
-			if (queryData.contains("origin")) {
-				originAirportCode = data.getQueryParameter("origin");
-			}
-			if (queryData.contains("destination")) {
-				destinationAirportCode = data.getQueryParameter("destination");
-			}
-			if (queryData.contains("departureDate")) {
-				String departureDateStr = data.getQueryParameter("departureDate");
-				try {
-					startDate = LocalDate.parse(departureDateStr);
-				}
-				catch (TimeFormatException e) {
-					Log.w(TAG, "Could not parse flight departure date: " + departureDateStr, e);
-				}
-			}
-			if (queryData.contains("returnDate")) {
-				String returnDateStr = data.getQueryParameter("returnDate");
-				try {
-					endDate = LocalDate.parse(returnDateStr);
-				}
-				catch (TimeFormatException e) {
-					Log.w(TAG, "Could not parse flight return date: " + returnDateStr, e);
-				}
-			}
-			if (queryData.contains("numAdults")) {
-				numAdults = parseNumAdults(data.getQueryParameter("numAdults"));
-			}
-
-
-			if (ExpediaBookingApp.useTabletInterface(DeepLinkRouterActivity.this)) {
-				mSearchParams = new SearchParams();
-
-				if (startDate != null) {
-					mSearchParams.setStartDate(startDate);
-				}
-				if (endDate != null) {
-					mSearchParams.setEndDate(endDate);
-				}
-				if (numAdults != 0) {
-					mSearchParams.setNumAdults(numAdults);
-				}
-
-				// Validation
-				if (!mSearchParams.isDurationValid()) {
-					mSearchParams.setDefaultDuration();
-				}
-				if (!mSearchParams.areGuestsValid()) {
-					mSearchParams.setDefaultGuests();
-				}
-
-				if (originAirportCode != null) {
-					SuggestionV2 origin = new SuggestionV2();
-					origin.setAirportCode(originAirportCode);
-					origin.setDisplayName(originAirportCode);
-					origin.setLocation(new Location());
-					mSearchParams.setOrigin(origin);
-				}
-
-				final String destAirportCode = destinationAirportCode;
-				BackgroundDownloader.getInstance().startDownload(DL_KEY_FLIGHT_SUGGEST, new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(destAirportCode, 0);
-					}
-				}, mSuggestCallback);
-			}
-			else {
-				// Fill FlightSearchParams with query data
-				FlightSearchParams params = new FlightSearchParams();
-
-				if (originAirportCode != null) {
-					Location departureLocation = new Location();
-					departureLocation.setDestinationId(originAirportCode);
-					params.setDepartureLocation(departureLocation);
-					Log.d(TAG, "Set flight origin: " + departureLocation.getDestinationId());
-				}
-
-				if (destinationAirportCode != null) {
-					Location arrivalLocation = new Location();
-					arrivalLocation.setDestinationId(destinationAirportCode);
-					params.setArrivalLocation(arrivalLocation);
-					Log.d(TAG, "Set flight destination: " + arrivalLocation.getDestinationId());
-				}
-
-				if (startDate != null) {
-					Log.d(TAG, "Set flight departure date: " + startDate);
-					params.setDepartureDate(startDate);
-				}
-
-				if (endDate != null) {
-					params.setReturnDate(endDate);
-					Log.d(TAG, "Set flight return date: " + endDate);
-				}
-
-				params.ensureValidDates();
-
-				// Add adults (if supplied)
-				if (numAdults != 0) {
-					params.setNumAdults(numAdults);
-				}
-
-				// Launch flight search
-				Db.getFlightSearch().setSearchParams(params);
-				if (params.isFilled()) {
-					Log.i(TAG, "Launching flight search results activity from deep link!");
-					NavUtils.goToFlightSearch(this);
-				}
-				else {
-					Log.i(TAG, "Launching flight search params activity from deep link!");
-					NavUtils.goToFlights(this, true);
-				}
-			}
-		}
-		else {
+			finish = true;
+			break;
+		case "hotelSearch":
+			finish = handleHotelSearch(data, queryData);
+			break;
+		case "flightSearch":
+			handleFlightSearch(data, queryData);
+			finish = true;
+			break;
+		default:
 			Ui.showToast(this, "Cannot yet handle data: " + data);
+			finish = true;
 		}
 
 		// This Activity should never fully launch
 		if (finish) {
 			finish();
+		}
+	}
+
+	/**
+	 * We'll parse any deep link whose url matches: expda://hotelSearch/*
+	 * <p/>
+	 * Example: search by hotelId:
+	 * This will search for hotel suggestions by hotelId and launch the first suggestion
+	 * expda://hotelSearch/?checkInDate=2015-01-01&checkOutDate=2015-01-02&numAdults=2&childAges=5,6,7&hotelId=12345
+	 * <p/>
+	 * Example: search by latitude, longitude:
+	 * This will search for hotel suggestions and return the nearest city to the passed latitude, longitude
+	 * expda://hotelSearch/?checkInDate=2015-01-01&checkOutDate=2015-01-02&numAdults=2&childAges=5,6,7&latitude=-17.027&longitude=177.1435
+	 * <p/>
+	 * Example: search by location:
+	 * This will search for hotel suggestions based on the location text, and launch the first suggestion
+	 * expda://hotelSearch/?checkInDate=2015-01-01&checkOutDate=2015-01-02&numAdults=2&childAges=5,6,7&location=San+Diego
+	 *
+	 * @param data
+	 * @param queryData
+	 * @return
+	 */
+	private boolean handleHotelSearch(Uri data, Set<String> queryData) {
+		LocalDate startDate = null;
+		LocalDate endDate = null;
+		int numAdults = 0;
+		List<ChildTraveler> children = null;
+
+		// Add dates (if supplied)
+		if (queryData.contains("checkInDate")) {
+			String checkInDateStr = data.getQueryParameter("checkInDate");
+			try {
+				startDate = LocalDate.parse(checkInDateStr);
+				Log.d(TAG, "Set hotel check in date: " + startDate);
+			}
+			catch (TimeFormatException e) {
+				Log.w(TAG, "Could not parse check in date: " + checkInDateStr, e);
+			}
+		}
+
+		if (queryData.contains("checkOutDate")) {
+			String checkOutDateStr = data.getQueryParameter("checkOutDate");
+			try {
+				endDate = LocalDate.parse(checkOutDateStr);
+				Log.d(TAG, "Set hotel check out date: " + endDate);
+			}
+			catch (TimeFormatException e) {
+				Log.w(TAG, "Could not parse check out date: " + checkOutDateStr, e);
+			}
+		}
+
+		// Add adults (if supplied)
+		if (queryData.contains("numAdults")) {
+			numAdults = parseNumAdults(data.getQueryParameter("numAdults"));
+		}
+
+		// Add children (if supplied)
+		if (queryData.contains("childAges")) {
+			children = parseChildAges(data.getQueryParameter("childAges"), numAdults);
+		}
+
+		if (ExpediaBookingApp.useTabletInterface(this)) {
+			mSearchParams = new SearchParams();
+			mLobToLaunch = LineOfBusiness.HOTELS;
+
+			if (startDate != null) {
+				mSearchParams.setStartDate(startDate);
+			}
+			if (endDate != null) {
+				mSearchParams.setEndDate(endDate);
+			}
+			if (numAdults != 0) {
+				mSearchParams.setNumAdults(numAdults);
+			}
+			if (children != null) {
+				mSearchParams.setChildTravelers(children);
+			}
+
+			// Validation
+			if (!mSearchParams.isDurationValid()) {
+				mSearchParams.setDefaultDuration();
+			}
+			if (!mSearchParams.areGuestsValid()) {
+				mSearchParams.setDefaultGuests();
+			}
+
+			BackgroundDownloader bgd = BackgroundDownloader.getInstance();
+
+			// Determine the search location.  Defaults to "current location" if none supplied
+			// or the supplied variables could not be parsed.
+			if (queryData.contains("hotelId")) {
+				final String hotelId = data.getQueryParameter("hotelId");
+				bgd.startDownload(DL_KEY_HOTEL_ID, new BackgroundDownloader.Download<SuggestionResponse>() {
+					@Override
+					public SuggestionResponse doDownload() {
+						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+						return services.suggestionsHotelId(hotelId);
+					}
+				}, mSuggestCallback);
+				return false;
+			}
+			else if (queryData.contains("latitude") && queryData.contains("longitude")) {
+				String latStr = data.getQueryParameter("latitude");
+				String lngStr = data.getQueryParameter("longitude");
+
+				try {
+					final double lat = Double.parseDouble(latStr);
+					final double lng = Double.parseDouble(lngStr);
+
+					// Check that lat/lng are valid
+					if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+						Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
+						bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
+							@Override
+							public SuggestionResponse doDownload() {
+								ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+								return services.suggestionsCityNearby(lat, lng);
+							}
+						}, mSuggestCallback);
+						return false;
+					}
+					else {
+						Log.w(TAG, "Lat/lng out of valid range: (" + latStr + ", " + lngStr + ")");
+					}
+				}
+				catch (NumberFormatException e) {
+					Log.w(TAG, "Could not parse latitude/longitude (" + latStr + ", " + lngStr + ")", e);
+				}
+			}
+			else if (queryData.contains("location")) {
+				final String query = data.getQueryParameter("location");
+				Log.d(TAG, "Setting hotel search location: " + query);
+				bgd.startDownload(DL_KEY_LOCATION_SUGGEST, new BackgroundDownloader.Download<SuggestionResponse>() {
+					@Override
+					public SuggestionResponse doDownload() {
+						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+						return services.suggestions(query, 0);
+					}
+				}, mSuggestCallback);
+				return false;
+			}
+			else {
+				SuggestionV2 destination = new SuggestionV2();
+				destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
+				mSearchParams.setDestination(destination);
+				NavUtils.goToTabletResults(this, mSearchParams, LineOfBusiness.HOTELS);
+			}
+		}
+		else {
+			// Fill HotelSearchParams with query data
+			HotelSearchParams params = new HotelSearchParams();
+
+			if (startDate != null) {
+				params.setCheckInDate(startDate);
+			}
+			if (endDate != null) {
+				params.setCheckOutDate(endDate);
+			}
+			if (numAdults != 0) {
+				params.setNumAdults(numAdults);
+			}
+			if (children != null) {
+				params.setChildren(children);
+			}
+
+			// Determine the search location.  Defaults to "current location" if none supplied
+			// or the supplied variables could not be parsed.
+			if (queryData.contains("hotelId")) {
+				params.setSearchType(SearchType.HOTEL);
+				String hotelId = data.getQueryParameter("hotelId");
+				params.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
+				params.setRegionId(hotelId);
+				Log.d(TAG, "Setting hotel search id: " + params.getRegionId());
+			}
+			else if (queryData.contains("latitude") && queryData.contains("longitude")) {
+				String latStr = data.getQueryParameter("latitude");
+				String lngStr = data.getQueryParameter("longitude");
+
+				try {
+					double lat = Double.parseDouble(latStr);
+					double lng = Double.parseDouble(lngStr);
+
+					// Check that lat/lng are valid
+					if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+						params.setSearchType(SearchType.ADDRESS);
+						params.setQuery("(" + lat + ", " + lng + ")");
+						params.setSearchLatLon(lat, lng);
+						Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
+					}
+					else {
+						Log.w(TAG, "Lat/lng out of valid range: (" + latStr + ", " + lngStr + ")");
+					}
+				}
+				catch (NumberFormatException e) {
+					Log.w(TAG, "Could not parse latitude/longitude (" + latStr + ", " + lngStr + ")", e);
+				}
+			}
+			else if (queryData.contains("location")) {
+				params.setSearchType(SearchType.CITY);
+				params.setQuery(data.getQueryParameter("location"));
+				Log.d(TAG, "Setting hotel search location: " + params.getQuery());
+			}
+
+			// Launch hotel search
+			Log.i(TAG, "Launching hotel search from deep link!");
+			NavUtils.goToHotels(this, params, null, NavUtils.FLAG_DEEPLINK);
+		}
+		return true;
+	}
+
+	/**
+	 * We'll parse any deep link whose url matches: expda://flightSearch/*
+	 * <p/>
+	 * Example:
+	 * expda://flightSearch/?origin=LAX&destination=SFO&departureDate=2015-01-01&returnDate=2015-01-02&numAdults=2
+	 *
+	 * @param data
+	 * @param queryData
+	 * @return
+	 */
+	private void handleFlightSearch(Uri data, Set<String> queryData) {
+		String originAirportCode = null;
+		String destinationAirportCode = null;
+		LocalDate startDate = null;
+		LocalDate endDate = null;
+		int numAdults = 0;
+		List<ChildTraveler> children = null;
+
+		if (queryData.contains("origin")) {
+			originAirportCode = data.getQueryParameter("origin");
+		}
+		if (queryData.contains("destination")) {
+			destinationAirportCode = data.getQueryParameter("destination");
+		}
+		if (queryData.contains("departureDate")) {
+			String departureDateStr = data.getQueryParameter("departureDate");
+			try {
+				startDate = LocalDate.parse(departureDateStr);
+			}
+			catch (TimeFormatException e) {
+				Log.w(TAG, "Could not parse flight departure date: " + departureDateStr, e);
+			}
+		}
+		if (queryData.contains("returnDate")) {
+			String returnDateStr = data.getQueryParameter("returnDate");
+			try {
+				endDate = LocalDate.parse(returnDateStr);
+			}
+			catch (TimeFormatException e) {
+				Log.w(TAG, "Could not parse flight return date: " + returnDateStr, e);
+			}
+		}
+		if (queryData.contains("numAdults")) {
+			numAdults = parseNumAdults(data.getQueryParameter("numAdults"));
+		}
+
+
+		if (ExpediaBookingApp.useTabletInterface(this)) {
+			mSearchParams = new SearchParams();
+
+			if (startDate != null) {
+				mSearchParams.setStartDate(startDate);
+			}
+			if (endDate != null) {
+				mSearchParams.setEndDate(endDate);
+			}
+			if (numAdults != 0) {
+				mSearchParams.setNumAdults(numAdults);
+			}
+
+			// Validation
+			if (!mSearchParams.isDurationValid()) {
+				mSearchParams.setDefaultDuration();
+			}
+			if (!mSearchParams.areGuestsValid()) {
+				mSearchParams.setDefaultGuests();
+			}
+
+			if (originAirportCode != null) {
+				SuggestionV2 origin = new SuggestionV2();
+				origin.setAirportCode(originAirportCode);
+				origin.setDisplayName(originAirportCode);
+				origin.setLocation(new Location());
+				mSearchParams.setOrigin(origin);
+			}
+
+			final String destAirportCode = destinationAirportCode;
+			BackgroundDownloader.getInstance().startDownload(DL_KEY_FLIGHT_SUGGEST, new BackgroundDownloader.Download<SuggestionResponse>() {
+				@Override
+				public SuggestionResponse doDownload() {
+					ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+					return services.suggestions(destAirportCode, 0);
+				}
+			}, mSuggestCallback);
+		}
+		else {
+			// Fill FlightSearchParams with query data
+			FlightSearchParams params = new FlightSearchParams();
+
+			if (originAirportCode != null) {
+				Location departureLocation = new Location();
+				departureLocation.setDestinationId(originAirportCode);
+				params.setDepartureLocation(departureLocation);
+				Log.d(TAG, "Set flight origin: " + departureLocation.getDestinationId());
+			}
+
+			if (destinationAirportCode != null) {
+				Location arrivalLocation = new Location();
+				arrivalLocation.setDestinationId(destinationAirportCode);
+				params.setArrivalLocation(arrivalLocation);
+				Log.d(TAG, "Set flight destination: " + arrivalLocation.getDestinationId());
+			}
+
+			if (startDate != null) {
+				Log.d(TAG, "Set flight departure date: " + startDate);
+				params.setDepartureDate(startDate);
+			}
+
+			if (endDate != null) {
+				params.setReturnDate(endDate);
+				Log.d(TAG, "Set flight return date: " + endDate);
+			}
+
+			params.ensureValidDates();
+
+			// Add adults (if supplied)
+			if (numAdults != 0) {
+				params.setNumAdults(numAdults);
+			}
+
+			// Launch flight search
+			Db.getFlightSearch().setSearchParams(params);
+			if (params.isFilled()) {
+				Log.i(TAG, "Launching flight search results activity from deep link!");
+				NavUtils.goToFlightSearch(this);
+			}
+			else {
+				Log.i(TAG, "Launching flight search params activity from deep link!");
+				NavUtils.goToFlights(this, true);
+			}
 		}
 	}
 
@@ -523,7 +566,7 @@ public class DeepLinkRouterActivity extends Activity {
 	private List<ChildTraveler> parseChildAges(String childAgesStr, int numAdults) {
 		String[] childAgesArr = childAgesStr.split(",");
 		int maxChildren = GuestsPickerUtils.getMaxChildren(numAdults);
-		List<ChildTraveler> children = new ArrayList<ChildTraveler>();
+		List<ChildTraveler> children = new ArrayList<>();
 		try {
 			for (int a = 0; a < childAgesArr.length && children.size() < maxChildren; a++) {
 				int childAge = Integer.parseInt(childAgesArr[a]);
