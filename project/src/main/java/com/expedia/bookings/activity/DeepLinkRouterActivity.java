@@ -95,7 +95,10 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if ("e.xpda.co".equalsIgnoreCase(host) || "a.aago.co".equalsIgnoreCase(host) || "t.tvly.co".equalsIgnoreCase(host) || "v.vygs.co".equalsIgnoreCase(host)) {
+		else if ("e.xpda.co".equalsIgnoreCase(host)
+			|| "a.aago.co".equalsIgnoreCase(host)
+			|| "t.tvly.co".equalsIgnoreCase(host)
+			|| "v.vygs.co".equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
 			new Thread(new Runnable() {
@@ -426,13 +429,14 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			final String destAirportCode = destinationAirportCode;
-			BackgroundDownloader.getInstance().startDownload(DL_KEY_FLIGHT_SUGGEST, new BackgroundDownloader.Download<SuggestionResponse>() {
-				@Override
-				public SuggestionResponse doDownload() {
-					ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-					return services.suggestions(destAirportCode, 0);
-				}
-			}, mSuggestCallback);
+			BackgroundDownloader.getInstance().startDownload(DL_KEY_FLIGHT_SUGGEST,
+				new BackgroundDownloader.Download<SuggestionResponse>() {
+					@Override
+					public SuggestionResponse doDownload() {
+						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+						return services.suggestions(destAirportCode, 0);
+					}
+				}, mSuggestCallback);
 		}
 		else {
 			// Fill FlightSearchParams with query data
@@ -548,7 +552,7 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 			else if (numAdults < GuestsPickerUtils.MIN_ADULTS) {
 				Log.w(TAG, "Number of adults (" + numAdults + ") below minimum, raising to "
-						+ GuestsPickerUtils.MIN_ADULTS);
+					+ GuestsPickerUtils.MIN_ADULTS);
 				numAdults = GuestsPickerUtils.MIN_ADULTS;
 			}
 			Log.d(TAG, "Setting number of adults: " + numAdults);
@@ -573,7 +577,7 @@ public class DeepLinkRouterActivity extends Activity {
 
 				if (childAge <= GuestsPickerUtils.MIN_CHILD_AGE) {
 					Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
-							+ childAge);
+						+ childAge);
 				}
 				else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
 					Log.w(TAG, "Child age (" + childAge + ") not an actual child, ignoring: " + childAge);
