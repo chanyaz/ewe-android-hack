@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -38,13 +39,14 @@ import com.mobiata.android.Log;
 public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
+	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
-	private DateTime mLastResumeTime;
+	private DateTime mLastSearchTime;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -77,10 +79,6 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
-
-		if (checkFinishConditionsAndFinish()) {
-			return;
-		}
 
 		setContentView(R.layout.activity_rooms_and_rates);
 		getWindow().setBackgroundDrawable(null);
@@ -129,7 +127,19 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
+		} else {
+			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
 		}
+
+		if (mLastSearchTime == null) {
+			mLastSearchTime = DateTime.now();
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 	}
 
 	@Override
@@ -151,21 +161,26 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 		else {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (bd.isDownloading(CrossContextHelper.KEY_INFO_DOWNLOAD)) {
-				mRoomsAndRatesFragment.showProgress();
-				bd.registerDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD, mCallback);
-			}
-			else {
-				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
-						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
-						mCallback);
-			}
+			getHotelOffers();
 		}
 
 		OmnitureTracking.onResume(this);
 	}
 
+	private void getHotelOffers() {
+		mLastSearchTime = DateTime.now();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(CrossContextHelper.KEY_INFO_DOWNLOAD)) {
+			mRoomsAndRatesFragment.showProgress();
+			bd.registerDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD, mCallback);
+		}
+		else {
+			bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
+				CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
+				mCallback);
+		}
+	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -210,6 +225,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
+
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Db.loadHotelSearchFromDisk(this);
 		}
@@ -222,11 +238,11 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		}
 
 		// #14135, set a 1 hour timeout on this screen
-		if (JodaUtils.isExpired(mLastResumeTime, RESUME_TIMEOUT)) {
-			finish();
+		if (JodaUtils.isExpired(mLastSearchTime, RESUME_TIMEOUT)) {
+			//Instead of finishing the activity, lets refresh the data
+			getHotelOffers();
 			return true;
 		}
-		mLastResumeTime = DateTime.now();
 
 		return false;
 	}
