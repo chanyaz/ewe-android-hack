@@ -13,17 +13,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.TimeFormatException;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -132,6 +137,11 @@ public class DeepLinkRouterActivity extends Activity {
 			break;
 		case "flightSearch":
 			handleFlightSearch(data, queryData);
+			finish = true;
+			break;
+		case "destination":
+			Log.i(TAG, "Launching destination search from deep link!");
+			handleDestination(data, queryData);
 			finish = true;
 			break;
 		default:
@@ -483,6 +493,78 @@ public class DeepLinkRouterActivity extends Activity {
 				Log.i(TAG, "Launching flight search params activity from deep link!");
 				NavUtils.goToFlights(this, true);
 			}
+		}
+	}
+
+	private void handleDestination(Uri data, Set<String> queryData) {
+		try {
+			if (ExpediaBookingApp.useTabletInterface(this)) {
+				SuggestionV2 destination = new SuggestionV2();
+				destination.setDisplayName(data.getQueryParameter("displayName"));
+				destination.setSearchType(SuggestionV2.SearchType.valueOf(data.getQueryParameter("searchType")));
+				destination.setRegionId(Integer.parseInt(data.getQueryParameter("hotelId")));
+				destination.setAirportCode(data.getQueryParameter("airportCode"));
+				destination.setMultiCityRegionId(Integer.parseInt(data.getQueryParameter("regionId")));
+
+				Location location = new Location();
+				double lat = Double.parseDouble(data.getQueryParameter("latitude"));
+				double lng = Double.parseDouble(data.getQueryParameter("longitude"));
+				if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+					throw new RuntimeException("Lat/Lng out of valid range (" + lat + ", " + lng + ")");
+				}
+				location.setLatitude(lat);
+				location.setLongitude(lng);
+				destination.setLocation(location);
+
+				destination.setImageCode(data.getQueryParameter("imageCode"));
+
+				mSearchParams = Sp.getParams();
+				mSearchParams.restoreToDefaults();
+				mSearchParams.setDestination(destination);
+
+				HotelSearch hotelSearch = Db.getHotelSearch();
+				FlightSearch flightSearch = Db.getFlightSearch();
+
+				// Search results filters
+				HotelFilter filter = Db.getFilter();
+				filter.reset();
+				filter.notifyFilterChanged();
+
+				// Start the search
+				Log.i("Starting search with params: " + Sp.getParams());
+				hotelSearch.setSearchResponse(null);
+				flightSearch.setSearchResponse(null);
+
+				Db.deleteCachedFlightData(this);
+				Db.deleteHotelSearchData(this);
+
+				NavUtils.goToTabletResults(this, Sp.getParams(), null);
+			}
+
+			// Phones don't have a "destination" results concept, so we'll use hotels instead
+			else {
+				// Fill HotelSearchParams with query data
+				HotelSearchParams params = new HotelSearchParams();
+
+				double lat = Double.parseDouble(data.getQueryParameter("latitude"));
+				double lng = Double.parseDouble(data.getQueryParameter("longitude"));
+				if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+					throw new RuntimeException("Lat/Lng out of valid range (" + lat + ", " + lng + ")");
+				}
+
+				params.setSearchType(SearchType.ADDRESS);
+				params.setQuery(Html.fromHtml(data.getQueryParameter("displayName")).toString());
+				params.setSearchLatLon(lat, lng);
+				Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
+
+				// Launch hotel search
+				Log.i(TAG, "Launching hotel search from deep link!");
+				NavUtils.goToHotels(this, params, null, NavUtils.FLAG_DEEPLINK);
+			}
+		}
+		catch (Exception e) {
+			Log.w(TAG, "Could not decode destination", e);
+			NavUtils.goToLaunchScreen(this);
 		}
 	}
 
