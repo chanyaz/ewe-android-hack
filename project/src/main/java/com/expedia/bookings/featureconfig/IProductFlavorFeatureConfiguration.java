@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
+import com.mobiata.android.fragment.AboutSectionFragment;
 
 public interface IProductFlavorFeatureConfiguration {
 	String getServerEndpointsConfigurationPath();
@@ -70,4 +71,14 @@ public interface IProductFlavorFeatureConfiguration {
 	View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl);
 
 	Boolean isLeanPlumEnabled();
+
+	Boolean isWeAreHiringInAboutEnabled();
+
+	Boolean isClearPrivateDataInAboutEnabled();
+
+	String getCopyrightLogoUrl(Context context);
+
+	Boolean areSocialMediaMenuItemsInAboutEnabled();
+
+	AboutSectionFragment getAboutSectionFragment(Context context);
 }

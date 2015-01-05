@@ -15,6 +15,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
@@ -152,5 +153,25 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean isLeanPlumEnabled() {
 		return false;
+	}
+
+	public Boolean isWeAreHiringInAboutEnabled() {
+		return false;
+	}
+
+	public Boolean isClearPrivateDataInAboutEnabled() {
+		return false;
+	}
+
+	public String getCopyrightLogoUrl(Context context) {
+		return PointOfSale.getPointOfSale().getWebsiteUrl();
+	}
+
+	public Boolean areSocialMediaMenuItemsInAboutEnabled() {
+		return false;
+	}
+
+	public AboutSectionFragment getAboutSectionFragment(Context context) {
+		return null;
 	}
 }

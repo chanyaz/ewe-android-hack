@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -66,10 +67,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	private static final int ROW_ATOL_INFO = 7;
 	private static final int ROW_OPEN_SOURCE_LICENSES = 8;
 
-	private static final int ROW_VSC_VOYAGES = 9;
+	public static final int ROW_VSC_VOYAGES = 9;
 	private final static String PKG_VSC_VOYAGES = "com.vsct.vsc.mobile.horaireetresa.android";
 
-	private static final int ROW_VSC_PRIVATE_DATA = 10;
+	private static final int ROW_CLEAR_PRIVATE_DATA = 10;
 
 	private AboutUtils mAboutUtils;
 
@@ -107,13 +108,12 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 
-			if (ExpediaBookingApp.IS_EXPEDIA) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
 
-			// 1170. VSC Add clear private data in info/about screen
-			else if (ExpediaBookingApp.IS_VSC) {
-				builder.addRow(R.string.clear_private_data, ROW_VSC_PRIVATE_DATA);
+			if (ProductFlavorFeatureConfiguration.getInstance().isClearPrivateDataInAboutEnabled()) {
+				builder.addRow(R.string.clear_private_data, ROW_CLEAR_PRIVATE_DATA);
 			}
 
 			contactUsFragment = builder.build();
@@ -122,14 +122,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 		// Apps also by us
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
-		if (alsoByFragment == null && (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC)) {
-			if (ExpediaBookingApp.IS_VSC) {
-				alsoByFragment = buildVSCOtherAppsSection(this);
+		if (alsoByFragment == null) {
+			alsoByFragment = ProductFlavorFeatureConfiguration.getInstance().getAboutSectionFragment(this);
+			if(alsoByFragment != null) {
+				ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 			}
-			else {
-				alsoByFragment = AboutSectionFragment.buildOtherAppsSection(this);
-			}
-			ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 		}
 
 		// T&C, privacy, etc
@@ -154,12 +151,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.skin_aboutAppNameString));
 			copyBuilder.setCopyright(getCopyrightString());
 			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.skin_aboutAppLogoDrawable));
-			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
-				copyBuilder.setLogoUrl(this.getString(Ui.obtainThemeResID(this, R.attr.skin_aboutInfoUrlString)));
-			}
-			else {
-				copyBuilder.setLogoUrl(PointOfSale.getPointOfSale().getWebsiteUrl());
-			}
+			copyBuilder.setLogoUrl(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(this));
 
 			copyrightFragment = copyBuilder.build();
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
@@ -186,20 +178,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	private String getCopyrightString() {
 		int templateId = Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString);
 		return getString(templateId, AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR));
-	}
-
-	private AboutSectionFragment buildVSCOtherAppsSection(Context context) {
-		Builder builder = new Builder(context);
-		builder.setTitle(R.string.AlsoByVSC);
-
-		RowDescriptor app = new RowDescriptor();
-		app.title = context.getString(R.string.VSC_Voyages_SNF);
-		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
-		app.clickId = ROW_VSC_VOYAGES;
-		app.drawableId = R.drawable.ic_vsc_train_app;
-		builder.addRow(app);
-
-		return builder.build();
 	}
 
 	@Override
@@ -240,9 +218,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// #1242. For VSC and travelocity don't add social media menu items.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().areSocialMediaMenuItemsInAboutEnabled()) {
 			getMenuInflater().inflate(R.menu.menu_about, menu);
 		}
 
@@ -360,8 +336,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			SocialUtils.openSite(this, AndroidUtils.getMarketAppLink(this, PKG_VSC_VOYAGES));
 			return true;
 		}
-		// 1170. VSC Add clear private data in info/about screen
-		case ROW_VSC_PRIVATE_DATA: {
+		case ROW_CLEAR_PRIVATE_DATA: {
 			ClearPrivateDataDialog dialog = new ClearPrivateDataDialog();
 			dialog.show(getSupportFragmentManager(), "clearPrivateDataDialog");
 			return true;

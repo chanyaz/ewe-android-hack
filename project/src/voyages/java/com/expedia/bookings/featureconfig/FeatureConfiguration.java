@@ -9,11 +9,14 @@ import android.content.Context;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AboutActivity;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
@@ -152,5 +155,35 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public Boolean isLeanPlumEnabled() {
 		return false;
+	}
+
+	public Boolean isWeAreHiringInAboutEnabled() {
+		return false;
+	}
+
+	public Boolean isClearPrivateDataInAboutEnabled() {
+		return true;
+	}
+
+	public String getCopyrightLogoUrl(Context context) {
+		return context.getString(Ui.obtainThemeResID(context, R.attr.skin_aboutInfoUrlString));
+	}
+
+	public Boolean areSocialMediaMenuItemsInAboutEnabled() {
+		return false;
+	}
+
+	public AboutSectionFragment getAboutSectionFragment(Context context) {
+		AboutSectionFragment.Builder builder = new AboutSectionFragment.Builder(context);
+		builder.setTitle(R.string.AlsoByVSC);
+
+		AboutSectionFragment.RowDescriptor app = new AboutSectionFragment.RowDescriptor();
+		app.title = context.getString(R.string.VSC_Voyages_SNF);
+		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
+		app.clickId = AboutActivity.ROW_VSC_VOYAGES;
+		app.drawableId = R.drawable.ic_vsc_train_app;
+		builder.addRow(app);
+
+		return builder.build();
 	}
 }
