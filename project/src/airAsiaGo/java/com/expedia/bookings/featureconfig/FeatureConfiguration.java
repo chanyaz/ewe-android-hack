@@ -1,10 +1,12 @@
 package com.expedia.bookings.featureconfig;
 
+import java.lang.UnsupportedOperationException;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver;
@@ -142,5 +144,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 			e3EndpointUrl = e3EndpointUrl.replaceFirst("w{3}\\.?", "");
 		}
 		return e3EndpointUrl;
+	}
+
+	public View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl) {
+		throw new UnsupportedOperationException("Insurance not supported on Air Asia Go.");
 	}
 }

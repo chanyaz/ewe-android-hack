@@ -6,9 +6,11 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
@@ -133,4 +135,17 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
 		return e3EndpointUrl;
 	}
-}
+
+	public View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+				builder.setUrl(insuranceTermsUrl);
+				builder.setTheme(R.style.ItineraryTheme);
+				builder.setTitle(R.string.insurance);
+				builder.setAllowMobileRedirects(false);
+				context.startActivity(builder.getIntent());
+			}
+		};
+	}}

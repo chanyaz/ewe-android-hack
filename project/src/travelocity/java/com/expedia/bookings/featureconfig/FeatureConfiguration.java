@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
@@ -140,5 +143,16 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
 		return e3EndpointUrl;
+	}
+
+	public View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent viewInsuranceIntent = new Intent(Intent.ACTION_VIEW);
+				viewInsuranceIntent.setData(Uri.parse(insuranceTermsUrl));
+				context.startActivity(viewInsuranceIntent);
+			}
+		};
 	}
 }

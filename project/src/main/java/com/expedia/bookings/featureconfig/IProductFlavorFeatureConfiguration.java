@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.view.View;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
@@ -65,4 +66,6 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint);
 
 	String touchupE3EndpointUrlIfRequired(String e3EndpointUrl);
+
+	View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl);
 }
