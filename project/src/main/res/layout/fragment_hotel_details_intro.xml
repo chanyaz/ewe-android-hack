@@ -131,6 +131,15 @@
         android:layout_marginRight="15dp"
         android:background="@color/hotel_details_separator" />
 
+    <!-- ETP pay later info if applicable -->
+
+    <include
+        android:id="@+id/pay_later_info_banner"
+        layout="@layout/include_pay_later_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <!-- Hotel intro paragraph -->
 
     <include

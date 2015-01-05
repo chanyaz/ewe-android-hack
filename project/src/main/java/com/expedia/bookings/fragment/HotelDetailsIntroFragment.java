@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.PayLaterInfoFragmentActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -69,6 +70,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		View verticalSep = Ui.findView(view, R.id.vertical_sep);
 		TextView bannerTextView = Ui.findView(view, R.id.banner_message_text_view);
 		RatingBar userRatingBar = Ui.findView(view, R.id.user_rating_bar);
+		View payLaterInfo = Ui.findView(view, R.id.pay_later_info_banner);
 
 		reviewsLayout.setVisibility(View.VISIBLE);
 		bannerTextView.setVisibility(View.VISIBLE);
@@ -179,6 +181,21 @@ public class HotelDetailsIntroFragment extends Fragment {
 			mAnimSet.play(anim1).with(anim2).with(anim3).before(animRating);
 
 			mAnimSet.start();
+		}
+
+		// ETP pay later offer info
+		if (property.hasEtpOffer()) {
+			payLaterInfo.setVisibility(View.VISIBLE);
+			payLaterInfo.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent payLaterIntent = new Intent(getActivity(), PayLaterInfoFragmentActivity.class);
+					startActivity(payLaterIntent);
+				}
+			});
+		}
+		else {
+			payLaterInfo.setVisibility(View.GONE);
 		}
 	}
 
