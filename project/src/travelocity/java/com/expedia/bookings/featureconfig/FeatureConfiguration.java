@@ -29,7 +29,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppNameForMobiataPushNameHeader() {
-		return "TravelocityBookings";
+		return "TvlyBookings";
 	}
 
 	public String getAppSupportUrl(Context context) {
