@@ -47,7 +47,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		Flight relevantSegment = null;
 		for (Flight segment : segments) {
 			if (relevantSegment == null) {
-				if (segment.mOrigin.getMostRelevantDateTime().after(now)
+				if (segment.getOriginWaypoint().getMostRelevantDateTime().after(now)
 						|| segment.getArrivalWaypoint().getMostRelevantDateTime().after(now)) {
 					relevantSegment = segment;
 				}
@@ -122,8 +122,9 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	public LatLng getLocation() {
 		long now = DateTime.now().getMillis();
 		Flight flight = getMostRelevantFlightSegment();
-		Waypoint waypoint = flight.mOrigin.getMostRelevantDateTime().getTimeInMillis() > now ? flight.mOrigin
-				: flight.getArrivalWaypoint();
+		Waypoint waypoint = flight.getOriginWaypoint().getMostRelevantDateTime().getTimeInMillis() > now ?
+			flight.getOriginWaypoint() :
+			flight.getArrivalWaypoint();
 		Airport airport = waypoint.getAirport();
 
 		if (airport != null) {

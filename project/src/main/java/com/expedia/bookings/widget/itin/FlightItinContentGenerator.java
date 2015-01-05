@@ -272,11 +272,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
 
 				if (isFirstSegment) {
-					flightLegContainer.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE, null));
+					flightLegContainer.addView(getWayPointView(segment.getOriginWaypoint(), null, WaypointType.DEPARTURE, null));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 				else {
-					flightLegContainer.addView(getWayPointView(prevSegment.mDestination, segment.mOrigin,
+					flightLegContainer.addView(getWayPointView(prevSegment.getDestinationWaypoint(), segment.getOriginWaypoint(),
 							WaypointType.LAYOVER, null));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
@@ -285,7 +285,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				flightLegContainer.addView(getHorizontalDividerView(divPadding));
 
 				if (isLastSegment) {
-					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL,
+					flightLegContainer.addView(getWayPointView(segment.getDestinationWaypoint(), null, WaypointType.ARRIVAL,
 							segment.mBaggageClaim));
 				}
 
@@ -336,7 +336,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		Resources res = getResources();
 		Flight flight = itinCardData.getMostRelevantFlightSegment();
-		DateTime departure = new DateTime(flight.mOrigin.getMostRelevantDateTime());
+		DateTime departure = new DateTime(flight.getOriginWaypoint().getMostRelevantDateTime());
 		DateTime now = DateTime.now();
 
 		if (flight.isRedAlert()) {
@@ -433,12 +433,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				vh.mTopLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
 				vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				vh.mBottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
-						flight.mOrigin.mAirportCode,
-						formatTime(flight.mOrigin.getMostRelevantDateTime()))));
+						flight.getOriginWaypoint().mAirportCode,
+						formatTime(flight.getOriginWaypoint().getMostRelevantDateTime()))));
 			}
 			else {
 				//Less than 72 hours in the future and has FS data
-				int delay = getDelayForWaypoint(flight.mOrigin);
+				int delay = getDelayForWaypoint(flight.getOriginWaypoint());
 				CharSequence timeSpanString = getItinRelativeTimeSpan(getContext(), departure, now);
 
 				if (delay > 0) {
@@ -460,7 +460,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				vh.mGlowBulb.setVisibility(View.VISIBLE);
 				vh.mGlowBulb.startAnimation(getGlowAnimation());
 
-				summaryWaypoint = flight.mOrigin;
+				summaryWaypoint = flight.getOriginWaypoint();
 				bottomLineTextId = R.string.from_airport_terminal_gate_TEMPLATE;
 				bottomLineFallbackId = R.string.from_airport_TEMPLATE;
 			}
@@ -795,7 +795,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		if (flight.isRedAlert()) {
 			if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
-				if (flight.mDiverted != null) {
+				if (flight.getDivertedWaypoint() != null) {
 					tv.setText(res.getString(R.string.flight_diverted_TEMPLATE,
 							flight.getArrivalWaypoint().mAirportCode));
 				}
@@ -814,8 +814,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 		else if (flight.mFlightHistoryId != -1) {
 			// only make the delay view visible if we've got data from FS
-			if (now.before(flight.mOrigin.getMostRelevantDateTime())) {
-				int delay = getDelayForWaypoint(flight.mOrigin);
+			if (now.before(flight.getOriginWaypoint().getMostRelevantDateTime())) {
+				int delay = getDelayForWaypoint(flight.getOriginWaypoint());
 				if (delay > 0) {
 					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
 					tv.setText(res.getString(R.string.flight_departs_x_late_TEMPLATE,

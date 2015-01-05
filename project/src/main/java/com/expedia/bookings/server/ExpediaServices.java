@@ -666,14 +666,14 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			// get based on flight number
 			FlightCode flightCode = flight.getPrimaryFlightCode();
-			Calendar departure = flight.mOrigin.getBestSearchDateTime();
+			Calendar departure = flight.getOriginWaypoint().getBestSearchDateTime();
 			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/"
 				+ flightCode.mNumber.trim()
 				+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/"
 				+ departure.get(Calendar.DAY_OF_MONTH) + "?";
 
 			parameters.add(new BasicNameValuePair("utc", "false"));
-			parameters.add(new BasicNameValuePair("airport", flight.mOrigin.mAirportCode));
+			parameters.add(new BasicNameValuePair("airport", flight.getOriginWaypoint().mAirportCode));
 		}
 
 		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
@@ -690,14 +690,14 @@ public class ExpediaServices implements DownloadListener {
 				return flights.get(0);
 			}
 			else {
-				String destAirportCode = flight.mDestination.mAirportCode;
+				String destAirportCode = flight.getDestinationWaypoint().mAirportCode;
 				if (destAirportCode != null) {
 					for (Flight updatedFlight : flights) {
 						// Assumptions:
 						//  1) all results have identical airline, flight number, departure airport, departure date
 						//  2) results do NOT include two flights on the same exact route
 						// Which means, the only piece of information that we need to check is the arrival airport
-						if (destAirportCode.equals(updatedFlight.mDestination.mAirportCode)) {
+						if (destAirportCode.equals(updatedFlight.getDestinationWaypoint().mAirportCode)) {
 							return updatedFlight;
 						}
 					}

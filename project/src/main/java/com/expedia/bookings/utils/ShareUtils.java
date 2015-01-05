@@ -849,21 +849,21 @@ public class ShareUtils {
 			if (a > 0) {
 				Layover layover = new Layover(flightLeg.getSegment(a - 1), flight);
 				String duration = DateTimeUtils.formatDuration(res, layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 				sb.append(Html.fromHtml(mContext.getString(R.string.layover_duration_location_TEMPLATE, duration,
 						waypoint)));
 
 				sb.append("\n\n");
 			}
 
-			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
-					formatAirport(flight.mDestination.getAirport())));
+			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.getOriginWaypoint().getAirport()),
+					formatAirport(flight.getDestinationWaypoint().getAirport())));
 			sb.append("\n");
-			Date start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime());
+			Date start = DateTimeUtils.getTimeInLocalTimeZone(flight.getOriginWaypoint().getBestSearchDateTime());
 			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			Date end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime());
+			Date end = DateTimeUtils.getTimeInLocalTimeZone(flight.getDestinationWaypoint().getBestSearchDateTime());
 			String departureTzString = FormatUtils.formatTimeZone(flightLeg.getFirstWaypoint().getAirport(), start,
 					MAX_TIMEZONE_LENGTH);
 			String arrivalTzString = FormatUtils.formatTimeZone(flightLeg.getLastWaypoint().getAirport(), end,

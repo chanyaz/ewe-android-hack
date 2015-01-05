@@ -1262,7 +1262,7 @@ public class ItineraryManager implements JSONable {
 						FlightLeg fl = flightTrip.getLeg(i);
 
 						for (Flight segment : fl.getSegments()) {
-							long takeOff = segment.mOrigin.getMostRelevantDateTime().getTimeInMillis();
+							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getTimeInMillis();
 							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis();
 							long timeToTakeOff = takeOff - now;
 							long timeSinceLastUpdate = now - segment.mLastUpdated;

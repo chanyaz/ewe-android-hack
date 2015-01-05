@@ -133,7 +133,7 @@ public class FlightMapImageView extends ImageView {
 				//Origin
 				builder.append(getOriginMarkerStyleString());
 				builder.append("|");
-				builder.append(waypointToCoords(flight.mOrigin));
+				builder.append(waypointToCoords(flight.getOriginWaypoint()));
 				markers.add(builder.toString());
 				builder = new StringBuilder();
 			}
@@ -147,7 +147,7 @@ public class FlightMapImageView extends ImageView {
 				builder.append(getWaypointMarkerStyleString());
 			}
 			builder.append("|");
-			builder.append(waypointToCoords(flight.mDestination));
+			builder.append(waypointToCoords(flight.getDestinationWaypoint()));
 
 			markers.add(builder.toString());
 			builder = new StringBuilder();
@@ -176,10 +176,10 @@ public class FlightMapImageView extends ImageView {
 		for (int i = 0; i < flights.size(); i++) {
 			Flight flight = flights.get(i);
 			if (i == 0) {
-				builder.append(waypointToCoords(flight.mOrigin));
+				builder.append(waypointToCoords(flight.getOriginWaypoint()));
 			}
 			builder.append("|");
-			builder.append(waypointToCoords(flight.mDestination));
+			builder.append(waypointToCoords(flight.getDestinationWaypoint()));
 
 		}
 		return builder.toString();
