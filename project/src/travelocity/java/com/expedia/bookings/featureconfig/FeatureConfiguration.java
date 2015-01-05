@@ -180,4 +180,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public AboutSectionFragment getAboutSectionFragment(Context context) {
 		return null;
 	}
+
+	public Boolean isLocalExpertEnabled() {
+		return false;
+	}
 }

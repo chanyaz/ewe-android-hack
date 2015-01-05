@@ -173,4 +173,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public AboutSectionFragment getAboutSectionFragment(Context context) {
 		return AboutSectionFragment.buildOtherAppsSection(context);
 	}
+
+	public Boolean isLocalExpertEnabled() {
+		return true;
+	}
 }

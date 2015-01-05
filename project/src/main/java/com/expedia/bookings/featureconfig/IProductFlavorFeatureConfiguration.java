@@ -81,4 +81,6 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean areSocialMediaMenuItemsInAboutEnabled();
 
 	AboutSectionFragment getAboutSectionFragment(Context context);
+
+	Boolean isLocalExpertEnabled();
 }

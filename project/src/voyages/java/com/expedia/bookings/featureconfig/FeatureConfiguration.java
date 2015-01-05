@@ -186,4 +186,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 		return builder.build();
 	}
+
+	public Boolean isLocalExpertEnabled() {
+		return false;
+	}
 }

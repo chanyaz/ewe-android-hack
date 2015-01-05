@@ -20,6 +20,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.ItinCard;
