@@ -10,17 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
-import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.model.DismissedItinButton;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
-		PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
+		PopupMenu.OnMenuItemClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -37,15 +34,11 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 	public enum ItinButtonType {
 		HOTEL_ATTACH,
-		LOCAL_EXPERT,
 		AIR_ATTACH;
 
 		public static ItinButtonType fromClass(Class<? extends ItinCardData> clazz) {
 			if (clazz.equals(ItinCardDataHotelAttach.class)) {
 				return HOTEL_ATTACH;
-			}
-			else if (clazz.equals(ItinCardDataLocalExpert.class)) {
-				return LOCAL_EXPERT;
 			}
 
 			return null;
@@ -58,7 +51,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 	private String mTripId;
 	private ItinButtonType mItinButtonType;
-	private Destination mDestination; // Just for Omniture
 
 	private ItinButtonContentGenerator mItinContentGenerator;
 	private OnClickListener mItinButtonOnClickListener;
@@ -114,10 +106,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		if (wasNull && mDetailsView != null) {
 			mItinButtonLayout.addView(mDetailsView);
 		}
-
-		if (itinCardData instanceof ItinCardDataLocalExpert) {
-			mDestination = ((ItinCardDataLocalExpert) itinCardData).getSiteDestination();
-		}
 	}
 
 	public void setOnHideListener(OnHideListener onHideListener) {
@@ -143,7 +131,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	private void showHidePopup() {
 		PopupMenu popup = new PopupMenu(getContext(), mDismissImageView);
 		popup.setOnMenuItemClickListener(this);
-		popup.setOnDismissListener(this);
 
 		MenuInflater inflater = popup.getMenuInflater();
 		inflater.inflate(R.menu.menu_itin_button, popup.getMenu());
@@ -158,10 +145,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 			mOnHideListener.onHide(mTripId, mItinButtonType);
 		}
 
-		if (mDestination != null) {
-			OmnitureTracking.trackItinLocalExpertHide(getContext(), mDestination);
-			mDestination = null; // Null out, so we don't detect a cancel as well
-		}
 	}
 
 	private void hideForever() {
@@ -170,19 +153,10 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 			SettingUtils.save(getContext(), R.string.setting_hide_hotel_attach, true);
 			break;
 		}
-		case LOCAL_EXPERT: {
-			SettingUtils.save(getContext(), R.string.setting_hide_local_expert, true);
-			break;
-		}
 		}
 
 		if (mOnHideListener != null) {
 			mOnHideListener.onHideAll(mItinButtonType);
-		}
-
-		if (mDestination != null) {
-			OmnitureTracking.trackItinLocalExpertHideForever(getContext(), mDestination);
-			mDestination = null; // Null out, so we don't detect a cancel as well
 		}
 	}
 
@@ -205,12 +179,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		return false;
 	}
 
-	@Override
-	public void onDismiss(PopupMenu menu) {
-		if (mDestination != null) {
-			OmnitureTracking.trackItinLocalExpertHideCancel(getContext(), mDestination);
-		}
-	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// LISTENERS

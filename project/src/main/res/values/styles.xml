@@ -237,18 +237,6 @@
         <item name="android:textColor">#FF000000</item>
     </style>
 
-    <style name="Widget.Button.LocalExpert" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/btn_call_local_expert_hawaii</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:maxHeight">48dp</item>
-        <item name="android:textColor">@color/itin_white_text</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:shadowColor">#a5000000</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-    </style>
-
     <style name="Widget.SegmentedControlGroup" parent="@android:style/Widget" />
 
     <style name="Widget.SegmentedControlGroup.UserReviews">

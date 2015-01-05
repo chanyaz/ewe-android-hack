@@ -23,7 +23,6 @@ import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.SettingUtils;
 
 public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLayout implements
 	PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
@@ -170,7 +169,6 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 	}
 
 	private void hideForever() {
-		SettingUtils.save(getContext(), R.string.setting_hide_local_expert, true);
 		if (mOnHideListener != null) {
 			mOnHideListener.onHideAll(null);
 		}

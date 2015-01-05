@@ -3,7 +3,6 @@ package com.expedia.bookings.data.trips;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -16,10 +15,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -351,7 +348,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private boolean isItemAButtonCard(int position) {
 		final ItinCardData item = getItem(position);
-		return item instanceof ItinCardDataHotelAttach || item instanceof ItinCardDataLocalExpert;
+		return item instanceof ItinCardDataHotelAttach;
 	}
 
 	private boolean isItemAnAirAttachCard(int position) {
@@ -590,82 +587,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 			}
 		}
-	}
-
-	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
-		if (!ExpediaBookingApp.IS_EXPEDIA) {
-			return;
-		}
-
-		if (ExpediaBookingApp.useTabletInterface(mContext)) {
-			return;
-		}
-
-		// Is Local Expert turned off?
-		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
-			return;
-		}
-
-		// Nothing to do if there are no itineraries
-		int len = itinCardDatas.size();
-		if (len == 0) {
-			return;
-		}
-
-		// Get previously dismissed buttons
-		final HashSet<String> dismissedTripIds = DismissedItinButton
-				.getDismissedTripIds(ItinButtonCard.ItinButtonType.LOCAL_EXPERT);
-
-		ItinCardData data;
-		for (int i = 0; i < len; i++) {
-			data = itinCardDatas.get(i);
-
-			// Ignore dismissed trips
-			if (dismissedTripIds.contains(data.getTripId())) {
-				continue;
-			}
-
-			// Only attach to hotels
-			if (!data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel)) {
-				continue;
-			}
-
-			// Is this a valid location?
-			if (!ItinCardDataLocalExpert.validLocation(((ItinCardDataHotel) data).getPropertyLocation())) {
-				continue;
-			}
-
-			// Are we presently in the trip?
-			if (!ItinCardDataLocalExpert.validDateTime(data.getStartDate(), data.getEndDate())) {
-				continue;
-			}
-
-			// Ignore shared itins
-			if (data.isSharedItin()) {
-				continue;
-			}
-
-			// Add LE button
-			itinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
-
-			return;
-		}
-	}
-
-	// Used only for Omniture tracking
-	//
-	// Returns a delimited list of the local expert destinations, or the empty string
-	// for none.
-	public String getTrackingLocalExpertDestinations() {
-		Set<String> dests = new HashSet<String>();
-		for (ItinCardData data : mItinCardDatas) {
-			if (data instanceof ItinCardDataLocalExpert) {
-				Destination destination = ((ItinCardDataLocalExpert) data).getSiteDestination();
-				dests.add(destination.getTrackingId());
-			}
-		}
-
-		return TextUtils.join("|", dests);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

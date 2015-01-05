@@ -21,7 +21,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
@@ -189,9 +188,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
-
-		LocalExpertSite.init(this);
-		startupTimer.addSplit("LocalExpertSite Init");
 
 		String serverUrlPath = "ExpediaSharedData/ExpediaServerURLs.json";
 		if (IS_VSC) {

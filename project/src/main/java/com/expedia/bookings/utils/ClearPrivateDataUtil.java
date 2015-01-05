@@ -75,7 +75,6 @@ public class ClearPrivateDataUtil {
 
 		// Clear itin button dismissals
 		SettingUtils.remove(context, R.string.setting_hide_hotel_attach);
-		SettingUtils.remove(context, R.string.setting_hide_local_expert);
 		DismissedItinButton.clear();
 
 		// Clear image caches, why not

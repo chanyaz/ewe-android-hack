@@ -568,8 +568,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Context context = getActivity();
 			if (context != null) {
 				if (trips.size() > 0) {
-					OmnitureTracking.trackItin(getActivity(), mItinListView.getItinCardDataAdapter()
-							.getTrackingLocalExpertDestinations());
+					OmnitureTracking.trackItin(getActivity());
 				}
 				else {
 					if (trackEmpty) {

@@ -135,10 +135,6 @@
             android:name="com.expedia.bookings.activity.StandaloneShareActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.expedia.bookings.activity.LocalExpertActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme" />
-        <activity
             android:name="com.expedia.bookings.activity.FacebookShareActivity"
             android:icon="@drawable/ic_share_facebook"
             android:label="@string/Facebook" >

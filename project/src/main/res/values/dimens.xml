@@ -50,9 +50,6 @@
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
 
-    <!-- LocalExpert -->
-    <dimen name="attraction_bubble_start_text_size">36dp</dimen>
-
     <!-- Dialog title height -->
     <dimen name="alert_dialog_title_height">64dip</dimen>
 

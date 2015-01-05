@@ -43,8 +43,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.LocalExpertSite;
-import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -1719,7 +1717,6 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
-	private static final String ITIN_LOCAL_EXPERT = "App.Itinerary.LocalExpert";
 
 	public static void trackItinEmpty(Context context) {
 		internalTrackPageLoadEventStandard(context, ITIN_EMPTY);
@@ -1871,19 +1868,11 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin(Context context, String localExpertDests) {
+	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN);
 
 		addEvent15And16Maybe(context, s);
-
-		if (!TextUtils.isEmpty(localExpertDests)) {
-			s.setEvents(s.getEvents() + ",event6");
-
-			String rfrrId = "App.Itinerary.LocalExpert." + localExpertDests;
-			s.setProp(16, rfrrId);
-			s.setEvar(28, rfrrId);
-		}
 
 		s.track();
 	}
@@ -1988,38 +1977,6 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_INFO);
-	}
-
-	public static void trackItinLocalExpertHide(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Hide");
-	}
-
-	public static void trackItinLocalExpertHideForever(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".NeverShowAgain");
-	}
-
-	public static void trackItinLocalExpertHideCancel(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Cancel");
-	}
-
-	public static void trackLocalExpert(Context context, LocalExpertSite site) {
-		Log.d(TAG, "Tracking \"" + ITIN_LOCAL_EXPERT + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_LOCAL_EXPERT);
-
-		s.setEvents("event7");
-
-		String rfrrId = "App.Itinerary.LocalExpert." + site.getTrackingId();
-		s.setProp(16, rfrrId);
-		s.setEvar(28, rfrrId);
-
-		s.track();
-	}
-
-	public static void trackLocalExpertCall(Context context, LocalExpertSite site) {
-		ADMS_Measurement s = createTrackLinkEvent(context, "App.Itinerary.LocalExpert." + site.getTrackingId()
-				+ ".Call");
-		s.setEvents("event8");
-		internalTrackLink(s);
 	}
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
