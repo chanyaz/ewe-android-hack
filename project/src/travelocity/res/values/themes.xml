@@ -111,6 +111,7 @@
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Travelocity">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
     </style>
 
     <style name="LaunchTheme" parent="@android:style/Theme.Holo">
