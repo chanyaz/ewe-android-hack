@@ -178,4 +178,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isLocalExpertEnabled() {
 		return false;
 	}
+
+	public Boolean isFacebookLoginIntegrationEnabled() {
+		return false;
+	}
+
+	public Boolean isFacebookShareIntegrationEnabled() {
+		return false;
+	}
 }

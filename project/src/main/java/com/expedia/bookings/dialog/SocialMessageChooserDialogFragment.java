@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
@@ -75,7 +76,8 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			}
 		});
 
-		if (AndroidUtils.isPackageInstalled(getActivity(), "com.facebook.katana")) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookShareIntegrationEnabled() && AndroidUtils
+			.isPackageInstalled(getActivity(), "com.facebook.katana")) {
 			View facebookButton = Ui.findView(view, R.id.facebook_button);
 			facebookButton.setVisibility(View.VISIBLE);
 			facebookButton.setOnClickListener(new OnClickListener() {

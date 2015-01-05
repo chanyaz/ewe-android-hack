@@ -83,4 +83,8 @@ public interface IProductFlavorFeatureConfiguration {
 	AboutSectionFragment getAboutSectionFragment(Context context);
 
 	Boolean isLocalExpertEnabled();
+
+	Boolean isFacebookLoginIntegrationEnabled();
+
+	Boolean isFacebookShareIntegrationEnabled();
 }

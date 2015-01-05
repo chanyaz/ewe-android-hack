@@ -44,6 +44,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -235,7 +236,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 		}
@@ -536,8 +537,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				mEmptyUsername = TextUtils.isEmpty(s);
 				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 
-				// FB not supported for Travelocity yet
-				if (ExpediaBookingApp.IS_EXPEDIA) {
+				if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 					if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
 						setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
 					}
@@ -549,8 +549,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		};
 		mExpediaUserName.addTextChangedListener(usernameWatcher);
 
-		// FB not supported for Travelocity yet
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			mLinkPassword.addTextChangedListener(new TextWatcher() {
 				@Override
 				public void afterTextChanged(Editable arg0) {
