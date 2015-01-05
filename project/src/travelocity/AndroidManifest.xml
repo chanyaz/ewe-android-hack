@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="trvly" />
+                <data android:scheme="tvly" />
                 <data android:host="home" />
                 <data android:host="trips" />
                 <data android:host="showTrips" />
