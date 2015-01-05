@@ -68,4 +68,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String touchupE3EndpointUrlIfRequired(String e3EndpointUrl);
 
 	View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl);
+
+	Boolean isLeanPlumEnabled();
 }

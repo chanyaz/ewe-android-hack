@@ -149,4 +149,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl) {
 		throw new UnsupportedOperationException("Insurance not supported on Air Asia Go.");
 	}
+
+	public Boolean isLeanPlumEnabled() {
+		return false;
+	}
 }

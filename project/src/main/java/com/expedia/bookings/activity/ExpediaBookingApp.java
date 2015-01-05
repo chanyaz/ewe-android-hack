@@ -176,7 +176,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			startupTimer.addSplit("Force locale to " + locale.getLanguage());
 		}
 
-		if (IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			LeanPlumUtils.init(this);
 			startupTimer.addSplit("LeanPlum started.");
 		}

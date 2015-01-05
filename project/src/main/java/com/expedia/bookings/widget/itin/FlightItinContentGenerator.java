@@ -46,6 +46,7 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -584,7 +585,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return null;
 		}
 		ArrayList<Notification> notifications = null;
-		if (ExpediaBookingApp.IS_EXPEDIA && LeanPlumFlags.mShowShareFlightNotification) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled() && LeanPlumFlags.mShowShareFlightNotification) {
 			notifications = new ArrayList<Notification>(2);
 			notifications.add(generateCheckinNotification(leg));
 			notifications.add(generateShareNotification(leg));

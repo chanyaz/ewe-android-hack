@@ -148,4 +148,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 				context.startActivity(builder.getIntent());
 			}
 		};
-	}}
+	}
+
+	public Boolean isLeanPlumEnabled() {
+		return false;
+	}
+}

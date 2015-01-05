@@ -155,4 +155,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 			}
 		};
 	}
+
+	public Boolean isLeanPlumEnabled() {
+		return false;
+	}
 }
