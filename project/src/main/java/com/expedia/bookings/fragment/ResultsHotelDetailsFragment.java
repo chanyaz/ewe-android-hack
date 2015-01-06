@@ -11,8 +11,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -31,9 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.PaletteCallback;
-import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -65,7 +61,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
-import com.squareup.picasso.Picasso;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates

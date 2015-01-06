@@ -83,7 +83,8 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {};
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
+	}
 
 	@Override
 	public String getHeaderText() {

@@ -61,7 +61,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.squareup.picasso.Target;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 

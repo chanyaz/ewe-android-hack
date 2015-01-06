@@ -35,7 +35,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
-import com.squareup.picasso.Picasso;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -415,9 +414,10 @@ public class HotelSummarySection extends RelativeLayout {
 				mBgImgOverlay.setBackgroundResource(R.drawable.bg_hotel_details_header_gradient);
 			}
 
-			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
+			int placeholderResId = Ui
+				.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				PaletteCallback callback =  new PaletteCallback(mHotelBackgroundView){
+				PaletteCallback callback = new PaletteCallback(mHotelBackgroundView) {
 					@Override
 					public void onSuccess(int vibrantColor) {
 						setDominantColor(vibrantColor);

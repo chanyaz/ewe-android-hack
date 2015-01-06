@@ -21,7 +21,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class FlightConfirmationActivity extends FragmentActivity{
+public class FlightConfirmationActivity extends FragmentActivity {
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;

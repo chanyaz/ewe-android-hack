@@ -24,7 +24,6 @@ import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.Ui;
-import com.squareup.picasso.Picasso;
 
 public class LoginActivity extends FragmentActivity implements TitleSettable {
 

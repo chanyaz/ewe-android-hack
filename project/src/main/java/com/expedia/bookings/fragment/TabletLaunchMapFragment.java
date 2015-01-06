@@ -329,7 +329,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 	}
 
 
-	private ArrayList<PinCallback> targetList =new ArrayList<PinCallback>();
+	private ArrayList<PinCallback> targetList = new ArrayList<PinCallback>();
 	private void addPin(final LaunchLocation launchLocation) {
 		if (getActivity() != null) {
 			final String imageUrl = TabletLaunchPinDetailFragment.getResizedImageUrl(getActivity(), launchLocation);

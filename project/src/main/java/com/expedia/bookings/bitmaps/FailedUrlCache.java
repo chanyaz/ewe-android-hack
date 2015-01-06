@@ -9,7 +9,8 @@ public class FailedUrlCache {
 
 	private static Set<String> mIgnore = new HashSet<String>();
 
-	private FailedUrlCache() {}
+	private FailedUrlCache() {
+	}
 
 	public static FailedUrlCache getInstance() {
 		if (singletonInstance == null) {

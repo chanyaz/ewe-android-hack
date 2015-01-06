@@ -56,7 +56,8 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {};
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
+	}
 
 	@Override
 	public String getReloadText() {
