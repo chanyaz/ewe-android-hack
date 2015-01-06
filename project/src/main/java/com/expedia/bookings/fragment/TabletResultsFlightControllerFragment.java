@@ -724,7 +724,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
+			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT
+				|| stateOne == ResultsFlightsState.CHOOSING_FLIGHT
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mCouldShowInfantPrompt = true;
 				mFlightMapC.setVisibility(View.GONE);
 			}
