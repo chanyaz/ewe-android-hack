@@ -11,4 +11,4 @@ fi
 echo "target=$TARGET"
 
 TERM=dumb
-./gradlew --no-daemon "clean" "assemble${TARGET}Latest" "assemble${TARGET}LatestTest"
+./gradlew --no-daemon "-Pid=latest" "clean" "assemble${TARGET}Debug" "assemble${TARGET}DebugTest"

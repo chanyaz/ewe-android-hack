@@ -4,7 +4,7 @@ set -e
 
 source snap/common.sh
 
-gradleww assembleExpediaLatest assembleExpediaLatestTest
-gradleww assembleTravelocityLatest
-gradleww assembleAirAsiaGoLatest
-gradleww assembleVoyagesLatest
+gradleww "-Pid=latest" assembleExpediaDebug assembleExpediaDebugTest
+gradleww "-Pid=latest" assembleTravelocityDebug
+gradleww "-Pid=latest" assembleAirAsiaGoDebug
+gradleww "-Pid=latest" assembleVoyagesDebug

@@ -1,5 +1,4 @@
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
-def featureName = GradleUtil.getFeatureName(project)
 def gitRev = GradleUtil.getGitRevision()
 
 def CHANGELOG_PATH = "changelog.txt"
@@ -70,8 +69,6 @@ dependencies {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
-    testBuildType "latest"
 
     dexOptions {
         javaMaxHeapSize "2g"
@@ -153,27 +150,10 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
+            applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
 
-            minifyEnabled false
+            minifyEnabled shouldRunProguard
             proguardFile file('proguard.cfg')
-        }
-
-        latest.initWith(buildTypes.debug)
-        latest {
-            minifyEnabled shouldRunProguard
-
-            applicationIdSuffix ".latest"
-
-            ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
-            ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
-        }
-
-        feature.initWith(buildTypes.debug)
-        feature {
-            minifyEnabled shouldRunProguard
-
-            applicationIdSuffix (".feature." + featureName)
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
@@ -186,17 +166,8 @@ android {
     }
 
     sourceSets {
-        latest {
-            manifest.srcFile 'src/debug/AndroidManifest.xml'
-            java.srcDirs = ['src/debug/java']
-        }
-
         androidTest {
             assets.srcDirs = ['src/androidTest/assets', '../lib/mocke3/templates']
-        }
-
-        feature {
-            java.srcDirs = ['src/debug/java']
         }
     }
 
@@ -266,8 +237,8 @@ public class GradleUtil {
         return thedefault
     }
 
-    static def getFeatureName(Project project) {
-        return getPropertyWithDefault(project, "featureName", "none")
+    static def getBuildIdentifier(Project project) {
+        return getPropertyWithDefault(project, "id", "debug")
     }
 
     static def getAppName(Project project, variant) {
@@ -280,8 +251,8 @@ public class GradleUtil {
         flavor = flavor.capitalize()
 
         def type = variant.buildType.name
-        if (type == "feature") {
-            type = getFeatureName(project)
+        if (type == "debug") {
+            type = getBuildIdentifier(project)
         }
         type = type.capitalize()
 
