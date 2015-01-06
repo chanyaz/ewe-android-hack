@@ -2,10 +2,6 @@ package com.expedia.bookings.test.ui.espresso;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,9 +27,6 @@ import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
 
-import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
-import com.expedia.bookings.widget.SlideToWidget;
-import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -200,8 +193,6 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-				SharedPreferences.Editor editor = prefs.edit();
 				if (index == -1) {
 					value.set(Integer.toString(((LinearLayout) view).getChildCount()));
 				}
@@ -209,7 +200,6 @@ public final class ViewActions {
 					View childView = ((LinearLayout) view).getChildAt(index);
 					value.set(((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
 				}
-				editor.commit();
 			}
 
 			@Override
