@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.Ui;
 
 public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardData> {
@@ -56,9 +56,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
-		return null;
-	}
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {};
 
 	@Override
 	public String getReloadText() {

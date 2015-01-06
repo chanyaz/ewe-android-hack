@@ -17,7 +17,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MenuInflater;
@@ -33,7 +32,6 @@ import android.widget.TextView;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -340,15 +338,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
 		Point size = AndroidUtils.getScreenSize(getContext());
-		UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y);
-		if (drawable != null) {
-			mHeaderBitmapDrawable.setUrlBitmapDrawable(drawable);
-		}
-		else {
-			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
-			Drawable placeholderDrawable = res.getDrawable(placeholderResId);
-			mHeaderBitmapDrawable.setPlaceholderDrawable(placeholderDrawable);
-		}
+		mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y, mHeaderBitmapDrawable);
+
 
 		if (mDisplayState == DisplayState.EXPANDED) {
 			mHeaderBitmapDrawable.setOverlayDrawable(null);

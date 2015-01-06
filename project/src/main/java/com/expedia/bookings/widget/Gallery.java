@@ -34,10 +34,11 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Media;
 import com.mobiata.android.Log;
+import com.squareup.picasso.Picasso;
 
 public class Gallery extends AbsSpinner implements OnGestureListener {
 
@@ -1566,31 +1567,42 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 			imageView.setLayoutParams(LAYOUT_WIDE);
 			imageView.setBackgroundDrawable(null);
-			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(media.getHighResUrls(), imageView);
-			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					if (bitmap.getWidth() > bitmap.getHeight()) {
-						imageView.setLayoutParams(LAYOUT_WIDE);
-					}
-					else {
-						imageView.setLayoutParams(LAYOUT_TALL);
-						imageView.setBackgroundResource(R.drawable.bg_gallery_item);
-					}
-				}
 
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					// Be sad
-				}
-			});
+			new PicassoHelper.Builder(imageView).setTarget(holder.callback).build().load(media.getHighResUrls());
 
 			return convertView;
 		}
 
 		private class Holder {
 			public ImageView item;
+			public PicassoTarget callback = new PicassoTarget() {
+				@Override
+				public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+					super.onBitmapLoaded(bitmap, from);
+					item.setImageBitmap(bitmap);
+					if (bitmap.getWidth() > bitmap.getHeight()) {
+						item.setLayoutParams(LAYOUT_WIDE);
+					}
+					else {
+						item.setLayoutParams(LAYOUT_TALL);
+						item.setBackgroundResource(R.drawable.bg_gallery_item);
+					}
+				}
+
+				@Override
+				public void onBitmapFailed(Drawable errorDrawable) {
+					super.onBitmapFailed(errorDrawable);
+				}
+
+				@Override
+				public void onPrepareLoad(Drawable placeHolderDrawable) {
+					super.onPrepareLoad(placeHolderDrawable);
+				}
+			};
 		}
+
+
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1773,4 +1785,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	public void setOnScrollListener(OnScrollListener listener) {
 		mOnScrollListener = listener;
 	}
+
+
+
 }

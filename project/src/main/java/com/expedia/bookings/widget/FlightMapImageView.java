@@ -7,16 +7,17 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.picasso.Picasso;
 
 public class FlightMapImageView extends ImageView {
 
@@ -83,20 +84,29 @@ public class FlightMapImageView extends ImageView {
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
-			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					FlightMapImageView.this.setBackgroundDrawable(null);
-				}
-
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					// nothing
-				}
-			});
+			Picasso.with(getContext()).load(mStaticMapUri).into(callback);
 		}
 	}
+
+	private PicassoTarget callback = new PicassoTarget() {
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			setImageBitmap(bitmap);
+			FlightMapImageView.this.setBackgroundDrawable(null);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+		}
+	};
+
 
 	//path=color:0xFFFFFF%7Cweight:2%7Cgeodesic:true%7C40.644166,-73.782548%7C45.123456,-99.235632%7C37.6190,-122.3749
 	public String buildStaticMapPathValueString(int color, int weight, boolean geodesic, List<Flight> flights) {

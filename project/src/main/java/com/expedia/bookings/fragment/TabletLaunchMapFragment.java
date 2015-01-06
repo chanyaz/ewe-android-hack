@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,13 +13,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.enums.LaunchState;
@@ -44,6 +48,7 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 public class TabletLaunchMapFragment extends SupportMapFragment {
 	private HashMap<LaunchLocation, Marker> mLocations = new HashMap<>();
@@ -298,32 +303,43 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		animateCameraToShowFullCollection();
 	}
 
+	private class PinCallback extends PicassoTarget {
+		private LaunchLocation mLaunchLocation;
+
+		public PinCallback(LaunchLocation launchLocation) {
+				mLaunchLocation = launchLocation;
+		}
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			inflatePinAndAddMarker(mLaunchLocation, bitmap);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			inflatePinAndAddMarker(mLaunchLocation, ((BitmapDrawable)placeHolderDrawable).getBitmap());
+		}
+	}
+
+
+	private ArrayList<PinCallback> targetList =new ArrayList<PinCallback>();
 	private void addPin(final LaunchLocation launchLocation) {
 		if (getActivity() != null) {
 			final String imageUrl = TabletLaunchPinDetailFragment.getResizedImageUrl(getActivity(), launchLocation);
 
 			// Immediately inflate a pin with whatever we have cached (might be null)
-			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, false /*blurred*/, true /*checkdisk*/);
-			inflatePinAndAddMarker(launchLocation, bitmap);
+			PinCallback target = new PinCallback(launchLocation);
+			targetList.add(target);
+			new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.launch_circle_placeholder).setTarget(
+				target).build().load(imageUrl);
 
-			// Hook up a listener to download the image and inflate a pin when it's ready
-			if (bitmap == null) {
-				String callbackKey = TabletLaunchMapFragment.class.getSimpleName() + imageUrl;
-				L2ImageCache.sGeneralPurpose.loadImage(callbackKey, imageUrl, false,
-					new L2ImageCache.OnBitmapLoaded() {
-					@Override
-					public void onBitmapLoaded(String url, Bitmap bitmap) {
-						if (getActivity() != null) {
-							inflatePinAndAddMarker(launchLocation, bitmap);
-						}
-					}
-
-					@Override
-					public void onBitmapLoadFailed(String url) {
-						// ignore
-					}
-				});
-			}
 		}
 	}
 

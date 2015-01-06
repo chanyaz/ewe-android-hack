@@ -1,12 +1,15 @@
 package com.expedia.bookings.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -39,6 +42,7 @@ public class DebugMenu {
 		case R.id.debug_menu_build_number:
 			return true;
 		}
+
 		return false;
 	}
 

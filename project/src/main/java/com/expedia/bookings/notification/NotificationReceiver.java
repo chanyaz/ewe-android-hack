@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
@@ -22,7 +23,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
@@ -39,6 +41,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
+import com.squareup.picasso.Picasso;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -160,7 +163,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				final String url = new Akeakamai(Images.getFlightDestination(code)) //
 					.resizeExactly(width, height) //
 					.build();
-				L2ImageCache.sDestination.loadImage(url, false /*blurred*/, mDestinationImageLoaded);
+				new PicassoHelper.Builder(mContext).setTarget(mDestinationImageLoaded).build().load(url);
 				break;
 			}
 			case CAR:
@@ -171,15 +174,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 			}
 		}
 
-		private L2ImageCache.OnBitmapLoaded mDestinationImageLoaded = new L2ImageCache.OnBitmapLoaded() {
+		private PicassoTarget mDestinationImageLoaded = new PicassoTarget() {
 			@Override
-			public void onBitmapLoadFailed(String url) {
-				mBitmap = null;
-				display();
-			}
-
-			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+				super.onBitmapLoaded(bitmap, from);
 				// These are tailored to the specific size of our destination images (720x1140 on xhdpi).
 				// They don't need to be exact anyway.
 				int left = 0;
@@ -188,6 +186,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 				int height = (int) (bitmap.getHeight() * 0.35);
 				mBitmap = Bitmap.createBitmap(bitmap, left, top, width, height, null, false);
 				display();
+			}
+
+			@Override
+			public void onBitmapFailed(Drawable errorDrawable) {
+				super.onBitmapFailed(errorDrawable);
+				mBitmap = null;
+				display();
+			}
+
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+				super.onPrepareLoad(placeHolderDrawable);
 			}
 		};
 
@@ -198,18 +208,14 @@ public class NotificationReceiver extends BroadcastReceiver {
 				return;
 			}
 			String url = mUrls.remove(0);
-			L2ImageCache.sGeneralPurpose.loadImage(url, mTwoLevelImageLoaded);
+			new PicassoHelper.Builder(mContext).setTarget(mTwoLevelImageLoaded).build().load(url);
 		}
 
 		// Callbacks for TwoLevelImageCache image loader
-		private L2ImageCache.OnBitmapLoaded mTwoLevelImageLoaded = new L2ImageCache.OnBitmapLoaded() {
+		private PicassoTarget mTwoLevelImageLoaded = new PicassoTarget() {
 			@Override
-			public void onBitmapLoadFailed(String url) {
-				loadNextUrl();
-			}
-
-			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+				super.onBitmapLoaded(bitmap, from);
 				try {
 					// #1457 - We make a copy so that the TwoLevelImageCache can't recycle it from underneath us
 					mBitmap = bitmap.copy(bitmap.getConfig(), false);
@@ -220,6 +226,16 @@ public class NotificationReceiver extends BroadcastReceiver {
 					mBitmap = null;
 				}
 				display();
+			}
+
+			@Override
+			public void onBitmapFailed(Drawable errorDrawable) {
+				super.onBitmapFailed(errorDrawable);loadNextUrl();
+			}
+
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+				super.onPrepareLoad(placeHolderDrawable);
 			}
 		};
 

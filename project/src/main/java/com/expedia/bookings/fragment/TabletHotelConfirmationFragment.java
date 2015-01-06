@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.expedia.bookings.data.HotelBookingResponse;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Media;
@@ -72,8 +72,8 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
-					R.drawable.bg_itin_placeholder));
+			new PicassoHelper.Builder(getActivity())
+				.setPlaceholder(R.drawable.bg_itin_placeholder).setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable

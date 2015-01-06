@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
@@ -24,21 +23,19 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PaletteCallback;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
-import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.picasso.Picasso;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -70,6 +67,8 @@ public class HotelSummarySection extends RelativeLayout {
 	public static final int ROOMS_LEFT_CUTOFF = 5;
 
 	private static final int HOTEL_PRICE_TOO_LONG = 7;
+
+	private static final String PICASSO_TAG = "hotel_list";
 
 	// "ViewHolder" views
 	private ImageView mThumbnailView;
@@ -383,13 +382,14 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// See if there's a first image; if there is, use that as the thumbnail
 		if (mThumbnailView != null) {
-			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
+			int placeholderResId = Ui
+				.obtainThemeResID(context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId);
+				//Picasso.with(context).load(property.getThumbnail().getBestUrls(250).get(0)).placeholder(placeholderResId).fit().centerCrop().into(mThumbnailView);
+				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId, null, PICASSO_TAG);
 			}
 			else {
-				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(context.getResources(), placeholderResId, false /*blurred*/);
-				mThumbnailView.setImageBitmap(bitmap);
+				new PicassoHelper.Builder(mThumbnailView).setTag(PICASSO_TAG).build().load(placeholderResId);
 			}
 		}
 
@@ -403,7 +403,6 @@ public class HotelSummarySection extends RelativeLayout {
 		boolean useHeaderGradient = !useSelectedBackground;
 
 		if (mHotelBackgroundView != null) {
-			final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 
 			if (isSoldOut) {
 				ColorMatrix cm = new ColorMatrix();
@@ -416,23 +415,25 @@ public class HotelSummarySection extends RelativeLayout {
 				mBgImgOverlay.setBackgroundResource(R.drawable.bg_hotel_details_header_gradient);
 			}
 
-			if (useHeaderGradient && isSelected) {
-				headerBitmapDrawable.setGradient(SELECTED_GRADIENT_COLORS, SELECTED_GRADIENT_POSITIONS);
-			}
-			else {
-				headerBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-			}
-			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
-			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
-
 			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, mHeaderBitmapLoadedCallback);
+				PaletteCallback callback =  new PaletteCallback(mHotelBackgroundView){
+					@Override
+					public void onSuccess(int vibrantColor) {
+						setDominantColor(vibrantColor);
+					}
+
+					@Override
+					public void onFailed() {
+						if (mDoUrgencyTextColorMatching && !mIsSelected) {
+							setDominantColor(getResources().getColor(R.color.transparent_dark));
+						}
+					}
+				};
+				property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, callback, PICASSO_TAG);
 			}
 			else {
-				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(context.getResources(), placeholderResId, false /*blurred*/);
-				headerBitmapDrawable.setBitmap(bitmap);
-				mHotelBackgroundView.setImageDrawable(headerBitmapDrawable);
+				new PicassoHelper.Builder(mHotelBackgroundView).build().load(placeholderResId);
 			}
 		}
 
@@ -464,23 +465,8 @@ public class HotelSummarySection extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async handling of Mobile Exclusive Deals / ColorScheme
 
-	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
-		@Override
-		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			if (mDoUrgencyTextColorMatching && !mIsSelected) {
-				ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f)
-					.setAlpha(204);
-				setDominantColor(builder.build());
-			}
-		}
 
-		@Override
-		public void onBitmapLoadFailed(String url) {
-			if (mDoUrgencyTextColorMatching && !mIsSelected) {
-				setDominantColor(getResources().getColor(R.color.transparent_dark));
-			}
-		}
-	};
+
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void setDominantColor(int color) {
@@ -506,11 +492,11 @@ public class HotelSummarySection extends RelativeLayout {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Show/hide MED callout
-
 	@TargetApi(11)
 	public void collapseBy(float pixels) {
 		mUrgencyText.setTranslationY(-pixels);
 		mCardCornersBottom.setTranslationY(-pixels);
 	}
+
 
 }

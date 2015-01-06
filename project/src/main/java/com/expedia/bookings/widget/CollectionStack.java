@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,13 +16,13 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.picasso.Picasso;
 
 public class CollectionStack extends FrameLayout {
 	public CollectionStack(Context context) {
@@ -50,6 +51,8 @@ public class CollectionStack extends FrameLayout {
 
 	private int mBackgroundColor;
 	private boolean mIsStack = true;
+
+	private ArrayList<StackCallback> callbacks = new ArrayList<StackCallback>();
 
 	private void init() {
 		setClipChildren(false);
@@ -138,53 +141,76 @@ public class CollectionStack extends FrameLayout {
 			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
 			.build();
 
-		ArrayList<String> urls = new ArrayList<String>();
-		urls.add(imageUrl);
-		headerBitmapDrawable.setCallback(new L2ImageCache.OnBitmapLoaded() {
-			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				int color = BitmapUtils.getAvgColorOnePixelTrick(bitmap);
-				int textColor = new ColorBuilder(color)
-					.darkenBy(0.4f)
-					.setAlpha(224)
-					.build();
+		StackCallback callback = new StackCallback(headerBitmapDrawable);
+		//These callbacks require a strong reference
+		callbacks.add(callback);
 
-				ColorBuilder fullColorBuilder;
-				if (ExpediaBookingApp.IS_TRAVELOCITY) {
-					fullColorBuilder = new ColorBuilder(Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
-				}
-				else {
-					fullColorBuilder = new ColorBuilder(color)
-						.darkenBy(0.3f);
-				}
-				int fullColor = fullColorBuilder.setAlpha(217).build();
+		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
+			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(imageUrl);
 
-				GradientDrawable textViewBackground = (GradientDrawable) getResources().getDrawable(R.drawable.bg_collection_title);
-				textViewBackground.setColor(textColor);
-				GradientDrawable checkMarkViewBackground = (GradientDrawable) getResources().getDrawable(R.drawable.selected_tile_overlay);
-				checkMarkViewBackground.setColor(fullColor);
-				if (Build.VERSION.SDK_INT < 16) {
-					mTextView.setBackgroundDrawable(textViewBackground);
-					mCheckView.setBackgroundDrawable(checkMarkViewBackground);
-				}
-				else {
-					mTextView.setBackground(textViewBackground);
-					mCheckView.setBackground(checkMarkViewBackground);
-				}
-			}
-
-			@Override
-			public void onBitmapLoadFailed(String url) {
-
-			}
-		});
-
-		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getContext().getResources(), urls,
-			Ui.obtainThemeResID(getContext(), R.attr.skin_collection_placeholder)));
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
 		return headerBitmapDrawable;
 	}
+
+	private class StackCallback extends PicassoTarget {
+		private HeaderBitmapDrawable mHeaderBitmapDrawable;
+
+		StackCallback(HeaderBitmapDrawable headerBitmapDrawable) {
+			mHeaderBitmapDrawable = headerBitmapDrawable;
+		}
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+
+			Palette palette = Palette.generate(bitmap);
+			int color = palette.getVibrantColor(R.color.transparent_dark);
+			mHeaderBitmapDrawable.setBitmap(bitmap);
+			int textColor = new ColorBuilder(color)
+				.darkenBy(0.4f)
+				.setAlpha(224)
+				.build();
+
+			ColorBuilder fullColorBuilder;
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				fullColorBuilder = new ColorBuilder(
+					Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
+			}
+			else {
+				fullColorBuilder = new ColorBuilder(color)
+					.darkenBy(0.3f);
+			}
+			int fullColor = fullColorBuilder.setAlpha(217).build();
+
+			GradientDrawable textViewBackground = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.bg_collection_title);
+			textViewBackground.setColor(textColor);
+			GradientDrawable checkMarkViewBackground = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.selected_tile_overlay);
+			checkMarkViewBackground.setColor(fullColor);
+			if (Build.VERSION.SDK_INT < 16) {
+				mTextView.setBackgroundDrawable(textViewBackground);
+				mCheckView.setBackgroundDrawable(checkMarkViewBackground);
+			}
+			else {
+				mTextView.setBackground(textViewBackground);
+				mCheckView.setBackground(checkMarkViewBackground);
+			}
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+		}
+	}
+
+	;
 
 	public void setText(CharSequence title) {
 		mTextView.setText(title);

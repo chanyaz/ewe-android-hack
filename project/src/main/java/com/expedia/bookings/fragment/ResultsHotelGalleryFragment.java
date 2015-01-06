@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -18,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -26,6 +27,7 @@ import com.expedia.bookings.interfaces.IResultsHotelGalleryBackClickedListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 public class ResultsHotelGalleryFragment extends Fragment {
 
@@ -164,9 +166,11 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			Media media = mMedia.get(position);
 			final ImageView image = Ui.findView(root, R.id.image);
 
-			media.loadHighResImage(image, new L2ImageCache.OnBitmapLoaded() {
+			PicassoTarget callback = new PicassoTarget() {
 				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
+				public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+					super.onBitmapLoaded(bitmap, from);
+					image.setImageBitmap(bitmap);
 					LayoutParams params = image.getLayoutParams();
 
 					float scale = mImageWidth / bitmap.getWidth();
@@ -178,10 +182,19 @@ public class ResultsHotelGalleryFragment extends Fragment {
 				}
 
 				@Override
-				public void onBitmapLoadFailed(String url) {
-					// ignore
+				public void onBitmapFailed(Drawable errorDrawable) {
+					super.onBitmapFailed(errorDrawable);
 				}
-			}, R.drawable.bg_tablet_hotel_results_placeholder);
+
+				@Override
+				public void onPrepareLoad(Drawable placeHolderDrawable) {
+					super.onPrepareLoad(placeHolderDrawable);
+					image.setImageDrawable(placeHolderDrawable);
+				}
+			};
+			image.setTag(callback);
+
+			media.loadHighResImage(image, callback, R.drawable.bg_tablet_hotel_results_placeholder);
 
 			ViewGroup group = (ViewGroup) collection;
 			if (position >= group.getChildCount()) {

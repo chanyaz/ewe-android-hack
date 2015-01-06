@@ -18,11 +18,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -85,16 +86,16 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		Car car = getItinCardData().getCar();
 
 		final String url = new Akeakamai(Images.getCarRental(car)) //
 			.resizeExactly(width, height) //
 			.build();
 
-		UrlBitmapDrawable drawable = new UrlBitmapDrawable(getResources(), url, getHeaderImagePlaceholderResId());
+		new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId())
+			.setTarget(target.getCallBack()).build().load(url);
 		setSharableImageURL(url);
-		return drawable;
 	}
 
 	@Override

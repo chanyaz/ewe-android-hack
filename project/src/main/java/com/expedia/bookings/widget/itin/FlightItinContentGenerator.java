@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -45,6 +45,7 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -132,16 +133,16 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		final String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
 
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(width, height) //
 			.build();
 
-		UrlBitmapDrawable drawable = new UrlBitmapDrawable(getResources(), url, getHeaderImagePlaceholderResId());
+		new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId()).setTarget(
+			target.getCallBack()).build().load(url);
 		setSharableImageURL(url);
-		return drawable;
 	}
 
 	@Override

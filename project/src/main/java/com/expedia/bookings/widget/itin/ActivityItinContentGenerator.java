@@ -25,10 +25,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -93,9 +93,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
-		return null;
-	}
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {};
 
 	@Override
 	public String getHeaderText() {

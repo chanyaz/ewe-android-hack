@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -14,19 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.picasso.Picasso;
 
-public class LoginActivity extends FragmentActivity implements TitleSettable, L2ImageCache.OnBitmapLoaded {
+public class LoginActivity extends FragmentActivity implements TitleSettable {
 
 	public static final String ARG_BUNDLE = "ARG_BUNDLE";
 	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
@@ -151,7 +151,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 				final String url = new Akeakamai(Images.getFlightDestination(code)) //
 					.resizeExactly(portrait.x, portrait.y) //
 					.build();
-				L2ImageCache.sDestination.loadImage(url, true, this);
+				new PicassoHelper.Builder(mBgImageView).build().load(url);
 			}
 			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
@@ -236,15 +236,5 @@ public class LoginActivity extends FragmentActivity implements TitleSettable, L2
 
 	///////////////////////////////////////////////////////////////
 	// OnBitmapLoaded
-
-	@Override
-	public void onBitmapLoaded(String url, Bitmap bitmap) {
-		mBgImageView.setImageBitmap(bitmap);
-	}
-
-	@Override
-	public void onBitmapLoadFailed(String url) {
-		// ignore
-	}
 
 }

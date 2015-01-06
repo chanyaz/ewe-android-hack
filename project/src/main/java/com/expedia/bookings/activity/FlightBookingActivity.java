@@ -6,7 +6,6 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,8 +17,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
-import com.expedia.bookings.bitmaps.BitmapDrawable;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -98,13 +96,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/, true /*checkDisk*/);
-		if (bitmap != null) {
-			onBitmapLoaded(bitmap);
-		}
-		else {
-			onBitmapLoadFailed();
-		}
+		new PicassoHelper.Builder(mBgImageView).setError(R.drawable.default_flights_background).build().load(url);
 
 		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
@@ -496,15 +488,5 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 				getString(R.string.preference_flight_fake_obfees),
 				getString(R.string.preference_flight_fake_obfees_default));
 		return new BigDecimal(amount);
-	}
-
-	public void onBitmapLoaded(Bitmap bitmap) {
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-		mBgImageView.setImageDrawable(drawable);
-	}
-
-	public void onBitmapLoadFailed() {
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true /*blurred*/);
-		onBitmapLoaded(bitmap);
 	}
 }

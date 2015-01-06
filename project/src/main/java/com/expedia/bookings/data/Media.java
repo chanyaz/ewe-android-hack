@@ -12,11 +12,13 @@ import android.content.Context;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PaletteCallback;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
+import com.squareup.picasso.Picasso;
 
 /**
  * This object represents a resolution-independent Expedia media image,
@@ -204,28 +206,12 @@ public class Media implements JSONable {
 		mOriginalType = Size.parse(url.substring(split, split + 1));
 	}
 
-	/**
-	 * Loads a high-res image automatically into an ImageView.
-	 *
-	 * If you need more fine-grained control
-	 *
-	 * @param imageView
-	 * @param callback
-	 */
-	public void loadHighResImage(ImageView imageView, L2ImageCache.OnBitmapLoaded callback) {
-		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(getHighResUrls(), imageView);
-		drawable.setOnBitmapLoadedCallback(callback);
+	public void loadHighResImage(ImageView imageView, PicassoTarget target, int defaultResId) {
+		new PicassoHelper.Builder(imageView).setPlaceholder(defaultResId).setTarget(target).build().load(getHighResUrls());
 	}
 
-	public void loadHighResImage(ImageView imageView, L2ImageCache.OnBitmapLoaded callback, int defaultResId) {
-		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(getHighResUrls(), imageView, defaultResId);
-		drawable.setOnBitmapLoadedCallback(callback);
-	}
-
-	public void preloadHighResImage(Context context, L2ImageCache.OnBitmapLoaded callback) {
-		// It may make sense to someday rewrite this not to abuse UrlBitmapDrawable (e.g. go straight to the cache)
-		UrlBitmapDrawable drawable = new UrlBitmapDrawable(context.getResources(), getHighResUrls());
-		drawable.setOnBitmapLoadedCallback(callback);
+	public void preloadHighResImage(Context context) {
+		new PicassoHelper.Builder(context).build().load(getHighResUrls());
 	}
 
 	public List<String> getHighResUrls() {
@@ -289,14 +275,28 @@ public class Media implements JSONable {
 	 * downloaded in the background. This variation allows the caller to hook a callback.
 	 */
 	public void fillImageView(final ImageView view, final int placeholderResId,
-							  final L2ImageCache.OnBitmapLoaded callback) {
+		final PicassoTarget target) {
 
 		// Do this OnPreDraw so that we are sure we have the imageView's width
 		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth(), placeholderResId, callback);
+				fillImageView(view, view.getWidth(), placeholderResId, target);
+				return true;
+			}
+		});
+	}
+
+	public void fillImageView(final ImageView view, final int placeholderResId,
+		final PaletteCallback callback, final String tag) {
+
+		// Do this OnPreDraw so that we are sure we have the imageView's width
+		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				view.getViewTreeObserver().removeOnPreDrawListener(this);
+				fillImageView(view, view.getWidth(), placeholderResId, callback, tag);
 				return true;
 			}
 		});
@@ -308,13 +308,16 @@ public class Media implements JSONable {
 	 * downloaded in the background.
 	 */
 	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
-							  final L2ImageCache.OnBitmapLoaded callback) {
-		UrlBitmapDrawable drawable = new UrlBitmapDrawable(view.getContext().getResources(),
-			getBestUrls(width), placeholderResId);
-		drawable.configureImageView(view);
-		drawable.setOnBitmapLoadedCallback(callback);
+		final PicassoTarget target) {
+		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).setTarget(target).build()
+			.load(getBestUrls(width));
 	}
 
+	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
+		final PaletteCallback callback, final String tag) {
+		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).applyPaletteTransformation(
+			callback).setTag(tag).build().load(getBestUrls(width));
+	}
 	/**
 	 * This is a specialized variant on fillImageView, where the ImageView wants to
 	 * hold a HeaderBitmapDrawable.
@@ -322,7 +325,7 @@ public class Media implements JSONable {
 	 * @see{fillImageView()}
 	 */
 	public void fillHeaderBitmapDrawable(final ImageView view, final HeaderBitmapDrawable drawable,
-			final int placeholderResId) {
+		final int placeholderResId) {
 		view.setImageDrawable(drawable);
 
 		// Do this OnPreDraw so that we are sure we have the imageView's width
@@ -331,8 +334,8 @@ public class Media implements JSONable {
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
 				List<String> urls = getBestUrls(view.getWidth());
-				UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(view.getResources(), urls, placeholderResId);
-				drawable.setUrlBitmapDrawable(urlBitmapDrawable);
+				new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(
+					drawable.getCallBack()).build().load(urls);
 				return true;
 			}
 		});

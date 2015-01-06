@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -138,8 +138,8 @@ public class HotelReceipt extends LinearLayout {
 		Media media = HotelUtils.getRoomMedia(property, rate);
 		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (media != null) {
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
-					placeholderResId));
+			new PicassoHelper.Builder(getContext()).setPlaceholder(placeholderResId)
+				.setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderResId));

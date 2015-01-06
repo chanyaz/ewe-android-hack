@@ -10,6 +10,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
@@ -53,6 +55,18 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					ClearPrivateDataUtil.clear(ExpediaBookingPreferenceActivity.this);
+					return true;
+				}
+			});
+
+			String picassoKey = getString(R.string.preference_enable_picasso_logging);
+			CheckBoxPreference picassoPreference = (CheckBoxPreference) findPreference(picassoKey);
+			picassoPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					boolean isLoggingEnabled = Boolean.valueOf(newValue.toString());
+					new PicassoHelper.Builder(ExpediaBookingPreferenceActivity.this).build()
+						.setLoggingEnabled(isLoggingEnabled);
 					return true;
 				}
 			});

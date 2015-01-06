@@ -3,14 +3,15 @@ package com.expedia.bookings.widget;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.mobiata.android.Log;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.picasso.Picasso;
 
 public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> implements OnMeasureListener {
 
@@ -43,26 +44,30 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 	// Utility
 
 	protected void loadImageForLaunchStream(String url, final ViewGroup row, final ImageView bgView) {
-		final boolean animate = L2ImageCache.sGeneralPurpose.getImage(url, false) == null;
 
-		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(url, bgView);
-		drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+		PicassoTarget callback = new PicassoTarget() {
 			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				Log.v("Launch Bitmap loaded: " + url);
-
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+				super.onBitmapLoaded(bitmap, from);
+				bgView.setImageBitmap(bitmap);
 				row.setVisibility(View.VISIBLE);
-
-				if (animate) {
+				if (from != Picasso.LoadedFrom.NETWORK) {
 					ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 				}
 			}
 
 			@Override
-			public void onBitmapLoadFailed(String url) {
-				Log.v("Launch Bitmap load failed: " + url);
+			public void onBitmapFailed(Drawable errorDrawable) {
+				super.onBitmapFailed(errorDrawable);
 			}
-		});
+
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+				super.onPrepareLoad(placeHolderDrawable);
+			}
+		};
+		bgView.setTag(callback);
+		new PicassoHelper.Builder(bgView.getContext()).setTarget(callback).build().load(url);
 	}
 
 	private int mNumTiles = 0;

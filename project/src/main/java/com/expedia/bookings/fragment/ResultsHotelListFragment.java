@@ -15,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearch;
@@ -52,6 +53,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ResultsHotelsListState mState = getDefaultState();
 
+	private static final String PICASSO_TAG = "HOTEL_LIST";
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -81,6 +83,8 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		setListViewContentDescription(R.string.cd_tablet_results_hotel_list);
 		View view = super.onCreateView(inflater, container, savedInstanceState);
 		view.setBackgroundResource(R.drawable.bg_half_white);
+		FruitList listView = getListView();
+		listView.addPicassoScrollListener(new PicassoScrollListener(getActivity(), PICASSO_TAG));
 		return view;
 	}
 

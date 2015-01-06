@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -81,7 +81,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		int placeholderId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelConfirmationPlaceholderDrawable);
 		if (media != null) {
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(), placeholderId));
+			new PicassoHelper.Builder(getActivity()).setPlaceholder(placeholderId)
+				.setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderId));
