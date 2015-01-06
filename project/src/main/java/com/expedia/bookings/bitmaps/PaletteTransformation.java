@@ -20,15 +20,18 @@ public final class PaletteTransformation implements Transformation {
 		return CACHE.get(bitmap);
 	}
 
-	private PaletteTransformation() {}
+	private PaletteTransformation() {
+	}
 
-	@Override public Bitmap transform(Bitmap source) {
+	@Override
+	public Bitmap transform(Bitmap source) {
 		Palette palette = Palette.generate(source);
 		CACHE.put(source, palette);
 		return source;
 	}
 
-	@Override public String key() {
+	@Override
+	public String key() {
 		return "Palette";
 	}
 }

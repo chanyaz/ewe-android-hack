@@ -2,14 +2,11 @@ package com.expedia.bookings.bitmaps;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 public abstract class PaletteCallback implements Callback {
 	private ImageView mImageView;
@@ -31,6 +28,6 @@ public abstract class PaletteCallback implements Callback {
 
 	@Override
 	public void onError() {
-			onFailed();
+		onFailed();
 	}
 }

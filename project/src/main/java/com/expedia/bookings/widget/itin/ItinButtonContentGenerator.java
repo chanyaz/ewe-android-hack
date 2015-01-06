@@ -52,7 +52,8 @@ public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {};
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
+	}
 
 	@Override
 	public final String getHeaderText() {

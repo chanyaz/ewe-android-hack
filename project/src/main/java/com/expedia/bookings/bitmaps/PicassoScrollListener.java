@@ -3,8 +3,6 @@ package com.expedia.bookings.bitmaps;
 import android.content.Context;
 import android.widget.AbsListView;
 
-import com.squareup.picasso.Picasso;
-
 public class PicassoScrollListener implements AbsListView.OnScrollListener {
 	private String mTag;
 	private PicassoHelper mHelper;

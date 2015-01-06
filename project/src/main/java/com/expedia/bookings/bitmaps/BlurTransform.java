@@ -8,7 +8,7 @@ import com.expedia.bookings.R;
 import com.squareup.picasso.Transformation;
 
 public class BlurTransform implements Transformation {
-	private final String KEY = "Blur";
+	private static final String mKEY = "Blur";
 
 	private Context mContext;
 
@@ -36,6 +36,6 @@ public class BlurTransform implements Transformation {
 
 	@Override
 	public String key() {
-		return KEY;
+		return mKEY;
 	}
 }

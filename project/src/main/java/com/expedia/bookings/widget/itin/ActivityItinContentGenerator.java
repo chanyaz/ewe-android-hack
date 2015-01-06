@@ -93,7 +93,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {};
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
+	}
 
 	@Override
 	public String getHeaderText() {
@@ -113,7 +114,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		}
 
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
-				false);
+			false);
 		view.setText(R.string.activity_information);
 		return view;
 	}
@@ -123,11 +124,11 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		TextView view = (TextView) convertView;
 		if (view == null) {
 			view = (TextView) getLayoutInflater()
-					.inflate(R.layout.include_itin_card_summary_activity, container, false);
+				.inflate(R.layout.include_itin_card_summary_activity, container, false);
 		}
 
 		view.setText(Html.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
-				getItinCardData().getLongFormattedValidDate(getContext()))));
+			getItinCardData().getLongFormattedValidDate(getContext()))));
 
 		return view;
 	}
@@ -146,20 +147,20 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		// Bind
 		Resources res = getResources();
 		infoTriplet.setValues(
-				itinCardData.getFormattedValidDate(getContext()),
-				itinCardData.getFormattedExpirationDate(getContext()),
-				itinCardData.getFormattedGuestCount());
+			itinCardData.getFormattedValidDate(getContext()),
+			itinCardData.getFormattedExpirationDate(getContext()),
+			itinCardData.getFormattedGuestCount());
 		infoTriplet.setLabels(
-				res.getString(R.string.itin_card_details_active),
-				res.getString(R.string.itin_card_details_expires),
-				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
+			res.getString(R.string.itin_card_details_active),
+			res.getString(R.string.itin_card_details_expires),
+			res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		final List<Traveler> travelers = itinCardData.getTravelers();
 		final int size = travelers == null ? 0 : travelers.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				final TextView guestView = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_guest,
-						null);
+					null);
 				final Traveler traveler = travelers.get(i);
 				final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
 
@@ -182,15 +183,15 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	@Override
 	public SummaryButton getSummaryLeftButton() {
 		return new SummaryButton(R.drawable.ic_printer_redeem, getContext().getString(R.string.itin_action_redeem),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Context context = getContext();
-						Intent intent = getItinCardData().buildRedeemIntent(context);
-						context.startActivity(intent);
-						OmnitureTracking.trackItinActivityRedeem(context);
-					}
-				});
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Context context = getContext();
+					Intent intent = getItinCardData().buildRedeemIntent(context);
+					context.startActivity(intent);
+					OmnitureTracking.trackItinActivityRedeem(context);
+				}
+			});
 	}
 
 	@Override
@@ -205,14 +206,14 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		}
 
 		return new SummaryButton(R.drawable.ic_phone, getContext().getString(
-				R.string.itin_action_support),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialUtils.call(getContext(), finalPhoneNumber);
-						OmnitureTracking.trackItinActivitySupport(getContext());
-					}
-				});
+			R.string.itin_action_support),
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), finalPhoneNumber);
+					OmnitureTracking.trackItinActivitySupport(getContext());
+				}
+			});
 	}
 
 	@SuppressLint("DefaultLocale")

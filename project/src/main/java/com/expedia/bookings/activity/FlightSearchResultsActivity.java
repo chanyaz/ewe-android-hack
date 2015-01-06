@@ -83,7 +83,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
-import com.squareup.picasso.Picasso;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,

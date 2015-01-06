@@ -2,18 +2,10 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +14,6 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PaletteCallback;
-import com.expedia.bookings.bitmaps.PaletteTransformation;
-import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -36,7 +26,6 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 /**
  * ResultsBackgroundImageFragment: The fragment that acts as a background image for the whole
@@ -222,7 +211,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
 		ArrayList<String> destCodes = new ArrayList<>();
 		if (lob == LineOfBusiness.FLIGHTS) {
-			destCodes.add(Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId());
+			destCodes.add(
+				Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId());
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
 			destCodes.add(Db.getTripBucket().getHotel().getHotelSearchParams().getCorrespondingAirportCode());

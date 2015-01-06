@@ -13,12 +13,11 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
 import com.expedia.bookings.bitmaps.PaletteCallback;
-import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
-import com.squareup.picasso.Picasso;
 
 /**
  * This object represents a resolution-independent Expedia media image,
