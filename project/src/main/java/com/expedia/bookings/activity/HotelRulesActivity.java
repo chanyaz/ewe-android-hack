@@ -13,7 +13,19 @@ public class HotelRulesActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		setTitle(R.string.legal_information);
-		setTheme(ExpediaBookingApp.IS_TRAVELOCITY || ExpediaBookingApp.IS_AAG ? R.style.Theme_Phone_WebView_WithTitle : R.style.Theme_Phone_WebView);
+		int themeId;
+		if (ExpediaBookingApp.IS_TRAVELOCITY || ExpediaBookingApp.IS_AAG) {
+			themeId = R.style.Theme_Phone_WebView_WithTitle;
+		}
+		else if (ExpediaBookingApp.useTabletInterface(this)) {
+			// Use FlightTheme on hotel checkout for tablet.
+			themeId = R.style.FlightTheme;
+		}
+		else {
+			themeId = R.style.Theme_Phone_WebView;
+		}
+		setTheme(themeId);
+
 		setContentView(R.layout.activity_hotel_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (ExpediaBookingApp.IS_EXPEDIA) {
