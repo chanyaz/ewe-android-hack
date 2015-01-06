@@ -2,8 +2,6 @@ package com.expedia.bookings.test.ui.espresso;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -195,8 +193,6 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-				SharedPreferences.Editor editor = prefs.edit();
 				if (index == -1) {
 					value.set(Integer.toString(((LinearLayout) view).getChildCount()));
 				}
@@ -204,7 +200,6 @@ public final class ViewActions {
 					View childView = ((LinearLayout) view).getChildAt(index);
 					value.set(((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
 				}
-				editor.commit();
 			}
 
 			@Override
