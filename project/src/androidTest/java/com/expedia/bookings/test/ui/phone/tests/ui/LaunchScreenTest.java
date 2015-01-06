@@ -7,7 +7,6 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-
 /**
  * Created by dmadan on 11/17/14.
  */

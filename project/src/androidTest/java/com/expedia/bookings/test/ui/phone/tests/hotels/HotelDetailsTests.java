@@ -12,13 +12,13 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.Espresso;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 /**
  * Created by dmadan on 5/14/14.

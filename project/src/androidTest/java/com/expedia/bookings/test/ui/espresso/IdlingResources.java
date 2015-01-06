@@ -3,8 +3,8 @@ package com.expedia.bookings.test.ui.espresso;
 import java.util.UUID;
 
 import com.expedia.bookings.otto.Events;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.contrib.CountingIdlingResource;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.CountingIdlingResource;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 

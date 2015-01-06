@@ -10,9 +10,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.pressBack;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 /**
  * Created by dmadan on 5/2/14.

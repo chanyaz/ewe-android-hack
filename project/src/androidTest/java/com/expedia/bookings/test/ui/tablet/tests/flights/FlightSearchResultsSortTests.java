@@ -15,7 +15,7 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
 import com.expedia.bookings.test.ui.tablet.pagemodels.SortFilter;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.TabletTestCase;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
+import android.support.test.espresso.DataInteraction;
 
 import junit.framework.AssertionFailedError;
 

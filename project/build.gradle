@@ -49,7 +49,12 @@ dependencies {
         transitive = true
     }
 
-    androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r3'
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.0'){
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.0'){
+        exclude group: 'com.android.support'
+    }
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
     androidTestCompile('com.squareup.okhttp:mockwebserver:2.0.0') {
         exclude group: 'com.squareup.okhttp'

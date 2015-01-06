@@ -16,7 +16,7 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
 import com.expedia.bookings.test.ui.tablet.pagemodels.SortFilter;
 import com.expedia.bookings.test.ui.utils.TabletTestCase;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.action.ViewActions.clearText;
 
 /**
  * Created by dmadan on 7/3/14.

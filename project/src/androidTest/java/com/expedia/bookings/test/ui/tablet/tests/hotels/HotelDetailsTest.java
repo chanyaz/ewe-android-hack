@@ -10,7 +10,7 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.TabletTestCase;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
+import android.support.test.espresso.DataInteraction;
 
 /**
  * Created by dmadan on 8/5/14.

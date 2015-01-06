@@ -3,15 +3,15 @@ package com.expedia.bookings.test.ui.espresso;
 import java.util.List;
 
 import android.database.Cursor;
+import android.support.test.espresso.action.AdapterViewProtocol;
+import android.support.test.espresso.action.AdapterViewProtocols;
 import android.support.v4.widget.CursorAdapter;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 
-import com.google.android.apps.common.testing.ui.espresso.action.AdapterViewProtocol;
-import com.google.android.apps.common.testing.ui.espresso.action.AdapterViewProtocols;
-import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
+import com.android.support.test.deps.guava.base.Optional;
+import com.android.support.test.deps.guava.collect.Lists;
 
 public class CursorAdapterViewProtocol implements AdapterViewProtocol {
 	public Object getDataFromCursor(CursorAdapter cursorAdapter, Cursor cursor) {
@@ -19,7 +19,7 @@ public class CursorAdapterViewProtocol implements AdapterViewProtocol {
 	}
 
 	@Override
-	public Iterable<AdaptedData> getDataInAdapterView(AdapterView<? extends Adapter> adapterView) {
+	public Iterable<AdapterViewProtocol.AdaptedData> getDataInAdapterView(AdapterView<? extends Adapter> adapterView) {
 		CursorAdapter adapter = (CursorAdapter) adapterView.getAdapter();
 
 		List<AdaptedData> datas = Lists.newArrayList();

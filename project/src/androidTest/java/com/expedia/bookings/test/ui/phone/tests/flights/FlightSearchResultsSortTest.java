@@ -15,11 +15,11 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResult
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
+import android.support.test.espresso.DataInteraction;
 
 import junit.framework.AssertionFailedError;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.pressBack;
+import static android.support.test.espresso.Espresso.pressBack;
 
 /**
  * Created by dmadan on 5/6/14.

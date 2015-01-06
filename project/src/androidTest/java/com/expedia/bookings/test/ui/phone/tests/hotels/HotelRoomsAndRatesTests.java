@@ -8,16 +8,16 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScre
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.ViewAssertion;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewAssertion;
 
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.isEmpty;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withRating;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.CoreMatchers.not;
 
 public class HotelRoomsAndRatesTests extends PhoneTestCase {

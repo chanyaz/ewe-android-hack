@@ -9,10 +9,10 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.SortFilter;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.TabletTestCase;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
+import android.support.test.espresso.DataInteraction;
 
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getRating;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by dmadan on 6/5/14.

@@ -6,9 +6,9 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
-import com.google.android.apps.common.testing.ui.espresso.UiController;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 public final class TabletViewActions {

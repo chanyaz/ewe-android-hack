@@ -5,7 +5,8 @@ import android.app.KeyguardManager;
 import android.os.PowerManager;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner;
+
+import android.support.test.runner.AndroidJUnitRunner;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
@@ -13,7 +14,7 @@ import static android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP;
 import static android.os.PowerManager.FULL_WAKE_LOCK;
 import static android.os.PowerManager.ON_AFTER_RELEASE;
 
-public class SpoonInstrumentationTestRunner extends GoogleInstrumentationTestRunner {
+public class SpoonInstrumentationTestRunner extends AndroidJUnitRunner {
 	@Override
 	public void onStart() {
 		ExpediaBookingApp.setAutomation(true);

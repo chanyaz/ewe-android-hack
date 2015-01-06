@@ -1,10 +1,10 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.common;
 
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import android.support.test.espresso.ViewInteraction;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 
 /**
  * Created by dmadan on 4/7/14.

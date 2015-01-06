@@ -13,8 +13,8 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.TabletTestCase;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by dmadan on 9/22/14.
