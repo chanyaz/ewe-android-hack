@@ -42,11 +42,11 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/empty_saved_creditcard_fake_spinner"
-            style="@style/CheckoutTravelerPaymentButton.Saved"/>
+            style="@style/CheckoutPaymentButton.Saved"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/empty_edit_creditcard_button"
-            style="@style/CheckoutTravelerPaymentButton.Edit"/>
+            style="@style/CheckoutPaymentButton.Edit"/>
 
     </LinearLayout>
 
@@ -95,11 +95,11 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/new_creditcard_fake_spinner"
-            style="@style/CheckoutTravelerPaymentButton.Saved"/>
+            style="@style/CheckoutPaymentButton.Saved"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/new_creditcard_edit_button"
-            style="@style/CheckoutTravelerPaymentButton.Edit"/>
+            style="@style/CheckoutPaymentButton.Edit"/>
 
     </com.expedia.bookings.section.SectionBillingInfo>
 

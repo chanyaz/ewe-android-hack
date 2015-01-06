@@ -52,11 +52,11 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/saved_traveler_fake_spinner"
-        style="@style/CheckoutTravelerPaymentButton.Saved"/>
+        style="@style/CheckoutTravelerButton.Saved"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/edit_traveler_button"
-        style="@style/CheckoutTravelerPaymentButton.Edit"/>
+        style="@style/CheckoutTravelerButton.Edit"/>
 
     <ImageView
         android:id="@+id/validation_checkmark"

@@ -104,7 +104,7 @@
         <item name="android:layout_marginTop">@dimen/gde_tool_tip_button_margin_top</item>
     </style>
 
-    <style name="CheckoutTravelerPaymentButton">
+    <style name="CheckoutTravelerButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">5dp</item>
@@ -120,14 +120,22 @@
         <item name="android:background">@drawable/bg_tablet_confirmation_actionbutton</item>
     </style>
 
-    <style name="CheckoutTravelerPaymentButton.Saved">
+    <style name="CheckoutTravelerButton.Saved">
         <item name="android:text">@string/saved_button</item>
         <item name="android:drawableRight">@drawable/saved_traveler_fake_spinner</item>
     </style>
 
-    <style name="CheckoutTravelerPaymentButton.Edit">
+    <style name="CheckoutTravelerButton.Edit">
         <item name="android:text">@string/edit_button</item>
         <item name="android:drawableRight">@drawable/edit_pencil</item>
     </style>
+
+    <style name="CheckoutPaymentButton" parent="CheckoutTravelerButton"/>
+
+    <style name="CheckoutPaymentButton.Saved" parent="CheckoutTravelerButton.Saved">
+        <item name="android:drawableRight">@drawable/saved_card_fake_spinner</item>
+    </style>
+
+    <style name="CheckoutPaymentButton.Edit" parent="CheckoutTravelerButton.Edit"/>
 
 </resources>
