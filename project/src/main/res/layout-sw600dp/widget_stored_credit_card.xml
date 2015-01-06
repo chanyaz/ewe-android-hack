@@ -36,11 +36,11 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/stored_creditcard_fake_spinner"
-        style="@style/CheckoutTravelerPaymentButton.Saved"/>
+        style="@style/CheckoutPaymentButton.Saved"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/stored_creditcard_edit_button"
-        style="@style/CheckoutTravelerPaymentButton.Edit"/>
+        style="@style/CheckoutPaymentButton.Edit"/>
 
     <include
         layout="@layout/include_lcc_fee_button"

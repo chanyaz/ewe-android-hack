@@ -48,6 +48,8 @@
 
     <!-- Tablet Checkout -->
     <color name="bg_clickable_trip_bucket_expand_pressed">#E5000000</color>
+    <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
+    <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
 
     <!-- Tablet Confirmation -->
     <color name="tablet_confirmation_actionbutton_pressed">#20000000</color>
