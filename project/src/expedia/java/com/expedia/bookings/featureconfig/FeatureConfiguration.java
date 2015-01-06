@@ -197,4 +197,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isHandTagProgressBarEnabled() {
 		return true;
 	}
+
+	public Boolean isSettingsInMenuVisible() {
+		return true;
+	}
 }

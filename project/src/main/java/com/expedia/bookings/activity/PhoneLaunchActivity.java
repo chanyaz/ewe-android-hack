@@ -28,6 +28,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
@@ -280,10 +281,10 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 				logOutBtn.setEnabled(logoutBtnEnabled);
 			}
 		}
-		if (ExpediaBookingApp.IS_VSC && AndroidUtils.isRelease(this)) {
+		if (AndroidUtils.isRelease(this)) {
 			MenuItem settingsBtn = menu.findItem(R.id.settings);
 			if (settingsBtn != null) {
-				settingsBtn.setVisible(false);
+				settingsBtn.setVisible(ProductFlavorFeatureConfiguration.getInstance().isSettingsInMenuVisible());
 			}
 		}
 		DebugMenu.onPrepareOptionsMenu(this, menu);

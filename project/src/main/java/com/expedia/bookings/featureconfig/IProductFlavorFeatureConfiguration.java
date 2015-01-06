@@ -93,4 +93,6 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean isTrackingWithFlightTrackEnabled();
 
 	Boolean isHandTagProgressBarEnabled();
+
+	Boolean isSettingsInMenuVisible();
 }
