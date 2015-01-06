@@ -87,4 +87,6 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean isFacebookLoginIntegrationEnabled();
 
 	Boolean isFacebookShareIntegrationEnabled();
+
+	Boolean isGoogleWalletPromoEnabled();
 }

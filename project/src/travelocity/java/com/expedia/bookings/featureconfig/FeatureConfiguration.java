@@ -192,4 +192,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isFacebookShareIntegrationEnabled() {
 		return false;
 	}
+
+	public Boolean isGoogleWalletPromoEnabled() {
+		return false;
+	}
 }

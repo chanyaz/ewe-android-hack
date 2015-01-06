@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.Ui;
 
@@ -70,7 +71,7 @@ public class WalletButton extends RelativeLayout {
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		mButton.dispatchTouchEvent(ev);
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled()) {
 			mPromo.dispatchTouchEvent(ev);
 		}
 		return true;

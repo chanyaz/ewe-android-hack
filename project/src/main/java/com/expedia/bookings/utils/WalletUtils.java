@@ -28,6 +28,7 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
@@ -98,7 +99,8 @@ public class WalletUtils {
 	public static boolean offerGoogleWalletCoupon(Context context) {
 		boolean hasHotel = Db.getTripBucket().getHotel() != null;
 
-		return ExpediaBookingApp.IS_EXPEDIA && SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
+		return ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled() && SettingUtils
+			.get(context, SETTING_SHOW_WALLET_COUPON, false)
 			&& hasHotel
 			&& Db.getTripBucket().getHotel().getProperty().isMerchant();
 	}

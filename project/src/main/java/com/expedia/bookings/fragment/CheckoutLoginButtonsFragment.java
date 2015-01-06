@@ -22,6 +22,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -405,7 +406,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
 		mWalletButton.setEnabled(!isWalletLoading);
-		mWalletButton.setPromoVisible(ExpediaBookingApp.IS_EXPEDIA && getLob() == LineOfBusiness.HOTELS);
+		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled() && getLob() == LineOfBusiness.HOTELS);
 
 		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;

@@ -52,6 +52,7 @@ import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentList
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
@@ -323,7 +324,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
-		mWalletButton.setPromoVisible(ExpediaBookingApp.IS_EXPEDIA);
+		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled());
 		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
