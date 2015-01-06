@@ -189,4 +189,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isGoogleWalletPromoEnabled() {
 		return true;
 	}
+
+	public Boolean isTrackingWithFlightTrackEnabled() {
+		return true;
+	}
 }
