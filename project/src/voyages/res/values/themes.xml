@@ -89,6 +89,7 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_actionMenuDoneButtonText">@string/button_done_vsc_confirmation</item>
+        <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -141,7 +142,7 @@
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_vsc</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
@@ -177,7 +178,7 @@
 
     <style name="ItineraryTheme" parent="Theme.VSC">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_vsc</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_vsc</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
     </style>
