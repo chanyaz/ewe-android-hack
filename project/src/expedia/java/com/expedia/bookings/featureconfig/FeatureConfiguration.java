@@ -193,4 +193,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isTrackingWithFlightTrackEnabled() {
 		return true;
 	}
+
+	public Boolean isHandTagProgressBarEnabled() {
+		return true;
+	}
 }

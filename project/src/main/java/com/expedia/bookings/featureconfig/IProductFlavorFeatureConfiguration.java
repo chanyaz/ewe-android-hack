@@ -91,4 +91,6 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean isGoogleWalletPromoEnabled();
 
 	Boolean isTrackingWithFlightTrackEnabled();
+
+	Boolean isHandTagProgressBarEnabled();
 }
