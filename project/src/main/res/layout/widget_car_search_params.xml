@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.CarSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <Button
+        android:id="@+id/pickup_datetime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello, world!"/>
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <com.mobiata.android.time.widget.CalendarPicker
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_gravity="bottom" />
+
+    <TextView
+        android:id="@+id/change_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ff00ff"
+        android:gravity="center" />
+
+</com.expedia.bookings.widget.CarSearchParamsWidget>
