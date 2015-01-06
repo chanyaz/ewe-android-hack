@@ -58,6 +58,9 @@ public class HotelRulesFragment extends Fragment {
 
 	private void populateHeaderRows(View view) {
 
+		final int themeId = ExpediaBookingApp.useTabletInterface(getActivity()) ?
+			R.style.FlightTheme : R.style.HotelWebViewTheme;
+
 		final PointOfSale pos = PointOfSale.getPointOfSale();
 
 		// Terms and Conditions
@@ -67,7 +70,7 @@ public class HotelRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getTermsAndConditionsUrl());
-				builder.setTheme(R.style.HotelWebViewTheme);
+				builder.setTheme(themeId);
 				builder.setTitle(R.string.terms_and_conditions);
 				startActivity(builder.getIntent());
 			}
@@ -81,7 +84,7 @@ public class HotelRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(pos.getTermsOfBookingUrl());
-					builder.setTheme(R.style.HotelWebViewTheme);
+					builder.setTheme(themeId);
 					builder.setTitle(R.string.Terms_of_Booking);
 					startActivity(builder.getIntent());
 				}
@@ -99,7 +102,7 @@ public class HotelRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
-				builder.setTheme(R.style.HotelWebViewTheme);
+				builder.setTheme(themeId);
 				builder.setTitle(R.string.privacy_policy);
 				startActivity(builder.getIntent());
 			}
@@ -113,7 +116,7 @@ public class HotelRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
-					builder.setTheme(R.style.HotelWebViewTheme);
+					builder.setTheme(themeId);
 					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
 					startActivity(builder.getIntent());
 				}
