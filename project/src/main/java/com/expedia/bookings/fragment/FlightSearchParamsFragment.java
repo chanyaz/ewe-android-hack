@@ -505,6 +505,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mDepartureAirportEditText.setAdapter((AirportDropDownAdapter) null);
 			mArrivalAirportEditText.setAdapter((AirportDropDownAdapter) null);
 		}
+		mFirstRun = false;
 	}
 
 	@Override
@@ -635,6 +636,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void expandAirportEditText(final View focusView, final boolean animate) {
+		mAirportAdapter.setShowNearbyAirports(focusView == mDepartureAirportEditText);
+		((AutoCompleteTextView)focusView).setAdapter(mAirportAdapter);
 		adjustAirportEditTexts(focusView, EDITTEXT_EXPANSION_RATIO, animate);
 	}
 
