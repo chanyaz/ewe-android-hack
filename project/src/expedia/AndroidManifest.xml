@@ -37,6 +37,7 @@
                 <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
+                <data android:host="destination" />
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />

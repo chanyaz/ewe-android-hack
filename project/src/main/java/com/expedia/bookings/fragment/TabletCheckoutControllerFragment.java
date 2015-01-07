@@ -1324,7 +1324,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onBirthDateInvalidEditSearch(Events.BirthDateInvalidEditSearch event) {
-		Intent goToSearch = new Intent(getActivity(), TabletResultsActivity.class);
+		Intent goToSearch = TabletResultsActivity.createIntent(getActivity());
 		goToSearch.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(goToSearch);
 	}

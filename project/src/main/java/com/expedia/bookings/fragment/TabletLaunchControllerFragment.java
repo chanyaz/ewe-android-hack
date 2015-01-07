@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -653,7 +652,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		Db.deleteCachedFlightData(getActivity());
 		Db.deleteHotelSearchData(getActivity());
 
-		startActivity(new Intent(getActivity(), TabletResultsActivity.class));
+		startActivity(TabletResultsActivity.createIntent(getActivity()));
 	}
 
 	/*
