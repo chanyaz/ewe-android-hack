@@ -1,7 +1,9 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -30,6 +32,18 @@ public class SuggestionsFragment extends ListFragment {
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, SuggestionsFragmentListener.class);
+
+		activity.getContentResolver().registerContentObserver(
+			SuggestionProvider.getContentFilterUri(getActivity()), true,
+			new ContentObserver(new Handler()) {
+				@Override
+				public void onChange(boolean selfChange) {
+					if (mAdapter != null) {
+						mAdapter.notifyDataSetChanged();
+					}
+				}
+			}
+		);
 	}
 
 	@Override
