@@ -500,6 +500,12 @@ public class SearchParams implements Parcelable, JSONable {
 			destination.setSearchType(SuggestionV2.SearchType.ATTRACTION);
 			break;
 		}
+		if (hotelParams.getSearchLatitude() != 0 && hotelParams.getSearchLongitude() != 0) {
+			Location loc = new Location();
+			loc.setLatitude(hotelParams.getSearchLatitude());
+			loc.setLongitude(hotelParams.getSearchLongitude());
+			destination.setLocation(loc);
+		}
 
 		searchParams.setDestination(destination);
 
