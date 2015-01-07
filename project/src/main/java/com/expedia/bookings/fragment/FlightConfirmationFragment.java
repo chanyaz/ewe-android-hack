@@ -240,12 +240,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Search for hotels
 
 	private void searchForHotels() {
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		FlightLeg firstLeg = trip.getLeg(0);
-		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
-		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-		int numTravelers = params.getNumAdults();
-		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers, params.getChildren());
+		HotelSearchParams sp = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
 		NavUtils.goToHotels(getActivity(), sp);
 	}
 
