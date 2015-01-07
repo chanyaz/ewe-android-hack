@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
@@ -28,6 +29,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.AirAttachUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
@@ -85,9 +87,9 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			@Override
 			public void onClick(View v) {
 				OmnitureTracking.trackAddHotelClick(getActivity());
-				SearchParams sp = SearchParams
-					.fromFlightSearchParams(Db.getTripBucket().getFlight().getFlightSearchParams());
-				NavUtils.goToTabletResults(getActivity(), sp, LineOfBusiness.HOTELS);
+
+				HotelSearchParams hotelSearchParams = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
+				AirAttachUtils.launchTabletResultsFromItinCrossSell(getActivity(), hotelSearchParams, null);
 			}
 		});
 
