@@ -555,7 +555,7 @@ public class Rate implements JSONable {
 	}
 
 	public int compareForPriceChange(Rate other) {
-		return getDisplayTotalPrice().compareToTheWholeValue(other.getDisplayTotalPrice());
+		return getTotalPriceWithMandatoryFees().compareToTheWholeValue(other.getTotalPriceWithMandatoryFees());
 	}
 
 	public int compareTo(Rate other) {
