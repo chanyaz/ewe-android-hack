@@ -343,7 +343,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
 		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
 		rate.setThumbnail(ParserUtils.parseUrl(jsonRate.optString("roomThumbnailUrl", null)));
-
+		rate.setIsPayLater(rateInfo.optBoolean("isPayLater", false));
 		rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
 		rate.setNumberOfNights(numberOfNights);
@@ -395,6 +395,9 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		rate.setTaxStatusType(chargeableRateInfo.optString("taxStatusType"));
 
+		Money depositToShowUsers = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmountToShowUsers",
+				"0.0"),
+			currencyCode);
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
 			currencyCode);
 		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
@@ -402,7 +405,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money nightlyRateTotal = ParserUtils.createMoney(chargeableRateInfo.getString("nightlyRateTotal"),
 			currencyCode);
 		rate.setNightlyRateTotal(nightlyRateTotal);
-
+		rate.setDepositToShowUsers(depositToShowUsers);
 		rate.setPriceToShowUsers(priceToShowUsers);
 		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
 

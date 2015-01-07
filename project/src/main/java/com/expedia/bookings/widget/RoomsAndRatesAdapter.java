@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -44,7 +46,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private Property mProperty;
 	private List<Rate> mRates;
-
+	private List<Integer> mHiddenRates;
 	private List<CharSequence> mValueAdds;
 
 	private float mSaleTextSize;
@@ -55,6 +57,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private int mBedSalePadding;
 
 	private StringBuilder mBuilder;
+
+	private boolean mIsPayLater;
+
+	private int mDefaultTextColor;
 
 	public RoomsAndRatesAdapter(Context context, HotelOffersResponse response) {
 		mContext = context;
@@ -70,7 +76,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		if (mRates == null) {
 			mRates = new ArrayList<Rate>();
 		}
-
+		mHiddenRates = new ArrayList<>();
 		// Calculate the individual value-adds for each row, based on the common value-adds
 		List<String> common = response.getCommonValueAdds();
 		mValueAdds = new ArrayList<CharSequence>(mRates.size());
@@ -95,6 +101,11 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		mBedSalePadding = (int) Math.round(mResources.getDisplayMetrics().density * 26);
 
 		mBuilder = new StringBuilder();
+
+		TypedValue typedValue = new TypedValue();
+		Resources.Theme theme = context.getTheme();
+		theme.resolveAttribute(R.attr.skin_hotelPriceStandardColor, typedValue, true);
+		mDefaultTextColor = typedValue.data;
 	}
 
 	public void highlightSelectedPosition(boolean highlight) {
@@ -105,13 +116,37 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		mSelectedPosition = selectedPosition;
 	}
 
+	public void setPayOption(boolean payLater) {
+		mIsPayLater = payLater;
+		hidePayNowRooms(mIsPayLater);
+		notifyDataSetChanged();
+	}
+
+	private void hidePayNowRooms(boolean payLater) {
+		mHiddenRates.clear();
+		if (!payLater) {
+			return;
+		}
+		for (int i = 0; i < mRates.size(); i++) {
+			if (mRates.get(i).getEtpRate() == null) {
+				mHiddenRates.add(i);
+			}
+		}
+	}
+
 	@Override
 	public int getCount() {
-		return mRates.size();
+		return mRates.size() - mHiddenRates.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
+		for (Integer hiddenIndex : mHiddenRates) {
+			if (hiddenIndex <= position) {
+				position++;
+			}
+		}
+
 		return mRates.get(position);
 	}
 
@@ -145,7 +180,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder = new RoomAndRateHolder();
 			holder.description = (TextView) convertView.findViewById(R.id.room_description_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
+			holder.priceDescription = (TextView) convertView.findViewById(R.id.price_description_text_view);
 			holder.priceExplanation = (TextView) convertView.findViewById(R.id.price_explanation_text_view);
+			holder.totalPrice = (TextView) convertView.findViewById(R.id.total_price_text_view);
 			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.valueAddsLayout = (ViewGroup) convertView.findViewById(R.id.value_adds_layout);
@@ -163,7 +200,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		Rate rate = (Rate) getItem(position);
 
 		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
-		holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 
 		mBuilder.setLength(0);
 
@@ -187,10 +223,36 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.saleLabel.setVisibility(View.GONE);
 		}
 
-		// Determine whether to show rate, rate per night, or avg rate per night for explanation
-		int explanationId = rate.getQualifier();
-		if (explanationId != 0) {
-			mBuilder.append(mContext.getString(explanationId));
+		Rate etp = rate.getEtpRate();
+		if (mIsPayLater && etp != null) {
+			Money deposit = etp.getDisplayDeposit();
+			boolean isDepositRequired = !deposit.isZero();
+			holder.price.setText(deposit.getFormattedMoney());
+			holder.priceDescription.setVisibility(View.VISIBLE);
+			if (isDepositRequired) {
+				holder.price.setTextColor(mDefaultTextColor);
+				holder.priceDescription.setTextColor(mDefaultTextColor);
+			}
+			else {
+				holder.price.setTextColor(mContext.getResources().getColor(R.color.etp_text_color));
+				holder.priceDescription.setTextColor(mContext.getResources().getColor(R.color.etp_text_color));
+			}
+			holder.totalPrice.setVisibility(View.VISIBLE);
+			holder.totalPrice.setText(mContext.getResources().getString(R.string.room_rate_pay_later_total_template,
+				etp.getDisplayTotalPrice().getFormattedMoney()));
+		}
+		else {
+			holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
+			holder.price.setTextColor(mDefaultTextColor);
+			holder.priceDescription.setVisibility(View.GONE);
+			// Determine whether to show rate, rate per night, or avg rate per night for explanation
+			int explanationId = rate.getQualifier();
+			if (explanationId != 0) {
+				holder.totalPrice.setText(mContext.getString(explanationId));
+			}
+			else {
+				holder.totalPrice.setVisibility(View.GONE);
+			}
 		}
 
 		if (mBuilder.length() > 0) {
@@ -306,7 +368,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private static class RoomAndRateHolder {
 		public TextView description;
 		public TextView price;
+		public TextView priceDescription;
 		public TextView priceExplanation;
+		public TextView totalPrice;
 		public TextView beds;
 		public TextView saleLabel;
 

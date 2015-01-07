@@ -34,13 +34,12 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/price_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/room_description_text_view"
-        android:orientation="vertical" >
+        android:layout_below="@+id/room_description_text_view">
 
         <TextView
             android:id="@+id/price_explanation_text_view"
@@ -54,12 +53,34 @@
             android:id="@+id/price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/price_explanation_text_view"
             android:gravity="left"
             android:includeFontPadding="false"
             android:textColor="?attr/skin_hotelPriceStandardColor"
             android:textSize="26sp"
             android:textStyle="bold" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/price_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_toRightOf="@+id/price_text_view"
+            android:layout_alignBaseline="@+id/price_text_view"
+            android:text="@string/room_rate_pay_later_due_now"
+            android:layout_marginLeft="5dp"
+            android:visibility="gone"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/total_price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_below="@+id/price_text_view"
+            android:textColor="#696969"
+            android:textSize="12sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/beds_text_view"

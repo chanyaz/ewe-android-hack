@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/bg_expedia_list"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header_layout"
@@ -30,6 +31,30 @@
         android:background="@color/rooms_and_rates_notice_bg"
         android:orientation="vertical" />
 
+    <com.expedia.bookings.widget.SlidingRadioGroup
+        android:id="@+id/radius_pay_options"
+        style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="12dp">
+
+        <RadioButton
+            android:id="@+id/radius_pay_now"
+            style="@style/Widget.SlidingRadioButton.Filter"
+            android:text="Pay Now"
+            android:contentDescription="@string/cd_pay_now" />
+
+        <RadioButton
+            android:id="@+id/radius_pay_later"
+            style="@style/Widget.SlidingRadioButton.Filter"
+            android:text="Pay Later"
+            android:contentDescription="@string/cd_pay_later" />
+
+    </com.expedia.bookings.widget.SlidingRadioGroup>
+
     <ListView
         android:id="@android:id/list"
         style="@style/HotelList"
@@ -41,7 +66,6 @@
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/bg_expedia_list"
         android:gravity="center"
         android:orientation="vertical" >
 

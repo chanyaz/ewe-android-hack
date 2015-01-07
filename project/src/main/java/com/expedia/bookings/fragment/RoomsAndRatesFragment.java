@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -18,6 +19,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.ServerError;
@@ -25,10 +27,13 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
+import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 
 public class RoomsAndRatesFragment extends ListFragment {
+
+	private static final String INSTANCE_PAY_GROUP_CHECKED_POS = "INSTANCE_PAY_GROUP_CHECKED_POS";
 
 	public static RoomsAndRatesFragment newInstance() {
 		RoomsAndRatesFragment fragment = new RoomsAndRatesFragment();
@@ -39,10 +44,13 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 	private RoomsAndRatesAdapter mAdapter;
 
+	private SlidingRadioGroup mPayGroup;
 	private ProgressBar mProgressBar;
 	private TextView mEmptyTextView;
 	private TextView mFooterTextView;
 	private ViewGroup mNoticeContainer;
+
+	private int mLastCheckedItem = R.id.radius_pay_later;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -52,11 +60,36 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(INSTANCE_PAY_GROUP_CHECKED_POS, mLastCheckedItem);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mLastCheckedItem = savedInstanceState
+				.getInt(INSTANCE_PAY_GROUP_CHECKED_POS, R.id.radius_pay_later);
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mPayGroup.onCheckedChanged(mPayGroup, mLastCheckedItem);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_availability_list, container, false);
 		mProgressBar = Ui.findView(view, R.id.progress_bar);
 		mEmptyTextView = Ui.findView(view, R.id.empty_text_view);
 		mNoticeContainer = Ui.findView(view, R.id.hotel_notice_container);
+		mPayGroup = Ui.findView(view, R.id.radius_pay_options);
+		mPayGroup.setOnCheckedChangeListener(mPayOptionsListener);
+		mPayGroup.setVisibility(View.GONE);
 
 		// Setup the ListView
 		View footer = inflater.inflate(R.layout.footer_rooms_and_rates, null);
@@ -76,10 +109,24 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		mListener.onRateSelected((Rate) mAdapter.getItem(position));
+		mListener.onRateSelected(getItem(position));
 
 		mAdapter.setSelectedPosition(position);
 		mAdapter.notifyDataSetChanged();
+	}
+
+	private Rate getItem(int position) {
+		Rate nowRate = (Rate) mAdapter.getItem(position);
+		Rate laterRate = nowRate.getEtpRate();
+		if (laterRate != null) {
+			if (isInPayLaterMode(mLastCheckedItem)) {
+				laterRate.setIsPayLater(true);
+			}
+			else {
+				laterRate.setIsPayLater(false);
+			}
+		}
+		return laterRate != null && isInPayLaterMode(mLastCheckedItem) ? laterRate : nowRate;
 	}
 
 	private int getPositionOfRate(Rate rate) {
@@ -174,6 +221,11 @@ public class RoomsAndRatesFragment extends ListFragment {
 		if (mAdapter.getCount() == 0) {
 			OmnitureTracking.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
 		}
+
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		boolean isETPAvailable = property.hasEtpOffer();
+		mPayGroup.setVisibility(isETPAvailable ? View.VISIBLE : View.GONE);
+		mPayGroup.check(!isETPAvailable ? R.id.radius_pay_now : mLastCheckedItem);
 	}
 
 	/**
@@ -267,4 +319,19 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 		public void noRatesAvailable();
 	}
+
+	private RadioGroup.OnCheckedChangeListener mPayOptionsListener = new RadioGroup.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			mLastCheckedItem = checkedId;
+			if (mAdapter != null) {
+				mAdapter.setPayOption(isInPayLaterMode(checkedId));
+			}
+		}
+	};
+
+	private boolean isInPayLaterMode(int checkedId) {
+		return checkedId == R.id.radius_pay_later;
+	}
+
 }
