@@ -194,7 +194,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		// #1715: Disable Google Wallet on non-merchant hotels
-		if (!Db.getTripBucket().getHotel().getProperty().isMerchant()) {
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		if (!Db.getTripBucket().getHotel().getProperty().isMerchant() || rate.isPayLater()) {
 			disableGoogleWallet();
 		}
 
@@ -1502,7 +1503,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		if (event.createTripResponse instanceof CreateTripResponse) {
 			// Now we have the valid payments data
-			if (!Db.getTripBucket().getHotel().isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+			Rate rate = Db.getTripBucket().getHotel().getRate();
+			if (!Db.getTripBucket().getHotel().isCardTypeSupported(CreditCardType.GOOGLE_WALLET) || rate.isPayLater()) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				disableGoogleWallet();
 			}

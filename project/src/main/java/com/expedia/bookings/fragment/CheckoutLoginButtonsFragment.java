@@ -86,7 +86,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		super.onCreate(savedInstanceState);
 
 		// Disable Google Wallet on non-merchant hotels
-		if (getLob() == LineOfBusiness.HOTELS && !Db.getTripBucket().getHotel().getProperty().isMerchant()) {
+		if (getLob() == LineOfBusiness.HOTELS && (!Db.getTripBucket().getHotel().getProperty().isMerchant() || Db
+			.getTripBucket().getHotel().getRate().isPayLater())) {
 			disableGoogleWallet();
 		}
 
