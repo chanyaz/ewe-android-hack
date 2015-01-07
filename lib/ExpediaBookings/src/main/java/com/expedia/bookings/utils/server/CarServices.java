@@ -1,9 +1,14 @@
 package com.expedia.bookings.utils.server;
 
+import org.joda.time.DateTime;
+
 import com.expedia.bookings.utils.data.cars.CarSearchResponse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 public class CarServices {
 
@@ -20,9 +25,14 @@ public class CarServices {
 	}
 
 	public CarServices() {
+		Gson gson = new GsonBuilder()
+			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+			.create();
+
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(ENDPOINT)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setConverter(new GsonConverter(gson))
 			.build();
 
 		mApi = adapter.create(CarApi.class);

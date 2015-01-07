@@ -2,10 +2,10 @@ package com.expedia.bookings.utils.data.cars;
 
 import java.util.List;
 
-public class CarSearchResponse {
+import org.joda.time.DateTime;
 
-	public CarTime pickupTime;
-	public CarTime dropOffTime;
+public class CarSearchResponse {
+	public DateTime pickupTime;
+	public DateTime dropOffTime;
 	public List<CarOffer> offers;
-	public String activityId;
 }

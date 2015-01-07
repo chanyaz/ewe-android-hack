@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -10,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.data.cars.CarSearchResponse;
 import com.expedia.bookings.utils.server.CarServices;
+import com.expedia.bookings.utils.server.DateTimeTypeAdapter;
 import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
 
@@ -54,8 +57,9 @@ public class TestCarSearchWidget extends FrameLayout {
 		@Override
 		public void success(CarSearchResponse carSearchResponse, Response response) {
 			Ui.showToast(getContext(), "YOLO");
-			Log.d("SWAG", carSearchResponse.dropOffTime.epochSeconds);
-			displayText.setText(new GsonBuilder().setPrettyPrinting().create().toJson(carSearchResponse));
+			displayText.setText(new GsonBuilder().setPrettyPrinting()
+				.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+				.create().toJson(carSearchResponse));
 			downloadButton.setVisibility(View.GONE);
 			scrollView.setVisibility(View.VISIBLE);
 
