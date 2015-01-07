@@ -12,7 +12,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -33,7 +32,8 @@ public class AirAttachUtils {
 				@Override
 				public SuggestionResponse doDownload() {
 					ExpediaServices services = new ExpediaServices(context);
-					return services.suggestions(airportCode, 0);
+					return services.suggestionsCityNearby(searchParams.getDestination().getLocation().getLatitude(),
+						searchParams.getDestination().getLocation().getLongitude());
 				}
 			}, new BackgroundDownloader.OnDownloadComplete<SuggestionResponse>() {
 				@Override
