@@ -227,7 +227,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		if (mIsPayLater && etp != null) {
 			Money deposit = etp.getDisplayDeposit();
 			boolean isDepositRequired = !deposit.isZero();
-			holder.price.setText(deposit.getFormattedMoney());
+			holder.price.setText(deposit.getFormattedMoney(Money.F_NO_DECIMAL));
 			holder.priceDescription.setVisibility(View.VISIBLE);
 			if (isDepositRequired) {
 				holder.price.setTextColor(mDefaultTextColor);
@@ -239,7 +239,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			}
 			holder.totalPrice.setVisibility(View.VISIBLE);
 			holder.totalPrice.setText(mContext.getResources().getString(R.string.room_rate_pay_later_total_template,
-				etp.getDisplayTotalPrice().getFormattedMoney()));
+				etp.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL)));
 		}
 		else {
 			holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
