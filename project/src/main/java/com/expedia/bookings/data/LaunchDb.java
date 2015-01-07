@@ -26,7 +26,7 @@ public class LaunchDb {
 
 	private static final String LAUNCH_DOWNLOAD_KEY = "LAUNCH_DOWNLOAD_KEY";
 	private static final String NEAR_BY_KEY = "NEAR_BY_KEY";
-	private static final String NEAR_BY_TILE_DEFAULT_IMAGE_CODE = "nearby_hotels_tonight";
+	public static final String NEAR_BY_TILE_DEFAULT_IMAGE_CODE = "nearby_hotels_tonight";
 
 	private static final int LAST_SEARCH_COLLECTION_INDEX = 0;
 	private static int sNearByTileCollectionIndex = 0;
@@ -118,6 +118,9 @@ public class LaunchDb {
 			}
 			lastSearch.imageCode = params.getDestination().getAirportCode();
 
+			if (params.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+				lastSearch.isDestinationImageCode = true;
+			}
 			LastSearchLaunchLocation loc = new LastSearchLaunchLocation();
 			loc.imageCode = params.getDestination().getAirportCode();
 			loc.location = params.getDestination();
@@ -165,8 +168,7 @@ public class LaunchDb {
 				@Override
 				public SuggestionResponse doDownload() {
 					ExpediaServices services = new ExpediaServices(context);
-					return services.suggestionsAirportsNearby(location.getLatitude(), location.getLongitude(),
-						SuggestionSort.POPULARITY);
+					return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
 				}
 			}, mSuggestCallback);
 		}
@@ -205,6 +207,7 @@ public class LaunchDb {
 			if (results != null && results.getSuggestions().size() > 0) {
 				LaunchLocation loc = new LaunchLocation();
 				loc.location = results.getSuggestions().get(0);
+				loc.location.setDisplayName(StrUtils.formatDisplayName(results));
 				loc.location.getLocation().setLatitude(mCurrentLocation.getLatitude());
 				loc.location.getLocation().setLongitude(mCurrentLocation.getLongitude());
 				sDb.mNearByCollection.locations = new ArrayList<LaunchLocation>();

@@ -18,9 +18,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ColorBuilder;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.picasso.Picasso;
 
@@ -53,6 +56,7 @@ public class CollectionStack extends FrameLayout {
 	private boolean mIsStack = true;
 
 	private ArrayList<StackCallback> callbacks = new ArrayList<StackCallback>();
+	private boolean mIsNearbyDefaultImage = false;
 
 	private void init() {
 		setClipChildren(false);
@@ -145,8 +149,18 @@ public class CollectionStack extends FrameLayout {
 		//These callbacks require a strong reference
 		callbacks.add(callback);
 
+		ArrayList<String> urls = new ArrayList<String>();
+		urls.add(imageUrl);
+		if (isNearByDefaultImage()) {
+			String defaultImage = Images.getTabletLaunch(LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE);
+			final String defaultImageUrl = new Akeakamai(defaultImage) //
+				.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
+				.build();
+			urls.add(defaultImageUrl);
+		}
 		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
-			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(imageUrl);
+			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(urls);
+
 
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
@@ -216,6 +230,15 @@ public class CollectionStack extends FrameLayout {
 		mTextView.setText(title);
 	}
 
+	public void setNearByDefaultImage(boolean mNearByDefaultImage) {
+		this.mIsNearbyDefaultImage = mNearByDefaultImage;
+	}
+
+	public boolean isNearByDefaultImage() {
+
+		return mIsNearbyDefaultImage;
+	}
+
 	/**
 	 * Used for animating the background stack effect. Valid values range from [-1, 1].
 	 * @param amount
@@ -243,4 +266,12 @@ public class CollectionStack extends FrameLayout {
 	public void setCheckEnabled(boolean enabled) {
 		mCheckView.setVisibility(enabled ? View.VISIBLE : View.GONE);
 	}
+
+	public void setLaunchCollection(LaunchCollection collectionToAdd) {
+		setNearByDefaultImage(collectionToAdd.isDestinationImageCode);
+		setStackDrawable(collectionToAdd.getImageUrl());
+		setText(collectionToAdd.getTitle());
+		setTag(collectionToAdd);
+	}
+
 }
