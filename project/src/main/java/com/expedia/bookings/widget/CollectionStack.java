@@ -221,10 +221,9 @@ public class CollectionStack extends FrameLayout {
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
+			mHeaderBitmapDrawable.setPlaceholderDrawable(placeHolderDrawable);
 		}
 	}
-
-	;
 
 	public void setText(CharSequence title) {
 		mTextView.setText(title);

@@ -27,6 +27,7 @@
         android:id="@+id/hotel_background_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_flight_card_height"
+        android:background="@color/placeholder_background_color"
         android:scaleType="centerCrop"/>
 
     <View
