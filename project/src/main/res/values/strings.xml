@@ -1218,7 +1218,7 @@
     <!-- Log out -->
     <string name="log_out">Log Out</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this trip!</string>
+    <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this booking!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
     <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; points for this trip!</string>
     <!-- You'll earn bonus points for this booking -->
