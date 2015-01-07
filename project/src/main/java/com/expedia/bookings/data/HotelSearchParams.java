@@ -396,10 +396,20 @@ public class HotelSearchParams implements JSONable {
 		return mRegionId != null && !mRegionId.equals("0");
 	}
 
+	public static HotelSearchParams fromFlightParams(TripBucketItemFlight flight) {
+		FlightTrip trip = flight.getFlightTrip();
+		FlightLeg firstLeg = trip.getLeg(0);
+		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
+		FlightSearchParams params = flight.getFlightSearchParams();
+		int numFlightTravelers = params.getNumAdults();
+		List<ChildTraveler> childTravelers = params.getChildren();
+		return fromFlightParams(firstLeg, secondLeg, numFlightTravelers, childTravelers);
+	}
+
 	/**
 	 * Creates a HotelSearchParams which can be used to search for hotels
 	 * related to a flights search.
-	 * 
+	 *
 	 * @param firstLeg the first leg of the trip; required
 	 * @param secondLeg the second leg of a trip (if round trip); optional
 	 * @param numFlightTravelers
