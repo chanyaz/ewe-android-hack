@@ -17,7 +17,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -127,7 +126,8 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
-		} else {
+		}
+		else {
 			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
 		}
 
