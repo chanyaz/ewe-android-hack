@@ -20,6 +20,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
@@ -473,7 +475,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
 		dismissedTripIds.addAll(dismissedAirAttach);
 
-		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false);
+		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)
+			&& PointOfSale.getPointOfSale().getPointOfSaleId() != PointOfSaleId.NORWAY;
 		boolean isAirAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_air_attach, false);
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
