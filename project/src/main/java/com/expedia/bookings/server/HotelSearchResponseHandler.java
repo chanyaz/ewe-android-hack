@@ -299,7 +299,8 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 			else if (name.equals("allowedToDisplayRatingAsStars")) {
 				boolean allowedToDisplayRatingAsStars = reader.nextBoolean();
-				property.setShowCircles(!allowedToDisplayRatingAsStars);
+				// ignore for 4.3
+				//property.setShowCircles(!allowedToDisplayRatingAsStars);
 			}
 			else {
 				reader.skipValue();
