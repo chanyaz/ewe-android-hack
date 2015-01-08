@@ -15,7 +15,8 @@ public class FacebookLinkResponse extends Response implements JSONable {
 		notLinked,
 		existing,
 		loginFailed,
-		error
+		error,
+		nofbdatafound,
 	}
 
 	private FacebookLinkResponseCode mResponseCode = FacebookLinkResponseCode.none;
