@@ -370,6 +370,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 		mPropertiesToMarkers.clear();
 		mMarkersToProperties.clear();
+		mPricePins.clear();
 		mExactLocationMarker = null;
 	}
 
