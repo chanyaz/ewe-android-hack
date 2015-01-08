@@ -107,7 +107,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		DateTime co = mTodayAtNoon.plusDays(10);
 
 		//Today at 23:59:59
-		DateTime ci = mTodayAtNoon.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
+		DateTime ci = DateTime.now().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(0);
 		String headerText = getHeaderTextDate(ci, co);
 		String dateString = getContext().getString(R.string.Today);
 		assertEquals(dateString, headerText);
@@ -127,7 +127,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		DateTime co = mTodayAtNoon.plusDays(10);
 
 		//Today at 00:00:01
-		DateTime ci = mTodayAtNoon.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(1);
+		DateTime ci = DateTime.now().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(1);
 		String headerText = getHeaderTextDate(ci, co);
 		String dateString = getContext().getString(R.string.Today);
 		assertEquals(dateString, headerText);
