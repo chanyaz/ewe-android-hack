@@ -18,6 +18,7 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+
 import android.support.test.espresso.Espresso;
 
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
@@ -205,16 +206,21 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		ScreenActions.enterLog(TAG, "After entering CC number, the CC edit text no longer has error icon");
 
-		CardInfoScreen.clickOnExpirationDateButton();
-		CardInfoScreen.clickMonthDownButton();
-		CardInfoScreen.clickSetButton();
-		CardInfoScreen.clickOnDoneButton();
-		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		ScreenActions.enterLog(TAG, "Successfully asserted that the expiration date cannot be in the past!");
+		/* test cc expiration date validation only if the current month is not January
+		* there's no way to enter month in the past in the month of January
+		 */
 
+		if (LocalDate.now().getMonthOfYear() != 1) {
+			CardInfoScreen.clickOnExpirationDateButton();
+			CardInfoScreen.clickMonthDownButton();
+			CardInfoScreen.clickSetButton();
+			CardInfoScreen.clickOnDoneButton();
+			CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+			CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+			CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+			CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+			ScreenActions.enterLog(TAG, "Successfully asserted that the expiration date cannot be in the past!");
+		}
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
