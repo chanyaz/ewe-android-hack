@@ -1,0 +1,22 @@
+package com.expedia.bookings.utils.data.cars;
+
+import java.util.List;
+
+public class CarInfo {
+
+	public CarCategory category;
+	public CarType type;
+	public Fuel fuel;
+	public Transmission transmission;
+	public Drive drive;
+
+	boolean hasAirConditioning;
+	List<String> makes;
+
+	public int minDoors;
+	public int maxDoors;
+	public int adultCapacity;
+	public int childCapacity;
+	public int largeLuggageCapacity;
+	public int smallLuggageCapacity;
+}
