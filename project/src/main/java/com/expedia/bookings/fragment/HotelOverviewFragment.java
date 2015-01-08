@@ -142,6 +142,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private TextView mLegalInformationTextView;
 	private TextView mResortFeeDisclaimerTextView;
+	private TextView mEtpNoticeTextView;
 	private View mScrollSpacerView;
 
 	private FrameLayout mSlideToPurchaseFragmentLayout;
@@ -240,6 +241,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mResortFeeDisclaimerTextView = Ui.findView(view, R.id.resort_fee_disclaimer);
+		mEtpNoticeTextView = Ui.findView(view, R.id.etp_payment_info);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
 		mSlideToPurchaseFragmentLayout = Ui.findView(view, R.id.slide_to_purchase_fragment_layout);
@@ -628,6 +630,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		updateResortFeeLegalText();
+		updateEtpNoticeView();
 
 		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
@@ -714,6 +717,18 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 		else {
 			mResortFeeDisclaimerTextView.setVisibility(View.GONE);
+		}
+	}
+
+	public void updateEtpNoticeView() {
+		Rate etpRate = Db.getTripBucket().getHotel().getRate();
+		if (etpRate.isPayLater()) {
+			Money totalCost = etpRate.getDisplayTotalPrice();
+			mEtpNoticeTextView.setText(getString(R.string.the_total_for_your_trip_will_be_TEMPLATE, totalCost.getFormattedMoney()));
+			mEtpNoticeTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mEtpNoticeTextView.setVisibility(View.GONE);
 		}
 	}
 

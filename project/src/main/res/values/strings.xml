@@ -1215,6 +1215,8 @@
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now %1$s</string>
+    <!-- Total amount to be paid later -->
+    <string name="the_total_for_your_trip_will_be_TEMPLATE">The total for your trip will be %1$s. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
