@@ -2,6 +2,7 @@ package com.expedia.bookings.utils.server;
 
 import org.joda.time.DateTime;
 
+import com.expedia.bookings.utils.data.cars.CarSearchParams;
 import com.expedia.bookings.utils.data.cars.CarSearchResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,4 +43,7 @@ public class CarServices {
 		sCarServices.mApi.roundtripCarSearch("SFO", "2015-02-20T12:30:00", "2015-02-21T12:30:00", callback);
 	}
 
+	public void carSearch(CarSearchParams params, Callback<CarSearchResponse> callback) {
+		sCarServices.mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate(), callback);
+	}
 }
