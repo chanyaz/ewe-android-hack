@@ -389,6 +389,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	}
 
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Session.setActiveSession(null);
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Log.d("FB: onActivityResult");
@@ -588,6 +594,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mTryFacebookAgainCancel.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
+					Session.setActiveSession(null);
 					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 				}
 			});
@@ -1247,11 +1254,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.nofbdatafound) == 0 && TextUtils.isEmpty(mFbUserEmail)) {
 					setFBEmailDeniedState();
 				}
-				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.notLinked) == 0) {
-					setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
-				}
 				else {
-					//notLinked
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					if (!bd.isDownloading(NET_LINK_NEW_USER)) {
 						setLoadingText(R.string.linking_your_accounts);
