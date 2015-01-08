@@ -1,5 +1,8 @@
 package com.expedia.bookings.utils;
 
+import java.util.Currency;
+import java.util.Locale;
+
 import com.expedia.bookings.data.CreditCardType;
 import com.mobiata.android.Log;
 
@@ -7,9 +10,9 @@ public class CurrencyUtils {
 
 	/**
 	 * Determines the type of credit card based on the card number.
-	 *
+	 * <p/>
 	 * Here is the information from Shelli Garcia:
-	 *
+	 * <p/>
 	 * CARD                LENGTH           PREFIX
 	 * American Express    15               34, 37
 	 * Carte Blanche       14               94, 95
@@ -20,8 +23,8 @@ public class CurrencyUtils {
 	 * Maestro             16, 18, 19       50, 63, 67
 	 * MasterCard          16               51, 52, 53, 54, 55
 	 * Visa                13, 16           4
-	 * @param cardNumber the number of the card (as entered so far)
 	 *
+	 * @param cardNumber the number of the card (as entered so far)
 	 * @return the credit card brand if detected, null if not detected
 	 */
 	public static CreditCardType detectCreditCardBrand(String cardNumber) {
@@ -59,7 +62,7 @@ public class CurrencyUtils {
 
 		// Diners
 		if (numDigits == 14
-				&& (twoDigitPrefix == 30 || twoDigitPrefix == 36 || twoDigitPrefix == 38 || twoDigitPrefix == 60)) {
+			&& (twoDigitPrefix == 30 || twoDigitPrefix == 36 || twoDigitPrefix == 38 || twoDigitPrefix == 60)) {
 			return CreditCardType.DINERS_CLUB;
 		}
 
@@ -75,7 +78,7 @@ public class CurrencyUtils {
 
 		// Maestro
 		if ((numDigits == 16 || numDigits == 18 || numDigits == 19)
-				&& (twoDigitPrefix == 50 || twoDigitPrefix == 63 || twoDigitPrefix == 67)) {
+			&& (twoDigitPrefix == 50 || twoDigitPrefix == 63 || twoDigitPrefix == 67)) {
 			return CreditCardType.MAESTRO;
 		}
 
@@ -134,4 +137,19 @@ public class CurrencyUtils {
 			return CreditCardType.UNKNOWN;
 		}
 	}
+
+	//Takes a three letter country code
+	public static String currencyForLocale(String code) {
+		Locale locale = LocaleUtils.localeFromISO3CountryCode(code);
+		Currency currency = Currency.getInstance(locale);
+		return currency.getCurrencyCode();
+	}
+
+	//Takes a three letter country code
+	public static String symbolForLocale(String code) {
+		Locale locale = LocaleUtils.localeFromISO3CountryCode(code);
+		Currency currency = Currency.getInstance(locale);
+		return currency.getSymbol();
+	}
 }
+
