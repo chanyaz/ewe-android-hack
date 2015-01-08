@@ -171,16 +171,27 @@ public class HotelUtils {
 	 */
 	public static String getSlideToPurchaseString(Context context, Property property, Rate rate) {
 		int chargeTypeMessageId = 0;
+
+		// Determine price to be paid now
+		Money sliderCharge;
+		if (rate.isPayLater()) {
+			sliderCharge = rate.getDisplayDeposit();
+		}
+		else {
+			sliderCharge = rate.getTotalAmountAfterTax();
+		}
+
+		// Determine the slider message template
 		if (!property.isMerchant()) {
 			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
 		}
-		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES || rate.isPayLater()) {
 			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
 		}
 		else {
 			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
-		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
+		return context.getString(chargeTypeMessageId, sliderCharge.getFormattedMoney());
 	}
 
 	// Convenience method for getting secondary resort fee banner text for phone
