@@ -15,7 +15,7 @@
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_vsc</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
-        <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_orange</item>
+        <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_vsc</item>
         <item name="skin_calendarDatePickerDateFormat">@string/calendar_date_picker_date_format_vsc</item>
         <item name="skin_hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format_vsc</item>
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_vsc</item>
@@ -114,7 +114,7 @@
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
-        <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_orange</item>
+        <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_vsc</item>
         <item name="skin_flightCheckoutAccountLabel">@string/vsc_account</item>
     </style>
 
