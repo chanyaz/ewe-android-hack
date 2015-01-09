@@ -2013,13 +2013,13 @@
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Book Now, Pay Later</string>
     <string name="etp_payment_options_text">Your hotel payment options</string>
-    <string name="etp_pay_later_option_text">Pay at hotel later</string>
-    <string name="etp_pay_later_charges_text">You will not be charged until your stay.</string>
-    <string name="etp_pay_later_currency_text">Pay the hotel directly, in the hotel\'s local currency (USD). Expedia will not charge you.</string>
+    <string name="etp_pay_later_option_text">Pay later</string>
+    <string name="etp_pay_later_charges_text">You will not be charged until your stay, unless a deposit is required.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Pay the hotel directly, in the hotel\'s local currency (%s).</string>
     <string name="etp_pay_later_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
     <string name="etp_pay_now_option_text">Pay online now</string>
     <string name="etp_pay_now_charges_text">Expedia will process your payment details.</string>
-    <string name="etp_pay_now_currency_text">You will pay in your local currency (USD).</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
     <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
     <string name="etp_select_room">Select Room</string>
 
