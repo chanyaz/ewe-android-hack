@@ -12,7 +12,6 @@ public class BlurTransform implements Transformation {
 
 	private Context mContext;
 
-	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTOR = 4;
 	private float mDarkenMultiplier;
 	private int mBlurRadius;
 
@@ -24,13 +23,12 @@ public class BlurTransform implements Transformation {
 		mDarkenMultiplier = res.getFraction(R.fraction.stack_blur_darken_multiplier, 1, 1);
 
 		// Compute the blur radius
-		mBlurRadius = res.getDimensionPixelSize(R.dimen.stack_blur_radius);
+		mBlurRadius = (int) res.getDimension(R.dimen.stack_blur_radius);
 	}
+
 	@Override
 	public Bitmap transform(Bitmap source) {
-		Bitmap blurred = BitmapUtils.stackBlurAndDarken(source, mContext,
-			BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
-		source.recycle();
+		Bitmap blurred = BitmapUtils.stackBlurAndDarken(source, mContext, mBlurRadius, mDarkenMultiplier);
 		return blurred;
 	}
 

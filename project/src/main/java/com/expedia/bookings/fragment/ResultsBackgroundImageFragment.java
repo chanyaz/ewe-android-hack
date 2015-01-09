@@ -3,9 +3,14 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
@@ -26,6 +31,7 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 /**
  * ResultsBackgroundImageFragment: The fragment that acts as a background image for the whole
@@ -166,6 +172,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
 		final int width = (int) (landscape.x * 0.8f);
+
 		String destinationCode = mDestCodes.get(mCodesIndex);
 
 		String baseUrl = Images.getTabletDestination(destinationCode);
@@ -177,36 +184,58 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 		mCurrentlyDesiredUrl = url;
 
-		PaletteCallback paletteCallback = new PaletteCallback(mImageView) {
-			@Override
-			public void onSuccess(int vibrantColor) {
-				if (!mBlur) {
-					int transparentAvgColor = new ColorBuilder(vibrantColor)
-						.setSaturation(0.2f) //
-						.setOpacity(0.35f) //
-						.setAlpha(0xE5) //
-						.build();
-					Db.setFullscreenAverageColor(transparentAvgColor);
-				}
-			}
-
-			@Override
-			public void onFailed() {
-				if (FragmentBailUtils.shouldBail(getActivity())) {
-					return;
-				}
-
-				Log.e("ResultsBackgroundImageFragment - onBitmapLoadFailed");
-				if (mCodesIndex + 1 < mDestCodes.size()) {
-					mCodesIndex++;
-					loadImage();
-				}
-			}
-		};
-
-		new PicassoHelper.Builder(mImageView).setPlaceholder(R.drawable.bg_tablet_dest_image_default)
-			.applyBlurTransformation(mBlur).applyPaletteTransformation(paletteCallback).fade().build().load(url);
+		new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.bg_tablet_dest_image_default)
+			.applyBlurTransformation(mBlur).setTarget(mTarget).fade().build().load(url);
 	}
+
+	private final PicassoTarget mTarget = new PicassoTarget() {
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			if (!mIsLandscape) {
+				BitmapDrawable tile = new BitmapDrawable(getResources(), bitmap);
+				tile.setTileModeY(Shader.TileMode.MIRROR);
+				mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+				mImageView.setImageDrawable(tile);
+			}
+			else {
+				mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				mImageView.setImageBitmap(bitmap);
+			}
+
+			if (!mBlur) {
+				Palette palette = Palette.generate(bitmap);
+				int transparentAvgColor = new ColorBuilder(palette.getVibrantColor(R.color.transparent_dark))
+					.setSaturation(0.2f) //
+					.setOpacity(0.35f) //
+					.setAlpha(0xE5) //
+					.build();
+				Db.setFullscreenAverageColor(transparentAvgColor);
+			}
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+
+			if (FragmentBailUtils.shouldBail(getActivity())) {
+				Log.e("ResultsBackgroundImageFragment - bailing");
+				return;
+			}
+
+			if (mCodesIndex + 1 < mDestCodes.size()) {
+				mCodesIndex++;
+				loadImage();
+			}
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			mImageView.setImageDrawable(placeHolderDrawable);
+		}
+	};
 
 	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
 		ArrayList<String> destCodes = new ArrayList<>();

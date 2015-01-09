@@ -127,8 +127,10 @@ public class PicassoHelper implements Target, Callback {
 			String url = getUrl();
 
 			if (FailedUrlCache.getInstance().contains(url)) {
-				onError();
-				return;
+				if (mTarget == null) {
+					onError();
+					return;
+				}
 			}
 			if (!TextUtils.isEmpty(url)) {
 				mRetrieving = true;
