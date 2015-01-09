@@ -55,6 +55,9 @@ public class TabletHotelAdapter extends HotelAdapter {
 		}
 
 		Property property = (Property) getItem(position);
+		if (property.isSponsored()) {
+			return true;
+		}
 		if (property.isLowestRateTonightOnly()) {
 			return true;
 		}

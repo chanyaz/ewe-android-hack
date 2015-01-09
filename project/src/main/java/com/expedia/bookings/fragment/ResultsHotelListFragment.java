@@ -32,6 +32,7 @@ import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
@@ -212,6 +213,9 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			Property property = (Property) mAdapter.getItem(itemPosition);
 			Db.getHotelSearch().setSelectedProperty(property);
 			mHotelSelectedListener.onHotelSelected();
+			if (property.isSponsored()) {
+				AdImpressionTracking.trackAdClickOrImpression(getActivity(), property.getClickTrackingUrl());
+			}
 		}
 	}
 

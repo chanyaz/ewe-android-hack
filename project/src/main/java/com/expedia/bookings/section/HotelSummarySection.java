@@ -31,6 +31,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -303,9 +304,19 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 		}
 
-		int roomsLeft = property.getRoomsLeftAtThisRate();
 		if (mUrgencyText != null) {
-			if (property.isLowestRateTonightOnly()) {
+			int roomsLeft = property.getRoomsLeftAtThisRate();
+			if (property.isSponsored()) {
+				if (!property.hasShownImpression()) {
+					//Ad is being inflated for the first time, fire impression tracking
+					property.setHasShownImpression(true);
+					AdImpressionTracking
+						.trackAdClickOrImpression(context, property.getImpressionTrackingUrl());
+				}
+				mUrgencyText.setText(context.getString(R.string.sponsored));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (property.isLowestRateTonightOnly()) {
 				mUrgencyText.setText(context.getString(R.string.tonight_only));
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
@@ -320,12 +331,13 @@ public class HotelSummarySection extends RelativeLayout {
 			else {
 				mUrgencyText.setVisibility(View.GONE);
 			}
-
-			if (mVipView != null && shouldShowVipIcon) {
-				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
-				mVipView.setVisibility(visibility);
-			}
 		}
+
+		if (mVipView != null && shouldShowVipIcon) {
+			int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
+			mVipView.setVisibility(visibility);
+		}
+
 
 		if (mDoUrgencyTextColorMatching && mUrgencyText.getVisibility() == View.VISIBLE) {
 			if (mIsSelected) {
