@@ -11,13 +11,12 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.PayLaterInfoFragment;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class PayLaterInfoFragmentActivity extends FragmentActivity {
 
 	private static final String FRAGMENT_PAY_LATER_INFO_TAG = "FRAGMENT_PAY_LATER_INFO_TAG";
-
-	private PayLaterInfoFragment mPayLaterFragment;
 
 	public static Intent createIntent(Context context) {
 		Intent intent = new Intent(context, PayLaterInfoFragmentActivity.class);
@@ -27,7 +26,10 @@ public class PayLaterInfoFragmentActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mPayLaterFragment = Ui.findOrAddSupportFragment(this, PayLaterInfoFragment.class, FRAGMENT_PAY_LATER_INFO_TAG);
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+			return;
+		}
+		Ui.findOrAddSupportFragment(this, PayLaterInfoFragment.class, FRAGMENT_PAY_LATER_INFO_TAG);
 	}
 
 	@Override

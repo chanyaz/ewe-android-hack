@@ -120,7 +120,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
 
@@ -154,7 +154,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
 
@@ -189,7 +189,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		super.onNewIntent(intent);
 		setIntent(intent);
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
 
@@ -229,7 +229,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return super.onCreateOptionsMenu(menu);
 		}
 
@@ -402,21 +402,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				}
 			});
 		}
-	}
-
-	private boolean checkFinishConditionsAndFinish() {
-		// Attempt to load hotel data from disk
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(this);
-		}
-
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return true;
-		}
-
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
