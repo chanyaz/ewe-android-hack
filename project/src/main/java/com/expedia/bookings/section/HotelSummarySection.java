@@ -331,11 +331,11 @@ public class HotelSummarySection extends RelativeLayout {
 			else {
 				mUrgencyText.setVisibility(View.GONE);
 			}
+		}
 
-			if (mVipView != null && shouldShowVipIcon) {
-				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
-				mVipView.setVisibility(visibility);
-			}
+		if (mVipView != null && shouldShowVipIcon) {
+			int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
+			mVipView.setVisibility(visibility);
 		}
 
 
