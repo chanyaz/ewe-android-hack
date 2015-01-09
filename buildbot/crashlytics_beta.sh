@@ -9,7 +9,7 @@ if [ -e "$PROPERTIES_FILE" ] ; then
     echo "=== End Properties ==="
 
     echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
-    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" >> "$CHANGE_LOG_FILE"
+    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | head -c 14000 >> "$CHANGE_LOG_FILE"
 fi
 
 if [ -e "$CHANGE_LOG_FILE" ] ; then
