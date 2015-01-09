@@ -6,7 +6,6 @@ import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getChildViewText;
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -17,8 +16,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 
 /**
  * Created by dmadan on 6/9/14.
@@ -31,14 +28,12 @@ public class SortFilter {
 
 	public static void clickToSortHotelByPrice() {
 		onView(withId(R.id.sort_by_selection_spinner)).perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(R.string.price)))
-			.perform(click());
+		onView(withText(R.string.price)).perform(click());
 	}
 
 	public static void clickToSortHotelByRating() {
 		onView(withId(R.id.sort_by_selection_spinner)).perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(R.string.rating)))
-			.perform(click());
+		onView(withText(R.string.rating)).perform(click());
 	}
 
 	public static void clickToSortByPrice() {
