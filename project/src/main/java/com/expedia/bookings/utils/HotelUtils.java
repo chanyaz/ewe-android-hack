@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
