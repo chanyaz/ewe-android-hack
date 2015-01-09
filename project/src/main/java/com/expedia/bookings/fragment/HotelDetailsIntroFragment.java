@@ -17,7 +17,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -141,8 +140,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}*/
 		// Only xx rooms left
 		/*else*/
-		// 1400. VSC - remove urgency messages throughout the app
-		if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF && !ExpediaBookingApp.IS_VSC) {
+		if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
 			String banner = resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft);
 			if (!bannerTextView.getText().equals(banner)) {
 				bannerTextView.setText(banner);

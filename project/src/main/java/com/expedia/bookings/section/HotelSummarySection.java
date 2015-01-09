@@ -303,32 +303,26 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
-		// 1400. VSC - remove urgency messages throughout the app
 		if (mUrgencyText != null) {
-			if (ExpediaBookingApp.IS_VSC) {
-				mUrgencyText.setVisibility(View.GONE);
+			if (property.isLowestRateTonightOnly()) {
+				mUrgencyText.setText(context.getString(R.string.tonight_only));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (property.isLowestRateMobileExclusive()) {
+				mUrgencyText.setText(context.getString(R.string.mobile_exclusive));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+				mUrgencyText.setText(res.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
+				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else {
-				if (property.isLowestRateTonightOnly()) {
-					mUrgencyText.setText(context.getString(R.string.tonight_only));
-					mUrgencyText.setVisibility(View.VISIBLE);
-				}
-				else if (property.isLowestRateMobileExclusive()) {
-					mUrgencyText.setText(context.getString(R.string.mobile_exclusive));
-					mUrgencyText.setVisibility(View.VISIBLE);
-				}
-				else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-					mUrgencyText.setText(res.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
-					mUrgencyText.setVisibility(View.VISIBLE);
-				}
-				else {
-					mUrgencyText.setVisibility(View.GONE);
-				}
+				mUrgencyText.setVisibility(View.GONE);
+			}
 
-				if (mVipView != null && shouldShowVipIcon) {
-					int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
-					mVipView.setVisibility(visibility);
-				}
+			if (mVipView != null && shouldShowVipIcon) {
+				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
+				mVipView.setVisibility(visibility);
 			}
 		}
 
