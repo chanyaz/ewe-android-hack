@@ -297,6 +297,11 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("isVipAccess")) {
 				property.setIsVipAccess(reader.nextBoolean());
 			}
+			else if (name.equals("allowedToDisplayRatingAsStars")) {
+				boolean allowedToDisplayRatingAsStars = reader.nextBoolean();
+				// ignore for 4.3
+				//property.setShowCircles(!allowedToDisplayRatingAsStars);
+			}
 			else {
 				reader.skipValue();
 			}

@@ -6,7 +6,6 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -463,6 +462,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateFinalized(CheckoutState state) {
 			setFragmentState(state);
 			setVisibilityState(state);
+			if (mCheckoutFragment != null) {
+				mCheckoutFragment.setCheckoutStateForScrollView(state);
+			}
 
 			if (state == CheckoutState.OVERVIEW) {
 				setShowCvvPercentage(0f);
@@ -494,7 +496,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
 
 				if (getLob() == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackTabletConfirmationAirAttach(getActivity());
+					OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
 				}
 			}
 
@@ -679,7 +681,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingUnavailableContainer.setVisibility(View.VISIBLE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
 		}
-		else if (state == CheckoutState.CONFIRMATION) {
+		else if (state.shouldShowConfirmation()) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.GONE);
@@ -745,8 +747,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean cvvAvailable =
 			state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 
-		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
-		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
+		boolean mFlightConfAvailable = state.shouldShowConfirmation() && getLob() == LineOfBusiness.FLIGHTS;
+		boolean mHotelConfAvailable = state.shouldShowConfirmation() && getLob() == LineOfBusiness.HOTELS;
 
 		//if (mBucketFlightFrag != null && mBucketFlightFragStateListener != null) {
 		//	mBucketFlightFrag.unRegisterStateListener(mBucketFlightFragStateListener);
@@ -1236,9 +1238,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (getLob() == LineOfBusiness.FLIGHTS && isHotelCreateTripFailure) {
 			setCheckoutState(CheckoutState.CONFIRMATION, true);
 		}
-		else if (getLob() == LineOfBusiness.HOTELS && isHotelCreateTripFailure) {
-			DialogFragment df = new RetryErrorDialogFragment();
-			df.show(getChildFragmentManager(), "retryHotelCreateTrip");
+
+		if (event.getServerError() != null &&
+			event.getServerError().isProductKeyExpiration()) {
+			Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
 		}
 	}
 
@@ -1560,6 +1563,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPIRED);
 		}
 
-		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
+		boolean lobMatches = event.lineOfBusiness == getLob();
+		CheckoutState state = lobMatches ? CheckoutState.BOOKING_UNAVAILABLE : mStateManager.getState();
+		setCheckoutState(state, true);
 	}
 }

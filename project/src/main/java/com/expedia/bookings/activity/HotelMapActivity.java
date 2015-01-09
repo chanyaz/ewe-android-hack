@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -116,16 +114,8 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
-
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		String title = property.getName();
-		((TextView) titleView.findViewById(R.id.title)).setText(title);
-
-		float rating = (float) property.getHotelRating();
-		((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
-
-		actionBar.setCustomView(titleView);
+		HotelUtils.setupActionBarHotelNameAndRating(this, property);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		HotelUtils.setupActionBarCheckmark(this, select, property.isAvailable());

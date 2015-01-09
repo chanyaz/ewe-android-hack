@@ -50,14 +50,26 @@
                 android:textColor="@color/text_sub_header" />
 
             <RatingBar
-                android:id="@+id/hotel_rating_bar"
+                android:id="@+id/hotel_rating_bar_stars"
                 style="@style/RatingBar.Star.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize=".5" />
+                android:stepSize=".5"
+                android:visibility="gone" />
+
+            <RatingBar
+                android:id="@+id/hotel_rating_bar_circles"
+                style="@style/RatingBar.Circle.Gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize=".5"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout

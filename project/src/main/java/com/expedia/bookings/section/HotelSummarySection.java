@@ -242,7 +242,7 @@ public class HotelSummarySection extends RelativeLayout {
 					if (!ExpediaBookingApp.useTabletInterface(getContext())) {
 						if (mSaleImageView != null) {
 							mSaleImageView.setVisibility(View.VISIBLE);
-							mSaleImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.bg_hotel_cell_sale_air_attach));
+							mSaleImageView.setImageResource(R.drawable.bg_hotel_cell_sale_air_attach);
 						}
 						mPriceText.setTextColor(getResources().getColor(mAirAttachPriceTextColor));
 						mSaleText.setVisibility(View.VISIBLE);
@@ -263,6 +263,7 @@ public class HotelSummarySection extends RelativeLayout {
 					}
 					if (mSaleImageView != null) {
 						mSaleImageView.setVisibility(View.VISIBLE);
+						mSaleImageView.setImageResource(R.drawable.bg_hotel_cell_sale);
 					}
 					mSaleText.setVisibility(View.VISIBLE);
 					mSaleText.setText(context.getString(R.string.percent_minus_template,

@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -72,10 +76,29 @@ public class HotelUtils {
 		Db.getHotelSearch().updateFrom(offersResponse);
 	}
 
+	public static void setupActionBarHotelNameAndRating(Activity activity, Property property) {
+		ViewGroup actionBarView = Ui.inflate(activity, R.layout.actionbar_hotel_name_with_stars, null);
+
+		TextView titleView = Ui.findView(actionBarView, R.id.title);
+		titleView.setText(property.getName());
+
+		RatingBar ratingBar;
+		if (property.shouldShowCircles()) {
+			ratingBar = Ui.findView(actionBarView, R.id.rating_circles);
+		}
+		else {
+			ratingBar = Ui.findView(actionBarView, R.id.rating_stars);
+		}
+		ratingBar.setRating((float) property.getHotelRating());
+		ratingBar.setVisibility(View.VISIBLE);
+
+		activity.getActionBar().setCustomView(actionBarView);
+	}
+
 	/**
 	 * Sets up the "checkmark" action bar item
 	 */
-	public static Button setupActionBarCheckmark(final FragmentActivity activity, final MenuItem menuItem,
+	public static Button setupActionBarCheckmark(final Activity activity, final MenuItem menuItem,
 			boolean enabled) {
 		Button tv = Ui.inflate(activity, R.layout.actionbar_checkmark_item, null);
 		ViewUtils.setAllCaps(tv);
@@ -141,5 +164,27 @@ public class HotelUtils {
 			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
 		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
+	}
+
+	// Convenience method for getting secondary resort fee banner text for phone
+	public static String getPhoneResortFeeBannerText(Context context, Rate rate) {
+		int stringId = rate.resortFeeInclusion() ? R.string.included_in_the_price : R.string.not_included_in_the_price;
+		return context.getString(stringId);
+	}
+
+	// Convenience method for getting secondary resort fee banner text for tablet
+	public static String getTabletResortFeeBannerText(Context context, Rate rate) {
+		int stringId = rate.resortFeeInclusion() ? R.string.tablet_room_rate_resort_fees_included_template :
+			R.string.tablet_room_rate_resort_fees_not_included_template;
+		String mandatoryFees = rate.getTotalMandatoryFees().getFormattedMoney();
+		return context.getString(stringId, mandatoryFees);
+	}
+
+	// Convenience method for getting resort fee text that goes at the bottom of checkout,
+	// for either device type.
+	public static Spanned getCheckoutResortFeesText(Context context, Rate rate) {
+		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
+		String grandTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+		return Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, fees, grandTotal));
 	}
 }

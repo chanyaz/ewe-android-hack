@@ -26,7 +26,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -132,6 +131,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();
+						OmnitureTracking.trackAddHotelClick(getActivity());
 					}
 				});
 				// Set air attach expiration date
@@ -140,6 +140,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				int daysRemaining = JodaUtils.daysBetween(currentDate, expirationDate);
 				TextView expirationDateTv = Ui.findView(v, R.id.itin_air_attach_expiration_date_text_view);
 				expirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+
+				OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
 			}
 			else {
 				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.VISIBLE);
@@ -149,6 +151,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();
+						OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
 					}
 				});
 			}
@@ -236,15 +239,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Search for hotels
 
 	private void searchForHotels() {
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		FlightLeg firstLeg = trip.getLeg(0);
-		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
-		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-		int numTravelers = params.getNumAdults();
-		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers, params.getChildren());
+		HotelSearchParams sp = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
 		NavUtils.goToHotels(getActivity(), sp);
-
-		OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

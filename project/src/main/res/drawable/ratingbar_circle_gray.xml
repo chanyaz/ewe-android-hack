@@ -3,12 +3,12 @@
 
     <item
         android:id="@android:id/background"
-        android:drawable="@drawable/ratingbar_userreview_yellow_empty"/>
+        android:drawable="@android:color/transparent"/>
     <item
         android:id="@android:id/secondaryProgress"
-        android:drawable="@drawable/ratingbar_userreview_yellow_empty"/>
+        android:drawable="@drawable/ratingbar_circle_gray_empty"/>
     <item
         android:id="@android:id/progress"
-        android:drawable="@drawable/ratingbar_userreview_orange_full"/>
+        android:drawable="@drawable/ratingbar_circle_gray_full"/>
 
 </layer-list>

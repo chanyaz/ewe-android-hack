@@ -22,8 +22,7 @@ public class TripComponent implements JSONable, ItinSharable {
 		HOTEL,
 		CRUISE,
 		PACKAGE,
-		FALLBACK,
-		AIR_ATTACH;
+		FALLBACK;
 	}
 
 	private Type mType;

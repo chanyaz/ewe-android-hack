@@ -61,6 +61,8 @@ public class DeepLinkRouterActivity extends Activity {
 	private SearchParams mSearchParams;
 	private LineOfBusiness mLobToLaunch = null;
 
+	private boolean mIsCurrentLocationSearch;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -568,6 +570,31 @@ public class DeepLinkRouterActivity extends Activity {
 		}
 	}
 
+	private boolean kickoffLatLngSearch(BackgroundDownloader bgd, final Double lat, final Double lng) {
+		boolean finish = true;
+		try {
+			// Check that lat/lng are valid
+			if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+				Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
+				finish = false;
+				bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
+					@Override
+					public SuggestionResponse doDownload() {
+						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+						return services.suggestionsCityNearby(lat, lng);
+					}
+				}, mSuggestCallback);
+			}
+			else {
+				Log.w(TAG, "Lat/lng out of valid range: (" + lat + ", " + lng + ")");
+			}
+		}
+		catch (NumberFormatException e) {
+			Log.w(TAG, "Could not parse latitude/longitude (" + lat + ", " + lng + ")", e);
+		}
+		return finish;
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -608,7 +635,11 @@ public class DeepLinkRouterActivity extends Activity {
 		@Override
 		public void onDownload(SuggestionResponse results) {
 			if (results != null && results.getSuggestions().size() > 0) {
-				mSearchParams.setDestination(results.getSuggestions().get(0));
+				SuggestionV2 destination = results.getSuggestions().get(0);
+				if (mIsCurrentLocationSearch) {
+					destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
+				}
+				mSearchParams.setDestination(destination);
 				NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams, mLobToLaunch);
 			}
 			else {

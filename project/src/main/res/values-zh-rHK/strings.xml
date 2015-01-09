@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">稅項及服務費</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包括在內</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">酒店費用 (於酒店支付)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
@@ -2183,7 +2183,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">私隱政策</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc. \n版權所有。</string>
+    <string name="copyright">© Copyright 2012-2015 Expedia, Inc. \n版權所有。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">登出並已清除資料</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3020,5 +3020,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">預訂酒店和機票，並查看及分享您的行程。立即下載免費的 Travelocity App 吧！\n%s</string>
+    <string name="fees_paid_at_hotel">於酒店支付的費用：</string>
+    <string name="total_due_to_expedia_today">目前應付予 Expedia 的總額：</string>
+    <string name="hotel_fees_for_this_stay">這次住宿的酒店費用</string>
+    <string name="included_in_the_price">已包含在價格內</string>
+    <string name="not_included_in_the_price">不包含在價格內</string>
+    <string name="tablet_room_rate_resort_fees_included_template">這次住宿的酒店費用 (已包含)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">這次住宿的酒店費用 (不包含)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
 </resources>

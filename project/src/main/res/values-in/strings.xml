@@ -2046,7 +2046,7 @@
     <string name="taxes_and_fees">Pajak &amp; Biaya</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Termasuk</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <!-- Label for the "Mandatory Fees" -->
     <string name="MandatoryFees">Biaya Hotel (Dibayar di hotel)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Diskon</string>
@@ -2183,7 +2183,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Kebijakan Privasi</string>
     <!-- Copyright information -->
-    <string name="copyright">© Hak cipta 2012-2014 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
+    <string name="copyright">© Hak cipta 2012-2015 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Anda sudah keluar dan data sudah dihapus</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3020,5 +3020,12 @@
 
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Pesan hotel, penerbangan, lalu lihat dan bagikan itinerary Anda. Download aplikasi mobile Travelocity gratis sekarang juga.\n%s</string>
+    <string name="hotel_fees_for_this_stay">Biaya hotel untuk masa inap ini</string>
+    <string name="included_in_the_price">Sudah termasuk dalam harga</string>
+    <string name="not_included_in_the_price">Belum termasuk dalam harga</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Biaya hotel untuk masa inap ini (sudah termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Biaya hotel untuk masa inap ini (belum termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="fees_paid_at_hotel">Untuk Dibayar di Hotel Nanti:</string>
+    <string name="total_due_to_expedia_today">Untuk Dibayar ke Expedia Sekarang:</string>
 
 </resources>

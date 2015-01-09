@@ -38,7 +38,6 @@ import com.mobiata.android.Log;
 public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
-	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
@@ -108,7 +107,14 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		TextView locationView = (TextView) findViewById(R.id.location_text_view);
 		locationView.setText(StrUtils.formatAddressShort(property.getLocation()));
 
-		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
+		RatingBar hotelRating;
+		if (property.shouldShowCircles()) {
+			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_circles);
+		}
+		else {
+			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_stars);
+		}
+		hotelRating.setVisibility(View.VISIBLE);
 		hotelRating.setRating((float) property.getHotelRating());
 
 		// Only display nights header if orientation landscape
@@ -123,29 +129,13 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
-		}
-		else {
-			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
-		}
-
-		if (mLastSearchTime == null) {
-			mLastSearchTime = DateTime.now();
-		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putSerializable(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsRoomsRates(this);
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
 	}
 
 	@Override
@@ -273,6 +263,8 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
+
+		OmnitureTracking.trackAddAirAttachHotel(this);
 	}
 
 	@Override

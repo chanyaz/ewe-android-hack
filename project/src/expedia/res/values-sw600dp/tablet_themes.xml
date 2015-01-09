@@ -9,7 +9,6 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
-        <item name="skin_hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 
         <item name="skin_action_bar_logo_tablet">@drawable/ic_expedia_action_bar_logo_dark</item>
@@ -29,6 +28,8 @@
         <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue</item>
         <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list</item>
+        <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
+        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Circle.HotelDetails</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />

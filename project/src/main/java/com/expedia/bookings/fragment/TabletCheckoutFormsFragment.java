@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
+import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
@@ -58,10 +60,12 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SizeCopyView;
+import com.expedia.bookings.widget.TabletCheckoutScrollView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -110,6 +114,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private ViewGroup mPaymentFormC;
 	private View mPaymentView;
 	private TouchableFrameLayout mTouchBlocker;
+	private TabletCheckoutScrollView mScrollC;
 
 	private CheckoutInformationListener mCheckoutInfoListener;
 
@@ -120,6 +125,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private CheckoutCouponFragment mCouponContainer;
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
+	private TextView mResortFeeText;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
 	private TripBucketHorizontalFlightFragment mHorizontalFlightFrag;
@@ -159,6 +165,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 		mSizeCopyView = Ui.findView(mRootC, R.id.slide_container_size_copy_view);
 		mTouchBlocker = Ui.findView(mRootC, R.id.forms_touch_blocker);
+		mScrollC = Ui.findView(mRootC, R.id.checkout_scroll);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CHECKOUTFORMSTATE)) {
 			String stateName = savedInstanceState.getString(STATE_CHECKOUTFORMSTATE);
@@ -534,6 +541,15 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement(true));
 		}
 
+		if (getLob() == LineOfBusiness.HOTELS && PointOfSale.getPointOfSale().showFTCResortRegulations() &&
+			Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
+			if (mResortFeeText == null) {
+				mResortFeeText = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
+			}
+			add(mResortFeeText);
+			updateResortFeeText();
+		}
+
 		//SET UP THE FORM FRAGMENTS
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 		mTravelerForm = FragmentAvailabilityUtils
@@ -575,6 +591,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		bindAll();
 
+	}
+
+	private void updateResortFeeText() {
+		if (mResortFeeText != null) {
+			Spanned resortBlurb = HotelUtils.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
+			mResortFeeText.setText(resortBlurb);
+		}
 	}
 
 	protected View addGroupHeading(int resId) {
@@ -835,6 +858,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 	}
 
+	// ScrollView helper
+
+	public void setCheckoutStateForScrollView(CheckoutState state) {
+		if (mScrollC != null) {
+			mScrollC.setCheckoutState(state);
+		}
+	}
+
 	/*
 	 * ISTATEPROVIDER
 	 */
@@ -1033,6 +1064,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
 		}
+		updateResortFeeText();
 	}
 
 	@Subscribe
@@ -1047,6 +1079,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
 		}
+		updateResortFeeText();
 	}
 
 	@Subscribe
@@ -1054,5 +1087,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (mHorizontalHotelFrag != null) {
 			mHorizontalHotelFrag.refreshRate();
 		}
+		updateResortFeeText();
 	}
 }

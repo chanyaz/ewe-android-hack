@@ -1363,8 +1363,11 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	}
 
 	public boolean listIsDisplaced() {
-		float per = mListFrag.getListView().getScrollDownPercentage();
-		return per != 0f && per != 1f;
+		if (mListFrag != null && mListFrag.getListView() != null) {
+			float per = mListFrag.getListView().getScrollDownPercentage();
+			return per != 0f && per != 1f;
+		}
+		return false;
 	}
 
 	View.OnTouchListener mListTouchListener = new View.OnTouchListener() {

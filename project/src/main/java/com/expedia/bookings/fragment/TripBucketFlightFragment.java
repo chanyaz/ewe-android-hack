@@ -40,6 +40,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private TextView mNumTravelersTv;
 	private TextView mDatesTv;
 	private TextView mNowBookingTv;;
+	private TextView mTotalTitleTv;
 
 	//Other
 	private FlightTrip mFlightTrip;
@@ -86,6 +87,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		mNumTravelersTv = Ui.findView(mExpandedView, R.id.num_travelers_text_view);
 		mPriceContainer = Ui.findView(mExpandedView, R.id.price_expanded_bucket_container);
 		mPriceTv = Ui.findView(mExpandedView, R.id.price_expanded_bucket_text_view);
+		mTotalTitleTv = Ui.findView(mExpandedView, R.id.total_text);
 
 		mPriceContainer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -93,6 +95,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 				showBreakdownDialog(LineOfBusiness.FLIGHTS);
 			}
 		});
+
+		mTotalTitleTv.setText(getResources().getString(R.string.total_with_tax));
 
 		// Portrait only
 		mNowBookingTv = Ui.findView(mExpandedView, R.id.now_booking_text_view);

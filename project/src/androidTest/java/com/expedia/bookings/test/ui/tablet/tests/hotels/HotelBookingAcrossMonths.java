@@ -82,9 +82,13 @@ public class HotelBookingAcrossMonths extends TabletTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Nights");
 
 		//test room rate will appear for each night on the calendar
-		EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(0));
+		try {
+			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(0));
+		}
+		catch (Exception e) {
+			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDateWithYear(0));
+		}
 
-		//make it work for dates in next year
 		try {
 			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(1));
 		}

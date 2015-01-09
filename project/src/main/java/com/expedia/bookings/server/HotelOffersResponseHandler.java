@@ -69,6 +69,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			property.setTelephoneSalesNumber(response.optString("telesalesNumber", null));
 			property.setIsDesktopOverrideNumber(response.optBoolean("deskTopOverrideNumber", true));
 			property.setIsVipAccess(response.optBoolean("isVipAccess", false));
+			//property.setShowCircles(!response.optBoolean("allowedToDisplayRatingAsStars", true));
 
 			// Parse text sections
 			JSONArray overviewTextArr = response.optJSONArray("hotelOverviewText");
@@ -392,6 +393,8 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
 		rate.setCheckoutPriceType(chargeableRateInfo.optString("checkoutPriceType"));
+		rate.setShowResortFeesMessaging(chargeableRateInfo.optBoolean("showResortFeeMessage", false));
+		rate.setResortFeesInclusion(chargeableRateInfo.optBoolean("resortFeeInclusion", false));
 
 		rate.setTaxStatusType(chargeableRateInfo.optString("taxStatusType"));
 

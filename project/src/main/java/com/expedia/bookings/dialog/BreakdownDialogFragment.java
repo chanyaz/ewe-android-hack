@@ -29,6 +29,7 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -230,33 +231,38 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		builder.addDivider();
 
+		Money total;
 		// Mandatory fees
-		if (originalRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
+		if (rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(R.string.total_due_today))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney())
+					.setText(rateWeCareAbout.getTotalAmountAfterTax().getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
 
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.MandatoryFees))
+					.setText(PointOfSale.getPointOfSale().getCostSummaryMandatoryFeeTitle(context))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(originalRate.getTotalMandatoryFees().getFormattedMoney())
+					.setText(rateWeCareAbout.getTotalMandatoryFees().getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
 		}
+		else {
+			total = rateWeCareAbout.getDisplayTotalPrice();
+		}
 
 		// Total
-		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
 		builder.addLineItem((new LineItemBuilder())
 			.setItemLeft((new ItemBuilder())
 				.setText(context.getString(R.string.total_price_label))

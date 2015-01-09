@@ -282,11 +282,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		hotelImage.setImageResource(placeholderResId);
 
-		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
-		starRating.setVisibility(View.INVISIBLE);
+		RatingBar ratingBar;
+		// Need to hide both sets
+		ratingBar = Ui.findView(view, R.id.circle_rating_bar);
+		ratingBar.setVisibility(View.GONE);
 
-		TextView saleText = Ui.findView(view, R.id.sale_text_view);
-		saleText.setVisibility(View.GONE);
+		ratingBar = Ui.findView(view, R.id.star_rating_bar);
+		ratingBar.setVisibility(View.GONE);
 
 		setupReviews(view, property);
 	}
@@ -295,9 +297,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
-		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
+		RatingBar ratingBar;
+		if (property.shouldShowCircles()) {
+			ratingBar = Ui.findView(view, R.id.circle_rating_bar);
+		}
+		else {
+			ratingBar = Ui.findView(view, R.id.star_rating_bar);
+		}
 		View vipView = Ui.findView(view, R.id.vip_badge);
-		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
 		// Hotel Name
 		hotelName.setText(property.getName());
@@ -330,30 +337,19 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		vipView.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
 		vipView.setOnClickListener(new VipBadgeClickListener(getResources(), getFragmentManager()));
 
-		// "25% OFF"
-		Rate rate = property.getLowestRate();
-		if (rate != null && rate.isOnSale() && rate.isSaleTenPercentOrBetter() && !rate.isAirAttached()) {
-			saleText.setVisibility(View.VISIBLE);
-			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
-				rate.getDiscountPercent()));
-		}
-		else {
-			saleText.setVisibility(View.GONE);
-		}
-
 		// Star Rating
 		float starRatingValue = (float) property.getHotelRating();
 		if (starRatingValue == 0f) {
-			starRating.setVisibility(View.GONE);
+			ratingBar.setVisibility(View.GONE);
 			notRatedText.setVisibility(View.VISIBLE);
 		}
 		else {
-			starRating.setVisibility(View.VISIBLE);
+			ratingBar.setVisibility(View.VISIBLE);
 			notRatedText.setVisibility(View.GONE);
-			starRating.setRating(starRatingValue);
+			ratingBar.setRating(starRatingValue);
 			// Adjust it so it looks centered
-			float pct = 1 - starRatingValue / starRating.getNumStars();
-			starRating.setTranslationX(pct * starRating.getWidth() / 2);
+			float pct = 1 - starRatingValue / ratingBar.getNumStars();
+			ratingBar.setTranslationX(pct * ratingBar.getWidth() / 2);
 		}
 	}
 

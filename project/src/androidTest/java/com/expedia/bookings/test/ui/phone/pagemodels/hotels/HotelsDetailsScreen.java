@@ -14,7 +14,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  * Created by dmadan on 4/10/14.
  */
 public class HotelsDetailsScreen extends ScreenActions {
-	private static final int RATING_VIEW_ID = R.id.rating;
+	private static final int RATING_VIEW_ID = R.id.rating_stars;
 	private static final int BOOK_NOW_BUTTON_ID = R.id.book_now_button;
 	private static final int REVIEWS_TITLE_VIEW_ID = R.id.user_rating_text_view;
 	private static final int BANNER_VIEW_ID = R.id.banner_message_text_view;

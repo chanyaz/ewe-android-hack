@@ -425,7 +425,7 @@ public class OmnitureTracking {
 		// Sometimes we load the infosite when we don't have rate info. In that case,
 		// don't add air attach products.
 		if (property.getLowestRate() != null && property.getLowestRate().isAirAttached()) {
-			addProductsForAirAttach(s, property, "event57", "Flight|Hotel Infosite X-Sell");
+			addEventsAndProductsForAirAttach(s, property, "event57", "Flight:Hotel Infosite X-Sell");
 		}
 		else {
 			addProducts(s, property);
@@ -501,16 +501,22 @@ public class OmnitureTracking {
 		s.setProducts(products);
 	}
 
-	private static void addProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
-		String evar66Val) {
+	private static void addEventsAndProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
+			String evar66Val) {
 		addProducts(s, property);
 		String products = s.getProducts();
-		products += String.format("%s=1;eVar66=%s", eventVar, evar66Val);
+		products += String.format(";;;;eVar66=%s", evar66Val);
 		s.setProducts(products);
-	}
 
-	public static void trackPageLoadHotelsRoomsRates(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_ROOMS_RATES);
+		String eventsStr = s.getEvents();
+		if (TextUtils.isEmpty(eventsStr)) {
+			eventsStr = eventVar;
+		}
+		else {
+			eventsStr += ",";
+			eventsStr += eventVar;
+		}
+		s.setEvents(eventsStr);
 	}
 
 	public static void trackPageLoadHotelsRateDetails(Context context) {
@@ -1519,25 +1525,64 @@ public class OmnitureTracking {
 	private static final String AIR_ATTACH_HOTEL_ADD = "App.Hotels.IS.AddTrip";
 	private static final String ADD_ATTACH_HOTEL = "App.Flight.CKO.Add.AttachHotel";
 	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
+	private static final String AIR_ATTACH_ITIN_XSELL = "Itinerary X-Sell";
+	private static final String AIR_ATTACH_ITIN_XSELL_REF = "App.Itin.X-Sell.Hotel";
+	private static final String AIR_ATTACH_PHONE_BANNER = "Launch Screen";
+	private static final String AIR_ATTACH_PHONE_BANNER_REF = "App.LS.AttachEligible";
+	private static final String AIR_ATTACH_PHONE_BANNER_CLICK = "App.LS.AttachHotel";
+
+	public static void trackAirAttachItinCrossSell(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_ITIN_XSELL_REF);
+		s.setProp(16, AIR_ATTACH_ITIN_XSELL_REF);
+		s.trackLink(null, "o", AIR_ATTACH_ITIN_XSELL, null, null);
+	}
+
+	public static void trackPhoneAirAttachBanner(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_REF);
+		s.setProp(16, AIR_ATTACH_PHONE_BANNER_REF);
+		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
+	}
+
+	public static void trackPhoneAirAttachBannerClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_CLICK);
+		s.setProp(16, AIR_ATTACH_PHONE_BANNER_CLICK);
+		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
+	}
 
 	public static void trackAddAirAttachHotel(Context context) {
-		Property property = Db.getTripBucket().getHotel().getProperty();
-		if (property.getLowestRate().isAirAttached()) {
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		if (rate.isAirAttached()) {
 			ADMS_Measurement s = getFreshTrackingObject(context);
 			addStandardFields(context, s);
-			addProductsForAirAttach(s, property, "event58", "Flight|Hotel Infosite X-sell");
+			Property property = Db.getTripBucket().getHotel().getProperty();
+			addEventsAndProductsForAirAttach(s, property, "event58", "Flight:Hotel Infosite X-Sell");
 			s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
 			s.setProp(16, AIR_ATTACH_HOTEL_ADD);
 			s.trackLink(null, "o", "Infosite", null, null);
 		}
 	}
 
-	public static void trackTabletConfirmationAirAttach(Context context) {
-		ADMS_Measurement s = getFreshTrackingObject(context);
-		addStandardFields(context, s);
-		s.setEvar(28, AIR_ATTACH_ELIGIBLE);
-		s.setProp(16, AIR_ATTACH_ELIGIBLE);
-		s.trackLink(null, "o", "Checkout", null, null);
+	public static void trackFlightConfirmationAirAttach(Context context) {
+		if (Db.getTripBucket() == null || Db.getTripBucket().getHotel() == null) {
+			return;
+		}
+
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		if (rate.isAirAttached()) {
+			ADMS_Measurement s = getFreshTrackingObject(context);
+			addStandardFields(context, s);
+			Property property = Db.getTripBucket().getHotel().getProperty();
+			addEventsAndProductsForAirAttach(s, property, "event57", "Flight:Hotel CKO X-Sell");
+			s.setEvar(28, AIR_ATTACH_ELIGIBLE);
+			s.setProp(16, AIR_ATTACH_ELIGIBLE);
+			s.trackLink(null, "o", "Checkout", null, null);
+		}
 	}
 
 	private static void internalTrackTabletCheckoutPageLoad(Context context, LineOfBusiness lob, String pageNameSuffix,
@@ -1628,7 +1673,7 @@ public class OmnitureTracking {
 	public static void trackBookNextClick(Context context, LineOfBusiness lob, boolean isAirAttachScenario) {
 		if (isAirAttachScenario) {
 			ADMS_Measurement s = getFreshTrackingObject(context);
-			addProductsForAirAttach(s, Db.getTripBucket().getHotel().getProperty(), "event58", "Flight|Hotel CKO X-Sell");
+			addEventsAndProductsForAirAttach(s, Db.getTripBucket().getHotel().getProperty(), "event58", "Flight:Hotel CKO X-Sell");
 			s.setEvar(28, BOOK_NEXT_ATTACH_HOTEL);
 			s.setEvar(16, BOOK_NEXT_ATTACH_HOTEL);
 			s.trackLink(null, "o", "Checkout", null, null);
@@ -2575,14 +2620,8 @@ public class OmnitureTracking {
 
 			// Air attach state
 			boolean userIsAttachEligible = Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified();
-			boolean eligibleHotelInBucket = hotel != null && hotel.hasAirAttachRate();
 			String airAttachState = userIsAttachEligible ? "Attach|Hotel Eligible" : "Attach|Non Eligible";
 			s.setEvar(65, airAttachState);
-
-			if (userIsAttachEligible && eligibleHotelInBucket) {
-				addProductsForAirAttach(s, hotel.getProperty(), "event57", "Flight|Hotel CKO X-Sell");
-			}
-
 		}
 
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());

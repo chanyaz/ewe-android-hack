@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
@@ -64,7 +65,7 @@ public class Rate implements JSONable {
 	// Surcharges
 	private Money mTotalSurcharge; // The total fees for the rate (NOT per night)
 	private Money mExtraGuestFee;
-	private Money mTotalMandatoryFees; // "bait & switch" fees
+	private Money mTotalMandatoryFees;
 	private Money mTotalPriceWithMandatoryFees;
 	private Money mTotalPriceAdjustments;
 
@@ -91,6 +92,8 @@ public class Rate implements JSONable {
 	private boolean mHasFreeCancellation = false;
 	private DateTime mFreeCancellationWindowDate;
 	private boolean mNonRefundable = false;
+	private boolean mShowResortFees = false;
+	private boolean mResortFeeInclusion = false;
 
 	private TaxStatusType mTaxStatusType;
 
@@ -479,7 +482,7 @@ public class Rate implements JSONable {
 	}
 
 	public boolean isAirAttached() {
-		return mAirAttached;
+		return mAirAttached && PointOfSale.getPointOfSale().shouldShowAirAttach();
 	}
 
 	public void setAirAttached(boolean isAirAttached) {
@@ -546,6 +549,22 @@ public class Rate implements JSONable {
 		return !isNonRefundable() && hasFreeCancellation();
 	}
 
+	public boolean showResortFeesMessaging() {
+		return mShowResortFees;
+	}
+
+	public void setShowResortFeesMessaging(boolean showResortFees) {
+		mShowResortFees = showResortFees;
+	}
+
+	public boolean resortFeeInclusion() {
+		return mResortFeeInclusion;
+	}
+
+	public void setResortFeesInclusion(boolean resortFeeInclusion) {
+		mResortFeeInclusion = resortFeeInclusion;
+	}
+
 	public void setMobileExlusivity(boolean bool) {
 		mIsMobileExclusive = bool;
 	}
@@ -559,7 +578,7 @@ public class Rate implements JSONable {
 	}
 
 	public int compareTo(Rate other) {
-		return getDisplayPrice().compareTo(other.getDisplayPrice());
+		return getDisplayPrice().compareTo(other.getTotalAmountAfterTax());
 	}
 
 	public TaxStatusType getTaxStatusType() {
@@ -701,6 +720,8 @@ public class Rate implements JSONable {
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			obj.putOpt("hasFreeCancellation", mHasFreeCancellation);
+			obj.putOpt("showResortFeeMessage", mShowResortFees);
+			obj.putOpt("resortFeeInclusion", mResortFeeInclusion);
 			if (mFreeCancellationWindowDate != null) {
 				JodaUtils.putDateTimeInJson(obj, "freeCancellationWindowDateTime", mFreeCancellationWindowDate);
 			}
@@ -776,6 +797,8 @@ public class Rate implements JSONable {
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");
+		mShowResortFees = obj.optBoolean("showResortFeeMessage");
+		mResortFeeInclusion = obj.optBoolean("resortFeeInclusion");
 
 		List<BedType> bedTypes = JSONUtils.getJSONableList(obj, "bedTypes", BedType.class);
 		if (bedTypes != null) {
