@@ -1,7 +1,5 @@
 package com.expedia.bookings.unit;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 import com.expedia.bookings.utils.LocaleUtils;
@@ -19,5 +17,11 @@ public class LocaleUtilsTests {
 		assertEquals(null, LocaleUtils.convertCountryCode(null));
 		assertEquals("USA", LocaleUtils.convertCountryCode("USA"));
 		assertEquals("USA", LocaleUtils.convertCountryCode("US"));
+		assertEquals("JP", LocaleUtils.convertISO3ToISO2CountryCode("JPN"));
+		assertEquals("GB", LocaleUtils.convertISO3ToISO2CountryCode("GBR"));
+		assertEquals("FR", LocaleUtils.convertISO3ToISO2CountryCode("FRA"));
+		assertEquals("AF", LocaleUtils.convertISO3ToISO2CountryCode("AFG"));
+		assertEquals("MX", LocaleUtils.convertISO3ToISO2CountryCode("MEX"));
+		assertEquals("US", LocaleUtils.convertISO3ToISO2CountryCode("USA"));
 	}
 }
