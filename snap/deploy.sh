@@ -12,7 +12,7 @@ SNAP_PIPELINE_COUNTER: ${SNAP_PIPELINE_COUNTER}
 SNAP_BRANCH: ${SNAP_BRANCH}
 
 $(git log ${SNAP_COMMIT}^..${SNAP_COMMIT})
-""" > "changelog.txt"
+""" | head -c 14000 > "changelog.txt"
 
 gradleww crashlyticsUploadDistributionTravelocityLatest
 gradleww crashlyticsUploadDistributionAirAsiaGoLatest
