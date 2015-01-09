@@ -37,6 +37,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	// the alternate results will go
 	private List<Location> mLocations;
 
+	private boolean hasSponsoredListing;
+
 	public HotelSearchResponse() {
 		mPriceTiers = new HashMap<HotelFilter.PriceRange, PriceTier>();
 		mFilteredProperties = null;
@@ -85,6 +87,14 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 	public List<Location> getLocations() {
 		return mLocations;
+	}
+
+	public boolean hasSponsoredListing() {
+		return hasSponsoredListing;
+	}
+
+	public void setHasSponsoredListing(boolean hasASponsoredListing) {
+		hasSponsoredListing = hasASponsoredListing;
 	}
 
 	/**
@@ -860,6 +870,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		try {
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
 			JSONUtils.putJSONableList(obj, "locations", mLocations);
+			obj.putOpt("hasSponsoredListing", hasSponsoredListing);
 
 			return obj;
 		}
@@ -875,6 +886,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
 		mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
+		hasSponsoredListing = obj.optBoolean("hasSponsoredListing", false);
 
 		return true;
 	}

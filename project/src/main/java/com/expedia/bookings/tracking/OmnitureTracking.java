@@ -6,9 +6,7 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -156,6 +154,10 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
 	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
 
+	public static final String HOTELS_SEARCH_SPONSORED_PRESENT = "App.Hotels.Search.Sponsored.Yes";
+	public static final String HOTELS_SEARCH_SPONSORED_NOT_PRESENT = "App.Hotels.Search.Sponsored.No";
+	public static final String HOTELS_SPONSORED_LISTING_CLICK = "App.Hotels.Search.Sponsored.Click";
+
 	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.Hotels.Review.Fav";
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";
 	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.Hotels.Review.Recent";
@@ -168,20 +170,12 @@ public class OmnitureTracking {
 	public static final String HOTELS_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
-	public static void trackAppHotelsSearchWithoutRefinements(Context context, HotelSearchParams searchParams,
-			HotelSearchResponse searchResponse) {
-		internalTrackHotelsSearch(context, searchParams, searchResponse, null);
-	}
-
-	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams,
-			HotelSearchParams oldSearchParams,
-			HotelFilter filter, HotelFilter oldFilter, HotelSearchResponse searchResponse) {
-		String refinements = getHotelSearchRefinements(searchParams, oldSearchParams, filter, oldFilter);
-		internalTrackHotelsSearch(context, searchParams, searchResponse, refinements);
+	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams, HotelSearchResponse searchResponse) {
+		internalTrackHotelsSearch(context, searchParams, searchResponse);
 	}
 
 	private static void internalTrackHotelsSearch(Context context, HotelSearchParams searchParams,
-			HotelSearchResponse searchResponse, String refinements) {
+			HotelSearchResponse searchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
 
@@ -190,18 +184,7 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 
 		s.setAppState("App.Hotels.Search");
-
-		if (refinements != null) {
-			// Whether this was the first search or a refined search
-			s.setEvents("event31");
-
-			// Refinement
-			s.setEvar(28, refinements);
-			s.setProp(16, refinements);
-		}
-		else {
-			s.setEvents("event30,event51");
-		}
+		s.setEvents("event30,event51");
 
 		// LOB Search
 		s.setEvar(2, "hotels");
@@ -228,120 +211,20 @@ public class OmnitureTracking {
 			s.setProp(1, searchResponse.getFilteredAndSortedProperties(searchParams).size() + "");
 		}
 
-		// Send the tracking data
-		s.track();
-	}
-
-	/**
-	 * 	If we already have results, check for refinements; if there were none, it's possible
-	 * 	that the user just opened/closed a search param change without changing anything.
-	 *
-	 * 	This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
-	 * 	of refinements at once instead of flooding the system with a ton of different refinements
-	 *
-	 */
-	private static String getHotelSearchRefinements(HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
-			HotelFilter filter, HotelFilter oldFilter) {
-		if (oldFilter != null && oldSearchParams != null) {
-			List<String> refinements = new ArrayList<String>();
-
-			// Sort change
-			if (oldFilter.getSort() != filter.getSort()) {
-				HotelFilter.Sort sort = filter.getSort();
-				if (sort == HotelFilter.Sort.POPULAR) {
-					refinements.add("App.Hotels.Search.Sort.Popular");
-				}
-				else if (sort == HotelFilter.Sort.PRICE) {
-					refinements.add("App.Hotels.Search.Sort.Price");
-				}
-				else if (sort == HotelFilter.Sort.DISTANCE) {
-					refinements.add("App.Hotels.Search.Sort.Distance");
-				}
-				else if (sort == HotelFilter.Sort.RATING) {
-					refinements.add("App.Hotels.Search.Sort.Rating");
-				}
-			}
-
-			// Number of travelers change
-			if (searchParams.getNumAdults() != oldSearchParams.getNumAdults()
-					|| searchParams.getNumChildren() != oldSearchParams.getNumChildren()) {
-				refinements.add("App.Hotels.Search.Refine.NumberTravelers");
-			}
-
-			// Location change
-			// Checks that the search type is the same, or else that a search of a particular type hasn't
-			// been modified (e.g., freeform text changing on a freeform search)
-			if (!searchParams.equals(oldSearchParams.getSearchType())) {
-				refinements.add("App.Hotels.Search.Refine.Location");
-			}
-			else if (searchParams.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION
-					|| searchParams.getSearchType() == HotelSearchParams.SearchType.VISIBLE_MAP_AREA) {
-				if (searchParams.getSearchLatitude() != oldSearchParams.getSearchLatitude()
-						|| searchParams.getSearchLongitude() != oldSearchParams.getSearchLongitude()) {
-					refinements.add("App.Hotels.Search.Refine.Location");
-				}
+		if (searchResponse != null) {
+			// Has at least one sponsored Listing
+			if (searchResponse.hasSponsoredListing()) {
+				s.setEvar(28, HOTELS_SEARCH_SPONSORED_PRESENT);
+				s.setProp(16, HOTELS_SEARCH_SPONSORED_PRESENT);
 			}
 			else {
-				if (!searchParams.getQuery().equals(oldSearchParams.getQuery())) {
-					refinements.add("App.Hotels.Search.Refine.Location");
-				}
+				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
+				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 			}
-
-			// Checkin date change
-			if (!searchParams.getCheckInDate().equals(oldSearchParams.getCheckInDate())) {
-				refinements.add("App.Hotels.Search.Refine.CheckinDate");
-			}
-
-			// Checkout date change
-			if (!searchParams.getCheckOutDate().equals(oldSearchParams.getCheckOutDate())) {
-				refinements.add("App.Hotels.Search.Refine.CheckoutDate");
-			}
-
-			// Search radius change
-			if (filter.getSearchRadius() != oldFilter.getSearchRadius()) {
-				refinements.add("App.Hotels.Search.Refine.SearchRadius");
-			}
-
-			// Price range change
-			if (filter.getPriceRange() != oldFilter.getPriceRange()) {
-				refinements.add("App.Hotels.Search.Refine.PriceRange");
-			}
-
-			// Star rating change
-			double minStarRating = filter.getMinimumStarRating();
-			if (minStarRating != oldFilter.getMinimumStarRating()) {
-				if (minStarRating == 5) {
-					refinements.add("App.Hotels.Search.Refine.AllStars");
-				}
-				else {
-					refinements.add("App.Hotels.Search.Refine." + minStarRating + "Stars");
-				}
-			}
-
-			boolean hasHotelFilter = filter.getHotelName() != null;
-			boolean oldHasHotelFilter = oldFilter.getHotelName() != null;
-			if (hasHotelFilter != oldHasHotelFilter
-					|| (hasHotelFilter && !filter.getHotelName().equals(oldFilter.getHotelName()))) {
-				refinements.add("App.Hotels.Search.Refine.Name");
-			}
-
-			int numRefinements = refinements.size();
-			if (numRefinements == 0) {
-				return null;
-			}
-
-			StringBuilder sb = new StringBuilder();
-			for (int a = 0; a < numRefinements; a++) {
-				if (a != 0) {
-					sb.append("|");
-				}
-				sb.append(refinements.get(a));
-			}
-
-			return sb.toString();
 		}
 
-		return null;
+		// Send the tracking data
+		s.track();
 	}
 
 	public static void trackAppHotelsRoomsRates(Context context, Property property, String referrer) {
@@ -712,6 +595,14 @@ public class OmnitureTracking {
 
 	public static void trackHotelConfirmationShareEmail(Context context) {
 		internalTrackLink(context, HOTELS_CONF_SHARE_EMAIL);
+	}
+
+	public static void trackHotelSponsoredListingClick(Context context) {
+		ADMS_Measurement s = createTrackLinkEvent(context, HOTELS_SPONSORED_LISTING_CLICK);
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, posTpid);
+		s.setEvar(61, posTpid);
+		internalTrackLink(s);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1385,6 +1276,17 @@ public class OmnitureTracking {
 		// Evars
 		addStandardHotelFields(s, searchParams);
 		s.setEvar(47, getEvar47String(searchParams));
+
+		// Has at least one sponsored Listing
+		if (searchResponse.hasSponsoredListing()) {
+			s.setEvar(28, HOTELS_SEARCH_SPONSORED_PRESENT);
+			s.setProp(16, HOTELS_SEARCH_SPONSORED_PRESENT);
+		}
+		else {
+			s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
+			s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
+		}
+
 		s.track();
 	}
 
