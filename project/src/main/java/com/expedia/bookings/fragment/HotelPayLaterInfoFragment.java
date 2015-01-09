@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.RoomsAndRatesListActivity;
+import com.expedia.bookings.activity.HotelRoomsAndRatesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -17,10 +17,10 @@ import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class PayLaterInfoFragment extends Fragment {
+public class HotelPayLaterInfoFragment extends Fragment {
 
-	public static PayLaterInfoFragment newInstance() {
-		return new PayLaterInfoFragment();
+	public static HotelPayLaterInfoFragment newInstance() {
+		return new HotelPayLaterInfoFragment();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class PayLaterInfoFragment extends Fragment {
 			selectRoomTv.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(RoomsAndRatesListActivity.createIntent(getActivity()));
+					startActivity(HotelRoomsAndRatesActivity.createIntent(getActivity()));
 				}
 			});
 		}

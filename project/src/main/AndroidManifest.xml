@@ -161,10 +161,10 @@
             android:name="com.expedia.bookings.activity.UserReviewsListActivity"
             android:theme="@style/Theme.Phone" />
         <activity
-            android:name="com.expedia.bookings.activity.PayLaterInfoFragmentActivity"
+            android:name="com.expedia.bookings.activity.HotelPayLaterInfoActivity"
             android:theme="@style/Theme.Phone" />
         <activity
-            android:name="com.expedia.bookings.activity.RoomsAndRatesListActivity"
+            android:name="com.expedia.bookings.activity.HotelRoomsAndRatesActivity"
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.HotelOverviewActivity"

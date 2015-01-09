@@ -43,7 +43,6 @@ import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.expedia.bookings.widget.HotelDetailsScrollView.HotelDetailsMiniMapClickedListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 
@@ -256,7 +255,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			return true;
 		}
 		case R.id.menu_select_hotel: {
-			startActivity(RoomsAndRatesListActivity.createIntent(this));
+			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
 			return true;
 		}
 		default: {
@@ -309,7 +308,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			mBookNowButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(RoomsAndRatesListActivity.createIntent(HotelDetailsFragmentActivity.this));
+					startActivity(HotelRoomsAndRatesActivity.createIntent(HotelDetailsFragmentActivity.this));
 				}
 			});
 		}

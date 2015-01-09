@@ -17,7 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.PayLaterInfoFragmentActivity;
+import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -189,7 +189,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			payLaterInfo.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent payLaterIntent = new Intent(getActivity(), PayLaterInfoFragmentActivity.class);
+					Intent payLaterIntent = new Intent(getActivity(), HotelPayLaterInfoActivity.class);
 					startActivity(payLaterIntent);
 				}
 			});

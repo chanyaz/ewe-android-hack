@@ -10,16 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.PayLaterInfoFragment;
+import com.expedia.bookings.fragment.HotelPayLaterInfoFragment;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class PayLaterInfoFragmentActivity extends FragmentActivity {
+public class HotelPayLaterInfoActivity extends FragmentActivity {
 
 	private static final String FRAGMENT_PAY_LATER_INFO_TAG = "FRAGMENT_PAY_LATER_INFO_TAG";
 
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, PayLaterInfoFragmentActivity.class);
+		Intent intent = new Intent(context, HotelPayLaterInfoActivity.class);
 		return intent;
 	}
 
@@ -29,7 +29,7 @@ public class PayLaterInfoFragmentActivity extends FragmentActivity {
 		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
-		Ui.findOrAddSupportFragment(this, PayLaterInfoFragment.class, FRAGMENT_PAY_LATER_INFO_TAG);
+		Ui.findOrAddSupportFragment(this, HotelPayLaterInfoFragment.class, FRAGMENT_PAY_LATER_INFO_TAG);
 	}
 
 	@Override

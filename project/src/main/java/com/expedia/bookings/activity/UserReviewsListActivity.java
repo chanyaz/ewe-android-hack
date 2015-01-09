@@ -132,7 +132,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			return true;
 		}
 		case R.id.menu_select_hotel: {
-			startActivity(RoomsAndRatesListActivity.createIntent(this));
+			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
 		}
 		default:
 			break;
