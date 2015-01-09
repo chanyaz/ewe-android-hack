@@ -26,7 +26,7 @@ if [ -z "${TARGET}" ] ; then
 fi
 
 TERM=dumb
-./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
+./gradlew "-Pid=latest" "crashlyticsUploadDistribution${TARGET}Debug"
 
 RESULT=$?
 

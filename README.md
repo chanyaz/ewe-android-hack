@@ -116,7 +116,7 @@ actually give it a unique package name and upload the `apk` to Crashlytics.
 resulting `applicationId` becomes `com.expedia.bookings.feature.UNIQUE_FEATURE_NAME`.
 
 ````shell
-    $ ./gradlew -PfeatureName="UNIQUE_FEATURE_NAME" assembleExpediaFeature
-    $ ./gradlew -PfeatureName="UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaFeature
+    $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" assembleExpediaFeature
+    $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaFeature
 ````
 
