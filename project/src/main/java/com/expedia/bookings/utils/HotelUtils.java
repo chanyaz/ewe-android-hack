@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
@@ -212,7 +213,31 @@ public class HotelUtils {
 	// for either device type.
 	public static Spanned getCheckoutResortFeesText(Context context, Rate rate) {
 		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
-		String grandTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
-		return Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, fees, grandTotal));
+		String tripTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+		int templateId;
+		if (!AndroidUtils.isTablet(context) && rate.isPayLater()) {
+			if (!rate.getDisplayDeposit().isZero()) {
+				templateId = R.string.pay_later_deposit_resort_disclaimer_TEMPLATE;
+			}
+			else {
+				templateId = R.string.pay_later_resort_disclaimer_TEMPLATE;
+			}
+		}
+		else {
+			templateId = R.string.resort_fee_disclaimer_TEMPLATE;
+		}
+		return Html.fromHtml(context.getString(templateId, fees, tripTotal));
+	}
+
+	// Convenience method for getting pay later text that goes at the bottom of checkout.
+	public static Spanned getCheckoutPayLaterText(Context context, Rate rate) {
+		if (!rate.getDisplayDeposit().isZero()) {
+			String deposit = rate.getDisplayDeposit().getFormattedMoney();
+			return Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit));
+		}
+		else {
+			String tripTotal = rate.getDisplayTotalPrice().getFormattedMoney();
+			return Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal));
+		}
 	}
 }

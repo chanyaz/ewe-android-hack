@@ -141,8 +141,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private View mCouponRemoveView;
 
 	private TextView mLegalInformationTextView;
-	private TextView mResortFeeDisclaimerTextView;
-	private TextView mEtpNoticeTextView;
+	private TextView mCheckoutDisclaimerTextView;
 	private View mScrollSpacerView;
 
 	private FrameLayout mSlideToPurchaseFragmentLayout;
@@ -240,8 +239,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponRemoveView = Ui.findView(view, R.id.coupon_clear);
 
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
-		mResortFeeDisclaimerTextView = Ui.findView(view, R.id.resort_fee_disclaimer);
-		mEtpNoticeTextView = Ui.findView(view, R.id.etp_payment_info);
+		mCheckoutDisclaimerTextView = Ui.findView(view, R.id.checkout_disclaimer);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
 		mSlideToPurchaseFragmentLayout = Ui.findView(view, R.id.slide_to_purchase_fragment_layout);
@@ -629,8 +627,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				rate.getTotalPriceAdjustments().getFormattedMoney()));
 		}
 
-		updateResortFeeLegalText();
-		updateEtpNoticeView();
+		updateCheckoutDisclaimerText();
 
 		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
@@ -710,25 +707,19 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		updateWalletViewVisibilities();
 	}
 
-	private void updateResortFeeLegalText() {
-		if (PointOfSale.getPointOfSale().showFTCResortRegulations() && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
-			mResortFeeDisclaimerTextView.setText(HotelUtils.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate()));
-			mResortFeeDisclaimerTextView.setVisibility(View.VISIBLE);
-		}
-		else {
-			mResortFeeDisclaimerTextView.setVisibility(View.GONE);
-		}
-	}
+	private void updateCheckoutDisclaimerText() {
+		Rate rate = Db.getTripBucket().getHotel().getRate();
 
-	public void updateEtpNoticeView() {
-		Rate etpRate = Db.getTripBucket().getHotel().getRate();
-		if (etpRate.isPayLater()) {
-			Money totalCost = etpRate.getDisplayTotalPrice();
-			mEtpNoticeTextView.setText(getString(R.string.the_total_for_your_trip_will_be_TEMPLATE, totalCost.getFormattedMoney()));
-			mEtpNoticeTextView.setVisibility(View.VISIBLE);
+		if (rate.showResortFeesMessaging()) {
+			mCheckoutDisclaimerTextView.setText(HotelUtils.getCheckoutResortFeesText(getActivity(), rate));
+			mCheckoutDisclaimerTextView.setVisibility(View.VISIBLE);
+		}
+		else if (rate.isPayLater()) {
+			mCheckoutDisclaimerTextView.setText(HotelUtils.getCheckoutPayLaterText(getActivity(), rate));
+			mCheckoutDisclaimerTextView.setVisibility(View.VISIBLE);
 		}
 		else {
-			mEtpNoticeTextView.setVisibility(View.GONE);
+			mCheckoutDisclaimerTextView.setVisibility(View.GONE);
 		}
 	}
 
@@ -893,7 +884,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	private void showPurchaseViews(boolean animate) {
-		if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
+		if (Db.getTripBucket().getHotel() != null && (Db.getTripBucket().getHotel().getRate().showResortFeesMessaging() || Db.getTripBucket().getHotel().getRate().isPayLater())) {
 			mScrollView.fullScroll(View.FOCUS_DOWN);
 		}
 		if (mSlideToPurchaseFragmentLayout.getVisibility() == View.VISIBLE) {
