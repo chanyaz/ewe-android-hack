@@ -154,9 +154,7 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 
 	private void addCollection(LayoutInflater inflater, final LaunchCollection collectionToAdd) {
 		final CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
-		c.setStackDrawable(collectionToAdd.getImageUrl());
-		c.setText(collectionToAdd.getTitle());
-		c.setTag(collectionToAdd);
+		c.setLaunchCollection(collectionToAdd);
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

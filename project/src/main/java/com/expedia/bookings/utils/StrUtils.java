@@ -24,6 +24,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.LocationServices;
@@ -345,4 +346,21 @@ public class StrUtils {
 		}
 		return city;
 	}
+
+	public static String formatDisplayName(SuggestionResponse suggestionResponse) {
+		String displayName = suggestionResponse.getSuggestions().get(0).getDisplayName();
+		if (displayName.indexOf(",") != displayName.lastIndexOf(",")
+			&& suggestionResponse.getSuggestions().size() > 1) {
+			for (int i = 1; i < suggestionResponse.getSuggestions().size(); i++) {
+				if (suggestionResponse.getSuggestions().get(i).getDisplayName().indexOf(",") == suggestionResponse
+					.getSuggestions()
+					.get(i).getDisplayName().lastIndexOf(",")) {
+					displayName = suggestionResponse.getSuggestions().get(i).getDisplayName();
+					break;
+				}
+			}
+		}
+		return displayName;
+	}
+
 }
