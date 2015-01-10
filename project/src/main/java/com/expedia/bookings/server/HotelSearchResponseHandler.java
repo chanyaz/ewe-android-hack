@@ -349,6 +349,10 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				searchResponse.addProperty(property);
 			}
 		}
+
+		if (!searchResponse.hasSponsoredListing() && property.isSponsored()) {
+			searchResponse.setHasSponsoredListing(true);
+		}
 	}
 
 	private Rate readLowRateInfo(JsonReader reader) throws IOException {

@@ -610,7 +610,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), null);
+		OmnitureTracking.trackAppHotelsSearch(this, Db.getHotelSearch().getSearchParams(), null);
 	}
 
 	@Override
@@ -1929,7 +1929,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), Db
+			OmnitureTracking.trackAppHotelsSearch(this, Db.getHotelSearch().getSearchParams(), Db
 				.getHotelSearch().getSearchResponse());
 		}
 		else {
@@ -2713,15 +2713,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	private void onSearchResultsChanged() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		HotelFilter filter = Db.getFilter();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 
-		// Update the last filter/search params we used to track refinements
-		mOldSearchParams = searchParams.copy();
-		mOldFilter = filter.copy();
-
 		// Start actually tracking the search result change
-		OmnitureTracking.trackAppHotelsSearch(this, searchParams, mOldSearchParams, filter, mOldFilter, searchResponse);
+		OmnitureTracking.trackAppHotelsSearch(this, searchParams, searchResponse);
 		AdTracker.trackHotelSearch();
 	}
 

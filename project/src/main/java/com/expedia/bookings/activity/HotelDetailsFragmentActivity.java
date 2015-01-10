@@ -145,7 +145,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		super.onStart();
 
 		if (mWasStopped) {
-			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+			doOmnitureTracking();
 			mWasStopped = false;
 		}
 	}
@@ -321,7 +321,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		// Tracking
 		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+			doOmnitureTracking();
 		}
 
 		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
@@ -330,6 +330,16 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 
 		initLandscapeGalleryLayout();
+	}
+
+	private void doOmnitureTracking() {
+		OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+
+		// Track sponsored listing click event
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		if (property.isSponsored()) {
+			OmnitureTracking.trackHotelSponsoredListingClick(mContext);
+		}
 	}
 
 	private void setupBookByPhoneButton(HotelOffersResponse response) {
