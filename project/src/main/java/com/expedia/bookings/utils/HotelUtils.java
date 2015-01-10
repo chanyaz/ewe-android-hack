@@ -25,9 +25,26 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
+
+	public static boolean checkPhoneFinishConditionsAndFinish(Activity activity) {
+		// Attempt to load hotel data from disk
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
+			Db.loadHotelSearchFromDisk(activity);
+		}
+
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			activity.finish();
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * Tries to return the best "room" picture, but falls back to property

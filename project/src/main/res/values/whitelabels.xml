@@ -139,6 +139,8 @@
     <attr name="skin_bestPriceGuaranteeString" format="reference|string" />
     <!-- for hotels details book button -->
     <attr name="skin_hotelBookButtonString" format="reference|string" />
+    <!-- for hotels etp info book button -->
+    <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
 
     <attr name="skin_aboutWebsiteString" format="reference|string" />
     <attr name="skin_aboutAppSupportString" format="reference|string" />

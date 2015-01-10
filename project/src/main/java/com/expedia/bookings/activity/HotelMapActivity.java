@@ -131,7 +131,7 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 			onBackPressed();
 			return true;
 		case R.id.menu_select_hotel:
-			startActivity(RoomsAndRatesListActivity.createIntent(this));
+			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
 			finish();
 			return true;
 		default:

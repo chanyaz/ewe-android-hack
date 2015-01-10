@@ -33,12 +33,12 @@ import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 
-public class RoomsAndRatesFragment extends ListFragment implements AbsListView.OnScrollListener {
+public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListView.OnScrollListener {
 
 	private static final String INSTANCE_PAY_GROUP_CHECKED_POS = "INSTANCE_PAY_GROUP_CHECKED_POS";
 
-	public static RoomsAndRatesFragment newInstance() {
-		RoomsAndRatesFragment fragment = new RoomsAndRatesFragment();
+	public static HotelRoomsAndRatesFragment newInstance() {
+		HotelRoomsAndRatesFragment fragment = new HotelRoomsAndRatesFragment();
 		return fragment;
 	}
 

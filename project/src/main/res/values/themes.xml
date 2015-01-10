@@ -139,6 +139,7 @@
         <item name="skin_travelerLabelOnCheckout">@string/guest_details</item>
         <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
         <item name="skin_hotelBookButtonString">@string/book_now</item>
+        <item name="skin_etpHotelSelectRoomString">@string/etp_select_room</item>
         <item name="skin_aboutWebsiteString">@string/expedia_website</item>
         <item name="skin_aboutAppSupportString">@string/app_support</item>
         <item name="skin_aboutCopyrightString">@string/copyright_TEMPLATE</item>

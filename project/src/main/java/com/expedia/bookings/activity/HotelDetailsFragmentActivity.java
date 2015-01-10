@@ -43,7 +43,6 @@ import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.expedia.bookings.widget.HotelDetailsScrollView.HotelDetailsMiniMapClickedListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 
@@ -120,7 +119,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
 
@@ -154,7 +153,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
 
@@ -189,7 +188,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		super.onNewIntent(intent);
 		setIntent(intent);
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
 
@@ -229,7 +228,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
-		if (checkFinishConditionsAndFinish()) {
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return super.onCreateOptionsMenu(menu);
 		}
 
@@ -256,7 +255,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			return true;
 		}
 		case R.id.menu_select_hotel: {
-			startActivity(RoomsAndRatesListActivity.createIntent(this));
+			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
 			return true;
 		}
 		default: {
@@ -309,7 +308,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			mBookNowButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(RoomsAndRatesListActivity.createIntent(HotelDetailsFragmentActivity.this));
+					startActivity(HotelRoomsAndRatesActivity.createIntent(HotelDetailsFragmentActivity.this));
 				}
 			});
 		}
@@ -402,21 +401,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				}
 			});
 		}
-	}
-
-	private boolean checkFinishConditionsAndFinish() {
-		// Attempt to load hotel data from disk
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(this);
-		}
-
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return true;
-		}
-
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

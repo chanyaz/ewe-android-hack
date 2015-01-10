@@ -22,8 +22,8 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.RoomsAndRatesFragment;
-import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
+import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment;
+import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -35,14 +35,11 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 
-public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
+public class HotelRoomsAndRatesActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 
-	private RoomsAndRatesFragment mRoomsAndRatesFragment;
-
-	// For tracking - tells you when a user paused the Activity but came back to it
-	private boolean mWasStopped;
+	private HotelRoomsAndRatesFragment mRoomsAndRatesFragment;
 
 	private DateTime mLastSearchTime;
 
@@ -59,7 +56,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, RoomsAndRatesListActivity.class);
+		Intent intent = new Intent(context, HotelRoomsAndRatesActivity.class);
 		return intent;
 	}
 
@@ -199,13 +196,6 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
-
-		mWasStopped = true;
-	}
-
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 
@@ -244,7 +234,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		@Override
 		public void onDownload(HotelOffersResponse response) {
 			Db.getHotelSearch().updateFrom(response);
-			Db.kickOffBackgroundHotelSearchSave(RoomsAndRatesListActivity.this);
+			Db.kickOffBackgroundHotelSearchSave(HotelRoomsAndRatesActivity.this);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 	};
