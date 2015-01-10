@@ -6,44 +6,52 @@ import com.expedia.bookings.utils.data.cars.CarSearchParams;
 import com.expedia.bookings.utils.data.cars.CarSearchResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 public class CarServices {
+	private static final String TRUNK = "http://wwwexpediacom.trunk.sb.karmalab.net";
 
-	private static final String ENDPOINT = "http://wwwexpediacom.trunk.sb.karmalab.net/m/api/cars/search";
-
-	private CarApi mApi;
-	private static CarServices sCarServices;
+	private static CarServices sCarServices = new CarServices(TRUNK);
 
 	public static CarServices getInstance() {
-		if (sCarServices == null) {
-			sCarServices = new CarServices();
-		}
 		return sCarServices;
 	}
 
-	public CarServices() {
-		Gson gson = new GsonBuilder()
+	private CarApi mApi;
+	private Gson mGson;
+	private OkHttpClient mClient;
+
+	public CarServices(String endpoint) {
+		mGson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
 			.create();
 
+		mClient = new OkHttpClient();
+
 		RestAdapter adapter = new RestAdapter.Builder()
-			.setEndpoint(ENDPOINT)
+			.setEndpoint(endpoint)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
-			.setConverter(new GsonConverter(gson))
+			.setConverter(new GsonConverter(mGson))
+			.setClient(new OkClient(mClient))
 			.build();
 
 		mApi = adapter.create(CarApi.class);
 	}
 
+	public CarServices() {
+		this(TRUNK);
+	}
+
 	public void doBoringCarSearch(Callback<CarSearchResponse> callback) {
-		sCarServices.mApi.roundtripCarSearch("SFO", "2015-02-20T12:30:00", "2015-02-21T12:30:00", callback);
+		mApi.roundtripCarSearch("SFO", "2015-02-20T12:30:00", "2015-02-21T12:30:00", callback);
 	}
 
 	public void carSearch(CarSearchParams params, Callback<CarSearchResponse> callback) {
-		sCarServices.mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate(), callback);
+		mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate(), callback);
 	}
 }

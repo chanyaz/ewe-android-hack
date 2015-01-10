@@ -10,7 +10,10 @@ repositories {
 
 dependencies {
     compile 'joda-time:joda-time:2.5'
-    compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okio:okio:1.2.0'
+    testCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
     testCompile 'junit:junit:4.11'
     testCompile 'org.json:json:20140107'
 }

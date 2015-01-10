@@ -21,6 +21,6 @@ public class PlaygroundActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.widget_car_search_params));
+		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.widget_test_car_search));
 	}
 }
