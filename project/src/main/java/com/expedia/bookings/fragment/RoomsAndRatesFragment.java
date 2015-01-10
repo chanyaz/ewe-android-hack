@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -30,7 +33,7 @@ import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 
-public class RoomsAndRatesFragment extends ListFragment {
+public class RoomsAndRatesFragment extends ListFragment implements AbsListView.OnScrollListener {
 
 	private static final String INSTANCE_PAY_GROUP_CHECKED_POS = "INSTANCE_PAY_GROUP_CHECKED_POS";
 
@@ -40,7 +43,6 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	private RoomsAndRatesFragmentListener mListener;
-
 	private RoomsAndRatesAdapter mAdapter;
 
 	private SlidingRadioGroup mPayGroup;
@@ -49,7 +51,12 @@ public class RoomsAndRatesFragment extends ListFragment {
 	private TextView mFooterTextView;
 	private ViewGroup mNoticeContainer;
 
-	private int mLastCheckedItem = R.id.radius_pay_later;
+	private View mHeader;
+	private View mStickyHeader;
+	private View mHeaderPlaceholder;
+
+	private int mLastCheckedItem = R.id.radius_pay_now;
+	private boolean isStickyHeader = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -68,9 +75,15 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		ListView lv = getListView();
+		mHeader = getActivity().getLayoutInflater().inflate(R.layout.header_rooms_and_rates_list, lv, false);
+		mHeaderPlaceholder = Ui.findView(mHeader, R.id.header_placeholder);
+		lv.addHeaderView(mHeader, null, false);
+		lv.setOnScrollListener(this);
+
 		if (savedInstanceState != null) {
 			mLastCheckedItem = savedInstanceState
-				.getInt(INSTANCE_PAY_GROUP_CHECKED_POS, R.id.radius_pay_later);
+				.getInt(INSTANCE_PAY_GROUP_CHECKED_POS, R.id.radius_pay_now);
 		}
 	}
 
@@ -86,6 +99,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		mProgressBar = Ui.findView(view, R.id.progress_bar);
 		mEmptyTextView = Ui.findView(view, R.id.empty_text_view);
 		mNoticeContainer = Ui.findView(view, R.id.hotel_notice_container);
+		mStickyHeader = Ui.findView(view, R.id.sticky_header);
 		mPayGroup = Ui.findView(view, R.id.radius_pay_options);
 		mPayGroup.setOnCheckedChangeListener(mPayOptionsListener);
 		mPayGroup.setVisibility(View.GONE);
@@ -115,7 +129,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	private Rate getItem(int position) {
-		Rate nowRate = (Rate) mAdapter.getItem(position);
+		Rate nowRate = (Rate) getListView().getItemAtPosition(position);
 		Rate laterRate = nowRate.getEtpRate();
 		if (laterRate != null) {
 			if (isInPayLaterMode(mLastCheckedItem)) {
@@ -206,7 +220,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		boolean renovationNoticeDisplayed = displayRenovationNotice(response);
 		boolean resortFeesNoticeDisplayed = displayResortFeesNotice(response, selectedRate);
 		mNoticeContainer.setVisibility(renovationNoticeDisplayed || resortFeesNoticeDisplayed ? View.VISIBLE
-				: View.GONE);
+			: View.GONE);
 
 		// Disable highlighting if we're on phone UI
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
@@ -224,24 +238,37 @@ public class RoomsAndRatesFragment extends ListFragment {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		boolean isETPAvailable = property.hasEtpOffer();
 		mPayGroup.setVisibility(isETPAvailable ? View.VISIBLE : View.GONE);
-		mPayGroup.check(!isETPAvailable ? R.id.radius_pay_now : mLastCheckedItem);
+		mPayGroup.check(mLastCheckedItem);
+
+		//Set up sticky header
+		isStickyHeader = renovationNoticeDisplayed && resortFeesNoticeDisplayed;
+
+		mNoticeContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				mNoticeContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeaderPlaceholder.getLayoutParams();
+				params.height = mNoticeContainer.getHeight() + mStickyHeader.getHeight();
+				mHeaderPlaceholder.setLayoutParams(params);
+			}
+		});
 	}
 
 	/**
 	 * If the response contains a renovation notice, we should display it to the user
-	 * 
+	 *
 	 * @param response
 	 * @return
 	 */
 	private boolean displayRenovationNotice(HotelOffersResponse response) {
 		final String constructionText;
 		if (response != null && response.getProperty() != null
-				&& response.getProperty().getRenovationText() != null
-				&& !TextUtils.isEmpty(response.getProperty().getRenovationText().getContent())) {
+			&& response.getProperty().getRenovationText() != null
+			&& !TextUtils.isEmpty(response.getProperty().getRenovationText().getContent())) {
 			constructionText = response.getProperty().getRenovationText().getContent();
 
 			View constructionView = Ui.inflate(this, R.layout.include_rooms_and_rates_construction_notice,
-					mNoticeContainer);
+				mNoticeContainer);
 			ViewGroup constructionContainer = Ui.findView(constructionView, R.id.construction_container);
 
 			constructionContainer.setOnClickListener(new OnClickListener() {
@@ -257,7 +284,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 	/**
 	 * If the response or selectedRate contian mandatory fees, we should display a notice to the user.
-	 * 
+	 *
 	 * @param response
 	 * @param selectedRate
 	 * @return
@@ -271,7 +298,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		if (resortFeeRate.showResortFeesMessaging()) {
 			LayoutInflater inflater = this.getLayoutInflater(null);
 			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
-					mNoticeContainer);
+				mNoticeContainer);
 			ViewGroup feesContainer = Ui.findView(mandatoryFeeView, R.id.resort_fees_container);
 
 			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
@@ -280,7 +307,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 			TextView bottomTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_bottom_text);
 			bottomTv.setText(HotelUtils.getPhoneResortFeeBannerText(getActivity(), resortFeeRate));
 
-			final String resortFeesText = response.getProperty().getMandatoryFeesText() == null ? null : response.getProperty().getMandatoryFeesText().getContent();
+			final String resortFeesText = response.getProperty().getMandatoryFeesText() == null ? null
+				: response.getProperty().getMandatoryFeesText().getContent();
 			if (resortFeesText != null) {
 				feesContainer.setOnClickListener(new OnClickListener() {
 					@Override
@@ -333,4 +361,34 @@ public class RoomsAndRatesFragment extends ListFragment {
 		return checkedId == R.id.radius_pay_later;
 	}
 
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+		if (visibleItemCount == 0) {
+			return;
+		}
+
+		int top = mHeader.getTop();
+		int stickyHeight = mStickyHeader.getMeasuredHeight();
+		int noticeHeight = mNoticeContainer.getMeasuredHeight();
+		int headerViewHeight = mHeader.getMeasuredHeight();
+		int delta = headerViewHeight - stickyHeight;
+
+		if (isStickyHeader) {
+			//Slide the notice container up along with the header
+			mNoticeContainer.setTranslationY(top);
+			//Stick the sticky header to the top of the list
+			mStickyHeader.setTranslationY(Math.max(0, delta + top));
+		}
+		else {
+			//fix the sticky header under the notice container
+			mStickyHeader.setTranslationY(noticeHeight);
+		}
+
+	}
 }

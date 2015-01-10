@@ -195,6 +195,10 @@
     <string name="all_airports">All Airports</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Pay Later</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Pay Now</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">Due now</string>
     <!-- Rooms and rates pay later total -->
