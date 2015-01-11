@@ -175,8 +175,7 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		JSONObject obj = new JSONObject();
 		String key = "key";
 		JodaUtils.putLocalDateInJson(obj, key, ld);
-		LocalDate returned = JodaUtils.getLocalDateFromJsonBackCompat(obj, key,
-				null);
+		LocalDate returned = JodaUtils.getLocalDateFromJson(obj, key);
 		assertEquals(ld, returned);
 	}
 

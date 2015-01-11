@@ -716,8 +716,8 @@ public class SearchParams implements Parcelable, JSONable {
 		mOriginAirport = JSONUtils.getJSONable(obj, "originAirport", SuggestionV2.class);
 		mDestinationAirport = JSONUtils.getJSONable(obj, "destinationAirport", SuggestionV2.class);
 
-		mStartDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "startDate", null);
-		mEndDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "endDate", null);
+		mStartDate = JodaUtils.getLocalDateFromJson(obj, "startDate");
+		mEndDate = JodaUtils.getLocalDateFromJson(obj, "endDate");
 
 		mNumAdults = obj.optInt("numAdults", 1);
 		mChildTravelers = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);

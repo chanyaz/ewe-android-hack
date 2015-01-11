@@ -482,8 +482,8 @@ public class HotelSearchParams implements JSONable {
 		mSearchLongitude = obj.optDouble("longitude", 0);
 		mCorrespondingAirportCode = obj.optString("correspondingAirlineCode", null);
 
-		mCheckInDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkInLocalDate", "checkinDate");
-		mCheckOutDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkOutLocalDate", "checkoutDate");
+		mCheckInDate = JodaUtils.getLocalDateFromJson(obj, "checkInLocalDate");
+		mCheckOutDate = JodaUtils.getLocalDateFromJson(obj, "checkOutLocalDate");
 
 		mNumAdults = obj.optInt("numAdults", 0);
 		mChildren = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);
