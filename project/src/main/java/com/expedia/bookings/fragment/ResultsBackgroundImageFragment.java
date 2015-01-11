@@ -2,11 +2,14 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,8 +61,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 	private boolean mBlur;
 	private String mCurrentlyDesiredUrl;
-
-	private ImageView mImageView;
 
 	public static ResultsBackgroundImageFragment newInstance(boolean blur) {
 		ArrayList<String> codes = Sp.getParams().getDestination().getPossibleImageCodes();
@@ -116,7 +117,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_background_image, null);
-		mImageView = Ui.findView(mRootC, R.id.imageView);
 		loadImage();
 
 		return mRootC;
@@ -182,27 +182,25 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			.quality(75)
 			.build();
 
-		mCurrentlyDesiredUrl = url;
-
+		mTarget = new CustomTarget(url);
 		new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.bg_tablet_dest_image_default)
 			.applyBlurTransformation(mBlur).setTarget(mTarget).fade().build().load(url);
 	}
 
-	private final PicassoTarget mTarget = new PicassoTarget() {
+	private CustomTarget mTarget;
+
+	private class CustomTarget extends PicassoTarget {
+		private String mUrl;
+
+		public CustomTarget(String url) {
+			mUrl = url;
+		}
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
-			if (!mIsLandscape) {
-				BitmapDrawable tile = new BitmapDrawable(getResources(), bitmap);
-				tile.setTileModeY(Shader.TileMode.MIRROR);
-				mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-				mImageView.setImageDrawable(tile);
-			}
-			else {
-				mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				mImageView.setImageBitmap(bitmap);
-			}
+
+			mCurrentlyDesiredUrl = mUrl;
 
 			if (!mBlur) {
 				Palette palette = Palette.generate(bitmap);
@@ -213,6 +211,9 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 					.build();
 				Db.setFullscreenAverageColor(transparentAvgColor);
 			}
+
+			addNewViews(bitmap);
+			crossfade();
 		}
 
 		@Override
@@ -233,9 +234,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
-			mImageView.setImageDrawable(placeHolderDrawable);
+			mCurrentlyDesiredUrl = DEFAULT_IMAGE_PSEUDO_URL;
+			addNewViews(placeHolderDrawable);
+			crossfade();
 		}
-	};
+	}
 
 	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
 		ArrayList<String> destCodes = new ArrayList<>();
@@ -253,5 +256,93 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			destCodes.add(Sp.getParams().getDestination().getAirportCode());
 		}
 		return destCodes;
+	}
+
+	// This adds ImageViews to the base layout (assumed to be a FrameLayout), tiled vertically
+	// with every second tile flipped vertically.
+	private void addNewViews(Drawable drawable) {
+		int width = drawable.getIntrinsicWidth();
+		int height = drawable.getIntrinsicHeight();
+		addNewViews(drawable, width, height);
+	}
+
+	private void addNewViews(Bitmap bitmap) {
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		addNewViews(bitmap, width, height);
+	}
+
+	private void addNewViews(Object object, int width, int height) {
+		float screenWidth;
+		float screenHeight;
+		Point landscape = Ui.getLandscapeScreenSize(getActivity());
+		float scale = 1f * landscape.x / width;
+		if (mIsLandscape) {
+			// Fit width in landscape
+			screenWidth = landscape.x;
+			screenHeight = landscape.y;
+		}
+		else {
+			screenWidth = landscape.y;
+			screenHeight = landscape.x;
+		}
+
+		int viewWidth = (int) (scale * width);
+		int viewHeight = (int) (scale * height);
+
+		boolean flip = false;
+		int y = 0;
+		while (y < screenHeight) {
+			ImageView image = new ImageView(getActivity());
+			image.setLayoutParams(new ViewGroup.LayoutParams(viewWidth, viewHeight));
+			image.setTranslationX((screenWidth - viewWidth) / 2f);
+			image.setTranslationY(y);
+			image.setScaleY(flip ? -1f : 1f);
+			if (object instanceof Drawable) {
+				image.setImageDrawable((Drawable) object);
+			}
+			else if (object instanceof Bitmap) {
+				image.setImageBitmap((Bitmap) object);
+			}
+
+			image.setAlpha(0f);
+			String tag = mCurrentlyDesiredUrl + mBlur;
+			image.setTag(tag);
+			mRootC.addView(image);
+			flip = !flip;
+			y += viewHeight;
+		}
+	}
+
+	// This will fade in any imageViews whose tags match the url, and then
+	// remove any ImageViews whose tags don't match the url.
+	private void crossfade() {
+		final int children = mRootC.getChildCount();
+		PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat(View.ALPHA, 1f);
+		ArrayList<ObjectAnimator> animators = new ArrayList<>();
+		String tag = mCurrentlyDesiredUrl + mBlur;
+		for (int i = 0; i < children; i++) {
+			ImageView image = (ImageView) mRootC.getChildAt(i);
+			if (TextUtils.equals((String) image.getTag(), tag)) {
+				animators.add(ObjectAnimator.ofPropertyValuesHolder(image, fadeIn));
+			}
+		}
+		AnimatorSet set = new AnimatorSet();
+		set.addListener(new AnimatorListenerAdapter() {
+							@Override
+							public void onAnimationEnd(Animator animation) {
+								String tag = mCurrentlyDesiredUrl + mBlur;
+								for (int i = mRootC.getChildCount() - 1; i >= 0; i--) {
+									ImageView image = (ImageView) mRootC.getChildAt(i);
+									if (!TextUtils.equals((String) image.getTag(), tag)) {
+										image.setImageBitmap(null);
+										mRootC.removeViewAt(i);
+									}
+								}
+							}
+						}
+		);
+		set.playTogether(animators.toArray(new Animator[] { }));
+		set.start();
 	}
 }
