@@ -24,6 +24,7 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import com.expedia.bookings.utils.JodaUtils;
+
 import android.support.test.espresso.ViewInteraction;
 
 /*
@@ -54,7 +55,6 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 
 
 	public void testStayDaysOnCostSummaryPage() throws Exception {
-
 		initialSearch();
 		selectFirstHotel();
 		selectFirstType();
@@ -63,9 +63,13 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Nights");
 
 		//test
-		EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(0));
+		try {
+			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(0));
+		}
+		catch (Exception e) {
+			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDateWithYear(0));
+		}
 
-		//make it work for dates in next year
 		try {
 			EspressoUtils.assertViewWithTextIsDisplayed(getFromattedDate(1));
 		}
