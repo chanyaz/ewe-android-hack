@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,10 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.widget.AdapterView;
-import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
-import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
-import com.expedia.bookings.widget.Gallery;
+import com.expedia.bookings.widget.RecyclerGallery;
 import com.mobiata.android.util.Ui;
 
 public class HotelDetailsMiniGalleryFragment extends Fragment {
@@ -28,11 +24,10 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 
 	public static final String ARG_FROM_LAUNCH = "ARG_FROM_LAUNCH";
 
-	private static final int MAX_IMAGES_LOADED = 5;
+	private RecyclerGallery.GalleryItemClickListner mListener;
 
-	private HotelMiniGalleryFragmentListener mListener;
+	private RecyclerGallery mGallery;
 
-	private Gallery mGallery;
 	private boolean mGalleryFlipping = true;
 	private int mGalleryPosition = 0;
 
@@ -50,13 +45,13 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, HotelMiniGalleryFragmentListener.class);
+		mListener = Ui.findFragmentListener(this, RecyclerGallery.GalleryItemClickListner.class);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_details_mini_gallery, container, false);
-		mGallery = (Gallery) view.findViewById(R.id.images_gallery);
+		mGallery = (RecyclerGallery) view.findViewById(R.id.images_gallery);
 
 		if (savedInstanceState != null) {
 			mGalleryFlipping = savedInstanceState.getBoolean(INSTANCE_GALLERY_FLIPPING, true);
@@ -72,7 +67,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
-		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItemPosition());
+		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItem());
 	}
 
 	public void populateViews() {
@@ -86,57 +81,12 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		if (media.size() == 0) {
 			return;
 		}
-		mGallery.setMedia(media);
+		mGallery.setDataSource(media);
 
-		mGallery.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Property selected = Db.getHotelSearch().getSelectedProperty();
-				if (selected != null) {
-					mListener.onMiniGalleryItemClicked(selected, parent.getSelectedItem());
-				}
-			}
-		});
-
-		mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
-				// loading.
-				int left = position;
-				int right = position;
-				int loaded = 1;
-				int len = media.size();
-				boolean hasMore = true;
-				Context context = getActivity();
-				while (getActivity() != null && loaded < MAX_IMAGES_LOADED && hasMore) {
-					hasMore = false;
-					if (left > 0) {
-						left--;
-						media.get(left).preloadHighResImage(context);
-						loaded++;
-						hasMore = true;
-					}
-					if (loaded == MAX_IMAGES_LOADED) {
-						break;
-					}
-					if (right < len - 1) {
-						right++;
-						media.get(right).preloadHighResImage(context);
-						loaded++;
-						hasMore = true;
-					}
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Do nothing
-			}
-		});
+		mGallery.setOnItemClickListener(mListener);
 
 		if (mGalleryPosition > 0 && media.size() > mGalleryPosition) {
-			mGallery.setSelection(mGalleryPosition);
+			mGallery.scrollToPosition(mGalleryPosition);
 		}
 
 		if (mGalleryFlipping) {
@@ -144,10 +94,5 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Listener
 
-	public interface HotelMiniGalleryFragmentListener {
-		public void onMiniGalleryItemClicked(Property property, Object item);
-	}
 }
