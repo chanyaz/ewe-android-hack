@@ -3,8 +3,7 @@
     android:id="@+id/section_location_address"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp" >
+    style="?attr/skin_HotelCheckout_PostalCodeSectionStyle" >
 
     <EditText
         android:id="@+id/edit_address_postal_code"

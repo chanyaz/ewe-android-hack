@@ -89,6 +89,10 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
+        <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
+        <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
+        <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
+
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

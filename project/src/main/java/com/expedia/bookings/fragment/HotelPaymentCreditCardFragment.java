@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -65,16 +63,6 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 		mCreditCardMessageTv = Ui.findView(v, R.id.card_message);
 		hideCardMessageOrDisplayDefault(true);
-
-		if (ExpediaBookingApp.IS_VSC) {
-			// 1600. VSC Hide zipCode Field from CCEntry Screen
-			View view = Ui.findView(v, R.id.section_location_address);
-			view.setVisibility(View.INVISIBLE);
-
-			// 1601. VSC Disable predictive text input for "Name on card" field in CCEntry Screen
-			EditText nameOnCard = (EditText)Ui.findView(v, R.id.edit_name_on_card);
-			nameOnCard.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-		}
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;

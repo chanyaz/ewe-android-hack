@@ -1054,4 +1054,25 @@
         <item name="android:textSize">16.85sp</item>
         <item name="textStyle">bold</item>
     </style>
+
+    <!-- Credit Card Edit Text on hotel checkout -->
+    <style name="CreditCardEditText">
+        <item name="android:hint">@string/name_on_card_hint</item>
+        <item name="android:inputType">textPersonName|textCapWords</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Postal Code Section on hotel checkout -->
+    <style name="PostalCodeSection">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="CouponEditText">
+        <item name="android:hint">@string/optional</item>
+        <item name="android:inputType">textNoSuggestions</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

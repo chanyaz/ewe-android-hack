@@ -280,5 +280,9 @@
     <attr name="skin_tabletHotelDetailsStarRatingStyle" format="reference" />
     <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
 
->>>>>>> 3668: Hotel circle ratings for tablet
+    <!-- Hotel Checkout Credit Card Edit Text, Postal Code Section & Coupon Edit Text Style -->
+    <attr name="skin_HotelCheckout_CreditCardEditTextStyle" format="reference" />
+    <attr name="skin_HotelCheckout_PostalCodeSectionStyle" format="reference" />
+    <attr name="skin_HotelCheckout_couponEditTextStyle" format="reference" />
+
 </resources>
