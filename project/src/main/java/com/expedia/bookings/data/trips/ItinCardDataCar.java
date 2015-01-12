@@ -1,8 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.joda.time.DateTime;
 
 import android.content.Context;
@@ -13,46 +10,15 @@ import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
-import com.expedia.bookings.data.Car.Category;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PUBLIC CONSTANTS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	@SuppressWarnings("serial")
-	public static final Map<CarType, Integer> CAR_TYPE_DESCRIPTION_MAP = new HashMap<CarType, Integer>() {
-		{
-			put(CarType.TWO_DOOR_CAR, R.string.car_type_two_door);
-			put(CarType.THREE_DOOR_CAR, R.string.car_type_three_door);
-			put(CarType.FOUR_DOOR_CAR, R.string.car_type_four_door);
-			put(CarType.VAN, R.string.car_type_van);
-			put(CarType.WAGON, R.string.car_type_wagon);
-			put(CarType.LIMOUSINE, R.string.car_type_limousine);
-			put(CarType.RECREATIONAL_VEHICLE, R.string.car_type_recreational_vehicle);
-			put(CarType.CONVERTIBLE, R.string.car_type_convertible);
-			put(CarType.SPORTS_CAR, R.string.car_type_sports_car);
-			put(CarType.SUV, R.string.car_type_suv);
-			put(CarType.PICKUP_REGULAR_CAB, R.string.car_type_pickup_regular_cab);
-			put(CarType.OPEN_AIR_ALL_TERRAIN, R.string.car_type_open_air_all_terrain);
-			put(CarType.SPECIAL, R.string.car_type_special);
-			put(CarType.COMMERCIAL_VAN_TRUCK, R.string.car_type_commercial_van_truck);
-			put(CarType.PICKUP_EXTENDED_CAB, R.string.car_type_pickup_extended_cab);
-			put(CarType.SPECIAL_OFFER_CAR, R.string.car_type_special_offer_car);
-			put(CarType.COUPE, R.string.car_type_coupe);
-			put(CarType.MONOSPACE, R.string.car_type_monospace);
-			put(CarType.MOTORHOME, R.string.car_type_motor_home);
-			put(CarType.TWO_WHEEL_VEHICLE, R.string.car_type_two_wheel_vehicle);
-			put(CarType.ROADSTER, R.string.car_type_roadster);
-			put(CarType.CROSSOVER, R.string.car_type_crossover);
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CONSTANTS
@@ -88,9 +54,9 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public String getCarCategoryDescription(Context context) {
-		Category category = mCar.getCategory();
+		CarCategory category = mCar.getCategory();
 		if (category != null) {
-			return context.getString(category.getCategoryResId());
+			return CarDataUtils.getCategoryStringFor(context, category);
 		}
 
 		return null;

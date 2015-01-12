@@ -21,12 +21,12 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FacebookShareActivity;
-import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
@@ -204,7 +204,7 @@ public class ShareUtils {
 	}
 
 	public String getCarShareTextShort(ItinCardDataCar itinCardData) {
-		Car.Category category = itinCardData.getCar().getCategory();
+		CarCategory category = itinCardData.getCar().getCategory();
 		DateTime pickUpDate = itinCardData.getPickUpDate();
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		String vendorName = itinCardData.getVendorName();
@@ -263,7 +263,7 @@ public class ShareUtils {
 	}
 
 	public String getCarShareTextLong(ItinCardDataCar itinCardData) {
-		Car.Category category = itinCardData.getCar().getCategory();
+		CarCategory category = itinCardData.getCar().getCategory();
 		DateTime pickUpDate = itinCardData.getPickUpDate();
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		CarVendor vendor = itinCardData.getCar().getVendor();
@@ -594,17 +594,17 @@ public class ShareUtils {
 		return subject;
 	}
 
-	public String getCarShareTextShort(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
+	public String getCarShareTextShort(CarCategory carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
 			String vendorName, String vendorAddress, String sharableDetailsURL) {
 
-		String category = mContext.getString(carCategory.getCategoryResId());
+		String category = CarDataUtils.getCategoryStringFor(mContext, carCategory);
 		String pickUpDate = JodaUtils.formatDateTime(mContext, pickUpDateTime, SHORT_DATE_FLAGS);
 		String dropOffDate = JodaUtils.formatDateTime(mContext, dropOffDateTime, SHORT_DATE_FLAGS);
 
 		StringBuilder sb = new StringBuilder();
 
 		if (!TextUtils.isEmpty(category)) {
-			sb.append(mContext.getString(carCategory.getShareMessageResId()));
+			sb.append(CarDataUtils.getShareMessageFor(mContext, carCategory));
 		}
 
 		if (!TextUtils.isEmpty(pickUpDate) && !TextUtils.isEmpty(dropOffDate)) {
@@ -631,7 +631,7 @@ public class ShareUtils {
 		return sb.toString();
 	}
 
-	public String getCarShareTextLong(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
+	public String getCarShareTextLong(CarCategory carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
 			CarVendor vendor, Location pickUpLocation, Location dropOffLocation, String sharableDetailsURL) {
 
 		StringBuilder sb = new StringBuilder();
@@ -644,7 +644,7 @@ public class ShareUtils {
 			sb.append("\n\n");
 		}
 
-		String category = mContext.getString(carCategory.getCategoryResId());
+		String category = CarDataUtils.getCategoryStringFor(mContext, carCategory);
 		if (!TextUtils.isEmpty(category)) {
 			sb.append(mContext.getString(R.string.share_car_vehicle_TEMPLATE, category));
 			sb.append("\n");

@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
@@ -63,7 +64,7 @@ public class Car implements JSONable {
 
 	private CarVendor mVendor;
 
-	private Category mCategory;
+	private CarCategory mCategory;
 	private Media mCategoryImage;
 
 	private CarType mType;
@@ -132,11 +133,11 @@ public class Car implements JSONable {
 		mVendor = vendor;
 	}
 
-	public Category getCategory() {
+	public CarCategory getCategory() {
 		return mCategory;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(CarCategory category) {
 		mCategory = category;
 	}
 
@@ -202,7 +203,7 @@ public class Car implements JSONable {
 
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
-		mCategory = JSONUtils.getEnum(obj, "category", Category.class);
+		mCategory = JSONUtils.getEnum(obj, "category", CarCategory.class);
 		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", Media.class);
 
 		mType = JSONUtils.getEnum(obj, "type", CarType.class);
