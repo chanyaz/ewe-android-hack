@@ -9,11 +9,13 @@ import com.squareup.picasso.Transformation;
 
 public class BlurTransform implements Transformation {
 	private static final String mKEY = "Blur";
+	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTOR = 4;
 
 	private Context mContext;
 
 	private float mDarkenMultiplier;
 	private int mBlurRadius;
+
 
 	public BlurTransform(Context context) {
 		mContext = context;
@@ -28,7 +30,9 @@ public class BlurTransform implements Transformation {
 
 	@Override
 	public Bitmap transform(Bitmap source) {
-		Bitmap blurred = BitmapUtils.stackBlurAndDarken(source, mContext, mBlurRadius, mDarkenMultiplier);
+		Bitmap blurred = BitmapUtils
+			.stackBlurAndDarken(source, mContext, BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
+		source.recycle();
 		return blurred;
 	}
 

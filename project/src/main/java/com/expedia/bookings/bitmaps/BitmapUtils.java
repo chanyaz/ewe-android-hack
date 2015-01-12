@@ -29,22 +29,30 @@ public class BitmapUtils {
 	 *
 	 * @param bmapToBlur       - the bitmap we plan to blur
 	 * @param context
+	 * @param reductionFactor  - this is an optimization, typically 4 works well, basically we can shrink the bitmap before we blur and
+	 *                         thus have fewer pixels to blur.
 	 * @param blurRadius       - the blur radius.
 	 * @param darkenMultiplier - each color channel will be multiplied by this number
 	 * @return
 	 */
-	public static Bitmap stackBlurAndDarken(Bitmap bmapToBlur, Context context, int blurRadius,
+	public static Bitmap stackBlurAndDarken(Bitmap bmapToBlur, Context context, int reductionFactor, int blurRadius,
 		float darkenMultiplier) {
+		//Shrink it, we will have a lot fewer pixels, and they are going to get blurred so nobody should care...
+		int w = bmapToBlur.getWidth() / reductionFactor;
+		int h = bmapToBlur.getHeight() / reductionFactor;
+		Bitmap shrunk = Bitmap.createScaledBitmap(bmapToBlur, w, h, false);
+
+		int scaledBlurRadius = Math.round(blurRadius / reductionFactor);
 
 		//Blur and darken it
 		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
-			return stackBlurAndDarkenRenderscript(bmapToBlur, context, blurRadius, darkenMultiplier);
+			return stackBlurAndDarkenRenderscript(shrunk, context, scaledBlurRadius, darkenMultiplier);
 		}
 		else if (!AndroidUtils.isGenymotion()) {
-			return stackBlurAndDarkenJava(bmapToBlur, blurRadius, darkenMultiplier);
+			return stackBlurAndDarkenJava(shrunk, scaledBlurRadius, darkenMultiplier);
 		}
 		else {
-			return bmapToBlur;
+			return shrunk;
 		}
 	}
 

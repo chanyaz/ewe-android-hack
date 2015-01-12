@@ -7,7 +7,7 @@
 
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">70%</fraction>
-    <dimen name="stack_blur_radius">25px</dimen>
+    <dimen name="stack_blur_radius">50dp</dimen>
 
     <!-- No extra padding is needed for the status bar unless kitkat -->
     <dimen name="extra_status_bar_padding">0dp</dimen>

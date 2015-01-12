@@ -10,7 +10,7 @@
 
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">65%</fraction>
-    <dimen name="stack_blur_radius">20px</dimen>
+    <dimen name="stack_blur_radius">25dp</dimen>
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
