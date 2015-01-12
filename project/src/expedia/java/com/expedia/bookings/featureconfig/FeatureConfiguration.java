@@ -201,4 +201,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isSettingsInMenuVisible() {
 		return true;
 	}
+
+	public Boolean wantsCustomDateFormatForUserReviews() {
+		return false;
+	}
+
+	public String getCustomDateFormatForUserReviews() {
+		throw new UnsupportedOperationException("Expedia does not use custom date format");
+	}
 }

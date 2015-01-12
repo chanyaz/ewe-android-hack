@@ -95,4 +95,8 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean isHandTagProgressBarEnabled();
 
 	Boolean isSettingsInMenuVisible();
+
+	Boolean wantsCustomDateFormatForUserReviews();
+
+	String getCustomDateFormatForUserReviews();
 }

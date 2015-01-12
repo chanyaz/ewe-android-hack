@@ -203,4 +203,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	public Boolean wantsCustomDateFormatForUserReviews() {
+		return false;
+	}
+
+	public String getCustomDateFormatForUserReviews() {
+		throw new UnsupportedOperationException("Air Asia Go does not use custom date format");
+	}
 }

@@ -208,4 +208,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isSettingsInMenuVisible() {
 		return true;
 	}
+
+	public Boolean wantsCustomDateFormatForUserReviews() {
+		return false;
+	}
+
+	public String getCustomDateFormatForUserReviews() {
+		throw new UnsupportedOperationException("Travelocity does not use custom date format");
+	}
 }

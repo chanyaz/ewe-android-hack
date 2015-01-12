@@ -214,4 +214,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public Boolean isSettingsInMenuVisible() {
 		return false;
 	}
+
+	public Boolean wantsCustomDateFormatForUserReviews() {
+		return true;
+	}
+
+	public String getCustomDateFormatForUserReviews() {
+		//1608. VSC - Apparently since we are forcing FR locale the dateUtils is not formatting appropriately.
+		//Ugly hack to ensure European date format.
+		return "dd/MM/yyyy";
+	}
 }

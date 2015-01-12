@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
@@ -228,10 +229,9 @@ public class UserReviewsAdapter extends BaseAdapter {
 		DateTime dateTime = userReviewLoaded.mReview.getSubmissionDate();
 		String submissionDateText;
 
-		//1608. VSC - Apparently since we are forcing FR locale the dateUtils is not formatting appropriately.
-		//Ugly hack to ensure European date format.
-		if (ExpediaBookingApp.IS_VSC) {
-			DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		if(ProductFlavorFeatureConfiguration.getInstance().wantsCustomDateFormatForUserReviews()) {
+			String customDateFormat = ProductFlavorFeatureConfiguration.getInstance().getCustomDateFormatForUserReviews();
+			DateTimeFormatter dtf = DateTimeFormat.forPattern(customDateFormat);
 			submissionDateText = dtf.print(dateTime);
 		}
 		else {
