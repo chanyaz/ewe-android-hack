@@ -1,6 +1,9 @@
 package com.expedia.bookings.utils;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 public class DateUtils {
 	/**
@@ -28,6 +31,17 @@ public class DateUtils {
 			dateInteger = Integer.valueOf(dateString);
 		}
 		return dateInteger;
+	}
+
+	/**
+	 * Return YYYY-mm-ddThh:mm:ss format for a given DateTime
+	 */
+
+	public static String carSearchFormatFromDateTime(DateTime d) {
+		DateTimeFormatter dateFmt = ISODateTimeFormat.date();
+		DateTimeFormatter timeFmt = ISODateTimeFormat.hourMinuteSecond();
+
+		return dateFmt.print(d) + "T" + timeFmt.print(d);
 	}
 
 }

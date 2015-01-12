@@ -32,7 +32,7 @@ dependencies {
     }
 
     // Google Play Services deps on the support lib
-    // however we add it here so the android-sdk-manager plugin bahaves
+    // however we add it here so the android-sdk-manager plugin behaves
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"
 
@@ -41,10 +41,12 @@ dependencies {
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
 
     compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.okio:okio:1.2.0'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.google.code.gson:gson:2.3'
+    compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.leanplum:Leanplum:1.2.7'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'com.android.support:support-annotations:20.0.0'

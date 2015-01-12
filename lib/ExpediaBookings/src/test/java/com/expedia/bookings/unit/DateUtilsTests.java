@@ -1,10 +1,13 @@
 package com.expedia.bookings.unit;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
+
 import com.expedia.bookings.utils.DateUtils;
+
 import static org.junit.Assert.assertEquals;
 
 public class DateUtilsTests {
@@ -27,5 +30,20 @@ public class DateUtilsTests {
 		assertEquals(20150101, DateUtils.convertDatetoInt(date3));
 
 		assertEquals(0, DateUtils.convertDatetoInt(null));
+	}
+
+	@Test
+	public void testCarSearchFormatFromDateTime() {
+		DateTime dt = DateTime.now()
+			.withYear(2012)
+			.withMonthOfYear(5)
+			.withDayOfMonth(13)
+			.withHourOfDay(4)
+			.withMinuteOfHour(0)
+			.withSecondOfMinute(0);
+		String result = DateUtils.carSearchFormatFromDateTime(dt);
+		String expected = "2012-05-13T04:00:00";
+
+		assertEquals(expected, result);
 	}
 }
