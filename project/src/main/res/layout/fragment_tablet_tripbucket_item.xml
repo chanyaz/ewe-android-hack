@@ -31,6 +31,7 @@
 
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/tripbucket_card_background_view"
+                android:background="@color/placeholder_background_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"/>
