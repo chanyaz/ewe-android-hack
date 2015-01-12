@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 
-import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
@@ -97,16 +96,8 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 		}
 	}
 
-	public static LocalDate getLocalDateFromJsonBackCompat(JSONObject obj, String localDateKey, String oldDateKey) {
-		if (obj.has(oldDateKey)) {
-			Date date = JSONUtils.getJSONable(obj, oldDateKey, Date.class);
-			return Date.toLocalDate(date);
-		}
-		else if (obj.has(localDateKey)) {
-			return LocalDate.parse(obj.optString(localDateKey));
-		}
-
-		return null;
+	public static LocalDate getLocalDateFromJson(JSONObject obj, String localDateKey) {
+		return LocalDate.parse(obj.optString(localDateKey));
 	}
 
 	public static void putDateTimeInJson(JSONObject obj, String key, DateTime dateTime) throws JSONException {

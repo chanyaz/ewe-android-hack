@@ -44,7 +44,7 @@ public class RateBreakdown implements JSONable {
 
 	public boolean fromJson(JSONObject obj) {
 		mAmount = (Money) JSONUtils.getJSONable(obj, "amount", Money.class);
-		mDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "localDate", "date");
+		mDate = JodaUtils.getLocalDateFromJson(obj, "localDate");
 
 		return true;
 	}

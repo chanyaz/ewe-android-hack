@@ -673,7 +673,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsSmokingPreferred = obj.optBoolean("isSmokingPreferred");
 
 		mGender = JSONUtils.getEnum(obj, "gender", Gender.class);
-		mBirthDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "birthLocalDate", "birthDate");
+		mBirthDate = JodaUtils.getLocalDateFromJson(obj, "birthLocalDate");
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
