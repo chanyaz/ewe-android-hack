@@ -151,6 +151,14 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		this.mNumber = number;
 	}
 
+	public void setNumberAndDetectType(String number) {
+		setNumber(number);
+
+		CreditCardType type = CurrencyUtils.detectCreditCardBrand(getNumber());
+		setBrandCode(type.getCode());
+		setBrandName(type.name());
+	}
+
 	public String getSecurityCode() {
 		return mSecurityCode;
 	}

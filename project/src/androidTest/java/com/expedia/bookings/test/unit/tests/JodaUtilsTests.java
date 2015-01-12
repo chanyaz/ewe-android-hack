@@ -26,7 +26,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.test.unit.utils.DataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
@@ -37,10 +36,7 @@ import com.expedia.bookings.utils.JodaUtils;
 
 public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 
-	private ExpediaBookingApp mApp = null;
-
 	// Helper variables
-	private LocalDate mNow = null;
 	private Location mLocation = null;
 	private BillingInfo mBillingInfo = null;
 
@@ -51,31 +47,31 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		if (mApp == null) {
-			createApplication();
-			mApp = getApplication();
-		}
-		while (!mApp.isInitialized()) {
-			try {
-				Thread.sleep(100);
-			}
-			catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-		}
-		if (mNow == null) {
-			mNow = LocalDate.now();
-		}
+
 		if (mLocation == null) {
-			mLocation = DataUtils.setUpLocation("San Francisco", "USA", "Cool description",
-					"114 Sansome St.",
-					"94109", "CA",
-					37.7833, 122.4167, "SF");
+			mLocation = new Location();
+			mLocation.setCity("San Francisco");
+			mLocation.setCountryCode("USA");
+			mLocation.setDescription("Cool description");
+			mLocation.addStreetAddressLine("114 Sansome St.");
+			mLocation.setPostalCode("94109");
+			mLocation.setStateCode("CA");
+			mLocation.setLatitude(37.7833);
+			mLocation.setLongitude(122.4167);
+			mLocation.setDestinationId("SF");
 		}
+
 		if (mBillingInfo == null) {
-			mBillingInfo = DataUtils.setUpBillingInfo("qa-ehcc@mobiata.com", "4155555555", "1",
-					"JexperCC",
-					"MobiataTestaverde", "4111111111111111", "111", mNow, mLocation);
+			mBillingInfo = new BillingInfo();
+			mBillingInfo.setEmail("qa-ehcc@mobiata.com");
+			mBillingInfo.setFirstName("JexperCC");
+			mBillingInfo.setLastName("MobiataTestaverde");
+			mBillingInfo.setNameOnCard(mBillingInfo.getFirstName() + " " + mBillingInfo.getLastName());
+			mBillingInfo.setLocation(mLocation);
+			mBillingInfo.setNumberAndDetectType("4111111111111111");
+			mBillingInfo.setSecurityCode("111");
+			mBillingInfo.setTelephone("4155555555");
+			mBillingInfo.setTelephoneCountryCode("1");
 		}
 	}
 
@@ -220,7 +216,7 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		ExpediaServices expediaServices = new ExpediaServices(getContext());
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		Money baseFare = DataUtils.setUpMoney("100", "USD");
+		Money baseFare = new Money("100", "USD");
 
 		FlightTrip flightTrip = new FlightTrip();
 		flightTrip.setBaseFare(baseFare);
@@ -231,20 +227,21 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 
 		TripBucketItemFlight flightItem = new TripBucketItemFlight(flightTrip, itinerary);
 
-		mBillingInfo.setExpirationDate(mNow);
-		verifyExpirationDates(query, mNow);
+		LocalDate today = LocalDate.now();
+		mBillingInfo.setExpirationDate(today);
+		verifyExpirationDates(query, today);
 
-		LocalDate tomorrow = LocalDate.now().plusDays(1);
+		LocalDate tomorrow = today.plusDays(1);
 		mBillingInfo.setExpirationDate(tomorrow);
 		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
 		verifyExpirationDates(query, tomorrow);
 
-		LocalDate nextMonth = LocalDate.now().plusMonths(1);
+		LocalDate nextMonth = today.plusMonths(1);
 		mBillingInfo.setExpirationDate(nextMonth);
 		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
 		verifyExpirationDates(query, nextMonth);
 
-		LocalDate nextYear = LocalDate.now().plusYears(1);
+		LocalDate nextYear = today.plusYears(1);
 		mBillingInfo.setExpirationDate(nextYear);
 		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
 		verifyExpirationDates(query, nextYear);
@@ -263,27 +260,24 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		String userId = "12345";
 		long tuid = 1234567;
 
-		mBillingInfo.setExpirationDate(mNow);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
-				tuid);
-		verifyExpirationDates(query, mNow);
+		LocalDate today = LocalDate.now();
+		mBillingInfo.setExpirationDate(today);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
+		verifyExpirationDates(query, today);
 
-		LocalDate tomorrow = LocalDate.now().plusDays(1);
+		LocalDate tomorrow = today.plusDays(1);
 		mBillingInfo.setExpirationDate(tomorrow);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
-			tuid);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
 		verifyExpirationDates(query, tomorrow);
 
-		LocalDate nextMonth = LocalDate.now().plusMonths(1);
+		LocalDate nextMonth = today.plusMonths(1);
 		mBillingInfo.setExpirationDate(nextMonth);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
-			tuid);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
 		verifyExpirationDates(query, nextMonth);
 
-		LocalDate nextYear = LocalDate.now().plusYears(1);
+		LocalDate nextYear = today.plusYears(1);
 		mBillingInfo.setExpirationDate(nextYear);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
-			tuid);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
 		verifyExpirationDates(query, nextYear);
 
 	}
