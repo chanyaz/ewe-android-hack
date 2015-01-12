@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -48,31 +50,6 @@ public class Car implements JSONable {
 		}
 	}
 
-	public static enum Type {
-		TWO_DOOR_CAR,
-		THREE_DOOR_CAR,
-		FOUR_DOOR_CAR,
-		VAN,
-		WAGON,
-		LIMOUSINE,
-		RECREATIONAL_VEHICLE,
-		CONVERTIBLE,
-		SPORTS_CAR,
-		SUV,
-		PICKUP_REGULAR_CAB,
-		OPEN_AIR_ALL_TERRAIN,
-		SPECIAL,
-		COMMERCIAL_VAN_TRUCK,
-		PICKUP_EXTENDED_CAB,
-		SPECIAL_OFFER_CAR,
-		COUPE,
-		MONOSPACE,
-		MOTORHOME,
-		TWO_WHEEL_VEHICLE,
-		ROADSTER,
-		CROSSOVER;
-	}
-
 	private String mId;
 
 	private String mConfNumber;
@@ -87,10 +64,10 @@ public class Car implements JSONable {
 
 	private CarVendor mVendor;
 
-	private Category mCategory;
+	private CarCategory mCategory;
 	private Media mCategoryImage;
 
-	private Type mType;
+	private CarType mType;
 
 	public String getId() {
 		return mId;
@@ -156,11 +133,11 @@ public class Car implements JSONable {
 		mVendor = vendor;
 	}
 
-	public Category getCategory() {
+	public CarCategory getCategory() {
 		return mCategory;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(CarCategory category) {
 		mCategory = category;
 	}
 
@@ -172,11 +149,11 @@ public class Car implements JSONable {
 		mCategoryImage = categoryImage;
 	}
 
-	public Type getType() {
+	public CarType getType() {
 		return mType;
 	}
 
-	public void setType(Type type) {
+	public void setType(CarType type) {
 		mType = type;
 	}
 
@@ -226,10 +203,10 @@ public class Car implements JSONable {
 
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
-		mCategory = JSONUtils.getEnum(obj, "category", Category.class);
+		mCategory = JSONUtils.getEnum(obj, "category", CarCategory.class);
 		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", Media.class);
 
-		mType = JSONUtils.getEnum(obj, "type", Type.class);
+		mType = JSONUtils.getEnum(obj, "type", CarType.class);
 
 		return true;
 	}

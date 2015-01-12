@@ -12,8 +12,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.Car;
-import com.expedia.bookings.data.Car.Category;
-import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -23,6 +21,8 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
@@ -567,139 +567,139 @@ public class TripParser {
 
 	}
 
-	private Car.Category parseCarCategory(String category) {
+	private CarCategory parseCarCategory(String category) {
 		if (TextUtils.isEmpty(category)) {
 			return null;
 		}
 
 		if (category.equals("Mini")) {
-			return Category.MINI;
+			return CarCategory.MINI;
 		}
 		else if (category.equals("Economy")) {
-			return Category.ECONOMY;
+			return CarCategory.ECONOMY;
 		}
 		else if (category.equals("Compact")) {
-			return Category.COMPACT;
+			return CarCategory.COMPACT;
 		}
 		else if (category.equals("Midsize")) {
-			return Category.MIDSIZE;
+			return CarCategory.MIDSIZE;
 		}
 		else if (category.equals("Standard")) {
-			return Category.STANDARD;
+			return CarCategory.STANDARD;
 		}
 		else if (category.equals("Fullsize")) {
-			return Category.FULLSIZE;
+			return CarCategory.FULLSIZE;
 		}
 		else if (category.equals("Premium")) {
-			return Category.PREMIUM;
+			return CarCategory.PREMIUM;
 		}
 		else if (category.equals("Luxury")) {
-			return Category.LUXURY;
+			return CarCategory.LUXURY;
 		}
 		else if (category.equals("Special")) {
-			return Category.SPECIAL;
+			return CarCategory.SPECIAL;
 		}
 		else if (category.equals("MiniElite")) {
-			return Category.MINI_ELITE;
+			return CarCategory.MINI_ELITE;
 		}
 		else if (category.equals("EconomyElite")) {
-			return Category.ECONOMY_ELITE;
+			return CarCategory.ECONOMY_ELITE;
 		}
 		else if (category.equals("CompactElite")) {
-			return Category.COMPACT_ELITE;
+			return CarCategory.COMPACT_ELITE;
 		}
 		else if (category.equals("MidsizeElite")) {
-			return Category.MIDSIZE_ELITE;
+			return CarCategory.MIDSIZE_ELITE;
 		}
 		else if (category.equals("StandardElite")) {
-			return Category.STANDARD_ELITE;
+			return CarCategory.STANDARD_ELITE;
 		}
 		else if (category.equals("FullsizeElite")) {
-			return Category.FULLSIZE_ELITE;
+			return CarCategory.FULLSIZE_ELITE;
 		}
 		else if (category.equals("PremiumElite")) {
-			return Category.PREMIUM_ELITE;
+			return CarCategory.PREMIUM_ELITE;
 		}
 		else if (category.equals("LuxuryElite")) {
-			return Category.LUXURY_ELITE;
+			return CarCategory.LUXURY_ELITE;
 		}
 		else if (category.equals("Oversize")) {
-			return Category.OVERSIZE;
+			return CarCategory.OVERSIZE;
 		}
 
 		return null;
 	}
 
-	private Car.Type parseCarType(String type) {
+	private CarType parseCarType(String type) {
 		if (TextUtils.isEmpty(type)) {
 			return null;
 		}
 
 		if (type.equals("TwoDoorCar")) {
-			return Type.TWO_DOOR_CAR;
+			return CarType.TWO_DOOR_CAR;
 		}
 		else if (type.equals("ThreeDoorCar")) {
-			return Type.THREE_DOOR_CAR;
+			return CarType.THREE_DOOR_CAR;
 		}
 		else if (type.equals("FourDoorCar")) {
-			return Type.FOUR_DOOR_CAR;
+			return CarType.FOUR_DOOR_CAR;
 		}
 		else if (type.equals("Van")) {
-			return Type.VAN;
+			return CarType.VAN;
 		}
 		else if (type.equals("Wagon")) {
-			return Type.WAGON;
+			return CarType.WAGON;
 		}
 		else if (type.equals("Limousine")) {
-			return Type.LIMOUSINE;
+			return CarType.LIMOUSINE;
 		}
 		else if (type.equals("RecreationalVehicle")) {
-			return Type.RECREATIONAL_VEHICLE;
+			return CarType.RECREATIONAL_VEHICLE;
 		}
 		else if (type.equals("Convertible")) {
-			return Type.CONVERTIBLE;
+			return CarType.CONVERTIBLE;
 		}
 		else if (type.equals("SportsCar")) {
-			return Type.SPORTS_CAR;
+			return CarType.SPORTS_CAR;
 		}
 		else if (type.equals("SUV")) {
-			return Type.SUV;
+			return CarType.SUV;
 		}
 		else if (type.equals("PickupRegularCab")) {
-			return Type.PICKUP_REGULAR_CAB;
+			return CarType.PICKUP_REGULAR_CAB;
 		}
 		else if (type.equals("OpenAirAllTerrain")) {
-			return Type.OPEN_AIR_ALL_TERRAIN;
+			return CarType.OPEN_AIR_ALL_TERRAIN;
 		}
 		else if (type.equals("Special")) {
-			return Type.SPECIAL;
+			return CarType.SPECIAL;
 		}
 		else if (type.equals("CommercialVanTruck")) {
-			return Type.COMMERCIAL_VAN_TRUCK;
+			return CarType.COMMERCIAL_VAN_TRUCK;
 		}
 		else if (type.equals("PickupExtendedCab")) {
-			return Type.PICKUP_EXTENDED_CAB;
+			return CarType.PICKUP_EXTENDED_CAB;
 		}
 		else if (type.equals("SpecialOfferCar")) {
-			return Type.SPECIAL_OFFER_CAR;
+			return CarType.SPECIAL_OFFER_CAR;
 		}
 		else if (type.equals("Coupe")) {
-			return Type.COUPE;
+			return CarType.COUPE;
 		}
 		else if (type.equals("Monospace")) {
-			return Type.MONOSPACE;
+			return CarType.MONOSPACE;
 		}
 		else if (type.equals("Motorhome")) {
-			return Type.MOTORHOME;
+			return CarType.MOTORHOME;
 		}
 		else if (type.equals("TwoWheelVehicle")) {
-			return Type.TWO_WHEEL_VEHICLE;
+			return CarType.TWO_WHEEL_VEHICLE;
 		}
 		else if (type.equals("Roadster")) {
-			return Type.ROADSTER;
+			return CarType.ROADSTER;
 		}
 		else if (type.equals("Crossover")) {
-			return Type.CROSSOVER;
+			return CarType.CROSSOVER;
 		}
 
 		return null;
