@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Car.Category;
-import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -23,6 +22,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
@@ -630,76 +630,76 @@ public class TripParser {
 		return null;
 	}
 
-	private Car.Type parseCarType(String type) {
+	private CarType parseCarType(String type) {
 		if (TextUtils.isEmpty(type)) {
 			return null;
 		}
 
 		if (type.equals("TwoDoorCar")) {
-			return Type.TWO_DOOR_CAR;
+			return CarType.TWO_DOOR_CAR;
 		}
 		else if (type.equals("ThreeDoorCar")) {
-			return Type.THREE_DOOR_CAR;
+			return CarType.THREE_DOOR_CAR;
 		}
 		else if (type.equals("FourDoorCar")) {
-			return Type.FOUR_DOOR_CAR;
+			return CarType.FOUR_DOOR_CAR;
 		}
 		else if (type.equals("Van")) {
-			return Type.VAN;
+			return CarType.VAN;
 		}
 		else if (type.equals("Wagon")) {
-			return Type.WAGON;
+			return CarType.WAGON;
 		}
 		else if (type.equals("Limousine")) {
-			return Type.LIMOUSINE;
+			return CarType.LIMOUSINE;
 		}
 		else if (type.equals("RecreationalVehicle")) {
-			return Type.RECREATIONAL_VEHICLE;
+			return CarType.RECREATIONAL_VEHICLE;
 		}
 		else if (type.equals("Convertible")) {
-			return Type.CONVERTIBLE;
+			return CarType.CONVERTIBLE;
 		}
 		else if (type.equals("SportsCar")) {
-			return Type.SPORTS_CAR;
+			return CarType.SPORTS_CAR;
 		}
 		else if (type.equals("SUV")) {
-			return Type.SUV;
+			return CarType.SUV;
 		}
 		else if (type.equals("PickupRegularCab")) {
-			return Type.PICKUP_REGULAR_CAB;
+			return CarType.PICKUP_REGULAR_CAB;
 		}
 		else if (type.equals("OpenAirAllTerrain")) {
-			return Type.OPEN_AIR_ALL_TERRAIN;
+			return CarType.OPEN_AIR_ALL_TERRAIN;
 		}
 		else if (type.equals("Special")) {
-			return Type.SPECIAL;
+			return CarType.SPECIAL;
 		}
 		else if (type.equals("CommercialVanTruck")) {
-			return Type.COMMERCIAL_VAN_TRUCK;
+			return CarType.COMMERCIAL_VAN_TRUCK;
 		}
 		else if (type.equals("PickupExtendedCab")) {
-			return Type.PICKUP_EXTENDED_CAB;
+			return CarType.PICKUP_EXTENDED_CAB;
 		}
 		else if (type.equals("SpecialOfferCar")) {
-			return Type.SPECIAL_OFFER_CAR;
+			return CarType.SPECIAL_OFFER_CAR;
 		}
 		else if (type.equals("Coupe")) {
-			return Type.COUPE;
+			return CarType.COUPE;
 		}
 		else if (type.equals("Monospace")) {
-			return Type.MONOSPACE;
+			return CarType.MONOSPACE;
 		}
 		else if (type.equals("Motorhome")) {
-			return Type.MOTORHOME;
+			return CarType.MOTORHOME;
 		}
 		else if (type.equals("TwoWheelVehicle")) {
-			return Type.TWO_WHEEL_VEHICLE;
+			return CarType.TWO_WHEEL_VEHICLE;
 		}
 		else if (type.equals("Roadster")) {
-			return Type.ROADSTER;
+			return CarType.ROADSTER;
 		}
 		else if (type.equals("Crossover")) {
-			return Type.CROSSOVER;
+			return CarType.CROSSOVER;
 		}
 
 		return null;
