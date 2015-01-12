@@ -170,7 +170,9 @@ public class OmnitureTracking {
 	public static final String HOTELS_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
-	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams, HotelSearchResponse searchResponse) {
+	public static void trackAppHotelsSearch(Context context) {
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 		internalTrackHotelsSearch(context, searchParams, searchResponse);
 	}
 
