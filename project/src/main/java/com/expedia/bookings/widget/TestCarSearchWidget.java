@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -37,9 +37,14 @@ public class TestCarSearchWidget extends FrameLayout {
 		super(context, attrs, defStyle);
 	}
 
-	@InjectView(R.id.download_now_btn) Button downloadButton;
-	@InjectView(R.id.text_scroll) android.widget.ScrollView scrollView;
-	@InjectView(R.id.display_text) TextView displayText;
+	@InjectView(R.id.download_now_btn)
+	Button downloadButton;
+
+	@InjectView(R.id.text_scroll)
+	android.widget.ScrollView scrollView;
+
+	@InjectView(R.id.display_text)
+	TextView displayText;
 
 	@Override
 	protected void onFinishInflate() {

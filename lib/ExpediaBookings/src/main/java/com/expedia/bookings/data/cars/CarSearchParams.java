@@ -6,10 +6,10 @@ import com.expedia.bookings.utils.DateUtils;
 
 public class CarSearchParams {
 
-    public DateTime startTime;
-    public DateTime endTime;
+	public DateTime startTime;
+	public DateTime endTime;
 
-    public String origin;
+	public String origin;
 
 	public String toServerPickupDate() {
 		return DateUtils.carSearchFormatFromDateTime(startTime);

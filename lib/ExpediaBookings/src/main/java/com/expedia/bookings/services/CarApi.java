@@ -9,7 +9,11 @@ import retrofit.http.Query;
 public interface CarApi {
 
 	@GET("/m/api/cars/search/airport")
-	public void roundtripCarSearch(@Query("airportCode") String airportCode, @Query("pickupTime") String pickupTime,
-								   @Query("dropOffTime") String dropoffTime, Callback<CarSearchResponse> callback);
+	public void roundtripCarSearch(
+		@Query("airportCode") String airportCode,
+		@Query("pickupTime") String pickupTime,
+		@Query("dropOffTime") String dropoffTime,
+		Callback<CarSearchResponse> callback
+	);
 
 }

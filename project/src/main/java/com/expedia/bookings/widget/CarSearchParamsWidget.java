@@ -30,13 +30,26 @@ public class CarSearchParamsWidget extends FrameLayout {
 		super(context, attrs, defStyle);
 	}
 
-	@InjectView(R.id.pickup_datetime) Button pickupDateTime;
-	@InjectView(R.id.dropoff_datetime) Button dropoffDateTime;
-	@InjectView(R.id.calendar_action_button) TextView calendarActionButton;
-	@InjectView(R.id.calendar_container) ViewGroup calendarContainer;
-	@InjectView(R.id.calendar) CalendarPicker calendar;
-	@InjectView(R.id.change_time) TextView changeTime;
-    @InjectView(R.id.time_container) ViewGroup timepickerContainer;
+	@InjectView(R.id.pickup_datetime)
+	Button pickupDateTime;
+
+	@InjectView(R.id.dropoff_datetime)
+	Button dropoffDateTime;
+
+	@InjectView(R.id.calendar_action_button)
+	TextView calendarActionButton;
+
+	@InjectView(R.id.calendar_container)
+	ViewGroup calendarContainer;
+
+	@InjectView(R.id.calendar)
+	CalendarPicker calendar;
+
+	@InjectView(R.id.change_time)
+	TextView changeTime;
+
+	@InjectView(R.id.time_container)
+	ViewGroup timepickerContainer;
 
 	@Override
 	protected void onFinishInflate() {
@@ -45,7 +58,7 @@ public class CarSearchParamsWidget extends FrameLayout {
 
 		dropoffDateTime.setVisibility(View.INVISIBLE);
 		calendarContainer.setVisibility(View.INVISIBLE);
-        timepickerContainer.setVisibility(View.INVISIBLE);
+		timepickerContainer.setVisibility(View.INVISIBLE);
 		changeTime.setVisibility(View.INVISIBLE);
 
 		calendar.setDateChangedListener(new CalendarPicker.DateSelectionChangedListener() {
@@ -79,17 +92,17 @@ public class CarSearchParamsWidget extends FrameLayout {
 		calendarActionButton.setText(R.string.search);
 	}
 
-    @OnClick(R.id.change_time)
-    public void onChangeTimeClicked() {
-        calendarContainer.setVisibility(View.INVISIBLE);
-        timepickerContainer.setVisibility(View.VISIBLE);
-    }
+	@OnClick(R.id.change_time)
+	public void onChangeTimeClicked() {
+		calendarContainer.setVisibility(View.INVISIBLE);
+		timepickerContainer.setVisibility(View.VISIBLE);
+	}
 
-    @OnClick(R.id.time_confirm_btn)
-    public void onTimeConfirmClicked() {
-        timepickerContainer.setVisibility(View.INVISIBLE);
-        calendarContainer.setVisibility(View.VISIBLE);
-    }
+	@OnClick(R.id.time_confirm_btn)
+	public void onTimeConfirmClicked() {
+		timepickerContainer.setVisibility(View.INVISIBLE);
+		calendarContainer.setVisibility(View.VISIBLE);
+	}
 
 	public void onDateSelected(LocalDate date) {
 		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
