@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -456,6 +457,13 @@ public class Property implements JSONable {
 		mLowestRate = rate;
 	}
 
+	/**
+	 * The lowest rate from the hotel search API. When constructed via hotel search response, we have a
+	 * lowest rate. When constructed via hotel search by name, there is no lowest rate.
+	 *
+	 * @return lowest rate as dictated by the cache used in the hotel search API
+	 */
+	@Nullable
 	public Rate getLowestRate() {
 		return mLowestRate;
 	}
@@ -471,10 +479,6 @@ public class Property implements JSONable {
 	// Only valid for Expedia
 	public boolean isMerchant() {
 		return TextUtils.equals(mSupplierType, "E") || TextUtils.equals(mSupplierType, "MERCHANT");
-	}
-
-	public boolean isHighlyRated() {
-		return getAverageExpediaRating() >= HotelFilter.HIGH_USER_RATING;
 	}
 
 	public void setIsLowestRateMobileExclusive(boolean b) {
