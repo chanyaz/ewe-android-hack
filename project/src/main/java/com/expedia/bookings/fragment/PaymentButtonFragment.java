@@ -269,7 +269,6 @@ public class PaymentButtonFragment extends LobableFragment {
 				else if (getLob() == LineOfBusiness.HOTELS) {
 					isValid = Db.getTripBucket().getHotel().isCardTypeSupported(bi.getStoredCard().getType());
 				}
-				Ui.findView(mStoredCreditCardBtn, R.id.validation_checkmark).setVisibility(isValid ? View.VISIBLE : View.INVISIBLE);
 				return isValid;
 			}
 			else if (getLob() == LineOfBusiness.FLIGHTS) {

@@ -3,6 +3,8 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -128,21 +130,27 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 		}
 
 		// Compare card type
-		diff = another.getType().compareTo(getType());
-		if (diff != 0) {
-			return diff;
+		if (another.getType() != null && getType() != null) {
+			diff = another.getType().compareTo(getType());
+			if (diff != 0) {
+				return diff;
+			}
 		}
 
 		// Compare remoteID
-		diff = Strings.compareTo(getId(), another.getId());
-		if (diff != 0) {
-			return diff;
+		if (!TextUtils.isEmpty(another.getId()) && !TextUtils.isEmpty(getId())) {
+			diff = Strings.compareTo(getId(), another.getId());
+			if (diff != 0) {
+				return diff;
+			}
 		}
 
 		// Compare description
-		diff = Strings.compareTo(getDescription(), another.getDescription());
-		if (diff != 0) {
-			return diff;
+		if (!TextUtils.isEmpty(another.getDescription()) && !TextUtils.isEmpty(getDescription())) {
+			diff = Strings.compareTo(getDescription(), another.getDescription());
+			if (diff != 0) {
+				return diff;
+			}
 		}
 
 		return EQUAL;
