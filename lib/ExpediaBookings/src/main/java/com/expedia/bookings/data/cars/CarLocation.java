@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils.data.cars;
+package com.expedia.bookings.data.cars;
 
 /* Example:
 	locationType: "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",

@@ -1,6 +1,6 @@
-package com.expedia.bookings.utils.data.cars;
+package com.expedia.bookings.data.cars;
 
-import com.expedia.bookings.utils.data.Money;
+import com.expedia.bookings.data.cars.Money;
 
 public class CarFare {
 

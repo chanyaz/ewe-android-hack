@@ -1,9 +1,9 @@
-package com.expedia.bookings.utils.server;
+package com.expedia.bookings.services;
 
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.utils.data.cars.CarSearchParams;
-import com.expedia.bookings.utils.data.cars.CarSearchResponse;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;

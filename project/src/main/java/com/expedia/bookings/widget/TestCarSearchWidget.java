@@ -9,10 +9,10 @@ import android.widget.*;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarSearchResponse;
+import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.services.DateTimeTypeAdapter;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.data.cars.CarSearchResponse;
-import com.expedia.bookings.utils.server.CarServices;
-import com.expedia.bookings.utils.server.DateTimeTypeAdapter;
 import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
 

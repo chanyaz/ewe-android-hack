@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils.data.cars;
+package com.expedia.bookings.data.cars;
 
 import java.util.List;
 

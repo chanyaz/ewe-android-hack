@@ -1,6 +1,6 @@
-package com.expedia.bookings.utils.server;
+package com.expedia.bookings.services;
 
-import com.expedia.bookings.utils.data.cars.CarSearchResponse;
+import com.expedia.bookings.data.cars.CarSearchResponse;
 
 import retrofit.Callback;
 import retrofit.http.GET;

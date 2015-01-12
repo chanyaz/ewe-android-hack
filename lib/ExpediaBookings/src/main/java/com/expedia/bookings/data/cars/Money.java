@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils.data;
+package com.expedia.bookings.data.cars;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

@@ -5,7 +5,7 @@ import org.joda.time.DateTimeZone;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import com.expedia.bookings.utils.server.DateTimeTypeAdapter;
+import com.expedia.bookings.services.DateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
