@@ -21,6 +21,8 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	private static final int RENOVATION_INFO_IMAGE_ID = R.id.construction_chevron;
 	private static final int ADDITIONAL_FEES_INFO_IMAGE_ID = R.id.resort_fees_chevron;
 
+	private static final int NUM_HEADERS_IN_LIST_VIEW = 1;
+
 	// Object access
 
 	public static ViewInteraction hotelNameTextView() {
@@ -66,6 +68,6 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	}
 
 	public static void selectRoomItem(int index) {
-		onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(index).perform(click());
+		onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(NUM_HEADERS_IN_LIST_VIEW + index).perform(click());
 	}
 }
