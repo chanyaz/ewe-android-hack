@@ -1214,7 +1214,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1256,7 +1256,15 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_expedia_today">Total Due to Expedia Today:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The grand total for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The total price for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">The total for your trip will be &lt;b&gt;%1$s&lt;/b&gt;. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">A deposit of &lt;b&gt;%1$s&lt;/b&gt; will be collected now. You\'ll pay the hotel the remaining cost of your booking (in the hotel\'s local currency) during your stay.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the remaining cost of your booking (in the hotel\'s local currency) during your stay.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->

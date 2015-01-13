@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
@@ -171,16 +172,27 @@ public class HotelUtils {
 	 */
 	public static String getSlideToPurchaseString(Context context, Property property, Rate rate) {
 		int chargeTypeMessageId = 0;
+
+		// Determine price to be paid now
+		Money sliderCharge;
+		if (rate.isPayLater()) {
+			sliderCharge = rate.getDisplayDeposit();
+		}
+		else {
+			sliderCharge = rate.getTotalAmountAfterTax();
+		}
+
+		// Determine the slider message template
 		if (!property.isMerchant()) {
 			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
 		}
-		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES || rate.isPayLater()) {
 			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
 		}
 		else {
 			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
-		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
+		return context.getString(chargeTypeMessageId, sliderCharge.getFormattedMoney());
 	}
 
 	// Convenience method for getting secondary resort fee banner text for phone
@@ -201,7 +213,31 @@ public class HotelUtils {
 	// for either device type.
 	public static Spanned getCheckoutResortFeesText(Context context, Rate rate) {
 		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
-		String grandTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
-		return Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, fees, grandTotal));
+		String tripTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+		int templateId;
+		if (!AndroidUtils.isTablet(context) && rate.isPayLater()) {
+			if (!rate.getDisplayDeposit().isZero()) {
+				templateId = R.string.pay_later_deposit_resort_disclaimer_TEMPLATE;
+			}
+			else {
+				templateId = R.string.pay_later_resort_disclaimer_TEMPLATE;
+			}
+		}
+		else {
+			templateId = R.string.resort_fee_disclaimer_TEMPLATE;
+		}
+		return Html.fromHtml(context.getString(templateId, fees, tripTotal));
+	}
+
+	// Convenience method for getting pay later text that goes at the bottom of checkout.
+	public static Spanned getCheckoutPayLaterText(Context context, Rate rate) {
+		if (!rate.getDisplayDeposit().isZero()) {
+			String deposit = rate.getDisplayDeposit().getFormattedMoney();
+			return Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit));
+		}
+		else {
+			String tripTotal = rate.getDisplayTotalPrice().getFormattedMoney();
+			return Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal));
+		}
 	}
 }
