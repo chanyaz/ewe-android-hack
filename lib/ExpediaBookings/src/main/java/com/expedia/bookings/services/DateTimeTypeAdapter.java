@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import com.expedia.bookings.utils.Strings;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -34,20 +35,12 @@ public class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 		if (token.equals(JsonToken.BEGIN_OBJECT)) {
 			reader.beginObject();
 			while (!reader.peek().equals(JsonToken.END_OBJECT)) {
-				if (reader.peek().equals(JsonToken.NAME)) {
-					switch (reader.nextName()) {
-					case "epochSeconds": {
-						epochSeconds = reader.nextLong();
-						break;
-					}
-					case "timeZoneOffsetSeconds": {
-						timezoneOffsetSeconds = reader.nextInt();
-						break;
-					}
-					default: {
-						reader.skipValue();
-					}
-					}
+				String name = reader.nextName();
+				if (Strings.equals(name, "epochSeconds")) {
+					epochSeconds = reader.nextLong();
+				}
+				else if (Strings.equals(name, "timeZoneOffsetSeconds")) {
+					timezoneOffsetSeconds = reader.nextInt();
 				}
 				else {
 					reader.skipValue();

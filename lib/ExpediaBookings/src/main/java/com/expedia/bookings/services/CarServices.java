@@ -43,10 +43,6 @@ public class CarServices {
 		mApi = adapter.create(CarApi.class);
 	}
 
-	public CarServices() {
-		this(TRUNK);
-	}
-
 	public void doBoringCarSearch(Callback<CarSearchResponse> callback) {
 		mApi.roundtripCarSearch("SFO", "2015-02-20T12:30:00", "2015-02-21T12:30:00", callback);
 	}
