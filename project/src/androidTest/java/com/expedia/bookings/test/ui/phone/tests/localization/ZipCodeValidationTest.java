@@ -30,10 +30,6 @@ public class ZipCodeValidationTest extends PhoneTestCase {
 
 	public void runZipCodeValidationTest() {
 		LaunchScreen.launchHotels();
-		HotelsSearchScreen.clickSearchEditText();
-		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
@@ -42,7 +38,7 @@ public class ZipCodeValidationTest extends PhoneTestCase {
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
-		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsRoomsRatesScreen.selectRoomItem(1);
 		HotelsCheckoutScreen.clickCheckoutButton();
 
 		HotelsCheckoutScreen.clickGuestDetails();
@@ -103,5 +99,49 @@ public class ZipCodeValidationTest extends PhoneTestCase {
 	public void testCAValidation() throws Throwable {
 		setPOS(PointOfSaleId.CANADA);
 		runZipCodeValidationTest();
+	}
+
+	//No error popup for Germany POS
+
+	public void testGermanyValidation() throws Throwable {
+		setPOS(PointOfSaleId.GERMANY);
+		LaunchScreen.launchHotels();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		HotelsSearchScreen.clickOnCalendarButton();
+		HotelsSearchScreen.clickDate(startDate, endDate);
+		HotelsSearchScreen.clickOnGuestsButton();
+		HotelsSearchScreen.guestPicker().clickOnSearchButton();
+		HotelsSearchScreen.clickListItem(1);
+		HotelsDetailsScreen.clickSelectButton();
+		HotelsRoomsRatesScreen.selectRoomItem(1);
+		HotelsCheckoutScreen.clickCheckoutButton();
+
+		HotelsCheckoutScreen.clickGuestDetails();
+		CommonTravelerInformationScreen.enterFirstName("Mobiata");
+		CommonTravelerInformationScreen.enterLastName("Auto");
+		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
+		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
+		CommonTravelerInformationScreen.clickDoneButton();
+
+		HotelsCheckoutScreen.clickSelectPaymentButton();
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.clickOnDoneButton();
+		try {
+			HotelsCheckoutScreen.clickIAcceptButton();
+		}
+		catch (Exception e) {
+			//no I accept button
+		}
+		HotelsCheckoutScreen.slideToCheckout();
+		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.clickBookButton();
+		HotelsConfirmationScreen.clickDoneButton();
 	}
 }
