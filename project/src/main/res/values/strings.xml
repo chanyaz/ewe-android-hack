@@ -206,7 +206,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Pay Now</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Due now</string>
+    <string name="room_rate_pay_later_due_now">Due Now</string>
     <!-- Rooms and rates pay later total -->
     <string name="room_rate_pay_later_total_template">%s Total</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
