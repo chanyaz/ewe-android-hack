@@ -147,7 +147,7 @@
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Travelocity">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_travelocity_action_bar_logo_dark</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
 
         <!-- PopupMenu -->
