@@ -124,6 +124,10 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 
 		mListener.onRateSelected(getItem(position));
 
+		// Track room clicked with the type of payment i.e. pay now/later.
+		Rate rate = getItem(position);
+		OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+
 		mAdapter.setSelectedPosition(position);
 		mAdapter.notifyDataSetChanged();
 	}
@@ -351,6 +355,8 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			mLastCheckedItem = checkedId;
+			// Track ETP payment toggle events.
+			OmnitureTracking.trackHotelETPPayToggle(getActivity(), isInPayLaterMode(checkedId));
 			if (mAdapter != null) {
 				mAdapter.setPayOption(isInPayLaterMode(checkedId));
 			}
