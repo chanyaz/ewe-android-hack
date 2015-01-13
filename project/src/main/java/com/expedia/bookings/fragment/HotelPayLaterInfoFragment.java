@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.Fragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 
@@ -49,6 +50,12 @@ public class HotelPayLaterInfoFragment extends Fragment {
 		}
 
 		return v;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackAppHotelsETPInfoPage(getActivity());
 	}
 
 	/**

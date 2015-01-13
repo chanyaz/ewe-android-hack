@@ -162,6 +162,12 @@ public class OmnitureTracking {
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";
 	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.Hotels.Review.Recent";
 
+	public static final String HOTELS_ETP_INFO_PAGE = "App.Hotels.ETPInfo";
+	public static final String HOTELS_ETP_TOGGLE_LINK_NAME = "ETP Toggle";
+	public static final String HOTELS_ETP_TOGGLE_PAY_LATER = "App.Hotels.RR.Toggle.PayLater";
+	public static final String HOTELS_ETP_TOGGLE_PAY_NOW = "App.Hotels.RR.Toggle.PayNow";
+	public static final String HOTELS_ETP_PAYMENT = "App.Hotels.RR.ETP";
+
 	//////////////////////////////
 	// Coupon tracking
 	public static final String HOTELS_COUPON_LINK_NAME = "CKO:Coupon Action";
@@ -241,8 +247,25 @@ public class OmnitureTracking {
 		// Promo description
 		s.setEvar(9, internalGenerateDRRString(context, property));
 
+		if (property.hasEtpOffer()) {
+			s.setEvents("event5");
+		}
+
 		// Products
 		addProducts(s, property);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppHotelsETPInfoPage(Context context) {
+		Log.d(TAG, "Tracking \"" + HOTELS_ETP_INFO_PAGE + "\" event");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setAppState(HOTELS_ETP_INFO_PAGE);
 
 		// Send the tracking data
 		s.track();
@@ -605,6 +628,30 @@ public class OmnitureTracking {
 		s.setProp(7, posTpid);
 		s.setEvar(61, posTpid);
 		internalTrackLink(s);
+	}
+
+	public static void trackHotelETPPayToggle(Context context, boolean isPayLater) {
+		String refererId = isPayLater ? HOTELS_ETP_TOGGLE_PAY_LATER : HOTELS_ETP_TOGGLE_PAY_NOW;
+		ADMS_Measurement s = createTrackLinkEvent(context, refererId);
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, posTpid);
+		s.setEvar(61, posTpid);
+
+		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
+	}
+
+	public static void trackHotelETPRoomSelected(Context context, boolean isPayLater) {
+		ADMS_Measurement s = createTrackLinkEvent(context, HOTELS_ETP_PAYMENT);
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, posTpid);
+		s.setEvar(61, posTpid);
+		if (isPayLater) {
+			s.setEvar(52, "Pay Later");
+		}
+		else {
+			s.setEvar(52, "Pay Now");
+		}
+		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
