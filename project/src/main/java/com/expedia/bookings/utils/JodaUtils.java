@@ -97,7 +97,11 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static LocalDate getLocalDateFromJson(JSONObject obj, String localDateKey) {
-		return LocalDate.parse(obj.optString(localDateKey));
+		if (obj.has(localDateKey)) {
+			return LocalDate.parse(obj.optString(localDateKey));
+		}
+
+		return null;
 	}
 
 	public static void putDateTimeInJson(JSONObject obj, String key, DateTime dateTime) throws JSONException {
