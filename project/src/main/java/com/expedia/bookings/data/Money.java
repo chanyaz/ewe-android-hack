@@ -38,6 +38,11 @@ public class Money implements JSONable {
 		mAmount = BigDecimal.ZERO;
 	}
 
+	public Money(String amount, String currency) {
+		setAmount(amount);
+		mCurrency = currency;
+	}
+
 	public Money(Money oldMoney) {
 		mAmount = oldMoney.getAmount();
 		mCurrency = oldMoney.getCurrency();
