@@ -53,4 +53,8 @@ public class SettingsScreen extends ScreenActions {
 	public static void clickacceptString() {
 		acceptString().perform(click());
 	}
+
+	public static void clickClearPrivateData() {
+		onView(withText(CLEAR_PRIVATE_DATE_STRING_ID)).perform(click());
+	}
 }
