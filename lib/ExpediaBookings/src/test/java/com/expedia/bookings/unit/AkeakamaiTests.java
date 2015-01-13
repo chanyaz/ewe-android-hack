@@ -1,14 +1,10 @@
 package com.expedia.bookings.unit;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 import com.expedia.bookings.utils.Akeakamai;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AkeakamaiTests {
 	@Test

@@ -11,6 +11,15 @@ public class CarSearchParams {
 
 	public String origin;
 
+	@Override
+	public CarSearchParams clone() {
+		CarSearchParams clone = new CarSearchParams();
+		clone.startTime = new DateTime(startTime);
+		clone.endTime = new DateTime(endTime);
+		clone.origin = origin;
+		return clone;
+	}
+
 	public String toServerPickupDate() {
 		return DateUtils.carSearchFormatFromDateTime(startTime);
 	}

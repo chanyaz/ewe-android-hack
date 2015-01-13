@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -10,13 +11,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarSearchParamsWidget extends FrameLayout {
+public class CarSearchParamsWidget extends FrameLayout implements
+	CalendarPicker.DateSelectionChangedListener {
 
 	public CarSearchParamsWidget(Context context) {
 		super(context);
@@ -49,24 +53,25 @@ public class CarSearchParamsWidget extends FrameLayout {
 	TextView changeTime;
 
 	@InjectView(R.id.time_container)
-	ViewGroup timepickerContainer;
+	ViewGroup timePickerContainer;
+
+	private CarSearchParams searchParams;
+
+	private boolean isSelectingStartTime = true;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
+		searchParams = new CarSearchParams();
+
 		dropoffDateTime.setVisibility(View.INVISIBLE);
 		calendarContainer.setVisibility(View.INVISIBLE);
-		timepickerContainer.setVisibility(View.INVISIBLE);
+		timePickerContainer.setVisibility(View.INVISIBLE);
 		changeTime.setVisibility(View.INVISIBLE);
 
-		calendar.setDateChangedListener(new CalendarPicker.DateSelectionChangedListener() {
-			@Override
-			public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-				onDateSelected(start);
-			}
-		});
+		calendar.setDateChangedListener(this);
 	}
 
 	@Override
@@ -77,7 +82,7 @@ public class CarSearchParamsWidget extends FrameLayout {
 	@Override
 	protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
-
+		calendar.setDateChangedListener(null);
 	}
 
 	@OnClick(R.id.pickup_datetime)
@@ -85,26 +90,44 @@ public class CarSearchParamsWidget extends FrameLayout {
 		dropoffDateTime.setVisibility(View.VISIBLE);
 		calendarContainer.setVisibility(View.VISIBLE);
 		calendarActionButton.setText(R.string.next);
+		isSelectingStartTime = true;
 	}
 
 	@OnClick(R.id.dropoff_datetime)
 	public void onDropOffDateTimeClicked() {
 		calendarActionButton.setText(R.string.search);
+		isSelectingStartTime = false;
 	}
 
 	@OnClick(R.id.change_time)
 	public void onChangeTimeClicked() {
 		calendarContainer.setVisibility(View.INVISIBLE);
-		timepickerContainer.setVisibility(View.VISIBLE);
+		timePickerContainer.setVisibility(View.VISIBLE);
 	}
 
 	@OnClick(R.id.time_confirm_btn)
 	public void onTimeConfirmClicked() {
-		timepickerContainer.setVisibility(View.INVISIBLE);
+		timePickerContainer.setVisibility(View.INVISIBLE);
 		calendarContainer.setVisibility(View.VISIBLE);
 	}
 
-	public void onDateSelected(LocalDate date) {
+	@OnClick(R.id.calendar_action_button)
+	public void onCalendarActionButtonClicked() {
+		boolean actionButtonShowsSearch = !isSelectingStartTime;
+		if (actionButtonShowsSearch) {
+			CarDb.setSearchParams(searchParams);
+		}
+	}
+
+	@Override
+	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
+		DateTime dateSelected = start.toDateTimeAtStartOfDay();
+		if (isSelectingStartTime) {
+			searchParams.startTime = dateSelected;
+		}
+		else {
+			searchParams.endTime = dateSelected;
+		}
 		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
 		changeTime.setVisibility(View.VISIBLE);
 	}
