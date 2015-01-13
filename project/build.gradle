@@ -192,10 +192,7 @@ android {
 
         // These files are from outside our project
         exclude (
-            '**/AdapterView.java',
             '**/gl/*.java',
-            '**/Gallery.java',
-            '**/AbsSpinner.java',
             '**/GLTagProgressBar.java',
             '**/CustomEditText.java',
             '**/SocketActivityHierarchyServer.java',
