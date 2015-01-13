@@ -29,7 +29,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
@@ -186,6 +185,11 @@ public class HotelReceipt extends LinearLayout {
 			mGrandTotalTextView.setText(getResources().getString(R.string.trip_total));
 			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
 		}
+		else if (rate.isPayLater()) {
+			addPayLaterRow(rate);
+			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
+			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
+		}
 		else {
 			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
 			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
@@ -193,19 +197,6 @@ public class HotelReceipt extends LinearLayout {
 		addPrioritizedAmenityRows(rate);
 
 		final Resources res = getContext().getResources();
-
-		if (rate.isPayLater()) {
-			//Resort Fee
-			Money mandatoryFees = rate.getTotalMandatoryFees();
-			if (!mandatoryFees.isZero()) {
-				addExtraRowETP(res.getString(R.string.resort_fee), mandatoryFees.getFormattedMoney(), true);
-			}
-
-			//Deposit Amount
-			Money deposit = rate.getDisplayDeposit();
-			boolean isDepositRequired = !deposit.isZero();
-			addExtraRowETP(res.getString(R.string.pay_later), deposit.getFormattedMoney(), isDepositRequired);
-		}
 
 		int numNights = params.getStayDuration();
 		String numNightsString = res.getQuantityString(R.plurals.number_of_nights, numNights, numNights);
@@ -292,31 +283,6 @@ public class HotelReceipt extends LinearLayout {
 		}
 	}
 
-	private void addExtraRowETP(CharSequence label, CharSequence rate, boolean isDepositRequired) {
-		mExtrasLayout.setVisibility(View.VISIBLE);
-		mExtrasDivider.setVisibility(View.VISIBLE);
-
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		View extraRow = inflater.inflate(R.layout.snippet_hotel_receipt_extra_etp, mExtrasLayout, false);
-		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
-		TextView rateView = (TextView) extraRow.findViewById(R.id.extra_label_rate);
-		labelView.setText(label);
-		rateView.setText(rate);
-
-		if (!isDepositRequired) {
-			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_etp_overview_checkmark, 0, 0, 0);
-			labelView.setTextColor(getResources().getColor(R.color.etp_text_color));
-			rateView.setTextColor(getResources().getColor(R.color.etp_text_color));
-		}
-		else {
-			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_overview_checkmark, 0, 0, 0);
-			labelView.setTextColor(getResources().getColor(R.color.dark_blue));
-			rateView.setTextColor(getResources().getColor(R.color.dark_blue));
-		}
-
-		mExtrasLayout.addView(extraRow);
-	}
-
 	private void addResortFeeRows(Rate rate) {
 		mExtrasLayout.setVisibility(View.VISIBLE);
 		mExtrasDivider.setVisibility(View.VISIBLE);
@@ -324,12 +290,35 @@ public class HotelReceipt extends LinearLayout {
 		HotelReceiptExtraSection resortFeesRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
 		resortFeesRow.bind(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney());
+		mExtrasLayout.addView(resortFeesRow);
+
+		if (rate.isPayLater()) {
+			addPayLaterRow(rate);
+		}
+		else {
+			HotelReceiptExtraSection dueToExpediaRow = Ui
+				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+			String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
+			dueToExpediaRow.bind(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+			mExtrasLayout.addView(dueToExpediaRow);
+		}
+	}
+
+	private void addPayLaterRow(Rate rate) {
+		mExtrasLayout.setVisibility(View.VISIBLE);
+		mExtrasDivider.setVisibility(View.VISIBLE);
 
 		HotelReceiptExtraSection dueToExpediaRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-		dueToExpediaRow.bind(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+		dueToExpediaRow.bind(totalDueToExpediaToday, rate.getDisplayDeposit().getFormattedMoney());
 
-		mExtrasLayout.addView(resortFeesRow);
+		if (rate.getDisplayDeposit().isZero()) {
+			TextView labelView = (TextView) dueToExpediaRow.findViewById(R.id.price_title);
+			TextView rateView = (TextView) dueToExpediaRow.findViewById(R.id.price_text_view);
+			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_etp_overview_checkmark, 0, 0, 0);
+			labelView.setTextColor(getResources().getColor(R.color.etp_text_color));
+			rateView.setTextColor(getResources().getColor(R.color.etp_text_color));
+		}
 		mExtrasLayout.addView(dueToExpediaRow);
 	}
 
