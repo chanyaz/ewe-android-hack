@@ -2027,6 +2027,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_CAR_DROP_OFF = "Itinerary.Car.DropOff";
 	private static final String NOTIFICATION_CAR_PICK_UP = "Itinerary.Car.PickUp";
 	private static final String NOTIFICATION_FLIGHT_CHECK_IN = "Itinerary.Flight.CheckIn";
+	private static final String NOTIFICATION_FLIGHT_SHARE = "Itinerary.Flight.Share";
 	private static final String NOTIFICATION_FLIGHT_CANCELLED = "Itinerary.Flight.Cancelled";
 	private static final String NOTIFICATION_FLIGHT_GATE_TIME_CHANGE = "Itinerary.Flight.GateTimeChange";
 	private static final String NOTIFICATION_FLIGHT_GATE_NUMBER_CHANGE = "Itinerary.Flight.GateNumberChange";
@@ -2051,6 +2052,9 @@ public class OmnitureTracking {
 			break;
 		case FLIGHT_CHECK_IN:
 			link = NOTIFICATION_FLIGHT_CHECK_IN;
+			break;
+		case FLIGHT_SHARE:
+			link = NOTIFICATION_FLIGHT_SHARE;
 			break;
 		case FLIGHT_CANCELLED:
 			link = NOTIFICATION_FLIGHT_CANCELLED;
