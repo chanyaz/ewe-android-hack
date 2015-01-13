@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.component.cars;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PlaygroundActivity;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 
@@ -105,6 +107,24 @@ public class CarSearchParamsTests extends ActivityInstrumentationTestCase2 {
 		mModel.timeConfirm().perform(click());
 		mModel.timeContainer().check(matches(withEffectiveVisibility(Visibility.INVISIBLE)));
 		mModel.calendarContainer().check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
+	}
+
+	public void testCalendarViewDataPopulation() throws Throwable {
+		final DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
+		final DateTime expectedEndDate = expectedStartDate.plusDays(3);
+
+		mModel.pickUpButton().perform(click());
+		mModel.calendar().perform(TabletViewActions.clickDates(expectedStartDate.toLocalDate(), null));
+		mModel.dropOffButton().perform(click());
+		mModel.calendar().perform(TabletViewActions.clickDates(expectedEndDate.toLocalDate(), null));
+
+		assertNull(CarDb.searchParams.startTime);
+		assertNull(CarDb.searchParams.endTime);
+
+		mModel.calendarActionButton().perform(click());
+
+		assertEquals(expectedStartDate, CarDb.searchParams.startTime);
+		assertEquals(expectedEndDate, CarDb.searchParams.endTime);
 	}
 
 	@Override
