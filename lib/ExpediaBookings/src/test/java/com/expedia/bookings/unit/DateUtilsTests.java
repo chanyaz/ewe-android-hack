@@ -1,5 +1,7 @@
 package com.expedia.bookings.unit;
 
+import java.util.TimeZone;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -46,4 +48,22 @@ public class DateUtilsTests {
 
 		assertEquals(expected, result);
 	}
+
+	@Test
+	public void testConvertMilliSecondsintoDateFormat() {
+		long data;
+
+		data = 1419504600000L;
+		assertEquals("2014/12/25 10:50", DateUtils.convertMilliSecondsForLogging(data));
+
+		data = 1419418200000L;
+		assertEquals("2014/12/24 10:50", DateUtils.convertMilliSecondsForLogging(data));
+
+		data = 1420085700000L;
+		assertEquals("2015/01/01 04:15", DateUtils.convertMilliSecondsForLogging(data));
+
+		data = 1419999300000L;
+		assertEquals("2014/12/31 04:15", DateUtils.convertMilliSecondsForLogging(data));
+	}
+
 }

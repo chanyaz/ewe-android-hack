@@ -1,5 +1,11 @@
 package com.expedia.bookings.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -36,12 +42,27 @@ public class DateUtils {
 	/**
 	 * Return YYYY-mm-ddThh:mm:ss format for a given DateTime
 	 */
-
 	public static String carSearchFormatFromDateTime(DateTime d) {
 		DateTimeFormatter dateFmt = ISODateTimeFormat.date();
 		DateTimeFormatter timeFmt = ISODateTimeFormat.hourMinuteSecond();
 
 		return dateFmt.print(d) + "T" + timeFmt.print(d);
+	}
+
+	/**
+	 * Formats the milliseconds in date format and return as string
+	 */
+	public static String convertMilliSecondsForLogging(Long timeinMilliSeconds) {
+		final TimeZone utc = TimeZone.getTimeZone("Etc/GMT");
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm", Locale.US);
+		format.setTimeZone(utc);
+
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTimeZone(utc);
+		calendar.setTimeInMillis(timeinMilliSeconds);
+
+		return format.format(calendar.getTime());
 	}
 
 }

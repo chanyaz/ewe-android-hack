@@ -1929,6 +1929,10 @@ public class ItineraryManager implements JSONable {
 						notification = existing;
 					}
 
+					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
+					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
+
+					//Just to display scheduled notification time like 2015/03/28 11:45
 					//TODO: temporary -->
 					// This is just to get the notifications to show up frequently for development
 					//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);

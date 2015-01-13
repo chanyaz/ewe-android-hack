@@ -25,6 +25,8 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumActivityHelper;
 import com.leanplum.LeanplumPushService;
+import com.leanplum.annotations.Parser;
+import com.leanplum.callbacks.VariablesChangedCallback;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -67,9 +69,13 @@ public class LeanPlumUtils {
 				builder.setSmallIcon(R.drawable.ic_stat_expedia);
 			}
 		});
+
+		Leanplum.setApplicationContext(mContext);
 		Leanplum.setUpdateCheckingEnabledInDevelopmentMode(false);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
 		Leanplum.start(mContext, mUserAtrributes);
+		Parser.parseVariablesForClasses(LeanPlumFlags.class);
+		Leanplum.addVariablesChangedHandler(flightShareCallback);
 
 	}
 
@@ -291,6 +297,13 @@ public class LeanPlumUtils {
 		}
 		return eventParams;
 	}
+
+	public static VariablesChangedCallback flightShareCallback = new VariablesChangedCallback() {
+		@Override
+		public void variablesChanged() {
+			Log.i("Show Share flight Notification " + LeanPlumFlags.mShowShareFlightNotification);
+		}
+	};
 
 }
 

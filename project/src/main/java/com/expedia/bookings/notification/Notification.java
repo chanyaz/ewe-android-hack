@@ -34,6 +34,7 @@ public class Notification extends Model implements JSONable {
 	public static final long FLAG_SHARE = 0x8;
 	public static final long FLAG_CALL = 0x10;
 	public static final long FLAG_REDEEM = 0x20;
+	public static final long FLAG_VIEW = 0x40;
 
 	/**
 	 * NEW = This notification has never been displayed to the user.
@@ -77,6 +78,7 @@ public class Notification extends Model implements JSONable {
 		ACTIVITY_START,
 		CAR_DROP_OFF,
 		CAR_PICK_UP,
+		FLIGHT_SHARE,
 		FLIGHT_CHECK_IN,
 		FLIGHT_CANCELLED,
 		FLIGHT_GATE_TIME_CHANGE,

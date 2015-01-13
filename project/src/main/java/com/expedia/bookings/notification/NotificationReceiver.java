@@ -23,8 +23,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
-import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
@@ -35,6 +35,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LeanPlumFlags;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
@@ -98,6 +99,16 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 		// Don't display old notifications
 		if (notification.getExpirationTimeMillis() < System.currentTimeMillis()) {
+			notification.setStatus(StatusType.EXPIRED);
+			notification.save();
+
+			// Just in case it's still showing up
+			notification.cancelNotification(context);
+			return;
+		}
+
+		//Check leanplum A/B test is still on or not
+		if (notification.getUniqueId().contains("flightshare") && !LeanPlumFlags.mShowShareFlightNotification) {
 			notification.setStatus(StatusType.EXPIRED);
 			notification.save();
 
@@ -348,6 +359,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 						builder = builder.addAction(R.drawable.ic_phone, label, callPendingIntent);
 					}
 				}
+			}
+
+			if ((flags & Notification.FLAG_VIEW) != 0) {
+				String view = mContext.getString(R.string.itin_action_view);
+				builder = builder.addAction(R.drawable.ic_view_itin, view, clickPendingIntent);
 			}
 
 			if ((flags & Notification.FLAG_SHARE) != 0) {
