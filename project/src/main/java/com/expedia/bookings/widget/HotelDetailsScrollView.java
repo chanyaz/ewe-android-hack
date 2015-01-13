@@ -28,7 +28,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	ViewGroup mMapOuterContainer;
 	TouchableFrameLayout mMapContainer;
 	View mGalleryContainer;
-	HotelDetailsGallery mGallery;
+	RecyclerGallery mGallery;
 	AlphaImageView mVipAccessIcon;
 
 	private int mGalleryHeight = 0;
@@ -103,8 +103,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return;
 		}
 		if (mGallery == null) {
-			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
-			mGallery.setInvalidateView(mGalleryContainer);
+			mGallery = (RecyclerGallery) findViewById(R.id.images_gallery);
 		}
 
 		ViewGroup.LayoutParams lp = mGalleryContainer.getLayoutParams();

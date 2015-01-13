@@ -31,7 +31,6 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
-import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment.HotelMiniGalleryFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -41,13 +40,14 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.expedia.bookings.widget.HotelDetailsScrollView.HotelDetailsMiniMapClickedListener;
+import com.expedia.bookings.widget.RecyclerGallery;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
-		HotelMiniGalleryFragmentListener {
+	RecyclerGallery.GalleryItemClickListner {
 
 	// Tags for this activity's fragments
 	private static final String FRAGMENT_MINI_GALLERY_TAG = "FRAGMENT_MINI_GALLERY_TAG";
@@ -88,6 +88,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	/**
 	 * Create intent to open this activity in a standard way.
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -115,7 +116,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
 			HotelSearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-					HotelSearchParams.class);
+				HotelSearchParams.class);
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
@@ -175,8 +176,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 			else {
 				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
-						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
-						mInfoCallback);
+					CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
+					mInfoCallback);
 			}
 		}
 
@@ -279,7 +280,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		getWindow().setBackgroundDrawable(null);
 
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
-				FRAGMENT_MINI_GALLERY_TAG);
+			FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
 			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
 			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
@@ -291,16 +292,16 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 
 		mPricePromoFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container,
-				HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
+			HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
 
 		mIntroFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_intro_fragment_container,
-				HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
+			HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
 
 		mMapFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container,
-				HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
+			HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
 
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
-				HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
+			HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
 		mBookNowButton = Ui.findView(this, R.id.book_now_button);
 		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
@@ -348,9 +349,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		final Property property = response.getProperty();
 		boolean showBookByPhone = property != null
-				&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
-				&& !property.isDesktopOverrideNumber()
-				&& property.isAvailable();
+			&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
+			&& !property.isDesktopOverrideNumber()
+			&& property.isAvailable();
 
 		if (showBookByPhone) {
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
@@ -435,8 +436,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				showErrorDialog(messageResId);
 			}
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
-					|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
-					&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
+				|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
+				&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
 				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage));
 			}
 			else {
@@ -487,7 +488,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	boolean isGalleryFullscreen = false;
 
 	@Override
-	public void onMiniGalleryItemClicked(Property property, Object item) {
+	public void onGalleryItemClicked(Object item) {
 		// Do this if in portrait
 		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
 		if (scrollView != null) {
