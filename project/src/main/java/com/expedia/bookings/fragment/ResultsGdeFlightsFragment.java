@@ -299,7 +299,12 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		}
 
 		frag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
-		setStateLoading();
+		if (mOrigin == null) {
+			setErrorNoOrigin();
+		}
+		else {
+			setStateLoading();
+		}
 	}
 
 	/**
