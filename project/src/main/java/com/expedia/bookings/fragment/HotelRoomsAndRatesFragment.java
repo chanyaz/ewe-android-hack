@@ -354,9 +354,12 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 	private RadioGroup.OnCheckedChangeListener mPayOptionsListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			mLastCheckedItem = checkedId;
 			// Track ETP payment toggle events.
-			OmnitureTracking.trackHotelETPPayToggle(getActivity(), isInPayLaterMode(checkedId));
+			// Let's not trigger omniture event when we 1st get to the rooms&rate screen. Only on user toggle.
+			if (checkedId != mLastCheckedItem) {
+				OmnitureTracking.trackHotelETPPayToggle(getActivity(), isInPayLaterMode(checkedId));
+			}
+			mLastCheckedItem = checkedId;
 			if (mAdapter != null) {
 				mAdapter.setPayOption(isInPayLaterMode(checkedId));
 			}
