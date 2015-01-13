@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.ui.tablet.tests.localization;
 
-import java.util.Locale;
-
 import org.joda.time.LocalDate;
 
 import android.view.KeyEvent;
@@ -21,9 +19,12 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 /**
  * Created by dmadan on 7/3/14.
  */
-public class MarketingSweepTablet extends TabletTestCase {
+public class ScreenshotSweepTablet extends TabletTestCase {
 
-	public void bookHotel() throws Throwable {
+	public void testBookHotel() throws Throwable {
+		setLocale(getLocale());
+		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+
 		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
@@ -101,7 +102,10 @@ public class MarketingSweepTablet extends TabletTestCase {
 		Checkout.clickDoneBooking();
 	}
 
-	public void bookFlight() throws Throwable {
+	public void testBookFlight() throws Throwable {
+		setLocale(getLocale());
+		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+
 		screenshot("Launch");
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
@@ -185,208 +189,5 @@ public class MarketingSweepTablet extends TabletTestCase {
 		Checkout.clickBookButton();
 		screenshot("Confirmation");
 		Checkout.clickDoneBooking();
-	}
-
-	public void testArgentina() throws Throwable {
-		setPOS(PointOfSaleId.ARGENTINA);
-		setLocale(new Locale("es", "AR"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testAustralia() throws Throwable {
-		setPOS(PointOfSaleId.AUSTRALIA);
-		setLocale(new Locale("en", "AU"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testAustria() throws Throwable {
-		setPOS(PointOfSaleId.AUSTRIA);
-		setLocale(new Locale("de", "AT"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testBelgium() throws Throwable {
-		setPOS(PointOfSaleId.BELGIUM);
-		setLocale(new Locale("nl", "BE"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testBrazil() throws Throwable {
-		setPOS(PointOfSaleId.BRAZIL);
-		setLocale(new Locale("pt", "BR"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testCanada() throws Throwable {
-		setPOS(PointOfSaleId.CANADA);
-		setLocale(new Locale("en", "CA"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testDenmark() throws Throwable {
-		setPOS(PointOfSaleId.DENMARK);
-		setLocale(new Locale("da", "DK"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testFrance() throws Throwable {
-		setPOS(PointOfSaleId.FRANCE);
-		setLocale(new Locale("fr", "FR"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testGermany() throws Throwable {
-		setPOS(PointOfSaleId.GERMANY);
-		setLocale(new Locale("de", "DE"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testHongKong() throws Throwable {
-		setPOS(PointOfSaleId.HONG_KONG);
-		setLocale(new Locale("en", "HK"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testIndia() throws Throwable {
-		setPOS(PointOfSaleId.INDIA);
-		setLocale(new Locale("en", "IN"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testIndonesia() throws Throwable {
-		setPOS(PointOfSaleId.INDONESIA);
-		setLocale(new Locale("id", "ID"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testIreland() throws Throwable {
-		setPOS(PointOfSaleId.IRELAND);
-		setLocale(new Locale("en", "IE"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testItaly() throws Throwable {
-		setPOS(PointOfSaleId.ITALY);
-		setLocale(new Locale("it", "IT"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testJapan() throws Throwable {
-		setPOS(PointOfSaleId.JAPAN);
-		setLocale(new Locale("ja", "jp"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testSouthKorea() throws Throwable {
-		setPOS(PointOfSaleId.SOUTH_KOREA);
-		setLocale(new Locale("ko", "KR"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testMalaysia() throws Throwable {
-		setPOS(PointOfSaleId.MALAYSIA);
-		setLocale(new Locale("ms", "MY"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testMexico() throws Throwable {
-		setPOS(PointOfSaleId.MEXICO);
-		setLocale(new Locale("es", "MX"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testNetherlands() throws Throwable {
-		setPOS(PointOfSaleId.NETHERLANDS);
-		setLocale(new Locale("nl", "NL"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testNorway() throws Throwable {
-		setPOS(PointOfSaleId.NORWAY);
-		setLocale(new Locale("nb", "NO"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testPhilippines() throws Throwable {
-		setPOS(PointOfSaleId.PHILIPPINES);
-		setLocale(new Locale("en", "PH"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testSingapore() throws Throwable {
-		setPOS(PointOfSaleId.SINGAPORE);
-		setLocale(new Locale("en", "SG"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testSpain() throws Throwable {
-		setPOS(PointOfSaleId.SPAIN);
-		setLocale(new Locale("es", "ES"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testSweden() throws Throwable {
-		setPOS(PointOfSaleId.SWEDEN);
-		setLocale(new Locale("sv", "SE"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testtaiwan() throws Throwable {
-		setPOS(PointOfSaleId.TAIWAN);
-		setLocale(new Locale("zh", "TW"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testThailand() throws Throwable {
-		setPOS(PointOfSaleId.THAILAND);
-		setLocale(new Locale("th", "TH"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testUnitedKingdom() throws Throwable {
-		setPOS(PointOfSaleId.UNITED_KINGDOM);
-		setLocale(new Locale("en", "UK"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testUnitedStates() throws Throwable {
-		setPOS(PointOfSaleId.UNITED_STATES);
-		setLocale(new Locale("en", "US"));
-		bookHotel();
-		bookFlight();
-	}
-
-	public void testVietnam() throws Throwable {
-		setPOS(PointOfSaleId.VIETNAM);
-		setLocale(new Locale("vi", "VN"));
-		bookHotel();
-		bookFlight();
 	}
 }

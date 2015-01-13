@@ -40,6 +40,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	protected MockWebServer mMockWebServer;
 	protected FileOpener mFileOpener;
 	protected Resources mRes;
+	protected String mLanguage;
+	protected String mCountry;
 
 	public void runTest() throws Throwable {
 
@@ -47,8 +49,11 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 		// Get server value from config file deployed in devices,
 		// if not defined in config defaults to MockWebServer.
-		if (ConfigFileUtils.doesConfigFileExist()) {
-			Settings.setServer(getInstrumentation(), new ConfigFileUtils().getConfigValue("Server"));
+		if (TestConfiguration.doesConfigFileExist()) {
+			TestConfiguration.Config config = new TestConfiguration().getConfiguration();
+			Settings.setServer(getInstrumentation(), config.server);
+			mLanguage = config.language;
+			mCountry = config.country;
 		}
 		else {
 			mMockWebServer = new MockWebServer();
@@ -148,6 +153,14 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public void setPOS(PointOfSaleId pos) {
 		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.PointOfSaleKey, String.valueOf(pos.getId()));
 		PointOfSale.onPointOfSaleChanged(getInstrumentation().getTargetContext());
+	}
+
+	public Locale getLocale() {
+		return new Locale(mLanguage, mCountry);
+	}
+
+	public String getPOS(Locale locale) {
+		return locale.getDisplayCountry(new Locale("en", "US")).replace(" ", "_").toUpperCase();
 	}
 
 	protected void tearDown() throws Exception {
