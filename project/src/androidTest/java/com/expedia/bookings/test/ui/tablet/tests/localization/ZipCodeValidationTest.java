@@ -25,7 +25,7 @@ public class ZipCodeValidationTest extends TabletTestCase {
 	 */
 
 	public void runZipCodeValidationTest() {
-		//hotel checkout without Zip code
+		//error pops up on hotel checkout without Zip code
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
@@ -94,5 +94,50 @@ public class ZipCodeValidationTest extends TabletTestCase {
 	public void testCAValidation() throws Throwable {
 		setPOS(PointOfSaleId.CANADA);
 		runZipCodeValidationTest();
+	}
+
+	public void testAusValidation() throws Throwable {
+		setPOS(PointOfSaleId.AUSTRALIA);
+		//hotel checkout without Zip code works for Australia POS
+		Launch.clickSearchButton();
+		Launch.clickDestinationEditText();
+		Launch.typeInDestinationEditText("Detroit, MI");
+		Launch.clickSuggestionAtPosition(1);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		Search.clickDate(startDate, endDate);
+		Search.clickSearchPopupDone();
+
+		Results.swipeUpHotelList();
+		Results.clickHotelAtIndex(1);
+		HotelDetails.clickAddHotel();
+		Results.clickBookButton();
+
+		Checkout.clickOnEmptyTravelerDetails();
+		Common.closeSoftKeyboard(Checkout.firstName());
+		Checkout.enterFirstName("Mobiata");
+		Checkout.enterLastName("Auto");
+		Checkout.enterPhoneNumber("1112223333");
+		Checkout.enterEmailAddress("aaa@aaa.com");
+		Common.closeSoftKeyboard(Checkout.emailAddress());
+		Checkout.clickOnDone();
+
+		Checkout.clickOnEnterPaymentInformation();
+		Checkout.enterNameOnCard("Mobiata Auto");
+		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
+		Checkout.setExpirationDate(2020, 12);
+		Common.closeSoftKeyboard(Checkout.postalCode());
+		Checkout.clickOnDone();
+		try {
+			Checkout.clickIAcceptButton();
+		}
+		catch (Exception e) {
+			//no I accept button
+		}
+
+		Checkout.slideToPurchase();
+		Checkout.enterCvv("111");
+		Checkout.clickBookButton();
 	}
 }
