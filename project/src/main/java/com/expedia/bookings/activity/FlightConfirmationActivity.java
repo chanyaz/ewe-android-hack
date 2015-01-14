@@ -63,7 +63,7 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		new PicassoHelper.Builder(mBgImageView).setError(R.drawable.default_flights_background).build().load(url);
+		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setError(R.drawable.default_flights_background).build().load(url);
 
 	}
 
