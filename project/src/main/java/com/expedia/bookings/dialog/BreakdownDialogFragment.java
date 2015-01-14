@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
@@ -229,24 +230,35 @@ public class BreakdownDialogFragment extends DialogFragment {
 				.build());
 		}
 
-		builder.addDivider();
-
 		Money total;
-		// Mandatory fees
 		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
-		if (rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
-			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
+		boolean resortCase = rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+		boolean payLaterCase = rateWeCareAbout.isPayLater() && !AndroidUtils.isTablet(context);
+
+		// Show amount to be paid today in resort or ETP cases
+		if (resortCase || payLaterCase) {
+			Money dueToday;
+			if (payLaterCase) {
+				dueToday = rateWeCareAbout.getDisplayDeposit();
+			}
+			else {
+				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
+			}
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(R.string.total_due_today))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(rateWeCareAbout.getTotalAmountAfterTax().getFormattedMoney())
+					.setText(dueToday.getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
-
+		}
+		// Mandatory fees:
+		// Show fees to be paid at hotel in resort case
+		if (resortCase) {
+			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(PointOfSale.getPointOfSale().getCostSummaryMandatoryFeeTitle(context))
@@ -258,9 +270,12 @@ public class BreakdownDialogFragment extends DialogFragment {
 					.build())
 				.build());
 		}
+
 		else {
 			total = rateWeCareAbout.getDisplayTotalPrice();
 		}
+
+		builder.addDivider();
 
 		// Total
 		builder.addLineItem((new LineItemBuilder())
