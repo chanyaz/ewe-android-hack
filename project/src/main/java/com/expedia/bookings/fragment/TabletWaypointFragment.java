@@ -283,7 +283,7 @@ public class TabletWaypointFragment extends Fragment
 				if (mSuggestionsFragment != null && !mLoadingLocation) {
 					SuggestionV2 suggest = mSuggestionsFragment.getBestChoiceForFilter();
 					if (suggest != null) {
-						handleSuggestion(suggest, mWaypointEditText.getText().toString());
+						handleSuggestion(suggest);
 						return true;
 					}
 					else {
@@ -304,7 +304,7 @@ public class TabletWaypointFragment extends Fragment
 				&& suggestion.getLocation().getLongitude() == 0));
 	}
 
-	protected void handleSuggestion(SuggestionV2 suggestion, String qryText) {
+	protected void handleSuggestion(SuggestionV2 suggestion) {
 		Location fakeLocation = ExpediaDebugUtil.getFakeLocation(getActivity());
 		if (suggestion.getResultType() == ResultType.CURRENT_LOCATION && fakeLocation != null) {
 			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
@@ -322,7 +322,7 @@ public class TabletWaypointFragment extends Fragment
 		}
 		else {
 			unsetLoading();
-			Events.post(new Events.SearchSuggestionSelected(suggestion, qryText));
+			Events.post(new Events.SearchSuggestionSelected(suggestion));
 		}
 	}
 
@@ -335,7 +335,7 @@ public class TabletWaypointFragment extends Fragment
 			Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 		}
 		else {
-			handleSuggestion(suggestion, null);
+			handleSuggestion(suggestion);
 		}
 	}
 
@@ -541,7 +541,7 @@ public class TabletWaypointFragment extends Fragment
 			suggestion.getLocation().setLatitude(location.getLatitude());
 			suggestion.getLocation().setLongitude(location.getLongitude());
 			suggestion.setResultType(ResultType.CURRENT_LOCATION);
-			Events.post(new Events.SearchSuggestionSelected(suggestion, null));
+			Events.post(new Events.SearchSuggestionSelected(suggestion));
 		}
 	}
 

@@ -438,18 +438,15 @@ public class Events {
 
 	public static class SearchSuggestionSelected {
 		public final SuggestionV2 suggestion;
-		public final String queryText;
 		public final boolean isFromSavedParamsAndBucket;
 
-		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText) {
+		public SearchSuggestionSelected(SuggestionV2 suggestion) {
 			this.suggestion = suggestion;
-			this.queryText = queryText;
 			this.isFromSavedParamsAndBucket = false;
 		}
 
-		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText, boolean fromSavedParams) {
+		public SearchSuggestionSelected(SuggestionV2 suggestion, boolean fromSavedParams) {
 			this.suggestion = suggestion;
-			this.queryText = queryText;
 			this.isFromSavedParamsAndBucket = fromSavedParams;
 		}
 	}

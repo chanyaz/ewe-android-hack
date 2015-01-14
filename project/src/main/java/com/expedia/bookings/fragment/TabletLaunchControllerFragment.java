@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -619,12 +618,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			else {
 				Sp.getParams().restoreToDefaults();
 				Sp.getParams().setDestination(event.suggestion);
-				if (!TextUtils.isEmpty(event.queryText)) {
-					Sp.getParams().setCustomDestinationQryText(event.queryText);
-				}
-				else {
-					Sp.getParams().setDefaultCustomDestinationQryText();
-				}
 				// Deleting the trip bucket removes air attach qualification
 				// so lets just clear it out and leave air attach alone
 				// Db.deleteTripBucket(getActivity());
