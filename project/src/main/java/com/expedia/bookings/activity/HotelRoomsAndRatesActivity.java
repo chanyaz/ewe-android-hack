@@ -38,6 +38,7 @@ import com.mobiata.android.Log;
 public class HotelRoomsAndRatesActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
+	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 
 	private HotelRoomsAndRatesFragment mRoomsAndRatesFragment;
 
@@ -126,6 +127,21 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
+
+		if (savedInstanceState != null) {
+			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
+		}
+
+		if (mLastSearchTime == null) {
+			mLastSearchTime = DateTime.now();
+		}
+
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 	}
 
 	@Override
