@@ -210,4 +210,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getCustomDateFormatForUserReviews() {
 		throw new UnsupportedOperationException("Air Asia Go does not use custom date format");
 	}
+
+	public int getHotelSalePriceTextColorResourceId(Context context) {
+		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceStandardColor);
+	}
 }

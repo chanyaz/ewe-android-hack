@@ -23,6 +23,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -265,10 +266,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		int padding;
 		if (rate.isOnSale()) {
 			padding = mBedSalePadding;
-			//1747. VSC Change price text to sale color
-			if (ExpediaBookingApp.IS_VSC) {
-				holder.price.setTextColor(Ui.obtainThemeColor((Activity) mContext, R.attr.skin_hotelPriceSaleColor));
-			}
+			int hotelSalePriceTextColorResourceId = ProductFlavorFeatureConfiguration.getInstance()
+				.getHotelSalePriceTextColorResourceId(mContext);
+			holder.price.setTextColor(hotelSalePriceTextColorResourceId);
 		}
 		else {
 			if (Build.VERSION.SDK_INT > 7) {

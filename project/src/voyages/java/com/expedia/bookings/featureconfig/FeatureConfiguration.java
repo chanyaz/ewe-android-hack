@@ -224,4 +224,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//Ugly hack to ensure European date format.
 		return "dd/MM/yyyy";
 	}
+
+	public int getHotelSalePriceTextColorResourceId(Context context) {
+		//1747. VSC Change price text to sale color
+		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceSaleColor);
+	}
 }

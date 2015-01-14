@@ -16,6 +16,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -215,5 +216,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String getCustomDateFormatForUserReviews() {
 		throw new UnsupportedOperationException("Travelocity does not use custom date format");
+	}
+
+	public int getHotelSalePriceTextColorResourceId(Context context) {
+		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceStandardColor);
 	}
 }

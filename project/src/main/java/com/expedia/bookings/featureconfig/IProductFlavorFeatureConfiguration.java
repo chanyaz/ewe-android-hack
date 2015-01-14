@@ -99,4 +99,6 @@ public interface IProductFlavorFeatureConfiguration {
 	Boolean wantsCustomDateFormatForUserReviews();
 
 	String getCustomDateFormatForUserReviews();
+
+	int getHotelSalePriceTextColorResourceId(Context context);
 }
