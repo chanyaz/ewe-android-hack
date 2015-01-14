@@ -30,7 +30,8 @@
                 android:drawableLeft="@drawable/ic_etp_overview_checkmark"
                 android:drawablePadding="8dp"
                 android:text="@string/etp_pay_now_option_text"
-                android:textColor="#29a653"
+                android:textColor="@color/etp_text_color"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -86,7 +87,8 @@
                 android:drawableLeft="@drawable/ic_etp_overview_checkmark"
                 android:drawablePadding="8dp"
                 android:text="@string/etp_pay_later_option_text"
-                android:textColor="#29a653"
+                android:textColor="@color/etp_text_color"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout

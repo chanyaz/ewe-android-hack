@@ -15,7 +15,7 @@
         android:drawableRight="@drawable/ic_etp_hotel_details_info"
         android:padding="8dp"
         android:text="@string/pay_later_info_text"
-        android:textColor="#29a653" />
+        android:textColor="@color/etp_text_color" />
 
     <View
         android:id="@+id/etp_info_banner_divider"
