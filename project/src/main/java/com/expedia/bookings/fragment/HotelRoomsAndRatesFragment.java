@@ -221,8 +221,8 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 
 		//Display notices if applicable
 		mNoticeContainer.removeAllViews();
-		boolean renovationNoticeDisplayed = displayRenovationNotice(response);
 		boolean resortFeesNoticeDisplayed = displayResortFeesNotice(response, selectedRate);
+		boolean renovationNoticeDisplayed = displayRenovationNotice(response);
 		mNoticeContainer.setVisibility(renovationNoticeDisplayed || resortFeesNoticeDisplayed ? View.VISIBLE
 			: View.GONE);
 

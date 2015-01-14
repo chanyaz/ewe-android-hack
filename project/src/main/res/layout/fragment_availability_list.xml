@@ -38,7 +38,7 @@
             android:id="@+id/hotel_notice_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/rooms_and_rates_notice_bg"
+            android:background="@color/header_background"
             android:orientation="vertical" />
 
         <include

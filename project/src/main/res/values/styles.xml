@@ -1063,7 +1063,7 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/sliding_group_text</item>
-        <item name="android:textSize">13dp</item>
-        <item name="textStyle">normal</item>
+        <item name="android:textSize">16.85sp</item>
+        <item name="textStyle">bold</item>
     </style>
 </resources>
