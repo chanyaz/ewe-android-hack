@@ -455,7 +455,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 
 			if (mGalleryFragment != null && mGalleryFragment.isAdded()) {
-				mGalleryFragment.populateViews();
+				mGalleryFragment.populateViews(response.getProperty());
 			}
 
 			if (mBookByPhoneButton != null) {

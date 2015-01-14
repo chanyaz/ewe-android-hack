@@ -58,7 +58,8 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 			mGalleryPosition = savedInstanceState.getInt(INSTANCE_GALLERY_POSITION, 0);
 		}
 
-		populateViews();
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		populateViews(property);
 
 		return view;
 	}
@@ -70,10 +71,9 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItem());
 	}
 
-	public void populateViews() {
+	public void populateViews(Property property) {
 		final List<Media> media = new ArrayList<Media>();
 
-		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (property != null && property.getMediaCount() > 0) {
 			media.addAll(property.getMediaList());
 		}
