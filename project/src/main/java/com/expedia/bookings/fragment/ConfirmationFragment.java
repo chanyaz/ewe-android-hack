@@ -57,7 +57,7 @@ public abstract class ConfirmationFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					SocialUtils.openSite(getActivity(), AndroidUtils.getGooglePlayAppLink(PKG_VSC_VOYAGES));
+					SocialUtils.openSite(getActivity(), AndroidUtils.getMarketAppLink(getActivity(), PKG_VSC_VOYAGES));
 				}
 			});
 

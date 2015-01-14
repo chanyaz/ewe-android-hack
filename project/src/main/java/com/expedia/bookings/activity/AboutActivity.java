@@ -357,7 +357,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		}
 
 		case ROW_VSC_VOYAGES: {
-			SocialUtils.openSite(this, AndroidUtils.getGooglePlayAppLink(PKG_VSC_VOYAGES));
+			SocialUtils.openSite(this, AndroidUtils.getMarketAppLink(this, PKG_VSC_VOYAGES));
 			return true;
 		}
 		// 1170. VSC Add clear private data in info/about screen
