@@ -168,7 +168,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.expedia.bookings.activity.HotelRulesActivity"
-            android:theme="@style/FlightTheme" />
+            android:label="@string/legal_information"
+            android:theme="@style/Theme.Phone.Rules" />
         <activity
             android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
             android:label="@string/Add_Traveler"
@@ -218,7 +219,8 @@
             android:theme="@style/FlightTheme.CheckoutForms" />
         <activity
             android:name="com.expedia.bookings.activity.FlightRulesActivity"
-            android:theme="@style/FlightTheme" />
+            android:label="@string/legal_information"
+            android:theme="@style/FlightTheme.Rules" />
         <activity
             android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
             android:label="@string/booking_complete"

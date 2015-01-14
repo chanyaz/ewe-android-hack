@@ -48,8 +48,8 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 	/**
 	 * Please don't use this. SRSLY. If you want to sign into expedia,
 	 * please use User.signIn(contex, bundle).
-	 * 
 	 * @param context
+	 *
 	 * @param bundle
 	 * @return
 	 */
@@ -64,7 +64,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 	/**
 	 * This generates the arguments bundle for LoginActivity.
 	 * The Bundle generated is suitable for passing into User.signIn(context,BUNDLE)
-	 * 
+	 *
 	 * @param pathMode
 	 * @param extender
 	 * @return
@@ -78,7 +78,9 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 		return bundle;
 	}
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,30 +111,24 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 
 		// Actionbar
 		ActionBar actionBar = getActionBar();
-		if (!ExpediaBookingApp.IS_EXPEDIA) {
-			switch (mLob) {
-			case HOTELS:
-				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.skin_webViewPreferencesActionBarLogo));
-				actionBar.setDisplayUseLogoEnabled(false);
-				break;
-			case FLIGHTS:
-				actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.skin_flightLoginActionBarIcon));
-				actionBar.setDisplayUseLogoEnabled(false);
-				break;
-			default:
-				actionBar.setDisplayUseLogoEnabled(true);
-				break;
-			}
-		}
-		else {
-			actionBar.setIcon(R.drawable.ic_expedia_action_bar_logo_dark);
-			actionBar.setDisplayUseLogoEnabled(false);
-		}
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		//defaults to login
 		setActionBarTitle(null);
+
+		switch (mLob) {
+		case HOTELS:
+			actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.skin_hotelLoginActionBarIcon));
+			break;
+		case FLIGHTS:
+			actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.skin_flightLoginActionBarIcon));
+			break;
+		default:
+			actionBar.setDisplayUseLogoEnabled(true);
+			break;
+		}
 
 		// Set the background (based on mode)
 		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
