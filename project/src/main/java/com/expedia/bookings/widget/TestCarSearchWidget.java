@@ -1,10 +1,9 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarDb;
@@ -19,7 +18,7 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 
-public class TestCarSearchWidget extends FrameLayout {
+public class TestCarSearchWidget extends LinearLayout {
 
 	public TestCarSearchWidget(Context context) {
 		super(context);
@@ -33,20 +32,18 @@ public class TestCarSearchWidget extends FrameLayout {
 		super(context, attrs, defStyle);
 	}
 
-	@InjectView(R.id.download_now_btn)
-	Button downloadButton;
+	@InjectView(R.id.recycler_view_category)
+	RecyclerView recyclerView;
 
-	@InjectView(R.id.text_scroll)
-	android.widget.ScrollView scrollView;
+	CarsListAdapter carsListAdapter;
 
-	@InjectView(R.id.display_text)
-	TextView displayText;
+	private LinearLayoutManager mLayoutManager;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		scrollView.setVisibility(View.GONE);
+		setUpRecyclerView();
 	}
 
 	@Override
@@ -64,9 +61,11 @@ public class TestCarSearchWidget extends FrameLayout {
 
 	@OnClick(R.id.download_now_btn)
 	public void startDownload() {
+		Ui.showToast(getContext(), "clicked");
 		carSearchSubscription = CarServices
 			.getInstance()
 			.doBoringCarSearch(carSearchSubscriber);
+
 	}
 
 	private Observer<CarSearch> carSearchSubscriber = new Observer<CarSearch>() {
@@ -74,6 +73,8 @@ public class TestCarSearchWidget extends FrameLayout {
 		public void onCompleted() {
 			Log.d("TestCarSearchWidget - onCompleted");
 			Ui.showToast(getContext(), "onComplete");
+			carsListAdapter.setCategoriesTestList(CarDb.carSearch.getCategoriesFromResponse());
+			carsListAdapter.notifyDataSetChanged();
 		}
 
 		@Override
@@ -88,4 +89,13 @@ public class TestCarSearchWidget extends FrameLayout {
 		}
 	};
 
+	private void setUpRecyclerView() {
+		mLayoutManager = new LinearLayoutManager(getContext());
+		mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mLayoutManager.scrollToPosition(0);
+		recyclerView.setLayoutManager(mLayoutManager);
+		recyclerView.setHasFixedSize(true);
+		carsListAdapter = new CarsListAdapter();
+		recyclerView.setAdapter(carsListAdapter);
+	}
 }
