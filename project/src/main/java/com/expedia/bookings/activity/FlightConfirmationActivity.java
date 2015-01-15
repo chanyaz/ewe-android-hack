@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -113,6 +114,8 @@ public class FlightConfirmationActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
+		TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
+		actionButton.setText(R.string.button_confirmation_done);
 		return super.onCreateOptionsMenu(menu);
 	}
 
