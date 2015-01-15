@@ -215,7 +215,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			Db.getHotelSearch().setSelectedProperty(property);
 			mHotelSelectedListener.onHotelSelected();
 			if (property.isSponsored()) {
-				AdImpressionTracking.trackAdClickOrImpression(getActivity(), property.getClickTrackingUrl());
+				AdImpressionTracking.trackAdClickOrImpression(getActivity(), property.getClickTrackingUrl(), null);
 				OmnitureTracking.trackHotelSponsoredListingClick(getActivity());
 			}
 		}
