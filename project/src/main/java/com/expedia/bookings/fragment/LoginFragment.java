@@ -587,7 +587,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					permissions.add("email");
 					Session.NewPermissionsRequest request = new Session.NewPermissionsRequest(LoginFragment.this, permissions);
 					currentSession.requestNewReadPermissions(request);
-					setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
 				}
 			});
 
@@ -1458,7 +1457,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	protected void doFacebookLogin() {
 		Log.d("FB: doFacebookLogin");
 
-		setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
 		setIsLoading(true);
 		setLoadingText(R.string.fetching_facebook_info);
 		setStatusText(R.string.Log_in_with_Facebook, true);
