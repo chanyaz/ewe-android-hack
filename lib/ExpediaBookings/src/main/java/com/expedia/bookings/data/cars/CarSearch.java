@@ -9,6 +9,10 @@ public class CarSearch {
 
 	public Map<CarCategory, List<CarOffer>> carCategoryOfferMap;
 
+	public CarSearch() {
+		reset();
+	}
+
 	public void reset() {
 		carCategoryOfferMap = new EnumMap<>(CarCategory.class);
 	}

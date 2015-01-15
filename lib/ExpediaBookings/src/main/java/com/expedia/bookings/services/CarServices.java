@@ -18,6 +18,8 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -51,10 +53,6 @@ public class CarServices {
 		mApi = adapter.create(CarApi.class);
 	}
 
-	public CarServices() {
-		this(TRUNK);
-	}
-
 	public Subscription doBoringCarSearch(Observer<CarSearch> observer) {
 		CarSearchParams params = new CarSearchParams();
 		params.origin = "SFO";
@@ -68,23 +66,32 @@ public class CarServices {
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribeOn(Schedulers.io())
-			.flatMap(emitOffer)
-			.flatMap(processOffer)
+			.flatMap(offerEmitter)
+			.collect(new CarSearchHolder(), offerProcessor)
 			.subscribe(observer);
 	}
 
-	public static final Func1<CarSearchResponse, Observable<CarOffer>> emitOffer = new Func1<CarSearchResponse, Observable<CarOffer>>() {
+	private static Func1<CarSearchResponse, Observable<CarOffer>> offerEmitter = new Func1<CarSearchResponse, Observable<CarOffer>>() {
 		@Override
 		public Observable<CarOffer> call(CarSearchResponse carSearchResponse) {
 			return Observable.from(carSearchResponse.offers);
 		}
 	};
 
-	public static final Func1<CarOffer, Observable<CarSearch>> processOffer = new Func1<CarOffer, Observable<CarSearch>>() {
+	public class CarSearchHolder implements Func0<CarSearch> {
+		private CarSearch carSearch = new CarSearch();
+
 		@Override
-		public Observable<CarSearch> call(CarOffer carOffer) {
-			CarDb.carSearch.updateOfferMap(carOffer);
-			return Observable.just(CarDb.carSearch);
+		public CarSearch call() {
+			return carSearch;
+		}
+	}
+
+	private static Action2<CarSearch, CarOffer> offerProcessor = new Action2<CarSearch, CarOffer>() {
+		@Override
+		public void call(CarSearch carSearch, CarOffer carOffer) {
+			carSearch.updateOfferMap(carOffer);
 		}
 	};
+
 }

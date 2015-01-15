@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.utils.Ui;
@@ -77,12 +78,13 @@ public class TestCarSearchWidget extends FrameLayout {
 
 		@Override
 		public void onError(Throwable e) {
-			Log.d("TestCarSearchWidget - onError");
+			Log.d("TestCarSearchWidget - onError", e);
 		}
 
 		@Override
 		public void onNext(CarSearch carSearch) {
 			Log.d("TestCarSearchWidget - onNext");
+			CarDb.carSearch = carSearch;
 		}
 	};
 
