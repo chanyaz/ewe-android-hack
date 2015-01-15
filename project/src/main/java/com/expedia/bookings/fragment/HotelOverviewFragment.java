@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -99,6 +98,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
+	public static final String HOTEL_SOLD_OUT_DIALOG = "HOTEL_SOLD_OUT_DIALOG";
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
@@ -113,6 +113,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
+
+	private HotelErrorDialog mBookingUnavailableDialog;
 
 	private BillingInfo mBillingInfo;
 
@@ -347,8 +349,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		HotelErrorDialog errorDialog = (HotelErrorDialog) getFragmentManager().findFragmentByTag(
-				HOTEL_OFFER_ERROR_DIALOG);
+		HotelErrorDialog errorDialog = (HotelErrorDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
 		if (errorDialog == null) {
 			// When we resume, there is a possibility that:
 			// 1. We were using GWallet (with coupon), but are no longer using GWallet
@@ -365,10 +366,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (!mHotelBookingFragment.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
-				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
-				mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
-				mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip() && !mIsDoneLoadingPriceChange) {
+				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
+				showCreateTripDialog();
 			}
 		}
 
@@ -1498,6 +1498,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
+	private void showCreateTripDialog() {
+		if (mCreateTripDialog != null) {
+			mCreateTripDialog.dismiss();
+		}
+
+		mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+		mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+	}
+
 	///////////////////////////////////
 	/// Otto Event Subscriptions
 
@@ -1517,13 +1526,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	@Subscribe
-	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
-		mIsDoneLoadingPriceChange = true;
-		mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
-	}
-
-	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
+		mIsDoneLoadingPriceChange = true;
 		if (event.createTripResponse instanceof CreateTripResponse) {
 			// Now we have the valid payments data
 			Rate rate = Db.getTripBucket().getHotel().getRate();
@@ -1540,16 +1544,34 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onCreateTripDownloadError(Events.CreateTripDownloadError event) {
 		dismissDialogs();
-
-		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(getChildFragmentManager(), "retryHotelCreateTripDialog");
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadRetry(Events.CreateTripDownloadRetry event) {
-		mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
-		mCreateTripDialog = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
-		mCreateTripDialog.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
+		mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
+		showCreateTripDialog();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadRetryCancel(Events.CreateTripDownloadRetryCancel event) {
+		if (getActivity() != null) {
+			getActivity().finish();
+		}
+	}
+
+	@Subscribe
+	public void onBookingUnavailable(Events.BookingUnavailable event) {
+		dismissDialogs();
+
+		if (getActivity() != null && !getActivity().isFinishing()) {
+			if (mBookingUnavailableDialog != null) {
+				mBookingUnavailableDialog.dismiss();
+			}
+
+			mBookingUnavailableDialog = HotelErrorDialog.newInstance();
+			mBookingUnavailableDialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
+			mBookingUnavailableDialog.show(getFragmentManager(), HOTEL_SOLD_OUT_DIALOG);
+		}
 	}
 
 	@Subscribe

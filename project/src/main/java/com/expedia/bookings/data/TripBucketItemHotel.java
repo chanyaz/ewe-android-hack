@@ -17,7 +17,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	boolean mIsCouponApplied;
 	boolean mIsCouponGoogleWallet;
 
-	HotelProductResponse mHotelProductResponse;
 	CreateTripResponse mCreateTripResponse;
 	HotelBookingResponse mBookingResponse;
 
@@ -110,14 +109,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 		return mCouponRate;
 	}
 
-	public HotelProductResponse getHotelProductResponse() {
-		return mHotelProductResponse;
-	}
-
-	public void setHotelProductResponse(HotelProductResponse hotelProductResponse) {
-		mHotelProductResponse = hotelProductResponse;
-	}
-
 	public void setCreateTripResponse(CreateTripResponse response) {
 		mCreateTripResponse = response;
 	}
@@ -135,7 +126,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public void clearCheckoutData() {
-		mHotelProductResponse = null;
 		mCreateTripResponse = null;
 		mCouponRate = null;
 		mIsCouponApplied = false;
@@ -158,7 +148,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 			obj.put("googleWalletCouponApplied", mIsCouponGoogleWallet);
 			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
 			JSONUtils.putJSONable(obj, "availability", mAvailability);
-			JSONUtils.putJSONable(obj, "hotelProductResponse", mHotelProductResponse);
 			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 			JSONUtils.putJSONable(obj, "bookingResponse", mBookingResponse);
 			return obj;
@@ -179,7 +168,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mIsCouponGoogleWallet = obj.optBoolean("googleWalletCouponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);
-		mHotelProductResponse = JSONUtils.getJSONable(obj, "hotelProductResponse", HotelProductResponse.class);
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 		mBookingResponse = JSONUtils.getJSONable(obj, "bookingResponse", HotelBookingResponse.class);
 		return true;

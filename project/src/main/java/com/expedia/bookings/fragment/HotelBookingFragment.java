@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -12,23 +11,19 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelBookingResponse;
-import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
@@ -50,13 +45,11 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	public static final String TAG = HotelBookingFragment.class.toString();
 
 	public static final String KEY_DOWNLOAD_BOOKING = "com.expedia.bookings.hotel.checkout";
-	public static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	public static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_HOTEL_CREATE_TRIP";
 	public static final String KEY_DOWNLOAD_APPLY_COUPON = "KEY_DOWNLOAD_HOTEL_APPLY_COUPON";
 	public static final String KEY_DOWNLOAD_REMOVE_COUPON = "KEY_DOWNLOAD_REMOVE_COUPON";
 
-	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_HOTELCREATE_TRIP_DIALOG";
-	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
+	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_HOTEL_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_PRODUCT_RATEUP_DIALOG = "HOTEL_PRODUCT_RATEUP_DIALOG";
 
 	private static final String INSTANCE_HOTELBOOKING_STATE = "INSTANCE_HOTELBOOKING_STATE";
@@ -65,9 +58,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	private HotelBookingState mState = HotelBookingState.DEFAULT;
 
+	private RetryErrorDialogFragment mCreateTripRetryDialog;
+
 	public enum HotelBookingState {
 		DEFAULT,
-		HOTEL_PRODUCT,
 		CREATE_TRIP,
 		COUPON_APPLY,
 		COUPON_REMOVE,
@@ -158,9 +152,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	public void onResume() {
 		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (isDownloadingHotelProduct()) {
-			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
-		}
 		if (isDownloadingCreateTrip()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
 		}
@@ -174,12 +165,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		super.onPause();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
-			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
 			bd.cancelDownload(KEY_DOWNLOAD_APPLY_COUPON);
 		}
 		else {
-			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP);
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_APPLY_COUPON);
 		}
@@ -198,9 +187,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		Log.v("HotelBookingFragment startDowload requested for : " + state);
 		mState = state;
 		switch (state) {
-		case HOTEL_PRODUCT:
-			startHotelProductDownload();
-			break;
 		case CREATE_TRIP:
 			startCreateTripDownload();
 			break;
@@ -268,171 +254,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	}
 
 	/////////////////////////////////////////////////////
-	///// Hotel Product service related
-
-	private void startHotelProductDownload() {
-		// Let's cancel download if already running.
-		cancelHotelProductDownload();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
-	}
-
-	private void cancelHotelProductDownload() {
-		if (isDownloadingHotelProduct()) {
-			BackgroundDownloader.getInstance().cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
-		}
-	}
-
-	public boolean isDownloadingHotelProduct() {
-		return BackgroundDownloader.getInstance().isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
-	}
-
-	private final Download<HotelProductResponse> mHotelProductDownload = new Download<HotelProductResponse>() {
-		@Override
-		public HotelProductResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
-
-			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
-			Property property = Db.getTripBucket().getHotel().getProperty();
-
-			return services.hotelProduct(params, property, selectedRate);
-		}
-	};
-
-	private final OnDownloadComplete<HotelProductResponse> mHotelProductCallback = new OnDownloadComplete<HotelProductResponse>() {
-		@Override
-		public void onDownload(HotelProductResponse response) {
-			if (response == null || response.hasErrors()) {
-				handleHotelProductError(response);
-			}
-			else {
-				Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-				Rate newRate = response.getRate();
-
-				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
-					onHotelProductSuccess(response, selectedRate, newRate);
-				}
-				else {
-					handleHotelProductError(response);
-				}
-			}
-		}
-
-	};
-
-	/**
-	 * This method takes care of all the updating upon hotelProduct download success
-	 * which is common for most cases.
-	 * If we want to add more UI functionality, then Subscribe to Events.HotelProductDownloadSuccess class.
-	 */
-	private void onHotelProductSuccess(HotelProductResponse response, Rate selectedRate, Rate newRate) {
-		Db.getTripBucket().getHotel().setHotelProductResponse(response);
-		if (!AndroidUtils.isRelease(getActivity())) {
-			String priceChangeString = SettingUtils.get(getActivity(),
-				getString(R.string.preference_fake_hotel_price_change),
-				getString(R.string.preference_fake_price_change_default));
-			BigDecimal priceChange = new BigDecimal(priceChangeString);
-
-			//Update total price
-			newRate.getDisplayTotalPrice().add(priceChange);
-			newRate.getTotalAmountAfterTax().add(priceChange);
-
-			//Update all nights total and per/night totals
-			newRate.getNightlyRateTotal().add(priceChange);
-			if (newRate.getRateBreakdownList() != null) {
-				BigDecimal numberOfNights = new BigDecimal(newRate.getRateBreakdownList().size());
-				BigDecimal perNightChange = priceChange.divide(numberOfNights, BigDecimal.ROUND_UP);
-				for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
-					breakdown.getAmount().add(perNightChange);
-				}
-			}
-
-		}
-
-		int priceChange = selectedRate.compareForPriceChange(newRate);
-		if (priceChange != 0) {
-			Db.getTripBucket().getHotel().setNewRate(newRate);
-
-			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
-			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
-				// The rules for what we show between rooms and rates and checkout as the
-				// "total" differ. Thus, we must defer to what the new rate is trying to display.
-				Money oldPrice = newRate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES ?
-					selectedRate.getTotalPriceWithMandatoryFees() : selectedRate.getDisplayTotalPrice();
-				boolean isPriceHigher = priceChange < 0;
-				HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-					oldPrice, newRate.getDisplayTotalPrice());
-				dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
-			}
-			else {
-				Events.post(new Events.HotelProductRateUp(newRate));
-			}
-		}
-		else if (newRate.showResortFeesMessaging()) {
-			Db.getTripBucket().getHotel().setNewRate(newRate, false);
-			// Having resort fees means we want to display the new info we
-			// got from the product call, that we did not necessarily get from
-			// offers. We should message this across all components.
-			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
-				Events.post(new Events.HotelProductRateUp(newRate));
-			}
-		}
-
-		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
-		availability.updateFrom(selectedRate.getRateKey(), response);
-		availability.setSelectedRate(newRate);
-
-		Events.post(new Events.HotelProductDownloadSuccess(response));
-	}
-
-	private void handleHotelProductError(HotelProductResponse response) {
-		if (response == null) {
-			Events.post(new Events.CreateTripDownloadError(null));
-			showRetryErrorDialog();
-		}
-		else {
-			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-			int messageId = Ui.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
-
-			if (response.getErrors() != null) {
-				for (ServerError error : response.getErrors()) {
-					if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
-						messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
-						HotelAvailability availability;
-
-						// Cleanup trip bucket
-						availability = Db.getTripBucket().getHotel().getHotelAvailability();
-						availability.removeRate(response.getOriginalProductKey());
-
-						// Cleanup search data
-						String id = Db.getTripBucket().getHotel().getProperty().getPropertyId();
-						availability = Db.getHotelSearch().getAvailability(id);
-						if (availability != null) {
-							availability.removeRate(response.getOriginalProductKey());
-						}
-
-						// Post event for tablets to show the BookingUnavailableFragment
-						Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
-					}
-					// Handling product key expiration.
-					else if (error.isProductKeyExpiration()) {
-						messageId = R.string.error_hotel_no_longer_available;
-						Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
-					}
-				}
-			}
-
-			// Let's show the error dialog only for phones.
-			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
-				dialog.setMessage(messageId);
-				dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
-			}
-		}
-	}
-
-	/////////////////////////////////////////////////////
 	///// Create Trip service related
 
 	private void startCreateTripDownload() {
@@ -482,16 +303,61 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	};
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
+		// In the case that we want to spoof originalRate for testing,
+		// it cannot be final.
+		Rate originalRate = response.getOriginalRate();
+		final Rate newRate = response.getAirAttachRate() != null ? response.getAirAttachRate() : response.getNewRate();
+
+		// Fake price change
+		if (!AndroidUtils.isRelease(getActivity())) {
+			String priceChangeString = SettingUtils.get(getActivity(),
+				getString(R.string.preference_fake_hotel_price_change),
+				getString(R.string.preference_fake_price_change_default));
+			BigDecimal priceChange = new BigDecimal(priceChangeString);
+			originalRate = newRate.clone();
+			//Update total price
+			newRate.getDisplayTotalPrice().add(priceChange);
+
+			//Update all nights total and per/night totals
+			newRate.getNightlyRateTotal().add(priceChange);
+			if (newRate.getRateBreakdownList() != null) {
+				BigDecimal numberOfNights = new BigDecimal(newRate.getRateBreakdownList().size());
+				BigDecimal perNightChange = priceChange.divide(numberOfNights, BigDecimal.ROUND_UP);
+				for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
+					breakdown.getAmount().add(perNightChange);
+				}
+			}
+
+		}
+
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
 
-		Rate originalRate = response.getNewRate();
-		Rate airAttachRate = response.getAirAttachRate();
-		if (airAttachRate != null && originalRate.compareForPriceChange(airAttachRate) != 0) {
-			Db.getTripBucket().getHotel().setNewRate(originalRate);
-			Db.getTripBucket().getHotel().setNewRate(airAttachRate);
-			Events.post(new Events.HotelProductRateUp(airAttachRate));
+		// If we have an originalRate, we have a price change. Else, we don't.
+		if (originalRate != null) {
+			int priceChange = originalRate.compareForPriceChange(newRate);
+			if (priceChange != 0) {
+				Db.getTripBucket().getHotel().setNewRate(originalRate);
+				Db.getTripBucket().getHotel().setNewRate(newRate);
+
+				// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
+				// FIXME: just implement HotelProductRateUp for phone
+				if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+					boolean isPriceHigher = priceChange < 0;
+					HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
+						originalRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+					dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
+				}
+				else {
+					Events.post(new Events.HotelProductRateUp(newRate));
+				}
+			}
 		}
+
+		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
+		String originalRateKey = originalRate == null ? "" : originalRate.getRateKey();
+		availability.updateFrom(originalRateKey, newRate);
+		availability.setSelectedRate(newRate);
 
 		switch (mState) {
 		case COUPON_APPLY:
@@ -513,18 +379,54 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	// Error handling
 	private void handleCreateTripError(CreateTripResponse response) {
-		if (response == null) {
+		if (response == null || response.getErrors() == null || response.getErrors().size() == 0) {
+			showRetryErrorDialog();
 			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, null));
+			return;
 		}
-		else {
-			ServerError firstError = response.getErrors().get(0);
-			Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, firstError));
+		if (response.getErrors() != null) {
+			for (ServerError error : response.getErrors()) {
+				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					HotelAvailability availability;
+					final Rate originalRate = Db.getTripBucket().getHotel().getRate();
+					final String originalProductKey = originalRate.getRateKey();
+
+					// Cleanup trip bucket
+					availability = Db.getTripBucket().getHotel().getHotelAvailability();
+					availability.removeRate(originalProductKey);
+
+					// Cleanup search data
+					String id = Db.getTripBucket().getHotel().getProperty().getPropertyId();
+					availability = Db.getHotelSearch().getAvailability(id);
+					if (availability != null) {
+						availability.removeRate(originalProductKey);
+					}
+
+					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
+					return;
+				}
+				// Handling product key expiration.
+				else if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT && error.getExtra("field").equals("productKey")) {
+					Events.post(new Events.TripItemExpired(LineOfBusiness.HOTELS));
+					return;
+				}
+			}
+
+			if (response.getErrors().size() > 0) {
+				ServerError firstError = response.getErrors().get(0);
+				Events.post(new Events.CreateTripDownloadError(LineOfBusiness.HOTELS, firstError));
+				return;
+			}
 		}
 	}
 
 	private void showRetryErrorDialog() {
-		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
+		if (mCreateTripRetryDialog != null) {
+			mCreateTripRetryDialog.dismiss();
+		}
+
+		mCreateTripRetryDialog = new RetryErrorDialogFragment();
+		mCreateTripRetryDialog.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
 	}
 
 	///////////// Retry CreateTrip call dialog handlers
@@ -595,7 +497,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	private void startApplyCouponDownloader(String couponCode) {
 		mCouponCode = couponCode;
 		// Let's cancel download if already running.
-		cancelHotelProductDownload();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_DOWNLOAD_APPLY_COUPON, mCouponDownload, mCouponCallback);
 	}
@@ -656,7 +557,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	}
 
 	private void startRemoveCouponDownloader() {
-		cancelHotelProductDownload();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_DOWNLOAD_REMOVE_COUPON, mRemoveCouponDownload, mRemoveCouponCallback);
 	}
@@ -711,7 +611,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 	private void startReplaceCouponDownloadProcess(String couponCode) {
 		mCouponCode = couponCode;
-		cancelHotelProductDownload();
 		cancelRemoveCouponDownloader();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_DOWNLOAD_REMOVE_COUPON, mRemoveCouponDownload, mApplyCouponAfterRemovalCallback);
