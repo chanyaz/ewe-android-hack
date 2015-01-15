@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
@@ -24,15 +25,16 @@ import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AdvertisingIdUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -42,14 +44,21 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.debug.MemoryUtils;
+import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import net.danlew.android.joda.ResourceZoneInfoProvider;
-import io.fabric.sdk.android.Fabric;
 
-public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
+import net.danlew.android.joda.ResourceZoneInfoProvider;
+
+import io.fabric.sdk.android.Fabric;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler,
+	AdvertisingIdUtils.OnIDFALoaded {
 	// Don't change the actual string, updated identifier for clarity
 	private static final String PREF_FIRST_LAUNCH_OCCURED = "PREF_FIRST_LAUNCH";
 
@@ -138,7 +147,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("FS.db Init");
 
 		// Pull down advertising ID
-		AdvertisingIdUtils.loadIDFA(this);
+		AdvertisingIdUtils.loadIDFA(this, this);
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
 		// Setup Omniture for tracking crashes
@@ -445,5 +454,37 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			Crashlytics.setString("gcm token", gcmId);
 		}
 	}
+
+	@Override
+	public void onIDFALoaded(String idfa) {
+		new AbacusServices(AndroidUtils.isRelease(this) ? AbacusServices.PRODUCTION : AbacusServices.DEV,
+			new File(getCacheDir(), "abacus"), AndroidSchedulers.mainThread(),
+			Schedulers
+				.io())
+			.downloadBucket(idfa, String.valueOf(PointOfSale.getPointOfSale().getTpid()), abacusSubscriber);
+	}
+
+	@Override
+	public void onIDFAFailed() {
+
+	}
+
+	private static Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
+		@Override
+		public void onCompleted() {
+			Log.d("AbacusReponse - onCompleted");
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.d("AbacusReponse - onError", e);
+		}
+
+		@Override
+		public void onNext(AbacusResponse abacusResponse) {
+			Db.setAbacusResponse(abacusResponse);
+			Log.d("AbacusReponse - onNext");
+		}
+	};
 
 }

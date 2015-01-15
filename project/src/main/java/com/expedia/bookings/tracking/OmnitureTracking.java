@@ -53,6 +53,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -62,12 +63,12 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.EndPoint;
-import com.expedia.bookings.utils.AdvertisingIdUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -230,6 +231,8 @@ public class OmnitureTracking {
 				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 			}
 		}
+
+		trackAATest(s);
 
 		// Send the tracking data
 		s.track();
@@ -1210,7 +1213,19 @@ public class OmnitureTracking {
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
+
+		trackAATest(s);
+
 		s.track();
+	}
+
+	private static void trackAATest(ADMS_Measurement s) {
+		boolean isTestLive = Db.getAbacusResponse().isTestLive(AbacusResponse.EBAndroidAATest);
+		String analyticsString = Db.getAbacusResponse().getAnalyticsString(AbacusResponse.EBAndroidAATest);
+		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
+			s.setEvar(34, analyticsString);
+			s.setProp(34, analyticsString);
+		}
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {

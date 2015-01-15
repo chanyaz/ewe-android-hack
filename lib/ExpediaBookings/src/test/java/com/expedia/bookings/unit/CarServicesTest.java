@@ -1,22 +1,19 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
 import org.junit.Rule;
+import org.junit.Test;
 
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.services.CarServices;
-import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
+
 import retrofit.RetrofitError;
-import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 
@@ -84,42 +81,4 @@ public class CarServicesTest {
 		}
 	}
 
-	public static class BlockingObserver<T> implements Observer<T> {
-		private final CountDownLatch mLatch;
-		private final ArrayList<T> mItems = new ArrayList<>();
-		private final ArrayList<Throwable> mErrors = new ArrayList<>();
-
-		public BlockingObserver(int count) {
-			mLatch = new CountDownLatch(count);
-		}
-
-		@Override
-		public void onCompleted() {
-			mLatch.countDown();
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			mErrors.add(e);
-			mLatch.countDown();
-		}
-
-		@Override
-		public void onNext(T object) {
-			mItems.add(object);
-			mLatch.countDown();
-		}
-
-		public void await() throws Throwable {
-			mLatch.await(5, TimeUnit.SECONDS);
-		}
-
-		public ArrayList<T> getItems() {
-			return mItems;
-		}
-
-		public ArrayList<Throwable> getErrors() {
-			return mErrors;
-		}
-	}
 }

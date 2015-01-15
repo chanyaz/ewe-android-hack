@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -122,11 +123,22 @@ public class Db {
 	//The working copy manager of billingInfo
 	private WorkingBillingInfoManager mWorkingBillingInfoManager;
 
+	// Abacus user bucket info
+	private static AbacusResponse mAbacusResponse = new AbacusResponse();
+
 	// To store the fullscreen average color for the ui
 	private int mFullscreenAverageColor = 0x66000000;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
+
+	public static void setAbacusResponse(AbacusResponse abacusResponse) {
+		sDb.mAbacusResponse = abacusResponse;
+	}
+
+	public static AbacusResponse getAbacusResponse() {
+		return sDb.mAbacusResponse;
+	}
 
 	public static void setLaunchHotelData(LaunchHotelData launchHotelData) {
 		sDb.mLaunchHotelData = launchHotelData;
