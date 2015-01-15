@@ -21,6 +21,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
@@ -306,7 +307,13 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			ViewGroup feesContainer = Ui.findView(mandatoryFeeView, R.id.resort_fees_container);
 
 			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
-			feeAmountTv.setText(resortFeeRate.getTotalMandatoryFees().getFormattedMoney());
+
+			if (resortFeeRate.getTotalMandatoryFees().hasCents()) {
+				feeAmountTv.setText(resortFeeRate.getTotalMandatoryFees().getFormattedMoney());
+			}
+			else {
+				feeAmountTv.setText(resortFeeRate.getTotalMandatoryFees().getFormattedMoney(Money.F_NO_DECIMAL));
+			}
 
 			TextView bottomTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_bottom_text);
 			bottomTv.setText(HotelUtils.getPhoneResortFeeBannerText(getActivity(), resortFeeRate));

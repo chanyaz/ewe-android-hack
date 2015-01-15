@@ -56,6 +56,10 @@ public class Money implements JSONable {
 		return mAmount;
 	}
 
+	public boolean hasCents() {
+		return mAmount.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) > 0;
+	}
+
 	public void setAmount(String amount) {
 		if (TextUtils.isEmpty(amount)) {
 			// Default to 0 for the amount value
