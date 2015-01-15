@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
@@ -268,6 +269,28 @@ public final class ViewActions {
 			@Override
 			public String getDescription() {
 				return "Get list items per screen height count";
+			}
+		};
+	}
+
+	//View Action to type multibyte characters
+
+	public static ViewAction setText(final String multiByte) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(EditText.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				((EditText) view).setText(multiByte);
+				uiController.loopMainThreadUntilIdle();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Type multi byte character";
 			}
 		};
 	}
