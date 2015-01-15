@@ -18,17 +18,17 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 
-public class TestCarSearchWidget extends LinearLayout {
+public class CarResultsWidget extends LinearLayout {
 
-	public TestCarSearchWidget(Context context) {
+	public CarResultsWidget(Context context) {
 		super(context);
 	}
 
-	public TestCarSearchWidget(Context context, AttributeSet attrs) {
+	public CarResultsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public TestCarSearchWidget(Context context, AttributeSet attrs, int defStyle) {
+	public CarResultsWidget(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
