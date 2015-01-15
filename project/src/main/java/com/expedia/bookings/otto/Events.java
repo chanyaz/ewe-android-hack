@@ -163,7 +163,7 @@ public class Events {
 	/// HotelBookingFragment related
 
 	/**
-	 * This event notifies HotelProductDownload call has succeeded and the rate of the selected room has gone up.
+	 * This event notifies that the rate of the selected room has gone up after CreateTripDownload call has succeeded.
 	 */
 	public static class HotelProductRateUp {
 		public final Rate newRate;
