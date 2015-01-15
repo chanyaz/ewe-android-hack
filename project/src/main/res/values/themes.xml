@@ -210,7 +210,7 @@
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_expedia</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
-        <item name="skin_actionMenuDoneButtonText">@string/menu_done</item>
+        <item name="skin_actionMenuDoneButtonText">@string/button_confirmation_done</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
         <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
