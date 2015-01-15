@@ -1,10 +1,10 @@
 package com.expedia.bookings.test.component.cars;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import android.support.test.espresso.matcher.ViewMatchers.Visibility;
 import android.support.test.runner.AndroidJUnit4;
@@ -16,7 +16,6 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
-import static android.support.test.espresso.matcher.ViewMatchers.Visibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;

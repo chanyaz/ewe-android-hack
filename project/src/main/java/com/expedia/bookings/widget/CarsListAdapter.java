@@ -7,19 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarDb;
-import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.utils.Ui;
-import rx.Observer;
 
-import android.widget.TextView;
-/**
- * Created by rkochhar on 1/14/15.
- */
 public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.ViewHolder> {
 	List<CarCategory> categoriesTestList = new ArrayList<>();
 

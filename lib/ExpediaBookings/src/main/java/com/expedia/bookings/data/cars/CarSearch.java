@@ -26,7 +26,7 @@ public class CarSearch {
 
 		List<CarOffer> carOffers = categorizedCarOffers.getOffers();
 		CarOffer bestOffer = categorizedCarOffers.getSelectedOffer();
-		if(bestOffer == null || (carOffer.fare.total.compareTo(bestOffer.fare.total) == -1)) {
+		if (bestOffer == null || (carOffer.fare.total.compareTo(bestOffer.fare.total) == -1)) {
 			categorizedCarOffers.setSelectedOffer(carOffer);
 		}
 		
