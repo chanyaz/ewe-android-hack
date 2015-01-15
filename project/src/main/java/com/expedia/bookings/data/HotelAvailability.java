@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -61,7 +62,7 @@ public class HotelAvailability implements JSONable {
 
 	public void updateFrom(String rateKey, Rate newRate) {
 		if (mHotelOffersResponse != null) {
-			Rate oldRate = getRate(rateKey);
+			Rate oldRate = Strings.isEmpty(rateKey) ? null : getRate(rateKey);
 
 			if (oldRate == null) {
 				mHotelOffersResponse.addRate(newRate);

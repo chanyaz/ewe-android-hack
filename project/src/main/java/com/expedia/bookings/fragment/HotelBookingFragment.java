@@ -303,7 +303,9 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	};
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
-		final Rate originalRate = Db.getTripBucket().getHotel().getRate();
+		// In the case that we want to spoof originalRate for testing,
+		// it cannot be final.
+		Rate originalRate = response.getOriginalRate();
 		final Rate newRate = response.getAirAttachRate() != null ? response.getAirAttachRate() : response.getNewRate();
 
 		// Fake price change
@@ -312,7 +314,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				getString(R.string.preference_fake_hotel_price_change),
 				getString(R.string.preference_fake_price_change_default));
 			BigDecimal priceChange = new BigDecimal(priceChangeString);
-
+			originalRate = newRate.clone();
 			//Update total price
 			newRate.getDisplayTotalPrice().add(priceChange);
 
@@ -331,26 +333,30 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
 
-		int priceChange = originalRate.compareForPriceChange(newRate);
-		if (priceChange != 0) {
-			Db.getTripBucket().getHotel().setNewRate(originalRate);
-			Db.getTripBucket().getHotel().setNewRate(newRate);
+		// If we have an originalRate, we have a price change. Else, we don't.
+		if (originalRate != null) {
+			int priceChange = originalRate.compareForPriceChange(newRate);
+			if (priceChange != 0) {
+				Db.getTripBucket().getHotel().setNewRate(originalRate);
+				Db.getTripBucket().getHotel().setNewRate(newRate);
 
-			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
-			// FIXME: just implement HotelProductRateUp for phone
-			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
-				boolean isPriceHigher = priceChange < 0;
-				HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-					originalRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
-				dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
-			}
-			else {
-				Events.post(new Events.HotelProductRateUp(newRate));
+				// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
+				// FIXME: just implement HotelProductRateUp for phone
+				if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+					boolean isPriceHigher = priceChange < 0;
+					HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
+						originalRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+					dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
+				}
+				else {
+					Events.post(new Events.HotelProductRateUp(newRate));
+				}
 			}
 		}
 
 		HotelAvailability availability = Db.getTripBucket().getHotel().getHotelAvailability();
-		availability.updateFrom(originalRate.getRateKey(), newRate);
+		String originalRateKey = originalRate == null ? "" : originalRate.getRateKey();
+		availability.updateFrom(originalRateKey, newRate);
 		availability.setSelectedRate(newRate);
 
 		switch (mState) {

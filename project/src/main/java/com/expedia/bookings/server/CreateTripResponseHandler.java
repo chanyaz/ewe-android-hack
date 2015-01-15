@@ -52,11 +52,22 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 			createTripResponse.setTealeafId(response.optString("tealeafTransactionId", null));
 
 			JSONObject newHotelResponse = response.getJSONObject("newHotelProductResponse");
-			int numberOfNights = newHotelResponse.getInt("numberOfNights");
+			JSONObject originalHotelResponse = response.getJSONObject("originalHotelProductResponse");
+
+			int newNumberOfNights = newHotelResponse.getInt("numberOfNights");
 
 			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams, mProperty);
-			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), numberOfNights, null);
+			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), newNumberOfNights, null);
+
+			Rate originalRate = null;
+			// "originalHotelProductResponse" is empty if we don't have a price change.
+			if (originalHotelResponse.length() != 0) {
+				int origNumberOfNights = originalHotelResponse.getInt("numberOfNights");
+				originalRate = availHandler.parseJsonHotelOffer(originalHotelResponse.getJSONObject("hotelRoomResponse"), origNumberOfNights, null);
+			}
+
 			createTripResponse.setNewRate(newRate);
+			createTripResponse.setOriginalRate(originalRate);
 
 			List<ValidPayment> payments = CreateItineraryResponseHandler.parseValidPayments(response);
 			createTripResponse.setValidPayments(payments);
