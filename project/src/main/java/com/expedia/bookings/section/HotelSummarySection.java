@@ -264,7 +264,8 @@ public class HotelSummarySection extends RelativeLayout {
 					}
 					if (mSaleImageView != null) {
 						mSaleImageView.setVisibility(View.VISIBLE);
-						mSaleImageView.setImageResource(R.drawable.bg_hotel_cell_sale);
+						int hotelSaleCellBgResId = Ui.obtainThemeResID(getContext(), R.attr.skin_hotelListingSaleDrawable);
+						mSaleImageView.setImageResource(hotelSaleCellBgResId);
 					}
 					mSaleText.setVisibility(View.VISIBLE);
 					mSaleText.setText(context.getString(R.string.percent_minus_template,
