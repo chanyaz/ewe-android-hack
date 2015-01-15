@@ -62,8 +62,6 @@ public class TravelerButtonFragment extends LobableFragment {
 	private String mEmptyViewLabel;
 	private ITravelerButtonListener mTravelerButtonListener;
 
-	private boolean mShowValidMarker = false;
-
 	public void setEnabled(boolean enable) {
 		mTravelerSectionContainer.setEnabled(enable);
 		mEmptyViewContainer.setEnabled(enable);
@@ -134,6 +132,17 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	private void onStoredTravelerSelected(int position) {
 		if (position == mTravelerAdapter.getCount() - 1) {
+			/*
+			 Let's reset selectable state for the current traveler and remove him from DB.
+			 Since we are adding a new traveler, let's add a new blank traveler and set state to new.
+			*/
+			Traveler currentTraveler = Db.getTravelers().get(mTravelerNumber);
+			TravelerUtils.resetPreviousTravelerSelectState(currentTraveler);
+			Db.getTravelers().remove(mTravelerNumber);
+			Traveler traveler = new Traveler();
+			traveler.setIsNew(true);
+			Db.getTravelers().add(mTravelerNumber, traveler);
+			bindToDb();
 			mTravelerButtonListener.onAddNewTravelerSelected(mTravelerNumber);
 			mStoredTravelerPopup.dismiss();
 			return;
@@ -167,10 +176,6 @@ public class TravelerButtonFragment extends LobableFragment {
 		outState.putInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
 	}
 
-	public void enableShowValidMarker(boolean enabled) {
-		mShowValidMarker = enabled;
-	}
-
 	public void setTravelerNumber(int travelerNumber) {
 		mTravelerNumber = travelerNumber;
 	}
@@ -195,14 +200,14 @@ public class TravelerButtonFragment extends LobableFragment {
 				//Valid traveler
 				bindTravelerSection();
 				setShowTravelerView(true);
-				setShowValidMarker(mShowValidMarker, true);
+				setTravelerCheckoutStatus(true);
 
 			}
 			else if (isPartiallyFilled()) {
 				//Partially filled button
 				mSectionTraveler.bind(getDbTraveler());
 				setShowTravelerView(true);
-				setShowValidMarker(mShowValidMarker, false);
+				setTravelerCheckoutStatus(false);
 			}
 			else {
 				//Empty button
@@ -235,11 +240,11 @@ public class TravelerButtonFragment extends LobableFragment {
 		return mTravelerButtonListener.travelerIsValid(mTravelerNumber);
 	}
 
-	private void setShowValidMarker(boolean showMarker, boolean valid) {
+	private void setTravelerCheckoutStatus(boolean valid) {
 		CheckoutInfoStatusImageView v = Ui.findView(mTravelerSectionContainer, R.id.display_picture);
 		v.setTraveler(getDbTraveler());
 		v.setStatusComplete(valid);
-		setShowSavedTravelers(showMarker && User.isLoggedIn(getActivity()));
+		setShowSavedTravelers(User.isLoggedIn(getActivity()));
 	}
 
 	private void setShowSavedTravelers(boolean showSpinner) {
