@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1272,12 +1271,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (mLocalParams.getOrigin() != null && mLocalParams.getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
 					&& mLocalParams.getDestination() != null && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 					mLocalParams.setOrigin(null);
-				}
-				if (!TextUtils.isEmpty(event.queryText)) {
-					mLocalParams.setCustomDestinationQryText(event.queryText);
-				}
-				else {
-					mLocalParams.setDefaultCustomDestinationQryText();
 				}
 			}
 			if (copyTempValuesToParams()) {
