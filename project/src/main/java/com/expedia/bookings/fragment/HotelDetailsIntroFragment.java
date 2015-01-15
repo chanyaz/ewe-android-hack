@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
@@ -184,7 +185,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		// ETP pay later offer info
-		if (property.hasEtpOffer()) {
+		if (ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer()) {
 			payLaterInfo.setVisibility(View.VISIBLE);
 			payLaterInfo.setOnClickListener(new OnClickListener() {
 				@Override
