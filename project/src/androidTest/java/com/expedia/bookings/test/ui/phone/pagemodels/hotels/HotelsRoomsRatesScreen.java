@@ -18,11 +18,12 @@ import static org.hamcrest.Matchers.anything;
  */
 public class HotelsRoomsRatesScreen extends ScreenActions {
 	private static final int HOTEL_NAME_TEXT_VIEW_ID = R.id.name_text_view;
-	private static final int HOTEL_RATING_BAR_ID = R.id.hotel_rating_bar;
+	private static final int HOTEL_RATING_BAR_ID = R.id.hotel_rating_bar_stars;
 	private static final int LIST_VIEW_ID = android.R.id.list;
 	private static final int BACK_BUTTON_ID = android.R.id.home;
 	private static final int RENOVATION_INFO_IMAGE_ID = R.id.construction_chevron;
 	private static final int ADDITIONAL_FEES_INFO_IMAGE_ID = R.id.resort_fees_chevron;
+	private static final int TOTAL_PRICE_TEXT_VIEW_ID = R.id.total_price_text_view;
 
 	private static final int NUM_HEADERS_IN_LIST_VIEW = 1;
 
@@ -50,6 +51,10 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 
 	public static ViewInteraction additionalFeesInfoButton() {
 		return onView(withId(ADDITIONAL_FEES_INFO_IMAGE_ID));
+	}
+
+	public static ViewInteraction totalPriceTextView() {
+		return onView(withId(TOTAL_PRICE_TEXT_VIEW_ID));
 	}
 
 	public static DataInteraction listItem() {
