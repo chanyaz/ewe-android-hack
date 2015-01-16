@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
@@ -1203,6 +1204,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			else {
 				String targetCountry = mContext.getString(PointOfSale.getPointOfSale()
 					.getCountryNameResId());
+				// 1597. VSC Explicity set phone country code to France.
+				if (ExpediaBookingApp.IS_VSC) {
+					targetCountry = mContext.getString(R.string.country_fr);
+				}
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
 						field.setSelection(i);

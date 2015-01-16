@@ -34,7 +34,6 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
@@ -760,9 +759,7 @@ public class PointOfSale {
 				String posName = keys.next();
 				PointOfSale pos = parsePointOfSale(context, posData.optJSONObject(posName));
 				if (pos != null) {
-					pos.mTwoLetterCountryCode = LocaleUtils.convertISO3ToISO2CountryCode(pos.mThreeLetterCountryCode)
-						.toLowerCase(
-							Locale.US);
+					pos.mTwoLetterCountryCode = posName.toLowerCase(Locale.ENGLISH);
 					sPointOfSale.put(pos.mPointOfSale, pos);
 
 					// For backwards compatibility
@@ -789,7 +786,7 @@ public class PointOfSale {
 		PointOfSale pos = new PointOfSale();
 		pos.mPointOfSale = pointOfSaleFromId;
 		// POS data
-		pos.mThreeLetterCountryCode = data.getString("countryCode");
+		pos.mThreeLetterCountryCode = data.optString("countryCode", null);
 
 		// Server access
 		pos.mUrl = data.optString("url", null);
