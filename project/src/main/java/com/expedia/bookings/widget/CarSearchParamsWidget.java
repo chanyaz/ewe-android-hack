@@ -17,7 +17,6 @@ import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
@@ -81,8 +80,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		searchParams.origin = pickupLocation.getText().toString();
 		CarDb.setSearchParams(searchParams);
 
-		carSearchSubscription = CarServices
-			.getInstance()
+		carSearchSubscription = CarDb.getCarServices()
 			.carSearch(CarDb.searchParams, carSearchSubscriber);
 	}
 
