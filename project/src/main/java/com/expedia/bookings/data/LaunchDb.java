@@ -43,7 +43,7 @@ public class LaunchDb {
 	private LaunchCollection mNearByCollection = null;
 	public static final String YOUR_SEARCH_TILE_ID = "last-search";
 	public static final String CUREENT_LOCATION_SEARCH_TILE_ID = "current-location";
-	private static android.location.Location mCurrentLocation;
+	private static android.location.Location mCurrentLocation = null;
 
 	public static void getCollections(Context context) {
 		sDb.mYourSearchCollection = generateYourSearchCollection(context, Sp.getParams());
@@ -110,7 +110,8 @@ public class LaunchDb {
 
 	private static LastSearchLaunchCollection generateYourSearchCollection(Context context, SearchParams params) {
 		LastSearchLaunchCollection lastSearch = null;
-		if (params != null && params.hasEnoughInfoForHotelsSearch()) {
+
+		if (isShowYourSearchCollection(params)) {
 			lastSearch = new LastSearchLaunchCollection();
 			lastSearch.id = YOUR_SEARCH_TILE_ID;
 			if (!TextUtils.isEmpty(params.getDestination().getImageCode())) {
@@ -159,7 +160,7 @@ public class LaunchDb {
 		sDb.mNearByCollection.id = CUREENT_LOCATION_SEARCH_TILE_ID;
 		sDb.mNearByCollection.title = context.getString(R.string.current_location_tile);
 		sDb.mNearByCollection.imageCode = LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE;
-
+		sDb.mNearByCollection.isDestinationImageCode = true;
 		//Downloading image for Current Location Tile
 		if (location != null) {
 			LaunchDb.mCurrentLocation = location;
@@ -175,6 +176,26 @@ public class LaunchDb {
 
 	}
 
+	private static boolean isShowYourSearchCollection(SearchParams params) {
+		return (params != null && params.hasEnoughInfoForHotelsSearch() &&
+			(isUserChangedSearchParams(params)
+				|| params.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION));
+	}
+
+	private static boolean isUserChangedSearchParams(SearchParams params) {
+		return (params.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
+			&& (params.getStartDate() != null
+			|| (params.getNumAdults() + params.getNumChildren()) > 1));
+	}
+
+	private static boolean isShowNearByTile(SearchParams params) {
+		return (params == null || (params.hasEnoughInfoForHotelsSearch()
+			&& params.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION)
+			|| (params.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
+			&& (params.getStartDate() == null
+			&& (params.getNumAdults() + params.getNumChildren()) == 1)));
+	}
+
 	private static void injectLastSearch(LastSearchLaunchCollection collection) {
 		// If there is already a "Last Search" collection, nuke it.
 		if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections.get(
@@ -182,9 +203,14 @@ public class LaunchDb {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
 			sNearByTileCollectionIndex = 0;
 		}
+		if (sDb.mCollections.get(sNearByTileCollectionIndex).isDestinationImageCode
+			&& isUserChangedSearchParams(Sp.getParams())) {
+			sDb.mCollections.remove(sNearByTileCollectionIndex);
+		}
 		if (collection != null && sDb.mCollections != null) {
 			sDb.mCollections.add(LAST_SEARCH_COLLECTION_INDEX, collection);
 			sNearByTileCollectionIndex = 1;
+
 		}
 	}
 
@@ -192,11 +218,14 @@ public class LaunchDb {
 		@Override
 		public void onDownload(List<LaunchCollection> collections) {
 			sDb.mCollections = collections;
-			if (collections != null && collections.size() > 0) {
+			sDb.mSelectedCollection = collections.get(0);
+			if (collections != null && collections.size() > 0 && !BackgroundDownloader.getInstance().isDownloading(
+				NEAR_BY_KEY)) {
 				sDb.mCollections.add(sNearByTileCollectionIndex, sDb.mNearByCollection);
-				sDb.mSelectedCollection = collections.get(1);
 			}
-			injectLastSearch(sDb.mYourSearchCollection);
+			if (isShowYourSearchCollection(Sp.getParams())) {
+				injectLastSearch(sDb.mYourSearchCollection);
+			}
 			Events.post(sDb.produceLaunchCollections());
 		}
 	};
@@ -206,16 +235,19 @@ public class LaunchDb {
 		public void onDownload(SuggestionResponse results) {
 			if (results != null && results.getSuggestions().size() > 0) {
 				LaunchLocation loc = new LaunchLocation();
+				if (sDb.mCollections != null && !sDb.mCollections.isEmpty() && sDb.mCollections
+					.get(sNearByTileCollectionIndex).isDestinationImageCode) {
+					sDb.mCollections.remove(sNearByTileCollectionIndex);
+				}
 				loc.location = results.getSuggestions().get(0);
 				loc.location.setDisplayName(StrUtils.formatDisplayName(results));
 				loc.location.getLocation().setLatitude(mCurrentLocation.getLatitude());
 				loc.location.getLocation().setLongitude(mCurrentLocation.getLongitude());
 				sDb.mNearByCollection.locations = new ArrayList<LaunchLocation>();
 				sDb.mNearByCollection.locations.add(loc);
-				sDb.mNearByCollection.isDestinationImageCode = true;
 				sDb.mNearByCollection.imageCode = results.getSuggestions().get(0).getAirportCode();
-				if (sDb.mCollections != null && !sDb.mCollections.isEmpty()) {
-					sDb.mCollections.remove(sNearByTileCollectionIndex);
+				if ((sDb.mYourSearchCollection == null && sDb.mCollections != null && !sDb.mCollections.isEmpty())
+					|| isShowNearByTile(Sp.getParams())) {
 					sDb.mCollections.add(sNearByTileCollectionIndex, sDb.mNearByCollection);
 					Events.post(sDb.produceLaunchCollections());
 				}
