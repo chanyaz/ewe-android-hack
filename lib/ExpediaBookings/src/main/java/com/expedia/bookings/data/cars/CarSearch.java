@@ -26,9 +26,9 @@ public class CarSearch {
 		CategorizedCarOffers categorizedOffer = carCategoryOfferMap.get(offerCategory);
 
 		List<CarOffer> carOffers = categorizedOffer.getOffers();
-		CarOffer fromPriceOffer = categorizedOffer.getFromPriceOffer();
-		if (fromPriceOffer == null || (carOffer.fare.total.compareTo(fromPriceOffer.fare.total) == -1)) {
-			categorizedOffer.setFromPriceOffer(carOffer);
+		CarOffer totalPriceOffer = categorizedOffer.getLowestTotalPriceOffer();
+		if (totalPriceOffer == null || (carOffer.fare.total.compareTo(totalPriceOffer.fare.total) == -1)) {
+			categorizedOffer.setLowestTotalPriceOffer(carOffer);
 		}
 		carOffers.add(carOffer);
 	}

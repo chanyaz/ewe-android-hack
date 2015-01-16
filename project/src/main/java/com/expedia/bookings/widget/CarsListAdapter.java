@@ -26,7 +26,7 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.ViewHo
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		CategorizedCarOffers categorizedCarOffers = categoriesTestList.get(position);
 		holder.mCategoryTextView.setText(categorizedCarOffers.getCategory().toString());
-		holder.mBestPriceTextView.setText(categorizedCarOffers.getFromPriceOffer().fare.total.getFormattedMoney());
+		holder.mBestPriceTextView.setText(categorizedCarOffers.getLowestTotalPriceOffer().fare.total.getFormattedMoney());
 	}
 
 	@Override

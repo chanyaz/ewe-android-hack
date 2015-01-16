@@ -9,7 +9,7 @@ import java.util.List;
 public class CategorizedCarOffers {
 	private CarCategory category;
 	private List<CarOffer> offers;
-	private CarOffer fromPriceOffer;
+	private CarOffer lowestTotalPriceOffer;
 
 	public CategorizedCarOffers(CarCategory category) {
 		this.category = category;
@@ -20,12 +20,12 @@ public class CategorizedCarOffers {
 		return offers;
 	}
 
-	public CarOffer getFromPriceOffer() {
-		return fromPriceOffer;
+	public CarOffer getLowestTotalPriceOffer() {
+		return lowestTotalPriceOffer;
 	}
 
-	public void setFromPriceOffer(CarOffer fromPriceOffer) {
-		this.fromPriceOffer = fromPriceOffer;
+	public void setLowestTotalPriceOffer(CarOffer lowestTotalPriceOffer) {
+		this.lowestTotalPriceOffer = lowestTotalPriceOffer;
 	}
 
 	public CarCategory getCategory() {
