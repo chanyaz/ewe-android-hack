@@ -200,6 +200,16 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
 
+			if (bitmap == null) {
+				return;
+			}
+
+			if (FragmentBailUtils.shouldBail(getActivity()) || mRootC == null || bitmap.getWidth() == 0
+				|| bitmap.getHeight() == 0) {
+				// Silently don't draw the bitmap
+				return;
+			}
+
 			mCurrentlyDesiredUrl = mUrl;
 
 			if (!mBlur) {
