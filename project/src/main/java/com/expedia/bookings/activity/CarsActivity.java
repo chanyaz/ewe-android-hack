@@ -8,17 +8,12 @@ import android.support.annotation.LayoutRes;
 
 import com.expedia.bookings.R;
 
-public class PlaygroundActivity extends Activity {
+public class CarsActivity extends Activity {
 
 	private static final String KEY_LAYOUT_RES = "KEY_LAYOUT_RES";
 
 	public static Intent createIntent(Context context, @LayoutRes int layoutResId) {
-		Intent intent = new Intent(context, PlaygroundActivity.class);
-		addData(intent, layoutResId);
-		return intent;
-	}
-
-	public static Intent addData(Intent intent, @LayoutRes int layoutResId) {
+		Intent intent = new Intent(context, CarsActivity.class);
 		intent.putExtra(KEY_LAYOUT_RES, layoutResId);
 		return intent;
 	}

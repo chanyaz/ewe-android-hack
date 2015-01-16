@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class CarSearch {
 
-	public Map<CarCategory, List<CarOffer>> carCategoryOfferMap;
+	public Map<CarCategory, CategorizedCarOffers> carCategoryOfferMap;
 
 	public CarSearch() {
 		reset();
@@ -18,10 +18,22 @@ public class CarSearch {
 	}
 
 	public void updateOfferMap(CarOffer carOffer) {
-		if (carCategoryOfferMap.get(carOffer.vehicleInfo.category) == null) {
-			carCategoryOfferMap.put(carOffer.vehicleInfo.category, new ArrayList<CarOffer>());
+		CarCategory offerCategory = carOffer.vehicleInfo.category;
+		if (carCategoryOfferMap.get(offerCategory) == null) {
+			carCategoryOfferMap.put(offerCategory, new CategorizedCarOffers(offerCategory));
 		}
-		carCategoryOfferMap.get(carOffer.vehicleInfo.category).add(carOffer);
+
+		CategorizedCarOffers categorizedOffer = carCategoryOfferMap.get(offerCategory);
+
+		List<CarOffer> carOffers = categorizedOffer.getOffers();
+		CarOffer totalPriceOffer = categorizedOffer.getLowestTotalPriceOffer();
+		if (totalPriceOffer == null || (carOffer.fare.total.compareTo(totalPriceOffer.fare.total) == -1)) {
+			categorizedOffer.setLowestTotalPriceOffer(carOffer);
+		}
+		carOffers.add(carOffer);
 	}
 
+	public List<CategorizedCarOffers> getCategoriesFromResponse() {
+		return new ArrayList<CategorizedCarOffers>(carCategoryOfferMap.values());
+	}
 }

@@ -1,26 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.CarSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/search_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backout_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:src="@drawable/ic_action_bar_back_arrow"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:text="@string/dates_and_location"/>
+
+            <ImageButton
+                android:id="@+id/search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_action_bar_checkmark"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/location_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_header"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/pickup_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/pick_up_location"/>
+
+            <TextView
+                android:id="@+id/dropoff_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/same_as_pick_up"/>
+        </LinearLayout>
 
         <Button
-            android:id="@+id/pickup_datetime"
-            android:layout_width="wrap_content"
+            android:id="@+id/select_date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pick_up_time" />
-
-        <Button
-            android:id="@+id/dropoff_datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/drop_off_time" />
-
-    </LinearLayout>
+            android:layout_below="@id/location_container"
+            android:text="@string/select_dates"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/time_container"
@@ -39,10 +82,10 @@
                 android:id="@+id/change_date_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:text="Change Date"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                android:layout_gravity="left" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/time_confirm_btn"
@@ -51,13 +94,13 @@
                 android:layout_gravity="right"
                 android:text="Confirm"
                 android:textAllCaps="true"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </FrameLayout>
 
         <TimePicker
             android:id="@+id/time_picker"
             android:layout_width="match_parent"
-            android:layout_height="144dp" />
+            android:layout_height="144dp"/>
 
         <FrameLayout
             android:id="@+id/time_bottom_bar"
@@ -69,8 +112,8 @@
                 android:id="@+id/time_picker_detail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="September 25 - 9:41 AM PST"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="September 25 - 9:41 AM PST"/>
         </FrameLayout>
     </LinearLayout>
 
@@ -80,17 +123,11 @@
         android:layout_height="240dp"
         android:layout_gravity="bottom">
 
-        <TextView
-            android:id="@+id/calendar_action_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right" />
-
         <com.mobiata.android.time.widget.CalendarPicker
             android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"/>
 
         <TextView
             android:id="@+id/change_time"
@@ -98,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="#ff00ff"
-            android:gravity="center" />
+            android:gravity="center"/>
 
     </FrameLayout>
 
