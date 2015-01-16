@@ -33,6 +33,7 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.HotelSummarySection;
 import com.expedia.bookings.tracking.AdImpressionTracking;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
@@ -215,6 +216,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			mHotelSelectedListener.onHotelSelected();
 			if (property.isSponsored()) {
 				AdImpressionTracking.trackAdClickOrImpression(getActivity(), property.getClickTrackingUrl());
+				OmnitureTracking.trackHotelSponsoredListingClick(getActivity());
 			}
 		}
 	}

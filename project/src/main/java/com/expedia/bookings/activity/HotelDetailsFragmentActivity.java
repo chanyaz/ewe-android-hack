@@ -334,12 +334,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	private void doOmnitureTracking() {
 		OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
-
-		// Track sponsored listing click event
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		if (property.isSponsored()) {
-			OmnitureTracking.trackHotelSponsoredListingClick(mContext);
-		}
 	}
 
 	private void setupBookByPhoneButton(HotelOffersResponse response) {

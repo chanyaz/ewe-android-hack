@@ -721,13 +721,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
 		OmnitureTracking.trackPageLoadHotelsInfosite(getActivity(), -1);
-
-		// Track sponsored listing click event
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		if (property.isSponsored()) {
-			OmnitureTracking.trackHotelSponsoredListingClick(getActivity());
-		}
-
 	}
 
 	private void updateFragsForRoomsAndRates() {
