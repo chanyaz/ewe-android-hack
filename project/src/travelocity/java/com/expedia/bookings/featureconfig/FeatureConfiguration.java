@@ -221,4 +221,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getHotelSalePriceTextColorResourceId(Context context) {
 		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceStandardColor);
 	}
+
+	public Boolean wantsOtherAppsCrossSellInConfirmationScreen() {
+		return false;
+	}
+
+	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
+	}
+
 }

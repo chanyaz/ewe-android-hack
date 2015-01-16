@@ -101,4 +101,9 @@ public interface IProductFlavorFeatureConfiguration {
 	String getCustomDateFormatForUserReviews();
 
 	int getHotelSalePriceTextColorResourceId(Context context);
+
+	Boolean wantsOtherAppsCrossSellInConfirmationScreen();
+
+	void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view);
+
 }

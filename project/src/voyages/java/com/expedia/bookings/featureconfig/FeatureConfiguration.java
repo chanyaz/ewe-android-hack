@@ -7,6 +7,9 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutActivity;
@@ -16,6 +19,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -229,4 +233,51 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//1747. VSC Change price text to sale color
 		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceSaleColor);
 	}
+
+	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
+
+		TextView actionTextView = Ui.findView(view, R.id.call_action_text_view);
+		actionTextView.setText(R.string.vsc_customer_support);
+
+		View vscAppDivider = Ui.findView(view, R.id.vsc_app_divider);
+		vscAppDivider.setVisibility(View.VISIBLE);
+
+		LinearLayout vscAppCrossSellLayout = Ui.findView(view, R.id.vscAppCrossSellLayout);
+		vscAppCrossSellLayout.setVisibility(View.VISIBLE);
+		vscAppCrossSellLayout.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				SocialUtils.openSite(context, AndroidUtils.getMarketAppLink(context, "com.vsct.vsc.mobile.horaireetresa.android"));
+			}
+		});
+
+		TextView rowTitleView = Ui.findView(view, R.id.row_title);
+		rowTitleView.setText(R.string.VSC_Voyages_SNF);
+		TextView descriptionView = Ui.findView(view, R.id.row_description);
+		descriptionView.setText(R.string.VSC_Voyages_SNF_description);
+		ImageView imageView = Ui.findView(view, R.id.image);
+		imageView.setImageResource(R.drawable.ic_vsc_train_app);
+
+		Ui.setOnClickListener(view, R.id.call_action_text_view, getCallActionTextViewClickListener(context));
+	}
+
+	private View.OnClickListener getCallActionTextViewClickListener(final Context context) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// 1617. VSC Contact URL
+				WebViewActivity.IntentBuilder webBuilder = new WebViewActivity.IntentBuilder(context);
+				webBuilder.setUrl("http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html");
+				webBuilder.setTheme(R.style.Theme_Phone);
+				webBuilder.setTitle(R.string.vsc_customer_support);
+				context.startActivity(webBuilder.getIntent());
+			}
+		};
+	}
+
+	public Boolean wantsOtherAppsCrossSellInConfirmationScreen() {
+		return true;
+	}
+
 }

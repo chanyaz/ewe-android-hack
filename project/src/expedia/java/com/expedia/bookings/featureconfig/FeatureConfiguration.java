@@ -1,6 +1,5 @@
 package com.expedia.bookings.featureconfig;
 
-import java.lang.UnsupportedOperationException;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -213,4 +212,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getHotelSalePriceTextColorResourceId(Context context) {
 		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceStandardColor);
 	}
+
+	public Boolean wantsOtherAppsCrossSellInConfirmationScreen() {
+		return false;
+	}
+
+	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
+	}
+
 }
