@@ -12,12 +12,12 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarSearchWidget extends FrameLayout {
-	public CarSearchWidget(Context context) {
+public class CarSearchController extends FrameLayout {
+	public CarSearchController(Context context) {
 		super(context);
 	}
 
-	public CarSearchWidget(Context context, AttributeSet attrs) {
+	public CarSearchController(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

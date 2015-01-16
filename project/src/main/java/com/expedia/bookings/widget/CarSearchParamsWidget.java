@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -41,14 +43,17 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		super(context, attrs, defStyle);
 	}
 
-	@InjectView(R.id.pickup_datetime)
-	Button pickupDateTime;
+	@InjectView(R.id.pickup_location)
+	EditText pickupLocation;
 
-	@InjectView(R.id.dropoff_datetime)
-	Button dropoffDateTime;
+	@InjectView(R.id.dropoff_location)
+	TextView dropoffLocation;
 
-	@InjectView(R.id.calendar_action_button)
-	TextView calendarActionButton;
+	@InjectView(R.id.select_date)
+	Button selectDateButton;
+
+	@InjectView(R.id.search_btn)
+	ImageButton searchButton;
 
 	@InjectView(R.id.calendar_container)
 	ViewGroup calendarContainer;
@@ -68,7 +73,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	private boolean isSelectingStartTime = true;
 
-	@OnClick(R.id.calendar_action_button)
+	@OnClick(R.id.search_btn)
 	public void startWidgetDownload() {
 		startDownload();
 		Ui.showToast(getContext(), "Loading results, please wait");
@@ -88,7 +93,9 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		searchParams = new CarSearchParams();
 		Events.register(getContext());
 
-		dropoffDateTime.setVisibility(View.INVISIBLE);
+		pickupLocation.setVisibility(View.VISIBLE);
+		dropoffLocation.setVisibility(View.VISIBLE);
+		selectDateButton.setVisibility(View.VISIBLE);
 		calendarContainer.setVisibility(View.INVISIBLE);
 		timePickerContainer.setVisibility(View.INVISIBLE);
 		changeTime.setVisibility(View.INVISIBLE);
@@ -108,18 +115,10 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		calendar.setDateChangedListener(null);
 	}
 
-	@OnClick(R.id.pickup_datetime)
+	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
-		dropoffDateTime.setVisibility(View.VISIBLE);
 		calendarContainer.setVisibility(View.VISIBLE);
-		calendarActionButton.setText(R.string.next);
 		isSelectingStartTime = true;
-	}
-
-	@OnClick(R.id.dropoff_datetime)
-	public void onDropOffDateTimeClicked() {
-		calendarActionButton.setText(R.string.search);
-		isSelectingStartTime = false;
 	}
 
 	@OnClick(R.id.change_time)
@@ -132,27 +131,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	public void onTimeConfirmClicked() {
 		timePickerContainer.setVisibility(View.INVISIBLE);
 		calendarContainer.setVisibility(View.VISIBLE);
-	}
-
-	@OnClick(R.id.calendar_action_button)
-	public void onCalendarActionButtonClicked() {
-		boolean actionButtonShowsSearch = !isSelectingStartTime;
-		if (actionButtonShowsSearch) {
-			CarDb.setSearchParams(searchParams);
-		}
-	}
-
-	@Override
-	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-		DateTime dateSelected = start.toDateTimeAtStartOfDay();
-		if (isSelectingStartTime) {
-			searchParams.startTime = dateSelected;
-		}
-		else {
-			searchParams.endTime = dateSelected;
-		}
-		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
-		changeTime.setVisibility(View.VISIBLE);
 	}
 
 	private Observer<CarSearch> carSearchSubscriber = new Observer<CarSearch>() {
@@ -173,4 +151,19 @@ public class CarSearchParamsWidget extends FrameLayout implements
 			CarDb.carSearch = carSearch;
 		}
 	};
+
+	// Interfaces
+
+	@Override
+	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
+		DateTime dateSelected = start.toDateTimeAtStartOfDay();
+		if (isSelectingStartTime) {
+			searchParams.startTime = dateSelected;
+		}
+		else {
+			searchParams.endTime = dateSelected;
+		}
+		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
+		changeTime.setVisibility(View.VISIBLE);
+	}
 }

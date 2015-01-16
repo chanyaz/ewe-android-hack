@@ -6,6 +6,12 @@
     <string name="pick_up_time">Pick-up time</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Drop-off time</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Pick-up location</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Same as pick-up</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Dates and Location</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->

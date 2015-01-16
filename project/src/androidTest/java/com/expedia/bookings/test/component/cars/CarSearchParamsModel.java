@@ -3,6 +3,7 @@ package com.expedia.bookings.test.component.cars;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.ViewInteraction;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 
@@ -10,13 +11,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public final class CarSearchParamsModel {
-	public static ViewInteraction dropOffButton() {
-		return onView(withId(R.id.dropoff_datetime));
-	}
-
-	public static ViewInteraction pickUpButton() {
-		return onView(withId(R.id.pickup_datetime));
-	}
 
 	public static ViewInteraction calendarContainer() {
 		return onView(withId(R.id.calendar_container));
@@ -26,8 +20,12 @@ public final class CarSearchParamsModel {
 		return onView(withId(R.id.calendar));
 	}
 
-	public static ViewInteraction calendarActionButton() {
-		return onView(withId(R.id.calendar_action_button));
+	public static ViewInteraction selectDate() {
+		return onView(withId(R.id.select_date));
+	}
+
+	public static ViewInteraction searchButton() {
+		return onView(withId(R.id.search_btn));
 	}
 
 	public static ViewInteraction changeTime() {
