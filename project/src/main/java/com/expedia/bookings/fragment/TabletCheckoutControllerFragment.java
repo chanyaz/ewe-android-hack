@@ -66,6 +66,7 @@ import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -700,6 +701,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 				mFlightBookingFrag.startDownload(FlightBookingState.CREATE_TRIP);
 			}
+			else {
+				dismissLoadingDialogs();
+			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
 			if (!mHotelBookingFrag.isDownloadingCreateTrip()
@@ -1141,13 +1145,26 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void dismissLoadingDialogs() {
-		dismissDialog(TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
-		dismissDialog(TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
+		if (mFlightCreateTripDownloadThrobber != null) {
+			mFlightCreateTripDownloadThrobber.dismiss();
+		}
+		else {
+			dismissDialog(TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
+		}
+
+		if (mHotelCreateTripDownloadThrobber != null) {
+			mHotelCreateTripDownloadThrobber.dismiss();
+		}
+		else {
+			dismissDialog(TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+		}
 	}
 
 	private void dismissDialog(String key) {
+		Log.d("DISMISS", key);
 		ThrobberDialog dialog = Ui.findSupportFragment((FragmentActivity) getActivity(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
 		if (dialog != null && dialog.isAdded()) {
+			Log.d("DISMISS", "called dismiss " + key);
 			dialog.dismiss();
 		}
 	}
