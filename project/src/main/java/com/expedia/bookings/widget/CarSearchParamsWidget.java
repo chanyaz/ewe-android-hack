@@ -12,12 +12,19 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.Subscription;
 
 public class CarSearchParamsWidget extends FrameLayout implements
 	CalendarPicker.DateSelectionChangedListener {
@@ -57,14 +64,29 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	private CarSearchParams searchParams;
 
+	Subscription carSearchSubscription;
+
 	private boolean isSelectingStartTime = true;
+
+	@OnClick(R.id.calendar_action_button)
+	public void startWidgetDownload() {
+		startDownload();
+		Ui.showToast(getContext(), "Loading results, please wait");
+	}
+
+	public void startDownload() {
+		carSearchSubscription = CarServices
+			.getInstance()
+			.doBoringCarSearch(carSearchSubscriber);
+
+	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-
 		searchParams = new CarSearchParams();
+		Events.register(getContext());
 
 		dropoffDateTime.setVisibility(View.INVISIBLE);
 		calendarContainer.setVisibility(View.INVISIBLE);
@@ -82,6 +104,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@Override
 	protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
+		Events.unregister(getContext());
 		calendar.setDateChangedListener(null);
 	}
 
@@ -131,4 +154,23 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
 		changeTime.setVisibility(View.VISIBLE);
 	}
+
+	private Observer<CarSearch> carSearchSubscriber = new Observer<CarSearch>() {
+		@Override
+		public void onCompleted() {
+			Log.d("TestCarSearchWidget - onCompleted");
+			Events.post(new Events.EnableCarsSearchResults());
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.d("TestCarSearchWidget - onError", e);
+		}
+
+		@Override
+		public void onNext(CarSearch carSearch) {
+			Log.d("TestCarSearchWidget - onNext");
+			CarDb.carSearch = carSearch;
+		}
+	};
 }

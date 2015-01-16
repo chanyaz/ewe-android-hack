@@ -7,10 +7,12 @@ import java.util.List;
  * Created by rkochhar on 1/15/15.
  */
 public class CategorizedCarOffers {
+	private CarCategory category;
 	private List<CarOffer> offers;
-	private CarOffer selectedOffer;
+	private CarOffer fromPriceOffer;
 
-	public CategorizedCarOffers() {
+	public CategorizedCarOffers(CarCategory category) {
+		this.category = category;
 		offers = new ArrayList<>();
 	}
 
@@ -18,11 +20,15 @@ public class CategorizedCarOffers {
 		return offers;
 	}
 
-	public CarOffer getSelectedOffer() {
-		return selectedOffer;
+	public CarOffer getFromPriceOffer() {
+		return fromPriceOffer;
 	}
 
-	public void setSelectedOffer(CarOffer selectedOffer) {
-		this.selectedOffer = selectedOffer;
+	public void setFromPriceOffer(CarOffer fromPriceOffer) {
+		this.fromPriceOffer = fromPriceOffer;
+	}
+
+	public CarCategory getCategory() {
+		return category;
 	}
 }

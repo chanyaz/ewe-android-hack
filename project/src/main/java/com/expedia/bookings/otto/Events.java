@@ -500,4 +500,11 @@ public class Events {
 
 	public static class UserClickedSelectDatesButton {
 	}
+
+	/**
+	 * Cars cars cars
+	 */
+	public static class EnableCarsSearchResults {
+
+	}
 }

@@ -18,26 +18,22 @@ public class CarSearch {
 	}
 
 	public void updateOfferMap(CarOffer carOffer) {
-		if (carCategoryOfferMap.get(carOffer.vehicleInfo.category) == null) {
-			carCategoryOfferMap.put(carOffer.vehicleInfo.category, new CategorizedCarOffers());
+		CarCategory offerCategory = carOffer.vehicleInfo.category;
+		if (carCategoryOfferMap.get(offerCategory) == null) {
+			carCategoryOfferMap.put(offerCategory, new CategorizedCarOffers(offerCategory));
 		}
 
-		CategorizedCarOffers categorizedCarOffers = carCategoryOfferMap.get(carOffer.vehicleInfo.category);
+		CategorizedCarOffers categorizedOffer = carCategoryOfferMap.get(offerCategory);
 
-		List<CarOffer> carOffers = categorizedCarOffers.getOffers();
-		CarOffer bestOffer = categorizedCarOffers.getSelectedOffer();
-		if (bestOffer == null || (carOffer.fare.total.compareTo(bestOffer.fare.total) == -1)) {
-			categorizedCarOffers.setSelectedOffer(carOffer);
+		List<CarOffer> carOffers = categorizedOffer.getOffers();
+		CarOffer fromPriceOffer = categorizedOffer.getFromPriceOffer();
+		if (fromPriceOffer == null || (carOffer.fare.total.compareTo(fromPriceOffer.fare.total) == -1)) {
+			categorizedOffer.setFromPriceOffer(carOffer);
 		}
-		
 		carOffers.add(carOffer);
 	}
 
-	public List<CarCategory> getCategoriesFromResponse() {
-		List<CarCategory> test = new ArrayList<CarCategory>();
-		for(Map.Entry<CarCategory, CategorizedCarOffers> entry : carCategoryOfferMap.entrySet()) {
-			test.add(entry.getKey());
-		}
-		return test;
+	public List<CategorizedCarOffers> getCategoriesFromResponse() {
+		return new ArrayList<CategorizedCarOffers>(carCategoryOfferMap.values());
 	}
 }

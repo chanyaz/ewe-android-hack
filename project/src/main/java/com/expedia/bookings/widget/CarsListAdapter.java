@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarCategory;
-import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.utils.Ui;
 
 public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.ViewHolder> {
-	List<CarCategory> categoriesTestList = new ArrayList<>();
+	List<CategorizedCarOffers> categoriesTestList = new ArrayList<>();
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,8 +24,9 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.ViewHo
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		holder.mCategoryTextView.setText(categoriesTestList.get(position).toString());
-		holder.mBestPriceTextView.setText(CarDb.carSearch.carCategoryOfferMap.get(categoriesTestList.get(position)).getSelectedOffer().fare.total.getFormattedMoney());
+		CategorizedCarOffers categorizedCarOffers = categoriesTestList.get(position);
+		holder.mCategoryTextView.setText(categorizedCarOffers.getCategory().toString());
+		holder.mBestPriceTextView.setText(categorizedCarOffers.getFromPriceOffer().fare.total.getFormattedMoney());
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.ViewHo
 		}
 	}
 
-	public void setCategoriesTestList(List<CarCategory> categoriesTestList) {
+	public void setCategoriesTestList(List<CategorizedCarOffers> categoriesTestList) {
 		this.categoriesTestList = categoriesTestList;
 	}
 }

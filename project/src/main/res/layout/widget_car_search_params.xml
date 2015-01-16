@@ -39,10 +39,10 @@
                 android:id="@+id/change_date_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:text="Change Date"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                android:layout_gravity="left" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/time_confirm_btn"
@@ -69,8 +69,8 @@
                 android:id="@+id/time_picker_detail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="September 25 - 9:41 AM PST"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="September 25 - 9:41 AM PST" />
         </FrameLayout>
     </LinearLayout>
 
