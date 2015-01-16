@@ -92,7 +92,14 @@ public class HotelSearch implements JSONable {
 	}
 
 	public Property getSelectedProperty() {
-		return mSelectedProperty;
+		// Sponsored hotels have duplicate keys, the non sponsored property
+		// is the one being updated in the property map, so get that one for
+		// setting up our views.
+		if (mSelectedProperty != null) {
+			return Db.getHotelSearch().getProperty(mSelectedProperty.getPropertyId());
+		}
+		return null;
+
 	}
 
 	public String getSelectedPropertyId() {

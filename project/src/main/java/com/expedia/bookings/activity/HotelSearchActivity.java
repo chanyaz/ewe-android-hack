@@ -2833,6 +2833,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		Db.getHotelSearch().setSelectedProperty(property);
 		if (property.isSponsored()) {
 			AdImpressionTracking.trackAdClickOrImpression(mContext, property.getClickTrackingUrl());
+			OmnitureTracking.trackHotelSponsoredListingClick(mContext);
 		}
 		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 		startActivity(intent);
