@@ -150,7 +150,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 				final String url = new Akeakamai(Images.getFlightDestination(code)) //
 					.resizeExactly(portrait.x, portrait.y) //
 					.build();
-				new PicassoHelper.Builder(mBgImageView).build().load(url);
+				new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).build().load(url);
 			}
 			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
