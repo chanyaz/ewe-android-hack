@@ -241,7 +241,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		}
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		boolean isETPAvailable = property.hasEtpOffer();
+		boolean isETPAvailable = ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer();
 		mPayGroup.setVisibility(isETPAvailable ? View.VISIBLE : View.GONE);
 		mPayGroup.check(mLastCheckedItem);
 

@@ -247,7 +247,7 @@ public class OmnitureTracking {
 		// Promo description
 		s.setEvar(9, internalGenerateDRRString(context, property));
 
-		if (property.hasEtpOffer()) {
+		if (ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer()) {
 			s.setEvents("event5");
 		}
 
