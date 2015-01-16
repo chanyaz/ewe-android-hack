@@ -6,6 +6,9 @@
     <string name="app_name">Hôtel &amp; Vol Voyages-sncf</string>
     <string name="app_vsc_info_url">http://www.voyages-sncf.com</string>
 
+    <!-- The PointOfSale code looks this identifier up with reflection, do not remove! -->
+    <string tools:ignore="UnusedResources" name="country_vs">VSC</string>
+
     <!-- Facebook -->
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">482332651854403</string>
