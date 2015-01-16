@@ -62,6 +62,10 @@
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Saisir mes coordonnées</string>
 
+    <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Vols VSC</string>
+
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Confirmation</string>
