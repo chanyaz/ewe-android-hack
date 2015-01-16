@@ -116,13 +116,8 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
-
-		// 1615. VSC Asking for a different translation text for FR
-		if (ExpediaBookingApp.IS_VSC) {
-			TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
-			actionButton.setText(R.string.button_done_vsc_confirmation);
-		}
-
+		TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
+		actionButton.setText(R.string.button_confirmation_done);
 		return super.onCreateOptionsMenu(menu);
 	}
 

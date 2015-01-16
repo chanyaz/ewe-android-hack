@@ -81,8 +81,8 @@
     <!-- Search Fragment -->
     <!-- Child age dialog button -->
     <string name="button_done">Valider</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Continuer</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Continuer</string>
 
     <!-- Search Activity -->
     <!-- Label indicating that there are no results matching their current filter -->
