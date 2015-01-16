@@ -183,7 +183,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			.build();
 
 		mTarget = new CustomTarget(url);
-		new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.bg_tablet_dest_image_default)
+		new PicassoHelper.Builder(getActivity()).setPlaceholder(
+			mBlur ? R.drawable.bg_tablet_dest_image_default_blurred : R.drawable.bg_tablet_dest_image_default)
 			.applyBlurTransformation(mBlur).setTarget(mTarget).fade().build().load(url);
 	}
 

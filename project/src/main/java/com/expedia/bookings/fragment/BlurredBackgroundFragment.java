@@ -59,7 +59,7 @@ public class BlurredBackgroundFragment extends Fragment {
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
-		new PicassoHelper.Builder(mBackgroundFgView).setPlaceholder(R.drawable.default_flights_background)
+		new PicassoHelper.Builder(mBackgroundFgView).setPlaceholder(R.drawable.default_flights_background_blurred)
 			.applyBlurTransformation(true).build().load(url);
 		new PicassoHelper.Builder(mBackgroundBgView).setPlaceholder(R.drawable.default_flights_background).build()
 			.load(url);
