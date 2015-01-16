@@ -13,7 +13,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;

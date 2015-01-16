@@ -21,7 +21,6 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -216,7 +215,7 @@ public class Notification extends Model implements JSONable {
 	public int getIconResId() {
 		int resId = unmarshallResId(mIconId);
 
-		if(resId == 0 || mIconId == 1) {
+		if (resId == 0 || mIconId == 1) {
 			resId = ProductFlavorFeatureConfiguration.getInstance().getNotificationIconResourceId();
 		}
 

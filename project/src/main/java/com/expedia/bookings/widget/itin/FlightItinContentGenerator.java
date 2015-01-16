@@ -34,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AirlineCheckInIntervals;

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.HotelSummarySection;
 import com.mobiata.android.util.ViewUtils;

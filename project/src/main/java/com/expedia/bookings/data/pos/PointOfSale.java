@@ -460,9 +460,8 @@ public class PointOfSale {
 	 * Return the hotel booking statement with all hyperlinks underlined and bolded.
 	 *
 	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
-	 *
 	 * @return Stylized CharSequence
-	 **/
+	 */
 	public CharSequence getStylizedHotelBookingStatement(boolean keepHyperLinks) {
 		return getStylizedStatement(getPosLocale().mHotelBookingStatement, keepHyperLinks);
 	}
@@ -480,9 +479,8 @@ public class PointOfSale {
 	 * Return the flight booking statement with all hyperlinks underlined and bolded.
 	 *
 	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
-	 *
 	 * @return Stylized CharSequence
-	 **/
+	 */
 	public CharSequence getStylizedFlightBookingStatement(boolean keepHyperLinks) {
 		if (!TextUtils.isEmpty(getPosLocale().mFlightBookingStatement)) {
 			return getStylizedStatement(getPosLocale().mFlightBookingStatement, keepHyperLinks);
@@ -599,8 +597,8 @@ public class PointOfSale {
 
 			EndPoint endPoint = EndPoint.getEndPoint(context);
 			for (PointOfSale posInfo : sPointOfSale.values()) {
-				//Skip Non-Prod POS, if we are in PROD Environment
-				if(endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
+				// Skip Non-Prod POS, if we are in PROD Environment
+				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
 					continue;
 				}
 
@@ -617,7 +615,7 @@ public class PointOfSale {
 				}
 			}
 
-			if(sCachedPOS == null) {
+			if (sCachedPOS == null) {
 				sCachedPOS = ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS();
 			}
 
@@ -742,7 +740,8 @@ public class PointOfSale {
 		sPointOfSale.clear();
 
 		try {
-			InputStream is = context.getAssets().open(ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
+			InputStream is = context.getAssets()
+				.open(ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
 			String data = IoUtils.convertStreamToString(is);
 			JSONObject posData = new JSONObject(data);
 			Iterator<String> keys = posData.keys();

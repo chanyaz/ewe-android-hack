@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;

@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -30,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -558,7 +556,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @param container
 	 */
 	protected boolean addInsurance(ViewGroup container) {
-		if(!ProductFlavorFeatureConfiguration.getInstance().shouldDisplayInsuranceDetailsIfAvailableOnItinCard() ||
+		if (!ProductFlavorFeatureConfiguration.getInstance().shouldDisplayInsuranceDetailsIfAvailableOnItinCard() ||
 			!hasInsurance()) {
 			return false;
 		}

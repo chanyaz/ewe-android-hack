@@ -140,7 +140,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
 		//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
-		if(PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
 			e3EndpointUrl = e3EndpointUrl.replaceFirst("w{3}\\.?", "");
 		}
 		return e3EndpointUrl;

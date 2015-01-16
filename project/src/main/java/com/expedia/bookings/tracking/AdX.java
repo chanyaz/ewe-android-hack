@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -21,7 +20,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;

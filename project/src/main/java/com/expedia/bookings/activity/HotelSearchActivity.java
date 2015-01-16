@@ -2131,7 +2131,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
 		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
-		if(searchProgressImageResId != 0) {
+		if (searchProgressImageResId != 0) {
 			findViewById(searchProgressImageResId).bringToFront();
 		}
 

@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -148,7 +147,7 @@ public class AccountButton extends LinearLayout {
 			mLoginContainer.setBackgroundResource(bgResourceId);
 
 			Boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance().doesLoginTextViewHaveCompoundDrawables();
-			if(doesLoginTextViewHaveCompoundDrawables) {
+			if (doesLoginTextViewHaveCompoundDrawables) {
 				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
 			}

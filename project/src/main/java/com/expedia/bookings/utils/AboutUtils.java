@@ -14,7 +14,6 @@ import android.content.DialogInterface.OnCancelListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;

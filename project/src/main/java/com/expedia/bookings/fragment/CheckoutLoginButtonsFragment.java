@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;

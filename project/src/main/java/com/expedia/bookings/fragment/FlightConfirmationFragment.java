@@ -22,7 +22,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;

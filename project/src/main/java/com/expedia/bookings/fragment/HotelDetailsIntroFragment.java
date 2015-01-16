@@ -17,7 +17,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;

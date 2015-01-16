@@ -21,7 +21,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.expedia.bookings.utils.FontCache;
@@ -229,7 +228,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		DateTime dateTime = userReviewLoaded.mReview.getSubmissionDate();
 		String submissionDateText;
 
-		if(ProductFlavorFeatureConfiguration.getInstance().wantsCustomDateFormatForUserReviews()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomDateFormatForUserReviews()) {
 			String customDateFormat = ProductFlavorFeatureConfiguration.getInstance().getCustomDateFormatForUserReviews();
 			DateTimeFormatter dtf = DateTimeFormat.forPattern(customDateFormat);
 			submissionDateText = dtf.print(dateTime);

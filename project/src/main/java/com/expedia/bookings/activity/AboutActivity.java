@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import android.app.ActionBar;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -37,8 +36,6 @@ import com.mobiata.android.dialog.MailChimpFailureDialogFragment;
 import com.mobiata.android.dialog.MailChimpSuccessDialogFragment;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
-import com.mobiata.android.fragment.AboutSectionFragment.Builder;
-import com.mobiata.android.fragment.AboutSectionFragment.RowDescriptor;
 import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
@@ -124,7 +121,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
 		if (alsoByFragment == null) {
 			alsoByFragment = ProductFlavorFeatureConfiguration.getInstance().getAboutSectionFragment(this);
-			if(alsoByFragment != null) {
+			if 	(alsoByFragment != null) {
 				ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 			}
 		}

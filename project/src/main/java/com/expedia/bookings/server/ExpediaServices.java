@@ -1591,7 +1591,7 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = ProductFlavorFeatureConfiguration.getInstance().getAdditionalParamsForReviewsRequest();
-		if(additionalParamsForReviewsRequest != null) {
+		if (additionalParamsForReviewsRequest != null) {
 			for (BasicNameValuePair param : additionalParamsForReviewsRequest) {
 				params.add(param);
 			}

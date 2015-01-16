@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.FlightLeg;
@@ -691,7 +690,7 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		if(ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
 			sb.append(mContext.getString(
 				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
 				PointOfSale.getPointOfSale().getAppInfoUrl()));
@@ -784,7 +783,7 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		if(ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
 			sb.append(mContext.getString(
 				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
 				PointOfSale.getPointOfSale().getAppInfoUrl()));
