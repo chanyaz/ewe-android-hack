@@ -25,6 +25,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -185,7 +186,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		// ETP pay later offer info
-		if (ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer()) {
 			payLaterInfo.setVisibility(View.VISIBLE);
 			payLaterInfo.setOnClickListener(new OnClickListener() {
 				@Override

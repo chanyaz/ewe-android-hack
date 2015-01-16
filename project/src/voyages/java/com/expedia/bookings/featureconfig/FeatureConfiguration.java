@@ -280,4 +280,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	public Boolean isETPEnabled() {
+		return false;
+	}
 }

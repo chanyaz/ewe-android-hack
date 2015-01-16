@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -241,7 +242,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		}
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		boolean isETPAvailable = ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer();
+		boolean isETPAvailable = ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer();
 		mPayGroup.setVisibility(isETPAvailable ? View.VISIBLE : View.GONE);
 		mPayGroup.check(mLastCheckedItem);
 

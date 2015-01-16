@@ -106,4 +106,5 @@ public interface IProductFlavorFeatureConfiguration {
 
 	void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view);
 
+	Boolean isETPEnabled();
 }
