@@ -72,10 +72,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
-	public static final boolean IS_EXPEDIA = BuildConfig.IS_EXPEDIA;
-	public static final boolean IS_VSC = BuildConfig.IS_VSC;
-	public static final boolean IS_TRAVELOCITY = BuildConfig.IS_TRAVELOCITY;
-	public static final boolean IS_AAG = BuildConfig.IS_AAG;
 
 	public static boolean sIsAutomation = false;
 

@@ -50,10 +50,6 @@ public class TabletHotelAdapter extends HotelAdapter {
 	@Override
 	public boolean isRowExpandable(int position) {
 		// The logic here should basically mirror what's in HotelSummarySection
-		if (ExpediaBookingApp.IS_VSC) {
-			return false;
-		}
-
 		Property property = (Property) getItem(position);
 		if (property.isSponsored()) {
 			return true;

@@ -112,11 +112,6 @@ android {
         testApplicationId "com.expedia.bookings.test"
         testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
 
-        buildConfigField "boolean", "IS_EXPEDIA", "false"
-        buildConfigField "boolean", "IS_VSC", "false"
-        buildConfigField "boolean", "IS_TRAVELOCITY", "false"
-        buildConfigField "boolean", "IS_AAG", "false"
-
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
@@ -127,7 +122,6 @@ android {
 
     productFlavors {
         expedia {
-            buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.expedia.bookings"
             versionCode 45
@@ -135,7 +129,6 @@ android {
         }
 
         voyages {
-            buildConfigField "boolean", "IS_VSC", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.expedia.bookings.vsc"
             versionCode 1
@@ -143,7 +136,6 @@ android {
         }
 
         travelocity {
-            buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://images.trvl-media.com\""
             applicationId "com.travelocity.android"
             versionCode 1003
@@ -151,7 +143,6 @@ android {
         }
 
         airAsiaGo {
-            buildConfigField "boolean", "IS_AAG", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.airasiago.android"
             versionCode 2

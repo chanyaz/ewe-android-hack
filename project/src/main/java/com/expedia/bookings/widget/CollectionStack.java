@@ -186,15 +186,7 @@ public class CollectionStack extends FrameLayout {
 				.setAlpha(224)
 				.build();
 
-			ColorBuilder fullColorBuilder;
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				fullColorBuilder = new ColorBuilder(
-					Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
-			}
-			else {
-				fullColorBuilder = new ColorBuilder(color)
-					.darkenBy(0.3f);
-			}
+			ColorBuilder fullColorBuilder = new ColorBuilder(color).darkenBy(0.3f);
 			int fullColor = fullColorBuilder.setAlpha(217).build();
 
 			GradientDrawable textViewBackground = (GradientDrawable) getResources()
