@@ -71,8 +71,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	Subscription carSearchSubscription;
 
-	private boolean isSelectingStartTime = true;
-
 	@OnClick(R.id.search_btn)
 	public void startWidgetDownload() {
 		startDownload();
@@ -80,10 +78,12 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	}
 
 	public void startDownload() {
+		searchParams.origin = pickupLocation.getText().toString();
+		CarDb.setSearchParams(searchParams);
+
 		carSearchSubscription = CarServices
 			.getInstance()
-			.doBoringCarSearch(carSearchSubscriber);
-
+			.carSearch(CarDb.searchParams, carSearchSubscriber);
 	}
 
 	@Override
@@ -100,6 +100,9 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		timePickerContainer.setVisibility(View.INVISIBLE);
 		changeTime.setVisibility(View.INVISIBLE);
 
+		calendar.setSelectableDateRange(LocalDate.now(),
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
+		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
 		calendar.setDateChangedListener(this);
 	}
 
@@ -118,7 +121,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
 		calendarContainer.setVisibility(View.VISIBLE);
-		isSelectingStartTime = true;
 	}
 
 	@OnClick(R.id.change_time)
@@ -156,13 +158,14 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-		DateTime dateSelected = start.toDateTimeAtStartOfDay();
-		if (isSelectingStartTime) {
-			searchParams.startTime = dateSelected;
+		DateTime startDate = start.toDateTimeAtStartOfDay();
+		DateTime endDate = null;
+		if (end != null) {
+			endDate = end.toDateTimeAtStartOfDay();
 		}
-		else {
-			searchParams.endTime = dateSelected;
-		}
+		searchParams.startTime = startDate;
+		searchParams.endTime = endDate;
+
 		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
 		changeTime.setVisibility(View.VISIBLE);
 	}
