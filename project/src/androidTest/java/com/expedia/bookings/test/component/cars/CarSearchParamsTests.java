@@ -14,9 +14,11 @@ import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchParamsTests {
@@ -47,21 +49,24 @@ public final class CarSearchParamsTests {
 	}
 
 	@Test
-	public void testCalendarViewDataPopulation() {
+	public void testViewPopulatesDb() {
 		final DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
 		final DateTime expectedEndDate = expectedStartDate.plusDays(3);
+		final String expectedPickupLocation = "SFO";
 
 		CarSearchParamsModel.selectDate().perform(click());
-		CarSearchParamsModel.selectDates(expectedStartDate.toLocalDate(), null);
-		CarSearchParamsModel.selectDates(expectedEndDate.toLocalDate(), null);
+		CarSearchParamsModel.selectDates(expectedStartDate.toLocalDate(), expectedEndDate.toLocalDate());
+		CarSearchParamsModel.pickupLocation().perform(typeText(expectedPickupLocation));
 
+		assertNull(CarDb.searchParams.origin);
 		assertNull(CarDb.searchParams.startTime);
 		assertNull(CarDb.searchParams.endTime);
 
 		CarSearchParamsModel.searchButton().perform(click());
 
-		// TODO make data entry work again!
-//		assertEquals(expectedStartDate, CarDb.searchParams.startTime);
-//		assertEquals(expectedEndDate, CarDb.searchParams.endTime);
+		assertEquals(expectedStartDate, CarDb.searchParams.startTime);
+		assertEquals(expectedEndDate, CarDb.searchParams.endTime);
+		assertEquals(expectedPickupLocation, CarDb.searchParams.origin);
 	}
+
 }
