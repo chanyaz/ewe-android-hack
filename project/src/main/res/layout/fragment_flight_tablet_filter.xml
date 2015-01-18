@@ -30,33 +30,13 @@
                         android:layout_marginBottom="8dp"
                         android:text="@string/Sort_By" />
 
-                <com.expedia.bookings.widget.SlidingRadioGroup
-                        android:id="@+id/flight_sort_control"
-                        style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/tablet_filter_white_space" >
-
-                    <RadioButton
-                            android:id="@+id/flight_sort_price"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/sort_description_price" />
-
-                    <RadioButton
-                            android:id="@+id/flight_sort_departs"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/sort_description_departure" />
-
-                    <RadioButton
-                            android:id="@+id/flight_sort_arrives"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/sort_description_arrival" />
-
-                    <RadioButton
-                            android:id="@+id/flight_sort_duration"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/sort_description_duration" />
-                </com.expedia.bookings.widget.SlidingRadioGroup>
+                <Spinner
+                    android:id="@+id/flight_sort_control"
+                    android:layout_width="fill_parent"
+                    android:dropDownWidth="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_sort"
+                    android:layout_marginBottom="@dimen/tablet_filter_white_space"/>
 
                 <com.expedia.bookings.widget.TextView
                         android:id="@+id/stops_header"

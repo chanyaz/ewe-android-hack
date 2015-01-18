@@ -124,7 +124,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			&& search.getSearchParams().getSearchType().shouldShowDistance();
 
 		List<String> sortOptions = new ArrayList<>();
-		sortOptions.addAll(Arrays.asList(getResources().getStringArray(R.array.sort_options)));
+		sortOptions.addAll(Arrays.asList(getResources().getStringArray(R.array.sort_options_hotels)));
 		if (showDistance) {
 			sortOptions.add(getString(R.string.distance));
 		}

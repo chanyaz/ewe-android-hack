@@ -65,8 +65,9 @@
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
-    <color name="hotel_filter_spinner_dropdown_color">#878F94</color>
-    <color name="hotel_filter_spinner_dropdown_color_selected">#DFE0E2</color>
+    <color name="hotel_filter_spinner_dropdown_color">#FFFFFF</color>
+    <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
+    <color name="hotel_filter_spinner_color">#DFE0E2</color>>
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
     <color name="hotel_filter_spinner_text_color">#393E43</color>
     <color name="etp_text_color">#29a653</color>

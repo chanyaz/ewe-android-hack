@@ -6,6 +6,6 @@
     android:layout_height="wrap_content"
     android:ellipsize="middle"
     android:padding="16dp"
-    android:textColor="@android:color/white"
+    android:textColor="@color/tablet_filter_checkbox_text"
     android:singleLine="true"
-    android:textSize="20dp" />
+    android:textSize="18sp" />
