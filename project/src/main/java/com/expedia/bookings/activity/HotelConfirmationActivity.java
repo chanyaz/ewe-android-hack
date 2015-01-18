@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -17,6 +18,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -63,6 +65,11 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, Db.getBillingInfo(),
 				selectedRate, bookingResponse);
+
+			CreateTripResponse tripResponse = hotel.getCreateTripResponse();
+			if (tripResponse != null) {
+				AdImpressionTracking.trackAdConversion(this, tripResponse.getTripId());
+			}
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);

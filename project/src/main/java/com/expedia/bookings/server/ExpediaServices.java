@@ -1784,9 +1784,6 @@ public class ExpediaServices implements DownloadListener {
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 
-		mClient = makeOkHttpClient(mContext);
-		mClient.setCookieHandler(sBlackHoleCookieManager);
-
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
@@ -2075,10 +2072,10 @@ public class ExpediaServices implements DownloadListener {
 		return req;
 	}
 
-	public boolean trackTravelAd(String url) {
+	public boolean trackTravelAd(String url, List<BasicNameValuePair> params) {
 		if (TextUtils.isEmpty(url)) {
 			return false;
 		}
-		return doGet(url, null);
+		return doGet(url, params);
 	}
 }

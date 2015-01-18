@@ -27,7 +27,10 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
 
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
-	//Sponsored hotels are displayed at the index 1, 51, 52
+	// Sponsored hotels are displayed at the index 1, 51, 52
+	// The server does not return them in this order so they
+	// are currently hardcoded to these indexes.
+	// For a search in SF, the ads came back in pos 0, 198, 199
 	private static final int[] sponsoredIndexes = { 0, 50, 51 };
 
 	// The original list of properties in this response
@@ -226,6 +229,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		// Create a (shallow) list of the filtered results and sort it.
 		ArrayList<Property> sortedProperties = new ArrayList<Property>(getFilteredProperties(searchParams));
+		ArrayList<Property> sponsoredProperties = getSponsoredProperties(sortedProperties);
+
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
@@ -270,13 +275,12 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		//Put the sponsored listings into their correct position
-		reorderSponsoredProperties(sortedProperties);
+		reorderSponsoredProperties(sortedProperties, sponsoredProperties);
 
 		return sortedProperties;
 	}
 
-	private void reorderSponsoredProperties(ArrayList<Property> properties) {
-
+	private ArrayList<Property> getSponsoredProperties(ArrayList<Property> properties) {
 		ArrayList<Property> sponsored = new ArrayList<Property>();
 		ListIterator<Property> it = properties.listIterator();
 		while (it.hasNext()) {
@@ -287,6 +291,10 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 		}
 
+		return sponsored;
+	}
+
+	private void reorderSponsoredProperties(ArrayList<Property> properties, ArrayList<Property> sponsored) {
 		for (int i = 0; i < sponsored.size() && i < sponsoredIndexes.length; i++) {
 			if (sponsoredIndexes[i] <= properties.size()) {
 				properties.add(sponsoredIndexes[i], sponsored.get(i));

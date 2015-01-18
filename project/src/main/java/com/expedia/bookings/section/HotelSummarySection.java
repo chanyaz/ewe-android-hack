@@ -312,7 +312,7 @@ public class HotelSummarySection extends RelativeLayout {
 					//Ad is being inflated for the first time, fire impression tracking
 					property.setHasShownImpression(true);
 					AdImpressionTracking
-						.trackAdClickOrImpression(context, property.getImpressionTrackingUrl());
+						.trackAdClickOrImpression(context, property.getImpressionTrackingUrl(), null);
 				}
 				mUrgencyText.setText(context.getString(R.string.sponsored));
 				mUrgencyText.setVisibility(View.VISIBLE);
