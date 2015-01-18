@@ -31,7 +31,7 @@ public class FragmentModificationSafeLockTests {
 
 		FragmentModificationSafeLock lock = new FragmentModificationSafeLock();
 
-		lock.runWhenSafe(new Runnable(){
+		lock.runWhenSafe(new Runnable() {
 			@Override
 			public void run() {
 				runnableRan.countDown();
@@ -48,7 +48,7 @@ public class FragmentModificationSafeLockTests {
 		FragmentModificationSafeLock lock = new FragmentModificationSafeLock();
 
 		lock.setSafe(true);
-		lock.runWhenSafe(new Runnable(){
+		lock.runWhenSafe(new Runnable() {
 			@Override
 			public void run() {
 				runnableRan.countDown();
@@ -64,7 +64,7 @@ public class FragmentModificationSafeLockTests {
 
 		FragmentModificationSafeLock lock = new FragmentModificationSafeLock();
 
-		lock.runWhenSafe(new Runnable(){
+		lock.runWhenSafe(new Runnable() {
 			@Override
 			public void run() {
 				runnableRan.countDown();
@@ -87,7 +87,7 @@ public class FragmentModificationSafeLockTests {
 		lock.setSafe(true);
 		lock.setSafe(false);
 
-		lock.runWhenSafe(new Runnable(){
+		lock.runWhenSafe(new Runnable() {
 			@Override
 			public void run() {
 				runnableRan.countDown();

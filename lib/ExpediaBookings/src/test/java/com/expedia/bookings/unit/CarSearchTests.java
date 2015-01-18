@@ -51,7 +51,7 @@ public class CarSearchTests {
 		final CarCategory[] categoryList2 = {econCat, econCat};
 		CarSearch carSearch = generateOfferList(categoryList2);
 		List<BigDecimal> prices = new ArrayList<>();
-		for(CarOffer offer : carSearch.carCategoryOfferMap.get(econCat).getOffers()) {
+		for (CarOffer offer : carSearch.carCategoryOfferMap.get(econCat).getOffers()) {
 			prices.add(offer.fare.total.amount);
 		}
 		Collections.sort(prices);

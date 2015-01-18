@@ -20,7 +20,6 @@ import rx.Scheduler;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 public class CarServices {
 	public static final String TRUNK = "http://wwwexpediacom.trunk.sb.karmalab.net";

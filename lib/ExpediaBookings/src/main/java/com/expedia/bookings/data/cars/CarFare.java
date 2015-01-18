@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.cars;
 
-import com.expedia.bookings.data.cars.Money;
-
 public class CarFare {
 
 	public RateTerm rateTerm;
