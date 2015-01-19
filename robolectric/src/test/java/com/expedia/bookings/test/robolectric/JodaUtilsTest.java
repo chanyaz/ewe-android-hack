@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.unit.tests;
+package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,15 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.test.ApplicationTestCase;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -34,20 +38,19 @@ import com.expedia.bookings.utils.JodaUtils;
  * JodaUtils class.
  */
 
-public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
+@RunWith(RobolectricSubmoduleTestRunner.class)
+public class JodaUtilsTest {
 
 	// Helper variables
 	private Location mLocation = null;
 	private BillingInfo mBillingInfo = null;
 
-	public JodaUtilsTests() {
-		super(ExpediaBookingApp.class);
+	private Context getContext() {
+		return Robolectric.application;
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-
+	@Before
+	public void before() {
 		if (mLocation == null) {
 			mLocation = new Location();
 			mLocation.setCity("San Francisco");
@@ -75,54 +78,59 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		}
 	}
 
+	@Test
 	public void testLocaleDateComparisons() {
 		LocalDate date1 = LocalDate.now();
 		LocalDate date2 = LocalDate.now();
 		LocalDate date3 = LocalDate.now().plusDays(1);
-		assertTrue(JodaUtils.isBeforeOrEquals(date1, date2));
-		assertTrue(JodaUtils.isAfterOrEquals(date2, date1));
-		assertTrue(JodaUtils.isAfterOrEquals(date3, date2));
-		assertTrue(JodaUtils.isBeforeOrEquals(date2, date3));
+		Assert.assertTrue(JodaUtils.isBeforeOrEquals(date1, date2));
+		Assert.assertTrue(JodaUtils.isAfterOrEquals(date2, date1));
+		Assert.assertTrue(JodaUtils.isAfterOrEquals(date3, date2));
+		Assert.assertTrue(JodaUtils.isBeforeOrEquals(date2, date3));
 	}
 
+	@Test
 	public void testExpiredDateTime() {
 		DateTime thePast = DateTime.now().minusMillis(1);
-		assertTrue(JodaUtils.isExpired(thePast, 0));
-		assertFalse(JodaUtils.isExpired(thePast, 3000));
+		Assert.assertTrue(JodaUtils.isExpired(thePast, 0));
+		Assert.assertFalse(JodaUtils.isExpired(thePast, 3000));
 
 		DateTime oneSecondAgo = DateTime.now().minusSeconds(1);
-		assertTrue(JodaUtils.isExpired(oneSecondAgo, 99));
-		assertFalse(JodaUtils.isExpired(oneSecondAgo, 2000));
+		Assert.assertTrue(JodaUtils.isExpired(oneSecondAgo, 99));
+		Assert.assertFalse(JodaUtils.isExpired(oneSecondAgo, 2000));
 	}
 
+	@Test
 	public void testDateDifferences() {
 		DateTime now = new DateTime(DateTime.now());
 		DateTime oneDayFromNow = DateTime.now().plusDays(1);
-		assertTrue(JodaUtils.daysBetween(now, oneDayFromNow) == 1);
-		assertTrue(JodaUtils.daysBetween(oneDayFromNow, now) == -1);
-		assertTrue(JodaUtils.daysBetween(now, now) == 0);
+		Assert.assertTrue(JodaUtils.daysBetween(now, oneDayFromNow) == 1);
+		Assert.assertTrue(JodaUtils.daysBetween(oneDayFromNow, now) == -1);
+		Assert.assertTrue(JodaUtils.daysBetween(now, now) == 0);
 
 		DateTime nowPlusOneSecond = DateTime.now().plusSeconds(1);
 		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear()
 				&& nowPlusOneSecond.getYear() == now.getYear()) {
-			assertTrue(JodaUtils.daysBetween(now, nowPlusOneSecond) == 0);
+			Assert.assertTrue(JodaUtils.daysBetween(now, nowPlusOneSecond) == 0);
 		}
 
 		DateTime nowMinusOneSecond = DateTime.now().minusSeconds(1);
 		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear()
 				&& nowPlusOneSecond.getYear() == now.getYear()) {
-			assertTrue(JodaUtils.daysBetween(now, nowMinusOneSecond) == 0);
+			Assert.assertTrue(JodaUtils.daysBetween(now, nowMinusOneSecond) == 0);
 		}
 	}
 
+	@Test
 	public void testFormatTimezone() {
 		DateTime now = DateTime.now().withZone(DateTimeZone.forOffsetHours(-9));
 		DateTimeZone dtz = DateTimeZone.forOffsetHours(10);
 		DateTime changedTimeZone = new DateTime(now.getMillis(), dtz);
-		assertTrue(JodaUtils.formatTimeZone(now).equals("-09:00"));
-		assertTrue(JodaUtils.formatTimeZone(changedTimeZone).equals("+10:00"));
+		Assert.assertTrue(JodaUtils.formatTimeZone(now).equals("-09:00"));
+		Assert.assertTrue(JodaUtils.formatTimeZone(changedTimeZone).equals("+10:00"));
 	}
 
+	@Test
 	public void testFormatting() {
 		if (getContext().getResources().getConfiguration().locale
 				.equals(new Locale("en", "US"))) {
@@ -137,19 +145,19 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 					now, DateFormatUtils.FLAGS_LONG_DATE_FORMAT);
 			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
 					+ dayOfMonth + ", " + year;
-			assertEquals(expectedLongString, nowLongDateFormat);
+			Assert.assertEquals(expectedLongString, nowLongDateFormat);
 
 			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
 					now, DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
 					+ year;
-			assertEquals(expectedMediumString, nowMediumDateFormat);
+			Assert.assertEquals(expectedMediumString, nowMediumDateFormat);
 
 			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
 					DateFormatUtils.FLAGS_DATE_NUMERIC | DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedDateString = now.monthOfYear().getAsString() + "/"
 					+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
-			assertEquals(expectedDateString, dateFormat);
+			Assert.assertEquals(expectedDateString, dateFormat);
 		}
 	}
 
@@ -157,22 +165,24 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 	 * Direct comparison of the original DateTime and the instantiation returned
 	 * from getDateTime fails, so we're just comparing the toString() output.
 	 */
+	@Test
 	public void testBundlingDateTime() {
 		DateTime now = DateTime.now();
 		Bundle b = new Bundle();
 		String key = "key";
 		JodaUtils.putDateTime(b, key, now);
 		DateTime stored = JodaUtils.getDateTime(b, key);
-		assertEquals(stored.toString(), now.toString());
+		Assert.assertEquals(stored.toString(), now.toString());
 	}
 
+	@Test
 	public void testLocaleDateJSONIO() throws JSONException {
 		LocalDate ld = LocalDate.now();
 		JSONObject obj = new JSONObject();
 		String key = "key";
 		JodaUtils.putLocalDateInJson(obj, key, ld);
 		LocalDate returned = JodaUtils.getLocalDateFromJson(obj, key);
-		assertEquals(ld, returned);
+		Assert.assertEquals(ld, returned);
 	}
 
 	/*
@@ -180,6 +190,7 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 	 * from getDateTimeFromJsonBackCompat fails, so we're just comparing the
 	 * toString() output.
 	 */
+	@Test
 	public void testDateTimeJSONIO() throws JSONException {
 		DateTime dt = DateTime.now();
 		JSONObject obj = new JSONObject();
@@ -187,9 +198,10 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		JodaUtils.putDateTimeInJson(obj, key, dt);
 		DateTime returned = JodaUtils.getDateTimeFromJsonBackCompat(obj, key,
 				null);
-		assertEquals(dt.toString(), returned.toString());
+		Assert.assertEquals(dt.toString(), returned.toString());
 	}
 
+	@Test
 	public void testDateTimeListJSONIO() throws JSONException {
 		List<DateTime> list = new ArrayList<DateTime>();
 		DateTime dt = DateTime.now();
@@ -202,7 +214,7 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		List<DateTime> returned = JodaUtils.getDateTimeListFromJsonBackCompat(
 				obj, key, null);
 		for (int i = 0; i < list.size(); i++) {
-			assertEquals(list.get(i).toString(), returned.get(i).toString());
+			Assert.assertEquals(list.get(i).toString(), returned.get(i).toString());
 		}
 	}
 
@@ -212,6 +224,7 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 
 	// 100 millisecond wait() ensures objects' member variables are initialized
 	// from system (e.g. POS)
+	@Test
 	public void testTimeInFlightCheckoutParams() throws InterruptedException {
 		ExpediaServices expediaServices = new ExpediaServices(getContext());
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -247,6 +260,7 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		verifyExpirationDates(query, nextYear);
 	}
 
+	@Test
 	public void testTimeInHotelCheckOutParams() throws InterruptedException {
 		ExpediaServices expediaServices = new ExpediaServices(getContext());
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -295,18 +309,18 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 			BasicNameValuePair pair = query.get(i);
 			if (pair.getName().equals("expirationDate")) {
 				expectedOutput = JodaUtils.format(time, "MMyy");
-				assertEquals(pair.getValue(), expectedOutput);
+				Assert.assertEquals(pair.getValue(), expectedOutput);
 				expDateRead = true;
 			}
 			else if (pair.getName().equals("expirationDateMonth")) {
 				expectedOutput = JodaUtils.format(time, "MM");
-				assertEquals(pair.getValue(), expectedOutput);
+				Assert.assertEquals(pair.getValue(), expectedOutput);
 				expMonthRead = true;
 
 			}
 			else if (pair.getName().equals("expirationDateYear")) {
 				expectedOutput = JodaUtils.format(time, "yyyy");
-				assertEquals(expectedOutput, pair.getValue());
+				Assert.assertEquals(expectedOutput, pair.getValue());
 				expYearRead = true;
 			}
 		}

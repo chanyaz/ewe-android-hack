@@ -1,14 +1,17 @@
-package com.expedia.bookings.test.unit.tests;
-
-import junit.framework.TestCase;
+package com.expedia.bookings.test.robolectric;
 
 import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.Location;
 
-public class FlightSearchLegTest extends TestCase {
+@RunWith(RobolectricSubmoduleTestRunner.class)
+public class FlightSearchLegTest {
 
+	@Test
 	public void testDepartureAirportCode() {
 		String expectedCode = "DTW";
 		FlightSearchLeg leg = new FlightSearchLeg();
@@ -16,9 +19,10 @@ public class FlightSearchLegTest extends TestCase {
 		location.setDestinationId(expectedCode);
 		leg.setDepartureLocation(location);
 
-		assertEquals(expectedCode, leg.getDepartureLocation().getDestinationId());
+		Assert.assertEquals(expectedCode, leg.getDepartureLocation().getDestinationId());
 	}
 
+	@Test
 	public void testArrivalAirportCode() {
 		FlightSearchLeg leg = new FlightSearchLeg();
 		String expectedCode = "ATL";
@@ -26,15 +30,16 @@ public class FlightSearchLegTest extends TestCase {
 		location.setDestinationId(expectedCode);
 		leg.setArrivalLocation(location);
 
-		assertEquals(expectedCode, leg.getArrivalLocation().getDestinationId());
+		Assert.assertEquals(expectedCode, leg.getArrivalLocation().getDestinationId());
 	}
 
+	@Test
 	public void testDepartureDate() {
 		FlightSearchLeg leg = new FlightSearchLeg();
 
 		LocalDate expectedDate = new LocalDate();
 		leg.setDepartureDate(expectedDate);
 
-		assertEquals(expectedDate, leg.getDepartureDate());
+		Assert.assertEquals(expectedDate, leg.getDepartureDate());
 	}
 }

@@ -1,10 +1,15 @@
-package com.expedia.bookings.test.unit.tests;
+package com.expedia.bookings.test.robolectric;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
@@ -14,11 +19,17 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 
-public class ItinContentGeneratorTest extends AndroidTestCase {
+@RunWith(RobolectricSubmoduleTestRunner.class)
+public class ItinContentGeneratorTest {
+
+	private Context getContext() {
+		return Robolectric.application;
+	}
 
 	DateTime mTodayAtNoon;
 
-	public void setUp() {
+	@Before
+	public void before() {
 		mTodayAtNoon = DateTime.now().withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0);
 	}
 
@@ -35,74 +46,83 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		return itin.getHeaderTextDate();
 	}
 
+	@Test
 	public void testHotelHeaderTextYesterday() {
 		DateTime ci = mTodayAtNoon.minusDays(1);
 		DateTime co = mTodayAtNoon.plusDays(5);
 		String headerText = getHeaderTextDate(ci, co);
 		String yesterday = getContext().getString(R.string.yesterday);
-		assertEquals(yesterday, headerText);
+		Assert.assertEquals(yesterday, headerText);
 	}
 
+	@Test
 	public void testHotelHeaderTextToday() {
 		DateTime ci = mTodayAtNoon;
 		DateTime co = mTodayAtNoon.plusDays(5);
 		String headerText = getHeaderTextDate(ci, co);
 		String today = getContext().getString(R.string.Today);
-		assertEquals(today, headerText);
+		Assert.assertEquals(today, headerText);
 	}
 
+	@Test
 	public void testHotelHeaderTextTomorrow() {
 		DateTime ci = mTodayAtNoon.plusDays(1);
 		DateTime co = mTodayAtNoon.plusDays(5);
 		String headerText = getHeaderTextDate(ci, co);
 		String tomorrow = getContext().getString(R.string.tomorrow);
-		assertEquals(tomorrow, headerText);
+		Assert.assertEquals(tomorrow, headerText);
 	}
 
+	@Test
 	public void testHotelHeaderTextFuture30s() {
 		DateTime ci = mTodayAtNoon.plusSeconds(30);
 		DateTime co = mTodayAtNoon.plusDays(7);
 		String result = getHeaderTextDate(ci, co);
 		String expected = getContext().getString(R.string.Today);
-		assertEquals(expected, result);
+		Assert.assertEquals(expected, result);
 	}
 
+	@Test
 	public void testHotelHeaderTextFuture119s() {
 		DateTime ci = mTodayAtNoon.plusSeconds(119);
 		DateTime co = mTodayAtNoon.plusDays(7);
 		String result = getHeaderTextDate(ci, co);
 		String expected = getContext().getString(R.string.Today);
-		assertEquals(expected, result);
+		Assert.assertEquals(expected, result);
 	}
 
+	@Test
 	public void testHotelHeaderTextFuture2m() {
 		DateTime ci = mTodayAtNoon.plusMinutes(2);
 		DateTime co = mTodayAtNoon.plusDays(7);
 		String result = getHeaderTextDate(ci, co);
 		String expected = getContext().getString(R.string.Today);
-		assertEquals(expected, result);
+		Assert.assertEquals(expected, result);
 	}
 
+	@Test
 	public void testHotelHeaderTextFuture2d() {
 		DateTime ci = mTodayAtNoon.plusDays(2);
 		DateTime co = mTodayAtNoon.plusDays(10);
 		String result = getHeaderTextDate(ci, co);
 		String expected = getContext().getResources().getQuantityString(R.plurals.days_from_now, 2, 2);
-		assertEquals(expected, result);
+		Assert.assertEquals(expected, result);
 	}
 
+	@Test
 	public void testHotelHeaderTextFuture4d() {
 		DateTime ci = mTodayAtNoon.plusDays(4);
 		DateTime co = mTodayAtNoon.plusDays(10);
 		String headerText = getHeaderTextDate(ci, co);
 		String dateString = JodaUtils.formatDateTime(getContext(), ci, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH);
-		assertEquals(dateString, headerText);
+		Assert.assertEquals(dateString, headerText);
 	}
 
 	private static final int MILLIS_IN_HOUR = 3600000;
 	private static final DateTimeZone mDTZDefault = DateTimeZone.getDefault();
 
+	@Test
 	public void testHotelHeaderTextTomorrowNextTimeZone() {
 		DateTime co = mTodayAtNoon.plusDays(10);
 
@@ -110,7 +130,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		DateTime ci = DateTime.now().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(0);
 		String headerText = getHeaderTextDate(ci, co);
 		String dateString = getContext().getString(R.string.Today);
-		assertEquals(dateString, headerText);
+		Assert.assertEquals(dateString, headerText);
 
 		// Make a DateTimeZone that is +1 closer to UTC than default (local)
 		// and update itinGenerator
@@ -120,9 +140,10 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 
 		headerText = getHeaderTextDate(ci, co);
 		dateString = getContext().getString(R.string.tomorrow);
-		assertEquals(dateString, headerText);
+		Assert.assertEquals(dateString, headerText);
 	}
 
+	@Test
 	public void testHotelHeaderTextYesterdayPreviousTimeZone() {
 		DateTime co = mTodayAtNoon.plusDays(10);
 
@@ -130,7 +151,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		DateTime ci = DateTime.now().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(1);
 		String headerText = getHeaderTextDate(ci, co);
 		String dateString = getContext().getString(R.string.Today);
-		assertEquals(dateString, headerText);
+		Assert.assertEquals(dateString, headerText);
 
 		// Make a DateTimeZone that is 1 hour farther from UTC than default (local)
 		// and update itinGenerator
@@ -140,9 +161,10 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 
 		headerText = getHeaderTextDate(ci, co);
 		dateString = getContext().getString(R.string.yesterday);
-		assertEquals(dateString, headerText);
+		Assert.assertEquals(dateString, headerText);
 	}
 
+	@Test
 	public void testHotelHeaderTextAtFixedTimes() {
 		final DateTime elevenFifty = DateTime.now(DateTimeZone.UTC).withHourOfDay(23).withMinuteOfHour(50);
 		DateTimeUtils.setCurrentMillisFixed(elevenFifty.getMillis());

@@ -1,26 +1,31 @@
-package com.expedia.bookings.test.unit.tests;
+package com.expedia.bookings.test.robolectric;
 
 import java.util.LinkedList;
 
 import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Location;
-import junit.framework.TestCase;
 
-public class FlightSearchParamsTest extends TestCase {
+@RunWith(RobolectricSubmoduleTestRunner.class)
+public class FlightSearchParamsTest {
 
+	@Test
 	public void testNumAdults() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		int expectedNumAdults = 2;
 
 		searchParams.setNumAdults(expectedNumAdults);
 
-		assertEquals(expectedNumAdults, searchParams.getNumAdults());
+		Assert.assertEquals(expectedNumAdults, searchParams.getNumAdults());
 	}
 
+	@Test
 	public void testNumChildren() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		LinkedList<ChildTraveler> children = new LinkedList<ChildTraveler>();
@@ -31,9 +36,10 @@ public class FlightSearchParamsTest extends TestCase {
 
 		searchParams.setChildren(children);
 
-		assertEquals(expectedNumChildren, searchParams.getNumChildren());
+		Assert.assertEquals(expectedNumChildren, searchParams.getNumChildren());
 	}
 
+	@Test
 	public void testAddQueryLeg() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.addQueryLeg(new FlightSearchLeg());
@@ -41,40 +47,45 @@ public class FlightSearchParamsTest extends TestCase {
 
 		int expectedNumQueryLegs = 3; // by default, a new FlightSearchParams has 1 FlightSearchLeg
 
-		assertEquals(expectedNumQueryLegs, searchParams.getQueryLegCount());
+		Assert.assertEquals(expectedNumQueryLegs, searchParams.getQueryLegCount());
 	}
 
+	@Test
 	public void testResetCreatesOneFlightSearchLeg() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.reset();
 
 		int expectedNumQueryLegs = 1;
-		assertEquals(expectedNumQueryLegs, searchParams.getQueryLegCount());
+		Assert.assertEquals(expectedNumQueryLegs, searchParams.getQueryLegCount());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Utility Methods
 
+	@Test
 	public void testIsRoundTripFalse() {
 		FlightSearchParams searchParams = new FlightSearchParams();
-		assertFalse(searchParams.isRoundTrip());
+		Assert.assertFalse(searchParams.isRoundTrip());
 	}
 
+	@Test
 	public void testIsRoundTripTrue() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.addQueryLeg(new FlightSearchLeg());
-		assertTrue(searchParams.isRoundTrip());
+		Assert.assertTrue(searchParams.isRoundTrip());
 	}
 
+	@Test
 	public void testSetReturnDateTriggersRoundTripMode() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 
 		searchParams.setDepartureDate(new LocalDate());
 		searchParams.setReturnDate(new LocalDate());
 
-		assertTrue(searchParams.isRoundTrip());
+		Assert.assertTrue(searchParams.isRoundTrip());
 	}
 
+	@Test
 	public void testDepartureAirportCode() {
 		String airport = "DTW";
 		Location location = new Location();
@@ -82,9 +93,10 @@ public class FlightSearchParamsTest extends TestCase {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.setDepartureLocation(location);
 
-		assertEquals(airport, searchParams.getDepartureLocation().getDestinationId());
+		Assert.assertEquals(airport, searchParams.getDepartureLocation().getDestinationId());
 	}
 
+	@Test
 	public void testSetReturnDateTriggersEnsureRoundTripMode() {
 		String airport1 = "DTW";
 		String airport2 = "SFO";
@@ -99,18 +111,20 @@ public class FlightSearchParamsTest extends TestCase {
 		searchParams.setDepartureDate(new LocalDate());
 		searchParams.setReturnDate(new LocalDate());
 
-		assertEquals(airport1, searchParams.getQueryLeg(1).getArrivalLocation().getDestinationId());
-		assertEquals(airport2, searchParams.getQueryLeg(1).getDepartureLocation().getDestinationId());
+		Assert.assertEquals(airport1, searchParams.getQueryLeg(1).getArrivalLocation().getDestinationId());
+		Assert.assertEquals(airport2, searchParams.getQueryLeg(1).getDepartureLocation().getDestinationId());
 	}
 
+	@Test
 	public void testDepartureDate() {
 		LocalDate date = new LocalDate();
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.setDepartureDate(date);
 
-		assertEquals(date, searchParams.getDepartureDate());
+		Assert.assertEquals(date, searchParams.getDepartureDate());
 	}
 
+	@Test
 	public void testArrivalAirportCode() {
 		String airport = "SFO";
 		Location location = new Location();
@@ -118,7 +132,7 @@ public class FlightSearchParamsTest extends TestCase {
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.setArrivalLocation(location);
 
-		assertEquals(airport, searchParams.getArrivalLocation().getDestinationId());
+		Assert.assertEquals(airport, searchParams.getArrivalLocation().getDestinationId());
 	}
 
 }
