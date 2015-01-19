@@ -20,5 +20,5 @@
     <!-- Email addresses -->
     <string name="email_app_support">vsc-android@mobiata.com</string>
     <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name_vsc">VSC user name:</string>
+    <string name="email_user_name_vsc">L’Agence Voyages-sncf.com user name:</string>
 </resources>
