@@ -119,7 +119,7 @@
     <string name="PayToExpedia">Montant dû à VSC</string>
 
     <!-- Label for signin screen -->
-    <string name="vsc_account">Compte hôtel dédié</string>
+    <string name="vsc_account">Compte Voyages-sncf</string>
 
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_vsc_account">Chargement compte VSC…</string>
