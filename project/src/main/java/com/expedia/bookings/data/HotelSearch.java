@@ -96,9 +96,12 @@ public class HotelSearch implements JSONable {
 		// is the one being updated in the property map, so get that one for
 		// setting up our views.
 		if (mSelectedProperty != null) {
-			return Db.getHotelSearch().getProperty(mSelectedProperty.getPropertyId());
+			Property property =  Db.getHotelSearch().getProperty(mSelectedProperty.getPropertyId());
+			if (property != null) {
+				return property;
+			}
 		}
-		return null;
+		return mSelectedProperty;
 
 	}
 
