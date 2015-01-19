@@ -138,8 +138,8 @@ android {
             buildConfigField "boolean", "IS_VSC", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.expedia.bookings.vsc"
-            versionCode 1
-            versionName "1.0"
+            versionCode 2
+            versionName "2.0"
         }
 
         travelocity {
