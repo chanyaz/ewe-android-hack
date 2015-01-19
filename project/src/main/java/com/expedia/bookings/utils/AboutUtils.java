@@ -156,7 +156,7 @@ public class AboutUtils {
 
 	public void openAppSupport() {
 		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_vsc), false, true);
+			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_tvly), false, true);
