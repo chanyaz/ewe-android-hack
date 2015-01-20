@@ -89,6 +89,7 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
+        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
