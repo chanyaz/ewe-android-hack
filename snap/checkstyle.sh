@@ -4,4 +4,4 @@ set -e
 
 source snap/common.sh
 
-gradleww "checkstyle"
+gradleww "checkstyle" ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest"

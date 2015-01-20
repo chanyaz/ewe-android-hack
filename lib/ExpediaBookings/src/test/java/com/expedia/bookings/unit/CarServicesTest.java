@@ -21,15 +21,12 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 
 public class CarServicesTest {
 	@Rule
 	public MockWebServerRule mServer = new MockWebServerRule();
 
-	@Test(expected=RetrofitError.class)
+	@Test(expected = RetrofitError.class)
 	public void testMockSearchBlowsUp() throws Throwable {
 		mServer.enqueue(new MockResponse()
 				.setBody("{garbage}"));
