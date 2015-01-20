@@ -66,62 +66,11 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/time_container"
+        android:id="@+id/calendar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/time_top_bar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="12dp">
-
-            <TextView
-                android:id="@+id/change_date_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Change Date"
-                android:textAllCaps="true"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/time_confirm_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Confirm"
-                android:textAllCaps="true"
-                android:textStyle="bold"/>
-        </FrameLayout>
-
-        <TimePicker
-            android:id="@+id/time_picker"
-            android:layout_width="match_parent"
-            android:layout_height="144dp"/>
-
-        <FrameLayout
-            android:id="@+id/time_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="12dp">
-
-            <TextView
-                android:id="@+id/time_picker_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="September 25 - 9:41 AM PST"/>
-        </FrameLayout>
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/calendar_container"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_gravity="bottom">
 
         <com.mobiata.android.time.widget.CalendarPicker
             android:id="@+id/calendar"
@@ -129,14 +78,47 @@
             android:layout_height="220dp"
             android:layout_gravity="bottom"/>
 
-        <TextView
-            android:id="@+id/change_time"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="#ff00ff"
-            android:gravity="center"/>
+            android:orientation="horizontal"
+            android:layout_margin="12dp">
 
-    </FrameLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:text="@string/pick_up_time_label"/>
+
+            <SeekBar
+                android:id="@+id/pickup_time_seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:max="47"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/drop_off_time_label"
+                android:textSize="24sp"
+                android:layout_weight="1"/>
+
+            <SeekBar
+                android:id="@+id/dropoff_time_seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="47"
+                android:layout_weight="5"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </com.expedia.bookings.widget.CarSearchParamsWidget>

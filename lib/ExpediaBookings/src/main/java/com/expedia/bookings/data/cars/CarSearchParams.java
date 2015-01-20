@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.cars;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import com.expedia.bookings.utils.DateUtils;
 

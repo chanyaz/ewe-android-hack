@@ -2,19 +2,9 @@ package com.expedia.bookings.test.ui.espresso;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
-
-import com.expedia.bookings.R;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -26,7 +16,16 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
+import com.expedia.bookings.R;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -91,7 +90,7 @@ public final class ViewActions {
 		}
 	}
 
-// View Action for Calender Utils
+	// View Action for Calender Utils
 
 	public static ViewAction clickDate(LocalDate start) {
 		return new CalendarPickerClickDatesAction(start);
@@ -134,6 +133,28 @@ public final class ViewActions {
 		public String getDescription() {
 			return "selects dates";
 		}
+	}
+
+	// View Action for manipulating a seek bar
+
+	public static ViewAction setSeekbarTo(final int progress) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(SeekBar.class));
+			}
+
+			@Override
+			public String getDescription() {
+				return "set Seekbar progress";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				SeekBar seekBar = (SeekBar) view;
+				((SeekBar) view).setProgress(progress);
+			}
+		};
 	}
 
 	//View Action to get the values for a view
@@ -250,7 +271,6 @@ public final class ViewActions {
 			}
 		};
 	}
-
 }
 
 

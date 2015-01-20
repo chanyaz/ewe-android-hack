@@ -120,7 +120,7 @@ public class DateFormatUtils {
 			return formatDateTimeRange(context, params.startTime, params.endTime, flags);
 		}
 
-		String dateRange = formatDateTimeRange(context, params.startTime, params.startTime, flags);
+		String dateRange = DateUtils.formatDateRange(context, params.startTime.getMillis(), params.startTime.getMillis(), flags);
 		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
 	}
 

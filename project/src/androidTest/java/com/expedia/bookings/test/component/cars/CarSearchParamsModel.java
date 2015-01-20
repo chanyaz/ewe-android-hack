@@ -32,20 +32,12 @@ public final class CarSearchParamsModel {
 		return onView(withId(R.id.search_btn));
 	}
 
-	public static ViewInteraction changeTime() {
-		return onView(withId(R.id.change_time));
+	public static ViewInteraction dropOffTimeBar() {
+		return onView(withId(R.id.dropoff_time_seek_bar));
 	}
 
-	public static ViewInteraction timeContainer() {
-		return onView(withId(R.id.time_container));
-	}
-
-	public static ViewInteraction timePicker() {
-		return onView(withId(R.id.time_picker));
-	}
-
-	public static ViewInteraction timeConfirm() {
-		return onView(withId(R.id.time_confirm_btn));
+	public static ViewInteraction pickUpTimeBar() {
+		return onView(withId(R.id.pickup_time_seek_bar));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
