@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import org.joda.time.DateTime;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +39,7 @@ import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
@@ -48,6 +52,9 @@ import com.mobiata.android.json.JSONUtils;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
 	RecyclerGallery.GalleryItemClickListner {
+
+	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
+	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 
 	// Tags for this activity's fragments
 	private static final String FRAGMENT_MINI_GALLERY_TAG = "FRAGMENT_MINI_GALLERY_TAG";
@@ -72,6 +79,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
 	private TextView mBookNowButton;
 	private TextView mBookByPhoneButton;
+
+	private DateTime mLastSearchTime;
 
 	// In case you try to toggle too quickly
 	private AnimatorSet mGalleryToggleAnimator;
@@ -120,7 +129,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
-		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
 
@@ -131,6 +140,13 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
+		else {
+			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
+		}
+
+		if (mLastSearchTime == null) {
+			mLastSearchTime = DateTime.now();
+		}
 
 		setupHotelActivity(savedInstanceState);
 
@@ -138,6 +154,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		// sent such that instances of this Activity loaded from the widget do not get finished just as they are loaded
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 	}
 
 	@Override
@@ -154,7 +176,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	protected void onResume() {
 		super.onResume();
 
-		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
 
@@ -179,6 +201,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 					CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
 					mInfoCallback);
 			}
+			mLastSearchTime = DateTime.now();
 		}
 
 		OmnitureTracking.onResume(this);
@@ -189,7 +212,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		super.onNewIntent(intent);
 		setIntent(intent);
 
-		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
 
@@ -220,6 +243,20 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 	}
 
+	private boolean checkFinishConditionsAndFinish() {
+
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+			return true;
+		}
+
+		if (JodaUtils.isExpired(mLastSearchTime, RESUME_TIMEOUT)) {
+			finish();
+			return true;
+		}
+
+		return false;
+	}
+
 	//----------------------------------
 	// MENUS
 	//----------------------------------
@@ -229,7 +266,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
-		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+		if (checkFinishConditionsAndFinish()) {
 			return super.onCreateOptionsMenu(menu);
 		}
 

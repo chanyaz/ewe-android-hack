@@ -99,6 +99,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 	public static final String HOTEL_SOLD_OUT_DIALOG = "HOTEL_SOLD_OUT_DIALOG";
+	public static final String HOTEL_EXPIRED_ERROR_DIALOG = "HOTEL_EXPIRED_ERROR_DIALOG";
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
@@ -1595,4 +1596,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		dismissDialogs();
 	}
 
+	@Subscribe
+	public void onTripItemExpired(Events.TripItemExpired event) {
+		dismissDialogs();
+
+		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+		dialog.setMessage(R.string.error_hotel_no_longer_available);
+		dialog.show(getFragmentManager(), HOTEL_EXPIRED_ERROR_DIALOG);
+
+	}
 }
