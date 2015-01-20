@@ -39,7 +39,9 @@ public final class CarSearchParamsTests {
 	@Test
 	public void testTimePicker() {
 		CarSearchParamsModel.selectDate().perform(click());
+		CarSearchParamsModel.changeTime().check(matches(withEffectiveVisibility(Visibility.INVISIBLE)));
 		CarSearchParamsModel.selectDates(LocalDate.now(), null);
+		CarSearchParamsModel.changeTime().check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
 		CarSearchParamsModel.timeContainer().check(matches(withEffectiveVisibility(Visibility.INVISIBLE)));
 		CarSearchParamsModel.changeTime().perform(click());
 		CarSearchParamsModel.timeContainer().check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
