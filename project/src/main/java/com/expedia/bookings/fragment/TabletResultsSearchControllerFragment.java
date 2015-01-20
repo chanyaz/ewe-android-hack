@@ -138,6 +138,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	private boolean mIsDeepLink = false;
+	private boolean mIsExpandRightContainer = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -255,6 +256,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	private ResultsSearchState getDefaultBaseState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
+			if (!mGrid.isLandscape()
+				&& ResultsSearchState.valueOf(savedInstanceState.getString(INSTANCE_RESULTS_SEARCH_STATE))
+				== ResultsSearchState.TRAVELER_PICKER) {
+				mIsExpandRightContainer = true;
+			}
 			return ResultsSearchState.valueOf(savedInstanceState.getString(INSTANCE_RESULTS_SEARCH_STATE));
 		}
 		else if (Db.getTripBucket() != null && !Db.getTripBucket().isEmpty()) {
@@ -1141,7 +1147,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setContainerToRowSpan(mPopupC, 0, 3);
 				mGrid.setContainerToRow(mSearchBarC, 3);
 				mGrid.setContainerToRowSpan(mWaypointC, 0, 5);
-				mGrid.setContainerToRow(mBottomRightC, 4);
+				if (mIsExpandRightContainer) {
+					mGrid.setContainerToRowSpan(mBottomRightC, 4, 5);
+				}
+				else {
+					mGrid.setContainerToRow(mBottomRightC, 4);
+				}
 				mGrid.setContainerToColumn(mBottomRightC, 2);
 
 				mGrid.setContainerToRow(mBottomCenterC, 5);
