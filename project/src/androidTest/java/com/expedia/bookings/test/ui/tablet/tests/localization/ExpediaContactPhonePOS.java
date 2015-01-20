@@ -97,7 +97,7 @@ public class ExpediaContactPhonePOS extends TabletTestCase {
 
 	public void testSouthKorea() throws Throwable {
 		setPOS(PointOfSaleId.SOUTH_KOREA);
-		runTestCase("02 2076 8343");
+		runTestCase("02 3480 0166");
 	}
 
 	public void testMalaysia() throws Throwable {
