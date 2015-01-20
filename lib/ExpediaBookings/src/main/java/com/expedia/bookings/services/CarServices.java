@@ -2,7 +2,6 @@ package com.expedia.bookings.services;
 
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -17,26 +16,26 @@ import retrofit.converter.GsonConverter;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Scheduler;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class CarServices {
-	private static final String TRUNK = "http://wwwexpediacom.trunk.sb.karmalab.net";
-
-	private static CarServices sCarServices = new CarServices(TRUNK);
-
-	public static CarServices getInstance() {
-		return sCarServices;
-	}
+	public static final String TRUNK = "http://wwwexpediacom.trunk.sb.karmalab.net";
 
 	private CarApi mApi;
 	private Gson mGson;
 	private OkHttpClient mClient;
 
-	public CarServices(String endpoint) {
+	private Scheduler mObserveOn;
+	private Scheduler mSubscribeOn;
+
+	public CarServices(String endpoint, Scheduler observeOn, Scheduler subscribeOn) {
+		mObserveOn = observeOn;
+		mSubscribeOn = subscribeOn;
+
 		mGson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
 			.create();
@@ -62,10 +61,9 @@ public class CarServices {
 	}
 
 	public Subscription carSearch(CarSearchParams params, Observer<CarSearch> observer) {
-		CarDb.carSearch.reset();
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribeOn(Schedulers.io())
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
 			.flatMap(offerEmitter)
 			.collect(new CarSearchHolder(), offerProcessor)
 			.subscribe(observer);
