@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -81,6 +83,12 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		}
 
 		setLob(LineOfBusiness.HOTELS);
+
+		CreateTripResponse tripResponse = Db.getTripBucket().getHotel().getCreateTripResponse();
+		if (tripResponse != null) {
+			AdImpressionTracking.trackAdConversion(getActivity(), tripResponse.getTripId());
+		}
+
 		return v;
 	}
 
