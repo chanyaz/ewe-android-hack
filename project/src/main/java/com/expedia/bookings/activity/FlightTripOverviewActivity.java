@@ -146,7 +146,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setError(R.drawable.default_flights_background_blurred).build().load(url);
+		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setPlaceholder(R.drawable.default_flights_background_blurred).build().load(url);
 		mContentRoot = Ui.findView(this, R.id.content_root);
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);

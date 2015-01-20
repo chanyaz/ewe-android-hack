@@ -245,6 +245,17 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
+
+			if (placeHolderDrawable == null)  {
+				return;
+			}
+
+			if (FragmentBailUtils.shouldBail(getActivity()) || mRootC == null || placeHolderDrawable.getIntrinsicWidth() == 0
+				|| placeHolderDrawable.getIntrinsicHeight() == 0) {
+				// Silently don't draw the bitmap
+				return;
+			}
+
 			mCurrentlyDesiredUrl = DEFAULT_IMAGE_PSEUDO_URL;
 			addNewViews(placeHolderDrawable);
 			crossfade();

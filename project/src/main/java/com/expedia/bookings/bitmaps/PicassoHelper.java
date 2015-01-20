@@ -38,6 +38,7 @@ public class PicassoHelper implements Target, Callback {
 	private String mTag;
 
 	private boolean mRetrieving;
+	private boolean mHasLoadedPlaceholder;
 
 	private static Picasso mPicasso;
 
@@ -64,19 +65,10 @@ public class PicassoHelper implements Target, Callback {
 		retrieveImage(false);
 	}
 
-	private void loadImage(String url) {
-
-		RequestCreator requestCreator;
-
-		if (mResId != 0) {
-			requestCreator = mPicasso.load(mResId);
-		}
-		else {
-			requestCreator = mPicasso.load(url);
-		}
-
+	private void loadImage(RequestCreator requestCreator) {
 		if (mDefaultResId != 0) {
 			requestCreator = requestCreator.placeholder(mDefaultResId);
+			mHasLoadedPlaceholder = true;
 		}
 
 		if (mErrorResId != 0) {
@@ -110,7 +102,18 @@ public class PicassoHelper implements Target, Callback {
 			//default just fetch the image
 			requestCreator.into(this);
 		}
+	}
 
+	private void loadImage(int resourceId) {
+		RequestCreator requestCreator;
+		requestCreator = mPicasso.load(resourceId);
+		loadImage(requestCreator);
+	}
+
+	private void loadImage(String url) {
+		RequestCreator requestCreator;
+		requestCreator = mPicasso.load(url);
+		loadImage(requestCreator);
 	}
 
 	public void getDebugInfo() {
@@ -121,17 +124,24 @@ public class PicassoHelper implements Target, Callback {
 		if (!mRetrieving || forceRetrieve) {
 
 			if (mResId != 0) {
-				loadImage(null);
+				loadImage(mResId);
 				return;
 			}
 			String url = getUrl();
 
 			if (FailedUrlCache.getInstance().contains(url)) {
+				// If there is a placeholder and it hasn't been loaded
+				// load it anyways to set the placeholder
+				if (mDefaultResId != 0 && !mHasLoadedPlaceholder) {
+					loadImage(url);
+					return;
+				}
 				if (mTarget == null) {
 					onError();
 					return;
 				}
 			}
+
 			if (!TextUtils.isEmpty(url)) {
 				mRetrieving = true;
 				loadImage(url);

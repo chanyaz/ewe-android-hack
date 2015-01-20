@@ -96,7 +96,8 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
-		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setError(R.drawable.default_flights_background_blurred).build().load(url);
+		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setPlaceholder(
+			R.drawable.default_flights_background_blurred).build().load(url);
 
 		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
