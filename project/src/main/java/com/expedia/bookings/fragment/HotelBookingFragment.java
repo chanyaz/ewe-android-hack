@@ -314,20 +314,21 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				getString(R.string.preference_fake_hotel_price_change),
 				getString(R.string.preference_fake_price_change_default));
 			BigDecimal priceChange = new BigDecimal(priceChangeString);
-			originalRate = newRate.clone();
-			//Update total price
-			newRate.getDisplayTotalPrice().add(priceChange);
+			if (priceChange.intValue() != 0) {
+				originalRate = newRate.clone();
+				//Update total price
+				newRate.getDisplayTotalPrice().add(priceChange);
 
-			//Update all nights total and per/night totals
-			newRate.getNightlyRateTotal().add(priceChange);
-			if (newRate.getRateBreakdownList() != null) {
-				BigDecimal numberOfNights = new BigDecimal(newRate.getRateBreakdownList().size());
-				BigDecimal perNightChange = priceChange.divide(numberOfNights, BigDecimal.ROUND_UP);
-				for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
-					breakdown.getAmount().add(perNightChange);
+				//Update all nights total and per/night totals
+				newRate.getNightlyRateTotal().add(priceChange);
+				if (newRate.getRateBreakdownList() != null) {
+					BigDecimal numberOfNights = new BigDecimal(newRate.getRateBreakdownList().size());
+					BigDecimal perNightChange = priceChange.divide(numberOfNights, BigDecimal.ROUND_UP);
+					for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
+						breakdown.getAmount().add(perNightChange);
+					}
 				}
 			}
-
 		}
 
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
