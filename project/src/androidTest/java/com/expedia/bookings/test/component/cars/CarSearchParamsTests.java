@@ -12,11 +12,13 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.utils.JodaUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
@@ -71,4 +73,18 @@ public final class CarSearchParamsTests {
 		assertEquals(expectedPickupLocation, CarDb.searchParams.origin);
 	}
 
+	@Test
+	public void testDateButtonTextPopulation() {
+		CarSearchParamsModel.selectDate().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
+		CarSearchParamsModel.selectDate().perform(click());
+		// Select first date
+		CarSearchParamsModel.selectDates(LocalDate.now(), null);
+		String today = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), "MMM dd, hh:mm a");
+		CarSearchParamsModel.selectDate().check(matches(withText(today + " – Select return date")));
+		// Select round-trip, overnight
+		CarSearchParamsModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
+		String expected = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), "MMM dd, hh:mm a")
+			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0), "MMM dd, hh:mm a");
+		CarSearchParamsModel.selectDate().check(matches(withText(expected)));
+	}
 }

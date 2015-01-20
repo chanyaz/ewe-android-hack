@@ -17,6 +17,7 @@ import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
@@ -164,6 +165,8 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		searchParams.startTime = startDate;
 		searchParams.endTime = endDate;
 
+		String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), searchParams, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+		selectDateButton.setText(dateTimeRange);
 		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
 		changeTime.setVisibility(View.VISIBLE);
 	}

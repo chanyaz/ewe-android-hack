@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.cars.CarSearchParams;
 
 /**
  */
@@ -73,6 +75,13 @@ public class DateFormatUtils {
 		return DateUtils.formatDateRange(context, start, end, flags);
 	}
 
+	private static String formatDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime, int flags) {
+		// We are adding an arbitrary second to the endDateTime. The DateIntervalFormat class, from Android, assigns
+		// a date set exactly at Midnight to the day before. This is done arbitrarily and without exact cause.
+		// See source here: https://android.googlesource.com/platform/libcore/+/master/luni/src/main/java/libcore/icu/DateIntervalFormat.java
+		return DateUtils.formatDateRange(context, startDateTime.getMillis(), endDateTime.getMillis() + 1000, flags);
+	}
+
 	/**
 	 * Convenience method for formatting date range represented by a particular HotelSearchParams.
 	 *
@@ -104,6 +113,15 @@ public class DateFormatUtils {
 		}
 
 		return JodaUtils.formatLocalDate(context, params.getStartDate(), flags);
+	}
+
+	public static String formatCarSearchDateRange(Context context, CarSearchParams params, int flags) {
+		if (params.endTime != null) {
+			return formatDateTimeRange(context, params.startTime, params.endTime, flags);
+		}
+
+		String dateRange = formatDateTimeRange(context, params.startTime, params.startTime, flags);
+		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
 	}
 
 	/**
