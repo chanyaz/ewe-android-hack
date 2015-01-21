@@ -51,7 +51,7 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-import net.danlew.android.joda.ResourceZoneInfoProvider;
+import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
 import rx.Observer;
@@ -128,7 +128,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		// We want this fairly high up there so that we set this as
 		// the Provider before anything tries to use Joda time
-		ResourceZoneInfoProvider.init(this);
+		JodaTimeAndroid.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
 
 		ExpediaServices.init(this);
