@@ -747,9 +747,8 @@ public class PointOfSale {
 			Iterator<String> keys = posData.keys();
 			while (keys.hasNext()) {
 				String posName = keys.next();
-				PointOfSale pos = parsePointOfSale(context, posData.optJSONObject(posName));
+				PointOfSale pos = parsePointOfSale(context, posName, posData.optJSONObject(posName));
 				if (pos != null) {
-					pos.mTwoLetterCountryCode = posName.toLowerCase(Locale.ENGLISH);
 					sPointOfSale.put(pos.mPointOfSale, pos);
 
 					// For backwards compatibility
@@ -766,7 +765,7 @@ public class PointOfSale {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
-	private static PointOfSale parsePointOfSale(Context context, JSONObject data) throws JSONException {
+	private static PointOfSale parsePointOfSale(Context context, String posName, JSONObject data) throws JSONException {
 
 		PointOfSaleId pointOfSaleFromId = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
 		if (pointOfSaleFromId == null) {
@@ -777,6 +776,10 @@ public class PointOfSale {
 		pos.mPointOfSale = pointOfSaleFromId;
 		// POS data
 		pos.mThreeLetterCountryCode = data.optString("countryCode", null);
+
+		//By default the POS Key represents Two Letter Country Code
+		//with provision of override via the "twoLetterCountryCode" element
+		pos.mTwoLetterCountryCode = data.optString("twoLetterCountryCode", posName.toLowerCase(Locale.ENGLISH));
 
 		// Server access
 		pos.mUrl = data.optString("url", null);
