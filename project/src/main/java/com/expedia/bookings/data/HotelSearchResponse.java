@@ -190,6 +190,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		performFiltering(searchParams);
+		removeTravelAdFromFilter(mFilteredProperties);
 
 		return mFilteredProperties;
 	}
@@ -208,9 +209,31 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		performFiltering(searchParams);
+		removeTravelAdFromFilter(mFilteredPropertiesIgnoringNeighborhood);
 
 		return mFilteredPropertiesIgnoringNeighborhood;
 	}
+
+	/**
+	 * This removes a travel ad from the filtered results
+	 * if the only other result is the same listing as the ad.
+	 */
+	public void removeTravelAdFromFilter(Collection<Property> properties) {
+		boolean hasSponsoredAndDuplicatedProperty;
+		if (properties.size() == 2) {
+			Property p1 = (Property) properties.toArray()[0];
+			Property p2 = (Property) properties.toArray()[1];
+
+			hasSponsoredAndDuplicatedProperty =
+				p1.isSponsored() || p2.isSponsored() && p1.getPropertyId() == p2.getPropertyId();
+
+			if (hasSponsoredAndDuplicatedProperty) {
+				properties.remove(p1.isSponsored() ? p1 : p2);
+			}
+
+		}
+	}
+
 
 	/**
 	 * Get properties of a particular sort.  You should probably set a HotelFilter before
