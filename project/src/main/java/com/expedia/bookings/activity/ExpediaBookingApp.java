@@ -35,6 +35,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -280,6 +281,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			CrossContextHelper.updateFlightRoutesData(getApplicationContext(), false);
 			startupTimer.addSplit("Flight routes download started");
 		}
+
+		CurrencyUtils.initMap(this);
+		startupTimer.addSplit("Currency Utils init");
 
 		startupTimer.dumpToLog();
 

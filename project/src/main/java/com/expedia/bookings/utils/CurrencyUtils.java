@@ -1,12 +1,23 @@
 package com.expedia.bookings.utils;
 
-import java.util.Currency;
-import java.util.Locale;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.content.Context;
 
 import com.expedia.bookings.data.CreditCardType;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
 
 public class CurrencyUtils {
+	private final static String mPath = "currency/currency.json";
+	private static Map<String, String> mCurrencyMap;
 
 	/**
 	 * Determines the type of credit card based on the card number.
@@ -138,18 +149,25 @@ public class CurrencyUtils {
 		}
 	}
 
-	//Takes a three letter country code
-	public static String currencyForLocale(String code) {
-		Locale locale = LocaleUtils.localeFromISO3CountryCode(code);
-		Currency currency = Currency.getInstance(locale);
-		return currency.getCurrencyCode();
+	public static void initMap(Context c) {
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			InputStream is = c.getAssets().open(mPath);
+			Reader reader = new InputStreamReader(is);
+			Type mapType = new TypeToken<Map<String, String>>() {
+			}.getType();
+			map = new Gson().fromJson(reader, mapType);
+		}
+		catch (IOException ex) {
+			Log.d("Currency Utils Error: " + ex);
+		}
+		mCurrencyMap = map;
 	}
 
 	//Takes a three letter country code
-	public static String symbolForLocale(String code) {
-		Locale locale = LocaleUtils.localeFromISO3CountryCode(code);
-		Currency currency = Currency.getInstance(locale);
-		return currency.getSymbol();
+	public static String currencyForLocale(String code) {
+		return mCurrencyMap.get(code);
 	}
+
 }
 
