@@ -824,12 +824,14 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			@Override
 			public void run() {
 				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
-
+				int targetY = mShowSlideToWidget ?
+					mScrollViewListener.getCheckoutY() + mSlideToPurchaseFragmentLayout.getHeight() :
+					mScrollViewListener.getCheckoutY();
 				if (animate) {
-					mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
+					mScrollView.smoothScrollTo(0, targetY);
 				}
 				else {
-					mScrollView.scrollTo(0, mScrollViewListener.getCheckoutY());
+					mScrollView.scrollTo(0, targetY);
 				}
 			}
 		});
@@ -884,9 +886,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	private void showPurchaseViews(boolean animate) {
-		if (Db.getTripBucket().getHotel() != null && (Db.getTripBucket().getHotel().getRate().showResortFeesMessaging() || Db.getTripBucket().getHotel().getRate().isPayLater())) {
-			mScrollView.fullScroll(View.FOCUS_DOWN);
-		}
 		if (mSlideToPurchaseFragmentLayout.getVisibility() == View.VISIBLE) {
 			if (mPurchaseViewsAnimation != null) {
 				mPurchaseViewsAnimation.setAnimationListener(null);
