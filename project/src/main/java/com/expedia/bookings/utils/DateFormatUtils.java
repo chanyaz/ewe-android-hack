@@ -116,11 +116,11 @@ public class DateFormatUtils {
 	}
 
 	public static String formatCarSearchDateRange(Context context, CarSearchParams params, int flags) {
-		if (params.endTime != null) {
-			return formatDateTimeRange(context, params.startTime, params.endTime, flags);
+		if (params.endDateTime != null) {
+			return formatDateTimeRange(context, params.startDateTime, params.endDateTime, flags);
 		}
 
-		String dateRange = DateUtils.formatDateRange(context, params.startTime.getMillis(), params.startTime.getMillis(), flags);
+		String dateRange = DateUtils.formatDateRange(context, params.startDateTime.getMillis(), params.startDateTime.getMillis(), flags);
 		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
 	}
 

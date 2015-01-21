@@ -35,11 +35,11 @@ public class CarSearchParamsBuilder {
 		CarSearchParams params = new CarSearchParams();
 		if (mStartDate != null) {
 			DateTime start = make(mStartDate, mStartMillis);
-			params.startTime = start;
+			params.startDateTime = start;
 		}
 		if (mEndDate != null) {
 			DateTime end = make(mEndDate, mEndMillis);
-			params.endTime = end;
+			params.endDateTime = end;
 		}
 		return params;
 	}

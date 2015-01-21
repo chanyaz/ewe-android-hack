@@ -174,7 +174,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	private void paramsChanged() {
 		CarSearchParams params = searchParamsBuilder.build();
-		if (params.startTime != null) {
+		if (params.startDateTime != null) {
 			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 			selectDateButton.setText(dateTimeRange);
 		}

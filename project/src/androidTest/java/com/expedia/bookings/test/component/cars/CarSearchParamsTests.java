@@ -37,13 +37,13 @@ public final class CarSearchParamsTests {
 		CarSearchParamsModel.pickupLocation().perform(typeText(expectedPickupLocation));
 
 		assertNull(CarDb.searchParams.origin);
-		assertNull(CarDb.searchParams.startTime);
-		assertNull(CarDb.searchParams.endTime);
+		assertNull(CarDb.searchParams.startDateTime);
+		assertNull(CarDb.searchParams.endDateTime);
 
 		CarSearchParamsModel.searchButton().perform(click());
 
-		assertEquals(expectedStartDate, CarDb.searchParams.startTime);
-		assertEquals(expectedEndDate, CarDb.searchParams.endTime);
+		assertEquals(expectedStartDate, CarDb.searchParams.startDateTime);
+		assertEquals(expectedEndDate, CarDb.searchParams.endDateTime);
 		assertEquals(expectedPickupLocation, CarDb.searchParams.origin);
 	}
 

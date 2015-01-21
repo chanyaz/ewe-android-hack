@@ -21,14 +21,14 @@ public class CarSearchParamsBuilderTests {
 
 		// Test nulls
 		params = builder.build();
-		Assert.assertEquals(null, params.startTime);
-		Assert.assertEquals(null, params.endTime);
+		Assert.assertEquals(null, params.startDateTime);
+		Assert.assertEquals(null, params.endDateTime);
 
 		// Test start
 		builder.startDate(today);
 		params = builder.build();
-		Assert.assertEquals(now, params.startTime);
-		Assert.assertEquals(null, params.endTime);
+		Assert.assertEquals(now, params.startDateTime);
+		Assert.assertEquals(null, params.endDateTime);
 
 		// Test both
 		builder = new CarSearchParamsBuilder()
@@ -36,8 +36,8 @@ public class CarSearchParamsBuilderTests {
 			.endDate(tomorrow);
 
 		params = builder.build();
-		Assert.assertEquals(now, params.startTime);
-		Assert.assertEquals(now.plusDays(1), params.endTime);
+		Assert.assertEquals(now, params.startDateTime);
+		Assert.assertEquals(now.plusDays(1), params.endDateTime);
 	}
 
 	@Test
@@ -55,14 +55,14 @@ public class CarSearchParamsBuilderTests {
 		builder.startDate(today)
 			.startMillis(millis);
 		params = builder.build();
-		Assert.assertEquals(now.plusMillis(millis), params.startTime);
+		Assert.assertEquals(now.plusMillis(millis), params.startDateTime);
 
 		//Test end time with millis set
 		millis = millis * 2;
 		builder.endDate(tomorrow)
 			.endMillis(millis);
 		params = builder.build();
-		Assert.assertEquals(now.plusDays(1).plusMillis(millis), params.endTime);
+		Assert.assertEquals(now.plusDays(1).plusMillis(millis), params.endDateTime);
 	}
 
 }
