@@ -235,8 +235,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 
 		// #14135, set a 1 hour timeout on this screen
 		if (JodaUtils.isExpired(mLastSearchTime, RESUME_TIMEOUT)) {
-			//Instead of finishing the activity, lets refresh the data
-			getHotelOffers();
+			finish();
 			return true;
 		}
 
