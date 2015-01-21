@@ -344,7 +344,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
 		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
 		rate.setThumbnail(ParserUtils.parseUrl(jsonRate.optString("roomThumbnailUrl", null)));
-		rate.setIsPayLater(rateInfo.optBoolean("isPayLater", false));
+		rate.setIsPayLater(jsonRate.optBoolean("isPayLater", false));
 		rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
 		rate.setNumberOfNights(numberOfNights);
