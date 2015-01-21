@@ -197,4 +197,5 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 			ds.setColor(color);
 		}
 	}
+
 }

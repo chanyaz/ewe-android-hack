@@ -90,11 +90,10 @@ public class AirportFilterWidget extends TextView {
 
 		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() >= airportsAll.size()) {
-			sb.append(getResources().getString(R.string.all_airports), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			sb.append(getResources().getString(R.string.all_airports));
 		}
 		else {
-			sb.append(Strings.joinWithoutEmpties(", ", airportsInFilter),
-					FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			sb.append(Strings.joinWithoutEmpties(", ", airportsInFilter));
 		}
 		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}

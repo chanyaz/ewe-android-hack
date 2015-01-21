@@ -17,7 +17,7 @@
 
         <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-            <item android:drawable="@color/hotel_filter_spinner_dropdown_color_selected"/>
+            <item android:drawable="@color/hotel_filter_spinner_color"/>
             <item android:right="15dp">
                 <bitmap android:src="@drawable/ic_tablet_checkout_saved_spinner" android:gravity="right" />
             </item>

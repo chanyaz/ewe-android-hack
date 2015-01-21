@@ -2,10 +2,10 @@ package com.expedia.bookings.test.ui.tablet.pagemodels;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getChildViewText;
+import com.expedia.bookings.R;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -13,8 +13,8 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.getChildViewText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
@@ -37,19 +37,23 @@ public class SortFilter {
 	}
 
 	public static void clickToSortByPrice() {
-		onView(allOf(withId(R.id.flight_sort_price), withParent(withId(R.id.flight_sort_control)))).perform(click());
+		onView(withId(R.id.flight_sort_control)).perform(click());
+		onView(withText(R.string.sort_description_price)).perform(click());
 	}
 
 	public static void clickToSortByArrival() {
-		onView(allOf(withId(R.id.flight_sort_arrives), withParent(withId(R.id.flight_sort_control)))).perform(click());
+		onView(withId(R.id.flight_sort_control)).perform(click());
+		onView(withText(R.string.sort_description_arrival)).perform(click());
 	}
 
 	public static void clickToSortByDeparture() {
-		onView(allOf(withId(R.id.flight_sort_departs), withParent(withId(R.id.flight_sort_control)))).perform(click());
+		onView(withId(R.id.flight_sort_control)).perform(click());
+		onView(withText(R.string.sort_description_departure)).perform(click());
 	}
 
 	public static void clickToSortByDuration() {
-		onView(allOf(withId(R.id.flight_sort_duration), withParent(withId(R.id.flight_sort_control)))).perform(click());
+		onView(withId(R.id.flight_sort_control)).perform(click());
+		onView(withText(R.string.sort_description_duration)).perform(click());
 	}
 
 	public static String getfilterAirlineView(int index) {
