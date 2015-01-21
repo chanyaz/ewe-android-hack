@@ -8,6 +8,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by dmadan on 4/7/14.
@@ -61,6 +62,16 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public static void clickLogOutButton() {
 		logOutButton().perform(click());
+
+		/* When the user logs out, there's a create trip call
+		* Handle the price change popup
+		*/
+		try {
+			onView(withText(R.string.ok)).perform(click());
+		}
+		catch (Exception e) {
+			//
+		}
 	}
 
 	public static void clickSelectPaymentButton() {
