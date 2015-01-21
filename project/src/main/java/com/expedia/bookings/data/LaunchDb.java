@@ -203,7 +203,7 @@ public class LaunchDb {
 			sDb.mCollections.remove(LAST_SEARCH_COLLECTION_INDEX);
 			sNearByTileCollectionIndex = 0;
 		}
-		if (sDb.mCollections.get(sNearByTileCollectionIndex).isDestinationImageCode
+		if (sDb.mCollections != null && sDb.mCollections.get(sNearByTileCollectionIndex).isDestinationImageCode
 			&& isUserChangedSearchParams(Sp.getParams())) {
 			sDb.mCollections.remove(sNearByTileCollectionIndex);
 		}
@@ -218,7 +218,9 @@ public class LaunchDb {
 		@Override
 		public void onDownload(List<LaunchCollection> collections) {
 			sDb.mCollections = collections;
-			sDb.mSelectedCollection = collections.get(0);
+			if (collections != null) {
+				sDb.mSelectedCollection = collections.get(0);
+			}
 			if (collections != null && collections.size() > 0 && !BackgroundDownloader.getInstance().isDownloading(
 				NEAR_BY_KEY)) {
 				sDb.mCollections.add(sNearByTileCollectionIndex, sDb.mNearByCollection);
