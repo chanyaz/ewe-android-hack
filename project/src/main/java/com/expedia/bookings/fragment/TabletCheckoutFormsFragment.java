@@ -965,6 +965,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onAddNewTravelerSelected(int travelerNumber) {
 		openTravelerEntry(travelerNumber);
+		// Let's refresh the checkout status since we removed previously selected traveler info.
+		onCheckoutDataUpdated();
 	}
 
 	@Override
