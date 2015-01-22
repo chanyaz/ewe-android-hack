@@ -22,6 +22,7 @@ public class HotelsDetailsScreen extends ScreenActions {
 	private static final int BACK_BUTTON_ID = android.R.id.home;
 	private static final int VIP_IMAGE_VIEW = R.id.vip_badge;
 	private static final int GALLERY_VIEW_ID = R.id.images_gallery;
+	private static final int SALE_BANNER_TEXT_VIEW_ID = R.id.sale_banner_text_view;
 
 // Object access
 
@@ -55,6 +56,10 @@ public class HotelsDetailsScreen extends ScreenActions {
 
 	public static ViewInteraction hotelGallery() {
 		return onView(withId(GALLERY_VIEW_ID));
+	}
+
+	public static ViewInteraction saleBannerInfo() {
+		return onView(withId(SALE_BANNER_TEXT_VIEW_ID));
 	}
 
 	// Object interaction

@@ -76,7 +76,8 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	}
 
 	public static void selectRoomItem(int index) {
-		onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(NUM_HEADERS_IN_LIST_VIEW + index).perform(click());
+		onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(NUM_HEADERS_IN_LIST_VIEW + index)
+			.perform(click());
 
 		//handle price change popup after selecting a room
 		try {
