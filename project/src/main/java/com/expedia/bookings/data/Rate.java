@@ -68,6 +68,7 @@ public class Rate implements JSONable {
 	private Money mTotalMandatoryFees;
 	private Money mTotalPriceWithMandatoryFees;
 	private Money mTotalPriceAdjustments;
+	private Money mDepositAmount;
 
 	// Display prices
 	private UserPriceType mUserPriceType;
@@ -94,6 +95,7 @@ public class Rate implements JSONable {
 	private boolean mNonRefundable = false;
 	private boolean mShowResortFees = false;
 	private boolean mResortFeeInclusion = false;
+	private boolean mDepositRequired = false;
 
 	private TaxStatusType mTaxStatusType;
 
@@ -338,6 +340,15 @@ public class Rate implements JSONable {
 		mTotalSurcharge = surcharge;
 	}
 
+	public Money getDepositAmount() {
+		return mDepositAmount;
+	}
+
+	public void setDepositAmount(Money depositAmount) {
+		mDepositAmount = depositAmount;
+		mDepositRequired = !depositAmount.isZero();
+	}
+
 	public Money getTotalMandatoryFees() {
 		return mTotalMandatoryFees;
 	}
@@ -412,6 +423,7 @@ public class Rate implements JSONable {
 
 	public void setDepositToShowUsers(Money m) {
 		mDepositToShowUsers = m;
+		mDepositRequired = !m.isZero();
 	}
 
 	public void setStrikethroughPriceToShowUsers(Money m) {
@@ -565,6 +577,10 @@ public class Rate implements JSONable {
 		mResortFeeInclusion = resortFeeInclusion;
 	}
 
+	public boolean depositRequired() {
+		return mDepositRequired;
+	}
+
 	public void setMobileExlusivity(boolean bool) {
 		mIsMobileExclusive = bool;
 	}
@@ -711,6 +727,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceAdjustments", mTotalPriceAdjustments);
+			JSONUtils.putJSONable(obj, "depositAmount", mDepositAmount);
 			obj.putOpt("userPriceType", getUserPriceType().ordinal());
 			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
 			JSONUtils.putEnum(obj, "taxStatusType", mTaxStatusType);
@@ -722,6 +739,7 @@ public class Rate implements JSONable {
 			obj.putOpt("hasFreeCancellation", mHasFreeCancellation);
 			obj.putOpt("showResortFeeMessage", mShowResortFees);
 			obj.putOpt("resortFeeInclusion", mResortFeeInclusion);
+			obj.putOpt("depositRequired", mDepositRequired);
 			if (mFreeCancellationWindowDate != null) {
 				JodaUtils.putDateTimeInJson(obj, "freeCancellationWindowDateTime", mFreeCancellationWindowDate);
 			}
@@ -787,6 +805,7 @@ public class Rate implements JSONable {
 		mTotalMandatoryFees = JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mTotalPriceAdjustments = JSONUtils.getJSONable(obj, "totalPriceAdjustments", Money.class);
+		mDepositAmount = JSONUtils.getJSONable(obj, "depositAmount", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
 		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
 		mTaxStatusType = JSONUtils.getEnum(obj, "taxStatusType", TaxStatusType.class);
@@ -799,6 +818,7 @@ public class Rate implements JSONable {
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");
 		mShowResortFees = obj.optBoolean("showResortFeeMessage");
 		mResortFeeInclusion = obj.optBoolean("resortFeeInclusion");
+		mDepositRequired = obj.optBoolean("depositRequired");
 
 		List<BedType> bedTypes = JSONUtils.getJSONableList(obj, "bedTypes", BedType.class);
 		if (bedTypes != null) {

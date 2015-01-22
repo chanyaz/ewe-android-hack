@@ -231,8 +231,8 @@ public class HotelUtils {
 
 	// Convenience method for getting pay later text that goes at the bottom of checkout.
 	public static Spanned getCheckoutPayLaterText(Context context, Rate rate) {
-		if (!rate.getDisplayDeposit().isZero()) {
-			String deposit = rate.getDisplayDeposit().getFormattedMoney();
+		if (rate.depositRequired()) {
+			String deposit = rate.getDepositAmount().getFormattedMoney();
 			return Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit));
 		}
 		else {
