@@ -63,6 +63,6 @@ public class CarSearchParamsBuilder {
 	}
 
 	public boolean areRequiredParamsFilled() {
-		return !Strings.isEmpty(mOrigin) && mStartDate != null && mEndDate != null;
+		return Strings.isNotEmpty(mOrigin) && mStartDate != null && mEndDate != null;
 	}
 }
