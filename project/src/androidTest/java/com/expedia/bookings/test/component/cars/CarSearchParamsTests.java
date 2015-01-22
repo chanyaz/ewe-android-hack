@@ -14,6 +14,7 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.utils.JodaUtils;
 
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -94,6 +95,45 @@ public final class CarSearchParamsTests {
 		String expected2 = JodaUtils.format(DateTime.now().plusDays(2).withTimeAtStartOfDay(), DATE_TIME_PATTERN)
 			+ " – Select return date";
 		CarSearchParamsModel.selectDate().check(matches(withText(expected2)));
+	}
 
+	@Test
+	public void testSearchButtonErrorMessageForIncompleteParams() {
+		// Test with all params missing
+		CarSearchParamsModel.searchButton().perform(click());
+		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_origin_param)));
+
+		// Test with only start date selected
+		CarSearchParamsModel.pickupLocation().perform(clearText());
+		CarSearchParamsModel.selectDate().perform(click());
+		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), null);
+		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_origin_param)));
+
+		//Test with only start and end date selected
+		CarSearchParamsModel.pickupLocation().perform(clearText());
+		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
+		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_origin_param)));
+
+		// Test with only pickup location
+		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
+		CarSearchParamsModel.selectDates(null, null);
+		CarSearchParamsModel.searchButton().perform(click());
+		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_start_date_param)));
+
+		// Test with origin and start date selected
+		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
+		CarSearchParamsModel.selectDate().perform(click());
+		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), null);
+		CarSearchParamsModel.searchButton().perform(click());
+		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_end_date_param)));
+	}
+
+	@Test
+	public void testSearchButtonHasNoErrorMessageForCompleteParams() {
+		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
+		CarSearchParamsModel.selectDate().perform(click());
+		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
+		CarSearchParamsModel.searchButton().perform(click());
+		CarSearchParamsModel.searchErrorMessage().check(matches(withText("")));
 	}
 }

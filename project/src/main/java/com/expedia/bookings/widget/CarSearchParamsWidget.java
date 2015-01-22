@@ -3,9 +3,13 @@ package com.expedia.bookings.widget;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,6 +23,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
@@ -30,7 +35,7 @@ import rx.Observer;
 import rx.Subscription;
 
 public class CarSearchParamsWidget extends FrameLayout implements
-	CalendarPicker.DateSelectionChangedListener, SeekBar.OnSeekBarChangeListener {
+	CalendarPicker.DateSelectionChangedListener, SeekBar.OnSeekBarChangeListener, TextWatcher, EditText.OnEditorActionListener {
 
 	public CarSearchParamsWidget(Context context) {
 		super(context);
@@ -68,24 +73,34 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@InjectView(R.id.dropoff_time_seek_bar)
 	SeekBar dropoffTimeSeekBar;
 
+	@InjectView((R.id.search_error_message))
+	TextView searchErrorMessage;
+
 	private CarSearchParamsBuilder searchParamsBuilder;
+
+	private CarSearchParams carSearchParams;
 
 	Subscription carSearchSubscription;
 
 	@OnClick(R.id.search_btn)
 	public void startWidgetDownload() {
-		startDownload();
-		Ui.showToast(getContext(), "Loading results, please wait");
+		if (isSearchFormFilled()) {
+			startDownload();
+			Ui.showToast(getContext(), "Loading results, please wait");
+			searchErrorMessage.setText("");
+		}
+	}
+
+	@OnClick(R.id.dropoff_location)
+	public void displayToastForDropOffLocacationClick() {
+		Ui.showToast(getContext(), R.string.drop_off_same_as_pick_up);
 	}
 
 	public void startDownload() {
-		CarSearchParams params = searchParamsBuilder.build();
-		params.origin = pickupLocation.getText().toString();
-
-		CarDb.setSearchParams(params);
+		CarDb.setSearchParams(carSearchParams);
 
 		carSearchSubscription = CarDb.getCarServices()
-			.carSearch(params, carSearchSubscriber);
+			.carSearch(carSearchParams, carSearchSubscriber);
 	}
 
 	@Override
@@ -108,6 +123,8 @@ public class CarSearchParamsWidget extends FrameLayout implements
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
 		calendar.setDateChangedListener(this);
+		pickupLocation.addTextChangedListener(this);
+		pickupLocation.setOnEditorActionListener(this);
 	}
 
 	@Override
@@ -173,10 +190,30 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	}
 
 	private void paramsChanged() {
-		CarSearchParams params = searchParamsBuilder.build();
-		if (params.startDateTime != null) {
-			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+		carSearchParams = searchParamsBuilder.build();
+		if (carSearchParams.startDateTime != null) {
+			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 			selectDateButton.setText(dateTimeRange);
+		}
+	}
+
+	private boolean isSearchFormFilled() {
+		boolean areRequiredParamsFilled = searchParamsBuilder.areRequiredParamsFilled();
+		if (!areRequiredParamsFilled) {
+			showParamMissingToast();
+		}
+		return areRequiredParamsFilled;
+	}
+
+	private void showParamMissingToast() {
+		if (carSearchParams == null || Strings.isEmpty(carSearchParams.origin)) {
+			searchErrorMessage.setText(R.string.error_missing_origin_param);
+		}
+		else if (carSearchParams.startDateTime == null) {
+			searchErrorMessage.setText(R.string.error_missing_start_date_param);
+		}
+		else {
+			searchErrorMessage.setText(R.string.error_missing_end_date_param);
 		}
 	}
 
@@ -192,5 +229,30 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	private static int convertProgressToMillis(int progress) {
 		return progress * (30 * 60 * 1000);
+	}
+
+	// Edit text
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		// ignore
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// ignore
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		searchParamsBuilder.origin(s.toString());
+		paramsChanged();
+	}
+
+	@Override
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		if (actionId == EditorInfo.IME_ACTION_DONE && !Strings.isEmpty(v.getText())) {
+			calendarContainer.setVisibility(View.VISIBLE);
+		}
+		return false;
 	}
 }

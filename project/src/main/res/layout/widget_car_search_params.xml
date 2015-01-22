@@ -35,11 +35,20 @@
                 android:src="@drawable/ic_action_bar_checkmark"/>
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/search_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_below="@id/search_header"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_alignParentRight="true"/>
+
         <LinearLayout
             android:id="@+id/location_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/search_header"
+            android:layout_below="@id/search_error_message"
             android:orientation="horizontal">
 
             <EditText
@@ -47,7 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/pick_up_location"/>
+                android:hint="@string/pick_up_location"
+                android:singleLine="true"/>
 
             <TextView
                 android:id="@+id/dropoff_location"

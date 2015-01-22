@@ -65,4 +65,31 @@ public class CarSearchParamsBuilderTests {
 		Assert.assertEquals(now.plusDays(1).plusMillis(millis), params.endDateTime);
 	}
 
+	@Test
+	public void testOrigin() {
+		String origin = "SFO";
+		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
+		CarSearchParams params = builder.origin(origin).build();
+		Assert.assertEquals(origin, params.origin);
+	}
+
+	@Test
+	public void testRequiredParamsFilled() {
+		String origin = "SFO";
+		LocalDate now = LocalDate.now();
+		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
+
+		Assert.assertFalse(builder.areRequiredParamsFilled());
+		// Fill only origin
+		builder.origin(origin);
+		Assert.assertFalse(builder.areRequiredParamsFilled());
+		// Fill end date also
+		builder.endDate(now);
+		Assert.assertFalse(builder.areRequiredParamsFilled());
+		// Fill start date also
+		builder.startDate(now);
+		Assert.assertTrue(builder.areRequiredParamsFilled());
+		builder.endDate(null);
+		Assert.assertFalse(builder.areRequiredParamsFilled());
+	}
 }

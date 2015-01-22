@@ -20,6 +20,14 @@
     <string name="pick_up_time_label">Pick-up</string>
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Drop-off</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Drop-off location must be the same as pick-up location</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Origin missing</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Start Date missing</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">End Date missing</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
