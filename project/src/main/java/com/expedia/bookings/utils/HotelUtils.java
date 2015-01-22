@@ -175,7 +175,7 @@ public class HotelUtils {
 
 		// Determine price to be paid now
 		Money sliderCharge;
-		if (rate.isPayLater()) {
+		if (rate.isPayLater() && !AndroidUtils.isTablet(context)) {
 			sliderCharge = rate.getDisplayDeposit();
 		}
 		else {
