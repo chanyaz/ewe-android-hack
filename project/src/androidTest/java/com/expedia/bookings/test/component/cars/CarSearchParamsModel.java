@@ -8,6 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public final class CarSearchParamsModel {
@@ -23,6 +24,11 @@ public final class CarSearchParamsModel {
 	public static ViewInteraction pickupLocation() {
 		return onView(withId(R.id.pickup_location));
 	}
+
+	public static ViewInteraction dropOffLocation() {
+		return onView(withId(R.id.dropoff_location));
+	}
+
 
 	public static ViewInteraction selectDate() {
 		return onView(withId(R.id.select_date));
@@ -40,8 +46,16 @@ public final class CarSearchParamsModel {
 		return onView(withId(R.id.pickup_time_seek_bar));
 	}
 
-	public static ViewInteraction searchErrorMessage() {
-		return onView(withId(R.id.search_error_message));
+	public static ViewInteraction alertDialog() {
+		return onView(withChild(withId(android.R.id.button3)));
+	}
+
+	public static ViewInteraction alertDialogMessage() {
+		return onView(withId(android.R.id.message));
+	}
+
+	public static ViewInteraction alertDialogNeutralButton() {
+		return onView(withId(android.R.id.button3));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {

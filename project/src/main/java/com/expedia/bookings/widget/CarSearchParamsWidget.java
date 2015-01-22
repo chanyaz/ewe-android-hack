@@ -2,7 +2,9 @@ package com.expedia.bookings.widget;
 
 import org.joda.time.LocalDate;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -73,9 +75,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@InjectView(R.id.dropoff_time_seek_bar)
 	SeekBar dropoffTimeSeekBar;
 
-	@InjectView((R.id.search_error_message))
-	TextView searchErrorMessage;
-
 	private CarSearchParamsBuilder searchParamsBuilder;
 
 	private CarSearchParams carSearchParams;
@@ -87,13 +86,12 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		if (isSearchFormFilled()) {
 			startDownload();
 			Ui.showToast(getContext(), "Loading results, please wait");
-			searchErrorMessage.setText("");
 		}
 	}
 
 	@OnClick(R.id.dropoff_location)
-	public void displayToastForDropOffLocacationClick() {
-		Ui.showToast(getContext(), R.string.drop_off_same_as_pick_up);
+	public void displayAlertForDropOffLocacationClick() {
+		showAlertMessage(R.string.drop_off_same_as_pick_up, R.string.ok);
 	}
 
 	public void startDownload() {
@@ -206,15 +204,17 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	}
 
 	private void showParamMissingToast() {
+		int messageResourceId;
 		if (carSearchParams == null || Strings.isEmpty(carSearchParams.origin)) {
-			searchErrorMessage.setText(R.string.error_missing_origin_param);
+			messageResourceId = R.string.error_missing_origin_param;
 		}
 		else if (carSearchParams.startDateTime == null) {
-			searchErrorMessage.setText(R.string.error_missing_start_date_param);
+			messageResourceId = R.string.error_missing_start_date_param;
 		}
 		else {
-			searchErrorMessage.setText(R.string.error_missing_end_date_param);
+			messageResourceId = R.string.error_missing_end_date_param;
 		}
+		showAlertMessage( messageResourceId, R.string.ok);
 	}
 
 	@Override
@@ -255,4 +255,18 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		}
 		return false;
 	}
+
+	private void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(messageResourceId)
+			.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
 }
