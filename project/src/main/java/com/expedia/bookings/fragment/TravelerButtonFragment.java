@@ -230,13 +230,17 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	public boolean isPartiallyFilled() {
 		Traveler trav = getDbTraveler();
-		if (trav != null) {
+		if (trav != null && !trav.isNew()) {
 			return trav.hasName();
 		}
 		return false;
 	}
 
 	public boolean isValid() {
+		// Short circuit in case if the last unsaved traveler was a new one.
+		if (getDbTraveler() != null && getDbTraveler().isNew()) {
+			return false;
+		}
 		return mTravelerButtonListener.travelerIsValid(mTravelerNumber);
 	}
 
