@@ -57,6 +57,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	}
 
 	public static void clickLogInButton() {
+		logInButton().perform(scrollTo());
 		logInButton().perform(click());
 	}
 
