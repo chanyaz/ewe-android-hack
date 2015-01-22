@@ -130,16 +130,8 @@ public class PicassoHelper implements Target, Callback {
 			String url = getUrl();
 
 			if (FailedUrlCache.getInstance().contains(url)) {
-				// If there is a placeholder and it hasn't been loaded
-				// load it anyways to set the placeholder
-				if (mDefaultResId != 0 && !mHasLoadedPlaceholder) {
-					loadImage(url);
-					return;
-				}
-				if (mTarget == null) {
-					onError();
-					return;
-				}
+				onError();
+				return;
 			}
 
 			if (!TextUtils.isEmpty(url)) {
@@ -155,25 +147,31 @@ public class PicassoHelper implements Target, Callback {
 	 * Returns the URL to try to load.
 	 */
 	protected String getUrl() {
-		if (mUrls == null) {
-			return mUrl;
-		}
-		if (mIndex < mUrls.size()) {
+		if (mUrls != null && mIndex < mUrls.size()) {
 			return mUrls.get(mIndex);
 		}
 
-		return null;
+		return mUrl;
 	}
 
 	private void retry() {
-		if (mUrls == null) {
+
+		if (mUrls != null && mIndex + 1 < mUrls.size()) {
+			mIndex++;
+			retrieveImage(true);
 			return;
 		}
 
-		if (mIndex + 1 < mUrls.size()) {
-			mIndex++;
+		// All urls have failed. Load the placeholder if it
+		// hasn't been set before.
+		if (mDefaultResId != 0 && !mHasLoadedPlaceholder) {
+			mResId = mDefaultResId;
+			mDefaultResId = 0;
+			mBlur = false;
 			retrieveImage(true);
+			return;
 		}
+
 	}
 
 	/**
@@ -190,11 +188,11 @@ public class PicassoHelper implements Target, Callback {
 	public void onError() {
 		FailedUrlCache.getInstance().add(getUrl());
 
+		retry();
+
 		if (mCallback != null) {
 			mCallback.onError();
 		}
-
-		retry();
 	}
 
 	/**
