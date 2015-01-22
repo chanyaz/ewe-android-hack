@@ -137,7 +137,7 @@ public class Property implements JSONable {
 		this.mHasShownImpression = value;
 	}
 	public void setClickTrackingUrl(String url) {
-		this.mClickTrackingUrl = url;
+		this.mClickTrackingUrl = makeValidUrl(url);
 	}
 	public void setImpressionTrackingUrl(String url) {
 		this.mImpressionTrackingUrl = url;
@@ -808,4 +808,9 @@ public class Property implements JSONable {
 			}
 		}
 	};
+
+	private String makeValidUrl(String string) {
+		return string.replace("[destinationUrl]","");
+	}
+
 }
