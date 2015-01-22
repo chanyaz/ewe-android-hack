@@ -120,18 +120,14 @@ public class BookingInfoUtils {
 	 */
 	public static void resetPreviousCreditCardSelectState(Context context, StoredCreditCard creditCard) {
 		// Check to find the desired credit card and reset his selectable state
-		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+		if (creditCard != null && User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
 			for (int i = 0; i < dbCards.size(); i++) {
 				if (creditCard.compareTo(dbCards.get(i)) == 0) {
-					StoredCreditCard c = Db.getUser().getStoredCreditCards().get(i);
-					Db.getUser().getStoredCreditCards().remove(i);
-					c.setIsSelectable(true);
-					Db.getUser().getStoredCreditCards().add(i, c);
+					Db.getUser().getStoredCreditCards().get(i).setIsSelectable(true);
 				}
 			}
 		}
-
 	}
 
 	public static List<Traveler> getAlternativeTravelers(Context context) {
