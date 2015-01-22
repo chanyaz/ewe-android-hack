@@ -398,6 +398,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		rate.setTaxStatusType(chargeableRateInfo.optString("taxStatusType"));
 
+		Money depositAmount = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmount", "0.0"), currencyCode);
 		Money depositToShowUsers = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmountToShowUsers",
 				"0.0"),
 			currencyCode);
@@ -408,6 +409,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money nightlyRateTotal = ParserUtils.createMoney(chargeableRateInfo.getString("nightlyRateTotal"),
 			currencyCode);
 		rate.setNightlyRateTotal(nightlyRateTotal);
+		rate.setDepositAmount(depositAmount);
 		rate.setDepositToShowUsers(depositToShowUsers);
 		rate.setPriceToShowUsers(priceToShowUsers);
 		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);

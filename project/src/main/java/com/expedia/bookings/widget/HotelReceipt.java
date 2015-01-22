@@ -310,9 +310,9 @@ public class HotelReceipt extends LinearLayout {
 
 		HotelReceiptExtraSection dueToExpediaRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-		dueToExpediaRow.bind(totalDueToExpediaToday, rate.getDisplayDeposit().getFormattedMoney());
+		dueToExpediaRow.bind(totalDueToExpediaToday, rate.getDepositAmount().getFormattedMoney());
 
-		if (rate.getDisplayDeposit().isZero()) {
+		if (rate.getDepositAmount().isZero()) {
 			TextView labelView = (TextView) dueToExpediaRow.findViewById(R.id.price_title);
 			TextView rateView = (TextView) dueToExpediaRow.findViewById(R.id.price_text_view);
 			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_etp_overview_checkmark, 0, 0, 0);

@@ -239,7 +239,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		if (resortCase || payLaterCase) {
 			Money dueToday;
 			if (payLaterCase) {
-				dueToday = rateWeCareAbout.getDisplayDeposit();
+				dueToday = rateWeCareAbout.getDepositAmount();
 			}
 			else {
 				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
