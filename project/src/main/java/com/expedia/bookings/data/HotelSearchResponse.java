@@ -225,7 +225,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			Property p2 = (Property) properties.toArray()[1];
 
 			hasSponsoredAndDuplicatedProperty =
-				p1.isSponsored() || p2.isSponsored() && p1.getPropertyId().equalsIgnoreCase(p2.getPropertyId());
+				(p1.isSponsored() || p2.isSponsored()) && p1.getPropertyId().equalsIgnoreCase(p2.getPropertyId());
 
 			if (hasSponsoredAndDuplicatedProperty) {
 				properties.remove(p1.isSponsored() ? p1 : p2);
