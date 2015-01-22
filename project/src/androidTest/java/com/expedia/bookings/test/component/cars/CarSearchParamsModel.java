@@ -40,6 +40,10 @@ public final class CarSearchParamsModel {
 		return onView(withId(R.id.pickup_time_seek_bar));
 	}
 
+	public static ViewInteraction searchErrorMessage() {
+		return onView(withId(R.id.search_error_message));
+	}
+
 	public static void selectDates(LocalDate start, LocalDate end) {
 		calendar().perform(TabletViewActions.clickDates(start, end));
 	}
