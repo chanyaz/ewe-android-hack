@@ -31,6 +31,8 @@ public class PicassoHelper implements Target, Callback {
 	private boolean mBlur;
 	private boolean mPalette;
 	private boolean mFade;
+	private boolean mFit;
+	private boolean mCenterCrop;
 
 	private PicassoTarget mTarget;
 	private Callback mCallback;
@@ -81,6 +83,14 @@ public class PicassoHelper implements Target, Callback {
 
 		if (mPalette) {
 			requestCreator = requestCreator.transform(PaletteTransformation.instance());
+		}
+
+		if (mFit) {
+			requestCreator = requestCreator.fit();
+		}
+
+		if (mCenterCrop) {
+			requestCreator = requestCreator.centerCrop();
 		}
 
 		if (mTag != null) {
@@ -231,6 +241,14 @@ public class PicassoHelper implements Target, Callback {
 		mBlur = value;
 	}
 
+	private void setFit(boolean fit) {
+		mFit = fit;
+	}
+
+	private void setCenterCrop(boolean centerCrop) {
+		mCenterCrop = centerCrop;
+	}
+
 	private void setPaletteTransformation(boolean value) {
 		mPalette = value;
 	}
@@ -277,6 +295,8 @@ public class PicassoHelper implements Target, Callback {
 		private boolean mBlur;
 		private boolean mPalette;
 		private boolean mFade;
+		private boolean mFit;
+		private boolean mCenterCrop;
 
 		private String mTag;
 
@@ -301,6 +321,16 @@ public class PicassoHelper implements Target, Callback {
 
 		public Builder fade() {
 			mFade = true;
+			return this;
+		}
+
+		public Builder fit() {
+			mFit = true;
+			return this;
+		}
+
+		public Builder centerCrop() {
+			mCenterCrop = true;
 			return this;
 		}
 
@@ -337,6 +367,8 @@ public class PicassoHelper implements Target, Callback {
 			picassoHelper.setPlaceholder(mDefaultResId);
 			picassoHelper.setError(mErrorResId);
 			picassoHelper.setBlurTransformation(mBlur);
+			picassoHelper.setFit(mFit);
+			picassoHelper.setCenterCrop(mCenterCrop);
 			picassoHelper.setPaletteTransformation(mPalette);
 			if (mTarget != null) {
 				mTarget.setCallBack(picassoHelper);
