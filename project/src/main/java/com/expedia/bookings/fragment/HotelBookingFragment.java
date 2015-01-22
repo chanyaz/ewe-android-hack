@@ -334,6 +334,8 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
 
+		Db.getTripBucket().getHotel().setNewRate(newRate);
+
 		// If we have an originalRate, we have a price change. Else, we don't.
 		if (originalRate != null) {
 			int priceChange = originalRate.compareForPriceChange(newRate);
