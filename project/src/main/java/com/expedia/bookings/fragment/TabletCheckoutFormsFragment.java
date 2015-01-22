@@ -964,9 +964,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void onAddNewTravelerSelected(int travelerNumber) {
-
-
-
 		openTravelerEntry(travelerNumber);
 	}
 
@@ -1008,6 +1005,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		// Let's refresh the checkout status since we are replacing existing card (if any).
+		onCheckoutDataUpdated();
 		openPaymentFormWithTracking();
 	}
 

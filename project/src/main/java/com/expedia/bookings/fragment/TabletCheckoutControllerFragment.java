@@ -492,6 +492,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				startBooking();
 			}
 			else if (state == CheckoutState.CONFIRMATION) {
+				// Let's reset selectable state for the stored CC so it can be selected again.
+				BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), Db.getBillingInfo().getStoredCard());
+				// If user wants to checkout another item in the bucket, let's have them select/add card explicity.
+				// So let's clear current CC from billingInfo.
+				Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(null);
+				Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+				mCheckoutFragment.onCheckoutDataUpdated();
+
 				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
 
 				if (getLob() == LineOfBusiness.FLIGHTS) {
