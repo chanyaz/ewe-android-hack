@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -47,20 +48,17 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	private static final String ARG_BLUR = "ARG_BLUR";
 
 	private static final String INSTANCE_DEST_CODES = "INSTANCE_DEST_CODES";
-	private static final String INSTANCE_CODES_INDEX = "INSTANCE_CODES_INDEX";
 	private static final String INSTANCE_BLUR = "INSTANCE_BLUR";
 
-	private static final String DEFAULT_IMAGE_PSEUDO_URL = "<default>";
-
 	private ArrayList<String> mDestCodes;
-	private int mCodesIndex;
+	private int mTagIndex;
 
 	private ViewGroup mRootC;
 
 	private boolean mIsLandscape;
 
 	private boolean mBlur;
-	private String mCurrentlyDesiredUrl;
+	private String mCurrentTag;
 
 	public static ResultsBackgroundImageFragment newInstance(boolean blur) {
 		ArrayList<String> codes = Sp.getParams().getDestination().getPossibleImageCodes();
@@ -102,12 +100,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		if (savedInstanceState == null) {
 			Bundle args = getArguments();
 			mDestCodes = args.getStringArrayList(ARG_DEST_CODES);
-			mCodesIndex = 0;
 			mBlur = args.getBoolean(ARG_BLUR);
 		}
 		else {
 			mDestCodes = savedInstanceState.getStringArrayList(INSTANCE_DEST_CODES);
-			mCodesIndex = savedInstanceState.getInt(INSTANCE_CODES_INDEX, 0);
 			mBlur = savedInstanceState.getBoolean(INSTANCE_BLUR);
 		}
 
@@ -138,7 +134,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putStringArrayList(INSTANCE_DEST_CODES, mDestCodes);
-		outState.putInt(INSTANCE_CODES_INDEX, mCodesIndex);
 		outState.putBoolean(INSTANCE_BLUR, mBlur);
 	}
 
@@ -150,7 +145,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		ArrayList<String> newCodes = Sp.getParams().getDestination().getPossibleImageCodes();
 		if (!newCodes.equals(mDestCodes)) {
 			mDestCodes = newCodes;
-			mCodesIndex = 0;
 			loadImage();
 		}
 	}
@@ -173,29 +167,23 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
 		final int width = (int) (landscape.x * 0.8f);
 
-		String destinationCode = mDestCodes.get(mCodesIndex);
+		List<String> urls = new ArrayList<>();
+		for (String destinationCode : mDestCodes) {
+			String baseUrl = Images.getTabletDestination(destinationCode);
+			final String url = new Akeakamai(baseUrl)
+				.downsize(Akeakamai.pixels(width), Akeakamai.preserve())
+				.quality(75)
+				.build();
+			urls.add(url);
+		}
 
-		String baseUrl = Images.getTabletDestination(destinationCode);
-
-		final String url = new Akeakamai(baseUrl)
-			.downsize(Akeakamai.pixels(width), Akeakamai.preserve())
-			.quality(75)
-			.build();
-
-		mTarget = new CustomTarget(url);
 		new PicassoHelper.Builder(getActivity()).setPlaceholder(
 			mBlur ? R.drawable.bg_tablet_dest_image_default_blurred : R.drawable.bg_tablet_dest_image_default)
-			.applyBlurTransformation(mBlur).setTarget(mTarget).fade().build().load(url);
+			.applyBlurTransformation(mBlur).setTarget(mTarget).fade().build().load(urls);
 	}
 
-	private CustomTarget mTarget;
 
-	private class CustomTarget extends PicassoTarget {
-		private String mUrl;
-
-		public CustomTarget(String url) {
-			mUrl = url;
-		}
+	private PicassoTarget mTarget = new PicassoTarget() {
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -210,8 +198,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 				// Silently don't draw the bitmap
 				return;
 			}
-
-			mCurrentlyDesiredUrl = mUrl;
 
 			if (!mBlur) {
 				Palette palette = Palette.generate(bitmap);
@@ -235,32 +221,28 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 				Log.e("ResultsBackgroundImageFragment - bailing");
 				return;
 			}
-
-			if (mCodesIndex + 1 < mDestCodes.size()) {
-				mCodesIndex++;
-				loadImage();
-			}
 		}
 
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
 
-			if (placeHolderDrawable == null)  {
+			if (placeHolderDrawable == null) {
 				return;
 			}
 
-			if (FragmentBailUtils.shouldBail(getActivity()) || mRootC == null || placeHolderDrawable.getIntrinsicWidth() == 0
+			if (FragmentBailUtils.shouldBail(getActivity()) || mRootC == null
+				|| placeHolderDrawable.getIntrinsicWidth() == 0
 				|| placeHolderDrawable.getIntrinsicHeight() == 0) {
 				// Silently don't draw the bitmap
 				return;
 			}
 
-			mCurrentlyDesiredUrl = DEFAULT_IMAGE_PSEUDO_URL;
 			addNewViews(placeHolderDrawable);
 			crossfade();
 		}
-	}
+	};
+
 
 	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
 		ArrayList<String> destCodes = new ArrayList<>();
@@ -295,6 +277,9 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	}
 
 	private void addNewViews(Object object, int width, int height) {
+		mTagIndex ++;
+		mCurrentTag = String.format("%d-%s", mTagIndex, mBlur);
+
 		float screenWidth;
 		float screenHeight;
 		Point landscape = Ui.getLandscapeScreenSize(getActivity());
@@ -328,7 +313,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			}
 
 			image.setAlpha(0f);
-			String tag = mCurrentlyDesiredUrl + mBlur;
+
+			String tag = mCurrentTag;
 			image.setTag(tag);
 			mRootC.addView(image);
 			flip = !flip;
@@ -342,7 +328,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		final int children = mRootC.getChildCount();
 		PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat(View.ALPHA, 1f);
 		ArrayList<ObjectAnimator> animators = new ArrayList<>();
-		String tag = mCurrentlyDesiredUrl + mBlur;
+		String tag = mCurrentTag;
 		for (int i = 0; i < children; i++) {
 			ImageView image = (ImageView) mRootC.getChildAt(i);
 			if (TextUtils.equals((String) image.getTag(), tag)) {
@@ -353,7 +339,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		set.addListener(new AnimatorListenerAdapter() {
 							@Override
 							public void onAnimationEnd(Animator animation) {
-								String tag = mCurrentlyDesiredUrl + mBlur;
+								String tag = mCurrentTag;
 								for (int i = mRootC.getChildCount() - 1; i >= 0; i--) {
 									ImageView image = (ImageView) mRootC.getChildAt(i);
 									if (!TextUtils.equals((String) image.getTag(), tag)) {
