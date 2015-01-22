@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchParamsTests {
+	private static final String DATE_TIME_PATTERN = "MMM dd, h:mm a";
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
 
@@ -53,12 +54,12 @@ public final class CarSearchParamsTests {
 		CarSearchParamsModel.selectDate().perform(click());
 		// Select first date
 		CarSearchParamsModel.selectDates(LocalDate.now(), null);
-		String today = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), "MMM dd, h:mm a");
+		String today = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN);
 		CarSearchParamsModel.selectDate().check(matches(withText(today + " – Select return date")));
 		// Select round-trip, overnight
 		CarSearchParamsModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
-		String expected = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), "MMM dd, h:mm a")
-			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0), "MMM dd, h:mm a");
+		String expected = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN)
+			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN);
 		CarSearchParamsModel.selectDate().check(matches(withText(expected)));
 	}
 
@@ -76,8 +77,8 @@ public final class CarSearchParamsTests {
 		//Select dates from calendar
 		CarSearchParamsModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = JodaUtils.format(DateTime.now().withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), "MMM dd, h:mm a")
-			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis), "MMM dd, h:mm a");
+		String expected = JodaUtils.format(DateTime.now().withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), DATE_TIME_PATTERN)
+			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis), DATE_TIME_PATTERN);
 		CarSearchParamsModel.selectDate().check(matches(withText(expected)));
 	}
 
@@ -85,12 +86,12 @@ public final class CarSearchParamsTests {
 	public void testSelectingOnlyPickupDateClearsDropoffDate() {
 		CarSearchParamsModel.selectDate().perform(click());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		String expected = JodaUtils.format(DateTime.now().plusDays(3).withTimeAtStartOfDay(), "MMM dd, h:mm a")
-			+ " – " + JodaUtils.format(DateTime.now().plusDays(4).withTimeAtStartOfDay(), "MMM dd, h:mm a");
+		String expected = JodaUtils.format(DateTime.now().plusDays(3).withTimeAtStartOfDay(), DATE_TIME_PATTERN)
+			+ " – " + JodaUtils.format(DateTime.now().plusDays(4).withTimeAtStartOfDay(), DATE_TIME_PATTERN);
 		CarSearchParamsModel.selectDate().check(matches(withText(expected)));
 
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(2), null);
-		String expected2 = JodaUtils.format(DateTime.now().plusDays(2).withTimeAtStartOfDay(), "MMM dd, h:mm a")
+		String expected2 = JodaUtils.format(DateTime.now().plusDays(2).withTimeAtStartOfDay(), DATE_TIME_PATTERN)
 			+ " – Select return date";
 		CarSearchParamsModel.selectDate().check(matches(withText(expected2)));
 
