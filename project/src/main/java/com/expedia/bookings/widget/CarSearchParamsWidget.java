@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -10,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
@@ -29,7 +30,7 @@ import rx.Observer;
 import rx.Subscription;
 
 public class CarSearchParamsWidget extends FrameLayout implements
-	CalendarPicker.DateSelectionChangedListener {
+	CalendarPicker.DateSelectionChangedListener, SeekBar.OnSeekBarChangeListener {
 
 	public CarSearchParamsWidget(Context context) {
 		super(context);
@@ -61,13 +62,13 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@InjectView(R.id.calendar)
 	CalendarPicker calendar;
 
-	@InjectView(R.id.change_time)
-	TextView changeTime;
+	@InjectView(R.id.pickup_time_seek_bar)
+	SeekBar pickupTimeSeekBar;
 
-	@InjectView(R.id.time_container)
-	ViewGroup timePickerContainer;
+	@InjectView(R.id.dropoff_time_seek_bar)
+	SeekBar dropoffTimeSeekBar;
 
-	private CarSearchParams searchParams;
+	private CarSearchParamsBuilder searchParamsBuilder;
 
 	Subscription carSearchSubscription;
 
@@ -78,26 +79,30 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	}
 
 	public void startDownload() {
-		searchParams.origin = pickupLocation.getText().toString();
-		CarDb.setSearchParams(searchParams);
+		CarSearchParams params = searchParamsBuilder.build();
+		params.origin = pickupLocation.getText().toString();
+
+		CarDb.setSearchParams(params);
 
 		carSearchSubscription = CarDb.getCarServices()
-			.carSearch(CarDb.searchParams, carSearchSubscriber);
+			.carSearch(params, carSearchSubscriber);
 	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		searchParams = new CarSearchParams();
+		searchParamsBuilder = new CarSearchParamsBuilder();
 		Events.register(getContext());
 
 		pickupLocation.setVisibility(View.VISIBLE);
 		dropoffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
 		calendarContainer.setVisibility(View.INVISIBLE);
-		timePickerContainer.setVisibility(View.INVISIBLE);
-		changeTime.setVisibility(View.INVISIBLE);
+		pickupTimeSeekBar.setVisibility(View.VISIBLE);
+		pickupTimeSeekBar.setOnSeekBarChangeListener(this);
+		dropoffTimeSeekBar.setVisibility(View.VISIBLE);
+		dropoffTimeSeekBar.setOnSeekBarChangeListener(this);
 
 		calendar.setSelectableDateRange(LocalDate.now(),
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
@@ -119,18 +124,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
-		calendarContainer.setVisibility(View.VISIBLE);
-	}
-
-	@OnClick(R.id.change_time)
-	public void onChangeTimeClicked() {
-		calendarContainer.setVisibility(View.INVISIBLE);
-		timePickerContainer.setVisibility(View.VISIBLE);
-	}
-
-	@OnClick(R.id.time_confirm_btn)
-	public void onTimeConfirmClicked() {
-		timePickerContainer.setVisibility(View.INVISIBLE);
 		calendarContainer.setVisibility(View.VISIBLE);
 	}
 
@@ -157,17 +150,47 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-		DateTime startDate = start.toDateTimeAtStartOfDay();
-		DateTime endDate = null;
-		if (end != null) {
-			endDate = end.toDateTimeAtStartOfDay();
-		}
-		searchParams.startTime = startDate;
-		searchParams.endTime = endDate;
+		searchParamsBuilder.startDate(start);
+		searchParamsBuilder.endDate(end);
+		paramsChanged();
+	}
 
-		String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), searchParams, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
-		selectDateButton.setText(dateTimeRange);
-		changeTime.setText("CHANGE PICKUP TIME - 9:00AM PST");
-		changeTime.setVisibility(View.VISIBLE);
+	// Seek bar
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+		if (seekBar.getId() == R.id.pickup_time_seek_bar) {
+			searchParamsBuilder.startMillis(convertProgressToMillis(progress));
+		}
+		else if (seekBar.getId() == R.id.dropoff_time_seek_bar) {
+			searchParamsBuilder.endMillis(convertProgressToMillis(progress));
+		}
+		else {
+			throw new RuntimeException("You're using our seekbar listener on an unknown view.");
+		}
+
+		paramsChanged();
+	}
+
+	private void paramsChanged() {
+		CarSearchParams params = searchParamsBuilder.build();
+		if (params.startDateTime != null) {
+			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			selectDateButton.setText(dateTimeRange);
+		}
+	}
+
+	@Override
+	public void onStartTrackingTouch(SeekBar seekBar) {
+		// ignore
+	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar seekBar) {
+		// ignore
+	}
+
+	private static int convertProgressToMillis(int progress) {
+		return progress * (30 * 60 * 1000);
 	}
 }

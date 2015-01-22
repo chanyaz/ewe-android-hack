@@ -54,8 +54,8 @@ public class CarServices {
 	public Subscription doBoringCarSearch(Observer<CarSearch> observer) {
 		CarSearchParams params = new CarSearchParams();
 		params.origin = "SFO";
-		params.startTime = DateTime.now().plusDays(10).withHourOfDay(12).withMinuteOfHour(30);
-		params.endTime = DateTime.now().plusDays(12).withHourOfDay(14).withMinuteOfHour(30);
+		params.startDateTime = DateTime.now().plusDays(10).withHourOfDay(12).withMinuteOfHour(30);
+		params.endDateTime = DateTime.now().plusDays(12).withHourOfDay(14).withMinuteOfHour(30);
 		return carSearch(params, observer);
 	}
 

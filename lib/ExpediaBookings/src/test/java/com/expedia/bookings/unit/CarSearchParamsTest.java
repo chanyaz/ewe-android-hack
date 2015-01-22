@@ -16,22 +16,22 @@ public class CarSearchParamsTest {
 		DateTime ogEnd = ogStart.plusDays(3);
 		String ogLocation = "SFO";
 
-		ogParams.startTime = ogStart;
-		ogParams.endTime = ogEnd;
+		ogParams.startDateTime = ogStart;
+		ogParams.endDateTime = ogEnd;
 		ogParams.origin = ogLocation;
 
 		CarSearchParams otherParams = ogParams.clone();
-		assertEquals(ogStart, otherParams.startTime);
-		assertEquals(ogEnd, otherParams.endTime);
+		assertEquals(ogStart, otherParams.startDateTime);
+		assertEquals(ogEnd, otherParams.endDateTime);
 		assertEquals(ogLocation, otherParams.origin);
 
 		String newLocation = "DTW";
-		ogParams.startTime = DateTime.now().plusDays(2);
-		ogParams.endTime = DateTime.now().plusDays(2);
+		ogParams.startDateTime = DateTime.now().plusDays(2);
+		ogParams.endDateTime = DateTime.now().plusDays(2);
 		ogParams.origin = newLocation;
 
-		assertEquals(ogStart, otherParams.startTime);
-		assertEquals(ogEnd, otherParams.endTime);
+		assertEquals(ogStart, otherParams.startDateTime);
+		assertEquals(ogEnd, otherParams.endDateTime);
 		assertEquals(ogLocation, otherParams.origin);
 	}
 }
