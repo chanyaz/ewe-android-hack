@@ -17,7 +17,9 @@ import com.expedia.bookings.utils.JodaUtils;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
@@ -101,31 +103,47 @@ public final class CarSearchParamsTests {
 	public void testSearchButtonErrorMessageForIncompleteParams() {
 		// Test with all params missing
 		CarSearchParamsModel.searchButton().perform(click());
-		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogNeutralButton().perform(click());
 
 		// Test with only start date selected
 		CarSearchParamsModel.pickupLocation().perform(clearText());
 		CarSearchParamsModel.selectDate().perform(click());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), null);
-		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarSearchParamsModel.searchButton().perform(click());
+		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogNeutralButton().perform(click());
 
 		//Test with only start and end date selected
 		CarSearchParamsModel.pickupLocation().perform(clearText());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarSearchParamsModel.searchButton().perform(click());
+		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogNeutralButton().perform(click());
 
 		// Test with only pickup location
 		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
 		CarSearchParamsModel.selectDates(null, null);
 		CarSearchParamsModel.searchButton().perform(click());
-		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_start_date_param)));
+		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.error_missing_start_date_param)));
+		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogNeutralButton().perform(click());
 
 		// Test with origin and start date selected
 		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
 		CarSearchParamsModel.selectDate().perform(click());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarSearchParamsModel.searchButton().perform(click());
-		CarSearchParamsModel.searchErrorMessage().check(matches(withText(R.string.error_missing_end_date_param)));
+		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.error_missing_end_date_param)));
+		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 	}
 
 	@Test
@@ -134,6 +152,14 @@ public final class CarSearchParamsTests {
 		CarSearchParamsModel.selectDate().perform(click());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
 		CarSearchParamsModel.searchButton().perform(click());
-		CarSearchParamsModel.searchErrorMessage().check(matches(withText("")));
+		CarSearchParamsModel.alertDialog().check(doesNotExist());
+	}
+
+	@Test
+	public void testDialogShownOnDropOffClick() {
+		CarSearchParamsModel.dropOffLocation().perform(click());
+		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
+		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.drop_off_same_as_pick_up)));
+		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 	}
 }
