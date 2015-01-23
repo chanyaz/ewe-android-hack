@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
 
 public class Images {
 	private Images() {
@@ -23,9 +25,13 @@ public class Images {
 	}
 
 	public static String getCarRental(Car car) {
-		final String category = car.getCategory().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
-		final String type = car.getType().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
-		final String code = category + "_" + type;
+		return getCarRental(car.getCategory(), car.getType());
+	}
+
+	public static String getCarRental(CarCategory category, CarType type) {
+		final String categoryString = category.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String typeString = type.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String code = categoryString + "_" + typeString;
 		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg";
 	}
 }

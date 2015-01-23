@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
@@ -31,6 +32,8 @@ public class CarCategoryListWidget extends FrameLayout {
 
 	private LinearLayoutManager mLayoutManager;
 
+	private static final String PICASSO_TAG = "CAR_CATEGORY_LIST";
+	private static final int LIST_DIVIDER_HEIGHT = 16;
 
 	@Override
 	protected void onFinishInflate() {
@@ -51,7 +54,10 @@ public class CarCategoryListWidget extends FrameLayout {
 		mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mLayoutManager.scrollToPosition(0);
 		recyclerView.setLayoutManager(mLayoutManager);
+
+		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT));
 		recyclerView.setHasFixedSize(true);
+		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 		carsListAdapter = new CarsListAdapter();
 		recyclerView.setAdapter(carsListAdapter);
 	}
