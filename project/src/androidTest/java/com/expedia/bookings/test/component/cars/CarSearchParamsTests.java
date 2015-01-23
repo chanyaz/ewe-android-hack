@@ -32,6 +32,10 @@ public final class CarSearchParamsTests {
 
 	@Test
 	public void testViewPopulatesDb() {
+		CarDb.searchParams.origin = null;
+		CarDb.searchParams.startDateTime = null;
+		CarDb.searchParams.endDateTime = null;
+
 		final DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
 		final DateTime expectedEndDate = expectedStartDate.plusDays(3);
 		final String expectedPickupLocation = "SFO";
