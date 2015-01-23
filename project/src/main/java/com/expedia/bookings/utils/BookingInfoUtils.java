@@ -99,7 +99,7 @@ public class BookingInfoUtils {
 
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
-			StoredCreditCard currentCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
 			if (currentCard != null) {
 				for (int i = 0; i < dbCards.size(); i++) {
 					if (currentCard.compareTo(dbCards.get(i)) == 0) {
