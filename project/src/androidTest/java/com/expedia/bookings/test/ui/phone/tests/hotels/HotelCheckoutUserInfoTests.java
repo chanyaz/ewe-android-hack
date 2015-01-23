@@ -14,8 +14,11 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+
 import android.support.test.espresso.Espresso;
 
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -162,6 +165,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		HotelsCheckoutScreen.clickCheckoutButton();
+		onView(withId(R.id.account_logout_container)).perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		HotelsCheckoutScreen.clickLogOutButton();
