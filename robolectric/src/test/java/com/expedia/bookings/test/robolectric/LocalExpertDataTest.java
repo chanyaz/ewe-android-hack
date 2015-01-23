@@ -1,13 +1,24 @@
-package com.expedia.bookings.test.unit.tests;
+package com.expedia.bookings.test.robolectric;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+
+import android.content.Context;
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.data.LocalExpertSite;
 
-public class LocalExpertDataTestCase extends AndroidTestCase {
+@RunWith(RobolectricSubmoduleTestRunner.class)
+public class LocalExpertDataTest {
 
+	private Context getContext() {
+		return Robolectric.application;
+	}
+
+	@Test
 	public void testLocalExpertAttraction() {
 		String firstLine = "first line";
 		String secondLine = "second line";
@@ -23,10 +34,10 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		LocalExpertAttraction attraction = builder.build();
 
 		// Check that it equals the previous data
-		assertEquals(firstLine, attraction.getFirstLine());
-		assertEquals(secondLine, attraction.getSecondLine());
-		assertEquals(iconSmall, attraction.getIconSmall());
-		assertEquals(iconLarge, attraction.getIconLarge());
+		Assert.assertEquals(firstLine, attraction.getFirstLine());
+		Assert.assertEquals(secondLine, attraction.getSecondLine());
+		Assert.assertEquals(iconSmall, attraction.getIconSmall());
+		Assert.assertEquals(iconLarge, attraction.getIconLarge());
 
 		// Parcel/unparcel, make sure it is still equivalent
 		Parcel parcel = Parcel.obtain();
@@ -37,12 +48,13 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		parcel.setDataPosition(0);
 		attraction = LocalExpertAttraction.CREATOR.createFromParcel(parcel);
 
-		assertEquals(firstLine, attraction.getFirstLine());
-		assertEquals(secondLine, attraction.getSecondLine());
-		assertEquals(iconSmall, attraction.getIconSmall());
-		assertEquals(iconLarge, attraction.getIconLarge());
+		Assert.assertEquals(firstLine, attraction.getFirstLine());
+		Assert.assertEquals(secondLine, attraction.getSecondLine());
+		Assert.assertEquals(iconSmall, attraction.getIconSmall());
+		Assert.assertEquals(iconLarge, attraction.getIconLarge());
 	}
 
+	@Test
 	public void testLocalExpertSite() {
 		String city = "San Francisco";
 		int cityIcon = 1;
@@ -71,15 +83,15 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		LocalExpertSite site = builder2.build();
 
 		// Make sure everything made it in alright
-		assertEquals(city, site.getCity());
-		assertEquals(cityIcon, site.getCityIcon());
-		assertEquals(phoneNumber, site.getPhoneNumber());
-		assertEquals(background, site.getBackgroundResId());
+		Assert.assertEquals(city, site.getCity());
+		Assert.assertEquals(cityIcon, site.getCityIcon());
+		Assert.assertEquals(phoneNumber, site.getPhoneNumber());
+		Assert.assertEquals(background, site.getBackgroundResId());
 		attraction = site.getAttractions().get(0);
-		assertEquals(firstLine, attraction.getFirstLine());
-		assertEquals(secondLine, attraction.getSecondLine());
-		assertEquals(iconSmall, attraction.getIconSmall());
-		assertEquals(iconLarge, attraction.getIconLarge());
+		Assert.assertEquals(firstLine, attraction.getFirstLine());
+		Assert.assertEquals(secondLine, attraction.getSecondLine());
+		Assert.assertEquals(iconSmall, attraction.getIconSmall());
+		Assert.assertEquals(iconLarge, attraction.getIconLarge());
 
 		// Parcel/unparcel, make sure it is still equivalent
 		Parcel parcel = Parcel.obtain();
@@ -90,14 +102,14 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		parcel.setDataPosition(0);
 		site = LocalExpertSite.CREATOR.createFromParcel(parcel);
 
-		assertEquals(city, site.getCity());
-		assertEquals(cityIcon, site.getCityIcon());
-		assertEquals(phoneNumber, site.getPhoneNumber());
-		assertEquals(background, site.getBackgroundResId());
+		Assert.assertEquals(city, site.getCity());
+		Assert.assertEquals(cityIcon, site.getCityIcon());
+		Assert.assertEquals(phoneNumber, site.getPhoneNumber());
+		Assert.assertEquals(background, site.getBackgroundResId());
 		attraction = site.getAttractions().get(0);
-		assertEquals(firstLine, attraction.getFirstLine());
-		assertEquals(secondLine, attraction.getSecondLine());
-		assertEquals(iconSmall, attraction.getIconSmall());
-		assertEquals(iconLarge, attraction.getIconLarge());
+		Assert.assertEquals(firstLine, attraction.getFirstLine());
+		Assert.assertEquals(secondLine, attraction.getSecondLine());
+		Assert.assertEquals(iconSmall, attraction.getIconSmall());
+		Assert.assertEquals(iconLarge, attraction.getIconLarge());
 	}
 }
