@@ -92,9 +92,9 @@ Window Animation, Transition Animation, Animator Duration.
 BUILDER_NAME=expedia # or another product flavor
 ./buildbot/build.sh
 
-# Android Unit tests
-./buildbot/unittest.sh
-open spoon/unit/index.html
+# Robolectric (Android Unit) tests
+./buildbot/robolectric.sh
+open robolectric/build/reports/tests/index.html
 
 # Happy path tests
 ./buildbot/happypath.sh
