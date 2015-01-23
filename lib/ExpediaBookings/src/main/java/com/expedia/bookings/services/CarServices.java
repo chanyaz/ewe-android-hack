@@ -15,14 +15,13 @@ import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 import rx.Observable;
 import rx.Observer;
-import rx.Subscription;
 import rx.Scheduler;
+import rx.Subscription;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
 
 public class CarServices {
-	public static final String TRUNK = "http://wwwexpediacom.trunk.sb.karmalab.net";
 
 	private CarApi mApi;
 	private Gson mGson;
@@ -31,18 +30,17 @@ public class CarServices {
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
-	public CarServices(String endpoint, Scheduler observeOn, Scheduler subscribeOn) {
+	public CarServices(String configEndpoint, OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
+		mClient = okHttpClient;
 
 		mGson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
 			.create();
 
-		mClient = new OkHttpClient();
-
 		RestAdapter adapter = new RestAdapter.Builder()
-			.setEndpoint(endpoint)
+			.setEndpoint(configEndpoint)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
 			.setConverter(new GsonConverter(mGson))
 			.setClient(new OkClient(mClient))

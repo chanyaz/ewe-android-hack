@@ -10,6 +10,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.services.CarServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
@@ -26,11 +27,11 @@ public class CarServicesTest {
 	@Test(expected = RetrofitError.class)
 	public void testMockSearchBlowsUp() throws Throwable {
 		mServer.enqueue(new MockResponse()
-				.setBody("{garbage}"));
+			.setBody("{garbage}"));
 
 		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
 		CarSearchParams params = new CarSearchParams();
-		CarServices service = new CarServices("http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
+		CarServices service = getTestCarServices();
 
 		Subscription sub = service.carSearch(params, observer);
 		observer.await();
@@ -46,11 +47,11 @@ public class CarServicesTest {
 	@Test
 	public void testEmptyMockSearchWorks() throws Throwable {
 		mServer.enqueue(new MockResponse()
-				.setBody("{\"offers\" = []}"));
+			.setBody("{\"offers\" = []}"));
 
 		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
 		CarSearchParams params = new CarSearchParams();
-		CarServices service = new CarServices("http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
+		CarServices service = getTestCarServices();
 
 		Subscription sub = service.carSearch(params, observer);
 		observer.await();
@@ -62,12 +63,12 @@ public class CarServicesTest {
 
 	@Test
 	public void testMockSearchWorks() throws Throwable {
-		String root = new File( "../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocke3/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
-		CarServices service = new CarServices("http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
+		CarServices service = getTestCarServices();
 
 		Subscription sub = service.doBoringCarSearch(observer);
 		observer.await();
@@ -79,6 +80,11 @@ public class CarServicesTest {
 		for (CarSearch search : observer.getItems()) {
 			assertEquals(9, search.carCategoryOfferMap.keySet().size());
 		}
+	}
+
+	private CarServices getTestCarServices() throws Throwable {
+		return new CarServices("http://localhost:" + mServer.getPort(), new OkHttpClient(), Schedulers.immediate(),
+			Schedulers.immediate());
 	}
 
 }
