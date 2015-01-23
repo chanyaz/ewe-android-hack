@@ -18,6 +18,8 @@ public class HotelPayLaterInfoActivity extends FragmentActivity {
 
 	private static final String FRAGMENT_PAY_LATER_INFO_TAG = "FRAGMENT_PAY_LATER_INFO_TAG";
 
+	private ActivityKillReceiver mKillReceiver;
+
 	public static Intent createIntent(Context context) {
 		Intent intent = new Intent(context, HotelPayLaterInfoActivity.class);
 		return intent;
@@ -26,6 +28,10 @@ public class HotelPayLaterInfoActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
+
 		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
 			return;
 		}
@@ -53,6 +59,15 @@ public class HotelPayLaterInfoActivity extends FragmentActivity {
 		}
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
 		}
 	}
 }
