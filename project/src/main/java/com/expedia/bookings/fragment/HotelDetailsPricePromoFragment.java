@@ -3,9 +3,11 @@ package com.expedia.bookings.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -81,7 +83,8 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			// Sale banner
 			TextView saleBannerTextView = Ui.findView(view, R.id.sale_banner_text_view);
-			TextView promoTextView = Ui.findView(view, R.id.promo_text_view);
+			final TextView promoTextView = Ui.findView(view, R.id.promo_text_view);
+			final View centerFiller = Ui.findView(view, R.id.center_filler);
 			TextView airAttachBannerTextView = Ui.findView(view, R.id.air_attach_banner_text_view);
 
 			if (rate.isSaleTenPercentOrBetter()) {
@@ -110,6 +113,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else {
+				centerFiller.setVisibility(View.VISIBLE);
 				promoTextView.setVisibility(View.GONE);
 			}
 
@@ -131,6 +135,25 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 			view.findViewById(R.id.per_nt_text_view).setVisibility(
 				rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
+
+			//3858. Let's check to see if the promoText can fit in the available space. If not let's pull the plug on it.
+			ViewTreeObserver vto = promoTextView.getViewTreeObserver();
+			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					promoTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					Layout textLayout = promoTextView.getLayout();
+					if (textLayout != null) {
+						int lines = textLayout.getLineCount();
+						if (lines > 0) {
+							if (textLayout.getEllipsisCount(lines - 1) > 0) {
+								centerFiller.setVisibility(View.VISIBLE);
+								promoTextView.setVisibility(View.GONE);
+							}
+						}
+					}
+				}
+			});
 		}
 	}
 
