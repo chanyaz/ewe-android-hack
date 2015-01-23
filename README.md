@@ -62,17 +62,15 @@ fork from the following naming conventions:
 Code Style
 ==========
 
-If you're committing code, use the Mobiata Java codestyle which is found in `common/MobiataIntellij.xml`. You
-must copy this file in to your AndroidStudio codestyle preferences folder, which on a Mac will most likely be
-found in your home directory's `Library/Preferences` folder:
+Our Java and XML files follow a specific code style. To import the Mobiata code style first close Android Studio, then:
 
-    $ cp common/MobiataIntellij.xml ~/Library/Preferences/AndroidStudioPreview/codestyles/
+````shell
+./tools/sync-code-style.sh
+````
 
-Restart Android Studio and you should be able to select this codestyle from `Preferences -> Codestyle -> Java -> Scheme`.
+Restart Android Studio and select `MobiataIntellij` via `Preferences -> Code Style -> Java -> Scheme`.
 
-XML style can be set via `Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android`. This
-does not seem to persist across Android Studio restarts so if you notice your XML formatting is all off, be sure to
-do this step again.
+Set XML style via `Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android`.
 
 Jvm Unit Tests
 ==============
