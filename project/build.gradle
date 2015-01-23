@@ -92,6 +92,13 @@ android {
         debug {
             storeFile file("../common/debug.keystore")
         }
+
+        release {
+            storeFile file(GradleUtil.getPropertyWithDefault(project, "RELEASE_STORE_FILE", "."))
+            storePassword GradleUtil.getPropertyWithDefault(project, "RELEASE_STORE_PASSWORD", "")
+            keyAlias GradleUtil.getPropertyWithDefault(project, "RELEASE_KEY_ALIAS", "")
+            keyPassword GradleUtil.getPropertyWithDefault(project, "RELEASE_KEY_PASSWORD", "")
+        }
     }
 
     defaultConfig {
@@ -166,6 +173,8 @@ android {
         release {
             minifyEnabled true
             proguardFile file('proguard.cfg')
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
         }
     }
 
