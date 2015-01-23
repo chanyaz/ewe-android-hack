@@ -12,12 +12,11 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -42,7 +41,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
@@ -57,6 +55,7 @@ import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelAffinitySearchResponse;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -89,7 +88,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.WalletPromoResponseHandler;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
@@ -103,7 +101,6 @@ import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -419,8 +416,9 @@ public class ExpediaServices implements DownloadListener {
 		StringBuilder sb = new StringBuilder();
 		String which = SettingUtils.get(mContext, mContext.getString(R.string.preference_which_api_to_use_key), "");
 		if (which.equals("Custom Server")) {
-			sb.append("http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-				"localhost:3000") + "/");
+			sb.append(
+				"http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000") + "/");
 		}
 		else {
 			sb.append(EXPEDIA_SUGGEST_BASE_URL);
@@ -752,7 +750,7 @@ public class ExpediaServices implements DownloadListener {
 	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
+		if (EndPoint.getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
 			query.add(new BasicNameValuePair("city", "saved_product"));
 			return query;
 		}
@@ -829,13 +827,15 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("m/api/hotel/info", query, responseHandler, 0);
 	}
 
-	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate, boolean qualifyAirAttach) {
+	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate,
+		boolean qualifyAirAttach) {
 		List<BasicNameValuePair> query = generateCreateTripParams(rate, params, qualifyAirAttach);
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
 		return doE3Request("m/api/hotel/trip/create", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params, boolean qualifyAirAttach) {
+	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params,
+		boolean qualifyAirAttach) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 
@@ -881,14 +881,17 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public HotelBookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
+	public HotelBookingResponse reservation(HotelSearchParams params, Property property, Rate rate,
+		BillingInfo billingInfo,
 		String tripId, String userId, Long tuid, String tealeafId) {
-		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId, tuid);
+		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId,
+			tuid);
 
 		Log.v("tealeafTransactionId for hotel: " + tealeafId);
 		addTealeafId(query, tealeafId);
 
-		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext),
+			F_SECURE_REQUEST);
 	}
 
 	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
@@ -1072,7 +1075,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("getCachedDetails", "10"));
 		}
 
-		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
+		return doE3Request("api/trips", query, new TripResponseHandler(mContext),
+			F_SECURE_REQUEST | F_GET);
 	}
 
 	public TripDetailsResponse getTripDetails(Trip trip, boolean useCache) {
@@ -1205,6 +1209,7 @@ public class ExpediaServices implements DownloadListener {
 	/**
 	 * Retrieve the full traveler details information, used to fetch full associated traveler data that
 	 * does not get returned in the sign-in call.
+	 *
 	 * @param traveler
 	 * @param flags
 	 * @return
@@ -1218,7 +1223,8 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
 
-		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext),
+			F_SECURE_REQUEST);
 	}
 
 	/**
@@ -1274,7 +1280,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
 		}
 
-		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
+		if (!AndroidUtils.isRelease(mContext)
+			&& EndPoint.getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
 			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSale()
 				.getSiteId())));
 		}
@@ -1422,7 +1429,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public static String getFacebookAppId(Context context) {
-		EndPoint endPoint = getEndPoint(context);
+		EndPoint endPoint = EndPoint.getEndPoint(context);
 		String appId = null;
 		switch (endPoint) {
 		case INTEGRATION:
@@ -1461,7 +1468,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("userId", facebookUserId));
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
 
-		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext),
+			F_SECURE_REQUEST);
 	}
 
 	/**
@@ -1621,8 +1629,9 @@ public class ExpediaServices implements DownloadListener {
 
 	private String getLaunchEndpointUrl() {
 		String server = "http://";
-		if (getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
-			server += SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+		if (EndPoint.getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
+			server += SettingUtils
+				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
 		else {
 			server += "www.expedia.com";
@@ -1633,7 +1642,8 @@ public class ExpediaServices implements DownloadListener {
 	public LaunchDestinationCollections getLaunchCollections(String localeString) {
 		String lowerPos = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String url = getLaunchEndpointUrl() + "/" + lowerPos + "/collections_" + localeString + ".json";
-		GsonResponse<LaunchDestinationCollections> result = doLaunchDataRequest(url, null, LaunchDestinationCollections.class);
+		GsonResponse<LaunchDestinationCollections> result = doLaunchDataRequest(url, null,
+			LaunchDestinationCollections.class);
 		if (result == null) {
 			return null;
 		}
@@ -1662,7 +1672,8 @@ public class ExpediaServices implements DownloadListener {
 			serverUrl = targetUrl;
 		}
 		else {
-			serverUrl = getE3EndpointUrl(flags) + targetUrl;
+			boolean isSecure = (flags & F_SECURE_REQUEST) != 0;
+			serverUrl = EndPoint.getE3EndpointUrl(mContext, isSecure) + targetUrl;
 		}
 
 		// Create the request
@@ -1819,87 +1830,16 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Endpoints
 
-	public enum EndPoint {
-		PRODUCTION,
-		DEV,
-		INTEGRATION,
-		STABLE,
-		PROXY,
-		MOCK_SERVER,
-		PUBLIC_INTEGRATION,
-		TRUNK,
-		TRUNK_STUBBED,
-		CUSTOM_SERVER,
-	}
-
-	private static Map<EndPoint, String> sServerUrls = new HashMap<EndPoint, String>();
-
-	public static void initEndPoints(Context context, String assetPath) {
-		try {
-			InputStream is = context.getAssets().open(assetPath);
-			JSONObject data = new JSONObject(IoUtils.convertStreamToString(is));
-
-			sServerUrls.put(EndPoint.PRODUCTION, data.optString("production").replace('@', 's'));
-			sServerUrls.put(EndPoint.DEV, data.optString("development").replace('@', 's'));
-			sServerUrls.put(EndPoint.INTEGRATION, data.optString("integration").replace('@', 's'));
-			sServerUrls.put(EndPoint.STABLE, data.optString("stable").replace('@', 's'));
-			sServerUrls.put(EndPoint.PUBLIC_INTEGRATION, data.optString("publicIntegration").replace('@', 's'));
-			sServerUrls.put(EndPoint.TRUNK, data.optString("trunk").replace('@', 's'));
-			sServerUrls.put(EndPoint.TRUNK_STUBBED, data.optString("stubbed").replace('@', 's'));
-		}
-		catch (Exception e) {
-			// If the endpoints fail to load, then we should fail horribly
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * Returns the base E3 server url, based on dev settings
-	 */
-	public String getE3EndpointUrl(int flags) {
-		EndPoint endPoint = getEndPoint(mContext);
-		String domain = PointOfSale.getPointOfSale().getUrl();
-
-		String urlTemplate = sServerUrls.get(endPoint);
-		if (!TextUtils.isEmpty(urlTemplate)) {
-			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
-
-			// Use dot-less domain names for everything besides production & Travelocity integration
-			if (endPoint != EndPoint.PRODUCTION && !(endPoint == EndPoint.INTEGRATION && ExpediaBookingApp.IS_TRAVELOCITY)) {
-				domain = TextUtils.join("", domain.split("\\."));
-			}
-
-			String serverURL = String.format(urlTemplate, protocol, domain);
-			//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
-			if (ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
-				serverURL = serverURL.replaceFirst("w{3}\\.?", "");
-			}
-			return serverURL;
-		}
-		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
-			return "http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-				"localhost:3000") + "/" + domain + "/";
-		}
-		else if (endPoint == EndPoint.CUSTOM_SERVER) {
-			boolean forceHttp = SettingUtils.get(mContext, mContext.getString(R.string.preference_force_custom_server_http_only), false);
-			String protocol = (flags & F_SECURE_REQUEST) != 0 && !forceHttp ? "https" : "http";
-			String server = SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return protocol + "://" + server + "/";
-		}
-		else {
-			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
-		}
-	}
-
 	/**
 	 * Returns the proper base GDE URL for the current POS. This will throw a runtime exception
 	 * if !pos.supportsGDE(), so be sure to check that before making a request.
+	 *
 	 * @return
 	 */
 	public String getGdeEndpointUrl() {
-		if (getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
-			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+		if (EndPoint.getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
+			String server = SettingUtils
+				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 			return "http://" + server;
 		}
 
@@ -1911,52 +1851,6 @@ public class ExpediaServices implements DownloadListener {
 		// https not supported here
 		String url = "http://deals." + pos.getUrl() + "/beta/stats/flights.json";
 		return url;
-	}
-
-	public static EndPoint getEndPoint(Context context) {
-		boolean isRelease = AndroidUtils.isRelease(context);
-		if (isRelease) {
-			// Fastpath
-			return EndPoint.PRODUCTION;
-		}
-
-		String which = SettingUtils.get(context, context.getString(R.string.preference_which_api_to_use_key), "");
-
-		if (which.equals("Dev")) {
-			return EndPoint.DEV;
-		}
-		else if (which.equals("Proxy")) {
-			return EndPoint.PROXY;
-		}
-		else if (which.equals("Mock Server")) {
-			return EndPoint.MOCK_SERVER;
-		}
-		else if (which.equals("Public Integration")) {
-			return EndPoint.PUBLIC_INTEGRATION;
-		}
-		else if (which.equals("Integration")) {
-			return EndPoint.INTEGRATION;
-		}
-		else if (which.equals("Stable")) {
-			return EndPoint.STABLE;
-		}
-		else if (which.equals("Trunk")) {
-			return EndPoint.TRUNK;
-		}
-		else if (which.equals("Trunk (Stubbed)")) {
-			return EndPoint.TRUNK_STUBBED;
-		}
-		else if (which.equals("Custom Server")) {
-			return EndPoint.CUSTOM_SERVER;
-		}
-		else {
-			return EndPoint.PRODUCTION;
-		}
-	}
-
-	public static String getStubConfigUrl(Context context) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.getE3EndpointUrl(0) + "stubConfiguration/list";
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -2003,7 +1897,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public ScenarioSetResponse setScenario(Scenario config) {
-		String serverUrl = getE3EndpointUrl(0) + config.getUrl();
+		String serverUrl = EndPoint.getE3EndpointUrl(mContext, false) + config.getUrl();
 		Log.d(TAG_REQUEST, "Hitting scenario: " + serverUrl);
 		Request.Builder get = new Request.Builder().url(serverUrl);
 		return doRequest(get, new ScenarioSetResponseHandler(), F_ALLOW_REDIRECT);

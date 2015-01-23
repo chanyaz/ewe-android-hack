@@ -61,8 +61,7 @@ import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.EndPoint;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.DebugUtils;
@@ -2706,7 +2705,7 @@ public class OmnitureTracking {
 	}
 
 	private static String getTrackingServer(Context context) {
-		if (ExpediaServices.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
+		if (EndPoint.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
 			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
 		else if (ExpediaBookingApp.IS_TRAVELOCITY) {

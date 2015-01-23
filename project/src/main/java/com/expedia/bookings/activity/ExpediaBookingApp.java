@@ -26,11 +26,13 @@ import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -104,7 +106,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		Fabric.with(this, new Crashlytics());
 		startupTimer.addSplit("Crashlytics started.");
 
-		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this, getString(R.string.preference_should_start_hierarchy_server), false)) {
+		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this,
+			getString(R.string.preference_should_start_hierarchy_server), false)) {
 			SocketActivityHierarchyServer activityHierarchyServer = new SocketActivityHierarchyServer();
 			try {
 				activityHierarchyServer.start();
@@ -201,8 +204,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			serverUrlPath = "ExpediaSharedData/AirAsiaGoServerURLs.json";
 		}
 
-		ExpediaServices.initEndPoints(this, serverUrlPath);
+		EndPoint.init(this, serverUrlPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
+
+		CarDb.setServicesEndpoint(EndPoint.getE3EndpointUrl(this, true), isRelease);
+		startupTimer.addSplit("CarServices init");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
@@ -347,7 +353,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	 */
 	public interface OnSearchParamsChangedInWidgetListener {
 		public void onSearchParamsChanged(HotelSearchParams searchParams);
-	};
+	}
 
 	private ArrayList<OnSearchParamsChangedInWidgetListener> mListeners;
 
@@ -437,7 +443,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		String localeId = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
-		String api = ExpediaServices.getEndPoint(context).name();
+		String api = EndPoint.getEndPoint(context).name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
 

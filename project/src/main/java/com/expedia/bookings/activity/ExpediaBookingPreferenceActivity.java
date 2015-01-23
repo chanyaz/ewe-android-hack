@@ -22,9 +22,11 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -39,6 +41,10 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 	private static final int DIALOG_CLEAR_DATA = 0;
 	private static final int DIALOG_CLEAR_DATA_SIGNED_OUT = 1;
+
+	// We cannot assign the CarServices endpoint in the change listener because
+	// the value has not necessarily been set in preference at that point.
+	boolean mApiChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					ClearPrivateDataUtil.clear(ExpediaBookingPreferenceActivity.this);
+					mApiChanged = true;
 					return true;
 				}
 			});
@@ -93,7 +100,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 				return true;
 			}
 		});
-
 		configurePointOfSalePreferenceSummary();
 
 		// By default, assume nothing changed
@@ -110,6 +116,12 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 	protected void onPause() {
 		super.onPause();
 		OmnitureTracking.onPause();
+		if (mApiChanged) {
+			CarDb.setServicesEndpoint(
+				EndPoint.getE3EndpointUrl(getApplicationContext(), true),
+				AndroidUtils.isRelease(getApplicationContext()));
+			mApiChanged = false;
+		}
 	}
 
 	@Override
@@ -141,7 +153,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		// This is not a foolproof way to determine if preferences were changed, but
 		// it's close enough; should only affect dev options
 		if (!key.equals(getString(R.string.preference_clear_private_data_key))
-				&& !key.equals(getString(R.string.PointOfSaleKey))) {
+			&& !key.equals(getString(R.string.PointOfSaleKey))) {
 			setResult(RESULT_CHANGED_PREFS);
 		}
 

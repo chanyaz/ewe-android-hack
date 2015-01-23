@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.EndPoint;
 import com.mobiata.android.util.AndroidUtils;
 
 /**
@@ -59,7 +59,7 @@ public class DebugMenu {
 	}
 
 	private static String getBuildServerString(Context context) {
-		String endpoint = ExpediaServices.getEndPoint(context).toString();
+		String endpoint = EndPoint.getEndPoint(context).toString();
 		return context.getString(R.string.connected_server, endpoint);
 	}
 
