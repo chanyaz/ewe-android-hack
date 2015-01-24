@@ -24,12 +24,13 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import static com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils.getCurrentActivity;
 
-/**
- * Created by dmadan on 7/15/14.
- */
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase() {
 		super(RouterActivity.class);
+	}
+
+	public EspressoTestCase(Class cls) {
+		super(cls);
 	}
 
 	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";

@@ -84,6 +84,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@OnClick(R.id.search_btn)
 	public void startWidgetDownload() {
 		if (isSearchFormFilled()) {
+			Ui.hideKeyboard(this);
 			startDownload();
 			Ui.showToast(getContext(), "Loading results, please wait");
 		}
@@ -139,6 +140,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
+		Ui.hideKeyboard(this);
 		calendarContainer.setVisibility(View.VISIBLE);
 	}
 
