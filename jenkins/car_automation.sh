@@ -11,6 +11,7 @@ TEST_APK="project/build/outputs/apk/project-expedia-debug-test-unaligned.apk"
 OUTPUT_DIR="spoon/cars"
 
 add_test "com.expedia.bookings.test.component.cars.CarSearchParamsTests"
+add_test "com.expedia.bookings.test.ui.happy.CarPhoneHappyPath"
 
 rm -rf "spoon"
 java \
