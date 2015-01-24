@@ -843,6 +843,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
 
 		query.add(new BasicNameValuePair("qualifyAirAttach", Boolean.toString(qualifyAirAttach)));
+		// Source type
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 
 		return query;
 	}
