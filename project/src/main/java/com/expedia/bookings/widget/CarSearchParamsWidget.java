@@ -82,27 +82,17 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	private CarSearchParams carSearchParams;
 
-	Subscription carSearchSubscription;
-
 	@OnClick(R.id.search_btn)
 	public void startWidgetDownload() {
 		if (isSearchFormFilled()) {
 			Ui.hideKeyboard(this);
-			startDownload();
-			Ui.showToast(getContext(), "Loading results, please wait");
+			Events.post(new Events.CarsNewSearchParams(carSearchParams));
 		}
 	}
 
 	@OnClick(R.id.dropoff_location)
 	public void displayAlertForDropOffLocacationClick() {
 		showAlertMessage(R.string.drop_off_same_as_pick_up, R.string.ok);
-	}
-
-	public void startDownload() {
-		CarDb.setSearchParams(carSearchParams);
-
-		carSearchSubscription = CarDb.getCarServices()
-			.carSearch(carSearchParams, carSearchSubscriber);
 	}
 
 	@Override
@@ -146,25 +136,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		Ui.hideKeyboard(this);
 		calendarContainer.setVisibility(View.VISIBLE);
 	}
-
-	private Observer<CarSearch> carSearchSubscriber = new Observer<CarSearch>() {
-		@Override
-		public void onCompleted() {
-			Log.d("TestCarSearchWidget - onCompleted");
-			Events.post(new Events.EnableCarsSearchResults());
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			Log.d("TestCarSearchWidget - onError", e);
-		}
-
-		@Override
-		public void onNext(CarSearch carSearch) {
-			Log.d("TestCarSearchWidget - onNext");
-			CarDb.carSearch = carSearch;
-		}
-	};
 
 	// Interfaces
 
