@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -65,6 +66,8 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
+		mLastCheckedItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusResponse.EBAndroidETPTest) ?
+			R.id.radius_pay_later : R.id.radius_pay_now;
 	}
 
 	@Override

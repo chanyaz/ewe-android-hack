@@ -13,6 +13,8 @@ public class AbacusResponse {
 	 * participating in the AB Test.
 	 */
 	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
+	//TODO: Update key
+	public static final String EBAndroidETPTest = "EBAndroidETPTest";
 
 	private Map<String, AbacusTest> abacusTestMap = new HashMap<>();
 

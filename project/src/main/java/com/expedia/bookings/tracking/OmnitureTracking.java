@@ -230,7 +230,7 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusResponse.EBAndroidAATest);
 
 		// Send the tracking data
 		s.track();
@@ -254,6 +254,9 @@ public class OmnitureTracking {
 
 		// Products
 		addProducts(s, property);
+
+		// Abacus ETP Test
+		trackAbacusTest(s, AbacusResponse.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
@@ -1212,14 +1215,14 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusResponse.EBAndroidAATest);
 
 		s.track();
 	}
 
-	private static void trackAATest(ADMS_Measurement s) {
-		boolean isTestLive = Db.getAbacusResponse().isTestLive(AbacusResponse.EBAndroidAATest);
-		String analyticsString = Db.getAbacusResponse().getAnalyticsString(AbacusResponse.EBAndroidAATest);
+	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
+		boolean isTestLive = Db.getAbacusResponse().isTestLive(testKey);
+		String analyticsString = Db.getAbacusResponse().getAnalyticsString(testKey);
 		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
