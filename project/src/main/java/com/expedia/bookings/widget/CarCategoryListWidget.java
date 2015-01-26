@@ -28,7 +28,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	@InjectView(R.id.recycler_view_category)
 	RecyclerView recyclerView;
 
-	CarsListAdapter carsListAdapter;
+	CarCategoriesListAdapter listAdapter;
 
 	private LinearLayoutManager mLayoutManager;
 
@@ -58,13 +58,13 @@ public class CarCategoryListWidget extends FrameLayout {
 		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
-		carsListAdapter = new CarsListAdapter();
-		recyclerView.setAdapter(carsListAdapter);
+		listAdapter = new CarCategoriesListAdapter();
+		recyclerView.setAdapter(listAdapter);
 	}
 
 	@Subscribe
 	public void onSignalForList(Events.CarsShowSearchResults event) {
-		carsListAdapter.setCategoriesTestList(CarDb.carSearch.getCategoriesFromResponse());
-		carsListAdapter.notifyDataSetChanged();
+		listAdapter.setCategoriesTestList(CarDb.carSearch.getCategoriesFromResponse());
+		listAdapter.notifyDataSetChanged();
 	}
 }

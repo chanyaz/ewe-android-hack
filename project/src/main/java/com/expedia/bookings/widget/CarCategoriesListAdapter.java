@@ -18,7 +18,7 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 
-public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.ViewHolder> {
+public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategoriesListAdapter.ViewHolder> {
 	List<CategorizedCarOffers> categoriesTestList = new ArrayList<>();
 
 	private static final String ROW_PICASSO_TAG = "car_row";
