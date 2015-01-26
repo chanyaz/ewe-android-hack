@@ -72,6 +72,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -2414,12 +2415,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		mSearchSuggestionAdapter.swapCursor(data);
+		mSearchSuggestionAdapter.updateData(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		mSearchSuggestionAdapter.swapCursor(null);
+		mSearchSuggestionAdapter.updateData(null);
 	}
 
 	//----------------------------------
@@ -2429,14 +2430,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			Cursor c = mSearchSuggestionAdapter.getCursor();
-			c.moveToPosition(position);
+			AutocompleteSuggestion suggestion = mSearchSuggestionAdapter.getItem(position);
 
-			if (c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX).equals(getString(R.string.current_location))) {
+			if (suggestion.getText().equals(getString(R.string.current_location))) {
 				getCurrentSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
-				Object o = AutocompleteProvider.extractSearchOrString(c);
+				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
 
 				if (o instanceof Search) {
 					mEditedSearchParams.fillFromSearch((Search) o);
@@ -2551,11 +2551,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			// Select the first item in the autosuggest list when the user hits the search softkey and then start the search.
-			Cursor c = mSearchSuggestionAdapter.getCursor();
+			AutocompleteSuggestion suggestion  = mSearchSuggestionAdapter.getItem(0);
 			// 1574: It seems that the cursor is null if we are still finding location
-			if (c == null) {
-				c.moveToPosition(0);
-				Object o = AutocompleteProvider.extractSearchOrString(c);
+			if (suggestion != null) {
+				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
 				if (o instanceof Search) {
 					mEditedSearchParams.fillFromSearch((Search) o);
 				}

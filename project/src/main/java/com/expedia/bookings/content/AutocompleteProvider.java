@@ -22,6 +22,7 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
@@ -59,6 +60,14 @@ public class AutocompleteProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		return true;
+	}
+
+	public static AutocompleteSuggestion rowToSuggestion(Cursor c) {
+		AutocompleteSuggestion suggestion = new AutocompleteSuggestion();
+		suggestion.setText(c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX));
+		suggestion.setIcon(c.getInt(AutocompleteProvider.COLUMN_ICON_INDEX));
+		suggestion.setSearchJson(c.getString(AutocompleteProvider.COLUMN_JSON_INDEX));
+		return suggestion;
 	}
 
 	@Override
@@ -176,16 +185,16 @@ public class AutocompleteProvider extends ContentProvider {
 		return cursor;
 	}
 
-	public static Object extractSearchOrString(Cursor cursor) {
+	public static Object extractSearchOrString(AutocompleteSuggestion suggestion) {
 		try {
-			String searchJson = cursor.getString(COLUMN_JSON_INDEX);
+			String searchJson = suggestion.getSearchJson();
 			if (!TextUtils.isEmpty(searchJson)) {
 				Search search = new Search();
 				search.fromJson(new JSONObject(searchJson));
 				return search;
 			}
 			else {
-				String text = cursor.getString(COLUMN_TEXT_INDEX);
+				String text = suggestion.getText();
 				return text;
 			}
 		}

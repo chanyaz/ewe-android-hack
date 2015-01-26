@@ -93,8 +93,18 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	// Populated via LaunchLocation. We stuff this into SuggestionV2 for convenience.
 	private String mImageCode;
 
+	private int mIcon;
+
 	public SuggestionV2() {
 		// Default constructor, needed for JSONable
+	}
+
+	public int getIcon() {
+		return mIcon;
+	}
+
+	public void setIcon(int icon) {
+		mIcon = icon;
 	}
 
 	public ResultType getResultType() {
