@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.utils.Images;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -17,13 +20,14 @@ public class CategoryDetailsWidget extends LinearLayout {
 	ImageView headerImage;
 
 	@InjectView(R.id.details_time_header)
-	TextView timeDetailsText;
+	android.widget.TextView timeDetailsText;
 
 	@InjectView(R.id.category_text)
-	TextView categoryText;
+	android.widget.TextView categoryText;
 
 	@InjectView(R.id.offer_list)
 	RecyclerView offerList;
+
 	CarOffersAdapter adapter;
 
 	private LinearLayoutManager mLayoutManager;
@@ -52,10 +56,20 @@ public class CategoryDetailsWidget extends LinearLayout {
 		//offerList.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 
 		adapter = new CarOffersAdapter();
-		//TODO, inject data
-//		adapter.setCarOffers();
-//		adapter.notifyDataSetChanged();
 		offerList.setAdapter(adapter);
-
 	}
+
+	public void setCategorizedOffers(CategorizedCarOffers offers) {
+		adapter.setCarOffers(offers.offers);
+		adapter.notifyDataSetChanged();
+
+		String url = Images.getCarRental(offers.category, offers.getLowestTotalPriceOffer().vehicleInfo.type);
+		new PicassoHelper.Builder(headerImage)
+			.setTag("Car Details")
+			.fit()
+			.centerCrop()
+			.build()
+			.load(url);
+	}
+
 }

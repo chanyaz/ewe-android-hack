@@ -1,6 +1,6 @@
 package com.expedia.bookings.enums;
 
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 
 public enum CarsState {
 	SEARCH,
@@ -9,8 +9,6 @@ public enum CarsState {
 	DETAILS,
 	CHECKOUT;
 
-	public String pathStringRepresentation; // cars/search
-	public CarSearchParams params; // used for results
-	public String productKey; // used for checkout
+	public CategorizedCarOffers offers;
 
 }

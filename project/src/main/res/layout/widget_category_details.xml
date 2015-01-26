@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.CategoryDetailsWidget xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#eaeaea">
 
     <FrameLayout
         android:id="@+id/details_header"
@@ -14,7 +15,7 @@
         <ImageView
             android:id="@+id/header_image"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
         <!-- TODO This will eventually live in the action bar -->
@@ -22,9 +23,9 @@
             android:id="@+id/details_time_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:layout_gravity="top|center"
-            tools:text="Sep 26, 11:30A - Sep 28, 11:30A"/>
+            android:textSize="18sp"
+            tools:text="Sep 26, 11:30A - Sep 28, 11:30A" />
 
         <TextView
             android:id="@+id/category_text"
@@ -74,10 +75,10 @@
 
     </FrameLayout>
 
-    <RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/offer_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_weight="2" />
 
-</LinearLayout>
+</com.expedia.bookings.widget.CategoryDetailsWidget>

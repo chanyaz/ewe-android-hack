@@ -22,4 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <include
+        android:id="@+id/car_details"
+        layout="@layout/widget_category_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </com.expedia.bookings.presenter.CarsPresenter>

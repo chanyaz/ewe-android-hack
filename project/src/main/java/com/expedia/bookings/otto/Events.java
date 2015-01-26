@@ -18,6 +18,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -526,6 +527,15 @@ public class Events {
 	}
 
 	public static class CarsShowListLoading {
+
+	}
+
+	public static class CarsShowDetails {
+		public CategorizedCarOffers categorizedCarOffers;
+
+		public CarsShowDetails(CategorizedCarOffers offers) {
+			categorizedCarOffers = offers;
+		}
 
 	}
 }

@@ -11,6 +11,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.enums.CarsState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.CarSearchParamsWidget;
+import com.expedia.bookings.widget.CategoryDetailsWidget;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -33,6 +34,9 @@ public class CarsPresenter extends FrameLayout {
 
 	@InjectView(R.id.car_category_list)
 	ViewGroup carCategoryList;
+
+	@InjectView(R.id.car_details)
+	CategoryDetailsWidget detailsWidget;
 
 	public CarsPresenter(Context context) {
 		super(context);
@@ -62,24 +66,34 @@ public class CarsPresenter extends FrameLayout {
 
 	public void show(CarsState state) {
 		mState = state;
-		setVisibilityForState(state);
+		setState(state);
 	}
 
-	private void setVisibilityForState(CarsState state) {
+	private void setState(CarsState state) {
 		switch (state) {
 		case SEARCH:
 			widgetCarParams.setVisibility(View.VISIBLE);
 			carProgressIndicator.setVisibility(View.GONE);
 			carCategoryList.setVisibility(View.GONE);
+			detailsWidget.setVisibility(View.GONE);
 			break;
 		case LOADING:
 			widgetCarParams.setVisibility(View.INVISIBLE);
 			carProgressIndicator.setVisibility(View.VISIBLE);
 			carCategoryList.setVisibility(View.GONE);
+			detailsWidget.setVisibility(View.GONE);
 		case RESULTS:
-			widgetCarParams.setVisibility(View.VISIBLE);
-			carProgressIndicator.setVisibility(View.GONE);
+			widgetCarParams.setVisibility(View.INVISIBLE);
+			carProgressIndicator.setVisibility(View.INVISIBLE);
 			carCategoryList.setVisibility(View.VISIBLE);
+			detailsWidget.setVisibility(View.GONE);
+			break;
+		case DETAILS:
+			detailsWidget.setCategorizedOffers(state.offers);
+			widgetCarParams.setVisibility(View.INVISIBLE);
+			carProgressIndicator.setVisibility(View.INVISIBLE);
+			carCategoryList.setVisibility(View.INVISIBLE);
+			detailsWidget.setVisibility(View.VISIBLE);
 			break;
 		default:
 			throw new UnsupportedOperationException("CarsPresenter.show() invoked with unsupported state");
@@ -120,13 +134,19 @@ public class CarsPresenter extends FrameLayout {
 	};
 
 	@Subscribe
-	public void toggleProgressIndicator(Events.CarsShowListLoading event) {
-		carProgressIndicator.setVisibility(carProgressIndicator.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
+	public void onShowListLoading(Events.CarsShowListLoading event) {
+		show(CarsState.LOADING);
 	}
 
 	@Subscribe
 	public void onSearchResultsComplete(Events.CarsShowSearchResults event) {
-		widgetCarParams.setVisibility(View.GONE);
-		carCategoryList.setVisibility(View.VISIBLE);
+		show(CarsState.RESULTS);
+	}
+
+	@Subscribe
+	public void onShowDetails(Events.CarsShowDetails event) {
+		CarsState detailsState = CarsState.DETAILS;
+		detailsState.offers = event.categorizedCarOffers;
+		show(detailsState);
 	}
 }
