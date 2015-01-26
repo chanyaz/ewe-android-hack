@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
+import com.expedia.bookings.enums.CarsState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
@@ -19,6 +20,16 @@ import rx.Observer;
 import rx.Subscription;
 
 public class CarsPresenter extends FrameLayout {
+
+	private Subscription carSearchSubscription;
+	private CarsState mState;
+
+	@InjectView(R.id.widget_car_params)
+	ViewGroup widgetCarParams;
+
+	@InjectView(R.id.car_category_list)
+	ViewGroup carCategoryList;
+
 	public CarsPresenter(Context context) {
 		super(context);
 	}
@@ -27,20 +38,12 @@ public class CarsPresenter extends FrameLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.car_category_list)
-	ViewGroup carCategoryList;
-
-	@InjectView(R.id.widget_car_params)
-	ViewGroup widgetCarParams;
-
-	private Subscription carSearchSubscription;
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		widgetCarParams.setVisibility(View.GONE);
 		carCategoryList.setVisibility(View.GONE);
-		widgetCarParams.setVisibility(View.VISIBLE);
 		Events.register(this);
 	}
 
@@ -53,13 +56,36 @@ public class CarsPresenter extends FrameLayout {
 		}
 	}
 
+	public void show(CarsState state) {
+		mState = state;
+		setVisibilityForState(state);
+	}
+
+	private void setVisibilityForState(CarsState state) {
+		switch (state) {
+		case SEARCH:
+			widgetCarParams.setVisibility(View.VISIBLE);
+			carCategoryList.setVisibility(View.GONE);
+			break;
+		case RESULTS:
+			widgetCarParams.setVisibility(View.VISIBLE);
+			carCategoryList.setVisibility(View.VISIBLE);
+			break;
+		default:
+			throw new UnsupportedOperationException("CarsPresenter.show() invoked with unsupported state");
+		}
+	}
+
+	/**
+	 * Events
+	 */
+
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
 		CarDb.setSearchParams(event.carSearchParams);
 
 		carSearchSubscription = CarDb.getCarServices()
 			.carSearch(event.carSearchParams, carSearchSubscriber);
-
 	}
 
 	private Observer<CarSearch> carSearchSubscriber = new Observer<CarSearch>() {

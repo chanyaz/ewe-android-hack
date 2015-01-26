@@ -137,7 +137,8 @@ public class Events {
 		public LaunchCollection selectedCollection;
 		public LaunchLocation selectedLocation;
 
-		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection, LaunchLocation selectedLocation) {
+		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection,
+			LaunchLocation selectedLocation) {
 			this.collections = collections;
 			this.selectedCollection = selectedCollection;
 			this.selectedLocation = selectedLocation;
@@ -334,6 +335,7 @@ public class Events {
 	 */
 	public static class ShowNoInternetDialog {
 		public final int callBackId;
+
 		public ShowNoInternetDialog(int callBackId) {
 			this.callBackId = callBackId;
 		}
@@ -473,6 +475,7 @@ public class Events {
 	 */
 	public static class ShowSearchFragment {
 		public final ResultsSearchState searchState;
+
 		public ShowSearchFragment(ResultsSearchState state) {
 			searchState = state;
 		}
@@ -480,6 +483,7 @@ public class Events {
 
 	public static class FlightSearchResponseAvailable {
 		public final FlightSearchResponse response;
+
 		public FlightSearchResponseAvailable(FlightSearchResponse response) {
 			this.response = response;
 		}
@@ -487,6 +491,7 @@ public class Events {
 
 	public static class HotelSearchResponseAvailable {
 		public final HotelSearchResponse response;
+
 		public HotelSearchResponseAvailable(HotelSearchResponse response) {
 			this.response = response;
 		}
@@ -494,6 +499,7 @@ public class Events {
 
 	public static class HotelOffersResponseAvailable {
 		public final HotelOffersResponse response;
+
 		public HotelOffersResponseAvailable(HotelOffersResponse response) {
 			this.response = response;
 		}

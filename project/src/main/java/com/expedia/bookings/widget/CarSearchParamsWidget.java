@@ -19,22 +19,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarDb;
-import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.Subscription;
 
 public class CarSearchParamsWidget extends FrameLayout implements
 	CalendarPicker.DateSelectionChangedListener,
