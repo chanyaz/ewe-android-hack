@@ -524,4 +524,8 @@ public class Events {
 	public static class CarsShowSearchResults {
 
 	}
+
+	public static class CarsShowListLoading {
+
+	}
 }

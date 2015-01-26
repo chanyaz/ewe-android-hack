@@ -82,6 +82,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		if (isSearchFormFilled()) {
 			Ui.hideKeyboard(this);
 			Events.post(new Events.CarsNewSearchParams(carSearchParams));
+			Events.post(new Events.CarsShowListLoading());
 		}
 	}
 
@@ -228,7 +229,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		return false;
 	}
 
-	private void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
+	public void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
 			.setMessage(messageResourceId)

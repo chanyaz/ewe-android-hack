@@ -28,6 +28,8 @@
     <string name="error_missing_start_date_param">Start Date missing</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">End Date missing</string>
+    <!-- Temporary String for general error message -->
+    <string name="error_car">There was some error. Check search params.</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->

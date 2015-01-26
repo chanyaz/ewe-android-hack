@@ -66,5 +66,6 @@ public class CarCategoryListWidget extends FrameLayout {
 	public void onSignalForList(Events.CarsShowSearchResults event) {
 		listAdapter.setCategoriesTestList(CarDb.carSearch.getCategoriesFromResponse());
 		listAdapter.notifyDataSetChanged();
+		Events.post(new Events.CarsShowListLoading());
 	}
 }

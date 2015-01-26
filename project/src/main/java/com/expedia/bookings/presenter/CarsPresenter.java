@@ -10,6 +10,7 @@ import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.enums.CarsState;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.CarSearchParamsWidget;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -25,7 +26,10 @@ public class CarsPresenter extends FrameLayout {
 	private CarsState mState;
 
 	@InjectView(R.id.widget_car_params)
-	ViewGroup widgetCarParams;
+	CarSearchParamsWidget widgetCarParams;
+
+	@InjectView(R.id.widget_car_progress_indicator)
+	ViewGroup carProgressIndicator;
 
 	@InjectView(R.id.car_category_list)
 	ViewGroup carCategoryList;
@@ -65,10 +69,16 @@ public class CarsPresenter extends FrameLayout {
 		switch (state) {
 		case SEARCH:
 			widgetCarParams.setVisibility(View.VISIBLE);
+			carProgressIndicator.setVisibility(View.GONE);
 			carCategoryList.setVisibility(View.GONE);
 			break;
+		case LOADING:
+			widgetCarParams.setVisibility(View.INVISIBLE);
+			carProgressIndicator.setVisibility(View.VISIBLE);
+			carCategoryList.setVisibility(View.GONE);
 		case RESULTS:
 			widgetCarParams.setVisibility(View.VISIBLE);
+			carProgressIndicator.setVisibility(View.GONE);
 			carCategoryList.setVisibility(View.VISIBLE);
 			break;
 		default:
@@ -98,6 +108,8 @@ public class CarsPresenter extends FrameLayout {
 		@Override
 		public void onError(Throwable e) {
 			Log.d("CarsPresenter - carSearch.onError", e);
+			Events.post(new Events.CarsShowListLoading());
+			widgetCarParams.showAlertMessage(R.string.error_car, R.string.ok);
 		}
 
 		@Override
@@ -106,6 +118,11 @@ public class CarsPresenter extends FrameLayout {
 			CarDb.carSearch = carSearch;
 		}
 	};
+
+	@Subscribe
+	public void toggleProgressIndicator(Events.CarsShowListLoading event) {
+		carProgressIndicator.setVisibility(carProgressIndicator.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
+	}
 
 	@Subscribe
 	public void onSearchResultsComplete(Events.CarsShowSearchResults event) {

@@ -4,6 +4,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 
 public enum CarsState {
 	SEARCH,
+	LOADING,
 	RESULTS,
 	DETAILS,
 	CHECKOUT;

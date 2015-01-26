@@ -5,14 +5,20 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/car_category_list"
-        layout="@layout/widget_car_category_list"
+        android:id="@+id/widget_car_params"
+        layout="@layout/widget_car_search_params"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <include
-        android:id="@+id/widget_car_params"
-        layout="@layout/widget_car_search_params"
+        android:id="@+id/widget_car_progress_indicator"
+        layout="@layout/widget_car_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/car_category_list"
+        layout="@layout/widget_car_category_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
