@@ -19,6 +19,7 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 public class CarServicesTest {
 	@Rule
@@ -67,18 +68,21 @@ public class CarServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
+		BlockingObserver<CarSearch> observer = new BlockingObserver<>(2);
 		CarServices service = getTestCarServices();
 
-		Subscription sub = service.doBoringCarSearch(observer);
+		Subscription sub = service.carSearch(new CarSearchParams(), observer);
 		observer.await();
 		sub.unsubscribe();
 
+		for (Throwable throwable : observer.getErrors()) {
+			throw throwable;
+		}
+		assertTrue(observer.completed());
 		assertEquals(1, observer.getItems().size());
-		assertEquals(0, observer.getErrors().size());
 
 		for (CarSearch search : observer.getItems()) {
-			assertEquals(9, search.carCategoryOfferMap.keySet().size());
+			assertEquals(9, search.categories.size());
 		}
 	}
 

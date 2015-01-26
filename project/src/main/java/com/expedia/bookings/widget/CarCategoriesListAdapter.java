@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 
 public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategoriesListAdapter.ViewHolder> {
-	List<CategorizedCarOffers> categoriesTestList = new ArrayList<>();
+	List<CategorizedCarOffers> categories = new ArrayList<>();
 
 	private static final String ROW_PICASSO_TAG = "car_row";
 
@@ -31,11 +31,11 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		CategorizedCarOffers cco = categoriesTestList.get(position);
+		CategorizedCarOffers cco = categories.get(position);
 		CarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
 		CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
 
-		holder.mCategoryTextView.setText(cco.getCategory().toString());
+		holder.mCategoryTextView.setText(cco.category.toString());
 		holder.mPassengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
 		holder.mBagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
 		holder.mDoorCount.setText(String.valueOf(vehicleInfo.maxDoors));
@@ -43,7 +43,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		holder.mBestPriceTextView.setText(lowestFare.rate.getFormattedMoney());
 		holder.mTotalTextView.setText(lowestFare.total.getFormattedMoney());
 
-		String url = Images.getCarRental(cco.getCategory(), cco.getLowestTotalPriceOffer().vehicleInfo.type);
+		String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(holder.mBackroundImageView)
 			.setTag(ROW_PICASSO_TAG)
 			.fit()
@@ -54,7 +54,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 
 	@Override
 	public int getItemCount() {
-		return categoriesTestList.size();
+		return categories.size();
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -81,7 +81,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		}
 	}
 
-	public void setCategoriesTestList(List<CategorizedCarOffers> categoriesTestList) {
-		this.categoriesTestList = categoriesTestList;
+	public void setCategories(List<CategorizedCarOffers> categories) {
+		this.categories = categories;
 	}
 }
