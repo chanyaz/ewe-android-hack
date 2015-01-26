@@ -37,7 +37,10 @@ import rx.Observer;
 import rx.Subscription;
 
 public class CarSearchParamsWidget extends FrameLayout implements
-	CalendarPicker.DateSelectionChangedListener, SeekBar.OnSeekBarChangeListener, TextWatcher, EditText.OnEditorActionListener {
+	CalendarPicker.DateSelectionChangedListener,
+	SeekBar.OnSeekBarChangeListener,
+	TextWatcher,
+	EditText.OnEditorActionListener {
 
 	public CarSearchParamsWidget(Context context) {
 		super(context);
@@ -192,7 +195,8 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	private void paramsChanged() {
 		carSearchParams = searchParamsBuilder.build();
 		if (carSearchParams.startDateTime != null) {
-			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams,
+				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 			selectDateButton.setText(dateTimeRange);
 		}
 	}
@@ -216,7 +220,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		else {
 			messageResourceId = R.string.error_missing_end_date_param;
 		}
-		showAlertMessage( messageResourceId, R.string.ok);
+		showAlertMessage(messageResourceId, R.string.ok);
 	}
 
 	@Override

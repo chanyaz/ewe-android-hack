@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.presenter;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,17 +7,18 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.FrameLayout;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarSearchController extends FrameLayout {
-	public CarSearchController(Context context) {
+public class CarsPresenter extends FrameLayout {
+	public CarsPresenter(Context context) {
 		super(context);
 	}
 
-	public CarSearchController(Context context, AttributeSet attrs) {
+	public CarsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
