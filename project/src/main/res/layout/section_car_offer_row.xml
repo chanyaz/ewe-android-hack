@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="#FFF">
+
+    <TextView
+        android:id="@+id/vendor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        tools:text="Hertz" />
+
+    <TextView
+        android:id="@+id/car_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vendor"
+        android:textSize="22sp"
+        tools:text="UFO or similar" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/price_container"
+        android:layout_below="@id/car_details"
+        android:textSize="18sp"
+        tools:text="114 Sansome St.\nSan Francisco, CA 94109" />
+
+    <RelativeLayout
+        android:id="@+id/price_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/category_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textSize="28sp"
+            tools:text="$10" />
+
+        <TextView
+            android:id="@+id/total_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/category_price_text"
+            android:textSize="14sp"
+            tools:text="Total $2132" />
+    </RelativeLayout>
+
+</RelativeLayout>
