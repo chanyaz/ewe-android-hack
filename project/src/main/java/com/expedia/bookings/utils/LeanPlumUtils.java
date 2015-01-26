@@ -71,7 +71,6 @@ public class LeanPlumUtils {
 		});
 
 		Leanplum.setApplicationContext(mContext);
-		Leanplum.setUpdateCheckingEnabledInDevelopmentMode(false);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
 		Leanplum.start(mContext, mUserAtrributes);
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
