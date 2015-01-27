@@ -216,6 +216,7 @@
         <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
