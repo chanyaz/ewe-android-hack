@@ -346,6 +346,9 @@ public class OmnitureTracking {
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
 
+		// Abacus Hotel Book Now button placement
+		trackAbacusTest(s, AbacusResponse.EBAndroidHotelBookButtonPlacementTest);
+
 		// Send the tracking data
 		s.track();
 	}

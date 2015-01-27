@@ -15,6 +15,8 @@ public class AbacusResponse {
 	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
 	//TODO: Update key
 	public static final String EBAndroidETPTest = "EBAndroidETPTest";
+	//TODO: Sync on key
+	public static final String EBAndroidHotelBookButtonPlacementTest = "EBAndroidHotelBookButtonPlacementTest";
 
 	private Map<String, AbacusTest> abacusTestMap = new HashMap<>();
 

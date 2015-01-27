@@ -29,6 +29,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
@@ -316,6 +317,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusResponse.EBAndroidHotelBookButtonPlacementTest);
+
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
 			FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
@@ -340,7 +343,17 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
 			HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
-		mBookNowButton = Ui.findView(this, R.id.book_now_button);
+		// 3840. Abacus AB Testing. Let's move hotel Book Now button around.
+		int bookNowButtonId;
+		if (isUserBucketedForTest) {
+			bookNowButtonId = R.id.book_now_button_ABTest;
+			Ui.findView(this, R.id.book_now_button).setVisibility(View.GONE);
+		}
+		else {
+			bookNowButtonId = R.id.book_now_button;
+			Ui.findView(this, R.id.book_now_button_ABTest).setVisibility(View.GONE);
+		}
+		mBookNowButton = Ui.findView(this, bookNowButtonId);
 		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
 			mBookNowButton.setVisibility(View.VISIBLE);
 			mBookNowButton.setOnClickListener(new View.OnClickListener() {
