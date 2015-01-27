@@ -18,21 +18,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:src="@drawable/ic_action_bar_back_arrow"/>
+                android:src="@drawable/ic_action_bar_back_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_gravity="center"
-                android:text="@string/dates_and_location"/>
+                android:text="@string/dates_and_location"
+                android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:src="@drawable/ic_action_bar_checkmark"/>
+                android:src="@drawable/ic_action_bar_checkmark" />
         </FrameLayout>
 
         <LinearLayout
@@ -42,20 +42,22 @@
             android:layout_below="@id/search_header"
             android:orientation="horizontal">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/pickup_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:completionThreshold="3"
                 android:hint="@string/pick_up_location"
-                android:singleLine="true"/>
+                android:maxWidth="120dp"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/dropoff_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/same_as_pick_up"/>
+                android:hint="@string/same_as_pick_up" />
         </LinearLayout>
 
         <Button
@@ -63,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/location_container"
-            android:text="@string/select_pickup_and_dropoff_dates"/>
+            android:text="@string/select_pickup_and_dropoff_dates" />
     </RelativeLayout>
 
     <LinearLayout
@@ -77,41 +79,41 @@
             android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="12dp">
+            android:layout_margin="12dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18sp"
-                android:text="@string/pick_up_time_label"/>
+                android:text="@string/pick_up_time_label"
+                android:textSize="18sp" />
 
             <SeekBar
                 android:id="@+id/pickup_time_seek_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:max="47"/>
+                android:max="47" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="12dp">
+            android:layout_margin="12dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/drop_off_time_label"
-                android:textSize="18sp"
-                android:layout_weight="1"/>
+                android:textSize="18sp" />
 
             <SeekBar
                 android:id="@+id/dropoff_time_seek_bar"

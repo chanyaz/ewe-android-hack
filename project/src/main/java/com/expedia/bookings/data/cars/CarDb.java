@@ -10,6 +10,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.services.SuggestionServices;
 import com.mobiata.android.Log;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -27,6 +28,7 @@ public final class CarDb {
 	}
 
 	private static CarServices sCarServices;
+	private static SuggestionServices sSuggestionServices;
 
 	public static void setServicesEndpoint(String endpoint, boolean isRelease) {
 		OkHttpClient okHttpClient = new OkHttpClient();
@@ -46,6 +48,14 @@ public final class CarDb {
 
 	public static CarServices getCarServices() {
 		return sCarServices;
+	}
+
+	public static SuggestionServices getSuggestionServices() {
+		if (sSuggestionServices == null) {
+			OkHttpClient okHttpClient = new OkHttpClient();
+			sSuggestionServices = new SuggestionServices(okHttpClient,  AndroidSchedulers.mainThread(), Schedulers.io());
+		}
+		return sSuggestionServices;
 	}
 
 	private static final TrustManager[] sEasyTrustManager = new TrustManager[] {

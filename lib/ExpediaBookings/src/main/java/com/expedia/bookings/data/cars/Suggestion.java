@@ -6,6 +6,9 @@ public class Suggestion {
 	@SerializedName("f")
 	public String fullName;
 
+	@SerializedName("a")
+	public String airportCode;
+
 	@SerializedName("d")
 	public String displayName;
 

@@ -6,6 +6,7 @@ import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.cars.SuggestionResponse;
 import com.squareup.okhttp.OkHttpClient;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import rx.Observer;
@@ -23,6 +24,13 @@ public class SuggestionServices {
 
 	private final static String ESS_ENDPOINT = "http://suggest.expedia.com";
 
+	private static final RequestInterceptor REQUEST_INTERCEPTOR = new RequestInterceptor() {
+		@Override
+		public void intercept(RequestFacade request) {
+			request.addHeader("Accept", "application/json");
+		}
+	};
+
 	public SuggestionServices(String endpoint, OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
@@ -32,6 +40,7 @@ public class SuggestionServices {
 			.setEndpoint(endpoint)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
 			.setClient(new OkClient(mClient))
+			.setRequestInterceptor(REQUEST_INTERCEPTOR)
 			.build();
 
 		mSuggestApi = adapter.create(SuggestApi.class);
@@ -54,8 +63,8 @@ public class SuggestionServices {
 	private static Func1<SuggestionResponse, List<Suggestion>> sToList = new Func1<SuggestionResponse, List<Suggestion>>() {
 		@Override
 		public List<Suggestion> call(SuggestionResponse suggestionResponse) {
-			int maxSuggestions = suggestionResponse.suggestions.size() > MAX_AIRPORTS_RETURNED ? suggestionResponse.suggestions.size() : MAX_AIRPORTS_RETURNED;
-			return suggestionResponse.suggestions.subList(0, maxSuggestions - 1);
+			int maxSuggestions = suggestionResponse.suggestions.size() > MAX_AIRPORTS_RETURNED ? MAX_AIRPORTS_RETURNED : suggestionResponse.suggestions.size();
+			return suggestionResponse.suggestions.subList(0, maxSuggestions);
 		}
 	};
 }

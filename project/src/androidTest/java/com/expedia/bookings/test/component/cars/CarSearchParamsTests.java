@@ -12,16 +12,22 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertNull;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -104,7 +110,7 @@ public final class CarSearchParamsTests {
 	}
 
 	@Test
-	public void testSearchButtonErrorMessageForIncompleteParams() {
+	public void testSearchButtonErrorMessageForIncompleteParams() throws Throwable {
 		// Test with all params missing
 		CarSearchParamsModel.searchButton().perform(click());
 		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
@@ -133,6 +139,11 @@ public final class CarSearchParamsTests {
 
 		// Test with only pickup location
 		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
+		//TODO don't do this
+		ScreenActions.delay(3);
+		onView(withText("SFO"))
+			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity(playground.instrumentation()).getWindow().getDecorView()))))
+			.perform(click());
 		CarSearchParamsModel.selectDates(null, null);
 		CarSearchParamsModel.searchButton().perform(click());
 		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));

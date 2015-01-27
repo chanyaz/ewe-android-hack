@@ -24,7 +24,7 @@ public class SuggestionServicesTest {
 	public MockWebServerRule mServer = new MockWebServerRule();
 
 	@Test
-	public void testSublistOfResponse() throws Throwable{
+	public void testSublistOfResponse() throws Throwable {
 		String root = new File("../mocke3/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));

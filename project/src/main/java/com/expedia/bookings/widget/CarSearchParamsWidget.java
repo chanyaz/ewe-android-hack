@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 
 import android.app.AlertDialog;
@@ -12,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,22 +23,26 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.Subscription;
 
 public class CarSearchParamsWidget extends FrameLayout implements
 	CalendarPicker.DateSelectionChangedListener,
 	SeekBar.OnSeekBarChangeListener,
-	TextWatcher,
 	EditText.OnEditorActionListener {
 
 	public CarSearchParamsWidget(Context context) {
@@ -50,7 +58,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	}
 
 	@InjectView(R.id.pickup_location)
-	EditText pickupLocation;
+	AutoCompleteTextView pickupLocation;
 
 	@InjectView(R.id.dropoff_location)
 	TextView dropoffLocation;
@@ -77,6 +85,9 @@ public class CarSearchParamsWidget extends FrameLayout implements
 
 	private CarSearchParams carSearchParams;
 
+	private CarSuggestionAdapter suggestionAdapter;
+	private Subscription suggestionSubscription;
+
 	@OnClick(R.id.search_btn)
 	public void startWidgetDownload() {
 		if (isSearchFormFilled()) {
@@ -97,7 +108,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		ButterKnife.inject(this);
 		searchParamsBuilder = new CarSearchParamsBuilder();
 		Events.register(getContext());
-
 		pickupLocation.setVisibility(View.VISIBLE);
 		dropoffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
@@ -111,8 +121,20 @@ public class CarSearchParamsWidget extends FrameLayout implements
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
 		calendar.setDateChangedListener(this);
-		pickupLocation.addTextChangedListener(this);
+
+		suggestionAdapter = new CarSuggestionAdapter(getContext(), android.R.layout.simple_dropdown_item_1line);
+		pickupLocation.setAdapter(suggestionAdapter);
+		pickupLocation.setOnItemClickListener(mPickupListListener);
+		pickupLocation.setOnClickListener(mPickupClickListener);
+		pickupLocation.setOnDismissListener(mDismissListener);
 		pickupLocation.setOnEditorActionListener(this);
+		pickupLocation.addTextChangedListener(mPickupLocationTextWatcher);
+	}
+
+	private void setPickupLocation(Suggestion suggestion) {
+		pickupLocation.setText(suggestion.shortName);
+		searchParamsBuilder.origin(suggestion.airportCode);
+		paramsChanged();
 	}
 
 	@Override
@@ -124,6 +146,9 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
 		Events.unregister(getContext());
+		if (suggestionSubscription != null) {
+			suggestionSubscription.unsubscribe();
+		}
 		calendar.setDateChangedListener(null);
 	}
 
@@ -133,7 +158,126 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		calendarContainer.setVisibility(View.VISIBLE);
 	}
 
-	// Interfaces
+	/*
+	 * Error handling
+	 */
+
+	public void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(messageResourceId)
+			.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	private boolean isSearchFormFilled() {
+		boolean areRequiredParamsFilled = searchParamsBuilder.areRequiredParamsFilled();
+		if (!areRequiredParamsFilled) {
+			showParamMissingToast();
+		}
+		return areRequiredParamsFilled;
+	}
+
+	private void showParamMissingToast() {
+		int messageResourceId;
+		if (carSearchParams == null || Strings.isEmpty(carSearchParams.origin)) {
+			messageResourceId = R.string.error_missing_origin_param;
+		}
+		else if (carSearchParams.startDateTime == null) {
+			messageResourceId = R.string.error_missing_start_date_param;
+		}
+		else {
+			messageResourceId = R.string.error_missing_end_date_param;
+		}
+		showAlertMessage(messageResourceId, R.string.ok);
+	}
+
+	/*
+	 * Pickup edit text helpers
+	 */
+
+	private AdapterView.OnItemClickListener mPickupListListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Suggestion suggestion = suggestionAdapter.getItem(position);
+			setPickupLocation(suggestion);
+		}
+	};
+
+	private OnClickListener mPickupClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			pickupLocation.setText("");
+			searchParamsBuilder.origin("");
+			paramsChanged();
+		}
+	};
+
+	private AutoCompleteTextView.OnDismissListener mDismissListener = new AutoCompleteTextView.OnDismissListener() {
+		@Override
+		public void onDismiss() {
+			Suggestion topSuggestion = suggestionAdapter.getItem(0);
+			if (topSuggestion != null) {
+				if (carSearchParams == null) {
+					setPickupLocation(topSuggestion);
+				}
+				else if (Strings.isEmpty(carSearchParams.origin)) {
+					setPickupLocation(topSuggestion);
+				}
+			}
+		}
+	};
+
+	private TextWatcher mPickupLocationTextWatcher = new TextWatcher() {
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			// ignore
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			if (s.length() >= 3) {
+				suggestionSubscription = CarDb.getSuggestionServices().getAirportSuggestions(s.toString(), mSuggestionsRequestObs);
+			}
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// ignore
+		}
+	};
+
+	Observer<List<Suggestion>> mSuggestionsRequestObs = new Observer<List<Suggestion>>() {
+		List<Suggestion> list;
+
+		@Override
+		public void onCompleted() {
+			suggestionAdapter.setSuggestionList(list);
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.d("ERROR", e);
+		}
+
+		@Override
+		public void onNext(List<Suggestion> suggestions) {
+			list = suggestions;
+		}
+	};
+
+
+	/*
+	 * Interfaces
+	 */
+
+	// Calendar
 
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
@@ -168,27 +312,9 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		}
 	}
 
-	private boolean isSearchFormFilled() {
-		boolean areRequiredParamsFilled = searchParamsBuilder.areRequiredParamsFilled();
-		if (!areRequiredParamsFilled) {
-			showParamMissingToast();
-		}
-		return areRequiredParamsFilled;
-	}
-
-	private void showParamMissingToast() {
-		int messageResourceId;
-		if (carSearchParams == null || Strings.isEmpty(carSearchParams.origin)) {
-			messageResourceId = R.string.error_missing_origin_param;
-		}
-		else if (carSearchParams.startDateTime == null) {
-			messageResourceId = R.string.error_missing_start_date_param;
-		}
-		else {
-			messageResourceId = R.string.error_missing_end_date_param;
-		}
-		showAlertMessage(messageResourceId, R.string.ok);
-	}
+	/*
+	 * SeekBar
+	 */
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
@@ -204,22 +330,9 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		return progress * (30 * 60 * 1000);
 	}
 
-	// Edit text
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		// ignore
-	}
-
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		// ignore
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-		searchParamsBuilder.origin(s.toString());
-		paramsChanged();
-	}
+	/*
+	 * OnEditorActionListener
+	 */
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -228,18 +341,4 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		}
 		return false;
 	}
-
-	public void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(messageResourceId)
-			.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
-	}
-
 }
