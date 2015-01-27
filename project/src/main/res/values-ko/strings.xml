@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">인수 시간</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">반납 시간</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">목적지 입력</string>
@@ -195,10 +201,20 @@
     <string name="all_airports">모든 공항</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">나중에 결제</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">지금 결제</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">지금 결제할 금액</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">총 합계: %s</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/1박</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">이 숙박에 대한 추가 호텔 수수료: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">이 숙박에 대한 호텔 수수료(포함됨): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">이 숙박에 대한 호텔 수수료(포함 안 됨): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">여행에 추가</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -238,10 +254,12 @@
     <string name="round_trip">왕복</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">총 합계</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">총 금액</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">여행 작성 중…</string>
+    <string name="spinner_text_hotel_create_trip">여행 만드는 중…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -278,6 +296,12 @@
     <string name="link_accounts">계정 연결</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">업데이트된 사용자 정보를 가져오지 못했습니다.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">이메일 권한 부여하기</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">이메일 권한</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">Facebook 계정을 통해 로그인하려면 저희에게 고객님의 이메일 주소를 확인할 권한을 주셔야 합니다. \n\n아래의 Facebook 버튼을 눌러 익스피디아에 고객님 이메일 주소를 확인할 권한을 주세요. 감사합니다!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">계정 연결 중…</string>
     <!-- Log In -->
@@ -328,6 +352,8 @@
     <string name="explore_now">지금 둘러보기</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">최근 내 검색</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">오늘밤 인근 특가 상품</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s개 항목</item>
@@ -590,13 +616,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">숨기기</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">항상 숨기기</string>
+    <string name="itin_button_hide_forever">모두 숨기기</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">%1$s의 호텔 추가</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">목적지의 호텔 추가</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">호텔 추가</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Local Expert에 문의</string>
@@ -1196,12 +1225,16 @@
     <string name="best_price_guarantee">최저가격보장</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;무료 취소 마감기한&lt;/b&gt;: &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">리조트 요금:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">오늘 익스피디아에 결제할 금액:</string>
     <!-- Log out -->
     <string name="log_out">로그아웃</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">이 여행에 대해 %1$s포인트가 적립됩니다!</string>
+    <string name="youll_earn_points_TEMPLATE">이 예약으로 %1$s포인트가 적립됩니다!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">이 여행에 대해 &lt;b&gt;%1$s&lt;/b&gt;포인트 적립!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">이 여행에 대해 %1$s포인트가 적립됩니다!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">이 예약에 대해 보너스 포인트가 적립됩니다.</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1218,6 +1251,12 @@
     <string name="please_use_the_roman_alphabet">영문자를 사용해 주세요.</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">유효한 이메일 주소를 입력해 주세요.</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">호텔에서 결제되는 수수료:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">오늘 익스피디아에 결제할 총 금액:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 고객님 숙박의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1297,18 @@
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">주 여행객 정보</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">저장된 정보</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">수정</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">연락할 여행객 선택</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">새 여행객 추가</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">저장된 카드</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">새 카드 추가</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">숙박객 정보</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1529,22 @@
     <string name="add_insurance">보험 추가</string>
     <!-- Insurance -->
     <string name="insurance">보험</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">항공편을 예약하셨으므로</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">호텔이 최대 55% 할인됩니다.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">지금 호텔을 예약하시면 %s 할인을 받으시게 됩니다!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">혜택 만료까지 남은 시간:</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d일</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">호텔 추가</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">할인 적용</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1702,6 +1769,8 @@
     <string name="mobile_exclusive">모바일 전용</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">오늘 밤 한정!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">스폰서 링크</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">죄송합니다. %1$s일을 초과하는 숙박을 위한 호텔은 검색할 수 없습니다.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,9 +1787,9 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">"내 위치"를 사용하려면 먼저 "설정"에서 "위치"를 사용하도록 설정해야 합니다.\n"설정"으로 이동하여 지금 설정하시겠어요?</string>
+    <string name="EnableLocationSettings">현재 위치를 사용하려면 환경설정에서 위치 서비스를 켜셔야 합니다.\n\n환경설정으로 이동하여 지금 설정하시겠어요?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">위치 제공자가 설정 해제되어 있습니다. 현재 위치로 검색하려면 다시 설정해 주세요.</string>
+    <string name="ProviderDisabled">위치 제공 설정이 해제되어 있습니다. 현재 위치로 검색하려면 다시 설정해 주세요.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1947,6 +2016,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">이용 후기를 일시적으로 이용하실 수 없습니다.</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">지금 예약하고 나중에 결제</string>
+    <string name="etp_payment_options_text">고객님의 호텔 결제 옵션</string>
+    <string name="etp_pay_later_option_text">나중에 결제</string>
+    <string name="etp_pay_later_charges_text">보증금이 요구되지 않는 한 숙박일까지 결제하실 필요가 없습니다.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">호텔에서 직접 호텔의 현지 통화(%s)로 결제하시면 됩니다.</string>
+    <string name="etp_pay_later_payment_info_text">결제 정보는 예약을 유지하는 데만 필요합니다.</string>
+    <string name="etp_pay_later_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
+    <string name="etp_pay_now_option_text">지금 온라인 결제</string>
+    <string name="etp_pay_now_charges_text">익스피디아가 결제 세부 정보를 처리합니다.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">고객님은 고객님께서 사용하시는 통화(%s)로 결제하시게 됩니다.</string>
+    <string name="etp_pay_now_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
+    <string name="etp_select_room">객실 선택</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1971,7 +2054,7 @@
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">남은 객실이 없습니다!</item>
-        <item quantity="one">1개 객실만 남았습니다!</item>
+        <item quantity="one">객실이 1개 남았습니다!</item>
         <item quantity="two">객실이 %d개 남았습니다!</item>
         <item quantity="many">객실이 %d개 남았습니다!</item>
         <item quantity="other">객실이 %d개 남았습니다!</item>
@@ -1992,6 +2075,13 @@
     <string name="free_cancellation">무료 취소</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">이들 요금은 총 금액에 포함되어 있지 않습니다.</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">이 숙박에 대한 호텔 수수료</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">요금에 포함됨</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">요금에 포함 안 됨</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">새단장 공사 알림</string>
     <!-- This property is undergoing renovations -->
@@ -2183,7 +2273,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">개인정보 보호정책</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">로그아웃되고 데이터가 삭제되었습니다.</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2287,7 +2377,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2605,11 +2695,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Google Wallet으로 구매</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Google Wallet으로 <b>10% 할인</b>받으세요!</string>
+    <string name="wallet_promo_offer">Google Wallet으로 <b>$200+ 여행</b>에서 <b>$50</b> 할인받으세요!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10% 할인되었습니다!</string>
+    <string name="wallet_promo_in_use_message">Google Wallet으로 $50를 할인받으셨습니다!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 따라서 이전의 쿠폰을 Google Wallet 사용에 대한 10% 할인 쿠폰으로 대체했습니다.</string>
+    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 이전 쿠폰을 Google Wallet 사용에 대한 $50 할인으로 대체해드렸습니다.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet 할인 적용 중…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2707,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet 쿠폰 이용약관</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">쿠폰은 익스피디아 안드로이드 앱에서 2013년 6월 17일 ~ 2013년 12월 31일에 해당하는 여행을 예약하는 경우 사용하실 수 있습니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 고객께만 적용됩니다.\n\n또한 예약 시 익스피디아 요금 호텔이 이용 가능한 경우에만 해당하며 모든 해당 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 예약의 전체 또는 일부를 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다.\n\n이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. 법으로 금지되는 경우에는 효력이 없습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">죄송합니다. Google Wallet 할인은 2013년 여행에만 적용됩니다.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Samsung Wallet에서 보기</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Samsung Wallet으로 로드하기</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Samsung Wallet 다운로드하기</string>
+    <string name="wallet_promo_tc_message">혜택: 호텔 숙박비에서 $50 쿠폰 할인을 바로 받으실 수 있어요. 해당되는 예약의 가격이 $200 이상이어야 합니다. 이용 방법: 적용되는 호텔 숙박을 선택합니다. 예약 페이지에서 "Google Wallet으로 구매"를 선택합니다. 쿠폰은 지금부터 2015년 3월 31일까지에 해당하는 여행에 대해 익스피디아 안드로이드 앱으로 2014년 12월 31일 11:59 PM(태평양 시간 기준)까지 이용하셔야 합니다. 시간 한정 혜택: 변경될 수 있습니다. 사용자 계정과 적용 가능한 호텔 예약별로 1개 쿠폰으로 제한됩니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 사이트 안드로이드 앱 고객에게만 유효합니다. 익스피디아의 여행사 제휴 프로그램과 연계된 고객은 이 혜택을 이용하실 수 없습니다. 쿠폰은 해당되는 익스피디아 요금 호텔에만 적용됩니다. 예약에는 예약 가능 여부와 해당되는 모든 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 적용되는 예약이 수행되면 쿠폰은 완전히 사용된 것으로 간주되며 다시 사용할 수 없습니다. 예약을 일부라도 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다. 이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다. 법으로 금지되는 경우에는 효력이 없습니다.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">이 쿠폰은 Google Wallet을 결제 수단으로 선택할 때만 적용됩니다.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3052,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">항공편 검색 결과</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">버튼을 눌러 지금 결제</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">버튼을 눌러 나중에 결제</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">고객님 호텔이 예약되었습니다!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">고객님 항공편이 예약되었습니다!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">일정 번호(%1$s)가 %2$s 주소로 전송되었습니다.</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3104,10 @@
     <string name="tablet_mismatched_products_message">선택하신 호텔과 항공 날짜가 서로 다릅니다. 현재 선택하신 호텔을 삭제하고 항공편 날짜와 일치하는 호텔을 검색하시겠어요?</string>
     <!-- Dialog positive button message -->
     <string name="yes">예</string>
+    <!-- Dialog negative button message -->
+    <string name="no">아니요</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 무료 Travelocity 모바일 앱을 다운로드하세요.\n%s</string>
-    <string name="fees_paid_at_hotel">호텔에서 결제하는 수수료:</string>
-    <string name="total_due_to_expedia_today">오늘 익스피디아에 결제할 총 금액:</string>
-    <string name="hotel_fees_for_this_stay">이번 숙박 호텔 수수료</string>
-    <string name="included_in_the_price">요금에 포함됨</string>
-    <string name="not_included_in_the_price">요금에 포함 안 됨</string>
-    <string name="tablet_room_rate_resort_fees_included_template">이번 숙박 호텔 수수료(포함됨): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">이번 숙박 호텔 수수료(포함 안 됨): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">이메일 전송하기…</string>
 
 </resources>

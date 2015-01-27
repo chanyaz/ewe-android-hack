@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">Afhentningstidspunkt</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">Afleveringstidspunkt</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Angiv din destination</string>
@@ -195,10 +201,20 @@
     <string name="all_airports">Alle lufthavne</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Betal senere</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Betal nu</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Til betaling nu</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%s i alt</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nat</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Yderligere hotelgebyrer for dette ophold: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Hotelgebyrer for dette ophold (inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hotelgebyrer for dette ophold (ikke inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Føj til rejse</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -238,6 +254,8 @@
     <string name="round_trip">Returrejse</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Samlet beløb</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Samlet pris for rejsen</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -278,6 +296,12 @@
     <string name="link_accounts">Forbind kontoer</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Kunne ikke hente opdaterede brugeroplysninger.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Giv e-mailtilladelse</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">E-mailtilladelse</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">For at logge på med Facebook har vi brug for din tilladelse til at verificere din e-mailadresse. \n\nTryk på Facebook-knappen nedenfor for at give Expedia tilladelse til at verificere din e-mailadresse. Tak!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Forbinder dine kontoer…</string>
     <!-- Log In -->
@@ -328,6 +352,8 @@
     <string name="explore_now">Udforsk nu</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Din søgning</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Tilbud i nærheden i aften</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s komponenter</item>
@@ -590,13 +616,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Skjul</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Skjul for altid</string>
+    <string name="itin_button_hide_forever">Skjul alle</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Tilføj et hotel i %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Tilføj et hotel på din destination</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Tilføj et hotel</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Tal med en Local Expert</string>
@@ -1196,12 +1225,16 @@
     <string name="best_price_guarantee">Prisgaranti</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis afbestilling&lt;/b&gt; inden &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Resortgebyr:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Beløb der skal betales til Expedia i dag:</string>
     <!-- Log out -->
     <string name="log_out">Log af</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Du vil optjene %1$s point for denne rejse!</string>
+    <string name="youll_earn_points_TEMPLATE">Du vil optjene %1$s point for denne reservation!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; point for denne rejse!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Du vil optjene %1$s point for denne rejse!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Du optjener bonuspoint for denne reservation!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1218,6 +1251,12 @@
     <string name="please_use_the_roman_alphabet">Anvend latinske bogstaver</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Indtast en gyldig e-mailadresse</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Gebyrer der betales på hotellet:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">Samlet beløb der skal betales til Expedia i dag:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">Resortgebyret på &lt;b&gt;%1$s&lt;/b&gt; vil blive opkrævet på hotellet. Den samlede pris for dit ophold er &lt;b&gt;%2$s&lt;/b&gt;.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1297,18 @@
     <string name="enter_traveler_info">Oplysninger om rejsende</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Oplysninger om den primære rejsende</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Gemt</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Rediger</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Vælg kontakt</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Tilføj ny rejsende</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Gemte kort</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Tilføj nyt kort</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Oplysninger om gæst</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1529,22 @@
     <string name="add_insurance">Tilføj forsikring</string>
     <!-- Insurance -->
     <string name="insurance">Forsikring</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Fordi du har reserveret en flyrejse</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">Spar op til 55% på et hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">Du kan spare %s, hvis du reserverer dit hotel nu!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Tilbuddet udløber om</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d dage</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Tilføj hotel</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">med rabat</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1702,6 +1769,8 @@
     <string name="mobile_exclusive">Eksklusivt for mobil</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Kun i aften!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Sponsoreret</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Vi beklager, men vi kan ikke søge efter hotelophold på mere end %1$s dage.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,7 +1787,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">For at bruge Min Placering skal du først gå til Indstillinger og tænde for en placeringskilde.\nVil du gå til Indstillinger og tænde for den nu?</string>
+    <string name="EnableLocationSettings">For at anvende din aktuelle placering skal du først gå til Indstillinger og aktivere en placeringskilde.\n\nVil du gå til Indstillinger og aktivere nu?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Din placeringssøger er deaktiveret. Genstart den venligst for at søge efter din aktuelle placering.</string>
 
@@ -1947,6 +2016,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Anmeldelserne er midlertidigt utilgængelige</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Reserver nu, betal senere</string>
+    <string name="etp_payment_options_text">Dine betalingsmuligheder på hotellet</string>
+    <string name="etp_pay_later_option_text">Betal senere</string>
+    <string name="etp_pay_later_charges_text">Du vil ikke blive opkrævet betaling forud for dit ophold, medmindre et depositum er påkrævet.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Betal hotellet direkte i hotellets lokale valuta (%s).</string>
+    <string name="etp_pay_later_payment_info_text">Betalingsoplysninger bruges kun til at holde din reservation.</string>
+    <string name="etp_pay_later_cancellation_text">Det er gratis at afbestille frem til hotellets afbestillingsfrist.</string>
+    <string name="etp_pay_now_option_text">Betal online nu</string>
+    <string name="etp_pay_now_charges_text">Expedia behandler dine betalingsoplysninger.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">Du betaler i din lokale valuta (%s).</string>
+    <string name="etp_pay_now_cancellation_text">Det er gratis at afbestille frem til hotellets afbestillingsfrist.</string>
+    <string name="etp_select_room">Vælg værelse</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1992,6 +2075,13 @@
     <string name="free_cancellation">Gratis afbestilling</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">Disse gebyrer er ikke inkluderet i det samlede beløb</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Hotelgebyrer for dette ophold</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Inkluderet i prisen</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Ikke inkluderet i prisen</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renoveringsmeddelelse</string>
     <!-- This property is undergoing renovations -->
@@ -2183,7 +2273,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Beskyttelse af personlige oplysninger</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Du er logget ud og oplysningerne er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2605,11 +2695,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Køb med Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Få <b>10% rabat</b> med Google Wallet!</string>
+    <string name="wallet_promo_offer">Spar <b>$50</b> på <b>en tur på over $200</b> med Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Du har sparet 10% ved at bruge Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Du har sparet $50 ved at bruge Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Der kan kun anvendes én kupon pr. reservation. Vi har erstattet din tidligere kupon med 10% rabat for at bruge Google Wallet.</string>
+    <string name="coupon_replaced_message">Der kan kun anvendes én kupon pr. reservation. Vi har erstattet din tidligere kupon med rabatten på $50 for at bruge Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Tilføjer Google Wallet-rabatten…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2707,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Vilkår og betingelser for Google Wallet-kuponen</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Kuponen skal indløses via Expedia Android-app\&apos;en på rejser mellem 17. juni 2013 og 31. december 2013. Dette tilbud er fra Expedia.dk og er kun gyldigt for danske Expedia.dk-kunder.\n\nReservationer er med forbehold for ledige værelser på hoteller til Expedia-priser på reservationstidspunktet og alle gældende vilkår og betingelser. Kuponen kan ikke anvendes sammen med andre kuponer, kampagnetilbud eller særtilbud. Kuponkoden kan ikke indløses til brug for skatter, leverandørgebyrer, afbestillings- og ændringsgebyrer, administreringsgebyrer eller andre opkrævninger, som kunden alene er ansvarlig for. Hvis du ændrer eller afbestiller en del af din reservation, vil kuponen ikke gælde for den ændrede rejseplan.\n\nVilkår og betingelser for denne kupon er som skrevet og kan ikke ændres i nogen form for repræsentation af ikke-berettiget personer, inklusive medarbejdere hos Expedia, Inc. Kuponen kan ikke overføres og kan ikke indløses mod kontanter. Ugyldig, hvor det er forbudt ved lov. Expedia, Inc. kan til enhver tid tilbagekalde eller ændre dette tilbud.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Beklager, men Google Wallet-rabatten gælder kun for rejser, der foretages i 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Vis i Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Indlæs i Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Download Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Tilbud: Modtag en rabatkupon med $50 til et hotelophold. Prisen skal være på mindst $200, før reservationen kvalificerer sig. Sådan indløser du rabatten: Vælg et gyldigt hotelophold. Vælg “Køb med Google wallet” på betalingssiden. Kuponen skal indløses via Expedias Android-app inden d. 31. december 2014 kl. 11:59 PM (Pacific Time) på rejser mellem nu og d. 31. marts 2015. Tidsbegrænset tilbud: Kan ændres uden varsel. Der er en begrænsning på en (1) kupon pr. brugerkonto og pr. gyldige hotelreservation. Dette tilbud er fra Expedia.com og er kun gyldigt for amerikanske brugere af Expedia.coms Android-app. Tilbuddet gælder ikke for kunder, som er tilknyttet Expedias Travel Agent Affiliate Program. Kuponen er kun gyldig på Expedias kvalificerede hoteller. Reservationerne er underlagt ændringer, og samtlige vilkår og betingelser er gældende. Kuponen kan ikke anvendes sammen med andre kuponer, kampagnetilbud eller særtilbud. Kuponkoden kan ikke indløses til brug for skatter, leverandørgebyrer, afbestillings- og ændringsgebyrer, administrationsgebyrer eller andre opkrævninger, som kunden alene er ansvarlig for. En kupon anses som værende brugt fuldt ud, når en gyldig reservation er foretaget. Kuponen kan ikke genbruges. Hvis du ændrer eller afbestiller en del af din reservation, vil kuponen ikke gælde for den ændrede rejseplan. Vilkår og betingelser for denne kupon er som skrevet og kan ikke ændres i nogen form for repræsentation af ikke-berettigede personer, inklusive medarbejdere hos Expedia, Inc. Kuponen kan ikke overføres og kan ikke indløses mod kontanter. Expedia, Inc. kan til enhver tid tilbagekalde eller ændre dette tilbud. Ugyldig, hvor det er forbudt ved lov.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">Denne kupon kan kun bruges, hvis du vælger Google Wallet som din betalingsform.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3052,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Søgeresultater for flyrejser</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Tryk på knappen for at betale nu</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Tryk på knappen for at betale senere</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Dit hotel er reserveret!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Din flyrejse er reserveret!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Rejseplansnummer %1$s er sendt til %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3104,10 @@
     <string name="tablet_mismatched_products_message">Du har valgt forskellige datoer for dit hotelophold og din flyrejse. Vil du fjerne dit nuværende hotelvalg og søge efter hoteller med datoer, der matcher dine flyrejser?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Ja</string>
+    <!-- Dialog negative button message -->
+    <string name="no">Nej</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Book hoteller, flyrejser og se/del dine rejseplaner. Download Travelocitys gratis mobil-app i dag.\n%s</string>
-    <string name="fees_paid_at_hotel">Gebyrer der betales på hotellet:</string>
-    <string name="total_due_to_expedia_today">Samlet beløb der skal betales til Expedia i dag:</string>
-    <string name="hotel_fees_for_this_stay">Hotelgebyrer for dette ophold</string>
-    <string name="included_in_the_price">Inkluderet i prisen</string>
-    <string name="not_included_in_the_price">Ikke inkluderet i prisen</string>
-    <string name="tablet_room_rate_resort_fees_included_template">Hotelgebyrer for dette ophold (inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">Hotelgebyrer for dette ophold (ikke inkluderet): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">Send e-mail…</string>
 
 </resources>

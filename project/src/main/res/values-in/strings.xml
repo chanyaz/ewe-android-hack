@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">Waktu pengambilan</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">Waktu pengembalian</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Masukkan destinasi Anda</string>
@@ -195,10 +201,20 @@
     <string name="all_airports">Semua Bandara</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Bayar Belakangan</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Bayar Sekarang</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Untuk Dibayar Sekarang</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%s Total</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/malam</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Biaya hotel tambahan untuk waktu menginap ini: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Biaya hotel untuk perjalanan ini (sudah termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Biaya hotel untuk perjalanan ini (belum termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Tambahkan ke Perjalanan</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -238,10 +254,12 @@
     <string name="round_trip">Pulang-Pergi</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Total Harga</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Memproses perjalanan …</string>
+    <string name="spinner_text_hotel_create_trip">Memproses perjalanan…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -278,6 +296,12 @@
     <string name="link_accounts">Hubungkan Akun</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Tak berhasil mengambil informasi pengguna terbaru.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Berikan Izin Email</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">Izin Email</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">Untuk login dengan Facebook, kami memerlukan izin untuk memverifikasi alamat email Anda. \n\nSilakan ketuk tombol Facebook di bawah ini untuk memberi izin pada Expedia untuk memverifikasi alamat email Anda. Terima kasih!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
     <!-- Log In -->
@@ -328,6 +352,8 @@
     <string name="explore_now">Cari Sekarang</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Pencarian Anda</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Promo di Sekitar Anda Malam Ini</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s Item</item>
@@ -590,13 +616,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Sembunyikan</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Sembunyikan Terus</string>
+    <string name="itin_button_hide_forever">Tutup Semua</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Tambah hotel di %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Tambahkan hotel di destinasi Anda</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Tambahkan hotel</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Bicarakan dengan Local Expert</string>
@@ -1196,12 +1225,16 @@
     <string name="best_price_guarantee">Garansi Harga Terbaik</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan gratis&lt;/b&gt; sebelum &lt;b&gt;%s pukul &lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Biaya Resor:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Untuk dibayar ke Expedia sekarang:</string>
     <!-- Log out -->
     <string name="log_out">Keluar</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Anda akan mendapatkan %1$s poin untuk perjalanan ini!</string>
+    <string name="youll_earn_points_TEMPLATE">Anda akan mendapat %1$s poin dari pemesanan ini!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; poin untuk perjalanan ini!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Anda akan mendapatkan %1$s poin untuk perjalanan ini!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Anda akan mendapatkan poin bonus untuk pemesanan ini</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1218,6 +1251,12 @@
     <string name="please_use_the_roman_alphabet">Gunakan abjad Romawi</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Masukkan alamat email yang valid</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Untuk Dibayar di Hotel Nanti:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">Untuk Dibayar ke Expedia Sekarang:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Total biaya perjalanan Anda adalah &lt;b&gt;%2$s&lt;/b&gt;.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1297,18 @@
     <string name="enter_traveler_info">Informasi Traveler</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Rincian traveler utama</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Tersimpan</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Ubah</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Pilih Kontak</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Tambah Traveler Baru</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Kartu Tersimpan</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Tambahkan Kartu Baru</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Rincian tamu</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1529,22 @@
     <string name="add_insurance">Tambah Asuransi</string>
     <!-- Insurance -->
     <string name="insurance">Asuransi</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Karena Anda memesan penerbangan</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">Hemat hingga 55% untuk hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">Anda akan menghemat %s jika Anda memesan hotel sekarang juga!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Penawaran berakhir dalam</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d hari</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Tambahkan Hotel</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">dengan diskon</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1702,6 +1769,8 @@
     <string name="mobile_exclusive">Eksklusif Mobile</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Hanya Malam Ini!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Sponsor</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Maaf, kami tidak bisa mencari hotel untuk menginap lebih dari %1$s hari.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,7 +1787,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, Anda harus mengaktifkan sumber Lokasi di Pengaturan terlebih dulu.\nBuka Pengaturan dan aktifkan sekarang?</string>
+    <string name="EnableLocationSettings">Untuk menggunakan Lokasi Saat Ini, harap aktifkan terlebih dulu Lokasi di Pengaturan perangkat Anda.\n\nBuka Pengaturan dan aktifkan sekarang?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Penyedia lokasi Anda telah dinonaktifkan. Aktifkan kembali untuk melakukan pencarian berdasarkan lokasi Anda.</string>
 
@@ -1947,6 +2016,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Ulasan untuk sementara tidak tersedia</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Pesan Sekarang, Bayar Belakangan</string>
+    <string name="etp_payment_options_text">Opsi pembayaran hotel Anda</string>
+    <string name="etp_pay_later_option_text">Bayar belakangan</string>
+    <string name="etp_pay_later_charges_text">Biaya tidak akan ditarik sampai masa inap Anda nanti, kecuali jika diperlukan deposit.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Bayar hotel langsung, dalam mata uang lokal Anda (%s).</string>
+    <string name="etp_pay_later_payment_info_text">Info pembayaran diperlukan hanya untuk menjamin pemesanan Anda.</string>
+    <string name="etp_pay_later_cancellation_text">Pembatalan gratis, asal sebelum batas periode pembatalan hotel.</string>
+    <string name="etp_pay_now_option_text">Bayar online sekarang</string>
+    <string name="etp_pay_now_charges_text">Expedia akan memproses rincian pembayaran Anda.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">Anda akan membayar dalam mata uang lokal Anda %s.</string>
+    <string name="etp_pay_now_cancellation_text">Pembatalan gratis, asal sebelum batas periode pembatalan hotel.</string>
+    <string name="etp_select_room">Pilih Kamar</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1992,6 +2075,13 @@
     <string name="free_cancellation">Pembatalan Gratis</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">Biaya ini tidak termasuk dalam total</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Biaya hotel untuk perjalanan ini</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Sudah termasuk dalam harga</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Belum termasuk dalam harga</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Pemberitahuan Renovasi</string>
     <!-- This property is undergoing renovations -->
@@ -2183,7 +2273,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Kebijakan Privasi</string>
     <!-- Copyright information -->
-    <string name="copyright">© Hak cipta 2012-2015 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
+    <string name="copyright_TEMPLATE">© Hak cipta 2012-%1$s Expedia, Inc.\nSemua hak dilindungi undang-undang.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Anda sudah keluar dan data sudah dihapus</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2605,11 +2695,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Beli dengan Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Dapatkan <b>diskon 10%</b> dengan Google Wallet!</string>
+    <string name="wallet_promo_offer">Hemat <b>$50</b> untuk perjalanan senilai <b>lebih dari $200</b> dengan Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Anda menghemat 10% dengan menggunakan Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Anda menghemat $50 dengan Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami sudah mengganti kupon Anda sebelumnya dengan diskon 10% untuk penggunaan Google Wallet.</string>
+    <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami mengganti kupon Anda yang sebelumnya dengan diskon $50 untuk penggunaan Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Menerapkan diskon Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2707,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Syarat &amp; Ketentuan Kupon Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Kupon harus ditukarkan di aplikasi Expedia Android untuk perjalanan antara tanggal 17 Juni 2013 hingga 31 Desember 2013. Penawaran ini diberikan oleh Expedia.com dan hanya berlaku untuk pelanggan Amerika Serikat Expedia.com saja.\n\nPemesanan tergantung pada ketersediaan di hotel Expedia Rate pada saat memesan dan tergantung pada semua syarat dan ketentuan yang berlaku. Kupon kemungkinan tidak bisa digunakan dengan kupon, promosi, atau penawaran khusus lainnya. Diskon kupon tidak bisa diterapkan pada pajak, biaya yang dikenakan suplier, denda pembatalan atau perubahan, biaya administrasi, atau biaya lainnya, yang merupakan tanggung jawab pelanggan. Apabila Anda mengubah atau membatalkan sebagian pemesanan, kupon tidak akan berlaku untuk jadwal perjalanan yang baru.\n\nSyarat dan ketentuan kupon ini adalah seperti yang tertulis dan tidak bisa diubah oleh perwakilan pihak yang tidak berwenang, termasuk oleh karyawan Expedia, Inc. Kupon tidak bisa dipindahtangankan dan tidak bisa ditukarkan dengan uang tunai. Tidak berlaku jika dilarang oleh undang-undang setempat. Expedia, Inc. dapat membatalkan atau mengubah penawaran ini sewaktu-waktu.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Maaf, diskon Google Wallet hanya berlaku untuk perjalanan yang terjadi di 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Lihat di Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Masukkan ke Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Download Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Penawaran: Dapatkan diskon kupon cepat $50 untuk menginap di hotel. Harga pemesanan yang memenuhi syarat minimum harus $200. Cara menukar: Pilih waktu menginap di hotel yang memenuhi syarat. Pada halaman checkout, gunakan "Beli dengan Google" saat checkout. Kupon harus ditukar di aplikasi Expedia Android pada jam 23.59 (Waktu Pasifik) pada tanggal 31 Desember 2014 untuk perjalanan mulai dari sekarang hingga 31 Maret 2015. Penawaran periode terbatas: subjek untuk diganti Batas 1 (satu) kupon untuk setiap akun pengguna dan untuk setiap pemesanan hotel yang memenuhi syarat Penawaran ini diberikan oleh Expedia.com dan hanya berlaku untuk pelanggan aplikasi Android Expedia.com AS. Pelanggan yang berafiliasi dengan Program Afiliasi Agen Wisata Expedia tidak memenuhi syarat untuk penawaran. Kupon hanya berlaku untuk Tarif Hotel Expedia yang memenuhi syarat. Subjek pemesanan bergantung pada ketersediaan serta semua syarat dan ketentuan. Kupon kemungkinan tidak bisa digunakan dengan kupon, promosi, atau penawaran khusus lainnya. Diskon kupon tidak bisa diterapkan pada pajak, biaya yang dikenakan suplier, denda pembatalan atau perubahan, biaya administrasi, atau biaya lainnya, yang merupakan tanggung jawab pelanggan. Kupon akan dianggap telah ditukar seluruhnya setelah pemesanan yang memenuhi syarat dibuat dan tidak dapat digunakan kembali. Bila Anda mengubah atau membatalkan sebagian pemesanan, kupon tidak akan berlaku untuk jadwal perjalanan yang diganti. Syarat dan ketentuan kupon ini adalah seperti yang tertulis dan tidak bisa diubah oleh perwakilan pihak yang tidak berwenang, termasuk oleh karyawan Expedia, Inc. Kupon tidak bisa dipindahtangankan dan tidak bisa ditukarkan dengan uang tunai. Expedia, Inc. dapat membatalkan atau mengubah penawaran ini sewaktu-waktu. Tidak berlaku jika dilarang oleh undang-undang setempat.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">Kupon ini mungkin hanya berlaku saat memilih Google Wallet sebagai bentuk pembayaran Anda.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3052,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Hasil Pencarian Penerbangan</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Tekan tombol ini untuk membayar sekarang</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Tekan tombol ini untuk membayar belakangan</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Hotel Anda telah dipesan!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Penerbangan Anda telah dipesan!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Itinerary nomor %1$s telah dikirim ke %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3104,10 @@
     <string name="tablet_mismatched_products_message">Tanggal yang Anda pilih untuk hotel dan penerbangan Anda tidak sama. Apakah Anda ingin menghapus pilihan hotel Anda saat ini dan mencari hotel lain yang tanggalnya sama dengan penerbangan Anda?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Ya</string>
+    <!-- Dialog negative button message -->
+    <string name="no">Tidak</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Pesan hotel, penerbangan, lalu lihat dan bagikan itinerary Anda. Download aplikasi mobile Travelocity gratis sekarang juga.\n%s</string>
-    <string name="hotel_fees_for_this_stay">Biaya hotel untuk masa inap ini</string>
-    <string name="included_in_the_price">Sudah termasuk dalam harga</string>
-    <string name="not_included_in_the_price">Belum termasuk dalam harga</string>
-    <string name="tablet_room_rate_resort_fees_included_template">Biaya hotel untuk masa inap ini (sudah termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">Biaya hotel untuk masa inap ini (belum termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="fees_paid_at_hotel">Untuk Dibayar di Hotel Nanti:</string>
-    <string name="total_due_to_expedia_today">Untuk Dibayar ke Expedia Sekarang:</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">Mengirim email…</string>
 
 </resources>

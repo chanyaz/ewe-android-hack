@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">Ora del ritiro</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">Ora della riconsegna</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Inserisci la tua destinazione</string>
@@ -195,10 +201,20 @@
     <string name="all_airports">Tutti gli aeroporti</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Paga in hotel</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Paga ora</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Da pagare ora</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%sTotale</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/notte</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Ulteriori costi aggiuntivi dell\&apos;hotel per questo soggiorno: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Costi hotel per questo soggiorno (inclusi): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Costi hotel per questo soggiorno (non inclusi): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Aggiungi al viaggio</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -238,6 +254,8 @@
     <string name="round_trip">Andata e ritorno</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Totale</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Totale del viaggio</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -278,6 +296,12 @@
     <string name="link_accounts">Collega gli account</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Impossibile recuperare dati utente aggiornati.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Concedi autorizzazione e-mail</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">Autorizzazione e-mail</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">Per effettuare l\&apos;accesso a Facebook, abbiamo bisogno dell\&apos;autorizzazione a verificare il tuo indirizzo e-mail. \n\nClicca sul pulsante Facebook in basso per autorizzare Expedia a verificare il tuo indirizzo e-mail. Grazie!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Stiamo collegando il tuo account…</string>
     <!-- Log In -->
@@ -328,6 +352,8 @@
     <string name="explore_now">Esplora subito</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">La tua ricerca</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Offerte nelle vicinanze per questa sera</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s prodotti</item>
@@ -590,13 +616,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Nascondi</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Nascondi sempre</string>
+    <string name="itin_button_hide_forever">Nascondi tutto</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Aggiungi un hotel a %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Aggiungi un hotel presso la tua destinazione</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Aggiungi un hotel</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Contatta un esperto locale</string>
@@ -1196,12 +1225,16 @@
     <string name="best_price_guarantee">Garanzia Allineamento Prezzi</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Cancellazione gratuita&lt;/b&gt; entro &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Tariffa resort:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Totale dovuto oggi a Expedia:</string>
     <!-- Log out -->
     <string name="log_out">Disconnessione da</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Per questo viaggio riceverai %1$s crediti!</string>
+    <string name="youll_earn_points_TEMPLATE">Per questa prenotazione riceverai %1$s crediti!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">Per questo viaggio riceverai &lt;b&gt;%1$s&lt;/b&gt; crediti!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Per questo viaggio riceverai %1$s crediti!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Per questo viaggio riceverai crediti bonus!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1218,6 +1251,12 @@
     <string name="please_use_the_roman_alphabet">Usa l\&apos;alfabeto latino</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Inserisci un indirizzo e-mail valido.</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Costi pagati in hotel:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">Totale dovuto oggi a Expedia:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">La tariffa resort di &lt;b&gt;%1$s&lt;/b&gt; va pagata direttamente in hotel. Il costo totale del tuo soggiorno sarà di &lt;b&gt;%2$s&lt;/b&gt;.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1297,18 @@
     <string name="enter_traveler_info">Dati viaggiatore</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Dettagli del viaggiatore principale</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Salvati</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Modifica</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Seleziona contatto</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Aggiungi un nuovo viaggiatore</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Carte salvate</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Aggiungi una nuova carta</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Dettagli ospite</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1529,22 @@
     <string name="add_insurance">Aggiungi assicurazione</string>
     <!-- Insurance -->
     <string name="insurance">Assicurazione</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Per aver prenotato un volo</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">Risparmi fino al 55% su un hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">Risparmi %s prenotando il tuo hotel ora!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">L\&apos;offerta scade tra</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d giorni</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Aggiungi hotel</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">con lo sconto</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1702,6 +1769,8 @@
     <string name="mobile_exclusive">Esclusiva mobile</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Solo per questa notte!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Sponsorizzati</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Siamo spiacenti, ma non siamo in grado di cercare soggiorni in hotel superiori a %1$s giorni.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,7 +1787,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Per utilizzare La mia posizione, devi prima attivare l\&apos;origine delle informazioni sulla posizione dalle Impostazioni.\nPassare a impostazioni e attivare ora?</string>
+    <string name="EnableLocationSettings">Per ricercare la posizione attuale, devi prima attivare l\&apos;origine delle informazioni sulla posizione dalle Impostazioni.\n\nPassare a impostazioni e attivare ora?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Il tuo provider è disabilitato. Abilita il provider per determinare la tua posizione.</string>
 
@@ -1947,6 +2016,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Al momento le recensioni non sono disponibili</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Prenota subito, paga in hotel</string>
+    <string name="etp_payment_options_text">Opzioni di pagamento per l\&apos;hotel</string>
+    <string name="etp_pay_later_option_text">Paga in hotel</string>
+    <string name="etp_pay_later_charges_text">Non ti verrà addebitato alcun importo prima del tuo soggiorno, a meno che non sia richiesto il versamento di un deposito.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Paga direttamente in hotel nella valuta locale della struttura (%s).</string>
+    <string name="etp_pay_later_payment_info_text">Le informazioni per il pagamento sono richieste al solo scopo di mantenere la prenotazione.</string>
+    <string name="etp_pay_later_cancellation_text">La cancellazione è gratuita, se avviene entro i termini di cancellazione previsti dall\&apos;hotel.</string>
+    <string name="etp_pay_now_option_text">Paga ora online</string>
+    <string name="etp_pay_now_charges_text">Expedia si occuperà di elaborare i dettagli relativi al pagamento.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">Il costo verrà corrisposto nella tua valuta locale (%s).</string>
+    <string name="etp_pay_now_cancellation_text">La cancellazione è gratuita, se avviene entro i termini di cancellazione previsti dall\&apos;hotel.</string>
+    <string name="etp_select_room">Scegli la camera</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1992,6 +2075,13 @@
     <string name="free_cancellation">Cancellazione gratuita</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">Questi oneri non sono inclusi nell\&apos;importo totale</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Costi hotel per questo soggiorno</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Inclusi nel prezzo</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Non inclusi nel prezzo</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Avviso importante</string>
     <!-- This property is undergoing renovations -->
@@ -2121,27 +2211,27 @@
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Siamo spiacenti, ma questo coupon non è valido.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto .</string>
+    <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto. .</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Si è verificato un problema. Riprova in seguito. .</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Siamo spiacenti, ma questo codice coupon è già stato utilizzato.</string>
+    <string name="coupon_error_duplicate">Siamo spiacenti, ma questo codice coupon è già stato utilizzato..</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Si è verificato un problema. Riprova in seguito..</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Impossibile applicare il coupon perché il costo della prenotazione è cambiato. Controlla il totale aggiornato e riprova.</string>
+    <string name="coupon_error_price_change">Impossibile applicare il coupon perché il costo della prenotazione è cambiato. Controlla il totale aggiornato e riprova..</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Siamo spiacenti, ma questo coupon è valido per un altro paese.</string>
+    <string name="coupon_error_invalid_region">Siamo spiacenti, ma questo coupon è valido per un altro paese. .</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Siamo spiacenti, ma non hai selezionato il numero minimo di notti richiesto.</string>
+    <string name="coupon_error_min_stay_not_met">Siamo spiacenti, ma non hai selezionato il numero minimo di notti richiesto..</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Siamo spiacenti, ma il coupon non è valido per le date selezionate .</string>
+    <string name="coupon_error_invalid_travel_dates">Siamo spiacenti, ma il coupon non è valido per le date selezionate. .</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
+    <string name="coupon_error_invalid_product">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon. .</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Siamo spiacenti, ma la prenotazione non soddisfa i requisiti minimi di spesa previsti.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Siamo spiacenti, ma l\&apos;hotel selezionato non soddisfa i requisiti minimi di spesa previsti..</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
+    <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon..</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Spiacenti, il coupon non può essere utilizzato.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
@@ -2183,7 +2273,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Informativa sulla Privacy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nTutti i diritti riservati.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nTutti i diritti riservati.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Uscita effettuata e dati eliminati</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2605,11 +2695,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Acquista con Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Ricevi <b>uno sconto del 10%</b> con Google Wallet!</string>
+    <string name="wallet_promo_offer">Risparmia <b>50$</b> su un viaggio di <b>almeno 200$</b> con Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Hai risparmiato il 10% utilizzando Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Hai risparmiato 50$ utilizzando Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto del 10% per aver utilizzato Google Wallet.</string>
+    <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto di 50$ per aver utilizzato Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Stiamo applicando lo sconto di Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2707,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Termini e condizioni dei coupon di Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">I coupon devono essere utilizzati nell\&apos;app Android di Expedia per viaggi dal 17 giugno 2013 al 31 dicembre 2013. Quest\&apos;offerta è promossa da Expedia.com ed è valida solo per i clienti di Expedia.com negli Stati Uniti.\n\nLe prenotazioni sono soggette a disponibilità presso gli hotel con tariffa Expedia al momento della prenotazione e a tutti i termini e le condizioni applicabili. I coupon non possono essere cumulati, né utilizzati con altre promozioni o offerte speciali. Lo sconto coupon non può essere applicato per tasse, commissioni addebitate dal fornitore, penali di cancellazione o modifica, spese amministrative e altri oneri che sono di esclusiva responsabilità del cliente. Nel caso in cui si modifichino o si annullino parti della prenotazione, il coupon non si applica al programma di viaggio modificato.\n\nI termini e le condizioni del presente coupon sono come descritti e non possono essere modificati da persone non autorizzate, compresi i dipendenti di Expedia, Inc. Il coupon non è trasferibile né convertibile in denaro. Non valido laddove proibito dalla legge. Expedia, Inc. può revocare e modificare questa offerta in qualsiasi momento.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Spiacenti, ma lo sconto per pagamenti con Google Wallet è valido solo per i viaggi effettuati nel 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Visualizza in Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Carica su Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Scarica Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Offerta: ricevi subito un coupon sconto di 50$ per soggiorni in hotel. Per approfittare dell\&apos;offerta, l\&apos;importo della prenotazione deve essere pari a $200. Come utilizzare il coupon: seleziona l\&apos;hotel di tua scelta. Scegli l\&apos;opzione "Acquista con Google Wallet" per effettuare il pagamento. I coupon devono essere utilizzati prenotando con l\&apos;app Expedia per Android entro le 23:59 (Fuso orario del Pacifico) del 31 dicembre 2014, per viaggi fino al 31 marzo 2015. Offerta a tempo limitato e soggetta a modifiche. Limite di un (1) coupon per utente per prenotazioni in hotel che aderiscono all\&apos;iniziativa. Quest\&apos;offerta è promossa da Expedia.com ed è valida solo per i clienti di Expedia.com degli Stati Uniti che usano l\&apos;app per Android. L\&apos;offerta non è valida per gli utenti iscritti al Programma Speciale Agenzie (TAAP) di Expedia. I coupon sono validi solo per prenotazioni di hotel con tariffa Expedia che aderiscono all\&apos;iniziativa. La prenotazioni sono soggette a disponibilità. Si applicano termini e condizioni. I coupon non possono essere cumulati, né utilizzati con altre promozioni o offerte speciali. Lo sconto coupon non può essere applicato per tasse, commissioni addebitate dal fornitore, penali di cancellazione o modifica, spese amministrative e altri oneri che sono di esclusiva responsabilità del cliente. Il coupon sarà considerato pienamente riscattato nel momento in cui verrà effettuata una prenotazione che rientra nell\&apos;offerta. Il codice promozionale non può essere utilizzato una seconda volta. Nel caso in cui si modifichino o si annullino parti della prenotazione, il coupon non si applica al programma di viaggio modificato. I termini e le condizioni del presente coupon sono come descritti e non possono essere modificati da persone non autorizzate, compresi i dipendenti di Expedia, Inc. Il coupon non è trasferibile né convertibile in denaro. Expedia, Inc. può revocare e modificare questa offerta in qualsiasi momento. Non valido laddove proibito dalla legge.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">Questo coupon può essere utilizzato solo selezionando Google Wallet come metodo di pagamento.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3052,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Risultati della ricerca voli</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Clicca sul pulsante per pagare ora</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Clicca sul pulsante per pagare in hotel</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Hotel prenotato!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Volo prenotato!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Itinerario #%1$s inviato all\&apos;indirizzo %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3104,10 @@
     <string name="tablet_mismatched_products_message">Le date selezionate per il soggiorno in hotel e il volo non corrispondono. Desideri eliminare l\&apos;hotel selezionato e cercare un\&apos;altra sistemazione per le date dei tuoi voli?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Sì</string>
+    <!-- Dialog negative button message -->
+    <string name="no">No</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Prenota hotel, voli e visualizza e condividi i tuoi itinerari. Scarica subito l\&apos;app gratuita di Travelocity per dispositivi mobili.\n%s</string>
-    <string name="fees_paid_at_hotel">Costi pagati in hotel:</string>
-    <string name="total_due_to_expedia_today">Totale dovuto oggi a Expedia:</string>
-    <string name="hotel_fees_for_this_stay">Costi hotel per questo soggiorno</string>
-    <string name="included_in_the_price">Inclusi nel prezzo</string>
-    <string name="not_included_in_the_price">Non inclusi nel prezzo</string>
-    <string name="tablet_room_rate_resort_fees_included_template">Costi hotel per questo soggiorno (inclusi): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">Costi hotel per questo soggiorno (non inclusi): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">Invia e-mail…</string>
 
 </resources>
