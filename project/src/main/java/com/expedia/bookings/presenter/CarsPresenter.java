@@ -100,41 +100,28 @@ public class CarsPresenter extends FrameLayout {
 	}
 
 	private void setState(CarsState state) {
+		widgetCarParams.setVisibility(View.GONE);
+		carProgressIndicator.setVisibility(View.GONE);
+		carCategoryList.setVisibility(View.GONE);
+		detailsWidget.setVisibility(View.GONE);
+		checkoutWidget.setVisibility(View.GONE);
+
 		switch (state) {
 		case SEARCH:
 			widgetCarParams.setVisibility(View.VISIBLE);
-			carProgressIndicator.setVisibility(View.GONE);
-			carCategoryList.setVisibility(View.GONE);
-			detailsWidget.setVisibility(View.GONE);
-			checkoutWidget.setVisibility(View.GONE);
 			break;
 		case LOADING:
-			widgetCarParams.setVisibility(View.INVISIBLE);
 			carProgressIndicator.setVisibility(View.VISIBLE);
-			carCategoryList.setVisibility(View.GONE);
-			detailsWidget.setVisibility(View.GONE);
-			checkoutWidget.setVisibility(View.GONE);
+			break;
 		case RESULTS:
-			widgetCarParams.setVisibility(View.INVISIBLE);
-			carProgressIndicator.setVisibility(View.INVISIBLE);
 			carCategoryList.setVisibility(View.VISIBLE);
-			detailsWidget.setVisibility(View.GONE);
-			checkoutWidget.setVisibility(View.GONE);
 			break;
 		case DETAILS:
 			detailsWidget.setCategorizedOffers(state.offers);
-			widgetCarParams.setVisibility(View.GONE);
-			carProgressIndicator.setVisibility(View.GONE);
-			carCategoryList.setVisibility(View.GONE);
 			detailsWidget.setVisibility(View.VISIBLE);
-			checkoutWidget.setVisibility(View.GONE);
 			break;
 		case CHECKOUT:
 			checkoutWidget.setOffer(state.offer);
-			widgetCarParams.setVisibility(View.INVISIBLE);
-			carProgressIndicator.setVisibility(View.INVISIBLE);
-			carCategoryList.setVisibility(View.INVISIBLE);
-			detailsWidget.setVisibility(View.INVISIBLE);
 			checkoutWidget.setVisibility(View.VISIBLE);
 			break;
 		default:
