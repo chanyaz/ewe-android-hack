@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">Ophaaltijd</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">Inlevertijd</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Voer je bestemming in</string>
@@ -195,10 +201,20 @@
     <string name="all_airports">Alle luchthavens</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Betaal later</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Betaal nu</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Nu te betalen</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%s in totaal</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nacht</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Extra hoteltoeslagen voor dit verblijf: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Hoteltoeslagen voor dit verblijf (inbegrepen): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hoteltoeslagen voor dit verblijf (niet inbegrepen): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Aan reis toevoegen</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -238,6 +254,8 @@
     <string name="round_trip">Retourreis</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Totaal</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Totaal reis</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -278,6 +296,12 @@
     <string name="link_accounts">Accounts koppelen</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Bijgewerkte gebruikersgegevens ophalen mislukt.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">E-mailtoestemming geven</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">E-mailtoestemming</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">Om je te kunnen aanmelden bij Facebook, hebben wij je toestemming nodig om je e-mailadres te controleren. \n\nTik op de onderstaande Facebook-knop om Expedia toestemming te geven je e-mailadres te controleren. Hartelijk bedankt.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Accounts aan het koppelen…</string>
     <!-- Log In -->
@@ -328,9 +352,11 @@
     <string name="explore_now">Verken nu</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Je zoekopdracht</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Lokale deals voor vandaag</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
-        <item quantity="zero">%s producten</item>
+        <item quantity="zero">%s items</item>
         <item quantity="one">%s product</item>
         <item quantity="two">%s producten</item>
         <item quantity="few">%s producten</item>
@@ -590,13 +616,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Verbergen</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Altijd verbergen</string>
+    <string name="itin_button_hide_forever">Alles verbergen</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Hotel toevoegen in %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Voeg een hotel toe op je bestemming</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Hotel toevoegen</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Spreek met een Local Expert</string>
@@ -1196,12 +1225,16 @@
     <string name="best_price_guarantee">Prijsgarantie</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis annulering&lt;/b&gt; tot &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Resorttoeslag:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Nu te betalen aan Expedia:</string>
     <!-- Log out -->
     <string name="log_out">Afmelden</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
+    <string name="youll_earn_points_TEMPLATE">Je verdient %1$s bonuspunten voor deze boeking!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; punten voor deze reis!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Je verdient bonuspunten voor deze reis</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1218,6 +1251,12 @@
     <string name="please_use_the_roman_alphabet">Gebruik alleen latijnse tekens</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Voer een geldig e-mailadres in</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Toeslagen verrekend in hotel:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">Totaal nu te betalen aan Expedia:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">De resortkosten van &lt;b&gt;%1$s&lt;/b&gt; worden in het hotel verrekend. Het totaal voor je verblijf is &lt;b&gt;%2$s&lt;/b&gt;.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1297,18 @@
     <string name="enter_traveler_info">Reizigersinformatie</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Info hoofdreiziger</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Opgeslagen</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Bewerken</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Contact selecteren</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Nieuwe reiziger toevoegen</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Opgeslagen creditcards</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Nieuwe creditcard toevoegen</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Reizigersinfo</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1529,22 @@
     <string name="add_insurance">Verzekering toevoegen</string>
     <!-- Insurance -->
     <string name="insurance">Verzekering</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Omdat je een vlucht hebt geboekt</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">bespaar je tot 55% op een hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">bespaar je %s als je je hotel nu boekt!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Aanbieding verloopt over</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d dagen</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Hotel toevoegen</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">met kortingen</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1702,6 +1769,8 @@
     <string name="mobile_exclusive">Exclusieve mobiele deal</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Alleen vandaag!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Gesponsord</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Helaas, we kunnen geen zoekopdracht doen van meer dan %1$s overnachtingen.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,7 +1787,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar" Locatie en beveiliging" gaan in Instellingen.\nNaar Instellingen gaan en inschakelen?</string>
+    <string name="EnableLocationSettings">Om je huidige locatie te gebruiken dien je het in te schakelen in het menu \&apos;Locatie en beveiliging\&apos;.\n\nNaar Instellingen gaan en inschakelen?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Je locatieprovider is uitgeschakeld. Schakel deze opnieuw in als je op jouw locatie wilt zoeken.</string>
 
@@ -1947,6 +2016,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Boek nu, betaal later</string>
+    <string name="etp_payment_options_text">Jouw betaalmethodes</string>
+    <string name="etp_pay_later_option_text">Betaal later</string>
+    <string name="etp_pay_later_charges_text">Er wordt niets in rekening gebracht tot wanneer je verblijft, tenzij een aanbetaling nodig is.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Betaal het hotel rechtstreeks, in de plaatselijke valuta van het hotel (%s).</string>
+    <string name="etp_pay_later_payment_info_text">De betaalgegevens zijn alleen nodig om je reservering te garanderen.</string>
+    <string name="etp_pay_later_cancellation_text">Annuleren is gratis, tot op de annuleringsdeadline van het hotel.</string>
+    <string name="etp_pay_now_option_text">Betaal nu online</string>
+    <string name="etp_pay_now_charges_text">Expedia verwerkt je betaalgegevens.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">Je betaalt in je lokale valuta (%s).</string>
+    <string name="etp_pay_now_cancellation_text">Annuleren is gratis, tot op de annuleringsdeadline van het hotel.</string>
+    <string name="etp_select_room">Kamer selecteren</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1992,6 +2075,13 @@
     <string name="free_cancellation">Gratis annulering</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">Deze toeslagen zijn niet inbegrepen bij de totaalprijs</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Hoteltoeslagen voor dit verblijf</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Inbegrepen bij de prijs</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovatiewerken</string>
     <!-- This property is undergoing renovations -->
@@ -2183,7 +2273,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nAlle rechten voorbehouden.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAlle rechten voorbehouden.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2603,13 +2693,13 @@
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
     <string name="spending_limit_exceeded">Je hebt je Google Wallet-limiet overschreden</string>
     <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Betalen met Google Wallet</string>
+    <string name="wallet_buy_with_google_wallet">Kopen met Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Profiteer van <b>10% korting</b> met Google Wallet!</string>
+    <string name="wallet_promo_offer">Bespaar <b>$ 50</b> op een <b>$ 200+ reis </b> met Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Je hebt 10%% bespaard met Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Je hebt $ 50 bespaard met Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10% korting voor het gebruik van Google Wallet.</string>
+    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de $ 50 korting voor het gebruik van Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet-korting wordt toegepast…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2707,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Couponvoorwaarden van Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Coupon moet gebruikt worden via de Android Expedia-app voor een reis tussen 17 juni en 31 december 2013. Dit is een aanbieding van Expedia.com en is alleen geldig voor Expedia.com-klanten uit de VS.\n\nboekingen zijn onder voorbehoud van beschikbaarheid bij Expedia Rate-hotels wanneer je boekt en onderhevig aan de toepasselijke voorwaarden en bepalingen. Coupon mag niet gebruikt worden in combinatie met andere coupons, deals of speciale aanbiedingen. De korting kan niet gebruikt worden voor de betaling van belastingen, leverancierstoeslagen, annulerings- of wijzigingskosten en administratieve of andere toeslagen, waarvoor de klant als enige verantwoordelijk is. Als je een deel van je boeking dient te wijzigen of annuleren, dan wordt de coupon niet toegepast op het gewijzigde deel.\n\nDeze couponvoorwaarden kunnen niet gewijzigd worden door enige verklaring van onbevoegde personen, inclusief medewerkers van Expedia, Inc. De coupon kan niet overgedragen of ingewisseld worden voor contanten. De coupon is ongeldig waar deze wettelijk verboden is. Expedia, Inc. kan deze actie altijd intrekken of wijzigen.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Helaas, de Google Wallet-korting is alleen geldig voor boekingen met reisdatums in 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Bekijken in Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Toevoegen aan Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Download Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Aanbieding: Ontvang onmiddellijk $ 50 korting op een hotelverblijf. De prijs van de geldige boeking dient minstens $ 200 te zijn. Gebruiksinstructies: Selecteer een geldig hotelverblijf. Kies \&apos;Kopen met Google Wallet\&apos; op de betalingspagina. De coupon dient gebruikt te worden in de Expedia Android app tegen 23.59 uur (PST) op 31 december 2014 voor een reis tussen nu en 31 maart 2015. Tijdelijke aanbieding: onderhevig aan wijzigingen. Beperkt tot één (1) coupon per gebruikersaccount en per geldige hotelboeking. Dit is een aanbieding van Expedia.com en is alleen geldig voor Expedia.com Android app-klanten uit de VS. Klanten uit Expedia\&apos;s Travel Agent Affiliate Program komen niet in aanmerking voor de aanbieding. De coupon is uitsluitend geldig bij Expedia Rate-hotels. Boekingen zijn onderhevig aan beschikbaarheid en aan alle toepasselijke voorwaarden en bepalingen. Coupon mag niet gebruikt worden in combinatie met andere coupons, deals of speciale aanbiedingen. De korting kan niet gebruikt worden voor de betaling van belastingen, leverancierstoeslagen, annulerings- of wijzigingskosten en administratieve of andere toeslagen, waarvoor de klant als enige verantwoordelijk is. Een coupon wordt geacht volledig gebruikt te zijn wanneer een geldige boeking geplaatst is en kan niet opnieuw gebruikt worden. Als je een deel van je boeking dient te wijzigen of annuleren, dan wordt de coupon niet toegepast op het gewijzigde deel. Deze couponvoorwaarden kunnen niet gewijzigd worden door enige verklaring van onbevoegde personen, inclusief medewerkers van Expedia, Inc. De coupon kan niet overgedragen of ingewisseld worden voor contanten. Expedia, Inc. kan deze actie altijd intrekken of wijzigen. De coupon is ongeldig waar deze wettelijk verboden is.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">Deze coupon kan uitsluitend gebruikt worden wanneer Google Wallet als betalingsmethode geselecteerd wordt.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3052,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Zoekresultaten vluchten</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Druk op de knop om nu te betalen</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Druk op de knop om later te betalen</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Je hotel is geboekt!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Je vlucht is geboekt!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Reisplannr. %1$s verstuurd naar %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3104,10 @@
     <string name="tablet_mismatched_products_message">Je geselecteerde datums voor je hotel en vlucht verschillen. Wil je je huidige hotelselectie wissen en zoeken naar hotels voor datums die overeenkomen met die van je vluchten?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Ja</string>
+    <!-- Dialog negative button message -->
+    <string name="no">Nee</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Boek hotels, vluchten en bekijk &amp; deel je reisplannen. Download vandaag nog de gratis mobiele app van Travelocity.\n%s</string>
-    <string name="fees_paid_at_hotel">Toeslagen te betalen bij hotel:</string>
-    <string name="total_due_to_expedia_today">Totaal nu te betalen aan Expedia:</string>
-    <string name="hotel_fees_for_this_stay">Hoteltoeslagen voor dit verblijf</string>
-    <string name="included_in_the_price">Inbegrepen bij de prijs</string>
-    <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
-    <string name="tablet_room_rate_resort_fees_included_template">Hoteltoeslagen voor dit verblijf (inbegrepen): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">Hoteltoeslagen voor dit verblijf (niet inbegrepen): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">E-mail sturen</string>
 
 </resources>
