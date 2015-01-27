@@ -1,5 +1,6 @@
 package com.expedia.bookings.enums;
 
+import com.expedia.bookings.data.cars.CarOffer;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 
 public enum CarsState {
@@ -10,5 +11,5 @@ public enum CarsState {
 	CHECKOUT;
 
 	public CategorizedCarOffers offers;
-
+	public CarOffer offer;
 }

@@ -30,6 +30,11 @@
     <string name="error_missing_end_date_param">End Date missing</string>
     <!-- Temporary String for general error message -->
     <string name="error_car">There was some error. Check search params.</string>
+    <!-- Checkout -->
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Unlimited mileage</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -1401,6 +1406,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Credit Card number</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Expiration Date</string>
     <!-- Set expiration date button -->
@@ -1457,6 +1464,8 @@
     <string name="middle_name">Middle Name</string>
     <!-- Last name label -->
     <string name="last_name">Last Name</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">First and Last Name</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Date of Birth</string>
     <!-- male -->

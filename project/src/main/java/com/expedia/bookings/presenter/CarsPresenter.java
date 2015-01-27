@@ -12,6 +12,7 @@ import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.enums.CarsState;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.CarCheckoutWidget;
 import com.expedia.bookings.widget.CarSearchParamsWidget;
 import com.expedia.bookings.widget.CategoryDetailsWidget;
 import com.expedia.bookings.widget.FrameLayout;
@@ -39,6 +40,9 @@ public class CarsPresenter extends FrameLayout {
 
 	@InjectView(R.id.car_details)
 	CategoryDetailsWidget detailsWidget;
+
+	@InjectView(R.id.car_checkout)
+	CarCheckoutWidget checkoutWidget;
 
 	public CarsPresenter(Context context) {
 		this(context, null);
@@ -102,24 +106,36 @@ public class CarsPresenter extends FrameLayout {
 			carProgressIndicator.setVisibility(View.GONE);
 			carCategoryList.setVisibility(View.GONE);
 			detailsWidget.setVisibility(View.GONE);
+			checkoutWidget.setVisibility(View.GONE);
 			break;
 		case LOADING:
 			widgetCarParams.setVisibility(View.INVISIBLE);
 			carProgressIndicator.setVisibility(View.VISIBLE);
 			carCategoryList.setVisibility(View.GONE);
 			detailsWidget.setVisibility(View.GONE);
+			checkoutWidget.setVisibility(View.GONE);
 		case RESULTS:
 			widgetCarParams.setVisibility(View.INVISIBLE);
 			carProgressIndicator.setVisibility(View.INVISIBLE);
 			carCategoryList.setVisibility(View.VISIBLE);
 			detailsWidget.setVisibility(View.GONE);
+			checkoutWidget.setVisibility(View.GONE);
 			break;
 		case DETAILS:
 			detailsWidget.setCategorizedOffers(state.offers);
+			widgetCarParams.setVisibility(View.GONE);
+			carProgressIndicator.setVisibility(View.GONE);
+			carCategoryList.setVisibility(View.GONE);
+			detailsWidget.setVisibility(View.VISIBLE);
+			checkoutWidget.setVisibility(View.GONE);
+			break;
+		case CHECKOUT:
+			checkoutWidget.setOffer(state.offer);
 			widgetCarParams.setVisibility(View.INVISIBLE);
 			carProgressIndicator.setVisibility(View.INVISIBLE);
 			carCategoryList.setVisibility(View.INVISIBLE);
-			detailsWidget.setVisibility(View.VISIBLE);
+			detailsWidget.setVisibility(View.INVISIBLE);
+			checkoutWidget.setVisibility(View.VISIBLE);
 			break;
 		default:
 			throw new UnsupportedOperationException("CarsPresenter.show() invoked with unsupported state");
@@ -174,5 +190,12 @@ public class CarsPresenter extends FrameLayout {
 		CarsState detailsState = CarsState.DETAILS;
 		detailsState.offers = event.categorizedCarOffers;
 		show(detailsState);
+	}
+
+	@Subscribe
+	public void onShowCheckout(Events.CarsShowCheckout event) {
+		CarsState checkoutState = CarsState.CHECKOUT;
+		checkoutState.offer = event.carOffer;
+		show(checkoutState);
 	}
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 
 public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.ViewHolder> {
@@ -25,11 +26,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		CarOffer offer = carOffers.get(position);
-		holder.vendor.setText(offer.vendor.name);
-		holder.carDetails.setText(offer.vehicleInfo.makes.get(0));
-		holder.address.setText(offer.dropOffLocation.locationDescription);
-		holder.ratePrice.setText(offer.fare.rate.getFormattedMoney());
-		holder.totalPrice.setText(offer.fare.total.getFormattedMoney());
+		holder.bindCategorizedOffers(offer);
 	}
 
 	@Override
@@ -37,7 +34,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		return carOffers.size();
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+		private View root;
 		private TextView vendor;
 		private TextView carDetails;
 		private TextView address;
@@ -46,11 +45,28 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 		public ViewHolder(View view) {
 			super(view);
+			root = view;
+			root.setOnClickListener(this);
 			vendor = Ui.findView(view, R.id.vendor);
 			carDetails = Ui.findView(view, R.id.car_details);
 			address = Ui.findView(view, R.id.address);
 			ratePrice = Ui.findView(view, R.id.category_price_text);
 			totalPrice = Ui.findView(view, R.id.total_price_text);
+		}
+
+		public void bindCategorizedOffers(CarOffer co) {
+			root.setTag(co);
+			vendor.setText(co.vendor.name);
+			carDetails.setText(co.vehicleInfo.makes.get(0));
+			address.setText(co.dropOffLocation.locationDescription);
+			ratePrice.setText(co.fare.rate.getFormattedMoney());
+			totalPrice.setText(co.fare.total.getFormattedMoney());
+		}
+
+		@Override
+		public void onClick(View v) {
+			CarOffer offer = (CarOffer) v.getTag();
+			Events.post(new Events.CarsShowCheckout(offer));
 		}
 	}
 

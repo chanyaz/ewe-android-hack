@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
 
 import butterknife.ButterKnife;
@@ -45,6 +46,7 @@ public class CategoryDetailsWidget extends LinearLayout {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		Events.register(this);
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mLayoutManager.scrollToPosition(0);
@@ -57,6 +59,12 @@ public class CategoryDetailsWidget extends LinearLayout {
 
 		adapter = new CarOffersAdapter();
 		offerList.setAdapter(adapter);
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		Events.unregister(this);
 	}
 
 	public void setCategorizedOffers(CategorizedCarOffers offers) {
