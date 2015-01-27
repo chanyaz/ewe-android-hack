@@ -34,4 +34,11 @@ public class CarsActivity extends Activity {
 		ButterKnife.inject(this);
 		carsPresenter.show(CarsState.SEARCH);
 	}
+
+	@Override
+	public void onBackPressed() {
+		if (!carsPresenter.handleBackPress()) {
+			super.onBackPressed();
+		}
+	}
 }

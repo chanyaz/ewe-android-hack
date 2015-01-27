@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter;
 
+import java.util.Stack;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -24,7 +26,7 @@ import rx.Subscription;
 public class CarsPresenter extends FrameLayout {
 
 	private Subscription carSearchSubscription;
-	private CarsState mState;
+	private Stack<CarsState> stateStack;
 
 	@InjectView(R.id.widget_car_params)
 	CarSearchParamsWidget widgetCarParams;
@@ -39,19 +41,18 @@ public class CarsPresenter extends FrameLayout {
 	CategoryDetailsWidget detailsWidget;
 
 	public CarsPresenter(Context context) {
-		super(context);
+		this(context, null);
 	}
 
 	public CarsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		stateStack = new Stack<>();
 	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		widgetCarParams.setVisibility(View.GONE);
-		carCategoryList.setVisibility(View.GONE);
 		Events.register(this);
 	}
 
@@ -65,8 +66,33 @@ public class CarsPresenter extends FrameLayout {
 	}
 
 	public void show(CarsState state) {
-		mState = state;
+		if (stateStack.isEmpty() || state != stateStack.peek()) {
+			stateStack.push(state);
+		}
 		setState(state);
+	}
+
+	/**
+	 * @return true if consumed back press
+	 */
+	public boolean handleBackPress() {
+		if (stateStack.isEmpty()) {
+			return false;
+		}
+		else {
+			stateStack.pop();
+			if (stateStack.isEmpty()) {
+				return false;
+			}
+
+			// TODO put LOADING state into a "CarResults" presenter
+			if (stateStack.peek() == CarsState.LOADING) {
+				stateStack.pop();
+			}
+
+			show(stateStack.peek());
+			return true;
+		}
 	}
 
 	private void setState(CarsState state) {
