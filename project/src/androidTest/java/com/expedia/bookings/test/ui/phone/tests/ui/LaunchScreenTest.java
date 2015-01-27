@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.ui.phone.tests.ui;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchActionBar;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
@@ -41,5 +42,43 @@ public class LaunchScreenTest extends PhoneTestCase {
 
 		LaunchScreen.pressShop();
 		Common.enterLog(TAG, "Shop button on Launch screen is displayed ");
+	}
+
+	public void testNoFlightSupportVietnamPOS() {
+		setPOS(PointOfSaleId.VIETNAM);
+		LaunchScreen.launchFlights();
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_flights_pos));
+		Common.pressBack();
+	}
+
+	public void testNoFlightSupportIndiaPOS() {
+		setPOS(PointOfSaleId.INDIA);
+		LaunchScreen.launchFlights();
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_flights_pos));
+	}
+
+	public void testNoFlightSupportKoreaPOS() {
+		setPOS(PointOfSaleId.SOUTH_KOREA);
+		LaunchScreen.launchFlights();
+		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_spinner);
+
+	}
+
+	public void testNoFlightSupportIndonesiaPOS() {
+		setPOS(PointOfSaleId.INDONESIA);
+		LaunchScreen.launchFlights();
+		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_spinner);
+	}
+
+	public void testNoFlightSupportTaiwanPOS() {
+		setPOS(PointOfSaleId.TAIWAN);
+		LaunchScreen.launchFlights();
+		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_spinner);
+	}
+
+	public void testNoFlightSupportPhilippinesPOS() {
+		setPOS(PointOfSaleId.PHILIPPINES);
+		LaunchScreen.launchFlights();
+		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_spinner);
 	}
 }
