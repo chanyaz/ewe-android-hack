@@ -19,6 +19,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -60,6 +61,12 @@ public class LeanPlumUtils {
 		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "Tablet" : "Phone";
 		mUserAtrributes.put("DeviceType", deviceType);
 
+		boolean isUserLoggedIn = User.isLoggedIn(mContext);
+		mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
+		if (isUserLoggedIn) {
+			mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
+		}
+
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
 		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
 			@Override
@@ -92,9 +99,23 @@ public class LeanPlumUtils {
 		}
 	}
 
+	public static void updateLoggedInStatus() {
+		if (ExpediaBookingApp.IS_EXPEDIA) {
+			boolean isUserLoggedIn = User.isLoggedIn(mContext);
+			mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
+			if (isUserLoggedIn) {
+				mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
+			}
+			Leanplum.setUserAttributes(mUserAtrributes);
+		}
+	}
+
 	public static void tracking(String eventName) {
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			Leanplum.track(eventName);
+			if (eventName.equalsIgnoreCase("Login")) {
+				updateLoggedInStatus();
+			}
 		}
 	}
 

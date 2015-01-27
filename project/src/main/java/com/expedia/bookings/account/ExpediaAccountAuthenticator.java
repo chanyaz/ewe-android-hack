@@ -92,9 +92,9 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 			if (signInResponse != null && !signInResponse.hasErrors()) {
 				User user = signInResponse.getUser();
 				Db.setUser(user);
-				AdTracker.trackLogin();
 				user.save(mContext);
 				tuidStr = user.getTuidString();
+				AdTracker.trackLogin();
 			}
 		}
 		else {

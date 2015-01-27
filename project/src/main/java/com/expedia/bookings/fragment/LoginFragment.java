@@ -1171,12 +1171,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				User user = response.getUser();
 				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
-				AdTracker.trackLogin();
 				user.save(getActivity());
 
 				loginWorkComplete();
 
 				OmnitureTracking.trackLoginSuccess(getActivity(), mLob, loginWithFacebook, user.isRewardsUser());
+				AdTracker.trackLogin();
 			}
 		}
 	};
@@ -1358,7 +1358,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				User user = response.getUser();
 				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
-				AdTracker.trackLogin();
 				user.save(getActivity());
 				Log.d("User saved!");
 
@@ -1366,6 +1365,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 				setIsLoading(false);
 				loginWorkComplete();
+				AdTracker.trackLogin();
 			}
 
 		}

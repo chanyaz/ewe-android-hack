@@ -37,6 +37,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -375,6 +376,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			@Override
 			public void onSignOutComplete() {
 				syncItinManager(true, false);
+				LeanPlumUtils.updateLoggedInStatus();
 			}
 		});
 
