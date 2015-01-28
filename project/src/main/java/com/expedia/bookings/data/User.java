@@ -316,7 +316,7 @@ public class User implements JSONable {
 
 			// Trip Bucket
 			if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
-				Db.getTripBucket().setAirAttach(null);
+				Db.getTripBucket().clearAirAttach();
 				Db.saveTripBucket(context);
 			}
 

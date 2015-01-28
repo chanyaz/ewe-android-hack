@@ -310,8 +310,23 @@ public class TripBucket implements JSONable {
 		return mAirAttach;
 	}
 
-	public void setAirAttach(AirAttach airAttach) {
-		mAirAttach = airAttach;
+	/**
+	 * Set a new global air attach state if
+	 * 	1) we don't have one or
+	 * 	2) the existing air attach qualification is outdated
+	 * @param airAttach
+	 * @return whether or not air attach was updated
+	 */
+	public boolean setAirAttach(AirAttach airAttach) {
+		if (mAirAttach == null || mAirAttach.getExpirationDate().isBefore(airAttach.getExpirationDate())) {
+			mAirAttach = airAttach;
+			return true;
+		}
+		return false;
+	}
+
+	public void clearAirAttach() {
+		mAirAttach = null;
 	}
 
 	public boolean isUserAirAttachQualified() {

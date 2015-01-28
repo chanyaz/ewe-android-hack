@@ -13,20 +13,20 @@ public class AirAttach implements JSONable {
 	private boolean mAirAttachQualified;
 	private DateTime mExpirationDate;
 
+	public AirAttach() {
+		// Default constructor for JSONable
+	}
+
+	public AirAttach(JSONObject obj) {
+		fromJson(obj);
+	}
+
 	public boolean isAirAttachQualified() {
 		return mAirAttachQualified;
 	}
 
-	public void setAirAttachQualified(boolean airAttachQualified) {
-		mAirAttachQualified = airAttachQualified;
-	}
-
 	public DateTime getExpirationDate() {
 		return mExpirationDate;
-	}
-
-	public void setExpirationDate(DateTime expirationDate) {
-		mExpirationDate = expirationDate;
 	}
 
 	@Override

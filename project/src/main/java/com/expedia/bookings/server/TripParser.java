@@ -11,8 +11,10 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.Activity;
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
@@ -561,6 +563,11 @@ public class TripParser {
 				Log.w("No unique ID on trip component: " + obj.toString());
 			}
 			uniqueId = UUID.randomUUID().toString();
+		}
+
+		if (obj.has("airAttachQualificationInfo")) {
+			AirAttach airAttach = new AirAttach(obj.optJSONObject("airAttachQualificationInfo"));
+			Db.getTripBucket().setAirAttach(airAttach);
 		}
 
 		component.setUniqueId(uniqueId);
