@@ -97,7 +97,6 @@
 
     <!-- Setting keys -->
     <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>
-    <string name="setting_hide_local_expert">setting_hide_local_expert</string>
     <string name="setting_hide_air_attach">setting_hide_air_attach</string>
 
     <!-- Default values for preference keys -->
