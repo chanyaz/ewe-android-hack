@@ -200,45 +200,59 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 	}
 
+	private boolean isSectionExpanded = false;
+	private CharSequence sectionBody;
+
 	private void populateIntroParagraph(View view, Property property) {
 		List<HotelTextSection> sections = property.getAllHotelText();
 
 		final TextView titleView = Ui.findView(view, R.id.title_text);
 		final TextView bodyView = Ui.findView(view, R.id.body_text);
 
-		CharSequence title, body;
+		CharSequence title;
 		if (sections != null && sections.size() >= 1) {
 			title = sections.get(0).getNameWithoutHtml();
-			body = Html.fromHtml(sections.get(0).getContentFormatted(getActivity()));
+			sectionBody = Html.fromHtml(sections.get(0).getContentFormatted(getActivity()));
 		}
 		else {
 			title = Html.fromHtml("");
-			body = Html.fromHtml(property.getDescriptionText());
+			sectionBody = Html.fromHtml(property.getDescriptionText());
 		}
 
 		// Add "read more" button if the intro paragraph is too long
-		if (body.length() > INTRO_PARAGRAPH_CUTOFF) {
-			final CharSequence untruncated = body;
+		if (sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
+			final CharSequence untruncated = sectionBody;
 			final View readMoreView = Ui.findView(view, R.id.read_more);
 			final View fadeOverlay = Ui.findView(view, R.id.body_text_fade_bottom);
 			readMoreView.setVisibility(View.VISIBLE);
 			fadeOverlay.setVisibility(View.VISIBLE);
-			readMoreView.setOnClickListener(new OnClickListener() {
+			OnClickListener asd = new OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					bodyView.setText(untruncated);
-					readMoreView.setVisibility(View.GONE);
-					fadeOverlay.setVisibility(View.GONE);
+				public void onClick(View view) {
+					if (!isSectionExpanded) {
+						bodyView.setText(untruncated);
+						readMoreView.setVisibility(View.GONE);
+						fadeOverlay.setVisibility(View.GONE);
+						isSectionExpanded = true;
+					}
+					else {
+						bodyView.setText(sectionBody);
+						readMoreView.setVisibility(View.VISIBLE);
+						fadeOverlay.setVisibility(View.VISIBLE);
+						isSectionExpanded = false;
+					}
 				}
-			});
+			};
+			bodyView.setOnClickListener(asd);
+			readMoreView.setOnClickListener(asd);
 
-			body = String.format(getString(R.string.ellipsize_text_template),
-					body.subSequence(0, cutAtWordBarrier(body)));
+			sectionBody = String.format(getString(R.string.ellipsize_text_template),
+					sectionBody.subSequence(0, cutAtWordBarrier(sectionBody)));
 		}
 
 		// Always hide this for the intro
 		titleView.setVisibility(View.GONE);
-		bodyView.setText(body);
+		bodyView.setText(sectionBody);
 	}
 
 	public static int cutAtWordBarrier(CharSequence body) {
