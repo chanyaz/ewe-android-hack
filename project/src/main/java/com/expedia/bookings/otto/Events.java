@@ -18,6 +18,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -520,15 +521,14 @@ public class Events {
 		public CarsNewSearchParams(CarSearchParams params) {
 			carSearchParams = params;
 		}
-
 	}
 
 	public static class CarsShowSearchResults {
+		public CarSearch results;
 
-	}
-
-	public static class CarsShowListLoading {
-
+		public CarsShowSearchResults(CarSearch results) {
+			this.results = results;
+		}
 	}
 
 	public static class CarsShowDetails {
@@ -540,10 +540,10 @@ public class Events {
 	}
 
 	public static class CarsShowCheckout {
-		public CarOffer carOffer;
+		public CarOffer offer;
 
 		public CarsShowCheckout(CarOffer offer) {
-			carOffer = offer;
+			this.offer = offer;
 		}
 	}
 }

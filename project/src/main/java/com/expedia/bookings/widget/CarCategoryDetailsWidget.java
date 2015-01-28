@@ -11,11 +11,16 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CategoryDetailsWidget extends LinearLayout {
+public class CarCategoryDetailsWidget extends LinearLayout {
+
+	public CarCategoryDetailsWidget(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
 	@InjectView(R.id.header_image)
 	ImageView headerImage;
@@ -23,29 +28,19 @@ public class CategoryDetailsWidget extends LinearLayout {
 	@InjectView(R.id.offer_list)
 	RecyclerView offerList;
 
-	CarOffersAdapter adapter;
-
-	private LinearLayoutManager mLayoutManager;
+	private CarOffersAdapter adapter;
 	private static final int LIST_DIVIDER_HEIGHT = 8;
-
-	public CategoryDetailsWidget(Context context) {
-		super(context);
-	}
-
-	public CategoryDetailsWidget(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
 
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Events.register(this);
-		mLayoutManager = new LinearLayoutManager(getContext());
-		mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		mLayoutManager.scrollToPosition(0);
 
-		offerList.setLayoutManager(mLayoutManager);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		layoutManager.scrollToPosition(0);
+
+		offerList.setLayoutManager(layoutManager);
 		offerList.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT));
 		offerList.setHasFixedSize(true);
 		//TODO add images
@@ -56,16 +51,24 @@ public class CategoryDetailsWidget extends LinearLayout {
 	}
 
 	@Override
-	public void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-		Events.unregister(this);
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
 	}
 
-	public void setCategorizedOffers(CategorizedCarOffers offers) {
-		adapter.setCarOffers(offers.offers);
+	@Override
+	public void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
+	}
+
+	@Subscribe
+	public void onCarsShowDetails(Events.CarsShowDetails event) {
+		CategorizedCarOffers bucket = event.categorizedCarOffers;
+		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
 
-		String url = Images.getCarRental(offers.category, offers.getLowestTotalPriceOffer().vehicleInfo.type);
+		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(headerImage)
 			.setTag("Car Details")
 			.fit()

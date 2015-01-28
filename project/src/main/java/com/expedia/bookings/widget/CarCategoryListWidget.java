@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
 
@@ -16,21 +15,14 @@ import butterknife.InjectView;
 
 public class CarCategoryListWidget extends FrameLayout {
 
-
 	public CarCategoryListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public CarCategoryListWidget(Context context) {
-		super(context);
-	}
-
-	@InjectView(R.id.recycler_view_category)
+	@InjectView(R.id.category_list)
 	RecyclerView recyclerView;
 
-	CarCategoriesListAdapter listAdapter;
-
-	private LinearLayoutManager mLayoutManager;
+	CarCategoriesListAdapter adapter;
 
 	private static final String PICASSO_TAG = "CAR_CATEGORY_LIST";
 	private static final int LIST_DIVIDER_HEIGHT = 8;
@@ -39,32 +31,36 @@ public class CarCategoryListWidget extends FrameLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		setUpRecyclerView();
+
+		// category list
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		layoutManager.scrollToPosition(0);
+		recyclerView.setLayoutManager(layoutManager);
+
+		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT));
+		recyclerView.setHasFixedSize(true);
+		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+
+		adapter = new CarCategoriesListAdapter();
+		recyclerView.setAdapter(adapter);
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
 		Events.register(this);
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
 		Events.unregister(this);
-	}
-
-	private void setUpRecyclerView() {
-		mLayoutManager = new LinearLayoutManager(getContext());
-		mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		mLayoutManager.scrollToPosition(0);
-		recyclerView.setLayoutManager(mLayoutManager);
-
-		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT));
-		recyclerView.setHasFixedSize(true);
-		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
-		listAdapter = new CarCategoriesListAdapter();
-		recyclerView.setAdapter(listAdapter);
+		super.onDetachedFromWindow();
 	}
 
 	@Subscribe
-	public void onSignalForList(Events.CarsShowSearchResults event) {
-		listAdapter.setCategories(CarDb.carSearch.categories);
-		listAdapter.notifyDataSetChanged();
+	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
+		adapter.setCategories(event.results.categories);
+		adapter.notifyDataSetChanged();
 	}
 }

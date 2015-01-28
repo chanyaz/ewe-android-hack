@@ -29,7 +29,6 @@ public final class CarSearchParamsModel {
 		return onView(withId(R.id.dropoff_location));
 	}
 
-
 	public static ViewInteraction selectDate() {
 		return onView(withId(R.id.select_date));
 	}

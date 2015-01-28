@@ -26,7 +26,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		CarOffer offer = carOffers.get(position);
-		holder.bindCategorizedOffers(offer);
+		holder.bindOffer(offer);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			totalPrice = Ui.findView(view, R.id.total_price_text);
 		}
 
-		public void bindCategorizedOffers(CarOffer co) {
+		public void bindOffer(CarOffer co) {
 			root.setTag(co);
 			vendor.setText(co.vendor.name);
 			carDetails.setText(co.vehicleInfo.makes.get(0));

@@ -5,45 +5,28 @@ import java.util.Stack;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CarDb;
-import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.enums.CarsState;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.widget.CarCheckoutWidget;
-import com.expedia.bookings.widget.CarSearchParamsWidget;
-import com.expedia.bookings.widget.CategoryDetailsWidget;
 import com.expedia.bookings.widget.FrameLayout;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observer;
-import rx.Subscription;
 
 public class CarsPresenter extends FrameLayout {
 
-	private Subscription carSearchSubscription;
 	private Stack<CarsState> stateStack;
 
 	@InjectView(R.id.widget_car_params)
-	CarSearchParamsWidget widgetCarParams;
+	View widgetCarParams;
 
-	@InjectView(R.id.widget_car_progress_indicator)
-	ViewGroup carProgressIndicator;
-
-	@InjectView(R.id.car_category_list)
-	ViewGroup carCategoryList;
-
-	@InjectView(R.id.car_details)
-	CategoryDetailsWidget detailsWidget;
+	@InjectView(R.id.cars_results_presenter)
+	View carsResultsPresenter;
 
 	@InjectView(R.id.car_checkout)
-	CarCheckoutWidget checkoutWidget;
+	View checkoutWidget;
 
 	public CarsPresenter(Context context) {
 		this(context, null);
@@ -58,16 +41,18 @@ public class CarsPresenter extends FrameLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
 		Events.register(this);
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
 		Events.unregister(this);
-		if (carSearchSubscription != null) {
-			carSearchSubscription.unsubscribe();
-		}
+		super.onDetachedFromWindow();
 	}
 
 	public void show(CarsState state) {
@@ -90,11 +75,6 @@ public class CarsPresenter extends FrameLayout {
 				return false;
 			}
 
-			// TODO put LOADING state into a "CarResults" presenter
-			if (stateStack.peek() == CarsState.LOADING) {
-				stateStack.pop();
-			}
-
 			show(stateStack.peek());
 			return true;
 		}
@@ -102,31 +82,21 @@ public class CarsPresenter extends FrameLayout {
 
 	private void setState(CarsState state) {
 		widgetCarParams.setVisibility(View.GONE);
-		carProgressIndicator.setVisibility(View.GONE);
-		carCategoryList.setVisibility(View.GONE);
-		detailsWidget.setVisibility(View.GONE);
+		carsResultsPresenter.setVisibility(View.GONE);
 		checkoutWidget.setVisibility(View.GONE);
 
 		switch (state) {
 		case SEARCH:
 			widgetCarParams.setVisibility(View.VISIBLE);
 			break;
-		case LOADING:
-			carProgressIndicator.setVisibility(View.VISIBLE);
-			break;
 		case RESULTS:
-			carCategoryList.setVisibility(View.VISIBLE);
-			break;
-		case DETAILS:
-			detailsWidget.setCategorizedOffers(state.offers);
-			detailsWidget.setVisibility(View.VISIBLE);
+			carsResultsPresenter.setVisibility(View.VISIBLE);
 			break;
 		case CHECKOUT:
-			checkoutWidget.setOffer(state.offer);
 			checkoutWidget.setVisibility(View.VISIBLE);
 			break;
 		default:
-			throw new UnsupportedOperationException("CarsPresenter.show() invoked with unsupported state");
+			throw new UnsupportedOperationException("CarsPresenter.show() invoked with unsupported state: " + state.toString());
 		}
 	}
 
@@ -136,73 +106,11 @@ public class CarsPresenter extends FrameLayout {
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		CarDb.setSearchParams(event.carSearchParams);
-
-		carSearchSubscription = CarDb.getCarServices()
-			.carSearch(event.carSearchParams, carSearchSubscriber);
-	}
-
-	private Observer<CarSearch> carSearchSubscriber = new Observer<CarSearch>() {
-		@Override
-		public void onCompleted() {
-			Log.d("CarsPresenter - carSearch.onCompleted");
-			Events.post(new Events.CarsShowSearchResults());
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			Log.d("CarsPresenter - carSearch.onError", e);
-			Events.post(new Events.CarsShowListLoading());
-			widgetCarParams.showAlertMessage(R.string.error_car, R.string.ok);
-		}
-
-		@Override
-		public void onNext(CarSearch carSearch) {
-			Log.d("CarsPresenter - carSearch.onNext");
-			CarDb.carSearch = carSearch;
-		}
-	};
-
-	@Subscribe
-	public void onShowListLoading(Events.CarsShowListLoading event) {
-		show(CarsState.LOADING);
-	}
-
-	@Subscribe
-	public void onSearchResultsComplete(Events.CarsShowSearchResults event) {
 		show(CarsState.RESULTS);
 	}
 
 	@Subscribe
-	public void onShowDetails(Events.CarsShowDetails event) {
-		CarsState detailsState = CarsState.DETAILS;
-		detailsState.offers = event.categorizedCarOffers;
-		show(detailsState);
-	}
-
-	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		checkoutWidget.setCreateTripText("");
-		CarsState checkoutState = CarsState.CHECKOUT;
-		checkoutState.offer = event.carOffer;
-		show(checkoutState);
-		CarDb.getCarServices().createTrip(event.carOffer.productKey, new Observer<CarCreateTripResponse>() {
-			@Override
-			public void onCompleted() {
-				Log.d("CarsPresenter - createTrip.onCompleted");
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				Log.d("CarsPresenter - createTrip.onError", e);
-				checkoutWidget.setCreateTripText("Create Trip fail");
-			}
-
-			@Override
-			public void onNext(CarCreateTripResponse carCreateTripResponse) {
-				Log.d("CarsPresenter - createTrip.onNext");
-				checkoutWidget.setCreateTripText("Create Trip success itinNumber=" + carCreateTripResponse.itineraryNumber);
-			}
-		});
+		show(CarsState.CHECKOUT);
 	}
 }

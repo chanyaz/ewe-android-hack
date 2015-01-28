@@ -81,8 +81,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	@InjectView(R.id.dropoff_time_seek_bar)
 	SeekBar dropoffTimeSeekBar;
 
-	private CarSearchParamsBuilder searchParamsBuilder;
-
+	private CarSearchParamsBuilder searchParamsBuilder = new CarSearchParamsBuilder();
 	private CarSearchParams carSearchParams;
 
 	private CarSuggestionAdapter suggestionAdapter;
@@ -93,7 +92,6 @@ public class CarSearchParamsWidget extends FrameLayout implements
 		if (isSearchFormFilled()) {
 			Ui.hideKeyboard(this);
 			Events.post(new Events.CarsNewSearchParams(carSearchParams));
-			Events.post(new Events.CarsShowListLoading());
 		}
 	}
 
@@ -106,8 +104,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		searchParamsBuilder = new CarSearchParamsBuilder();
-		Events.register(getContext());
+
 		pickupLocation.setVisibility(View.VISIBLE);
 		dropoffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
@@ -138,18 +135,12 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	}
 
 	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-	}
-
-	@Override
 	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-		Events.unregister(getContext());
 		if (suggestionSubscription != null) {
 			suggestionSubscription.unsubscribe();
 		}
 		calendar.setDateChangedListener(null);
+		super.onDetachedFromWindow();
 	}
 
 	@OnClick(R.id.select_date)
@@ -310,6 +301,10 @@ public class CarSearchParamsWidget extends FrameLayout implements
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 			selectDateButton.setText(dateTimeRange);
 		}
+	}
+
+	public CarSearchParams getCurrentParams() {
+		return searchParamsBuilder.build();
 	}
 
 	/*

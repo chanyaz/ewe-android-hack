@@ -9,12 +9,14 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.widget.CarSearchParamsWidget;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -25,10 +27,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchParamsTests {
@@ -37,28 +39,32 @@ public final class CarSearchParamsTests {
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
 
 	@Test
-	public void testViewPopulatesDb() {
-		CarDb.searchParams.origin = null;
-		CarDb.searchParams.startDateTime = null;
-		CarDb.searchParams.endDateTime = null;
-
+	public void testViewPopulatesSearchParams() {
 		final DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
-		final DateTime expectedEndDate = expectedStartDate.plusDays(3);
-		final String expectedPickupLocation = "SFO";
+
+		CarSearchParamsWidget widget = (CarSearchParamsWidget) playground.getRoot();
+		CarSearchParams actual;
+		CarSearchParams expected = new CarSearchParamsBuilder()
+			.startDate(expectedStartDate.toLocalDate())
+			.endDate(expectedStartDate.plusDays(3).toLocalDate())
+			.origin("SFO")
+			.build();
+
+		actual = widget.getCurrentParams();
+		assertNull(actual.origin);
+		assertNull(actual.startDateTime);
+		assertNull(actual.endDateTime);
 
 		CarSearchParamsModel.selectDate().perform(click());
-		CarSearchParamsModel.selectDates(expectedStartDate.toLocalDate(), expectedEndDate.toLocalDate());
-		CarSearchParamsModel.pickupLocation().perform(typeText(expectedPickupLocation));
-
-		assertNull(CarDb.searchParams.origin);
-		assertNull(CarDb.searchParams.startDateTime);
-		assertNull(CarDb.searchParams.endDateTime);
+		CarSearchParamsModel.selectDates(expected.startDateTime.toLocalDate(), expected.endDateTime.toLocalDate());
+		CarSearchParamsModel.pickupLocation().perform(typeText(expected.origin));
 
 		CarSearchParamsModel.searchButton().perform(click());
 
-		assertEquals(expectedStartDate, CarDb.searchParams.startDateTime);
-		assertEquals(expectedEndDate, CarDb.searchParams.endDateTime);
-		assertEquals(expectedPickupLocation, CarDb.searchParams.origin);
+		actual = widget.getCurrentParams();
+		assertEquals(expected.origin, actual.origin);
+		assertEquals(expected.startDateTime, actual.startDateTime);
+		assertEquals(expected.endDateTime, actual.endDateTime);
 	}
 
 	@Test

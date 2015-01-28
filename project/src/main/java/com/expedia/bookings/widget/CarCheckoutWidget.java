@@ -4,16 +4,22 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.squareup.otto.Subscribe;
+import rx.Observer;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class CarCheckoutWidget extends LinearLayout {
 
-	CarOffer offer;
+	public CarCheckoutWidget(Context context, AttributeSet attr) {
+		super(context, attr);
+	}
 
 	@InjectView(R.id.category_title_text)
 	TextView categoryTitleText;
@@ -36,14 +42,7 @@ public class CarCheckoutWidget extends LinearLayout {
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;
 
-
-	public CarCheckoutWidget(Context context) {
-		super(context);
-	}
-
-	public CarCheckoutWidget(Context context, AttributeSet attr) {
-		super(context, attr);
-	}
+	private CarOffer offer;
 
 	@Override
 	protected void onFinishInflate() {
@@ -52,27 +51,51 @@ public class CarCheckoutWidget extends LinearLayout {
 	}
 
 	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
 	protected void onDetachedFromWindow() {
+		Events.unregister(this);
 		super.onDetachedFromWindow();
 	}
 
-	public void setOffer(CarOffer offer) {
-		this.offer = offer;
-		bind(offer);
+	@Subscribe
+	public void onShowCheckout(Events.CarsShowCheckout event) {
+		offer = event.offer;
+		CarDb.getCarServices().createTrip(offer.productKey, new Observer<CarCreateTripResponse>() {
+			@Override
+			public void onCompleted() {
+				// ignore
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				throw new RuntimeException(e);
+			}
+
+			@Override
+			public void onNext(CarCreateTripResponse response) {
+				bind(response);
+			}
+		});
 	}
 
-	public void setCreateTripText(String text) {
-		locationDescriptionText.setText(text);
-	}
+	private void bind(CarCreateTripResponse createTrip) {
+		CarOffer offer = createTrip.carProduct;
 
-	private void bind(CarOffer offer) {
+		locationDescriptionText.setText(createTrip.itineraryNumber);
+
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
 		carModelText.setText(offer.vehicleInfo.makes.get(0));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		dateTimeText.setText(DateFormatUtils
-			.formatDateTimeRange(getContext(), CarDb.searchParams.startDateTime, CarDb.searchParams.endDateTime,
-				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 		tripTotalText.setText(offer.fare.total.getFormattedMoney());
 		sliderTotalText.setText(offer.fare.total.getFormattedMoney());
+
+		dateTimeText.setText(DateFormatUtils
+			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
+			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 	}
 }

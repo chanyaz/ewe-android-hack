@@ -19,14 +19,6 @@ import rx.schedulers.Schedulers;
 
 public final class CarDb {
 
-	public static CarSearchParams searchParams = new CarSearchParams();
-
-	public static CarSearch carSearch = new CarSearch();
-
-	public static void setSearchParams(CarSearchParams carSearchParams) {
-		searchParams = carSearchParams.clone();
-	}
-
 	private static CarServices sCarServices;
 	private static SuggestionServices sSuggestionServices;
 

@@ -11,20 +11,8 @@
         android:layout_height="match_parent" />
 
     <include
-        android:id="@+id/widget_car_progress_indicator"
-        layout="@layout/widget_car_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <include
-        android:id="@+id/car_category_list"
-        layout="@layout/widget_car_category_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <include
-        android:id="@+id/car_details"
-        layout="@layout/widget_category_details"
+        android:id="@+id/cars_results_presenter"
+        layout="@layout/cars_results_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
