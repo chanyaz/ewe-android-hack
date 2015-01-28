@@ -199,6 +199,12 @@ public class PointOfSale {
 
 		// directly gives the forgot_password Url for the POS
 		private String mForgotPasswordUrl;
+
+		// The locale identifier (e.g., "es_AR") for fetching reviews from URS
+		//NOTE: URS has put a hack in their Backend where the VSC reviews are parked in locale fr_BX
+		// and not fr_FR. This field is being added to inter-operate well with URS and fetch the reviews
+		// for VSC.
+		private String mHotelReviewsLocaleIdentifier;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -365,6 +371,10 @@ public class PointOfSale {
 
 	public String getLocaleIdentifier() {
 		return getPosLocale().mLocaleIdentifier;
+	}
+
+	public String getHotelReviewsLocaleIdentifier() {
+		return getPosLocale().mHotelReviewsLocaleIdentifier;
 	}
 
 	public String getAppSupportUrl() {
@@ -888,6 +898,7 @@ public class PointOfSale {
 		PointOfSaleLocale locale = new PointOfSaleLocale();
 
 		locale.mLocaleIdentifier = data.optString("localeIdentifier", null);
+		locale.mHotelReviewsLocaleIdentifier = data.optString("hotelReviewsLocaleIdentifier", null);
 
 		// Various URLs
 		locale.mAppSupportUrl = data.optString("appSupportURL", null);
