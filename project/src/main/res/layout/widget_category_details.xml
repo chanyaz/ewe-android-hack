@@ -3,77 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eaeaea"
     android:orientation="vertical"
-    android:background="#eaeaea">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
 
-    <FrameLayout
-        android:id="@+id/details_header"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="8dp" />
 
-        <ImageView
-            android:id="@+id/header_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/header_image"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
-        <!-- TODO This will eventually live in the action bar -->
-        <TextView
-            android:id="@+id/details_time_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:textSize="18sp"
-            tools:text="Sep 26, 11:30A - Sep 28, 11:30A" />
-
-        <TextView
-            android:id="@+id/category_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:textSize="22sp"
-            tools:text="ECONOMY" />
-
-        <!-- TODO share this container with car category rows, make things resizable?-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/category_text"
-            android:layout_gravity="bottom|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/passenger_count"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#FFF"
-                android:textSize="14sp"
-                tools:text="5" />
-
-            <TextView
-                android:id="@+id/bag_count"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
-                android:textColor="#FFF"
-                android:textSize="14sp"
-                tools:text="3" />
-
-            <TextView
-                android:id="@+id/door_count"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#FFF"
-                android:textSize="14sp"
-                tools:text="4" />
-        </LinearLayout>
-
-    </FrameLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/offer_list"

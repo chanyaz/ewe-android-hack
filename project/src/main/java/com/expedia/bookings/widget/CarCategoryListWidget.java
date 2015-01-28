@@ -33,7 +33,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	private LinearLayoutManager mLayoutManager;
 
 	private static final String PICASSO_TAG = "CAR_CATEGORY_LIST";
-	private static final int LIST_DIVIDER_HEIGHT = 16;
+	private static final int LIST_DIVIDER_HEIGHT = 8;
 
 	@Override
 	protected void onFinishInflate() {
@@ -55,7 +55,7 @@ public class CarCategoryListWidget extends FrameLayout {
 		mLayoutManager.scrollToPosition(0);
 		recyclerView.setLayoutManager(mLayoutManager);
 
-		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT));
+		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 		listAdapter = new CarCategoriesListAdapter();

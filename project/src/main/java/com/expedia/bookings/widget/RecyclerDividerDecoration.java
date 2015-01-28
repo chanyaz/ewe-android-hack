@@ -12,14 +12,17 @@ import android.view.View;
 
 public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 
-	int mPixels;
+	int mTop;
+	int mBottom;
 
-	public RecyclerDividerDecoration(Context context, int dp) {
-		mPixels = (int) context.getResources().getDisplayMetrics().density * dp;
+	public RecyclerDividerDecoration(Context context, int top, int bottom) {
+		mTop = (int) context.getResources().getDisplayMetrics().density * top;
+		mBottom = (int) context.getResources().getDisplayMetrics().density * bottom;
 	}
 
 	@Override
 	public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-		outRect.bottom = mPixels;
+		outRect.top = mTop;
+		outRect.bottom = mBottom;
 	}
 }

@@ -20,19 +20,13 @@ public class CategoryDetailsWidget extends LinearLayout {
 	@InjectView(R.id.header_image)
 	ImageView headerImage;
 
-	@InjectView(R.id.details_time_header)
-	android.widget.TextView timeDetailsText;
-
-	@InjectView(R.id.category_text)
-	android.widget.TextView categoryText;
-
 	@InjectView(R.id.offer_list)
 	RecyclerView offerList;
 
 	CarOffersAdapter adapter;
 
 	private LinearLayoutManager mLayoutManager;
-	private static final int LIST_VERTICAL_SPACER_DP = 8;
+	private static final int LIST_DIVIDER_HEIGHT = 8;
 
 	public CategoryDetailsWidget(Context context) {
 		super(context);
@@ -52,7 +46,7 @@ public class CategoryDetailsWidget extends LinearLayout {
 		mLayoutManager.scrollToPosition(0);
 
 		offerList.setLayoutManager(mLayoutManager);
-		offerList.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_VERTICAL_SPACER_DP));
+		offerList.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT));
 		offerList.setHasFixedSize(true);
 		//TODO add images
 		//offerList.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
