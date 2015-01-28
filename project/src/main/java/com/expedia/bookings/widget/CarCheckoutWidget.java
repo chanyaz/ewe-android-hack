@@ -61,6 +61,10 @@ public class CarCheckoutWidget extends LinearLayout {
 		bind(offer);
 	}
 
+	public void setCreateTripText(String text) {
+		locationDescriptionText.setText(text);
+	}
+
 	private void bind(CarOffer offer) {
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
 		carModelText.setText(offer.vehicleInfo.makes.get(0));

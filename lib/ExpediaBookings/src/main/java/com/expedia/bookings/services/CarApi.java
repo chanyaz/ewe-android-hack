@@ -1,5 +1,6 @@
 package com.expedia.bookings.services;
 
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 
 import retrofit.http.GET;
@@ -13,5 +14,9 @@ public interface CarApi {
 		@Query("airportCode") String airportCode,
 		@Query("pickupTime") String pickupTime,
 		@Query("dropOffTime") String dropoffTime);
+
+	@GET("/m/api/cars/create")
+	public Observable<CarCreateTripResponse> createTrip(
+		@Query("productKey") String productKey);
 
 }

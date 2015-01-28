@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.enums.CarsState;
@@ -181,8 +182,27 @@ public class CarsPresenter extends FrameLayout {
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
+		checkoutWidget.setCreateTripText("");
 		CarsState checkoutState = CarsState.CHECKOUT;
 		checkoutState.offer = event.carOffer;
 		show(checkoutState);
+		CarDb.getCarServices().createTrip(event.carOffer.productKey, new Observer<CarCreateTripResponse>() {
+			@Override
+			public void onCompleted() {
+				Log.d("CarsPresenter - createTrip.onCompleted");
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				Log.d("CarsPresenter - createTrip.onError", e);
+				checkoutWidget.setCreateTripText("Create Trip fail");
+			}
+
+			@Override
+			public void onNext(CarCreateTripResponse carCreateTripResponse) {
+				Log.d("CarsPresenter - createTrip.onNext");
+				checkoutWidget.setCreateTripText("Create Trip success itinNumber=" + carCreateTripResponse.itineraryNumber);
+			}
+		});
 	}
 }

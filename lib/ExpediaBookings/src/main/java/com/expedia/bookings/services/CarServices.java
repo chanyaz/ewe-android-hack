@@ -7,12 +7,13 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
-import com.expedia.bookings.data.cars.Money;
+import com.expedia.bookings.data.Money;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -24,7 +25,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
-import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
@@ -85,14 +85,6 @@ public class CarServices {
 			return Observable.from(new ArrayList<>(buckets.values()));
 		}
 	};
-	public static class CarSearchHolder implements Func0<CarSearch> {
-		private CarSearch search = new CarSearch();
-
-		@Override
-		public CarSearch call() {
-			return search;
-		}
-	}
 
 	private static final Func1<List<CategorizedCarOffers>, CarSearch> PUT_IN_CARSEARCH = new Func1<List<CategorizedCarOffers>, CarSearch>() {
 		@Override
@@ -112,4 +104,12 @@ public class CarServices {
 			return leftMoney.compareTo(rightMoney);
 		}
 	};
+
+	public Subscription createTrip(String productKey, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(productKey)
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.subscribe(observer);
+	}
+
 }
