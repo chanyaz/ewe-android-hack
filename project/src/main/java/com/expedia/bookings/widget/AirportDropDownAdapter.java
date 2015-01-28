@@ -202,6 +202,10 @@ public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> impl
 	}
 
 	public Location getLocation(int position) {
+		if (data == null || position >= data.size()) {
+			return null;
+		}
+
 		return data.get(position).getLocation();
 	}
 
