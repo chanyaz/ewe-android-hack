@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.cars;
+package com.expedia.bookings.data;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -38,6 +38,15 @@ public class Money {
 		currencyCode = oldMoney.getCurrency();
 	}
 
+	public Money(String amount, String currency) {
+		setAmount(amount);
+		currencyCode = currency;
+	}
+
+	public Money copy() {
+		return new Money(this);
+	}
+
 	public BigDecimal getAmount() {
 		return amount;
 	}
@@ -67,6 +76,10 @@ public class Money {
 	 */
 	public boolean isZero() {
 		return amount == null || amount.compareTo(BigDecimal.ZERO) == 0;
+	}
+
+	public boolean hasCents() {
+		return amount.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) > 0;
 	}
 
 	public String getCurrency() {
@@ -109,14 +122,14 @@ public class Money {
 
 	/**
 	 * Adds one Money to this one.
-	 *
+	 * <p/>
 	 * There are a number of situations where addition isn't possible, at which point
 	 * the method will return false.  The situations are:
-	 *
+	 * <p/>
 	 * 1. The parameter is null.
 	 * 2. One or both Moneys only use a pre-formatted currency.
 	 * 3. They explicitly use different currencies.
-	 *
+	 * <p/>
 	 * In the case that either Money does not have a currency code defined, it is
 	 * assumed that they use the same currency code.
 	 *
@@ -141,6 +154,7 @@ public class Money {
 
 	/**
 	 * Acts just like add(), only subtracts the amount at the end.
+	 *
 	 * @see add()
 	 */
 	public boolean subtract(Money money) {
@@ -214,11 +228,11 @@ public class Money {
 		Money other = (Money) o;
 
 		return ((amount == null) == (other.amount == null))
-				&& (amount == null || amount.equals(other.amount))
-				&& ((currencyCode == null) == (other.currencyCode == null))
-				&& (currencyCode == null || currencyCode.equals(other.currencyCode))
-				&& ((formattedWholePrice == null) == (other.formattedWholePrice == null))
-				&& (formattedWholePrice == null || formattedWholePrice.equals(other.formattedWholePrice));
+			&& (amount == null || amount.equals(other.amount))
+			&& ((currencyCode == null) == (other.currencyCode == null))
+			&& (currencyCode == null || currencyCode.equals(other.currencyCode))
+			&& ((formattedWholePrice == null) == (other.formattedWholePrice == null))
+			&& (formattedWholePrice == null || formattedWholePrice.equals(other.formattedWholePrice));
 	}
 
 	public int compareTo(Money other) {

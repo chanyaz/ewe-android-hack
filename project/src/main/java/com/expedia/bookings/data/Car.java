@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -169,7 +170,7 @@ public class Car implements JSONable {
 
 			obj.putOpt("confNumber", mConfNumber);
 
-			JSONUtils.putJSONable(obj, "price", mPrice);
+			GsonUtil.putForJsonable(obj, "price", mPrice);
 			JodaUtils.putDateTimeInJson(obj, "pickupJodaDateTime", mPickUpDateTime);
 			JSONUtils.putJSONable(obj, "pickupLocation", mPickUpLocation);
 			JodaUtils.putDateTimeInJson(obj, "dropoffJodaDateTime", mDropOffDateTime);
@@ -195,7 +196,7 @@ public class Car implements JSONable {
 
 		mConfNumber = obj.optString("confNumber", null);
 
-		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
+		mPrice = GsonUtil.getForJsonable(obj, "price", Money.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "pickupJodaDateTime", "pickupDateTime");
 		mPickUpLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "dropoffJodaDateTime", "dropoffDateTime");

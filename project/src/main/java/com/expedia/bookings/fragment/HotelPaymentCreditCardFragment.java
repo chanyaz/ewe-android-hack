@@ -28,6 +28,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
 
@@ -168,7 +169,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		public void onChange() {
 			if (mBillingInfo.getCardType() != null) {
 				if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getCardType())) {
-					String cardName = mBillingInfo.getCardType().getHumanReadableName(getActivity());
+					String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
 					String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 					updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 					toggleCardMessage(true, true);

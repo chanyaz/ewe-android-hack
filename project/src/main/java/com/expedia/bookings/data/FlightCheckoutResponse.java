@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -51,7 +52,7 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 
 		try {
 			obj.put("orderId", mOrderId);
-			JSONUtils.putJSONable(obj, "totalCharges", mTotalCharges);
+			GsonUtil.putForJsonable(obj, "totalCharges", mTotalCharges);
 			JSONUtils.putJSONable(obj, "newOffer", mNewOffer);
 			return obj;
 		}
@@ -65,7 +66,7 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 		super.fromJson(obj);
 
 		mOrderId = obj.optString("orderId", null);
-		mTotalCharges = JSONUtils.getJSONable(obj, "totalCharges", Money.class);
+		mTotalCharges = GsonUtil.getForJsonable(obj, "totalCharges", Money.class);
 		mNewOffer = JSONUtils.getJSONable(obj, "newOffer", FlightTrip.class);
 
 		return true;
