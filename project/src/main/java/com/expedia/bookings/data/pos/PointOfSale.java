@@ -430,7 +430,8 @@ public class PointOfSale {
 	}
 
 	public boolean shouldShowAirAttach() {
-		return mShouldShowAirAttach;
+		// Show Air Attach on all POS that allow hotel cross-sell
+		return mShowHotelCrossSell;
 	}
 
 	public boolean shouldShowRewards() {
