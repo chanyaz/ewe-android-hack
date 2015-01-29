@@ -13,15 +13,16 @@ import com.expedia.bookings.utils.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class GsonUtilTest {
 
 	@Test
-	public void getPutSerialization() {
+	public void instanceSerialization() {
 		final String expectedName = "foo";
-		BigDecimal expectedMoney = new BigDecimal(120.45d);
-		TestClass.SpecialEnum expectedType = TestClass.SpecialEnum.TWO;
-		TestClass expectedTestClass = new TestClass(expectedName, expectedMoney, expectedType);
+		final BigDecimal expectedMoney = new BigDecimal(120.45d);
+		final TestClass.SpecialEnum expectedType = TestClass.SpecialEnum.TWO;
+		final TestClass expectedTestClass = new TestClass(expectedName, expectedMoney, expectedType);
 
 		final String key = "myKey";
 		JSONObject jsonObject = new JSONObject();
@@ -32,35 +33,55 @@ public class GsonUtilTest {
 	}
 
 	@Test
-	public void getPutListSerialization() {
+	public void nullSerialization() {
+		final String key = "key";
+		JSONObject jsonObject = new JSONObject();
+		GsonUtil.putForJsonable(jsonObject, key, null);
+		TestClass deserializedObject = GsonUtil.getForJsonable(jsonObject, key, TestClass.class);
+
+		assertNull(deserializedObject);
+	}
+
+
+	@Test
+	public void listInstanceSerialization() {
 		final String expectedName1 = "foo";
-		BigDecimal expectedMoney1 = new BigDecimal(120.45d);
-		TestClass.SpecialEnum expectedType1 = TestClass.SpecialEnum.ONE;
-		TestClass unserialized1 = new TestClass(expectedName1, expectedMoney1, expectedType1);
+		final BigDecimal expectedMoney1 = new BigDecimal(120.45d);
+		final TestClass.SpecialEnum expectedType1 = TestClass.SpecialEnum.ONE;
+		final TestClass unserialized1 = new TestClass(expectedName1, expectedMoney1, expectedType1);
 
 		final String expectedName2 = "bar";
-		BigDecimal expectedMoney2 = new BigDecimal(123.45d);
-		TestClass.SpecialEnum expectedType2 = TestClass.SpecialEnum.TWO;
-		TestClass unserialized2 = new TestClass(expectedName2, expectedMoney2, expectedType2);
+		final BigDecimal expectedMoney2 = new BigDecimal(123.45d);
+		final TestClass.SpecialEnum expectedType2 = TestClass.SpecialEnum.TWO;
+		final TestClass unserialized2 = new TestClass(expectedName2, expectedMoney2, expectedType2);
 
 		final List<TestClass> testClassList = new ArrayList<>(Arrays.asList(unserialized1, unserialized2));
 
 		final String key = "myKey";
 		JSONObject jsonObject = new JSONObject();
 		GsonUtil.putListForJsonable(jsonObject, key, testClassList);
-		Type testClassType = new TypeToken<List<TestClass>>() {
-		}.getType();
-		List<TestClass> deserializedList = GsonUtil.getListForJsonable(jsonObject, key, testClassType);
+		List<TestClass> deserializedList = GsonUtil.getListForJsonable(jsonObject, key, listOfTestClassType);
 
 		assertEquals(testClassList.size(), deserializedList.size());
 		assertTestClassEquals(testClassList.get(0), deserializedList.get(0));
 		assertTestClassEquals(testClassList.get(1), deserializedList.get(1));
 	}
 
+	@Test
+	public void nullListSerialization() {
+		final String key = "key";
+		JSONObject jsonObject = new JSONObject();
+		GsonUtil.putListForJsonable(jsonObject, key, null);
+		List<TestClass> deserializedObject = GsonUtil.getListForJsonable(jsonObject, key, listOfTestClassType);
+
+		assertNull(deserializedObject);
+	}
+
 	private void assertTestClassEquals(TestClass expected, TestClass deserialized) {
 		assertEquals(expected.name, deserialized.name);
 		assertEquals(expected.money, deserialized.money);
 		assertEquals(expected.type, deserialized.type);
+		assertNull(deserialized.nullVar);
 	}
 
 	private static class TestClass {
@@ -72,13 +93,16 @@ public class GsonUtilTest {
 		String name;
 		BigDecimal money;
 		SpecialEnum type;
+		String nullVar;
 
 		public TestClass(String name, BigDecimal money, SpecialEnum type) {
 			this.name = name;
 			this.money = money;
 			this.type = type;
 		}
-
 	}
+
+	private static final Type listOfTestClassType = new TypeToken<List<TestClass>>() {
+	}.getType();
 
 }
