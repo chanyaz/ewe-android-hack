@@ -2,6 +2,8 @@ package com.expedia.bookings.test.ui.phone.tests.flights;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
@@ -19,16 +21,15 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-import android.support.test.espresso.Espresso;
-
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -40,6 +41,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	HotelsUserData mUser;
 
 	public void testCheckFlights() throws Exception {
+		// Setup
 		mUser = new HotelsUserData(getInstrumentation());
 		ScreenActions.enterLog(TAG, "Launching flights application");
 		LaunchScreen.launchFlights();
@@ -54,19 +56,43 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
 		FlightsCheckoutScreen.clickCheckoutButton();
+
+		// Check
+		verifyNameMustMatchIdWarning();
 		verifyRulesAndRestrictionsButton();
 		verifyMissingTravelerInformationAlerts();
+		verifyNameMustMatchIdWarningWithInfoEntered();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
 	}
 
+	private void verifyNameMustMatchIdWarning() {
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickTravelerDetails();
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+
+		FlightsTravelerInfoScreen.clickTravelerDetails();
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.enterFirstName("foo");
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+	}
+
+	private void verifyNameMustMatchIdWarningWithInfoEntered() {
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails();
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Espresso.pressBack();
+		Espresso.pressBack();
+	}
+
 	private void verifyRulesAndRestrictionsButton() {
-		try {
-			Thread.sleep(1000);
-		}
-		catch (Exception e) {
-			// ignore
-		}
+		ScreenActions.delay(1);
 		CommonCheckoutScreen.flightsLegalTextView().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
 		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
