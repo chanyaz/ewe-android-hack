@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.view.View;
@@ -16,7 +19,7 @@ import com.expedia.bookings.activity.AboutActivity;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
@@ -44,11 +47,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad_vsc;
 	}
 
-	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return false;
 	}
 
-	public Boolean isAppCrossSellInCarShareContentEnabled() {
+	public boolean isAppCrossSellInCarShareContentEnabled() {
 		return false;
 	}
 
@@ -56,7 +59,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "v.vygs.co";
 	}
 
-	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
 	}
 
@@ -64,7 +67,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
-	public Boolean wantsCustomHandlingForLocaleConfiguration() {
+	public boolean wantsCustomHandlingForLocaleConfiguration() {
 		return true;
 	}
 
@@ -80,7 +83,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return 0xfbc51e;
 	}
 
-	public Boolean shouldShowBrandLogoOnAccountButton() {
+	public boolean shouldShowBrandLogoOnAccountButton() {
 		return false;
 	}
 
@@ -88,7 +91,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.drawable.btn_login_hotels;
 	}
 
-	public Boolean doesLoginTextViewHaveCompoundDrawables() {
+	public boolean doesLoginTextViewHaveCompoundDrawables() {
 		return true;
 	}
 
@@ -96,7 +99,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return PointOfSaleId.VSC;
 	}
 
-	public Boolean isAdXEnabled() {
+	public boolean isAdXEnabled() {
 		return false;
 	}
 
@@ -135,8 +138,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return additionalParamsForReviewsRequest;
 	}
 
-	public Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint) {
-		return endpoint != ExpediaServices.EndPoint.PRODUCTION;
+	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
+		return endpoint != EndPoint.PRODUCTION;
 	}
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
@@ -157,15 +160,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		};
 	}
 
-	public Boolean isLeanPlumEnabled() {
+	public boolean isLeanPlumEnabled() {
 		return false;
 	}
 
-	public Boolean isWeAreHiringInAboutEnabled() {
+	public boolean isWeAreHiringInAboutEnabled() {
 		return false;
 	}
 
-	public Boolean isClearPrivateDataInAboutEnabled() {
+	public boolean isClearPrivateDataInAboutEnabled() {
 		return true;
 	}
 
@@ -173,7 +176,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return context.getString(Ui.obtainThemeResID(context, R.attr.skin_aboutInfoUrlString));
 	}
 
-	public Boolean areSocialMediaMenuItemsInAboutEnabled() {
+	public boolean areSocialMediaMenuItemsInAboutEnabled() {
 		return false;
 	}
 
@@ -191,42 +194,40 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return builder.build();
 	}
 
-	public Boolean isLocalExpertEnabled() {
+	public boolean isLocalExpertEnabled() {
 		return false;
 	}
 
-	public Boolean isFacebookLoginIntegrationEnabled() {
+	public boolean isFacebookLoginIntegrationEnabled() {
 		return false;
 	}
 
-	public Boolean isFacebookShareIntegrationEnabled() {
+	public boolean isFacebookShareIntegrationEnabled() {
 		return false;
 	}
 
-	public Boolean isGoogleWalletPromoEnabled() {
+	public boolean isGoogleWalletPromoEnabled() {
 		return false;
 	}
 
-	public Boolean isTrackingWithFlightTrackEnabled() {
+	public boolean isTrackingWithFlightTrackEnabled() {
 		return false;
 	}
 
-	public Boolean isHandTagProgressBarEnabled() {
+	public boolean isHangTagProgressBarEnabled() {
 		return true;
 	}
 
-	public Boolean isSettingsInMenuVisible() {
+	public boolean isSettingsInMenuVisible() {
 		return false;
 	}
 
-	public Boolean wantsCustomDateFormatForUserReviews() {
-		return true;
-	}
-
-	public String getCustomDateFormatForUserReviews() {
+	public String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime) {
 		//1608. VSC - Apparently since we are forcing FR locale the dateUtils is not formatting appropriately.
 		//Ugly hack to ensure European date format.
-		return "dd/MM/yyyy";
+		String customDateFormat = "dd/MM/yyyy";
+		DateTimeFormatter dtf = DateTimeFormat.forPattern(customDateFormat);
+		return dtf.print(dateTime);
 	}
 
 	public int getHotelSalePriceTextColorResourceId(Context context) {
@@ -276,11 +277,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		};
 	}
 
-	public Boolean wantsOtherAppsCrossSellInConfirmationScreen() {
+	public boolean wantsOtherAppsCrossSellInConfirmationScreen() {
 		return true;
 	}
 
-	public Boolean isETPEnabled() {
+	public boolean isETPEnabled() {
 		return false;
 	}
 }

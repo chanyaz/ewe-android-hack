@@ -146,7 +146,8 @@ public class AccountButton extends LinearLayout {
 			int bgResourceId = ProductFlavorFeatureConfiguration.getInstance().getLoginContainerBackgroundResId(mContext);
 			mLoginContainer.setBackgroundResource(bgResourceId);
 
-			Boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance().doesLoginTextViewHaveCompoundDrawables();
+			boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance()
+				.doesLoginTextViewHaveCompoundDrawables();
 			if (doesLoginTextViewHaveCompoundDrawables) {
 				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
@@ -164,7 +165,7 @@ public class AccountButton extends LinearLayout {
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
 
-		Boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
+		boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
 		if (!showBrandLogo) {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
 		}

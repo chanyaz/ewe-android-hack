@@ -10,9 +10,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -62,20 +61,16 @@ public enum EndPoint {
 		if (!TextUtils.isEmpty(urlTemplate)) {
 			String protocol = isSecure ? "https" : "http";
 
-			// Use dot-less domain names for everything besides production & Travelocity integration
-			if (endPoint != EndPoint.PRODUCTION && !(endPoint == EndPoint.INTEGRATION
-				&& ExpediaBookingApp.IS_TRAVELOCITY)) {
+			if (ProductFlavorFeatureConfiguration.getInstance().shouldUseDotlessDomain(endPoint)) {
 				domain = TextUtils.join("", domain.split("\\."));
 			}
 
 			String serverURL = String.format(urlTemplate, protocol, domain);
-			//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
-			if (ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId()
-				.equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
-				serverURL = serverURL.replaceFirst("w{3}\\.?", "");
-			}
+			serverURL = ProductFlavorFeatureConfiguration.getInstance().touchupE3EndpointUrlIfRequired(serverURL);
+
 			return serverURL;
 		}
+
 		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
 			return "http://" + SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
 				"localhost:3000") + "/" + domain + "/";

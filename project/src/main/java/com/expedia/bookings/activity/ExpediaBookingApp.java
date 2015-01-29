@@ -364,9 +364,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
-		Boolean wantsCustomHandling = ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration();
-
-		if (!wantsCustomHandling) {
+		if (!ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
 		}

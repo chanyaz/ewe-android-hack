@@ -17,7 +17,7 @@ import com.mobiata.android.Log;
 public class AdTracker {
 
 	public static void initialize(Context context) {
-		Boolean adxEnabled = !ExpediaBookingApp.sIsAutomation && ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled();
+		boolean adxEnabled = !ExpediaBookingApp.sIsAutomation && ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled();
 		AdX.initialize(context, adxEnabled);
 	}
 

@@ -597,7 +597,7 @@ public class PointOfSale {
 
 			EndPoint endPoint = EndPoint.getEndPoint(context);
 			for (PointOfSale posInfo : sPointOfSale.values()) {
-				// Skip Non-Prod POS, if we are in PROD Environment
+				//Skip Non-Prod POS, if we are in PROD Environment
 				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
 					continue;
 				}

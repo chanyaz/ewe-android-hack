@@ -3,13 +3,10 @@ package com.expedia.bookings.widget;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +21,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.mobiata.android.util.Ui;
 
@@ -226,16 +222,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 
 		DateTime dateTime = userReviewLoaded.mReview.getSubmissionDate();
-		String submissionDateText;
-
-		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomDateFormatForUserReviews()) {
-			String customDateFormat = ProductFlavorFeatureConfiguration.getInstance().getCustomDateFormatForUserReviews();
-			DateTimeFormatter dtf = DateTimeFormat.forPattern(customDateFormat);
-			submissionDateText = dtf.print(dateTime);
-		}
-		else {
-			submissionDateText = JodaUtils.formatDateTime(mContext, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
-		}
+		String submissionDateText = ProductFlavorFeatureConfiguration.getInstance()
+			.formatDateTimeForHotelUserReviews(mContext, dateTime);
 
 		String combinedText = nameAndLocationText;
 		if (!TextUtils.isEmpty(submissionDateText)) {

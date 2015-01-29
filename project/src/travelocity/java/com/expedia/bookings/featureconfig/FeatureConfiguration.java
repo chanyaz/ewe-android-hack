@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.AboutUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
@@ -41,11 +44,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad_tvly;
 	}
 
-	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return true;
 	}
 
-	public Boolean isAppCrossSellInCarShareContentEnabled() {
+	public boolean isAppCrossSellInCarShareContentEnabled() {
 		return true;
 	}
 
@@ -53,7 +56,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "t.tvly.co";
 	}
 
-	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
 	}
 
@@ -61,7 +64,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
-	public Boolean wantsCustomHandlingForLocaleConfiguration() {
+	public boolean wantsCustomHandlingForLocaleConfiguration() {
 		return true;
 	}
 
@@ -77,7 +80,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return 0x072b61;
 	}
 
-	public Boolean shouldShowBrandLogoOnAccountButton() {
+	public boolean shouldShowBrandLogoOnAccountButton() {
 		return false;
 	}
 
@@ -85,7 +88,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.drawable.btn_login_hotels;
 	}
 
-	public Boolean doesLoginTextViewHaveCompoundDrawables() {
+	public boolean doesLoginTextViewHaveCompoundDrawables() {
 		return true;
 	}
 
@@ -93,7 +96,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return PointOfSaleId.TRAVELOCITY;
 	}
 
-	public Boolean isAdXEnabled() {
+	public boolean isAdXEnabled() {
 		return true;
 	}
 
@@ -139,8 +142,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return additionalParamsForReviewsRequest;
 	}
 
-	public Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint) {
-		return endpoint != ExpediaServices.EndPoint.PRODUCTION && endpoint != ExpediaServices.EndPoint.INTEGRATION;
+	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
+		return endpoint != EndPoint.PRODUCTION && endpoint != EndPoint.INTEGRATION;
 	}
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
@@ -158,15 +161,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		};
 	}
 
-	public Boolean isLeanPlumEnabled() {
+	public boolean isLeanPlumEnabled() {
 		return false;
 	}
 
-	public Boolean isWeAreHiringInAboutEnabled() {
+	public boolean isWeAreHiringInAboutEnabled() {
 		return false;
 	}
 
-	public Boolean isClearPrivateDataInAboutEnabled() {
+	public boolean isClearPrivateDataInAboutEnabled() {
 		return false;
 	}
 
@@ -174,7 +177,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return PointOfSale.getPointOfSale().getWebsiteUrl();
 	}
 
-	public Boolean areSocialMediaMenuItemsInAboutEnabled() {
+	public boolean areSocialMediaMenuItemsInAboutEnabled() {
 		return false;
 	}
 
@@ -182,54 +185,50 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return null;
 	}
 
-	public Boolean isLocalExpertEnabled() {
+	public boolean isLocalExpertEnabled() {
 		return false;
 	}
 
-	public Boolean isFacebookLoginIntegrationEnabled() {
+	public boolean isFacebookLoginIntegrationEnabled() {
 		return false;
 	}
 
-	public Boolean isFacebookShareIntegrationEnabled() {
+	public boolean isFacebookShareIntegrationEnabled() {
 		return false;
 	}
 
-	public Boolean isGoogleWalletPromoEnabled() {
+	public boolean isGoogleWalletPromoEnabled() {
 		return false;
 	}
 
-	public Boolean isTrackingWithFlightTrackEnabled() {
+	public boolean isTrackingWithFlightTrackEnabled() {
 		return false;
 	}
 
-	public Boolean isHandTagProgressBarEnabled() {
+	public boolean isHangTagProgressBarEnabled() {
 		return false;
 	}
 
-	public Boolean isSettingsInMenuVisible() {
+	public boolean isSettingsInMenuVisible() {
 		return true;
 	}
 
-	public Boolean wantsCustomDateFormatForUserReviews() {
-		return false;
-	}
-
-	public String getCustomDateFormatForUserReviews() {
-		throw new UnsupportedOperationException("Travelocity does not use custom date format");
+	public String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime) {
+		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
 	}
 
 	public int getHotelSalePriceTextColorResourceId(Context context) {
 		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceStandardColor);
 	}
 
-	public Boolean wantsOtherAppsCrossSellInConfirmationScreen() {
+	public boolean wantsOtherAppsCrossSellInConfirmationScreen() {
 		return false;
 	}
 
 	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
 	}
 
-	public Boolean isETPEnabled() {
+	public boolean isETPEnabled() {
 		return false;
 	}
 }

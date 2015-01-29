@@ -101,7 +101,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void updateLoggedInStatus() {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			boolean isUserLoggedIn = User.isLoggedIn(mContext);
 			mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
 			if (isUserLoggedIn) {

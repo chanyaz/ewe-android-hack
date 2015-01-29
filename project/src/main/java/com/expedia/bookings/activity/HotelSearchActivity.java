@@ -589,7 +589,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		mIsActivityResumed = false;
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 			mProgressBar.onPause();
 		}
 
@@ -624,7 +624,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		if (mDisplayType != DisplayType.CALENDAR) {
-			if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1207,7 +1207,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		mProgressBarLayout = (ViewGroup) findViewById(R.id.search_progress_layout);
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled()) {
 			mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
 		}
 
@@ -1243,7 +1243,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled()) {
 			mProgressBar.addOnDrawStartedListener(this);
 		}
 
@@ -1818,7 +1818,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			hideFilterOptions();
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1853,7 +1853,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onPause();
 			}
 
@@ -2114,7 +2114,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 			mProgressBar.postDelayed(new Runnable() {
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
@@ -2143,7 +2143,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// In the case that the user is an emulator and this isn't a release build,
 			// disable the hanging tag for speed purposes
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHandTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
 					mProgressBar.setVisibility(View.GONE);
 				}

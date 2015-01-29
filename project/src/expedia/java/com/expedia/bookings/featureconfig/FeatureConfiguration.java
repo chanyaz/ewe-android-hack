@@ -3,16 +3,19 @@ package com.expedia.bookings.featureconfig;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.AboutUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
@@ -38,11 +41,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.string.share_template_long_ad;
 	}
 
-	public Boolean isAppCrossSellInActivityShareContentEnabled() {
+	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return true;
 	}
 
-	public Boolean isAppCrossSellInCarShareContentEnabled() {
+	public boolean isAppCrossSellInCarShareContentEnabled() {
 		return true;
 	}
 
@@ -50,7 +53,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "e.xpda.co";
 	}
 
-	public Boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
+	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
 	}
 
@@ -58,7 +61,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		throw new UnsupportedOperationException("Not Required/Implemented for Expedia App");
 	}
 
-	public Boolean wantsCustomHandlingForLocaleConfiguration() {
+	public boolean wantsCustomHandlingForLocaleConfiguration() {
 		return false;
 	}
 
@@ -74,7 +77,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return 0xfbc51e;
 	}
 
-	public Boolean shouldShowBrandLogoOnAccountButton() {
+	public boolean shouldShowBrandLogoOnAccountButton() {
 		return false;
 	}
 
@@ -82,7 +85,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return Ui.obtainThemeResID(context, R.attr.skin_phoneCheckoutLoginButtonDrawable);
 	}
 
-	public Boolean doesLoginTextViewHaveCompoundDrawables() {
+	public boolean doesLoginTextViewHaveCompoundDrawables() {
 		return true;
 	}
 
@@ -90,7 +93,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return PointOfSaleId.UNITED_KINGDOM;
 	}
 
-	public Boolean isAdXEnabled() {
+	public boolean isAdXEnabled() {
 		return true;
 	}
 
@@ -127,8 +130,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return null;
 	}
 
-	public Boolean shouldUseDotlessDomain(ExpediaServices.EndPoint endpoint) {
-		return endpoint != ExpediaServices.EndPoint.PRODUCTION;
+	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
+		return endpoint != EndPoint.PRODUCTION;
 	}
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
@@ -149,15 +152,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		};
 	}
 
-	public Boolean isLeanPlumEnabled() {
+	public boolean isLeanPlumEnabled() {
 		return true;
 	}
 
-	public Boolean isWeAreHiringInAboutEnabled() {
+	public boolean isWeAreHiringInAboutEnabled() {
 		return true;
 	}
 
-	public Boolean isClearPrivateDataInAboutEnabled() {
+	public boolean isClearPrivateDataInAboutEnabled() {
 		return false;
 	}
 
@@ -165,7 +168,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return context.getString(Ui.obtainThemeResID(context, R.attr.skin_aboutInfoUrlString));
 	}
 
-	public Boolean areSocialMediaMenuItemsInAboutEnabled() {
+	public boolean areSocialMediaMenuItemsInAboutEnabled() {
 		return true;
 	}
 
@@ -173,54 +176,50 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return AboutSectionFragment.buildOtherAppsSection(context);
 	}
 
-	public Boolean isLocalExpertEnabled() {
+	public boolean isLocalExpertEnabled() {
 		return true;
 	}
 
-	public Boolean isFacebookLoginIntegrationEnabled() {
+	public boolean isFacebookLoginIntegrationEnabled() {
 		return true;
 	}
 
-	public Boolean isFacebookShareIntegrationEnabled() {
+	public boolean isFacebookShareIntegrationEnabled() {
 		return true;
 	}
 
-	public Boolean isGoogleWalletPromoEnabled() {
+	public boolean isGoogleWalletPromoEnabled() {
 		return true;
 	}
 
-	public Boolean isTrackingWithFlightTrackEnabled() {
+	public boolean isTrackingWithFlightTrackEnabled() {
 		return true;
 	}
 
-	public Boolean isHandTagProgressBarEnabled() {
+	public boolean isHangTagProgressBarEnabled() {
 		return true;
 	}
 
-	public Boolean isSettingsInMenuVisible() {
+	public boolean isSettingsInMenuVisible() {
 		return true;
 	}
 
-	public Boolean wantsCustomDateFormatForUserReviews() {
-		return false;
-	}
-
-	public String getCustomDateFormatForUserReviews() {
-		throw new UnsupportedOperationException("Expedia does not use custom date format");
+	public String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime) {
+		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
 	}
 
 	public int getHotelSalePriceTextColorResourceId(Context context) {
 		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceStandardColor);
 	}
 
-	public Boolean wantsOtherAppsCrossSellInConfirmationScreen() {
+	public boolean wantsOtherAppsCrossSellInConfirmationScreen() {
 		return false;
 	}
 
 	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
 	}
 
-	public Boolean isETPEnabled() {
+	public boolean isETPEnabled() {
 		return true;
 	}
 }
