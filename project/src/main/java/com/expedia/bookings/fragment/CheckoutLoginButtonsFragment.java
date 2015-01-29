@@ -207,6 +207,15 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
+				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+					if (getLob() == LineOfBusiness.FLIGHTS) {
+						Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
+					}
+					else {
+						Db.getTripBucket().getHotel().getCreateTripResponse().setRewardsPoints("");
+					}
+				}
 				mAccountButton.bind(false, true, Db.getUser(), getLob());
 			}
 			else {

@@ -100,6 +100,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public static final String HOTEL_SOLD_OUT_DIALOG = "HOTEL_SOLD_OUT_DIALOG";
 	public static final String HOTEL_EXPIRED_ERROR_DIALOG = "HOTEL_EXPIRED_ERROR_DIALOG";
 
+	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
 	private static final String INSTANCE_SHOW_SLIDE_TO_WIDGET = "INSTANCE_SHOW_SLIDE_TO_WIDGET";
@@ -160,6 +161,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	//When we last refreshed user data.
 	private long mRefreshedUserTime = 0L;
+	private boolean mWasLoggedIn = false;
 
 	// We keep track of if we need to maintain the scroll position
 	// This is needed when we call startCheckout before a layout occurs
@@ -190,10 +192,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 			mCouponCode = savedInstanceState.getString(INSTANCE_COUPON_CODE);
 			mWasUsingGoogleWallet = savedInstanceState.getBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET);
+			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
 		}
 		else {
 			// Reset Google Wallet state each time we get here
 			Db.clearGoogleWallet();
+
+			mWasLoggedIn = User.isLoggedIn(getActivity());
 		}
 
 		// #1715: Disable Google Wallet on non-merchant hotels
@@ -419,6 +424,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 		outState.putString(INSTANCE_COUPON_CODE, mCouponCode);
 		outState.putBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET, mWasUsingGoogleWallet);
+		outState.putBoolean(INSTANCE_WAS_LOGGED_IN, mWasLoggedIn);
 
 		mHotelReceipt.saveInstanceState(outState);
 
@@ -596,6 +602,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					if (!bd.isDownloading(KEY_REFRESH_USER)) {
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
+				}
+				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+					Db.getTripBucket().getHotel().getCreateTripResponse().setRewardsPoints("");
 				}
 				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
 			}
@@ -1004,26 +1014,37 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			updateViewVisibilities();
 
 			mAccountButton.setEnabled(true);
+			mWasLoggedIn = false;
 
 			Events.post(new Events.CreateTripDownloadRetry());
 		}
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
-		mRefreshedUserTime = System.currentTimeMillis();
-
-		if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
-			replaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
+		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip()) {
+				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
+				showCreateTripDialog();
+				mWasLoggedIn = true;
+			}
 		}
+		else {
+			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
+			mRefreshedUserTime = System.currentTimeMillis();
 
-		populateTravelerData();
-		populatePaymentDataFromUser();
-		populateTravelerDataFromUser();
+			if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+				replaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
+			}
 
-		bindAll();
-		updateViews();
-		updateViewVisibilities();
+			populateTravelerData();
+			populatePaymentDataFromUser();
+			populateTravelerDataFromUser();
+
+			bindAll();
+			updateViews();
+			updateViewVisibilities();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

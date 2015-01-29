@@ -27,6 +27,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -63,10 +64,10 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.expedia.bookings.widget.TouchableFrameLayout;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -76,6 +77,7 @@ import com.squareup.otto.Subscribe;
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
 	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener,
+	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	TabletCheckoutFormsFragment.ISlideToPurchaseSizeProvider, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
@@ -1558,5 +1560,22 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean lobMatches = event.lineOfBusiness == getLob();
 		CheckoutState state = lobMatches ? CheckoutState.BOOKING_UNAVAILABLE : mStateManager.getState();
 		setCheckoutState(state, true);
+	}
+
+	@Override
+	public void onLoginStateChanged() {
+		Traveler.LoyaltyMembershipTier userTier = User.getLoggedInLoyaltyMembershipTier(getActivity());
+		if (User.isLoggedIn(getActivity()) && userTier.isGoldOrSilver()) {
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				Db.getTripBucket().getFlight().clearCheckoutData();
+			}
+			else {
+				Db.getTripBucket().getHotel().clearCheckoutData();
+			}
+			doCreateTrip();
+		}
+		else {
+			mCheckoutFragment.onLoginStateChanged();
+		}
 	}
 }
