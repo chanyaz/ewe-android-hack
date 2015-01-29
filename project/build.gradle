@@ -27,7 +27,9 @@ dependencies {
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
-    compile project(':lib:ExpediaBookings')
+    compile (project(':lib:ExpediaBookings')) {
+        exclude group: 'org.json'
+    }
 
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
