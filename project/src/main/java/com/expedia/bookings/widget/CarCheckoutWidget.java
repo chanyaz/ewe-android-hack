@@ -62,7 +62,7 @@ public class CarCheckoutWidget extends LinearLayout {
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		CarDb.getCarServices().createTrip(event.offer.productKey, new Observer<CarCreateTripResponse>() {
+		CarDb.getCarServices().createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), new Observer<CarCreateTripResponse>() {
 			@Override
 			public void onCompleted() {
 				// ignore

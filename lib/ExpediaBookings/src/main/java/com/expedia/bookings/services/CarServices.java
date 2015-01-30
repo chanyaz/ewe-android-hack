@@ -105,8 +105,8 @@ public class CarServices {
 		}
 	};
 
-	public Subscription createTrip(String productKey, Observer<CarCreateTripResponse> observer) {
-		return mApi.createTrip(productKey)
+	public Subscription createTrip(String productKey, String expectedTotalFare, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(productKey, expectedTotalFare)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.subscribe(observer);

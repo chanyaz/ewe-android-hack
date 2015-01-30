@@ -17,6 +17,7 @@ public interface CarApi {
 
 	@GET("/m/api/cars/create")
 	public Observable<CarCreateTripResponse> createTrip(
-		@Query("productKey") String productKey);
+		@Query("productKey") String productKey,
+		@Query("expectedTotalFare") String expectedTotalFare);
 
 }
