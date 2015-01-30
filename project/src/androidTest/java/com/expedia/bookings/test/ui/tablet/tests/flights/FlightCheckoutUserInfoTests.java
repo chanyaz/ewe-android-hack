@@ -2,6 +2,7 @@ package com.expedia.bookings.test.ui.tablet.tests.flights;
 
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
@@ -13,7 +14,9 @@ import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.TabletTestCase;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
@@ -25,6 +28,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
 
 	public void testCheckFlights() throws Exception {
+		// Test setup
 		mUser = new HotelsUserData(getInstrumentation());
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
@@ -42,10 +46,33 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
 		Results.clickBookFlight();
+		// Validation
+		verifyNameMustMatchIdWarning();
 		verifyRulesAndRestrictionsButton();
 		verifyMissingTravelerInformationAlerts();
+		verifyNameMustMatchIdWarningWithInfoEntered();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
+	}
+
+	private void verifyNameMustMatchIdWarning() {
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
+		ScreenActions.delay(1);
+		Checkout.clickOnEmptyTravelerDetails();
+		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Checkout.nameMustMatchTextView().perform(click());
+		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Checkout.enterFirstName("foo");
+		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Common.pressBack();
+	}
+
+	private void verifyNameMustMatchIdWarningWithInfoEntered() {
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
+		ScreenActions.delay(1);
+		Checkout.clickOnTravelerDetails();
+		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Common.pressBack();
 	}
 
 	private void verifyRulesAndRestrictionsButton() {

@@ -1,18 +1,20 @@
 package com.expedia.bookings.test.ui.tablet.pagemodels;
 
-import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeRight;
+import com.expedia.bookings.R;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeRight;
 import static org.hamcrest.Matchers.allOf;
 
 public class Checkout {
@@ -22,6 +24,10 @@ public class Checkout {
 
 	public static void clickOnTravelerDetails() {
 		onView(withId(R.id.traveler_section_container)).perform(click());
+	}
+
+	public static ViewInteraction nameMustMatchTextView() {
+		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText("Main traveler details"))));
 	}
 
 	public static ViewInteraction loginButton() {
