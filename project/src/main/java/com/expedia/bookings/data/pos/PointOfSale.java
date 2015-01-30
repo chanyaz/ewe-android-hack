@@ -138,6 +138,9 @@ public class PointOfSale {
 	// Does this POS support AirAttach pricing?
 	private boolean mShouldShowAirAttach;
 
+	// Does this POS support FTC messaging?
+	private boolean mShowFTCResortRegulations;
+
 	// EAPID value and is used
 	private int mEAPID;
 
@@ -341,7 +344,7 @@ public class PointOfSale {
 	}
 
 	public boolean showFTCResortRegulations() {
-		return mPointOfSale == PointOfSaleId.UNITED_STATES;
+		return mShowFTCResortRegulations;
 	}
 
 	// Special case breakdown dialog string for some points of sale
@@ -804,6 +807,7 @@ public class PointOfSale {
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
+		pos.mShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
