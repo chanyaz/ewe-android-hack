@@ -80,6 +80,18 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 			.perform(click());
 
 		//handle price change popup after selecting a room
+		dismissPriceChange();
+	}
+
+	public static void selectRoomItemWithPriceChange(int index) {
+		getRoomRow(index).perform(click());
+	}
+
+	public static DataInteraction getRoomRow(int index) {
+		return onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(NUM_HEADERS_IN_LIST_VIEW + index);
+	}
+
+	public static void dismissPriceChange() {
 		try {
 			onView(withText(R.string.ok)).perform(click());
 		}
