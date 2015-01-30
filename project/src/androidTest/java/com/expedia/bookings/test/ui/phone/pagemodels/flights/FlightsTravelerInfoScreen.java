@@ -34,7 +34,14 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 
 	public static void clickPopulatedTravelerDetails() {
 		onView(withId(R.id.traveler_container)).perform(click());
+	}
+
+	public static void clickEditTravelerInfo() {
 		onView(withId(R.id.current_traveler_contact)).perform(click());
+	}
+
+	public static void clickEnterNewTraveler() {
+		onView(withId(R.id.enter_info_manually_button)).perform(click());
 	}
 
 	public static ViewInteraction nameMustMatchTextView() {

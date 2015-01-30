@@ -62,11 +62,14 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		verifyRulesAndRestrictionsButton();
 		verifyMissingTravelerInformationAlerts();
 		verifyNameMustMatchIdWarningWithInfoEntered();
+		verifyNameMustMatchIdWarningSecondTraveler();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
 	}
 
 	private void verifyNameMustMatchIdWarning() {
+		// Warning should appear on opening traveler details
+		// and close when the user taps the screen.
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
 		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickTravelerDetails();
@@ -75,6 +78,8 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		Espresso.pressBack();
 
+		// Warning should still be present on subsequent details entry
+		// and close when the user starts typing.
 		FlightsTravelerInfoScreen.clickTravelerDetails();
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		FlightsTravelerInfoScreen.enterFirstName("foo");
@@ -83,12 +88,36 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	}
 
 	private void verifyNameMustMatchIdWarningWithInfoEntered() {
+		// Warning behavior should persist after traveler info has been entered and saved.
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
 		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails();
+		FlightsTravelerInfoScreen.clickEditTravelerInfo();
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		Espresso.pressBack();
 		Espresso.pressBack();
+	}
+
+	private void verifyNameMustMatchIdWarningSecondTraveler() {
+		// Warning behavior should persist upon entry of additional travelers' info.
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails();
+		FlightsTravelerInfoScreen.clickEnterNewTraveler();
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+
+		FlightsTravelerInfoScreen.clickEnterNewTraveler();
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.enterFirstName("foo");
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+		Espresso.pressBack();
+
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
