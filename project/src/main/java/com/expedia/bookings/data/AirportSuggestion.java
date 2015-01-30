@@ -38,5 +38,4 @@ public class AirportSuggestion {
 		return mLocation;
 	}
 
-
 }

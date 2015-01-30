@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -231,6 +232,11 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 				&& mMultiCityRegionId == other.mMultiCityRegionId
 				&& ((mLocation == null && other.mLocation == null) || (mLocation != null && mLocation
 						.equals(other.mLocation)));
+	}
+
+	@Override
+	public String toString() {
+		return Html.fromHtml(mDisplayName).toString();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

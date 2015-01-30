@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class SuggestionsAdapter extends ArrayAdapter<SuggestionV2> implements Fi
 		}
 
 		viewHolder.txtView.setCompoundDrawablesWithIntrinsicBounds(suggestionV2.getIcon(), 0 ,0 ,0);
-		viewHolder.txtView.setText(suggestionV2.getFullName());
+		viewHolder.txtView.setText(Html.fromHtml(suggestionV2.getDisplayName()).toString());
 
 		return convertView;
 	}
