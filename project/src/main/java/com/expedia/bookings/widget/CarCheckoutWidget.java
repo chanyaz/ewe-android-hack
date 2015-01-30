@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
-import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.data.cars.CarCreateTripOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.squareup.otto.Subscribe;
@@ -42,8 +42,6 @@ public class CarCheckoutWidget extends LinearLayout {
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;
 
-	private CarOffer offer;
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -64,8 +62,7 @@ public class CarCheckoutWidget extends LinearLayout {
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		offer = event.offer;
-		CarDb.getCarServices().createTrip(offer.productKey, new Observer<CarCreateTripResponse>() {
+		CarDb.getCarServices().createTrip(event.offer.productKey, new Observer<CarCreateTripResponse>() {
 			@Override
 			public void onCompleted() {
 				// ignore
@@ -84,7 +81,7 @@ public class CarCheckoutWidget extends LinearLayout {
 	}
 
 	private void bind(CarCreateTripResponse createTrip) {
-		CarOffer offer = createTrip.carProduct;
+		CarCreateTripOffer offer = createTrip.carProduct;
 
 		locationDescriptionText.setText(createTrip.itineraryNumber);
 
