@@ -92,15 +92,22 @@ public class BookingInfoUtils {
 
 	public static List<StoredCreditCard> getStoredCreditCards(Context context) {
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
+		boolean seenSelectedCard = false;
 
 		if (Db.getMaskedWallet() != null) {
-			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
+			StoredCreditCard walletCard = WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet());
+			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
+			if (currentCard != null && currentCard.compareTo(walletCard) == 0) {
+				walletCard.setIsSelectable(false);
+				seenSelectedCard = true;
+			}
+			cards.add(walletCard);
 		}
 
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
 			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
-			if (currentCard != null) {
+			if (currentCard != null && !seenSelectedCard) {
 				for (int i = 0; i < dbCards.size(); i++) {
 					if (currentCard.compareTo(dbCards.get(i)) == 0) {
 						Db.getUser().getStoredCreditCards().get(i).setIsSelectable(false);

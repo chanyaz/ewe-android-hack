@@ -122,7 +122,9 @@ public class WalletUtils {
 	public static void bindWalletToBillingInfo(MaskedWallet wallet, BillingInfo billingInfo) {
 		Log.d(TAG, "Binding MASKED wallet data to billing info...");
 
-		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
+		StoredCreditCard walletCard = WalletUtils.convertToStoredCreditCard(wallet);
+		walletCard.setIsSelectable(false);
+		billingInfo.setStoredCard(walletCard);
 
 		// With a masked wallet, we actually explicitly *clear* some data from the BillingInfo
 		// The reason why we do this is so that the app does not simultaneously think that we
