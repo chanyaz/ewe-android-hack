@@ -386,7 +386,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && getLob() == LineOfBusiness.HOTELS) {
 			mWalletCouponListener.applyWalletCoupon();
 		}
-
+		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(billingInfo);
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		bind();
 		refreshAccountButtonState();
 		updateWalletViewVisibilities();
