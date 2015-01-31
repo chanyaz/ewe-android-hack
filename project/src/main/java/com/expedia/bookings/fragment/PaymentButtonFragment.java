@@ -228,7 +228,8 @@ public class PaymentButtonFragment extends LobableFragment {
 								if (currentCC != null) {
 									BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
 								}
-								Db.getBillingInfo().setStoredCard(card);
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
+								Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 								bindToDb();
 								mStoredCardPopup.dismiss();
 								mPaymentButtonListener.onStoredCreditCardChosen();
