@@ -78,7 +78,8 @@ public final class CarSearchParamsTests {
 		// Select round-trip, overnight
 		CarSearchParamsModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
 		String expected = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN)
-			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN);
+			+ " – " + JodaUtils
+			.format(DateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN);
 		CarSearchParamsModel.selectDate().check(matches(withText(expected)));
 	}
 
@@ -96,8 +97,11 @@ public final class CarSearchParamsTests {
 		//Select dates from calendar
 		CarSearchParamsModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = JodaUtils.format(DateTime.now().withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), DATE_TIME_PATTERN)
-			+ " – " + JodaUtils.format(DateTime.now().plusDays(1).withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis), DATE_TIME_PATTERN);
+		String expected = JodaUtils
+			.format(DateTime.now().withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), DATE_TIME_PATTERN)
+			+ " – " + JodaUtils
+			.format(DateTime.now().plusDays(1).withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis),
+				DATE_TIME_PATTERN);
 		CarSearchParamsModel.selectDate().check(matches(withText(expected)));
 	}
 
@@ -144,12 +148,7 @@ public final class CarSearchParamsTests {
 		CarSearchParamsModel.alertDialogNeutralButton().perform(click());
 
 		// Test with only pickup location
-		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
-		//TODO don't do this
-		ScreenActions.delay(3);
-		onView(withText("SFO"))
-			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity(playground.instrumentation()).getWindow().getDecorView()))))
-			.perform(click());
+		selectPickupLocation("SFO");
 		CarSearchParamsModel.selectDates(null, null);
 		CarSearchParamsModel.searchButton().perform(click());
 		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
@@ -158,7 +157,7 @@ public final class CarSearchParamsTests {
 		CarSearchParamsModel.alertDialogNeutralButton().perform(click());
 
 		// Test with origin and start date selected
-		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
+		selectPickupLocation("SFO");
 		CarSearchParamsModel.selectDate().perform(click());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarSearchParamsModel.searchButton().perform(click());
@@ -168,8 +167,8 @@ public final class CarSearchParamsTests {
 	}
 
 	@Test
-	public void testSearchButtonHasNoErrorMessageForCompleteParams() {
-		CarSearchParamsModel.pickupLocation().perform(typeText("SFO"));
+	public void testSearchButtonHasNoErrorMessageForCompleteParams() throws Throwable {
+		selectPickupLocation("SFO");
 		CarSearchParamsModel.selectDate().perform(click());
 		CarSearchParamsModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
 		CarSearchParamsModel.searchButton().perform(click());
@@ -182,5 +181,16 @@ public final class CarSearchParamsTests {
 		CarSearchParamsModel.alertDialog().check(matches(isDisplayed()));
 		CarSearchParamsModel.alertDialogMessage().check(matches(withText(R.string.drop_off_same_as_pick_up)));
 		CarSearchParamsModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+	}
+
+
+	private void selectPickupLocation(String airportCode) throws Throwable {
+		CarSearchParamsModel.pickupLocation().perform(typeText(airportCode));
+		ScreenActions.delay(3); // TODO remove delay
+		onView(withText(airportCode))
+			.inRoot(withDecorView(not(is(
+				SpoonScreenshotUtils.getCurrentActivity(playground.instrumentation()).getWindow().getDecorView()))))
+			.perform(click());
+
 	}
 }
