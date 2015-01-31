@@ -1,25 +1,30 @@
 package com.expedia.bookings.widget;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observer;
 
-public class CarCheckoutWidget extends LinearLayout {
+public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISlideToListener {
 
 	public CarCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
+
+	CarCreateTripResponse createTripResponse;
 
 	@InjectView(R.id.category_title_text)
 	TextView categoryTitleText;
@@ -42,10 +47,16 @@ public class CarCheckoutWidget extends LinearLayout {
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;
 
+	@InjectView(R.id.slide_to_purchase_widget)
+	SlideToWidget slideWidget;
+
+	ProgressDialog mCheckoutProgressDialog;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		slideWidget.addSlideToListener(this);
 	}
 
 	@Override
@@ -81,7 +92,8 @@ public class CarCheckoutWidget extends LinearLayout {
 	}
 
 	private void bind(CarCreateTripResponse createTrip) {
-		CreateTripCarOffer offer = createTrip.carProduct;
+		createTripResponse = createTrip;
+		CreateTripCarOffer offer = createTripResponse.carProduct;
 
 		locationDescriptionText.setText(createTrip.itineraryNumber);
 
@@ -95,4 +107,55 @@ public class CarCheckoutWidget extends LinearLayout {
 			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 	}
+
+	// Checkout UI helpers
+
+	private void showCheckoutThrobber() {
+		if (mCheckoutProgressDialog == null) {
+			mCheckoutProgressDialog = new ProgressDialog(getContext());
+			mCheckoutProgressDialog.setMessage(getResources().getString(R.string.Checkout));
+			mCheckoutProgressDialog.setIndeterminate(true);
+		}
+		mCheckoutProgressDialog.show();
+	}
+
+	private void resetAfterCheckout() {
+		slideWidget.resetSlider();
+		mCheckoutProgressDialog.dismiss();
+	}
+
+	//  SlideToWidget.ISlideToListener
+
+	@Override
+	public void onSlideStart() {
+	}
+
+	@Override
+	public void onSlideAllTheWay() {
+		CarDb.getCarServices().checkout(createTripResponse.tripId, createTripResponse.carProduct.fare.grandTotal.amount.toString(), checkoutObserver);
+		showCheckoutThrobber();
+	}
+
+	@Override
+	public void onSlideAbort() {
+	}
+
+	private Observer<CarCheckoutResponse> checkoutObserver = new Observer<CarCheckoutResponse>() {
+		@Override
+		public void onCompleted() {
+			resetAfterCheckout();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			resetAfterCheckout();
+		}
+
+		@Override
+		public void onNext(CarCheckoutResponse carCheckoutResponse) {
+			resetAfterCheckout();
+			//TODO show a dialog or something with the itin #
+			Ui.showToast(getContext(), "Checkout completed.");
+		}
+	};
 }

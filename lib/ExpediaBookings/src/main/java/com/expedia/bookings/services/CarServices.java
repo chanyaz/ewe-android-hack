@@ -6,14 +6,15 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
-import com.expedia.bookings.data.Money;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -107,6 +108,13 @@ public class CarServices {
 
 	public Subscription createTrip(String productKey, String expectedTotalFare, Observer<CarCreateTripResponse> observer) {
 		return mApi.createTrip(productKey, expectedTotalFare)
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.subscribe(observer);
+	}
+
+	public Subscription checkout(String tripId, String expectedTotalFare, Observer<CarCheckoutResponse> observer) {
+		return mApi.checkoutWithoutCreditCard(true, tripId, expectedTotalFare, "USD", "1", "734.740.0492", "kevc@mobiata.com", "Kev", "Car")
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.subscribe(observer);
