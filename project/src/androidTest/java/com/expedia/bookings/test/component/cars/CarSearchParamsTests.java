@@ -34,7 +34,7 @@ import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchParamsTests {
-	private static final String DATE_TIME_PATTERN = "MMM dd, h:mm a";
+	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
 
