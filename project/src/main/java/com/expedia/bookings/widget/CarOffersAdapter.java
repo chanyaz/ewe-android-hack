@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 
 public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.ViewHolder> {
 
-	List<CarOffer> carOffers;
+	List<SearchCarOffer> carOffers;
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,7 +25,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		CarOffer offer = carOffers.get(position);
+		SearchCarOffer offer = carOffers.get(position);
 		holder.bindOffer(offer);
 	}
 
@@ -54,7 +54,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			totalPrice = Ui.findView(view, R.id.total_price_text);
 		}
 
-		public void bindOffer(CarOffer co) {
+		public void bindOffer(SearchCarOffer co) {
 			root.setTag(co);
 			vendor.setText(co.vendor.name);
 			carDetails.setText(co.vehicleInfo.makes.get(0));
@@ -65,12 +65,12 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 		@Override
 		public void onClick(View v) {
-			CarOffer offer = (CarOffer) v.getTag();
+			SearchCarOffer offer = (SearchCarOffer) v.getTag();
 			Events.post(new Events.CarsShowCheckout(offer));
 		}
 	}
 
-	public void setCarOffers(List<CarOffer> carOffers) {
+	public void setCarOffers(List<SearchCarOffer> carOffers) {
 		this.carOffers = carOffers;
 	}
 }

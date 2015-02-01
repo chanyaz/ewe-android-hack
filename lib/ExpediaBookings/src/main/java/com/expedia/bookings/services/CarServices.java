@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
@@ -70,9 +70,9 @@ public class CarServices {
 		@Override
 		public Observable<CategorizedCarOffers> call(CarSearchResponse carSearchResponse) {
 			EnumMap<CarCategory, CategorizedCarOffers> buckets = new EnumMap<>(CarCategory.class);
-			List<CarOffer> offers = carSearchResponse.offers;
+			List<SearchCarOffer> offers = carSearchResponse.offers;
 
-			for (CarOffer offer : offers) {
+			for (SearchCarOffer offer : offers) {
 				CarCategory category = offer.vehicleInfo.category;
 				CategorizedCarOffers bucket = buckets.get(category);
 				if (bucket == null) {

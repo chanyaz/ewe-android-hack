@@ -1,11 +1,10 @@
 package com.expedia.bookings.data.cars;
 
-public class CarOffer {
+public class BaseCarOffer {
 	public String productKey;
 	public CarVendor vendor;
-	public boolean reservationRequired;
+	public boolean creditCardRequiredToGuaranteeReservation;
 	public CarLocation pickUpLocation;
 	public CarLocation dropOffLocation;
-	public CarFare fare;
 	public CarInfo vehicleInfo;
 }

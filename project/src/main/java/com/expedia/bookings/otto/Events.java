@@ -17,7 +17,7 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
-import com.expedia.bookings.data.cars.CarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
@@ -540,9 +540,9 @@ public class Events {
 	}
 
 	public static class CarsShowCheckout {
-		public CarOffer offer;
+		public SearchCarOffer offer;
 
-		public CarsShowCheckout(CarOffer offer) {
+		public CarsShowCheckout(SearchCarOffer offer) {
 			this.offer = offer;
 		}
 	}

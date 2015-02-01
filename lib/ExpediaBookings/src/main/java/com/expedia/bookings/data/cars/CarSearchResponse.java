@@ -7,5 +7,5 @@ import org.joda.time.DateTime;
 public class CarSearchResponse {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
-	public List<CarOffer> offers;
+	public List<SearchCarOffer> offers;
 }

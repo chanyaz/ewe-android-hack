@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.cars.CarFare;
+import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
@@ -78,7 +78,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 
 		public void bindCategorizedOffers(CategorizedCarOffers cco) {
 			mRoot.setTag(cco);
-			CarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
+			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
 			mCategoryTextView.setText(cco.category.toString());
 			mPassengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));

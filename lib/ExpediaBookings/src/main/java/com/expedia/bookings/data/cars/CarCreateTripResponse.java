@@ -7,7 +7,7 @@ import com.expedia.bookings.data.ValidPayment;
 public class CarCreateTripResponse {
 
 	public String activityId;
-	public CarCreateTripOffer carProduct;
+	public CreateTripCarOffer carProduct;
 
 	public String itineraryNumber;
 	public String tripId;

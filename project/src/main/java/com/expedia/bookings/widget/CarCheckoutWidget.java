@@ -4,16 +4,16 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
-import com.expedia.bookings.data.cars.CarCreateTripOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.squareup.otto.Subscribe;
-import rx.Observer;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
 
 public class CarCheckoutWidget extends LinearLayout {
 
@@ -81,18 +81,18 @@ public class CarCheckoutWidget extends LinearLayout {
 	}
 
 	private void bind(CarCreateTripResponse createTrip) {
-		CarCreateTripOffer offer = createTrip.carProduct;
+		CreateTripCarOffer offer = createTrip.carProduct;
 
 		locationDescriptionText.setText(createTrip.itineraryNumber);
 
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
 		carModelText.setText(offer.vehicleInfo.makes.get(0));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(offer.fare.total.getFormattedMoney());
-		sliderTotalText.setText(offer.fare.total.getFormattedMoney());
+		tripTotalText.setText(offer.fare.grandTotal.getFormattedMoney());
+		sliderTotalText.setText(offer.fare.grandTotal.getFormattedMoney());
 
 		dateTimeText.setText(DateFormatUtils
 			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
-			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
+				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 	}
 }

@@ -5,15 +5,15 @@ import java.util.List;
 
 public class CategorizedCarOffers {
 	public CarCategory category;
-	public List<CarOffer> offers = new ArrayList<>();
+	public List<SearchCarOffer> offers = new ArrayList<>();
 
-	private CarOffer lowestTotalPriceOffer;
+	private SearchCarOffer lowestTotalPriceOffer;
 
 	public CategorizedCarOffers(CarCategory category) {
 		this.category = category;
 	}
 
-	public void add(CarOffer offer) {
+	public void add(SearchCarOffer offer) {
 		if (lowestTotalPriceOffer == null ||
 			offer.fare.total.compareTo(lowestTotalPriceOffer.fare.total) < 0) {
 			lowestTotalPriceOffer = offer;
@@ -21,7 +21,7 @@ public class CategorizedCarOffers {
 		offers.add(offer);
 	}
 
-	public CarOffer getLowestTotalPriceOffer() {
+	public SearchCarOffer getLowestTotalPriceOffer() {
 		return lowestTotalPriceOffer;
 	}
 }
