@@ -271,7 +271,8 @@ public class GradleUtil {
         }
         type = type.capitalize()
 
-        return flavor + " " + type
+        def appname = flavor + " " + type
+        return appname.tr('_', '.')
     }
 
     static def getGitRevision() {

@@ -18,15 +18,20 @@ if [ -e "$CHANGE_LOG_FILE" ] ; then
     echo "=== End Changelog ==="
 fi
 
-TARGET=$(echo ${BUILDER_NAME} | perl -ne 'print ucfirst($_)')
-
 if [ -z "${TARGET}" ] ; then
-    echo "Must supply a proper BUILDER_NAME so we can figure out which flavor to build"
+    echo "Must supply TARGET so we can figure out which flavor to upload"
     exit 1
 fi
+echo "TARGET=$TARGET"
+
+if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
+    echo "Must supply APPLICATION_ID_SUFFIX so we can figure out which crashlytics build to upload"
+    exit 1
+fi
+echo "APPLICATION_ID_SUFFIX=${APPLICATION_ID_SUFFIX}"
 
 TERM=dumb
-./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
+./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}Debug"
 
 RESULT=$?
 
