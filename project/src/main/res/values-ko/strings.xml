@@ -6,6 +6,28 @@
     <string name="pick_up_time">인수 시간</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">반납 시간</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">인수 위치</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">인수 위치와 동일</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">날짜 및 위치</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">인수 및 반납 날짜 선택</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – 반납 날짜를 선택하세요.</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">인수</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">반납</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">반납 위치가 인수 위치와 같아야 합니다.</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">출발지가 없습니다.</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">시작일이 없습니다.</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">완료일이 없습니다.</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -137,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">기타 지역</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">인기</string>
+    <string name="popular">인기순</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">가격</string>
+    <string name="price">가격순</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">평점</string>
+    <string name="rating">평점순</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">거리</string>
+    <string name="distance">거리순</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">할인</string>
+    <string name="discounts">할인율순</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">누르면 가장 인기 많은 호텔별로 정렬됩니다.</string>
     <!-- Content description for "sort by price" button -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">왕복</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">총 합계</string>
+    <string name="total_with_tax">세금 포함 총계</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">총 금액</string>
 
@@ -339,7 +361,7 @@
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
     <string name="error_network_unavailable">WiFi 또는 모바일 데이터에 연결하고\n계속해 주세요.</string>
     <!-- Menu option for going to see your trips/itineraries -->
-    <string name="trips">여행</string>
+    <string name="trips">일정</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">내 여행</string>
     <!-- Actionbar Title on main launch screen -->
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">탑승 수속 가능</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">항공편 공유</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">여행 중 실시간 업데이트를 제공하실 수 있어요.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$s행 %1$s 항공편</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -392,7 +418,7 @@
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
     <!-- Shop -->
-    <string name="shop">쇼핑</string>
+    <string name="shop">예약</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
     <!-- Enter Itinerary Details -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">사용하기</string>
     <string name="itin_action_support">고객 지원</string>
     <string name="itin_action_share">공유하기</string>
+    <string name="itin_action_view">일정 보기</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">바우처 인쇄</string>
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액은 %1$s입니다.</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">호텔에서 결제: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">완료</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">오늘 결제할 총액</string>
+    <string name="total_due_today">오늘 익스피디아에 결제할 금액</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">영문자를 사용해 주세요.</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">호텔에서 결제되는 수수료:</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">오늘 익스피디아에 결제할 총 금액:</string>
+    <string name="total_due_to_expedia_today">오늘 익스피디아에 결제할 금액:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 고객님 숙박의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">고객님 여행의 총 금액은 &lt;b&gt;%1$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 보증금은 지금 결제됩니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;드래그하여&lt;/b&gt; 숙박 일을 추가해 주세요.</string>
     <!-- Child age dialog button -->
     <string name="button_done">완료</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">완료</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">완료</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">아동 나이 선택</item>
@@ -2070,7 +2105,7 @@
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">객실 선택</string>
     <!-- The text we use when the search date it tonight -->
-    <string name="Tonight">오늘 밤</string>
+    <string name="Tonight">오늘 밤 특가 상품</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">무료 취소</string>
     <!-- This fee is not included in the total -->
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">포함됨</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">호텔 수수료(호텔에서 결제)</string>
+    <string name="MandatoryFees">호텔에 지불하는 요금</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">할인</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

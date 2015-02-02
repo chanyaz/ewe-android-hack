@@ -6,6 +6,28 @@
     <string name="pick_up_time">Giờ nhận xe</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Giờ trả xe</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Địa điểm nhận xe</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Cùng địa điểm nhận xe</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Ngày và địa điểm</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Chọn ngày nhận và trả xe</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – Chọn ngày trở về</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Nhận xe</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Trả xe</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Nơi trả xe phải cùng nơi nhận xe</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Thiếu bắt đầu</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Thiếu ngày khởi hành</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Thiếu ngày kết thúc</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -137,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Khu vực khác</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">mức độ phổ biến</string>
+    <string name="popular">Phổ biến</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">giá</string>
+    <string name="price">Giá</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">xếp hạng</string>
+    <string name="rating">Xếp hạng</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">khoảng cách</string>
+    <string name="distance">Khoảng cách</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">giảm giá</string>
+    <string name="discounts">Giảm giá</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Bấm để sắp xếp theo mức độ phổ biến của khách sạn.</string>
     <!-- Content description for "sort by price" button -->
@@ -206,7 +228,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Thanh toán ngay</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">- thanh toán ngay</string>
+    <string name="room_rate_pay_later_due_now">Thanh toán ngay</string>
     <!-- Rooms and rates pay later total -->
     <string name="room_rate_pay_later_total_template">%sTổng cộng</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Khứ hồi</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Tổng cộng</string>
+    <string name="total_with_tax">Tổng gồm thuế</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Tổng chuyến đi</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Đã có thể làm thủ tục</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Chia sẻ chuyến bay của quý vị</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Cho phép người khác xem cập nhật trực tiếp khi quý vị đang thực hiện chuyến đi.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s chuyến bay đến %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">Đổi</string>
     <string name="itin_action_support">Hỗ trợ</string>
     <string name="itin_action_share">Chia sẻ</string>
+    <string name="itin_action_view">Xem lịch trình</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">In voucher</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Tổng quan</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Tổng giá</string>
+    <string name="total_price_label">Tổng chuyến đi</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Chuyến đi đến %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền phải thanh toán ngay %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền cần thanh toán ngay: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Thanh toán tại khách sạn: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Hoàn tất</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
+    <string name="total_due_today">Tổng phí thanh toán cho Expedia ngay</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Vui lòng chỉ sử dụng ký tự Latin không dấu</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Phí thanh toán tại Khách sạn:</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Tổng phí thanh toán cho Expedia hôm nay:</string>
+    <string name="total_due_to_expedia_today">Tổng phí thanh toán cho Expedia ngay:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">Khách sạn sẽ thu phí &lt;b&gt;%1$s&lt;/b&gt; resort. Tổng phí kỳ lưu trú của quý vị là &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">Khách sạn sẽ thu phí &lt;b&gt;%1$s&lt;/b&gt; resort. Tổng giá chuyến đi của quý vị là &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Tổng giá chuyến đi của quý vị là &lt;b&gt;%1$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Chúng tôi sẽ thu &lt;b&gt;%1$s&lt;/b&gt; tiền đặt cọc ngay. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Kéo&lt;/b&gt; để kéo dài thời gian lưu trú của quý vị.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Hoàn tất</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Hoàn tất</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Hoàn tất</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Chọn tuổi trẻ</item>
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Bao gồm</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Phí khách sạn (Thanh toán tại khách sạn)</string>
+    <string name="MandatoryFees">Phí thanh toán cho khách sạn</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Giảm giá</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

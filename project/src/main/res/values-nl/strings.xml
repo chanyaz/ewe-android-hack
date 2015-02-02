@@ -6,6 +6,28 @@
     <string name="pick_up_time">Ophaaltijd</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Inlevertijd</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Ophaallocatie</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Zelfde als ophaallocatie</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Datums en locatie</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Selecteer ophaal- en inleverdatums</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s - Selecteer retourdatum</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Ophalen</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Inleveren</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Inleverlocatie dient dezelfde te zijn als ophaallocatie</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Vertrekplaats ontbreekt</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Begindatum ontbreekt</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Einddatum ontbreekt</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -137,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Andere buurten</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">populariteit</string>
+    <string name="popular">Populariteit</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">prijs</string>
+    <string name="price">Prijs</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">score</string>
+    <string name="rating">Score</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">afstand</string>
+    <string name="distance">Afstand</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">korting</string>
+    <string name="discounts">Kortingen</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Druk om te sorteren op de populairste hotels.</string>
     <!-- Content description for "sort by price" button -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Retourreis</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Totaal</string>
+    <string name="total_with_tax">Totaal incl. belastingen</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Totaal reis</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in beschikbaar</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Deel je vlucht</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Zorg ervoor dat anderen live updates ontvangen terwijl je reist.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s vlucht naar %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">Inwisselen</string>
     <string name="itin_action_support">Ondersteuning</string>
     <string name="itin_action_share">Delen</string>
+    <string name="itin_action_view">Reisplan weergeven</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Coupons afdrukken</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Overzicht</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Totaalprijs</string>
+    <string name="total_price_label">Totaal reis</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Reis naar %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Op je creditcard wordt %1$s in rekening gebracht</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen: %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen bedrag: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Te betalen bij hotelreceptie: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Gereed</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Totaal nu te betalen</string>
+    <string name="total_due_today">Vandaag te betalen aan Expedia</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Gebruik alleen latijnse tekens</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Toeslagen verrekend in hotel:</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Totaal nu te betalen aan Expedia:</string>
+    <string name="total_due_to_expedia_today">Vandaag te betalen aan Expedia:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">De resortkosten van &lt;b&gt;%1$s&lt;/b&gt; worden in het hotel verrekend. Het totaal voor je verblijf is &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">De resortkosten van &lt;b&gt;%1$s&lt;/b&gt; worden in het hotel verrekend. De totaalprijs voor je verblijf is &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Het totaal voor je reis is &lt;b&gt;%1$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de totale boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Er wordt nu een aanbetaling van &lt;b&gt;%1$s&lt;/b&gt; in rekening gebracht. Je betaalt pas tijdens je verblijf de resterende boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Het totaal voor je reis, incl. &lt;b&gt;%1$s&lt;/b&gt; resortkosten, is &lt;b&gt;%2$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de totale boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Het totaal voor je reis, incl. &lt;b&gt;%1$s&lt;/b&gt; resortkosten, is &lt;b&gt;%2$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de resterende boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Sleep&lt;/b&gt; om je verblijf te verlengen</string>
     <!-- Child age dialog button -->
     <string name="button_done">Gereed</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Gereed</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Gereed</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Selecteer de leeftijd van kind</item>
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inbegrepen</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Hoteltoeslagen (te betalen in het hotel)</string>
+    <string name="MandatoryFees">Toeslagen verrekend aan hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Korting</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2267,7 +2302,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140,000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobieltje hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140.000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobieltje hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
     <!-- Label for link to privacy policy -->
