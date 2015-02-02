@@ -202,27 +202,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final String key = CrossContextHelper.KEY_INFO_DOWNLOAD;
 		final HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		logger.addSplit("Get downloader and old response");
+		// Let's cancel existing download so we can start a new one or get cached response.
+		bd.cancelDownload(key);
 
+		// We may have been downloading the data elsewhere, so let's set the previous response.
 		if (infoResponse != null) {
-			// We may have been downloading the data here before getting it elsewhere, so cancel
-			// our own download once we have data
-			bd.cancelDownload(key);
-
 			// Load the data
 			mInfoCallback.onDownload(infoResponse);
 			logger.addSplit("mInfoCallback.onDownload(infoResponse)");
-
-		}
-		else if (bd.isDownloading(key)) {
-			bd.registerDownloadCallback(key, mInfoCallback);
-			logger.addSplit("bd.registerDownloadCallback(key, mInfoCallback)");
 		}
 		else {
 			bd.startDownload(key, CrossContextHelper.getHotelOffersDownload(getActivity(), key), mInfoCallback);
 			logger.addSplit("bd.startDownload");
 		}
 		logger.dumpToLog();
-
 	}
 
 	/**
