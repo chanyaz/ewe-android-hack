@@ -52,6 +52,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -230,7 +231,7 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAbacusTest(s, AbacusResponse.EBAndroidAATest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		// Send the tracking data
 		s.track();
@@ -256,7 +257,7 @@ public class OmnitureTracking {
 		addProducts(s, property);
 
 		// Abacus ETP Test
-		trackAbacusTest(s, AbacusResponse.EBAndroidETPTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
@@ -347,7 +348,7 @@ public class OmnitureTracking {
 		s.setEvar(9, drrString);
 
 		// Abacus Hotel Book Now button placement
-		trackAbacusTest(s, AbacusResponse.EBAndroidHotelBookButtonPlacementTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
 
 		// Send the tracking data
 		s.track();
@@ -1218,14 +1219,15 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAbacusTest(s, AbacusResponse.EBAndroidAATest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
 
 	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
 		boolean isTestLive = Db.getAbacusResponse().isTestLive(testKey);
-		String analyticsString = Db.getAbacusResponse().getAnalyticsString(testKey);
+		// Adds piping for multivariate AB Tests.
+		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
 		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);

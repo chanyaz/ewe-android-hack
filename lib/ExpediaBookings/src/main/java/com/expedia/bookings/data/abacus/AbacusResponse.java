@@ -5,19 +5,6 @@ import java.util.Map;
 
 public class AbacusResponse {
 
-	/**
-	 * ACTIVE KEYS
-	 * <p/>
-	 * When new tests need to be added just add a new key to this class
-	 * Then call isUserBucketedForTest(String key) to check if the user is
-	 * participating in the AB Test.
-	 */
-	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
-	//TODO: Update key
-	public static final String EBAndroidETPTest = "EBAndroidETPTest";
-	//TODO: Sync on key
-	public static final String EBAndroidHotelBookButtonPlacementTest = "EBAndroidHotelBookButtonPlacementTest";
-
 	private Map<String, AbacusTest> abacusTestMap = new HashMap<>();
 
 	public void setAbacusTestMap(Map<String, AbacusTest> map) {
@@ -30,6 +17,14 @@ public class AbacusResponse {
 			return test.isUserInBucket() && test.isLive;
 		}
 		return false;
+	}
+
+	public int varianteForTest(String key) {
+		AbacusTest test = testForKey(key);
+		if (test != null) {
+			return test.getBucketVariante();
+		}
+		return AbacusUtils.Variante.CONTROL.ordinal();
 	}
 
 	public boolean isTestLive(String key) {
@@ -47,6 +42,15 @@ public class AbacusResponse {
 			analyticsString = String.format("%s.%s.%s", test.experimentId, test.instanceId, test.treatmentId);
 		}
 		return analyticsString;
+	}
+
+	public static String appendString(String key) {
+		if (key == null || key.length() == 0) {
+			return "";
+		}
+		else {
+			return String.format("%s|", key);
+		}
 	}
 
 	public AbacusTest testForKey(String key) {

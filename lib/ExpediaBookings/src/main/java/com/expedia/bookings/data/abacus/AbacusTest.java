@@ -16,10 +16,14 @@ public class AbacusTest {
 	public String treatmentId;
 
 	public boolean isUserInBucket() {
+		return getBucketVariante() != 0;
+	}
+
+	public int getBucketVariante(){
 		if (setting != null) {
-			return setting.value != 0;
+			return setting.value;
 		}
-		return false;
+		return AbacusUtils.Variante.CONTROL.ordinal();
 	}
 
 }
