@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
@@ -375,13 +376,18 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
 		// no existing credit card info entered
 		if (!fromPreauth || (TextUtils.isEmpty(billingInfo.getNumber()) && !billingInfo.hasStoredCard())) {
+			StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
+			if (currentCC != null) {
+				BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+			}
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
 		}
 
 		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && getLob() == LineOfBusiness.HOTELS) {
 			mWalletCouponListener.applyWalletCoupon();
 		}
-
+		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(billingInfo);
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		bind();
 		refreshAccountButtonState();
 		updateWalletViewVisibilities();
