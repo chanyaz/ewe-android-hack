@@ -6,6 +6,28 @@
     <string name="pick_up_time">取車時間</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">還車時間</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">取車地點</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">與取車時相同</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">日期及地點</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">選擇取車及還車日期</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – 選擇回程日期</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">取車</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">還車</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">還車地點必須與取車地點相同</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">未輸入出發地</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">未輸入開始日期</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">未輸入結束日期</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -206,7 +228,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">現在須支付</string>
+    <string name="room_rate_pay_later_due_now">現在須付</string>
     <!-- Rooms and rates pay later total -->
     <string name="room_rate_pay_later_total_template">合共 %s</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">來回</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">合共</string>
+    <string name="total_with_tax">總金額 (連稅)</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">行程總金額</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可辦理登機手續</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">分享您的航班</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">讓其他人取得您旅遊行程的最新資訊。</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">有 %1$s 個航班前往%2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">兌換</string>
     <string name="itin_action_support">支援</string>
     <string name="itin_action_share">分享</string>
+    <string name="itin_action_view">查看行程</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">列印優惠券</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">概覽</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">總價</string>
+    <string name="total_price_label">行程總金額</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">前往%1$s的行程</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">我們將透過您的信用卡收取 %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">現需支付金額：%1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">現須付金額：%1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">酒店將收取：%1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完成</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">現應付總額</string>
+    <string name="total_due_today">目前應付予 Expedia</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">請使用英文字母</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">於酒店支付的費用：</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">目前應付予 Expedia 的總額：</string>
+    <string name="total_due_to_expedia_today">目前應付予 Expedia：</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 休閒設施費將於酒店收取。您住宿的總收費將為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 休閒設施費將於酒店收取。您住宿的總價將為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">您行程的總金額將為 &lt;b&gt;%1$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">現在先收取訂金 &lt;b&gt;%1$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;拖曳&lt;/b&gt;以延長入住</string>
     <!-- Child age dialog button -->
     <string name="button_done">完成</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">完成</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">完成</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">請選擇小童的年齡</item>
@@ -1766,7 +1801,7 @@
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">變更檢視方式</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
-    <string name="mobile_exclusive">僅供流動裝置使用</string>
+    <string name="mobile_exclusive">手機+平板尊享優惠</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">只限今晚！</string>
     <!-- Expedia sponsored listing -->
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包括在內</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">酒店費用 (於酒店支付)</string>
+    <string name="MandatoryFees">支付酒店的費用</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

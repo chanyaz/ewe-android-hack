@@ -6,6 +6,28 @@
     <string name="pick_up_time">Tidspunkt for henting</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Tidspunkt for avlevering</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Sted for henting</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Samme som henting</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Datoer og sted</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Velg datoer for henting og avlevering</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – Velg returdato</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Henting</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Avlevering</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Sted for avlevering må være det samme som for henting</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Avreisested mangler</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Startdato mangler</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Sluttdato mangler</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -137,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Andre områder</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">populære</string>
+    <string name="popular">Populære</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">pris</string>
+    <string name="price">Pris</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">rangering</string>
+    <string name="rating">Rangering</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">avstand</string>
+    <string name="distance">Avstand</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">rabatter</string>
+    <string name="discounts">Rabatter</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Klikk for å sortere etter de mest populære hotellene</string>
     <!-- Content description for "sort by price" button -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Tur-returreise</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Totalt</string>
+    <string name="total_with_tax">Totalpris med skatt</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Totalpris for reisen</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Innsjekking tilgjengelig</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Del flyvningen din</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">La andre få oppdateringer mens du reiser.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flyvning til %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">Løs inn</string>
     <string name="itin_action_support">Støtte</string>
     <string name="itin_action_share">Del</string>
+    <string name="itin_action_view">Se reiseruten</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Oversikt</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Totalpris</string>
+    <string name="total_price_label">Totalpris for reisen</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Reise til %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kortet ditt vil bli belastet med %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Må hentes av hotellet: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Fullført</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Totalbeløp som må betales i dag</string>
+    <string name="total_due_today">Totalbeløp som skal betales til Expedia i dag</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Bruk latinske bokstaver</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1257,6 +1284,14 @@
     <string name="total_due_to_expedia_today">Totalbeløp som skal betales til Expedia i dag:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Feriestedsavgiften på &lt;b&gt;%1$s&lt;/b&gt; må betales på hotellet. Totalbeløpet for oppholdet ditt er &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Totalbeløpet for reisen din er &lt;b&gt;%1$s&lt;/b&gt;. Du betaler totalprisen for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Du vil bli belastet et depositum på &lt;b&gt;%1$s&lt;/b&gt; nå.  Du betaler det gjenstående beløpet for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Totalbeløpet for oppholdet ditt, inkludert feriestedsavgift på &lt;b&gt;%1$s&lt;/b&gt;, er &lt;b&gt;%2$s&lt;/b&gt;. Du betaler totalprisen for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Totalbeløpet for oppholdet ditt, inkludert feriestedsavgift på &lt;b&gt;%1$s&lt;/b&gt;, er &lt;b&gt;%2$s&lt;/b&gt;. Du betaler det gjenstående beløpet for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Dra&lt;/b&gt; for å utvide oppholdet.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Fullført</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Fullført</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Fullført</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Velg barnets alder</item>
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkludert</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Hotellgebyrer (betales på hotellet)</string>
+    <string name="MandatoryFees">Avgifter betales på hotellet</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Rabatt</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

@@ -6,6 +6,28 @@
     <string name="pick_up_time">Abholzeit</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Rückgabezeit</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Abholort</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Am Abholort</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Daten und Ort</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Abhol- und Rückgabedatum auswählen</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – Rückgabedatum auswählen</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Abholung</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Rückgabe</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Abhol- und Rückgabeort müssen identisch sein</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Abflughafen fehlt</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Abreisedatum fehlt</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Rückreisedatum fehlt</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -141,11 +163,11 @@
     <!-- Short label for "sort by price" button -->
     <string name="price">Preis</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">Beurteilung</string>
+    <string name="rating">Bewertung</string>
     <!-- Short label for "sort by distance" button -->
     <string name="distance">Entfernung</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">Rabatt</string>
+    <string name="discounts">Rabatte</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Damit können Sie nach den beliebtesten Hotels sortieren.</string>
     <!-- Content description for "sort by price" button -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Hin- und Rückflug</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Gesamtbetrag</string>
+    <string name="total_with_tax">Gesamtpreis inkl. Steuern</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Gesamtpreis</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in möglich</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Ihren Flug teilen</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Halten Sie Andere während der Reise auf dem Laufenden.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s-Flug nach %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">Einlösen</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Teilen</string>
+    <string name="itin_action_view">Reiseplan anzeigen</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Gutscheine drucken</string>
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Fertig</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Heute fällig</string>
+    <string name="total_due_today">Heute bei Expedia fälliger Betrag</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Bitte verwenden Sie nur lateinische Buchstaben.</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1257,6 +1284,14 @@
     <string name="total_due_to_expedia_today">Heute bei Expedia fälliger Betrag:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Die Hotelgebühr von &lt;b&gt;%1$s&lt;/b&gt; bezahlen Sie im Hotel. Der Gesamtpreis Ihres Hotelaufenthalts beträgt &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Der Gesamtpreis Ihrer Reise beträgt &lt;b&gt;%1$s&lt;/b&gt;. Sie bezahlen vor Ort im Hotel den Gesamtbetrag Ihrer Buchung (in der Landeswährung des Hotels).</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Hier und jetzt ist eine Anzahlung von &lt;b&gt; erforderlich.%1$s&lt;/b&gt; Sie bezahlen vor Ort im Hotel den Restbetrag Ihrer Buchung (in der Landeswährung des Hotels).</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Der Gesamtpreis Ihrer Reise, inklusive einer Hotelgebühr von &lt;b&gt;%1$s&lt;/b&gt;, beträgt &lt;b&gt;%2$s&lt;/b&gt;. Sie bezahlen vor Ort im Hotel den Gesamtbetrag Ihrer Buchung (in der Landeswährung des Hotels).</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Der Gesamtpreis Ihrer Reise, inklusive einer Hotelgebühr von &lt;b&gt;%1$s&lt;/b&gt;, beträgt &lt;b&gt;%2$s&lt;/b&gt;. Sie bezahlen vor Ort im Hotel den Restbetrag Ihrer Buchung (in der Landeswährung des Hotels).</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1705,8 +1740,8 @@
     <string name="drag_to_extend_your_stay">Durch &lt;b&gt;Ziehen&lt;/b&gt; verlängern Sie den Reisezeitraum.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Fertig</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Fertig</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Fertig</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Geben Sie das Alter des Kindes an</item>

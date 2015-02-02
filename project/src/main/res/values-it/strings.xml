@@ -6,6 +6,28 @@
     <string name="pick_up_time">Ora del ritiro</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Ora della riconsegna</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Luogo del ritiro</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Lo stesso del ritiro</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Date e luogo</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Seleziona le date di ritiro e riconsegna</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – Seleziona una data di ritorno</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Ritiro</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Riconsegna</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Il luogo della riconsegna deve corrispondere a quello del ritiro</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Origine mancante</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Data di partenza mancante</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Data di ritorno mancante</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -141,7 +163,7 @@
     <!-- Short label for "sort by price" button -->
     <string name="price">Prezzo</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">Giudizio ospiti</string>
+    <string name="rating">Voto</string>
     <!-- Short label for "sort by distance" button -->
     <string name="distance">Distanza</string>
     <!-- Short label for "sort by discounts" button -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Andata e ritorno</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Totale</string>
+    <string name="total_with_tax">Totale tasse incluse</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Totale del viaggio</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in disponibile</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Condividi il tuo volo</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Permetti ad altri di ricevere informazioni aggiornate sul tuo volo.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s volo per %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">Riscatta</string>
     <string name="itin_action_support">Assistenza</string>
     <string name="itin_action_share">Condividi</string>
+    <string name="itin_action_view">Visualizza itinerario</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Stampa voucher</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Riepilogo</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Prezzo totale</string>
+    <string name="total_price_label">Totale del viaggio</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Viaggio a %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Importo da pagare ora %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Importo da pagare ora: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Da corrispondere all\&apos;hotel: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">OK</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Importo totale dovuto oggi</string>
+    <string name="total_due_today">Da pagare oggi a Expedia</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Usa l\&apos;alfabeto latino</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Costi pagati in hotel:</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Totale dovuto oggi a Expedia:</string>
+    <string name="total_due_to_expedia_today">Da pagare oggi a Expedia:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">La tariffa resort di &lt;b&gt;%1$s&lt;/b&gt; va pagata direttamente in hotel. Il costo totale del tuo soggiorno sarà di &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">La tariffa resort di &lt;b&gt;%1$s&lt;/b&gt; va pagata direttamente in hotel. Il prezzo totale del tuo soggiorno sarà &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Il totale per il tuo viaggio sarà &lt;b&gt;%1$s&lt;/b&gt;. Pagherai in hotel il costo totale della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Ora ti sarà addebitato un deposito di &lt;b&gt;.%1$s&lt;/b&gt; Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Il prezzo totale del tuo viaggio, inclusa la tariffa resort di &lt;b&gt;%1$s&lt;/b&gt;, sarà &lt;b&gt;%2$s&lt;/b&gt;. Pagherai in hotel il costo totale della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Il prezzo totale del tuo viaggio, inclusa la tariffa resort di &lt;b&gt;%1$s&lt;/b&gt;, sarà &lt;b&gt;%2$s&lt;/b&gt;. Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Trascina&lt;/b&gt; per estendere il soggiorno.</string>
     <!-- Child age dialog button -->
     <string name="button_done">OK</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">OK</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">OK</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Seleziona l\&apos;età del bambino</item>
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluse</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Tasse e tariffe (da pagare in hotel)</string>
+    <string name="MandatoryFees">Costi pagati in hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Sconto</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

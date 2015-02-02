@@ -6,6 +6,28 @@
     <string name="pick_up_time">Waktu pengambilan</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">Waktu pengembalian</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Lokasi pengambilan</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Sama seperti pengambilan</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Tanggal dan Lokasi</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Pilih tanggal pengambilan dan pengembalian</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s - Pilih tanggal pengembalian</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Pengambilan</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Pengembalian</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Lokasi pengembalian harus sama seperti lokasi pengambilan</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Kota asal belum diisi</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Tanggal awal belum diisi</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Tanggal akhir belum diisi</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -137,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Kawasan Lainnya</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">populer</string>
+    <string name="popular">Populer</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">harga</string>
+    <string name="price">Harga</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">skor tamu</string>
+    <string name="rating">Skor Tamu</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">jarak</string>
+    <string name="distance">Jarak</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">diskon</string>
+    <string name="discounts">Diskon</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Tekan untuk mengurutkan dari hotel terpopuler</string>
     <!-- Content description for "sort by price" button -->
@@ -206,7 +228,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Bayar Sekarang</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Untuk Dibayar Sekarang</string>
+    <string name="room_rate_pay_later_due_now">Dibayar Sekarang</string>
     <!-- Rooms and rates pay later total -->
     <string name="room_rate_pay_later_total_template">%s Total</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Pulang-Pergi</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Total</string>
+    <string name="total_with_tax">Total dengan Pajak</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Total Harga</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in tersedia</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Bagi penerbangan Anda</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Kirimkan live update kepada orang lain selama Anda di perjalanan.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">Penerbangan %1$s ke %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">Tukarkan</string>
     <string name="itin_action_support">Dukungan</string>
     <string name="itin_action_share">Bagikan</string>
+    <string name="itin_action_view">Lihat Itinerary</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Cetak Voucher</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Ringkasan</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Harga Total</string>
+    <string name="total_price_label">Total Harga</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Akan ditagihkan oleh hotel: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Selesai</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Harus Dibayar Hari Ini</string>
+    <string name="total_due_today">Dibayar ke Expedia Sekarang</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Gunakan abjad Romawi</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Untuk Dibayar di Hotel Nanti:</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Untuk Dibayar ke Expedia Sekarang:</string>
+    <string name="total_due_to_expedia_today">Dibayar ke Expedia Sekarang:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Total biaya perjalanan Anda adalah &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Harga total masa inap Anda akan menjadi &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Harga total perjalanan Anda akan menjadi &lt;b&gt;%1$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Deposit sebesar &lt;b&gt; akan ditarik sekarang.%1$s&lt;/b&gt; Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Tarik&lt;/b&gt; untuk perpanjang masa inap.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Selesai</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Selesai</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Selesai</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Pilih umur anak</item>
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Termasuk</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Biaya Hotel (Dibayar di hotel)</string>
+    <string name="MandatoryFees">Biaya Terbayar ke Hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Diskon</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

@@ -6,6 +6,28 @@
     <string name="pick_up_time">借出時刻</string>
     <!-- Car search label for drop-off time-->
     <string name="drop_off_time">返却時刻</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">借出場所</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">借出場所と同じ</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">日時と場所</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">借出日および返却日を選択</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – 返却日時を選択してください</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">借出</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">返却</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">借出場所と同じ場所に返却する必要があります</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">出発地が指定されていません</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">開始日が指定されていません</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">終了日が指定されていません</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -100,7 +122,7 @@
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">売り切れ</string>
     <!-- Tablet Trip bucket, expired text -->
-    <string name="trip_bucket_expired">に期限切れ</string>
+    <string name="trip_bucket_expired">期限切れ</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復航空券</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -114,7 +136,7 @@
     <!-- Tablet search results, no hotels available TONIGHT -->
     <string name="tablet_search_results_hotels_unavailable_tonight">申し訳ありません。\n今晩ご利用いただけるホテルはありません。</string>
     <!-- Tablet search results, no flights available -->
-    <string name="tablet_search_results_flights_unavailable">申し訳ありません。\n現在ご利用いただけるフライトはありません。</string>
+    <string name="tablet_search_results_flights_unavailable">申し訳ありません。\n現在ご予約いただけるフライトはありません。</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">削除済み</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -253,7 +275,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">往復</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">合計</string>
+    <string name="total_with_tax">税込合計</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">旅行の合計料金</string>
 
@@ -367,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">チェックイン可</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">フライト情報をシェアする</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">旅行中にリアルタイムな情報がシェアされます。</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$sへのフライト %1$s 便</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -829,6 +855,7 @@
     <string name="itin_action_redeem">特典利用</string>
     <string name="itin_action_support">サポート</string>
     <string name="itin_action_share">共有</string>
+    <string name="itin_action_view">旅程を表示</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">バウチャーを印刷</string>
@@ -1160,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">概要</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">合計料金</string>
+    <string name="total_price_label">旅行の合計料金</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">目的地 : %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1214,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">カードに %1$s が課金されます</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">現在支払う金額%1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">いますぐ支払う金額 : %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">ホテルで徴収 : %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1246,7 +1273,7 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完了</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">本日お支払の合計料金</string>
+    <string name="total_due_today">本日エクスペディアにお支払いの金額</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">半角英字を使用してください</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1254,9 +1281,17 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">ホテルでのお支払い料金 : </string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">本日エクスペディアにお支払いの合計金額 :</string>
+    <string name="total_due_to_expedia_today">本日エクスペディアにお支払いの金額 : </string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です。</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%1$s&lt;/b&gt; です。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">&lt;b&gt; のデポジットを今すぐお支払いください。%1$s&lt;/b&gt;残額は滞在中にホテルの現地通貨でお支払いください。</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。残額は滞在中にホテルの現地通貨でお支払いください。</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1704,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">滞在期間を延長するには日付を&lt;b&gt;ドラッグ&lt;/b&gt;</string>
     <!-- Child age dialog button -->
     <string name="button_done">完了</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">完了</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">完了</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">お子様の年齢を選択する</item>
@@ -2137,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">含まれています</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">ホテルの必須手数料 (ホテルでお支払い)</string>
+    <string name="MandatoryFees">ホテルへのお支払い料金</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">割引</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
