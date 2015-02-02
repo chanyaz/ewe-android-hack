@@ -491,6 +491,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
+			// Ignore fallback cards
+			if (data.getTripComponentType() == Type.FALLBACK) {
+				continue;
+			}
+
 			// Ignore past itineraries
 			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
 				continue;
