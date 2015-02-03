@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.SearchCarFare;
@@ -17,10 +19,9 @@ import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.Ui;
 
 public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategoriesListAdapter.ViewHolder> {
-	List<CategorizedCarOffers> categories = new ArrayList<>();
+	private List<CategorizedCarOffers> categories = new ArrayList<>();
 
 	private static final String ROW_PICASSO_TAG = "car_row";
 
@@ -37,7 +38,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		holder.bindCategorizedOffers(cco);
 
 		String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
-		new PicassoHelper.Builder(holder.mBackroundImageView)
+		new PicassoHelper.Builder(holder.backroundImageView)
 			.setTag(ROW_PICASSO_TAG)
 			.fit()
 			.centerCrop()
@@ -51,47 +52,50 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		@InjectView(R.id.category_text)
+		public TextView categoryTextView;
 
-		private View mRoot;
-		private TextView mCategoryTextView;
-		private TextView mBestPriceTextView;
-		private TextView mTotalTextView;
-		private ImageView mBackroundImageView;
+		@InjectView(R.id.category_price_text)
+		public TextView bestPriceTextView;
 
-		private TextView mPassengerCount;
-		private TextView mBagCount;
-		private TextView mDoorCount;
+		@InjectView(R.id.total_price_text)
+		public TextView totalTextView;
+
+		@InjectView(R.id.background_image_view)
+		public ImageView backroundImageView;
+
+		@InjectView(R.id.passenger_count)
+		public TextView passengerCount;
+
+		@InjectView(R.id.bag_count)
+		public TextView bagCount;
+
+		@InjectView(R.id.door_count)
+		public TextView doorCount;
 
 		public ViewHolder(View view) {
 			super(view);
-			mRoot = view;
-			mRoot.setOnClickListener(this);
-			mCategoryTextView = Ui.findView(view, R.id.category_text);
-			mBestPriceTextView = Ui.findView(view, R.id.category_price_text);
-			mBackroundImageView = Ui.findView(view, R.id.background_image_view);
-			mTotalTextView = Ui.findView(view, R.id.total_price_text);
-
-			mPassengerCount = Ui.findView(view, R.id.passenger_count);
-			mBagCount = Ui.findView(view, R.id.bag_count);
-			mDoorCount = Ui.findView(view, R.id.door_count);
+			ButterKnife.inject(this, itemView);
+			itemView.setOnClickListener(this);
 		}
 
 		public void bindCategorizedOffers(CategorizedCarOffers cco) {
-			mRoot.setTag(cco);
+			itemView.setTag(cco);
+
 			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
-			mCategoryTextView.setText(cco.category.toString());
-			mPassengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
-			mBagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
-			mDoorCount.setText(String.valueOf(vehicleInfo.maxDoors));
+			categoryTextView.setText(cco.category.toString());
+			passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
+			bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
+			doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
 
-			mBestPriceTextView.setText(lowestFare.rate.getFormattedMoney());
-			mTotalTextView.setText(lowestFare.total.getFormattedMoney());
+			bestPriceTextView.setText(lowestFare.rate.getFormattedMoney());
+			totalTextView.setText(lowestFare.total.getFormattedMoney());
 		}
 
 		@Override
-		public void onClick(View v) {
-			CategorizedCarOffers offers = (CategorizedCarOffers) v.getTag();
+		public void onClick(View view) {
+			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
 		}
 	}
