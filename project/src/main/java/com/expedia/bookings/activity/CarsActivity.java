@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.enums.CarsState;
 import com.expedia.bookings.presenter.CarsPresenter;
 
 import butterknife.ButterKnife;
@@ -18,15 +17,14 @@ public class CarsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_cars);
 
+		setContentView(R.layout.activity_cars);
 		ButterKnife.inject(this);
-		carsPresenter.show(CarsState.SEARCH);
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (!carsPresenter.handleBackPress()) {
+		if (!carsPresenter.back()) {
 			super.onBackPressed();
 		}
 	}
