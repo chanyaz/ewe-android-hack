@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -51,9 +52,16 @@ public class HotelUtils {
 	 * Tries to return the best "room" picture, but falls back to property
 	 * images/thumbnails if none exists.  May return null if all fails.
 	 */
-	public static Media getRoomMedia(Property property, Rate rate) {
+	public static Media getRoomMedia(TripBucketItemHotel hotel) {
+		Rate rate = hotel.getRate();
+		Rate oldRate = hotel.getOldRate();
+		Property property = hotel.getProperty();
 		if (rate != null && rate.getThumbnail() != null) {
 			return rate.getThumbnail();
+		}
+
+		if (oldRate != null && oldRate.getThumbnail() != null) {
+			return oldRate.getThumbnail();
 		}
 
 		if (property != null) {
