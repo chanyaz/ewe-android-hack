@@ -20,7 +20,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.AdImpressionTracking;
@@ -60,8 +59,6 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		mShareButtonText = Ui.findView(v, R.id.share_action_text_view);
 		mShareButtonText.setText(R.string.tablet_confirmation_share_hotel);
 
-		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
-
 		// Construct the hotel card
 		ImageView hotelImageView = Ui.findView(v, R.id.confirmation_image_view);
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
@@ -71,8 +68,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		hotelImageView.setImageDrawable(headerBitmapDrawable);
 
-		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-		Media media = HotelUtils.getRoomMedia(property, selectedRate);
+		Media media = HotelUtils.getRoomMedia(Db.getTripBucket().getHotel());
 		if (media != null) {
 			new PicassoHelper.Builder(getActivity())
 				.setPlaceholder(R.drawable.bg_itin_placeholder).setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
