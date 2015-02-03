@@ -25,6 +25,7 @@ import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -449,7 +450,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	}
 
-	private static Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
+	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
 		@Override
 		public void onCompleted() {
 			Log.d("AbacusReponse - onCompleted");
@@ -463,6 +464,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			Db.setAbacusResponse(abacusResponse);
+			// Modify the bucket values based on dev settings;
+			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAATest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_aa_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidETPTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_etp_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidHotelBookButtonPlacementTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_book_above_fold), AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
 			Log.d("AbacusReponse - onNext");
 		}
 	};

@@ -10,17 +10,17 @@ public class AbacusUtils {
 	 * participating in the AB Test.
 	 */
 	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
-	//TODO: Update key
 	public static final String EBAndroidETPTest = "ExpediaAndroidAppETPDefaultNow";
-	//TODO: Sync on key
 	public static final String EBAndroidHotelBookButtonPlacementTest = "EBAndroidAppHISBookAboveFold";
 
-	public static enum Variante {
+	public static int ABTEST_IGNORE_DEBUG = -1;
+
+	public static enum Variate {
 		CONTROL,
 		BUCKETED
 	}
 
-	public static enum BookingVariante {
+	public static enum BookingVariate {
 		CONTROL,
 		BOOK_ABOVE_FOLD,
 	 	SELECT_ROOM_ABOVE_FOLD

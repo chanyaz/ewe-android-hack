@@ -94,6 +94,9 @@
     <string name="preference_should_start_hierarchy_server">preference_should_start_hierarchy_server</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
+    <string name="preference_aa_test">ExpediaAndroidAppAATest</string>
+    <string name="preference_etp_test">ExpediaAndroidAppETPDefaultNow</string>
+    <string name="preference_book_above_fold">EBAndroidAppHISBookAboveFold</string>
 
     <!-- Setting keys -->
     <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>
@@ -102,6 +105,7 @@
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
     <string name="preference_flight_fake_obfees_default">0</string>
+    <string name="preference_abacus_default">-1</string>
 
     <!-- Country codes -->
     <string name="country_code_af">AF</string>

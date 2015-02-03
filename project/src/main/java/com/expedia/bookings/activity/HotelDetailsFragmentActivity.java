@@ -29,7 +29,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelErrorDialog;
@@ -318,8 +317,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
-		boolean isTestLive = Db.getAbacusResponse().isTestLive(AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
-		int varianteForTest = Db.getAbacusResponse().varianteForTest(AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
 
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
 			FRAGMENT_MINI_GALLERY_TAG);
@@ -347,12 +346,13 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		// 3840. Abacus AB Testing. Let's move hotel Book Now button around.
 		int bookNowButtonId = 0;
-		if (isTestLive && varianteForTest == AbacusUtils.BookingVariante.BOOK_ABOVE_FOLD.ordinal()) {
+		if (isUserBucketedForTest) {
 			bookNowButtonId = R.id.book_now_button_ABTest;
 			Ui.findView(this, R.id.book_now_button).setVisibility(View.GONE);
-		}
-		else if (isTestLive && varianteForTest == AbacusUtils.BookingVariante.SELECT_ROOM_ABOVE_FOLD.ordinal()) {
-
+			if (testVariate == AbacusUtils.BookingVariate.SELECT_ROOM_ABOVE_FOLD.ordinal()) {
+				mBookNowButton = Ui.findView(this, bookNowButtonId);
+				mBookNowButton.setText(R.string.book_now_ab_test);
+			}
 		}
 		else {
 			bookNowButtonId = R.id.book_now_button;

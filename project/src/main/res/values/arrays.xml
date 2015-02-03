@@ -820,4 +820,32 @@
         <item>@string/sort_description_arrival</item>
         <item>@string/sort_description_duration</item>
     </string-array>
+
+
+    <string-array name="abacus_default_choices">
+        <item>Ignore</item>
+        <item>Control</item>
+        <item>Bucketed</item>
+    </string-array>
+
+    <string-array name="abacus_default_choice_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="abacus_book_choices">
+        <item>Ignore</item>
+        <item>Control</item>
+        <item>Book above the fold</item>
+        <item>Select room above the fold</item>
+    </string-array>
+
+    <string-array name="abacus_book_choice_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

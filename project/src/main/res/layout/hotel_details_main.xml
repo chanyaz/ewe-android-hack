@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/skin_loginBookNowButtonDrawable"
                 android:contentDescription="@string/cd_hotel_info_press_book_now"
-                android:text="@string/book_now_ab_test"
+                android:text="@string/book_now"
                 android:textColor="?attr/skin_hotelBookButtonColor"
                 android:textSize="18sp" />
         </LinearLayout>

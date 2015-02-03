@@ -6,9 +6,14 @@ import java.util.Map;
 public class AbacusResponse {
 
 	private Map<String, AbacusTest> abacusTestMap = new HashMap<>();
+	private Map<String, AbacusTest> abacusTestDebugMap = new HashMap<>();
 
 	public void setAbacusTestMap(Map<String, AbacusTest> map) {
 		abacusTestMap = map;
+		abacusTestDebugMap = new HashMap<>();
+		for (Map.Entry<String, AbacusTest> entry : map.entrySet()) {
+			abacusTestDebugMap.put(entry.getKey(), entry.getValue().copyForDebug());
+		}
 	}
 
 	public boolean isUserBucketedForTest(String key) {
@@ -19,12 +24,12 @@ public class AbacusResponse {
 		return false;
 	}
 
-	public int varianteForTest(String key) {
+	public int variateForTest(String key) {
 		AbacusTest test = testForKey(key);
 		if (test != null) {
-			return test.getBucketVariante();
+			return test.getBucketVariate();
 		}
-		return AbacusUtils.Variante.CONTROL.ordinal();
+		return AbacusUtils.Variate.CONTROL.ordinal();
 	}
 
 	public boolean isTestLive(String key) {
@@ -53,8 +58,33 @@ public class AbacusResponse {
 		}
 	}
 
+	/**
+	 * Utility method to update/construct {@link AbacusTest} object for when we are testing using debug settings.
+	 * If {@link AbacusTest} is null, meaning Abacus Test isn't created on the intermediate server, create a new one.
+	 */
+	public void updateABTestForDebug(String key, int value) {
+		AbacusTest test = abacusTestDebugMap.get(key);
+		if (test == null) {
+			test = new AbacusTest();
+			test.name = key;
+			test.experimentId = "0";
+			test.instanceId = "0";
+			test.treatmentId = "0";
+			test.setting = new UserSetting().copyForDebug();
+			abacusTestDebugMap.put(key, test);
+		}
+
+		test.setting.value = value;
+		test.isLive = true;
+	}
+
 	public AbacusTest testForKey(String key) {
-		return abacusTestMap.get(key);
+		if (abacusTestDebugMap.get(key) != null && abacusTestDebugMap.get(key).getBucketVariate() != AbacusUtils.ABTEST_IGNORE_DEBUG) {
+			return abacusTestDebugMap.get(key);
+		}
+		else {
+			return abacusTestMap.get(key);
+		}
 	}
 
 	public int numberOfTests() {

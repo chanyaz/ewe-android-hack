@@ -48,7 +48,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="@string/book_now_ab_test"
+                    android:text="@string/book_now"
                     android:textColor="?attr/skin_hotelBookButtonColor"
                     android:textSize="18sp" />
 
