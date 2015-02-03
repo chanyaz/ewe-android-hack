@@ -221,6 +221,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		Rate etp = rate.getEtpRate();
 		boolean isDepositRequired = false;
+		String rateQualifier = "";
 		if (mIsPayLater && etp != null) {
 			Money deposit = etp.getDisplayDeposit();
 			isDepositRequired = !deposit.isZero();
@@ -234,22 +235,21 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				holder.price.setTextColor(mContext.getResources().getColor(R.color.etp_text_color));
 				holder.priceDescription.setTextColor(mContext.getResources().getColor(R.color.etp_text_color));
 			}
-			holder.totalPrice.setVisibility(View.VISIBLE);
-			holder.totalPrice.setText(mContext.getResources().getString(R.string.room_rate_pay_later_total_template,
-				etp.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL)));
+			rateQualifier = StrUtils.formatHotelPrice(rate.getDisplayPrice()) + " ";
 		}
 		else {
 			holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 			holder.price.setTextColor(mDefaultTextColor);
 			holder.priceDescription.setVisibility(View.GONE);
-			// Determine whether to show rate, rate per night, or avg rate per night for explanation
-			int explanationId = rate.getQualifier();
-			if (explanationId != 0) {
-				holder.totalPrice.setText(mContext.getString(explanationId));
-			}
-			else {
-				holder.totalPrice.setVisibility(View.GONE);
-			}
+		}
+
+		// Determine whether to show rate, rate per night, or avg rate per night for explanation
+		int explanationId = rate.getQualifier();
+		if (explanationId != 0) {
+			holder.totalPrice.setText(rateQualifier + mContext.getString(explanationId));
+		}
+		else {
+			holder.totalPrice.setVisibility(View.GONE);
 		}
 
 		if (mBuilder.length() > 0) {
