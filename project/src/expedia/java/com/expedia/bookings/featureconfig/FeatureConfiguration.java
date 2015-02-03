@@ -222,4 +222,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isETPEnabled() {
 		return true;
 	}
+
+	public String getClientShortName() {
+		return "expedia";
+	}
 }

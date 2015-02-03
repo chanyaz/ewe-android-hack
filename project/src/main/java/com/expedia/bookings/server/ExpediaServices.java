@@ -38,6 +38,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ChildTraveler;
@@ -1278,7 +1279,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		// Client id (see https://confluence/display/POS/ewe+trips+api#ewetripsapi-apiclients)
-		query.add(new BasicNameValuePair("clientid", "expedia.phone.android:" + AndroidUtils.getAppVersion(mContext)));
+		query.add(new BasicNameValuePair("clientid", getClientId(mContext)));
 	}
 
 	private void addCommonFlightStatsParams(List<BasicNameValuePair> query) {
@@ -1953,4 +1954,13 @@ public class ExpediaServices implements DownloadListener {
 		}
 		return doGet(url, params);
 	}
+
+	private static String getClientId(Context mContext) {
+
+		String clientName = ProductFlavorFeatureConfiguration.getInstance().getClientShortName();
+		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "tablet" : "phone";
+
+		return clientName + ".app.android." + deviceType + ":" + AndroidUtils.getAppVersion(mContext);
+	}
+
 }
