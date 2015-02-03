@@ -17,6 +17,9 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
+import com.expedia.bookings.data.cars.CarCheckoutParams;
+import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
@@ -516,6 +519,9 @@ public class Events {
 	 * Cars cars cars
 	 */
 
+    public static class CarsGoToSearch {
+    }
+
 	public static class CarsNewSearchParams {
 		public CarSearchParams carSearchParams;
 
@@ -555,4 +561,20 @@ public class Events {
 			this.offer = offer;
 		}
 	}
+
+	public static class CarsKickOffCheckoutCall {
+		public CarCheckoutParamsBuilder checkoutParamsBuilder;
+
+		public CarsKickOffCheckoutCall(CarCheckoutParamsBuilder checkoutParamsBuilder) {
+			this.checkoutParamsBuilder = checkoutParamsBuilder;
+		}
+	}
+
+    public static class CarsShowConfirmation {
+        public CarCheckoutResponse checkoutResponse;
+
+        public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
+            this.checkoutResponse = checkoutResponse;
+        }
+    }
 }

@@ -22,7 +22,7 @@ public class CarsPresenter extends Presenter {
 	@InjectView(R.id.cars_results_presenter)
 	Presenter carsResultsPresenter;
 
-	@InjectView(R.id.car_checkout)
+	@InjectView(R.id.car_checkout_presenter)
 	View checkoutWidget;
 
 	@Override
@@ -40,4 +40,9 @@ public class CarsPresenter extends Presenter {
 	public void onShowCheckout(Events.CarsShowCheckout event) {
 		show(checkoutWidget);
 	}
+
+    @Subscribe
+    public void onShowSearch(Events.CarsGoToSearch event) {
+        show(widgetCarParams);
+    }
 }

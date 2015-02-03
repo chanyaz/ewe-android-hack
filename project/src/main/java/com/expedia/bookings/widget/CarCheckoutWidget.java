@@ -1,22 +1,22 @@
 package com.expedia.bookings.widget;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observer;
 
 public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISlideToListener {
 
@@ -25,6 +25,15 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 	}
 
 	CarCreateTripResponse createTripResponse;
+
+	@InjectView(R.id.edit_first_name)
+	EditText firstName;
+
+	@InjectView(R.id.edit_last_name)
+	EditText lastName;
+
+	@InjectView(R.id.edit_email_address)
+	EditText emailAddress;
 
 	@InjectView(R.id.category_title_text)
 	TextView categoryTitleText;
@@ -50,13 +59,31 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 	@InjectView(R.id.slide_to_purchase_widget)
 	SlideToWidget slideWidget;
 
-	ProgressDialog mCheckoutProgressDialog;
+	@InjectView(R.id.payment_info)
+	ViewGroup paymentInfoBlock;
+
+	@InjectView(R.id.phone_country_code_spinner)
+	TelephoneSpinner phoneSpinner;
+
+	@InjectView(R.id.edit_phone_number)
+	EditText phoneNumber;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		slideWidget.addSlideToListener(this);
+
+		// TODO - encapsulate data fields better, so that this isn't here.
+		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) phoneSpinner.getAdapter();
+		String targetCountry = getContext().getString(PointOfSale.getPointOfSale()
+			.getCountryNameResId());
+		for (int i = 0; i < adapter.getCount(); i++) {
+			if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
+				phoneSpinner.setSelection(i);
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -80,6 +107,13 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 		createTripResponse = createTrip;
 		CreateTripCarOffer offer = createTripResponse.carProduct;
 
+		if (offer.checkoutRequiresCard) {
+			paymentInfoBlock.setVisibility(View.VISIBLE);
+		}
+		else {
+			paymentInfoBlock.setVisibility(View.INVISIBLE);
+		}
+
 		locationDescriptionText.setText(createTrip.itineraryNumber);
 
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
@@ -93,21 +127,10 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 	}
 
-	// Checkout UI helpers
-
-	private void showCheckoutThrobber() {
-		if (mCheckoutProgressDialog == null) {
-			mCheckoutProgressDialog = new ProgressDialog(getContext());
-			mCheckoutProgressDialog.setMessage(getResources().getString(R.string.Checkout));
-			mCheckoutProgressDialog.setIndeterminate(true);
-		}
-		mCheckoutProgressDialog.show();
-	}
-
-	private void resetAfterCheckout() {
-		slideWidget.resetSlider();
-		mCheckoutProgressDialog.dismiss();
-	}
+    @Subscribe
+    public void onShowConfirmation(Events.CarsShowConfirmation event) {
+        slideWidget.resetSlider();
+    }
 
 	//  SlideToWidget.ISlideToListener
 
@@ -117,30 +140,19 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 
 	@Override
 	public void onSlideAllTheWay() {
-		CarDb.getCarServices().checkout(createTripResponse.tripId, createTripResponse.carProduct.fare.grandTotal.amount.toString(), checkoutObserver);
-		showCheckoutThrobber();
+		CarCheckoutParamsBuilder builder =
+			new CarCheckoutParamsBuilder()
+				.firstName(firstName.getText().toString())
+				.lastName(lastName.getText().toString())
+				.emailAddress(emailAddress.getText().toString())
+				.grandTotal(createTripResponse.carProduct.fare.grandTotal)
+				.phoneCountryCode(Integer.toString(phoneSpinner.getSelectedTelephoneCountryCode()))
+				.phoneNumber(phoneNumber.getText().toString())
+				.tripId(createTripResponse.tripId);
+		Events.post(new Events.CarsKickOffCheckoutCall(builder));
 	}
 
 	@Override
 	public void onSlideAbort() {
 	}
-
-	private Observer<CarCheckoutResponse> checkoutObserver = new Observer<CarCheckoutResponse>() {
-		@Override
-		public void onCompleted() {
-			resetAfterCheckout();
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			resetAfterCheckout();
-		}
-
-		@Override
-		public void onNext(CarCheckoutResponse carCheckoutResponse) {
-			resetAfterCheckout();
-			//TODO show a dialog or something with the itin #
-			Ui.showToast(getContext(), "Checkout completed.");
-		}
-	};
 }

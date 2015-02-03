@@ -81,25 +81,34 @@
 
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/name_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/first_and_last_name"
-        android:textSize="20sp" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_first_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/first_name"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_last_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/last_name"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/email_edit_text"
+        android:id="@+id/edit_email_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email_address_hint"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/phone_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/phone_number_hint"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -107,11 +116,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <com.expedia.bookings.widget.TelephoneSpinner
+            android:id="@+id/phone_country_code_spinner"
+            style="@style/Widget.Spinner.Phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/phone_number_hint"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/payment_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
         <EditText
             android:id="@+id/edit_credit_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:hint="@string/credit_card_hint"
             android:textSize="20sp" />
 
@@ -121,6 +153,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/cvv_hint"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_postal_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="@string/address_postal_code_hint"
             android:textSize="20sp" />
 
     </LinearLayout>

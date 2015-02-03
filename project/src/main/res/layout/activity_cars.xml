@@ -17,8 +17,8 @@
         android:layout_height="match_parent" />
 
     <include
-        android:id="@+id/car_checkout"
-        layout="@layout/widget_car_checkout"
+        android:id="@+id/car_checkout_presenter"
+        layout="@layout/car_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

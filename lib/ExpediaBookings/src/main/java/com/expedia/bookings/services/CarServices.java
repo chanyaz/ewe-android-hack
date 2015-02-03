@@ -1,5 +1,7 @@
 package com.expedia.bookings.services;
 
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -8,13 +10,14 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -41,7 +44,10 @@ public class CarServices {
 	public CarServices(String endpoint, OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
+		CookieManager cookieManager = new CookieManager();
+		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		mClient = okHttpClient;
+		mClient.setCookieHandler(cookieManager);
 
 		mGson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
@@ -113,8 +119,10 @@ public class CarServices {
 			.subscribe(observer);
 	}
 
-	public Subscription checkout(String tripId, String expectedTotalFare, Observer<CarCheckoutResponse> observer) {
-		return mApi.checkoutWithoutCreditCard(true, tripId, expectedTotalFare, "USD", "1", "734.740.0492", "kevc@mobiata.com", "Kev", "Car")
+	public Subscription checkout(CarCheckoutParams params, Observer<CarCheckoutResponse> observer) {
+		return mApi.checkoutWithoutCreditCard(true, params.tripId, params.grandTotal.amount.toString(),
+			params.grandTotal.currencyCode, params.phoneCountryCode, params.phoneNumber, params.emailAddress,
+			params.firstName, params.lastName)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.subscribe(observer);

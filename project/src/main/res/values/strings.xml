@@ -35,7 +35,10 @@
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
-
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">Reservation was successful! Itin #: %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Missing checkout params.</string>
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Enter your destination</string>
