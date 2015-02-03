@@ -37,13 +37,16 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Search.clickOriginButton();
 		Search.typeInOriginEditText("San Francisco, CA");
 		Search.clickSuggestion("San Francisco, CA");
+		Search.clickTravelerButton();
+		Search.incrementAdultButton();
+		Search.clickSearchPopupDone();
 		Search.clickSelectFlightDates();
 		int randomOffset = 20 + (int) (Math.random() * 100);
 		LocalDate startDate = LocalDate.now().plusDays(randomOffset);
 		Search.clickDate(startDate, null);
 		Search.clickSearchPopupDone();
 		Results.swipeUpFlightList();
-		Results.clickFlightAtIndex(1);
+		Results.clickFlightAtIndex(2);
 		Results.clickAddFlight();
 		Results.clickBookFlight();
 		// Validation
@@ -51,6 +54,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		verifyRulesAndRestrictionsButton();
 		verifyMissingTravelerInformationAlerts();
 		verifyNameMustMatchIdWarningWithInfoEntered();
+		verifyNameMustMatchIdWarningSecondTraveler();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
 	}
@@ -58,6 +62,8 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 	private void verifyNameMustMatchIdWarning() {
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
 		ScreenActions.delay(1);
+		// Warning should appear in empty traveler details
+		// and remain when screen is clicked or user starts typing.
 		Checkout.clickOnEmptyTravelerDetails();
 		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		Checkout.nameMustMatchTextView().perform(click());
@@ -70,8 +76,34 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 	private void verifyNameMustMatchIdWarningWithInfoEntered() {
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
 		ScreenActions.delay(1);
+		// Warning should appear and persist on populated traveler details screen.
 		Checkout.clickOnTravelerDetails();
 		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Checkout.nameMustMatchTextView().perform(click());
+		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Common.pressBack();
+	}
+
+	private void verifyNameMustMatchIdWarningSecondTraveler() {
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning for a second traveler's info");
+		ScreenActions.delay(1);
+		// Warning should appear when second traveler's info container is entered
+		// and should not disappear when the screen is tapped.
+		Checkout.clickOnSecondEmptyTravelerDetails();
+		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Checkout.secondTravelerNameMustMatchTextView().perform(click());
+		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		// Warning should persist when traveler info is entered.
+		Checkout.enterFirstName("E.B.");
+		Common.closeSoftKeyboard(Checkout.firstName());
+		Checkout.enterLastName("Android");
+		Common.closeSoftKeyboard(Checkout.lastName());
+		Checkout.enterDateOfBirth(1970, 1, 1);
+		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		Checkout.clickOnDone();
+		// Warning should persist when info edit screen is closed and re-entered.
+		Checkout.clickOnSecondTravelerDetails();
+		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		Common.pressBack();
 	}
 

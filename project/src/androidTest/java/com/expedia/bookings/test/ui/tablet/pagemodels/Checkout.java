@@ -11,6 +11,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -19,15 +20,27 @@ import static org.hamcrest.Matchers.allOf;
 
 public class Checkout {
 	public static void clickOnEmptyTravelerDetails() {
-		onView(withId(R.id.empty_traveler_container)).perform(click());
+		onView(allOf(withId(R.id.empty_traveler_container), withChild(withChild(withText("Adult 1 details"))))).perform(click());
 	}
 
 	public static void clickOnTravelerDetails() {
-		onView(withId(R.id.traveler_section_container)).perform(click());
+		onView(allOf(withId(R.id.traveler_section_container), withChild(withChild(withChild(withText("Mobiata Auto")))))).perform(click());
+	}
+
+	public static void clickOnSecondEmptyTravelerDetails() {
+		onView(allOf(withId(R.id.empty_traveler_container), withChild(withChild(withText("Adult 2 details"))))).perform(click());
+	}
+
+	public static void clickOnSecondTravelerDetails() {
+		onView(allOf(withId(R.id.traveler_section_container), withChild(withChild(withChild(withText("E.B. Android")))))).perform(click());
 	}
 
 	public static ViewInteraction nameMustMatchTextView() {
-		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText("Main traveler details"))));
+		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText("Adult 1 details"))));
+	}
+
+	public static ViewInteraction secondTravelerNameMustMatchTextView() {
+		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText("Adult 2 details"))));
 	}
 
 	public static ViewInteraction loginButton() {
