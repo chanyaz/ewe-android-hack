@@ -43,6 +43,7 @@ import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -1662,6 +1663,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			response.addError(serverError);
 		}
 		Db.getHotelSearch().setSearchResponse(response);
+		AdImpressionTracking.trackAdClickOrImpression(getActivity(), response.getBeaconUrl(), null);
 
 		boolean isBadResponse = response.hasErrors();
 		boolean isZeroResults = response.getPropertiesCount() == 0;

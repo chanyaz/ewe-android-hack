@@ -41,6 +41,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	private List<Location> mLocations;
 
 	private boolean hasSponsoredListing;
+	private String mBeaconUrl;
 
 	public HotelSearchResponse() {
 		mPriceTiers = new HashMap<HotelFilter.PriceRange, PriceTier>();
@@ -50,6 +51,14 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	public HotelSearchResponse(JSONObject obj) {
 		this();
 		fromJson(obj);
+	}
+
+	public void setBeaconUrl(String url) {
+		this.mBeaconUrl = url;
+	}
+
+	public String getBeaconUrl() {
+		return this.mBeaconUrl;
 	}
 
 	public List<Property> getProperties() {
@@ -902,6 +911,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
 			JSONUtils.putJSONableList(obj, "locations", mLocations);
 			obj.putOpt("hasSponsoredListing", hasSponsoredListing);
+			obj.putOpt("pageViewBeaconPixelUrl", mBeaconUrl);
 
 			return obj;
 		}
@@ -918,6 +928,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
 		mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
 		hasSponsoredListing = obj.optBoolean("hasSponsoredListing", false);
+		mBeaconUrl = obj.optString("pageViewBeaconPixelUrl", null);
 
 		return true;
 	}

@@ -143,6 +143,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				}
 				reader.endArray();
 			}
+			else if (name.equals("pageViewBeaconPixelUrl")) {
+				searchResponse.setBeaconUrl(reader.nextString());
+			}
 			else {
 				reader.skipValue();
 			}

@@ -306,6 +306,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		public void onDownload(HotelSearchResponse searchResponse) {
 			Db.getHotelSearch().setSearchResponse(searchResponse);
 			loadSearchResponse(searchResponse);
+			AdImpressionTracking.trackAdClickOrImpression(HotelSearchActivity.this, searchResponse.getBeaconUrl(), null);
 		}
 	};
 
