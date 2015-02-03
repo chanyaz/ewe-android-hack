@@ -73,22 +73,7 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		CarDb.getCarServices().createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), new Observer<CarCreateTripResponse>() {
-			@Override
-			public void onCompleted() {
-				// ignore
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				throw new RuntimeException(e);
-			}
-
-			@Override
-			public void onNext(CarCreateTripResponse response) {
-				bind(response);
-			}
-		});
+		bind(event.createTripResponse);
 	}
 
 	private void bind(CarCreateTripResponse createTrip) {

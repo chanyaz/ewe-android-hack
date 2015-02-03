@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
@@ -15,12 +18,15 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
 
 public class CarCategoryDetailsWidget extends LinearLayout {
 
 	public CarCategoryDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
+	ProgressDialog mDoingCreateTripDialog;
 
 	@InjectView(R.id.header_image)
 	ImageView headerImage;
@@ -75,6 +81,37 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 			.centerCrop()
 			.build()
 			.load(url);
+	}
+
+	public void showProgressDialog() {
+		if (mDoingCreateTripDialog == null) {
+			mDoingCreateTripDialog = new ProgressDialog(getContext());
+			mDoingCreateTripDialog.setMessage("Preparing checkout...");
+			mDoingCreateTripDialog.setIndeterminate(true);
+		}
+		mDoingCreateTripDialog.show();
+	}
+
+	@Subscribe
+	public void onItemSelected(Events.CarsKickOffCreateTrip event) {
+		showProgressDialog();
+		CarDb.getCarServices().createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), new Observer<CarCreateTripResponse>() {
+			@Override
+			public void onCompleted() {
+				// ignore
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				throw new RuntimeException(e);
+			}
+
+			@Override
+			public void onNext(CarCreateTripResponse response) {
+				mDoingCreateTripDialog.dismiss();
+				Events.post(new Events.CarsShowCheckout(response));
+			}
+		});
 	}
 
 }

@@ -66,7 +66,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@Override
 		public void onClick(View v) {
 			SearchCarOffer offer = (SearchCarOffer) v.getTag();
-			Events.post(new Events.CarsShowCheckout(offer));
+			Events.post(new Events.CarsKickOffCreateTrip(offer));
 		}
 	}
 
