@@ -26,7 +26,6 @@ import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -117,9 +116,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		super.onPause();
 		OmnitureTracking.onPause();
 		if (mApiChanged) {
-			CarDb.setServicesEndpoint(
-				EndPoint.getE3EndpointUrl(getApplicationContext(), true),
-				AndroidUtils.isRelease(getApplicationContext()));
+			CarDb.injectEndpoint(this);
 			mApiChanged = false;
 		}
 	}

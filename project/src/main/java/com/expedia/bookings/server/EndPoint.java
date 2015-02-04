@@ -88,6 +88,26 @@ public enum EndPoint {
 		}
 	}
 
+	/**
+	 * Returns the base suggestion server url, based on dev settings
+	 */
+	private final static String ESS_PRODUCTION_ENDPOINT = "http://suggest.expedia.com";
+
+	public static String getEssEndpointUrl(Context context, final boolean isSecure) {
+		EndPoint endPoint = getEndPoint(context);
+
+		if (endPoint == EndPoint.CUSTOM_SERVER) {
+			boolean forceHttp = SettingUtils
+				.get(context, context.getString(R.string.preference_force_custom_server_http_only), false);
+			String protocol = isSecure && !forceHttp ? "https" : "http";
+			String server = SettingUtils
+				.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return protocol + "://" + server + "/";
+		}
+
+		return ESS_PRODUCTION_ENDPOINT;
+	}
+
 	public static EndPoint getEndPoint(Context context) {
 		boolean isRelease = AndroidUtils.isRelease(context);
 		if (isRelease) {

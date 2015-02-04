@@ -17,7 +17,6 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -26,9 +25,9 @@ import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -189,9 +188,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		String serverEndpointsConfigurationPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
 		EndPoint.init(this, serverEndpointsConfigurationPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
-
-		CarDb.setServicesEndpoint(EndPoint.getE3EndpointUrl(this, true), isRelease);
-		startupTimer.addSplit("CarServices init");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {

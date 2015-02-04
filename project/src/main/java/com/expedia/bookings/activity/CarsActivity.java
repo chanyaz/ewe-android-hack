@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.presenter.CarsPresenter;
 
 import butterknife.ButterKnife;
@@ -17,6 +18,7 @@ public class CarsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		CarDb.injectEndpoint(this);
 
 		setContentView(R.layout.activity_cars);
 		ButterKnife.inject(this);

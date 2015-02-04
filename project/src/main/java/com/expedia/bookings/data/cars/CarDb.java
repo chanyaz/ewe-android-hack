@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.cars;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -9,9 +7,12 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import android.content.Context;
+
+import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.services.SuggestionServices;
-import com.mobiata.android.Log;
 import com.squareup.okhttp.OkHttpClient;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,20 +23,40 @@ public final class CarDb {
 	private static CarServices sCarServices;
 	private static SuggestionServices sSuggestionServices;
 
-	public static void setServicesEndpoint(String endpoint, boolean isRelease) {
-		OkHttpClient okHttpClient = new OkHttpClient();
-		if (!isRelease) {
-			SSLContext socketContext = null;
-			try {
-				socketContext = SSLContext.getInstance("TLS");
-				socketContext.init(null, sEasyTrustManager, new java.security.SecureRandom());
-				okHttpClient.setSslSocketFactory(socketContext.getSocketFactory());
-			}
-			catch (NoSuchAlgorithmException | KeyManagementException e) {
-				Log.w("Something sad happened during manipulation of SSL", e);
-			}
+	public static void injectEndpoint(Context context) {
+
+		String e3endpoint = EndPoint.getE3EndpointUrl(context, true /*isSecure*/);
+		sCarServices = generateCarServices(e3endpoint);
+
+		String suggestEndpoint = EndPoint.getEssEndpointUrl(context, true /*isSecure*/);
+		sSuggestionServices = generateCarSuggestionServices(suggestEndpoint);
+	}
+
+	private static SSLContext generateSSLContext() {
+		try {
+			SSLContext socketContext = SSLContext.getInstance("TLS");
+			socketContext.init(null, sEasyTrustManager, new java.security.SecureRandom());
+			return socketContext;
 		}
-		sCarServices = new CarServices(endpoint, okHttpClient, AndroidSchedulers.mainThread(), Schedulers.io());
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static OkHttpClient generateOkHttpClient() {
+		OkHttpClient client = new OkHttpClient();
+		if (BuildConfig.DEBUG) {
+			client.setSslSocketFactory(generateSSLContext().getSocketFactory());
+		}
+		return client;
+	}
+	
+	private static CarServices generateCarServices(String endpoint) {
+		return new CarServices(endpoint, generateOkHttpClient(), AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+	
+	public static SuggestionServices generateCarSuggestionServices(String endpoint) {
+		return new SuggestionServices(endpoint, generateOkHttpClient(), AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	public static CarServices getCarServices() {
@@ -43,10 +64,6 @@ public final class CarDb {
 	}
 
 	public static SuggestionServices getSuggestionServices() {
-		if (sSuggestionServices == null) {
-			OkHttpClient okHttpClient = new OkHttpClient();
-			sSuggestionServices = new SuggestionServices(okHttpClient,  AndroidSchedulers.mainThread(), Schedulers.io());
-		}
 		return sSuggestionServices;
 	}
 

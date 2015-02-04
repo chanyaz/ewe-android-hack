@@ -22,8 +22,6 @@ public class SuggestionServices {
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
-	private final static String ESS_ENDPOINT = "http://suggest.expedia.com";
-
 	private static final RequestInterceptor REQUEST_INTERCEPTOR = new RequestInterceptor() {
 		@Override
 		public void intercept(RequestFacade request) {
@@ -44,10 +42,6 @@ public class SuggestionServices {
 			.build();
 
 		mSuggestApi = adapter.create(SuggestApi.class);
-	}
-
-	public SuggestionServices(OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn) {
-		this(ESS_ENDPOINT, okHttpClient, observeOn, subscribeOn);
 	}
 
 	private static final int MAX_AIRPORTS_RETURNED = 3;
