@@ -319,6 +319,8 @@
     <string name="unable_to_log_into_facebook">Unable to log in to Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Login failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">We need you to create a new, international sign in for all Expedia sites. Please reset your password using the ‘Forgot your password?’ link below.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
     <!-- Link accounts -->

@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -1157,11 +1158,26 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		}
 	};
 
+	private boolean hasResetError(SignInResponse response) {
+		for (ServerError error : response.getErrors()) {
+			if (error.getMessage() != null && error.getMessage().equalsIgnoreCase("AuthenticationFailedAtMTTWeb")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private final OnDownloadComplete<SignInResponse> mManualLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
 			setIsLoading(false);
 			if (response == null || response.hasErrors()) {
+				if (hasResetError(response)) {
+					mExpediaPassword.setText("");
+					setStatusText(R.string.login_reset_password, false);
+					return;
+				}
+
 				mExpediaPassword.setText("");
 				setStatusText(R.string.login_failed_try_again, false);
 			}
