@@ -10,7 +10,7 @@ getAndroid "build-tools/21.1.1" "build-tools-21.1.1"
 getAndroid "extras/android/m2repository" "extra-android-m2repository"
 getAndroid "extras/google/m2repository" "extra-google-m2repository"
 
-gradleww assembleExpediaLatest assembleExpediaLatestTest
-gradleww assembleTravelocityLatest
-gradleww assembleAirAsiaGoLatest
-gradleww assembleVoyagesLatest
+gradleww "-Pid=latest" assembleExpediaDebug assembleExpediaDebugTest
+gradleww "-Pid=latest" assembleTravelocityDebug
+gradleww "-Pid=latest" assembleAirAsiaGoDebug
+gradleww "-Pid=latest" assembleVoyagesDebug
