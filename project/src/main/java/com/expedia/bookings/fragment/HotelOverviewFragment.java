@@ -625,8 +625,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE,
 				hotel.getCouponRate().getTotalPriceAdjustments().getFormattedMoney()));
 		}
-
-		updateCheckoutDisclaimerText();
+		if (PointOfSale.getPointOfSale().showFTCResortRegulations()) {
+			updateCheckoutDisclaimerText();
+		}
+		else {
+			mCheckoutDisclaimerTextView.setVisibility(View.GONE);
+		}
 
 		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
