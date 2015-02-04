@@ -2,6 +2,7 @@ package com.expedia.bookings.test.component.cars;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +10,10 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
+import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.utils.JodaUtils;
@@ -29,8 +32,16 @@ import static junit.framework.Assert.assertNull;
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchParamsTests {
 	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
+
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
+	@Rule
+	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
+
+	@Before
+	public void before() {
+		CarDb.injectEndpoint(playground.get());
+	}
 
 	@Test
 	public void testViewPopulatesSearchParams() {

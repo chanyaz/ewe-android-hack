@@ -8,7 +8,6 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -35,7 +34,6 @@ public final class CarViewModel {
 
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {
 		CarViewModel.pickupLocation().perform(typeText(airportCode));
-		ScreenActions.delay(3); // TODO remove delay
 		onView(withText(airportCode))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
