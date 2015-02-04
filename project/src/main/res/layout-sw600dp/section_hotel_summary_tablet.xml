@@ -144,7 +144,6 @@
                     android:includeFontPadding="false"
                     android:paddingLeft="4dp"
                     android:singleLine="true"
-                    android:text="@string/sold_out_on_expedia"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/tablet_result_row_secondary_text_size"
                     app:textStyle="light"
