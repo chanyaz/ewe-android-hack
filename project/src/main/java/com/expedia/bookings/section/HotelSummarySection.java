@@ -445,6 +445,7 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.useTabletInterface(getContext())) {
 			if (mSoldOutText != null) {
 				mSoldOutText.setVisibility(View.VISIBLE);
+				mSoldOutText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
 			}
 			if (mNotRatedText != null) {
 				mNotRatedText.setVisibility(View.GONE);
