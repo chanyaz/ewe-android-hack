@@ -144,20 +144,25 @@ public class CollectionStack extends FrameLayout {
 			@Override
 			public void onBitmapLoaded(String url, Bitmap bitmap) {
 				int color = BitmapUtils.getAvgColorOnePixelTrick(bitmap);
-				int textColor = new ColorBuilder(color)
-					.darkenBy(0.4f)
-					.setAlpha(224)
-					.build();
-
+				int textColor;
+				int fullColor;
 				ColorBuilder fullColorBuilder;
 				if (ExpediaBookingApp.IS_TRAVELOCITY) {
 					fullColorBuilder = new ColorBuilder(Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
+					textColor = fullColorBuilder
+						.setOpacity(0.8f)
+						.build();
+					fullColor = fullColorBuilder.setAlpha(0.3f).build();
 				}
 				else {
 					fullColorBuilder = new ColorBuilder(color)
 						.darkenBy(0.3f);
+					textColor = new ColorBuilder(color)
+						.darkenBy(0.4f)
+						.setAlpha(224)
+						.build();
+					fullColor = fullColorBuilder.setAlpha(217).build();
 				}
-				int fullColor = fullColorBuilder.setAlpha(217).build();
 
 				GradientDrawable textViewBackground = (GradientDrawable) getResources().getDrawable(R.drawable.bg_collection_title);
 				textViewBackground.setColor(textColor);

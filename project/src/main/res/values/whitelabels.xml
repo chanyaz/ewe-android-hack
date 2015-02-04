@@ -277,4 +277,9 @@
     <attr name="skin_tablet_hotel_confirmation_placeholder" format="reference" />
     <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
 
+    <attr name="skin_tablet_pin_detail_image_size" format="reference" />
+    <attr name="skin_tablet_pin_detail_button_background" format="reference" />
+    <attr name="skin_tablet_pin_detail_button_text_color" format="reference|color" />
+    <attr name="skin_tablet_ab_launch_text1_base" format="reference" />
+    <attr name="skin_tablet_ab_launch_text2_pin_detail" format="reference" />
 </resources>
