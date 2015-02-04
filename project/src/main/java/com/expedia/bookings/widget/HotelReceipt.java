@@ -286,12 +286,12 @@ public class HotelReceipt extends LinearLayout {
 		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
 		resortFeesRow.bind(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney());
 
-		HotelReceiptExtraSection dueToExpediaRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-		dueToExpediaRow.bind(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		String totalDueToOurBrandToday = getResources().getString(R.string.total_due_to_our_brand_today);
+		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney());
 
 		mExtrasLayout.addView(resortFeesRow);
-		mExtrasLayout.addView(dueToExpediaRow);
+		mExtrasLayout.addView(dueToOurBrandRow);
 	}
 
 	private static final int MAX_AMENITY_ROWS = 3;
