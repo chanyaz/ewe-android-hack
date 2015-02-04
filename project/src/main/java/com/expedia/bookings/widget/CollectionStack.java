@@ -161,7 +161,6 @@ public class CollectionStack extends FrameLayout {
 		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
 			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(urls);
 
-
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
 		return headerBitmapDrawable;
@@ -181,21 +180,27 @@ public class CollectionStack extends FrameLayout {
 			Palette palette = Palette.generate(bitmap);
 			int color = palette.getVibrantColor(R.color.transparent_dark);
 			mHeaderBitmapDrawable.setBitmap(bitmap);
-			int textColor = new ColorBuilder(color)
-				.darkenBy(0.4f)
-				.setAlpha(224)
-				.build();
 
+			int textColor;
+			int fullColor;
 			ColorBuilder fullColorBuilder;
 			if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				fullColorBuilder = new ColorBuilder(
 					Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
+				textColor = fullColorBuilder
+					.setOpacity(0.8f)
+					.build();
+				fullColor = fullColorBuilder.setAlpha(0.3f).build();
 			}
 			else {
 				fullColorBuilder = new ColorBuilder(color)
 					.darkenBy(0.3f);
+					textColor = new ColorBuilder(color)
+						.darkenBy(0.4f)
+						.setAlpha(224)
+						.build();
+					fullColor = fullColorBuilder.setAlpha(217).build();
 			}
-			int fullColor = fullColorBuilder.setAlpha(217).build();
 
 			GradientDrawable textViewBackground = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.bg_collection_title);

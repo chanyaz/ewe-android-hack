@@ -12,6 +12,7 @@
     <color name="tablet_collection_back_image_overlay">#e5141d36</color>
     <color name="tablet_collection_middle_image_overlay">#b3141d36</color>
     <color name="launch_pin_detail_background">#b2070f24</color>
+    <color name="launch_pin_detail_button_text">#3e69b3</color>
 
     <!-- Tablet Results -->
     <color name="details_ring_red">#bc4649</color>
