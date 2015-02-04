@@ -87,7 +87,8 @@ import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CancelListener, CouponDialogFragmentListener {
+	LoginConfirmLogoutDialogFragment.DoLogoutListener,
+	CancelListener, CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -992,6 +993,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	public void accountLogoutClicked() {
+		LoginConfirmLogoutDialogFragment df = new LoginConfirmLogoutDialogFragment();
+		df.show(getChildFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
+	}
+
+	@Override
+	public void doLogout() {
 		if (mAccountButton.isEnabled()) {
 			mAccountButton.setEnabled(false);
 
