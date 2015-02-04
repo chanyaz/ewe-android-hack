@@ -16,7 +16,7 @@ public interface CarApi {
 		@Query("pickupTime") String pickupTime,
 		@Query("dropOffTime") String dropoffTime);
 
-	@GET("/m/api/cars/create")
+	@GET("/m/api/cars/trip/create")
 	public Observable<CarCreateTripResponse> createTrip(
 		@Query("productKey") String productKey,
 		@Query("expectedTotalFare") String expectedTotalFare);

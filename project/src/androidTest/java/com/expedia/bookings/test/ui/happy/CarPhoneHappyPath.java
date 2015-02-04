@@ -3,12 +3,11 @@ package com.expedia.bookings.test.ui.happy;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.activity.CarsActivity;
-import com.expedia.bookings.test.component.cars.CarSearchParamsModel;
-import com.expedia.bookings.test.component.cars.CarSearchResultsModel;
+import com.expedia.bookings.test.component.cars.CarViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class CarPhoneHappyPath extends PhoneTestCase {
 
@@ -22,17 +21,23 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		final DateTime endDateTime = startDateTime.plusDays(3);
 
 		screenshot("Car_Search");
-		CarSearchParamsModel.pickupLocation().perform(typeText(pickupAirportCode));
-		CarSearchParamsModel.selectDate().perform(click());
-		CarSearchParamsModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		CarViewModel.selectPickupLocation(getInstrumentation(), pickupAirportCode);
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		screenshot("Car_Search_Params_Entered");
 
-		CarSearchParamsModel.searchButton().perform(click());
+		CarViewModel.searchButton().perform(click());
 		screenshot("Car_Search_Clicked_Search");
 
-		CarSearchResultsModel.selectCategory(0);
+		ScreenActions.delay(1);
+
+		CarViewModel.selectCarCategory(0);
 		screenshot("Car_Search_Selected_Category");
 
+		ScreenActions.delay(1);
+
+		CarViewModel.selectCarOffer(0);
+		screenshot("Car_Search_Selected_Offer");
 	}
 
 }

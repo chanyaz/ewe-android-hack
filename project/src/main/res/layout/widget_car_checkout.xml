@@ -140,7 +140,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             slideto:destComplete="@drawable/slide_complete"
-            
             slideto:dragImage="@drawable/slide_drag"
             slideto:lineColor="#46CFCFCF"
             slideto:sliderImage="@drawable/slide_hint"
