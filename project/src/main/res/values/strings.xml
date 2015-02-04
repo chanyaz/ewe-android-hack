@@ -147,6 +147,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Sorry, no hotels are \n available for tonight.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Sorry, no flights are \n currently available.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for flights more than %1$s days from today.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Removed</string>
     <!-- Label indicating how many items are being booked for the current trip -->

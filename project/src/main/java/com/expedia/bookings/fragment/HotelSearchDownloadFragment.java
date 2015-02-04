@@ -11,6 +11,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.HotelUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -155,7 +156,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
-			if (getActivity() != null) {
+			if (getActivity() != null && HotelUtils.dateRangeSupportsHotelSearch(getActivity())) {
 				ExpediaServices services = new ExpediaServices(getActivity());
 				return services.search(mSearchParams, ExpediaServices.F_HOTELS);
 			}

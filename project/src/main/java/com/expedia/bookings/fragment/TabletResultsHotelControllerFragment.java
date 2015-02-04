@@ -249,7 +249,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		//
 		// TODO this "dateRangeSupportsHotelSearch" check also occurs in "onStateFinalized", so it is
 		// likely not needed in both places..
-		if (dateRangeSupportsHotelSearch()) {
+		if (HotelUtils.dateRangeSupportsHotelSearch(getActivity())) {
 			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
 	}
@@ -259,21 +259,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
 	}
 
-	/*
-	 * Helper method to check if it's valid to start the hotel search.
-	 */
-	private boolean dateRangeSupportsHotelSearch() {
-		// TODO should we be referring to Db.getHotelSearch() or Sp.toHotelSearch() ??
-		return Sp.getParams().toHotelSearchParams().getStayDuration() <= getResources().getInteger(R.integer.calendar_max_days_hotel_stay);
-	}
-
-
 	/**
 	 * STATE HELPERS
 	 */
 
 	private ResultsHotelsState getBaseState() {
-		if (isAdded() && !dateRangeSupportsHotelSearch()) {
+		if (isAdded() && !HotelUtils.dateRangeSupportsHotelSearch(getActivity())) {
 			return ResultsHotelsState.MAX_HOTEL_STAY;
 		}
 		else if (Db.getHotelSearch() != null && Db.getHotelSearch().getSearchResponse() != null
@@ -1491,7 +1482,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 
 			// Ensure we are downloading the correct data.
-			if (Ui.isAdded(mHotelSearchDownloadFrag) && state == ResultsHotelsState.LOADING && dateRangeSupportsHotelSearch()) {
+			if (Ui.isAdded(mHotelSearchDownloadFrag) && state == ResultsHotelsState.LOADING && HotelUtils.dateRangeSupportsHotelSearch(getActivity())) {
 				importSearchParams();
 				logger.addSplit("importSearchParams()");
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
@@ -1668,7 +1659,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean isBadResponse = response.hasErrors();
 		boolean isZeroResults = response.getPropertiesCount() == 0;
 
-		if (!dateRangeSupportsHotelSearch()) {
+		if (!HotelUtils.dateRangeSupportsHotelSearch(getActivity())) {
 			setHotelsState(ResultsHotelsState.MAX_HOTEL_STAY, false);
 		}
 		else if (isBadResponse) {

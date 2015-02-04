@@ -61,7 +61,7 @@ public class ResultsDatesFragment extends Fragment implements
 		mDaysOfWeekView.setDayOfWeekRenderer(this);
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
-		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
+		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selectable_date_range));
 		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
 		mCalendarPicker.setYearMonthDisplayedChangedListener(this);

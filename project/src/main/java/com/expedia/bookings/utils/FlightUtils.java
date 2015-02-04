@@ -2,6 +2,8 @@ package com.expedia.bookings.utils;
 
 import java.util.Set;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -158,4 +161,15 @@ public class FlightUtils {
 		}
 	}
 
+	 /*
+	  * Helper method to check if it's valid to start the flight search.
+	  */
+	public static boolean dateRangeSupportsFlightSearch(Context context) {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		LocalDate searchDate = params.getDepartureDate();
+		LocalDate arrivalDate = params.getReturnDate();
+		LocalDate maxSearchDate = LocalDate.now()
+			.plusDays(context.getResources().getInteger(R.integer.calendar_max_days_flight_search));
+		return arrivalDate != null ? arrivalDate.isBefore(maxSearchDate) : searchDate.isBefore(maxSearchDate);
+	}
 }
