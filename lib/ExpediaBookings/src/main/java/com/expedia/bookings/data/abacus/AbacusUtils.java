@@ -12,6 +12,7 @@ public class AbacusUtils {
 	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
 	public static final String EBAndroidETPTest = "ExpediaAndroidAppETPDefaultNow";
 	public static final String EBAndroidHotelBookButtonPlacementTest = "EBAndroidAppHISBookAboveFold";
+	public static final String EBAndroidAppHISFreeCancellationTest = "EBAndroidAppHISFreeCancellation";
 
 	public static int ABTEST_IGNORE_DEBUG = -1;
 
@@ -24,6 +25,11 @@ public class AbacusUtils {
 		CONTROL,
 		BOOK_ABOVE_FOLD,
 	 	SELECT_ROOM_ABOVE_FOLD
+	}
+
+	public static enum HISFreeCancellationVariate {
+		CONTROL,
+		BUCKETED
 	}
 
 }

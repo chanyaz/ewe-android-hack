@@ -97,6 +97,7 @@
     <string name="preference_aa_test">ExpediaAndroidAppAATest</string>
     <string name="preference_etp_test">ExpediaAndroidAppETPDefaultNow</string>
     <string name="preference_book_above_fold">EBAndroidAppHISBookAboveFold</string>
+    <string name="preference_hotel_free_cancellation">EBAndroidAppHISFreeCancellation</string>
 
     <!-- Setting keys -->
     <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>
