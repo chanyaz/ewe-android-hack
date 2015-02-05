@@ -16,7 +16,7 @@
     <string name="contact_travelocity">Contacter Travelocity</string>
     <string name="travelocity_website">Site web de Travelocity</string>
     <string name="travelocity_app_support">Assistance pour l’App Travelocity</string>
-    <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nTous droits réservés.</string>
+    <string name="travelocity_copyright_TEMPLATE">© Copyright 2012-%1$s Travelocity\nTous droits réservés.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
