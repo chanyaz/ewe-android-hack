@@ -201,4 +201,10 @@
         <item name="android:logo" tools:targetApi="11">@drawable/icon_home_tvly</item>
     </style>
 
+    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
+        <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_tvly</item>
+    </style>
+
 </resources>

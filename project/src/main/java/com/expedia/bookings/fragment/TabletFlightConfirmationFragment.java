@@ -37,8 +37,8 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 public class TabletFlightConfirmationFragment extends TabletConfirmationFragment {
 
@@ -143,7 +143,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		mHeaderBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_flight_confirmation_placeholder)));
 
 		final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		int imageWidth = getResources().getDimensionPixelSize(R.dimen.confirmation_width);
@@ -153,7 +153,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			.resizeExactly(imageWidth, imageHeight) //
 			.build();
 
-		mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, R.drawable.bg_itin_placeholder));
+		mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), url, Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_flight_confirmation_placeholder)));
 		setLob(LineOfBusiness.FLIGHTS);
 
 		return v;
