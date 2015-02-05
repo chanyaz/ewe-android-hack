@@ -535,6 +535,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
 
+				if (nextData instanceof ItinCardDataFallback) {
+					continue;
+				}
+
 				// If the next itin is a flight
 				if (nextType == Type.FLIGHT) {
 					nextFlightLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
