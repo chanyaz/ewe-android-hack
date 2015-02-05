@@ -141,7 +141,7 @@
         <item name="skin_hotelBookButtonString">@string/book_now</item>
         <item name="skin_aboutWebsiteString">@string/expedia_website</item>
         <item name="skin_aboutAppSupportString">@string/app_support</item>
-        <item name="skin_aboutCopyrightString">@string/copyright</item>
+        <item name="skin_aboutCopyrightString">@string/copyright_TEMPLATE</item>
         <item name="skin_aboutInfoUrlString">@string/app_mobiata_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/mobiata</item>
