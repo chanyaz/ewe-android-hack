@@ -57,7 +57,24 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="DarkPopupMenuStyle" parent="android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/bg_autocomplete</item>
+    </style>
+
+    <style name="DarkPopupMenuTextAppearanceSmall" parent="@android:style/TextAppearance.Holo.Widget.PopupMenu.Small">
+        <item name="android:textColor">#F3F3F3</item>
+    </style>
+
+    <style name="DarkPopupMenuTextAppearanceLarge" parent="@android:style/TextAppearance.Holo.Widget.PopupMenu.Large">
+        <item name="android:textColor">#F3F3F3</item>
+    </style>
+
     <style name="Theme.Expedia" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <!-- Fixes a bug in Theme.Holo.Light.DarkActionBar on lollipop where popup menus are white -->
+        <item name="android:popupMenuStyle">@style/DarkPopupMenuStyle</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/DarkPopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/DarkPopupMenuTextAppearanceSmall</item>
+
         <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
