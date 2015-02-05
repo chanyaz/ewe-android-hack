@@ -8,6 +8,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
+import com.expedia.bookings.test.ui.espresso.ViewActions;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -34,6 +36,7 @@ public final class CarViewModel {
 
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {
 		CarViewModel.pickupLocation().perform(typeText(airportCode));
+		ScreenActions.delay(1);
 		onView(withText(airportCode))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
@@ -102,8 +105,58 @@ public final class CarViewModel {
 
 	// Checkout
 
-	public static ViewInteraction slideToCheckout() {
-		return onView(withId(R.id.slide_to_purchase_widget));
+	public static ViewInteraction firstName() {
+		return onView(withId(R.id.edit_first_name));
+	}
+
+	public static void enterFirstName(String name) {
+		firstName().perform(typeText(name));
+	}
+
+	public static ViewInteraction lastName() {
+		return onView(withId(R.id.edit_last_name));
+	}
+
+	public static void enterLastName(String name) {
+		lastName().perform(typeText(name));
+	}
+
+	public static ViewInteraction email() {
+		return onView(withId(R.id.edit_email_address));
+	}
+
+	public static void enterEmail(String email) {
+		email().perform(typeText(email));
+	}
+
+	public static ViewInteraction phone() {
+		return onView(withId(R.id.edit_phone_number));
+	}
+
+	public static void enterPhoneNumber(String number) {
+		phone().perform(typeText(number));
+	}
+
+	public static ViewInteraction paymentContainer() {
+		return onView(withId(R.id.payment_info));
+	}
+
+	public static ViewInteraction checkoutDataEnterDone() {
+		return onView(withId(R.id.edit_done));
+	}
+
+	public static void pressDone() {
+		checkoutDataEnterDone().perform(click());
+	}
+
+	public static ViewInteraction performSlideToPurchase() {
+		return onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+	}
+
+	// Confirmation
+
+	public static ViewInteraction confirmationNumber() {
+		return onView(withId(R.id.confirmation_text));
 	}
 
 }

@@ -19,6 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 public class EspressoUtils {
 
@@ -32,6 +33,10 @@ public class EspressoUtils {
 
 	public static void assertViewIsDisplayed(int id) {
 		onView(withId(id)).check(matches(isDisplayed()));
+	}
+
+	public static void assertViewIsNotDisplayed(int id) {
+		onView(withId(id)).check(matches(not(isDisplayed())));
 	}
 
 	public static void assertViewWithSubstringIsDisplayed(String substring) {

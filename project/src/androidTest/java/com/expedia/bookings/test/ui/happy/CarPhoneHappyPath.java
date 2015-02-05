@@ -2,9 +2,12 @@ package com.expedia.bookings.test.ui.happy;
 
 import org.joda.time.DateTime;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.CarsActivity;
 import com.expedia.bookings.test.component.cars.CarViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.EspressoTestCase;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 
@@ -26,13 +29,30 @@ public class CarPhoneHappyPath extends EspressoTestCase {
 		screenshot("Car_Search_Params_Entered");
 
 		CarViewModel.searchButton().perform(click());
-		screenshot("Car_Search_Clicked_Search");
+		ScreenActions.delay(1);
+		screenshot("Car_Search_Results");
 
 		CarViewModel.selectCarCategory(0);
-		screenshot("Car_Search_Selected_Category");
+		ScreenActions.delay(1);
+		screenshot("Car_Offers");
+
 
 		CarViewModel.selectCarOffer(0);
-		screenshot("Car_Search_Selected_Offer");
+		ScreenActions.delay(1);
+		screenshot("Car_Checkout");
+
+		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info);
+		CarViewModel.enterFirstName("FiveStar");
+		CarViewModel.enterLastName("Bear");
+		CarViewModel.enterEmail("noah@mobiata.com");
+		CarViewModel.enterPhoneNumber("4158675309");
+		CarViewModel.pressDone();
+
+		screenshot("Car_Checkout_Ready_To_Purchase");
+		CarViewModel.performSlideToPurchase();
+		ScreenActions.delay(1);
+
+		screenshot("Car_Confirmation");
 	}
 
 }

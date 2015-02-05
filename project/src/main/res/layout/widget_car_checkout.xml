@@ -7,8 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/info_block"
@@ -137,7 +136,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/edit_credit_card"
@@ -165,6 +164,19 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/edit_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="DONE ENTERING CHECKOUT INFO"
+        android:textSize="18sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <LinearLayout
         android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"
@@ -175,7 +187,7 @@
         android:paddingBottom="15dp"
         android:paddingTop="10dp">
 
-        <com.expedia.bookings.widget.SlideToWidget
+        <com.expedia.bookings.widget.SlideToWidgetJB
             android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

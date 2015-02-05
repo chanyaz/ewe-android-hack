@@ -195,6 +195,7 @@ public class CarSearchParamsWidget extends FrameLayout implements
 	private AdapterView.OnItemClickListener mPickupListListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Ui.hideKeyboard(CarSearchParamsWidget.this);
 			Suggestion suggestion = suggestionAdapter.getItem(position);
 			setPickupLocation(suggestion);
 		}

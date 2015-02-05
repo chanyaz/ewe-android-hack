@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
@@ -13,12 +14,14 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
-public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISlideToListener {
+public class CarCheckoutWidget extends LinearLayout implements SlideToWidgetJB.ISlideToListener {
 
 	public CarCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -50,14 +53,20 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 	@InjectView(R.id.date_time_text)
 	TextView dateTimeText;
 
+	@InjectView(R.id.edit_done)
+	Button editDone;
+
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;
 
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;
 
+	@InjectView(R.id.slide_to_purchase_layout)
+	ViewGroup slideToContainer;
+
 	@InjectView(R.id.slide_to_purchase_widget)
-	SlideToWidget slideWidget;
+	SlideToWidgetJB slideWidget;
 
 	@InjectView(R.id.payment_info)
 	ViewGroup paymentInfoBlock;
@@ -72,6 +81,7 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		slideToContainer.setVisibility(View.GONE);
 		slideWidget.addSlideToListener(this);
 
 		// TODO - encapsulate data fields better, so that this isn't here.
@@ -111,7 +121,7 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 			paymentInfoBlock.setVisibility(View.VISIBLE);
 		}
 		else {
-			paymentInfoBlock.setVisibility(View.INVISIBLE);
+			paymentInfoBlock.setVisibility(View.GONE);
 		}
 
 		locationDescriptionText.setText(createTrip.itineraryNumber);
@@ -132,10 +142,21 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 		slideWidget.resetSlider();
 	}
 
+	@OnClick(R.id.edit_done)
+	public void onEditDoneClicked() {
+		Ui.hideKeyboard(this);
+		editDone.setVisibility(View.GONE);
+		slideToContainer.setVisibility(View.VISIBLE);
+	}
+
 	//  SlideToWidget.ISlideToListener
 
 	@Override
 	public void onSlideStart() {
+	}
+
+	@Override
+	public void onSlideProgress(float pixels, float total) {
 	}
 
 	@Override
