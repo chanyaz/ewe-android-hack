@@ -122,8 +122,8 @@ android {
             buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://images.trvl-media.com\""
             applicationId "com.travelocity.android"
-            versionCode 1003
-            versionName "6.2-${versionCode}"
+            versionCode 1004
+            versionName "7.0"
         }
 
         airAsiaGo {
