@@ -127,10 +127,10 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidget.ISl
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 	}
 
-    @Subscribe
-    public void onShowConfirmation(Events.CarsShowConfirmation event) {
-        slideWidget.resetSlider();
-    }
+	@Subscribe
+	public void onShowConfirmation(Events.CarsShowConfirmation event) {
+		slideWidget.resetSlider();
+	}
 
 	//  SlideToWidget.ISlideToListener
 

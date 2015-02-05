@@ -44,6 +44,13 @@ public class Presenter extends FrameLayout {
 	private Stack<View> backstack = new Stack<>();
 
 	public void show(View v) {
+		show(v, false);
+	}
+
+	public void show(View v, boolean clearBackStack) {
+		if (clearBackStack) {
+			clearBackStack();
+		}
 		backstack.push(v);
 		for (int i = 0; i < this.getChildCount(); i++) {
 			this.getChildAt(i).setVisibility(View.GONE);
@@ -97,4 +104,17 @@ public class Presenter extends FrameLayout {
 			view.setVisibility(View.GONE);
 		}
 	};
+
+	// Tread lightly
+
+	public void clearBackStack() {
+		while (backstack.size() > 0) {
+			View v = backstack.peek();
+			if (v instanceof Presenter) {
+				Presenter p = (Presenter) v;
+				p.clearBackStack();
+			}
+			backstack.pop().setVisibility(View.GONE);
+		}
+	}
 }

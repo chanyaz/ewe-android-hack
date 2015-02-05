@@ -17,14 +17,13 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
-import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -519,8 +518,8 @@ public class Events {
 	 * Cars cars cars
 	 */
 
-    public static class CarsGoToSearch {
-    }
+	public static class CarsGoToSearch {
+	}
 
 	public static class CarsNewSearchParams {
 		public CarSearchParams carSearchParams;
@@ -570,11 +569,11 @@ public class Events {
 		}
 	}
 
-    public static class CarsShowConfirmation {
-        public CarCheckoutResponse checkoutResponse;
+	public static class CarsShowConfirmation {
+		public CarCheckoutResponse checkoutResponse;
 
-        public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
-            this.checkoutResponse = checkoutResponse;
-        }
-    }
+		public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
+			this.checkoutResponse = checkoutResponse;
+		}
+	}
 }

@@ -103,4 +103,31 @@ public class PresenterTest {
 		Assert.assertTrue(child1.getVisibility() == View.GONE);
 		Assert.assertTrue(child2.getVisibility() == View.GONE);
 	}
+
+	@Test
+	public void testShowAndClearBackstack() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		Presenter root = new Presenter(activity, null);
+		Assert.assertNotNull(root);
+
+		TextView textView1 = new TextView(activity);
+		TextView textView2 = new TextView(activity);
+		root.addView(textView1);
+		root.addView(textView2);
+
+		root.show(textView1);
+		root.show(textView2);
+		Assert.assertTrue(textView1.getVisibility() == View.GONE);
+		Assert.assertTrue(textView2.getVisibility() == View.VISIBLE);
+
+		Assert.assertTrue(root.back());
+		Assert.assertTrue(textView1.getVisibility() == View.VISIBLE);
+		Assert.assertTrue(textView2.getVisibility() == View.GONE);
+
+		root.show(textView2, true);
+		Assert.assertTrue(textView1.getVisibility() == View.GONE);
+		Assert.assertTrue(textView2.getVisibility() == View.VISIBLE);
+		Assert.assertFalse(root.back());
+	}
+
 }

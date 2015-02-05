@@ -41,8 +41,13 @@ public class CarsPresenter extends Presenter {
 		show(checkoutWidget);
 	}
 
-    @Subscribe
-    public void onShowSearch(Events.CarsGoToSearch event) {
-        show(widgetCarParams);
-    }
+	@Subscribe
+	public void onShowConfirmation(Events.CarsShowConfirmation event) {
+		show(checkoutWidget, true);
+	}
+
+	@Subscribe
+	public void onShowSearch(Events.CarsGoToSearch event) {
+		show(widgetCarParams, true);
+	}
 }

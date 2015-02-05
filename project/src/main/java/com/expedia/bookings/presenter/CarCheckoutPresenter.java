@@ -26,8 +26,8 @@ public class CarCheckoutPresenter extends Presenter {
 	@InjectView(R.id.checkout)
 	View checkout;
 
-    @InjectView(R.id.confirmation)
-    View confirmation;
+	@InjectView(R.id.confirmation)
+	View confirmation;
 
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
@@ -80,7 +80,7 @@ public class CarCheckoutPresenter extends Presenter {
 		public void onNext(CarCheckoutResponse carCheckoutResponse) {
 			checkoutDialog.dismiss();
 			Events.post(new Events.CarsShowConfirmation(carCheckoutResponse));
-            show(confirmation);
+			show(confirmation, true);
 		}
 	};
 
@@ -94,16 +94,16 @@ public class CarCheckoutPresenter extends Presenter {
 	}
 
 	@Subscribe
-    public void onDoCheckoutCall(Events.CarsKickOffCheckoutCall event) {
-        CarCheckoutParamsBuilder builder = event.checkoutParamsBuilder;
-        if (builder.areRequiredParamsFilled()) {
-            checkoutSubscription = CarDb.getCarServices().checkout(builder.build(), checkoutObserver);
-            checkoutDialog.show();
-        }
-        else {
-            String msg = getResources().getString(R.string.error_missing_checkout_params);
-            String btn = getResources().getString(R.string.ok);
-            showAlertMessage(msg, btn);
-        }
-    }
+	public void onDoCheckoutCall(Events.CarsKickOffCheckoutCall event) {
+		CarCheckoutParamsBuilder builder = event.checkoutParamsBuilder;
+		if (builder.areRequiredParamsFilled()) {
+			checkoutSubscription = CarDb.getCarServices().checkout(builder.build(), checkoutObserver);
+			checkoutDialog.show();
+		}
+		else {
+			String msg = getResources().getString(R.string.error_missing_checkout_params);
+			String btn = getResources().getString(R.string.ok);
+			showAlertMessage(msg, btn);
+		}
+	}
 }
