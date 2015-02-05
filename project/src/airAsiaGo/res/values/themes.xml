@@ -25,7 +25,7 @@
         <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_aag</item>
         <item name="skin_aboutWebsiteString">@string/aag_website</item>
         <item name="skin_aboutAppSupportString">@string/aag_app_support</item>
-        <item name="skin_aboutCopyrightString">@string/aag_copyright</item>
+        <item name="skin_aboutCopyrightString">@string/aag_copyright_TEMPLATE</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_logoutConfirmationString">@string/logout_confirmation_aag</item>
         <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_aag_TEMPLATE</item>
