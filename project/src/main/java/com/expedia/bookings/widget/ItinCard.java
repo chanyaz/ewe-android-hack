@@ -17,6 +17,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MenuInflater;
@@ -323,11 +324,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mHeaderBitmapDrawable == null) {
 			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
 
+			//Setting the placeholder image
+			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
+			Drawable placeholderDrawable = res.getDrawable(placeholderResId);
+			mHeaderBitmapDrawable.setPlaceholderDrawable(placeholderDrawable);
+
 			mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 
 			if (getType() == Type.FLIGHT) {
 				mHeaderBitmapDrawable.setMatrixTranslation(0,
-						res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
+					res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
 			}
 			else {
 				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
