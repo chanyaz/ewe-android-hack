@@ -29,7 +29,7 @@ public class AbacusResponse {
 		if (test != null) {
 			return test.getBucketVariate();
 		}
-		return AbacusUtils.Variate.CONTROL.ordinal();
+		return AbacusUtils.DefaultVariate.CONTROL.ordinal();
 	}
 
 	public boolean isTestLive(String key) {

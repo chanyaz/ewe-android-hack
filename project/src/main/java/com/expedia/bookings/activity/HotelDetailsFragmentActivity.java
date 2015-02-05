@@ -317,8 +317,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
-		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
 
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
 			FRAGMENT_MINI_GALLERY_TAG);
@@ -349,7 +349,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		if (isUserBucketedForTest) {
 			bookNowButtonId = R.id.book_now_button_ABTest;
 			Ui.findView(this, R.id.book_now_button).setVisibility(View.GONE);
-			if (testVariate == AbacusUtils.BookingVariate.SELECT_ROOM_ABOVE_FOLD.ordinal()) {
+			if (testVariate == AbacusUtils.HISBookAboveFoldVariate.SELECT_ROOM_ABOVE_FOLD.ordinal()) {
 				mBookNowButton = Ui.findView(this, bookNowButtonId);
 				mBookNowButton.setText(R.string.book_now_ab_test);
 			}

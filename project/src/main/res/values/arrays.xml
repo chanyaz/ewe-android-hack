@@ -823,9 +823,9 @@
 
 
     <string-array name="abacus_default_choices">
-        <item>Ignore</item>
-        <item>Control</item>
-        <item>Bucketed</item>
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_controlgroup</item>
+        <item>@string/preference_abacus_setting_bucketed</item>
     </string-array>
 
     <string-array name="abacus_default_choice_values">
@@ -835,8 +835,8 @@
     </string-array>
 
     <string-array name="abacus_book_choices">
-        <item>Ignore</item>
-        <item>Control</item>
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_controlgroup</item>
         <item>Book above the fold</item>
         <item>Select room above the fold</item>
     </string-array>

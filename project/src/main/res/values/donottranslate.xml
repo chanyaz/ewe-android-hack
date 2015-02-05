@@ -99,6 +99,10 @@
     <string name="preference_book_above_fold">EBAndroidAppHISBookAboveFold</string>
     <string name="preference_hotel_free_cancellation">EBAndroidAppHISFreeCancellation</string>
 
+    <string name="preference_abacus_setting_server">Abacus Server</string>
+    <string name="preference_abacus_setting_controlgroup">Control Group</string>
+    <string name="preference_abacus_setting_bucketed">Bucketed</string>
+
     <!-- Setting keys -->
     <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>
     <string name="setting_hide_air_attach">setting_hide_air_attach</string>

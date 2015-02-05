@@ -23,7 +23,7 @@ public class AbacusTest {
 		if (setting != null) {
 			return setting.value;
 		}
-		return AbacusUtils.Variate.CONTROL.ordinal();
+		return AbacusUtils.DefaultVariate.CONTROL.ordinal();
 	}
 
 	/**

@@ -11,20 +11,20 @@ public class AbacusUtils {
 	 */
 	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
 	public static final String EBAndroidETPTest = "ExpediaAndroidAppETPDefaultNow";
-	public static final String EBAndroidHotelBookButtonPlacementTest = "EBAndroidAppHISBookAboveFold";
+	public static final String EBAndroidAppHISBookAboveFoldTest = "EBAndroidAppHISBookAboveFold";
 	public static final String EBAndroidAppHISFreeCancellationTest = "EBAndroidAppHISFreeCancellation";
 
-	public static int ABTEST_IGNORE_DEBUG = -1;
+	public static final int ABTEST_IGNORE_DEBUG = -1;
 
-	public static enum Variate {
+	public static enum DefaultVariate {
 		CONTROL,
 		BUCKETED
 	}
 
-	public static enum BookingVariate {
+	public static enum HISBookAboveFoldVariate {
 		CONTROL,
 		BOOK_ABOVE_FOLD,
-	 	SELECT_ROOM_ABOVE_FOLD
+		SELECT_ROOM_ABOVE_FOLD
 	}
 
 	public static enum HISFreeCancellationVariate {

@@ -348,7 +348,7 @@ public class OmnitureTracking {
 		s.setEvar(9, drrString);
 
 		// Abacus Hotel Book Now button placement
-		trackAbacusTest(s, AbacusUtils.EBAndroidHotelBookButtonPlacementTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
 
 		// Abacus Hotel Info site Free cancellation confidence placement test
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);

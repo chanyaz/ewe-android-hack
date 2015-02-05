@@ -468,7 +468,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
 				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAATest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_aa_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
 				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidETPTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_etp_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidHotelBookButtonPlacementTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_book_above_fold), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISBookAboveFoldTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_book_above_fold), AbacusUtils.ABTEST_IGNORE_DEBUG));
 				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISFreeCancellationTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_free_cancellation), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
 			Log.d("AbacusReponse - onNext");
