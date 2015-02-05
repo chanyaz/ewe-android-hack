@@ -279,8 +279,7 @@
     <attr name="skin_actionMenuDoneButtonText" format="reference|string" />
     <attr name="skin_tabletHotelDetailsStarRatingStyle" format="reference" />
     <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
-    <!-- Flight Map -->
-    <attr name="skin_tablet_flight_map_arrival_pin" format="reference" />
 
->>>>>>> 3668: Hotel circle ratings for tablet
+    <attr name="skin_tablet_hotel_confirmation_placeholder" format="reference" />
+    <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
 </resources>

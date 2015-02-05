@@ -33,8 +33,9 @@
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_tvly</item>
         <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
         <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
-        <!-- Flight Map -->
-        <item name="skin_tablet_flight_map_arrival_pin">@drawable/tablet_flight_map_arrival_tvly</item>
+
+        <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
+        <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />
