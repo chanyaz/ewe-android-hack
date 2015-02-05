@@ -185,7 +185,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 				public void onBitmapLoadFailed(String url) {
 					// ignore
 				}
-			}, R.drawable.bg_tablet_hotel_results_placeholder);
+			}, Ui.obtainThemeResID(collection.getContext(),R.attr.skin_HotelRowThumbPlaceHolderDrawable));
 
 			ViewGroup group = (ViewGroup) collection;
 			if (position >= group.getChildCount()) {
