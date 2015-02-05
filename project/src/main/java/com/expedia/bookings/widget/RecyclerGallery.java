@@ -278,7 +278,7 @@ public class RecyclerGallery extends RecyclerView {
 		public void onBindViewHolder(final ViewHolder holder, int position) {
 			Media media = mMedia.get(position);
 			media.loadHighResImage(holder.mImageView, holder.callback,
-				mMode == MODE_CENTER ? R.drawable.bg_tablet_hotel_results_placeholder : 0);
+				mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(), R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
 			preFetchImages(position);
 		}
 
