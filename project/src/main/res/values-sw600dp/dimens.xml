@@ -249,4 +249,6 @@
     <!-- Select Airport button top margin (used when no origin is set) -->
     <dimen name="pick_airport_button_top_margin">10dp</dimen>
 
+    <dimen name="tablet_launch_search_bar_top_margin">25dp</dimen>
+
 </resources>
