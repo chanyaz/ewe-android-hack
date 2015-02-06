@@ -732,10 +732,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return NOT_EQUAL;
 		}
 
-		if (this.getFirstName() != null && this.getLastName() != null && another.getFirstName() != null
-				&& another.getLastName() != null) {
+		if (this.getFirstName() != null && this.getLastName() != null && this.getMiddleName() != null && another.getFirstName() != null
+			&& another.getLastName() != null && another.getMiddleName() != null) {
 			if (this.getFirstName().trim().compareToIgnoreCase(another.getFirstName().trim()) == 0
-					&& this.getLastName().trim().compareToIgnoreCase(another.getLastName().trim()) == 0) {
+				&& this.getLastName().trim().compareToIgnoreCase(another.getLastName().trim()) == 0
+				&& this.getMiddleName().trim().compareToIgnoreCase(another.getMiddleName().trim()) == 0) {
 				return EQUAL;
 			}
 			else {

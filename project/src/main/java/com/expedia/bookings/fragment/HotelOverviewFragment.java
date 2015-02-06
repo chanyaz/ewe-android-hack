@@ -36,7 +36,6 @@ import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -615,7 +614,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		HotelSearchParams searchParams = hotel.getHotelSearchParams();
 		Property property = hotel.getProperty();
 		Rate rate = hotel.getRate();
 
@@ -625,15 +623,19 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			// Show off the savings!
 			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE,
-				rate.getTotalPriceAdjustments().getFormattedMoney()));
+				hotel.getCouponRate().getTotalPriceAdjustments().getFormattedMoney()));
 		}
-
-		updateCheckoutDisclaimerText();
+		if (PointOfSale.getPointOfSale().showFTCResortRegulations()) {
+			updateCheckoutDisclaimerText();
+		}
+		else {
+			mCheckoutDisclaimerTextView.setVisibility(View.GONE);
+		}
 
 		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		mHotelReceipt.bind(mIsDoneLoadingPriceChange, property, searchParams, rate, appliedWalletPromoCoupon());
+		mHotelReceipt.bind(mIsDoneLoadingPriceChange, hotel);
 	}
 
 	public void updateViewVisibilities() {

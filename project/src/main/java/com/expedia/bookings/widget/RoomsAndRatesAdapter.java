@@ -183,12 +183,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.priceDescription = (TextView) convertView.findViewById(R.id.price_description_text_view);
 			holder.priceExplanation = (TextView) convertView.findViewById(R.id.price_explanation_text_view);
 			holder.totalPrice = (TextView) convertView.findViewById(R.id.total_price_text_view);
-			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
-			holder.valueAddsLayout = (ViewGroup) convertView.findViewById(R.id.value_adds_layout);
 			holder.valueAdds = (TextView) convertView.findViewById(R.id.value_adds_text_view);
 			holder.valueAddsBeds = (TextView) convertView.findViewById(R.id.value_adds_beds_text_view);
-
 			holder.saleLabel.setTextSize(mSaleTextSize);
 
 			convertView.setTag(holder);
@@ -224,9 +221,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 
 		Rate etp = rate.getEtpRate();
+		boolean isDepositRequired = false;
 		if (mIsPayLater && etp != null) {
 			Money deposit = etp.getDisplayDeposit();
-			boolean isDepositRequired = !deposit.isZero();
+			isDepositRequired = !deposit.isZero();
 			holder.price.setText(deposit.getFormattedMoney(Money.F_NO_DECIMAL));
 			holder.priceDescription.setVisibility(View.VISIBLE);
 			if (isDepositRequired) {
@@ -284,9 +282,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			}
 		}
 
-		holder.beds.setPadding(holder.beds.getPaddingLeft(), padding, holder.beds.getPaddingRight(),
-			holder.beds.getPaddingBottom());
-
 		mBuilder.setLength(0);
 
 		if (shouldShowBedDescription(rate)) {
@@ -317,21 +312,30 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		}
 
-		// If there are value adds, setup the alternate view
-		CharSequence valueAdds = mValueAdds.get(position);
-		if (valueAdds == null) {
-			holder.beds.setVisibility(View.VISIBLE);
-			holder.valueAddsLayout.setVisibility(View.GONE);
-
-			holder.beds.setText(mBuilder.toString());
+		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.valueAddsBeds.getLayoutParams();
+		if (isDepositRequired) {
+			// If there is a deposit, set the view below the price layout
+			lp.addRule(RelativeLayout.BELOW, R.id.price_layout);
+			holder.valueAddsBeds.setPadding(0, 0, 0, 0);
 		}
 		else {
-			holder.beds.setVisibility(View.GONE);
-			holder.valueAddsLayout.setVisibility(View.VISIBLE);
-
-			holder.valueAdds.setText(mValueAdds.get(position));
-			holder.valueAddsBeds.setText(mBuilder.toString());
+			lp.addRule(RelativeLayout.BELOW, holder.description.getId());
+			holder.valueAddsBeds
+				.setPadding(holder.valueAddsBeds.getPaddingLeft(), padding, holder.valueAddsBeds.getPaddingRight(),
+					holder.valueAddsBeds.getPaddingBottom());
 		}
+		holder.valueAddsBeds.setLayoutParams(lp);
+
+		CharSequence valueAdds = mValueAdds.get(position);
+		if (valueAdds != null) {
+			holder.valueAdds.setText(valueAdds);
+			holder.valueAdds.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.valueAdds.setVisibility(View.GONE);
+		}
+
+		holder.valueAddsBeds.setText(mBuilder.toString());
 
 		// Set the background based on whether the row is selected or not
 		if (getItemViewType(position) == ROW_SELECTED) {
@@ -370,10 +374,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		public TextView priceDescription;
 		public TextView priceExplanation;
 		public TextView totalPrice;
-		public TextView beds;
 		public TextView saleLabel;
 
-		public ViewGroup valueAddsLayout;
 		public TextView valueAdds;
 		public TextView valueAddsBeds;
 	}

@@ -154,6 +154,10 @@ public class WorkingTravelerManager {
 		}
 		Traveler commitTrav = new Traveler();
 		commitTrav.fromJson(getWorkingTraveler().toJson());
+		//If we are saving a newly entered traveler let's reset it's isNew status, so TravelerButtonFragment can bind accordingly.
+		if (commitTrav.isNew()) {
+			commitTrav.setIsNew(false);
+		}
 		Db.getTravelers().set(travelerNumber, commitTrav);
 		Db.setTravelersAreDirty(true);
 		return commitTrav;
@@ -262,12 +266,12 @@ public class WorkingTravelerManager {
 							Log.i("Commit traveler succeeded:" + success);
 							if (success) {
 								if (!TextUtils.isEmpty(resp.getTuid())) {
-									if (!trav.hasTuid() && User.isLoggedIn(context) && Db.getUser() != null) {
+									if (User.isLoggedIn(context) && Db.getUser() != null) {
 										//If the traveler we sent didn't have a tuid, and the response does, then we set the tuid and add it to the users travelers
 										//However currently the api doesn't currently return the tuid for new travelers 10/30/2012
 										Traveler tTrav = new Traveler();
 										tTrav.fromJson(trav.toJson());
-										tTrav.setTuid(Long.getLong(resp.getTuid(), 0L));
+										tTrav.setTuid(Long.valueOf(resp.getTuid()));
 										Db.getUser().addAssociatedTraveler(tTrav);
 									}
 								}

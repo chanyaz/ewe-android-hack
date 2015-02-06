@@ -130,8 +130,8 @@ android {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.expedia.bookings"
-            versionCode 44
-            versionName "4.3"
+            versionCode 45
+            versionName "4.4"
         }
 
         voyages {
@@ -266,7 +266,8 @@ public class GradleUtil {
         }
         type = type.capitalize()
 
-        return flavor + " " + type
+        def appname = flavor + " " + type
+        return appname.tr('_', '.')
     }
 
     static def getGitRevision() {

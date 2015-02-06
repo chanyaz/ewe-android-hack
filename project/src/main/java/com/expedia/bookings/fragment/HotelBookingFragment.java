@@ -334,14 +334,14 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		Db.getTripBucket().getHotel().setCreateTripResponse(response);
 		Db.getTripBucket().getHotel().addValidPayments(response.getValidPayments());
 
-		Db.getTripBucket().getHotel().setNewRate(newRate);
+		Db.getTripBucket().getHotel().setNewRate(newRate, false);
 
 		// If we have an originalRate, we have a price change. Else, we don't.
 		if (originalRate != null) {
 			int priceChange = originalRate.compareForPriceChange(newRate);
 			if (priceChange != 0) {
-				Db.getTripBucket().getHotel().setNewRate(originalRate);
-				Db.getTripBucket().getHotel().setNewRate(newRate);
+				Db.getTripBucket().getHotel().setNewRate(originalRate, false);
+				Db.getTripBucket().getHotel().setNewRate(newRate, true);
 
 				// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
 				// FIXME: just implement HotelProductRateUp for phone

@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">取車時間</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">還車時間</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">取車地點</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">與取車時相同</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">日期及地點</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">選擇取車及還車日期</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – 選擇回程日期</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">取車</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">還車</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">還車地點必須與取車地點相同</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">未輸入出發地</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">未輸入開始日期</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">未輸入結束日期</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">請輸入目的地</string>
@@ -195,10 +223,20 @@
     <string name="all_airports">所有機場</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">到酒店才付款</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">立即付款</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">現在須付</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">合共 %s</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">%s/每晚</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">這次住宿的額外酒店費用：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="room_rate_per_night_template">%s/1 晚</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">這次住宿的酒店費用 (已包括在內)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">這次住宿的酒店費用 (不包括在內)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">加入行程</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -237,7 +275,9 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">來回</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">合共</string>
+    <string name="total_with_tax">總金額 (連稅)</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">行程總金額</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -278,6 +318,12 @@
     <string name="link_accounts">連接帳戶</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">無法取得最新的使用者資料。</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">授予電郵權限</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">電郵權限</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">如需透過 Facebook 登入，我們要先獲得確認您電郵地址的權限。\n\n請輕按以下 Facebook 鍵以授予 Expedia 確認您電郵地址的權限。謝謝！</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正將您的帳戶連在一起…</string>
     <!-- Log In -->
@@ -328,6 +374,8 @@
     <string name="explore_now">開始探索</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">您的搜尋</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">附近的今晚優惠</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s 個項目</item>
@@ -341,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可辦理登機手續</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">分享您的航班</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">讓其他人取得您旅遊行程的最新資訊。</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">有 %1$s 個航班前往%2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -590,13 +642,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">隱藏</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">永遠隱藏</string>
+    <string name="itin_button_hide_forever">隱藏所有</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
-    <string name="add_hotel_TEMPLATE">新增%1$s的酒店</string>
+    <string name="add_hotel_TEMPLATE">加訂%1$s的酒店</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
-    <string name="add_hotel_fallback">新增您所選目的地的酒店</string>
+    <string name="add_hotel_fallback">加訂所選目的地的酒店</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">加訂酒店</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">向當地專員查詢</string>
@@ -800,6 +855,7 @@
     <string name="itin_action_redeem">兌換</string>
     <string name="itin_action_support">支援</string>
     <string name="itin_action_share">分享</string>
+    <string name="itin_action_view">查看行程</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">列印優惠券</string>
@@ -1131,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">概覽</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">總價</string>
+    <string name="total_price_label">行程總金額</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">前往%1$s的行程</string>
     <!-- Includes taxes and fees -->
@@ -1185,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">我們將透過您的信用卡收取 %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">現需支付金額：%1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">現須付金額：%1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">酒店將收取：%1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1196,12 +1252,16 @@
     <string name="best_price_guarantee">至抵價保證</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;免費取消&lt;/b&gt;到期日：&lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">休閒設施費：</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">目前應付予 Expedia：</string>
     <!-- Log out -->
     <string name="log_out">登出</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">您這次行程將獲得 %1$s 點積分！</string>
+    <string name="youll_earn_points_TEMPLATE">您這次預訂將獲得 %1$s 點積分！</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">這次行程可獲得 &lt;b&gt;%1$s&lt;/b&gt; 點積分！</string>
+    <string name="x_points_for_this_trip_TEMPLATE">您這次行程將獲得 %1$s 點積分！</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">您這次預訂將獲得獎賞積分</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1213,11 +1273,25 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完成</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">現應付總額</string>
+    <string name="total_due_today">目前應付予 Expedia</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">請使用英文字母</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">請輸入有效的電郵地址</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">於酒店支付的費用：</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">目前應付予 Expedia：</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 休閒設施費將於酒店收取。您住宿的總價將為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">您行程的總金額將為 &lt;b&gt;%1$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">現在先收取訂金 &lt;b&gt;%1$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1332,18 @@
     <string name="enter_traveler_info">旅客資料</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">主要旅客資料</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">已儲存</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">修改</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">選擇聯絡資料</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">新增旅客</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">已儲存的信用卡</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">新增信用卡</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">房客資料</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1564,22 @@
     <string name="add_insurance">新增保險</string>
     <!-- Insurance -->
     <string name="insurance">保險</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">訂機票才能獲享的特別優惠！</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">酒店低至 45 折</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">立即加訂酒店，可慳 %s！</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">優惠尚餘</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d 日</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">加訂酒店</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">獲享折扣優惠</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1637,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;拖曳&lt;/b&gt;以延長入住</string>
     <!-- Child age dialog button -->
     <string name="button_done">完成</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">完成</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">完成</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">請選擇小童的年齡</item>
@@ -1699,9 +1801,11 @@
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">變更檢視方式</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
-    <string name="mobile_exclusive">僅供流動裝置使用</string>
+    <string name="mobile_exclusive">手機+平板尊享優惠</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">只限今晚！</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">贊助</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">很抱歉，我們無法搜尋超過 %1$s 日的酒店住宿。</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,7 +1822,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">如要使用「我的地點」，您須先於「設定」啟用「地點」來源。\n是否立即進入「設定」並啟用？</string>
+    <string name="EnableLocationSettings">如需使用「目前位置」，必須先於「設定」啟用「位置」來源。\n\n是否立即進入「設定」並啟用？</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">您的定位服務已停用。請重新啟用以根據您的地點進行搜尋。</string>
 
@@ -1777,7 +1881,7 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-    <string name="current_location">目前地點</string>
+    <string name="current_location">目前位置</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">可見地圖區域</string>
 
@@ -1947,14 +2051,28 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">暫時無法提供評價</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">立即預訂，到酒店才付款</string>
+    <string name="etp_payment_options_text">您的酒店付款選項</string>
+    <string name="etp_pay_later_option_text">到酒店才付款</string>
+    <string name="etp_pay_later_charges_text">除非必須先付訂金，否則您於入住後才需付款。</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">以酒店當地貨幣 (%s) 直接付款給酒店。</string>
+    <string name="etp_pay_later_payment_info_text">付款資料只是用來保留您的預訂。</string>
+    <string name="etp_pay_later_cancellation_text">在酒店免費取消期限前，取消預訂都是免費的。</string>
+    <string name="etp_pay_now_option_text">立即於網上付款</string>
+    <string name="etp_pay_now_charges_text">Expedia 會處理您的付款資料。</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">您將以您當地的貨幣 (%s) 付款。</string>
+    <string name="etp_pay_now_cancellation_text">在酒店免費取消期限前，取消預訂都是免費的。</string>
+    <string name="etp_select_room">選擇客房</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
-        <item quantity="zero">住宿 %d 晚</item>
-        <item quantity="one">住宿 %d 晚</item>
-        <item quantity="two">住宿 %d 晚</item>
-        <item quantity="many">住宿 %d 晚</item>
-        <item quantity="other">住宿 %d 晚</item>
+        <item quantity="zero">住 %d 晚</item>
+        <item quantity="one">住 %d 晚</item>
+        <item quantity="two">住 %d 晚</item>
+        <item quantity="many">住 %d 晚</item>
+        <item quantity="other">住 %d 晚</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">正在尋找空房…</string>
@@ -1992,6 +2110,13 @@
     <string name="free_cancellation">免費取消</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">總額不包括這些費用</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">這次住宿的酒店費用</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">已包括在價格內</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">不包括在價格內</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">裝修通知</string>
     <!-- This property is undergoing renovations -->
@@ -2047,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包括在內</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">酒店費用 (於酒店支付)</string>
+    <string name="MandatoryFees">支付酒店的費用</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2183,7 +2308,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">私隱政策</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc. \n版權所有。</string>
+    <string name="copyright_TEMPLATE">© 版權 2012-%1$s Expedia, Inc.\n保留所有權利。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">登出並已清除資料</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2605,29 +2730,21 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包購買</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">使用 Google 電子錢包預訂可獲 <b>9 折</b>！</string>
+    <string name="wallet_promo_offer">使用 Google 電子錢包預訂 <b>$200 或以上的行程</b>，可慳 <b>$50</b>！</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">您因使用 Google 電子錢包而慳了 10%！</string>
+    <string name="wallet_promo_in_use_message">您因使用 Google 電子錢包而慳了 $50！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">每次預訂只可使用一張折扣券。我們已將您之前的折扣券換成使用 Google 電子錢包得到的 9 折優惠。</string>
+    <string name="coupon_replaced_message">每次預訂只可使用一張優惠券。我們已將您之前的優惠券換成使用 Google 電子錢包得到的 $50 優惠。</string>
     <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">正在使用 Google 電子錢包折扣…</string>
+    <string name="wallet_promo_applying">正在使用 Google 電子錢包優惠…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
-    <string name="error_wallet_promo_cannot_apply">很抱歉，此預訂無法使用 Google 電子錢包折扣。</string>
+    <string name="error_wallet_promo_cannot_apply">很抱歉，此預訂無法使用 Google 電子錢包優惠。</string>
     <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google 電子錢包折扣券條款及細則</string>
+    <string name="wallet_promo_tc_title">Google 電子錢包優惠券條款及細則</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">折扣券必須於 Expedia Android 應用程式內使用，適用旅遊日期為 2013 年 6 月 17 日至 2013 年 12 月 31 日。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國客戶。\n\n預訂須視乎當時 Expedia 價格酒店的客房供應而定，並須遵守所有適用條款及細則。折扣券不可與其他折扣券、推廣或特別優惠一同使用。折扣券不可用作扣減稅項、供應商收費、取消或更改手續費、行政費或其他雜費，客戶須自行承擔上述費用。預訂的任何部分一經更改或取消，折扣券將不可用於已更改的行程。\n\n此折扣券的條款及細則經已列明，其不可由任何未經授權人士 (包括 Expedia, Inc. 的僱員) 以任何方式修改。折扣券不可轉移且不可兌換現金。受法律禁止地區無效。Expedia, Inc. 可隨時取消或更改此優惠。</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">很抱歉，Google 電子錢包折扣只適用於 2013 年出發的行程。</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">於 Samsung Wallet 查看</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">載入 Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">下載 Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">優惠：酒店住宿即減 $50。預訂金額滿 $200 方可獲享折扣優惠。換領方法：選擇合資格的酒店住宿。於付款頁按「使用 Google 電子錢包購買」來結帳。優惠券必須於 2014 年 12 月 31 日 11:59 PM (太平洋時間) 或之前在 Expedia Android App 內換領，並於即日起至 2015 年 3 月 31 日期間住宿。限時優惠：可能隨時更改。每個使用者帳戶和每次合資格酒店訂房限用一 (1) 張優惠券。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國 Android App 客戶。此優惠不適用於參與 Expedia 旅行社聯盟計劃的顧客。此優惠券只適用於合資格的 Expedia 優惠價酒店。預訂視乎供應而定，並受所有適用條款及細則約束。優惠券不可與其他優惠券、推廣或特別優惠一同使用。優惠券不可用作扣減稅項、供應商收費、取消或更改手續費、行政費或其他雜費，客戶須自行承擔上述費用。優惠券於完成一次合資格預訂後即視為已完全使用，並不可重用。預訂的任何部分一經更改或取消，優惠券將不可用於已更改的行程。此優惠券的條款及細則經已列明，其不可由任何未經授權人士 (包括 Expedia, Inc. 的僱員) 以任何方式修改。優惠券不可轉讓亦不可兌換現金。Expedia, Inc. 可隨時取消或更改此優惠。受法律禁止地區無效。</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">選擇 Google 電子錢包作為付款方法方可使用此優惠券。</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3087,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">機票搜尋結果</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">按鍵以顯示立即付款的酒店</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">按鍵以顯示到酒店才付款的酒店</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">您已成功預訂酒店！</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">您已成功預訂機票！</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">編號為 %1$s 的行程已寄發至 %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3139,10 @@
     <string name="tablet_mismatched_products_message">您選擇的酒店住宿日期和航班日期不同。您想移除目前的酒店選擇並搜尋符合航班日期的酒店嗎？</string>
     <!-- Dialog positive button message -->
     <string name="yes">是</string>
+    <!-- Dialog negative button message -->
+    <string name="no">否</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">預訂酒店和機票，並查看及分享您的行程。立即下載免費的 Travelocity App 吧！\n%s</string>
-    <string name="fees_paid_at_hotel">於酒店支付的費用：</string>
-    <string name="total_due_to_expedia_today">目前應付予 Expedia 的總額：</string>
-    <string name="hotel_fees_for_this_stay">這次住宿的酒店費用</string>
-    <string name="included_in_the_price">已包含在價格內</string>
-    <string name="not_included_in_the_price">不包含在價格內</string>
-    <string name="tablet_room_rate_resort_fees_included_template">這次住宿的酒店費用 (已包含)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">這次住宿的酒店費用 (不包含)：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">發送電郵…</string>
 
 </resources>

@@ -26,10 +26,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -131,14 +129,27 @@ public class HotelReceipt extends LinearLayout {
 		}
 	};
 
-	public void bind(boolean showMiniReceipt, Property property, HotelSearchParams params, Rate rate,
-			boolean usingGoogleWalletCoupon) {
+	private static String getAvailableLongDesc(TripBucketItemHotel hotel) {
+		String ret = null;
+		if (!TextUtils.isEmpty(hotel.getRate().getRoomLongDescription())) {
+			ret = hotel.getRate().getRoomLongDescription();
+		}
+		else if (hotel.getOldRate() != null && !TextUtils.isEmpty(hotel.getOldRate().getRoomLongDescription())) {
+			ret = hotel.getOldRate().getRoomLongDescription();
+		}
+		return ret;
+	}
+
+	public void bind(boolean showMiniReceipt, TripBucketItemHotel hotel) {
+		HotelSearchParams params = hotel.getHotelSearchParams();
+		Rate rate = hotel.getRate();
+
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setCornerMode(CornerMode.TOP);
 		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 		mHeaderImageView.setImageDrawable(headerBitmapDrawable);
 
-		Media media = HotelUtils.getRoomMedia(property, rate);
+		Media media = HotelUtils.getRoomMedia(hotel);
 		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (media != null) {
 			new PicassoHelper.Builder(getContext()).setPlaceholder(placeholderResId)
@@ -150,15 +161,16 @@ public class HotelReceipt extends LinearLayout {
 
 		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());
 		mBedTypeNameTextView.setText(rate.getFormattedBedNames());
+		String roomLongDesc = getAvailableLongDesc(hotel);
 
-		if (TextUtils.isEmpty(rate.getRoomLongDescription())) {
+		if (TextUtils.isEmpty(roomLongDesc)) {
 			mRoomLongDescriptionDivider.setVisibility(View.GONE);
 			mRoomLongDescriptionTextView.setVisibility(View.GONE);
 		}
 		else {
 			mRoomLongDescriptionDivider.setVisibility(View.VISIBLE);
 			mRoomLongDescriptionTextView.setVisibility(View.VISIBLE);
-			mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+			mRoomLongDescriptionTextView.setText(roomLongDesc);
 
 			// #817. Let user tap to expand or contract the room description text.
 			mRoomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
@@ -178,7 +190,6 @@ public class HotelReceipt extends LinearLayout {
 		}
 
 		mExtrasLayout.removeAllViews();
-		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (PointOfSale.getPointOfSale().showFTCResortRegulations() &&
 			hotel.getRate().showResortFeesMessaging()) {
 			addResortFeeRows(hotel.getRate());

@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">Pick-up time</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">Drop-off time</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Pick-up location</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Same as pick-up</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Dates and Location</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Select pick-up and drop-off dates</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – Select inbound date</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Pick-up</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Drop-off</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Drop-off location must be the same as pick-up location</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Origin missing</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Start Date missing</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">End Date missing</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Enter your destination</string>
@@ -131,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Other Areas</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">popular</string>
+    <string name="popular">Popular</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">price</string>
+    <string name="price">Price</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">rating</string>
+    <string name="rating">Rating</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">distance</string>
+    <string name="distance">Distance</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">discounts</string>
+    <string name="discounts">Discounts</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Press to sort by the most popular hotels.</string>
     <!-- Content description for "sort by price" button -->
@@ -195,10 +223,20 @@
     <string name="all_airports">All Airports</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Pay Later</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Pay Now</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Due Now</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%s Total</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/night</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Additional hotel fees for this stay: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Hotel fees for this stay (included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hotel fees for this stay (not included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Add To Trip</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -237,11 +275,13 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Return</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Total</string>
+    <string name="total_with_tax">Total with Tax</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Trip Total</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Creating the trip …</string>
+    <string name="spinner_text_hotel_create_trip">Creating the trip…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -278,6 +318,12 @@
     <string name="link_accounts">Link Accounts</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Failure to fetch updated user information.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Grant Email Permission</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">Email Permission</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">To login with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant Expedia permission to verify your email address. Thank you!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts…</string>
     <!-- Log In -->
@@ -328,6 +374,8 @@
     <string name="explore_now">Explore Now</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Your Search</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Nearby Deals Tonight</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s Items</item>
@@ -341,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check in available</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Share your flight</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Allow others to get live updates while you travel.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -590,13 +642,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Hide</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Hide Forever</string>
+    <string name="itin_button_hide_forever">Hide All</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Add a hotel in %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Add a hotel at your destination</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Add a hotel</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Talk to a Local Expert</string>
@@ -800,6 +855,7 @@
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
+    <string name="itin_action_view">View Itinerary</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Print Vouchers</string>
@@ -1131,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Overview</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Total Price</string>
+    <string name="total_price_label">Trip Total</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1185,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1196,12 +1252,16 @@
     <string name="best_price_guarantee">Price Guarantee</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Resort Fee:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Due to Expedia today:</string>
     <!-- Log out -->
     <string name="log_out">Log Out</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">You\&apos;ll earn %1$s points for this trip!</string>
+    <string name="youll_earn_points_TEMPLATE">You\&apos;ll earn %1$s points for this booking!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; points for this trip!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">You\&apos;ll earn %1$s points for this trip!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">You\&apos;ll earn bonus points for this booking</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1213,11 +1273,25 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Total Due Today</string>
+    <string name="total_due_today">Due to Expedia Today</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Please use the Roman alphabet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Fees Paid at Hotel:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">Due to Expedia Today:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The total price for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">The total for your trip will be &lt;b&gt;%1$s&lt;/b&gt;. You\&apos;ll pay the hotel the total cost of your booking (in the hotel\&apos;s local currency) during your stay.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">A deposit of &lt;b&gt;%1$s&lt;/b&gt; will be collected now. You\&apos;ll pay the hotel the remaining cost of your booking (in the hotel\&apos;s local currency) during your stay.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\&apos;ll pay the hotel the total cost of your booking (in the hotel\&apos;s local currency) during your stay.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\&apos;ll pay the hotel the remaining cost of your booking (in the hotel\&apos;s local currency) during your stay.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1332,18 @@
     <string name="enter_traveler_info">Traveller Information</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Main traveller details</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Saved</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Edit</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Select Contact</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Add New Traveller</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Saved Cards</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Add New Card</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1564,22 @@
     <string name="add_insurance">Add Insurance</string>
     <!-- Insurance -->
     <string name="insurance">Insurance</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Because you booked a flight</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">Save up to 55% on a hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">You will save %s if you book your hotel now!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Offer expires in</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d days</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Add Hotel</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">with discounts</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1637,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Done</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Done</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Done</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Select child\&apos;s age</item>
@@ -1702,6 +1804,8 @@
     <string name="mobile_exclusive">Mobile Exclusive</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Tonight Only!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Sponsored</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for hotel stays longer than %1$s days</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,7 +1822,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">To use My Location, you must first turn on a Location source in Settings.\nGo to Settings and turn it on now?</string>
+    <string name="EnableLocationSettings">To use Current Location, you must first turn on a Location source in Settings.\n\nGo to Settings and turn it on now?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Your location provider has been disabled. Please re-enable it to search by your location.</string>
 
@@ -1947,6 +2051,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Reviews are temporarily unavailable</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Book Now, Pay Later</string>
+    <string name="etp_payment_options_text">Your hotel payment options</string>
+    <string name="etp_pay_later_option_text">Pay later</string>
+    <string name="etp_pay_later_charges_text">You will not be charged until your stay, unless a deposit is required.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Pay the hotel directly, in the hotel\&apos;s local currency (%s).</string>
+    <string name="etp_pay_later_payment_info_text">Payment information is only needed to hold your reservation.</string>
+    <string name="etp_pay_later_cancellation_text">Cancellation is free, right up to the hotel\&apos;s cancellation window.</string>
+    <string name="etp_pay_now_option_text">Pay online now</string>
+    <string name="etp_pay_now_charges_text">Expedia will process your payment details.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
+    <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\&apos;s cancellation window.</string>
+    <string name="etp_select_room">Select Room</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1992,6 +2110,13 @@
     <string name="free_cancellation">Free Cancellation</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">These fees are not included in the total</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Included in the price</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Not included in the price</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovation Notice</string>
     <!-- This property is undergoing renovations -->
@@ -2047,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Included</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Hotel Fees (Paid at hotel)</string>
+    <string name="MandatoryFees">Fees Paid to Hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Discount</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2183,7 +2308,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Logged out and data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2605,11 +2730,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Get <b>10% off</b> with Google Wallet</string>
+    <string name="wallet_promo_offer">Save <b>$50</b> on a <b>$200+ trip</b> with Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">You saved 10% by using Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">You saved $50 by using Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10% discount for using Google Wallet.</string>
+    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous voucher with the $50 discount for using Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Applying Google Wallet discount…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2742,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Voucher must be redeemed in the Expedia Android app for travel between 17 June 2013 and 31 December 2013. This offer is from Expedia.com and is valid for Expedia.com U.S. customers only.\n\nBookings are subject to availability at Expedia Rate hotels at the time of booking and all applicable terms and conditions. Voucher may not be used with other vouchers, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule.\n\nTerms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorised person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Void where prohibited by law. Expedia, Inc. may revoke or change this offer at any time.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Sorry, but the Google Wallet discount only applies to trips taken in 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">View in Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Load to Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Download Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 voucher discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google Wallet” to check out. Voucher must be redeemed in the Expedia Android app by 23:59 (Pacific Time) on 31 December 2014 for travel between now and 31 March 2015. Limited time offer: subject to change. Limit one (1) voucher per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia\&apos;s Travel Agent Affiliate Program are not eligible for offer. Voucher valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Voucher may not be used with other vouchers, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A voucher will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the voucher will not apply to the changed travel schedule. Terms and conditions of this voucher are as written and cannot be changed by any representation of any unauthorised person, including employees of Expedia, Inc. Voucher is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">This voucher may only be applied when selecting Google Wallet as your form of payment.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3087,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Flight Search Results</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Press the button to pay now</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Press the button to pay later</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Your hotel is booked!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Your flight is booked!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Itinerary #%1$s sent to %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3139,10 @@
     <string name="tablet_mismatched_products_message">Your selected hotel and flight dates are different. Do you want to remove your current hotel selection and search for hotels with dates that match your flights?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Yes</string>
+    <!-- Dialog negative button message -->
+    <string name="no">No</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
-    <string name="fees_paid_at_hotel">Fees Paid at Hotel:</string>
-    <string name="total_due_to_expedia_today">Total Due to Expedia Today:</string>
-    <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
-    <string name="included_in_the_price">Included in the price</string>
-    <string name="not_included_in_the_price">Not included in the price</string>
-    <string name="tablet_room_rate_resort_fees_included_template">Hotel fees for this stay (included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">Hotel fees for this stay (not included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">Send email…</string>
 
 </resources>

@@ -491,6 +491,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
+			// Ignore fallback cards
+			if (data.getTripComponentType() == Type.FALLBACK) {
+				continue;
+			}
+
 			// Ignore past itineraries
 			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
 				continue;
@@ -529,6 +534,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				ItinCardData nextData = itinCardDatas.get(i + 1);
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
+
+				if (nextData instanceof ItinCardDataFallback) {
+					continue;
+				}
 
 				// If the next itin is a flight
 				if (nextType == Type.FLIGHT) {

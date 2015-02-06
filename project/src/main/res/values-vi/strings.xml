@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Car search label for pick-up time -->
+    <string name="pick_up_time">Giờ nhận xe</string>
+    <!-- Car search label for drop-off time-->
+    <string name="drop_off_time">Giờ trả xe</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Địa điểm nhận xe</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="same_as_pick_up">Cùng địa điểm nhận xe</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="dates_and_location">Ngày và địa điểm</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Chọn ngày nhận và trả xe</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – Chọn ngày trở về</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Nhận xe</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Trả xe</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Nơi trả xe phải cùng nơi nhận xe</string>
+    <!-- Error messge for missing Origin in search form -->
+    <string name="error_missing_origin_param">Thiếu bắt đầu</string>
+    <!-- Error messge for missing Start date in search form -->
+    <string name="error_missing_start_date_param">Thiếu ngày khởi hành</string>
+    <!-- Error messge for missing End date date in search form -->
+    <string name="error_missing_end_date_param">Thiếu ngày kết thúc</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Nhập điểm đến của quý vị</string>
@@ -131,15 +159,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Khu vực khác</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">mức độ phổ biến</string>
+    <string name="popular">Phổ biến</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">giá</string>
+    <string name="price">Giá</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">xếp hạng</string>
+    <string name="rating">Xếp hạng</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">khoảng cách</string>
+    <string name="distance">Khoảng cách</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">giảm giá</string>
+    <string name="discounts">Giảm giá</string>
     <!-- Content description for "sort by popular" button -->
     <string name="cd_sort_by_popular">Bấm để sắp xếp theo mức độ phổ biến của khách sạn.</string>
     <!-- Content description for "sort by price" button -->
@@ -180,11 +208,11 @@
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
         <item quantity="zero">Bay thẳng</item>
-        <item quantity="one">%s Điểm dừng</item>
-        <item quantity="two">%s Điểm dừng</item>
-        <item quantity="few">%s Điểm dừng</item>
-        <item quantity="many">%s Điểm dừng</item>
-        <item quantity="other">%s Điểm dừng</item>
+        <item quantity="one">%s điểm dừng</item>
+        <item quantity="two">%s điểm dừng</item>
+        <item quantity="few">%s điểm dừng</item>
+        <item quantity="many">%s điểm dừng</item>
+        <item quantity="other">%s điểm dừng</item>
     </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
@@ -195,10 +223,20 @@
     <string name="all_airports">Tất cả sân bay</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Thanh toán sau</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Thanh toán ngay</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Thanh toán ngay</string>
+    <!-- Rooms and rates pay later total -->
+    <string name="room_rate_pay_later_total_template">%sTổng cộng</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/đêm</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Phụ phí khách sạn của kỳ lưu trú này: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Phí khách sạn cho kỳ lưu trú (đã gồm): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Phí khách sạn cho kỳ lưu trú (chưa gồm): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Thêm vào chuyến đi</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -237,7 +275,9 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Khứ hồi</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Tổng cộng</string>
+    <string name="total_with_tax">Tổng gồm thuế</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Tổng chuyến đi</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -278,6 +318,12 @@
     <string name="link_accounts">Kết nối tài khoản</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Không truy xuất được thông tin người dùng đã cập nhật.</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Cho phép truy xuất email</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">Quyền truy xuất email</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message">Để đăng nhập bằng Facebook, chúng tôi cần quý vị cho phép xác thực địa chỉ email. \n\nVui lòng chạm nút Facebook bên dưới để mở quyền cho Expedia xác thực địa chỉ email của quý vị. Cám ơn!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Đang kết nối tài khoản của quý vị…</string>
     <!-- Log In -->
@@ -328,6 +374,8 @@
     <string name="explore_now">Tìm hiểu ngay</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Tìm kiếm của quý vị</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Ưu đãi trong khu vực đêm nay</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s mục</item>
@@ -341,6 +389,10 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Đã có thể làm thủ tục</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Chia sẻ chuyến bay của quý vị</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Cho phép người khác xem cập nhật trực tiếp khi quý vị đang thực hiện chuyến đi.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s chuyến bay đến %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -590,13 +642,16 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Ẩn</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Luôn ẩn</string>
+    <string name="itin_button_hide_forever">Ẩn tất cả</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Thêm khách sạn tại %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Thêm khách sạn tại điểm đến của quý vị</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Thêm khách sạn</string>
+
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Tham vấn một Local Expert</string>
@@ -800,6 +855,7 @@
     <string name="itin_action_redeem">Đổi</string>
     <string name="itin_action_support">Hỗ trợ</string>
     <string name="itin_action_share">Chia sẻ</string>
+    <string name="itin_action_view">Xem lịch trình</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">In voucher</string>
@@ -1131,7 +1187,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Tổng quan</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Tổng giá</string>
+    <string name="total_price_label">Tổng chuyến đi</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Chuyến đi đến %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1185,7 +1241,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền phải thanh toán ngay %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền cần thanh toán ngay: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Thanh toán tại khách sạn: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1196,12 +1252,16 @@
     <string name="best_price_guarantee">Đảm bảo Giá tốt nhất</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Hủy miễn phí&lt;/b&gt; trước &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Resort fees -->
+    <string name="resort_fee">Phí resort:</string>
+    <!-- Pay now or later -->
+    <string name="pay_later">Tổng phí thanh toán cho Expedia ngay:</string>
     <!-- Log out -->
     <string name="log_out">Thoát</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Quý vị sẽ nhận %1$s điểm cho chuyến đi này!</string>
+    <string name="youll_earn_points_TEMPLATE">Quý vị sẽ nhận %1$s điểm với lần đặt này!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; điểm cho chuyến đi này!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Quý vị sẽ nhận %1$s điểm cho chuyến đi này!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Quý vị sẽ nhận điểm thưởng với lần đặt này</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -1213,11 +1273,25 @@
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Hoàn tất</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
+    <string name="total_due_today">Tổng phí thanh toán cho Expedia ngay</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Vui lòng chỉ sử dụng ký tự Latin không dấu</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Vui lòng nhập địa chỉ email hợp lệ</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Phí thanh toán tại Khách sạn:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_expedia_today">Tổng phí thanh toán cho Expedia ngay:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">Khách sạn sẽ thu phí &lt;b&gt;%1$s&lt;/b&gt; resort. Tổng giá chuyến đi của quý vị là &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Tổng giá chuyến đi của quý vị là &lt;b&gt;%1$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Chúng tôi sẽ thu &lt;b&gt;%1$s&lt;/b&gt; tiền đặt cọc ngay. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1258,6 +1332,18 @@
     <string name="enter_traveler_info">Thông tin khách</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Chi tiết khách chính</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Đã lưu</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Chỉnh sửa</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Chọn khách</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Thêm khách mới</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Thẻ đã lưu</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Thêm thẻ mới</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Chi tiết khách</string>
     <!-- Add adult traveler number template -->
@@ -1478,6 +1564,22 @@
     <string name="add_insurance">Bổ sung bảo hiểm</string>
     <!-- Insurance -->
     <string name="insurance">Bảo hiểm</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Vì quý vị đã đặt chỗ một chuyến bay</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">Tiết kiệm đến 55% chi phí khách sạn.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">Quý vị sẽ tiết kiệm %s nếu quý vị đặt phòng khách sạn ngay bây giờ!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Ưu đãi hết hạn vào</string>
+    <!-- Air attach offer expiration date -->
+    <string name="air_attach_expiration_date_TEMPLATE">%d ngày</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Thêm khách sạn</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">có giảm giá</string>
+
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1637,8 +1739,8 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Kéo&lt;/b&gt; để kéo dài thời gian lưu trú của quý vị.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Hoàn tất</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Hoàn tất</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Hoàn tất</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Chọn tuổi trẻ</item>
@@ -1702,6 +1804,8 @@
     <string name="mobile_exclusive">Chỉ dành cho di động</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Chỉ tối nay!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Tài trợ</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Rất tiếc, chúng tôi không thể tìm khách sạn cho thời gian lưu trú dài hơn %1$s ngày.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1718,9 +1822,9 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Để sử dụng chức năng Địa điểm của tôi, trước hết vui lòng mở nguồn Địa điểm trong mục Cài đặt.\nVào Cài đặt và mở ngay?</string>
+    <string name="EnableLocationSettings">Để sử dụng chức năng Địa điểm Hiện tại, quý vị phải mở nguồn Vị trí trong phần Cài đặt của thiết bị.\n\nVào Cài đặt và mở ngay?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Nguồn cung cấp thông tin địa điểm của quý vị đang không hoạt động. Vui lòng kích hoạt lại để tìm kiếm địa điểm của quý vị.</string>
+    <string name="ProviderDisabled">Nguồn cung cấp thông tin địa điểm hiện đã bị tắt. Vui lòng kích hoạt lại để tìm kiếm địa điểm của quý vị.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1947,6 +2051,20 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Phần nhận xét tạm thời không hoạt động</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Đặt ngay, thanh toán sau</string>
+    <string name="etp_payment_options_text">Tùy chọn thanh toán tiền khách sạn</string>
+    <string name="etp_pay_later_option_text">Thanh toán sau</string>
+    <string name="etp_pay_later_charges_text">Chỉ thu phí vào thời điểm lưu trú tại khách sạn, trừ khi cần thanh toán đặt cọc.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Thanh toán trực tiếp tại khách sạn, bằng loại tiền tệ của khách sạn (%s).</string>
+    <string name="etp_pay_later_payment_info_text">Thông tin thanh toán được dùng để đảm bảo đặt phòng cho quý vị.</string>
+    <string name="etp_pay_later_cancellation_text">Hủy miễn phí, đến hết thời hạn cho phép hủy của khách sạn.</string>
+    <string name="etp_pay_now_option_text">Thanh toán trực tuyến ngay</string>
+    <string name="etp_pay_now_charges_text">Expedia sẽ xử lý chi tiết thanh toán của quý vị.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">Quý vị sẽ thanh toán bằng loại tiền tệ địa phương của mình (%s).</string>
+    <string name="etp_pay_now_cancellation_text">Hủy miễn phí, đến hết thời hạn cho phép hủy của khách sạn.</string>
+    <string name="etp_select_room">Chọn phòng</string>
+
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
@@ -1992,6 +2110,13 @@
     <string name="free_cancellation">Hủy miễn phí</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">Tổng giá chưa bao gồm các phí này</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Phí khách sạn cho kỳ lưu trú này</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Đã gồm trong giá</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Không gồm trong giá</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Thông báo nâng cấp</string>
     <!-- This property is undergoing renovations -->
@@ -2047,7 +2172,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Bao gồm</string>
     <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Phí khách sạn (Thanh toán tại khách sạn)</string>
+    <string name="MandatoryFees">Phí thanh toán cho khách sạn</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Giảm giá</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -2183,7 +2308,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Quyền riêng tư</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2015 Expedia, Inc.\nBảo lưu mọi quyền.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nBảo lưu mọi quyền.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Đã thoát và xóa dữ liệu</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2605,11 +2730,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Thanh toán bằng Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Nhận ưu đãi <b>giảm giá 10%</b> với Google Wallet!</string>
+    <string name="wallet_promo_offer">Tiết kiệm <b>50$</b> với <b>chuyến đi 200$+</b> cùng Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Tiết kiệm 10% khi sử dụng Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Quý vị tiết kiệm được 50$ khi sử dụng Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi đã đổi coupon trước của quý vị bằng ưu đãi giảm 10% khi sử dụng Google Wallet.</string>
+    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi thay coupon trước đây của quý vị bằng việc giảm giá 50$ khi sử dụng Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Áp dụng giảm giá với Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2617,17 +2742,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Điềi khoản &amp; Điều kiện sử dụng Google Wallet Coupon</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Phải đổi coupon qua app Expedia Android cho chuyến đi trong giai đoạn từ 17/06/2013 đến 31/12/2013. Đây là ưu đãi của Expedia.com và chỉ dành cho khách hàng Expedia.com Mỹ.\n\nĐặt phòng phụ thuộc vào tình trạng phòng tại các khách sạn mức giá đặc biệt của Expedia vào thời điểm đặt và chịu chi phối bởi mọi điều khoản và điều kiện áp dụng. Không thể sử dụng kết hợp coupon này với các coupon, chương trình khuyến mãi hay ưu đãi đặc biệt khác. Không áp dụng giảm giá coupon cho các khoản thuế, phụ phí nhà cung cấp, phí phạt hủy hoặc đổi, phí hành chánh hoặc các loại phụ phí khác - do khách hàng chịu trách nhiệm thanh toán. Trong trường hợp quý vị thay đổi hoặc hủy bất kỳ chi tiết đặt nào, coupon này sẽ không được áp dụng vào lịch trình chuyến đi mới.\n\nĐiều khoản và điều kiện của coupon này chính xác như đã được nêu và không cá nhân không có thẩm quyền nào có thể thay đổi, kể cả nhân viên Expedia, Inc. Không thể chuyển nhượng coupon và không thể đổi coupon này lấy tiền mặt. Ưu đãi không có hiệu lực nếu bị cấm theo luật. Expedia, Inc. có thể hủy bỏ hoặc thay đổi ưu đãi này bất kỳ lúc nào.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Rất tiếc, ưu đãi giảm giá với Google Wallet chỉ áp dụng cho chuyến đi thực hiện trong năm 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Xem trong Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Thêm vào Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Tải Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Ưu đãi: Nhận ngay coupon giảm 50$ đặt phòng khách sạn. Giá của đặt phòng đủ điều kiện phải ít nhất là 200$. Đổi thưởng: Chọn một kỳ lưu trú hợp lệ. Tại trang thanh toán, chọn “Thanh toán bằng Google” để thanh toán. Đổi thưởng coupon qua app Android Expedia trước 23:59 (Múi giờ Thái Bình Dương) ngày 31/12/2014 cho kỳ lưu trú từ này đến 31/03/2015. Ưu đãi trong thời gian giới hạn: có thể thay đổi. Giới hạn một (1) coupon / 1 tài khoản cho 1 lần đặt phòng khách sạn hợp lệ. Ưu đãi từ Expedia.com và chỉ dành cho khách hàng sử dụng app Expedia.com tại Mỹ. Không áp dụng cho đối tượng khách hàng thuộc Chương trình Liên kết Đại lý Du lịch Expedia. Coupon chỉ hợp lệ để sử dụng tại khách sạn Mức giá đặc biệt trên Expedia. Tùy thuộc tình trạng phòng thực tế và áp dụng mọi điều kiện và điều khoản. Không thể sử dụng kết hợp coupon này với các coupon, chương trình khuyến mãi hay ưu đãi đặc biệt khác. Không áp dụng giảm giá coupon cho các khoản thuế, phụ phí nhà cung cấp, phí phạt hủy hoặc đổi, phí hành chánh hoặc các loại phụ phí khác - do khách hàng chịu trách nhiệm thanh toán. Coupon được coi là đã được đổi thưởng hoàn toàn sau khi thực hiện đặt phòng hợp lệ và không thể sử dụng lại. Trong trường hợp quý vị thay đổi hoặc hủy bất kỳ chi tiết đặt phòng nào, coupon này sẽ không được áp dụng vào lịch trình chuyến đi mới. Điều khoản và điều kiện của coupon này chính xác như đã được nêu và không cá nhân không có thẩm quyền nào có thể thay đổi, kể cả nhân viên Expedia, Inc. Không thể chuyển nhượng coupon và không thể đổi coupon này lấy tiền mặt. Expedia, Inc. có thể hủy bỏ hoặc thay đổi ưu đãi này bất kỳ lúc nào. Ưu đãi không có hiệu lực nếu bị cấm theo luật.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">Chỉ có thể áp dụng coupon khi quý vị chọn thanh toán bằng Google Wallet.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2970,13 +3087,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Kết quả tìm chuyến bay</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Bấm nút để thanh toán ngay</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Bấm nút để thanh toán sau</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Đã đặt phòng khách sạn cho quý vị!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Đã đặt chuyến bay của quý vị!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Đã gửi lịch trình số %1$s đến %2$s</string>
     <!-- Share button text for hotels -->
@@ -3017,15 +3139,10 @@
     <string name="tablet_mismatched_products_message">Ngày nhận phòng khách sạn và ngày chuyến bay quý vị chọn khác nhau. Quý vị có muốn xóa lựa chọn khách sạn hiện tại và tìm khách sạn với cùng ngày của chuyến bay không?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Có</string>
+    <!-- Dialog negative button message -->
+    <string name="no">Không</string>
 
-    <!-- Travelocity App download link -->
-    <string name="share_template_long_ad_tvly">Đặt phòng khách sạn, chuyến bay; xem &amp; chia sẻ lịch trình của quý vị. Tải app Travelocity miễn phí ngay hôm nay.\n%s</string>
-    <string name="fees_paid_at_hotel">Phí thanh toán tại Khách sạn:</string>
-    <string name="total_due_to_expedia_today">Tổng phí thanh toán cho Expedia hôm nay:</string>
-    <string name="hotel_fees_for_this_stay">Phí khách sạn cho kỳ lưu trú này</string>
-    <string name="included_in_the_price">Đã gồm trong giá</string>
-    <string name="not_included_in_the_price">Không gồm trong giá</string>
-    <string name="tablet_room_rate_resort_fees_included_template">Phí khách sạn trong kỳ lưu trú này (bao gồm): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
-    <string name="tablet_room_rate_resort_fees_not_included_template">Phí khách sạn trong kỳ lưu trú này (không gồm): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Mail intent chooser dialog title -->
+    <string name="mailto_title">Gửi email…</string>
 
 </resources>

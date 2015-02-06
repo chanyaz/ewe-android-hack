@@ -113,7 +113,9 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else {
-				centerFiller.setVisibility(View.VISIBLE);
+				if (centerFiller != null) {
+					centerFiller.setVisibility(View.VISIBLE);
+				}
 				promoTextView.setVisibility(View.GONE);
 			}
 
@@ -136,24 +138,26 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			view.findViewById(R.id.per_nt_text_view).setVisibility(
 				rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
 
-			//3858. Let's check to see if the promoText can fit in the available space. If not let's pull the plug on it.
-			ViewTreeObserver vto = promoTextView.getViewTreeObserver();
-			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-				@Override
-				public void onGlobalLayout() {
-					promoTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-					Layout textLayout = promoTextView.getLayout();
-					if (textLayout != null) {
-						int lines = textLayout.getLineCount();
-						if (lines > 0) {
-							if (textLayout.getEllipsisCount(lines - 1) > 0) {
-								centerFiller.setVisibility(View.VISIBLE);
-								promoTextView.setVisibility(View.GONE);
+			if (centerFiller != null) {
+				//3858. Let's check to see if the promoText can fit in the available space. If not let's pull the plug on it.
+				ViewTreeObserver vto = promoTextView.getViewTreeObserver();
+				vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						promoTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						Layout textLayout = promoTextView.getLayout();
+						if (textLayout != null) {
+							int lines = textLayout.getLineCount();
+							if (lines > 0) {
+								if (textLayout.getEllipsisCount(lines - 1) > 0) {
+									centerFiller.setVisibility(View.VISIBLE);
+									promoTextView.setVisibility(View.GONE);
+								}
 							}
 						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 

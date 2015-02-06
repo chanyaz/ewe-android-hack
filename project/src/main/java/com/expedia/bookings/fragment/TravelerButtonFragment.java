@@ -88,21 +88,7 @@ public class TravelerButtonFragment extends LobableFragment {
 		TravelerUtils.setPhoneTextViewVisibility(mTravelerSectionContainer, mTravelerNumber);
 
 		mTravelerAdapter = new TravelerAutoCompleteAdapter(getActivity());
-		mEditTravelerButton = Ui.findView(mTravelerSectionContainer, R.id.edit_traveler_button);
-		mEditTravelerButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mTravelerButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
-			}
-		});
-
-		mSavedTravelerSpinner = Ui.findView(mTravelerSectionContainer, R.id.saved_traveler_fake_spinner);
-		mSavedTravelerSpinner.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showSavedTravelers();
-			}
-		});
+		setUpStoredTravelers(mTravelerSectionContainer);
 
 		addEmptyTravelerToLayout(mEmptyViewContainer);
 
@@ -258,10 +244,12 @@ public class TravelerButtonFragment extends LobableFragment {
 	private void setShowTravelerView(boolean showTraveler) {
 		if (showTraveler) {
 			mEmptyViewContainer.setVisibility(View.GONE);
+			setUpStoredTravelers(mTravelerSectionContainer);
 			mTravelerSectionContainer.setVisibility(View.VISIBLE);
 		}
 		else {
 			mEmptyViewContainer.setVisibility(View.VISIBLE);
+			setUpStoredTravelers(mEmptyViewContainer);
 			mTravelerSectionContainer.setVisibility(View.GONE);
 		}
 	}
@@ -323,8 +311,13 @@ public class TravelerButtonFragment extends LobableFragment {
 		View v = Ui.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
 		TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 		tv.setText(mEmptyViewLabel);
+		setUpStoredTravelers(v);
+		return v;
+	}
+
+	public void setUpStoredTravelers(View v) {
+		mSavedTravelerSpinner = Ui.findView(v, R.id.saved_traveler_fake_spinner);
 		if (User.isLoggedIn(getActivity())) {
-			mSavedTravelerSpinner = Ui.findView(v, R.id.saved_traveler_fake_spinner);
 			mSavedTravelerSpinner.setVisibility(View.VISIBLE);
 			mSavedTravelerSpinner.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -340,7 +333,6 @@ public class TravelerButtonFragment extends LobableFragment {
 				mTravelerButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
 			}
 		});
-		return v;
 	}
 
 	private void showSavedTravelers() {

@@ -142,6 +142,9 @@ public class PointOfSale {
 	// Does this POS support loyalty rewards?
 	private boolean mShouldShowRewards;
 
+	// Does this POS require FTC warnings to be shown on checkout?
+	private boolean mShouldShowFTCResortRegulations;
+
 	// EAPID value and is used
 	private int mEAPID;
 
@@ -345,7 +348,7 @@ public class PointOfSale {
 	}
 
 	public boolean showFTCResortRegulations() {
-		return mPointOfSale == PointOfSaleId.UNITED_STATES;
+		return mShouldShowFTCResortRegulations;
 	}
 
 	// Special case breakdown dialog string for some points of sale
@@ -816,6 +819,7 @@ public class PointOfSale {
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
+		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
