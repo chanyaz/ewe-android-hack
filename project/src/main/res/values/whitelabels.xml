@@ -274,4 +274,7 @@
     <!-- Flight Map -->
     <attr name="skin_tablet_flight_map_arrival_pin" format="reference" />
     <attr name="skin_tablet_hotel_details_background_drawable" format="reference" />
+    <attr name="skin_tablet_hotel_confirmation_placeholder" format="reference" />
+    <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
+
 </resources>

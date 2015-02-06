@@ -192,7 +192,7 @@
                     android:drawableLeft="@drawable/ic_tablet_sold_out_hotel_details"
                     android:drawablePadding="8dp"
                     android:layout_gravity="center"
-                    android:text="@string/sorry_rooms_sold_out"
+                    android:text="?attr/skin_sorryRoomsSoldOut"
                     android:textColor="#5e6b7a"
                     android:textSize="16dp"
                     app:textStyle="light"/>

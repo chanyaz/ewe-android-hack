@@ -30,6 +30,8 @@
         <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue</item>
         <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list</item>
+        <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder</item>
+        <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />

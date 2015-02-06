@@ -33,6 +33,8 @@
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_tvly</item>
         <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check_tvly</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_tvly</item>
+        <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
+        <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />
