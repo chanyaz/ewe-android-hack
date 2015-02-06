@@ -44,8 +44,8 @@ public final class CarSearchParamsTests {
 	}
 
 	@Test
-	public void testViewPopulatesSearchParams() {
-		final DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
+	public void testViewPopulatesSearchParams() throws Throwable {
+		DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
 
 		CarSearchParamsWidget widget = (CarSearchParamsWidget) playground.getRoot();
 		CarSearchParams actual;
@@ -60,31 +60,35 @@ public final class CarSearchParamsTests {
 		assertNull(actual.startDateTime);
 		assertNull(actual.endDateTime);
 
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(expected.startDateTime.toLocalDate(), expected.endDateTime.toLocalDate());
-		CarViewModel.pickupLocation().perform(typeText(expected.origin));
-
 		CarViewModel.searchButton().perform(click());
 
 		actual = widget.getCurrentParams();
 		assertEquals(expected.origin, actual.origin);
-		assertEquals(expected.startDateTime, actual.startDateTime);
-		assertEquals(expected.endDateTime, actual.endDateTime);
+		assertEquals(expected.startDateTime, actual.startDateTime.withTimeAtStartOfDay());
+		assertEquals(expected.endDateTime, actual.endDateTime.withTimeAtStartOfDay());
 	}
 
 	@Test
 	public void testDateButtonTextPopulation() {
+		CarViewModel.dropOffLocation().perform(click());
+		CarViewModel.alertDialogNeutralButton().perform(click());
+
 		CarViewModel.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 		CarViewModel.selectDateButton().perform(click());
 		// Select first date
 		CarViewModel.selectDates(LocalDate.now(), null);
-		String today = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN);
+
+		String today = JodaUtils.format(DateTime.now().plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN);
 		CarViewModel.selectDateButton().check(matches(withText(today + " – Select return date")));
 		// Select round-trip, overnight
 		CarViewModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
-		String expected = JodaUtils.format(DateTime.now().withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN)
+		String expected = JodaUtils.format(DateTime.now().plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN)
 			+ " – " + JodaUtils
-			.format(DateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0), DATE_TIME_PATTERN);
+			.format(DateTime.now().plusDays(1).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -114,13 +118,16 @@ public final class CarSearchParamsTests {
 	public void testSelectingOnlyPickupDateClearsDropoffDate() {
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		String expected = JodaUtils.format(DateTime.now().plusDays(3).withTimeAtStartOfDay(), DATE_TIME_PATTERN)
-			+ " – " + JodaUtils.format(DateTime.now().plusDays(4).withTimeAtStartOfDay(), DATE_TIME_PATTERN);
+		String expected =
+			JodaUtils.format(DateTime.now().plusDays(3).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN)
+				+ " – " + JodaUtils
+				.format(DateTime.now().plusDays(4).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 
 		CarViewModel.selectDates(LocalDate.now().plusDays(2), null);
-		String expected2 = JodaUtils.format(DateTime.now().plusDays(2).withTimeAtStartOfDay(), DATE_TIME_PATTERN)
-			+ " – Select return date";
+		String expected2 =
+			JodaUtils.format(DateTime.now().plusDays(2).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN)
+				+ " – Select return date";
 		CarViewModel.selectDateButton().check(matches(withText(expected2)));
 	}
 
@@ -133,8 +140,18 @@ public final class CarSearchParamsTests {
 		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
+		// Test with only pickup location
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.searchButton().perform(click());
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_start_date_param)));
+		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarViewModel.alertDialogNeutralButton().perform(click());
+
 		// Test with only start date selected
-		CarViewModel.pickupLocation().perform(clearText());
+		CarViewModel.pickupLocation().perform(click());
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarViewModel.searchButton().perform(click());
@@ -152,17 +169,9 @@ public final class CarSearchParamsTests {
 		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
-		// Test with only pickup location
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "SFO");
-		CarViewModel.selectDates(null, null);
-		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_start_date_param)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
-		CarViewModel.alertDialogNeutralButton().perform(click());
-
 		// Test with origin and start date selected
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "SFO");
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarViewModel.searchButton().perform(click());
@@ -173,7 +182,8 @@ public final class CarSearchParamsTests {
 
 	@Test
 	public void testSearchButtonHasNoErrorMessageForCompleteParams() throws Throwable {
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "SFO");
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
 		CarViewModel.searchButton().perform(click());

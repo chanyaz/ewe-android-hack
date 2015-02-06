@@ -35,7 +35,6 @@ public final class CarViewModel {
 	}
 
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {
-		CarViewModel.pickupLocation().perform(typeText(airportCode));
 		ScreenActions.delay(1);
 		onView(withText(airportCode))
 			.inRoot(withDecorView(

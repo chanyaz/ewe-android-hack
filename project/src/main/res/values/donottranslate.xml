@@ -441,4 +441,15 @@
     <string name="cd_nine_btn">Nine</string>
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
+
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Next: Select return date</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Drag to modify</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Pick up time</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Drop off time</string>
+
 </resources>

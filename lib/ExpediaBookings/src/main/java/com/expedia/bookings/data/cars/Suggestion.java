@@ -32,4 +32,7 @@ public class Suggestion {
 	public String countryName;
 
 	public boolean isMinorAirport;
+
+	public boolean isHistory = false;
+
 }
