@@ -22,6 +22,7 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
@@ -76,12 +77,28 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 					return true;
 				}
 			});
+
+
+			ListPreference aaPreference = (ListPreference) findPreference(
+				getString(R.string.preference_aa_test));
+			aaPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference etpPreference = (ListPreference) findPreference(
+				getString(R.string.preference_etp_test));
+			etpPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference bookPreference = (ListPreference) findPreference(
+				getString(R.string.preference_book_above_fold));
+			bookPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelFreeCancellationPreference = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_free_cancellation));
+			hotelFreeCancellationPreference.setOnPreferenceChangeListener(abacusPrefListener);
+
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);
 		String pointOfSaleKey = getString(R.string.PointOfSaleKey);
 
-		ClearPrivateDataDialogPreference clearPrivateDataPreference = (ClearPrivateDataDialogPreference) findPreference(clearPrivateDateKey);
+		ClearPrivateDataDialogPreference clearPrivateDataPreference = (ClearPrivateDataDialogPreference) findPreference(
+			clearPrivateDateKey);
 		ListPreference pointOfSalePref = (ListPreference) findPreference(pointOfSaleKey);
 
 		clearPrivateDataPreference.setClearPrivateDataListener(this);
@@ -229,4 +246,13 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 		setResult(RESULT_CHANGED_PREFS);
 	}
+
+	private OnPreferenceChangeListener abacusPrefListener = new OnPreferenceChangeListener() {
+		@Override
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			int value = Integer.valueOf(newValue.toString());
+			Db.getAbacusResponse().updateABTestForDebug(preference.getKey(), value);
+			return true;
+		}
+	};
 }

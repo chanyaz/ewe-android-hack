@@ -52,6 +52,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -230,7 +231,7 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		// Send the tracking data
 		s.track();
@@ -254,6 +255,9 @@ public class OmnitureTracking {
 
 		// Products
 		addProducts(s, property);
+
+		// Abacus ETP Test
+		trackAbacusTest(s, AbacusUtils.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
@@ -342,6 +346,12 @@ public class OmnitureTracking {
 
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
+
+		// Abacus Hotel Book Now button placement
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
+
+		// Abacus Hotel Info site Free cancellation confidence placement test
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
 
 		// Send the tracking data
 		s.track();
@@ -1212,14 +1222,15 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
 
-	private static void trackAATest(ADMS_Measurement s) {
-		boolean isTestLive = Db.getAbacusResponse().isTestLive(AbacusResponse.EBAndroidAATest);
-		String analyticsString = Db.getAbacusResponse().getAnalyticsString(AbacusResponse.EBAndroidAATest);
+	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
+		boolean isTestLive = Db.getAbacusResponse().isTestLive(testKey);
+		// Adds piping for multivariate AB Tests.
+		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
 		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);

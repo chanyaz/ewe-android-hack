@@ -1871,6 +1871,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Book Now</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Select Room</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Book by Phone</string>
 

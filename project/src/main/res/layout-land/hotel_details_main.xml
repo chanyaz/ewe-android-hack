@@ -40,9 +40,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <Button
+                    android:id="@+id/book_now_button_ABTest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/skin_loginBookNowButtonDrawable"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/book_now"
+                    android:textColor="?attr/skin_hotelBookButtonColor"
+                    android:textSize="18sp" />
+
                 <FrameLayout
                     android:id="@+id/hotel_details_map_fragment_outer_container"
                     android:layout_width="match_parent"
+
                     android:layout_height="@dimen/hotel_details_map_visible_size"
                     android:layout_margin="12dp"
                     android:background="@drawable/map_frame">

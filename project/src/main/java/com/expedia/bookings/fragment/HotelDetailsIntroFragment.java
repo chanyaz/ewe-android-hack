@@ -24,6 +24,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -129,6 +130,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 			reviewsSummaryLayout.setOnClickListener(userReviewsClickListener);
 		}
 
+		boolean isUserBucketedFreeCancellationABTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISFreeCancellationTest);
+
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
 
@@ -151,14 +154,17 @@ public class HotelDetailsIntroFragment extends Fragment {
 				bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 			}
 		}
-
+		else if (isUserBucketedFreeCancellationABTest) {
+			bannerTextView.setText(getString(R.string.free_cancellation));
+			bannerTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
+		}
 		// Special case if no urgency and no recommendations: hide this while banner section.
 		else if (percentRecommend == 0 && numReviews == 0) {
 			reviewsSummaryLayout.setVisibility(View.GONE);
 			view.findViewById(R.id.reviews_banner_divider).setVisibility(View.GONE);
 			return;
 		}
-
 		// xx% recommend this hotel
 		else {
 			String banner = resources.getString(R.string.x_percent_guests_recommend, percentRecommend);
