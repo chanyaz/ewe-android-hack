@@ -179,7 +179,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			addExtraRow(HotelUtils.getRoomCancellationText(getActivity(), rate).toString(), null, true);
 		}
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
-			addExtraRow(getResources().getString(R.string.best_price_guarantee), null, true);
+			addExtraRow(getResources().getString(Ui.obtainThemeResID(getActivity(),R.attr.skin_bestPriceGuaranteeString)), null, true);
 		}
 	}
 
