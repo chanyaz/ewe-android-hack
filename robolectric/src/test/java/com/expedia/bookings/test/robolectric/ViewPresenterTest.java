@@ -9,14 +9,14 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.ViewPresenter;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
-public class PresenterTest {
+public class ViewPresenterTest {
 	@Test
 	public void testShowHideBackStack() throws Throwable {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		Presenter root = new Presenter(activity, null);
+		ViewPresenter root = new ViewPresenter(activity, null);
 		Assert.assertNotNull(root);
 
 		TextView textview1 = new TextView(activity);
@@ -60,12 +60,12 @@ public class PresenterTest {
 	@Test
 	public void testNestedPresenter() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		Presenter root = new Presenter(activity, null);
+		ViewPresenter root = new ViewPresenter(activity, null);
 		Assert.assertNotNull(root);
 
 		TextView textView1 = new TextView(activity);
 		TextView textView2 = new TextView(activity);
-		Presenter child1 = new Presenter(activity, null);
+		ViewPresenter child1 = new ViewPresenter(activity, null);
 		child1.addView(textView1);
 		child1.addView(textView2);
 
@@ -81,7 +81,7 @@ public class PresenterTest {
 		Assert.assertTrue(textView1.getVisibility() == View.GONE);
 		Assert.assertTrue(textView2.getVisibility() == View.GONE);
 
-		Presenter child2 = new Presenter(activity, null);
+		ViewPresenter child2 = new ViewPresenter(activity, null);
 		TextView textView3 = new TextView(activity);
 		child2.addView(textView3);
 
@@ -107,7 +107,7 @@ public class PresenterTest {
 	@Test
 	public void testShowAndClearBackstack() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		Presenter root = new Presenter(activity, null);
+		ViewPresenter root = new ViewPresenter(activity, null);
 		Assert.assertNotNull(root);
 
 		TextView textView1 = new TextView(activity);

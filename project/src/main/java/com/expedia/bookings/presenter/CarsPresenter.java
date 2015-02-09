@@ -10,7 +10,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 
-public class CarsPresenter extends Presenter {
+public class CarsPresenter extends ViewPresenter {
 
 	public CarsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -20,7 +20,7 @@ public class CarsPresenter extends Presenter {
 	View widgetCarParams;
 
 	@InjectView(R.id.cars_results_presenter)
-	Presenter carsResultsPresenter;
+	ViewPresenter carsResultsPresenter;
 
 	@InjectView(R.id.car_checkout_presenter)
 	View checkoutWidget;

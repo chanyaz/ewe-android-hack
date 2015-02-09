@@ -1,28 +1,20 @@
 package com.expedia.bookings.presenter;
 
-import java.util.Stack;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.widget.FrameLayout;
-
-import butterknife.ButterKnife;
 import butterknife.ButterKnife.Action;
 
-public class Presenter extends FrameLayout {
+public class ViewPresenter extends FrameLayoutPresenter<View> {
 
-	public Presenter(Context context, AttributeSet attrs) {
+	public ViewPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
-
 		for (int i = 0; i < getChildCount(); i++) {
 			View v = getChildAt(i);
 			v.setVisibility(View.GONE);
@@ -30,19 +22,6 @@ public class Presenter extends FrameLayout {
 	}
 
 	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		Events.register(this);
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		Events.unregister(this);
-		super.onDetachedFromWindow();
-	}
-
-	private Stack<View> backstack = new Stack<>();
-
 	public void show(View v) {
 		show(v, false);
 	}
@@ -51,42 +30,53 @@ public class Presenter extends FrameLayout {
 		if (clearBackStack) {
 			clearBackStack();
 		}
-		backstack.push(v);
+		getBackStack().push(v);
 		for (int i = 0; i < this.getChildCount(); i++) {
 			this.getChildAt(i).setVisibility(View.GONE);
 		}
 		v.setVisibility(View.VISIBLE);
 	}
 
+	@Override
 	public void hide(View v) {
 		v.setVisibility(View.GONE);
-		backstack.remove(v);
+		getBackStack().remove(v);
 	}
 
-	/**
-	 * @return true if consumed back press
-	 */
+	@Override
 	public boolean back() {
-		if (backstack.isEmpty()) {
+		if (getBackStack().isEmpty()) {
 			return false;
 		}
 
-		View v = backstack.peek();
-		if (v instanceof Presenter) {
-			Presenter p = (Presenter) v;
+		View v = getBackStack().peek();
+		if (v instanceof IPresenter) {
+			IPresenter p = (IPresenter) v;
 			if (p.back()) {
 				return true;
 			}
 		}
-		backstack.pop().setVisibility(View.GONE);
+		getBackStack().pop().setVisibility(View.GONE);
 
-		if (backstack.isEmpty()) {
+		if (getBackStack().isEmpty()) {
 			// Nothing left to show
 			return false;
 		}
 
-		show(backstack.pop());
+		show(getBackStack().pop());
 		return true;
+	}
+
+	@Override
+	public void clearBackStack() {
+		while (getBackStack().size() > 0) {
+			View v = getBackStack().peek();
+			if (v instanceof IPresenter) {
+				IPresenter p = (IPresenter) v;
+				p.clearBackStack();
+			}
+			getBackStack().pop().setVisibility(View.GONE);
+		}
 	}
 
 	// Utility
@@ -104,17 +94,4 @@ public class Presenter extends FrameLayout {
 			view.setVisibility(View.GONE);
 		}
 	};
-
-	// Tread lightly
-
-	public void clearBackStack() {
-		while (backstack.size() > 0) {
-			View v = backstack.peek();
-			if (v instanceof Presenter) {
-				Presenter p = (Presenter) v;
-				p.clearBackStack();
-			}
-			backstack.pop().setVisibility(View.GONE);
-		}
-	}
 }

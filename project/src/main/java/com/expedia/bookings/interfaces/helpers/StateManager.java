@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.expedia.bookings.animation.LooseLipsSinkShipsInterpolator;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.mobiata.android.Log;
 
@@ -289,24 +290,5 @@ public class StateManager<T> {
 			}
 		});
 		return animator;
-	}
-
-	private static class LooseLipsSinkShipsInterpolator implements Interpolator {
-		private Interpolator mInterpolator;
-		private float mLastInput = 0.0f;
-
-		public LooseLipsSinkShipsInterpolator(Interpolator interpolator) {
-			mInterpolator = interpolator;
-		}
-
-		@Override
-		public float getInterpolation(float input) {
-			mLastInput = input;
-			return mInterpolator.getInterpolation(input);
-		}
-
-		public float getLastInput() {
-			return mLastInput;
-		}
 	}
 }
