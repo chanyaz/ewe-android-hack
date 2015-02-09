@@ -189,6 +189,7 @@ public class CollectionStack extends FrameLayout {
 					Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
 				textColor = fullColorBuilder
 					.setOpacity(0.8f)
+					.setAlpha(224)
 					.build();
 				fullColor = fullColorBuilder.setAlpha(0.3f).build();
 			}
