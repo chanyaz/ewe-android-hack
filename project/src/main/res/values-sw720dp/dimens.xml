@@ -203,5 +203,6 @@
          be either a fraction or a dimension. -->
     <item type="dimen" name="abs__dialog_min_width_minor">72%</item>
 
+    <dimen name="tablet_launch_search_bar_top_margin">35dp</dimen>
 
 </resources>
