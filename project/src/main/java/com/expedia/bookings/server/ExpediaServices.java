@@ -1606,13 +1606,10 @@ public class ExpediaServices implements DownloadListener {
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, int numReviewsPerPage) {
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
-		String localeIdentifierForHotelReviews = PointOfSale.getPointOfSale().getHotelReviewsLocaleIdentifier();
-		if(localeIdentifierForHotelReviews == null) {
-			localeIdentifierForHotelReviews = PointOfSale.getPointOfSale().getLocaleIdentifier();
-		}
-
 		params.add(new BasicNameValuePair("_type", "json"));
-		params.add(new BasicNameValuePair("locale", localeIdentifierForHotelReviews));
+		if (!ExpediaBookingApp.IS_VSC) {
+			params.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		}
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
