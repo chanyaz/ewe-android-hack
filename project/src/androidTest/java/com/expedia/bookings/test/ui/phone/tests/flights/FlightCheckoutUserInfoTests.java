@@ -71,8 +71,8 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		// Warning should appear on opening traveler details
 		// and close when the user taps the screen.
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
-		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickTravelerDetails();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
@@ -80,9 +80,12 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 		// Warning should still be present on subsequent details entry
 		// and close when the user starts typing.
+		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickTravelerDetails();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		FlightsTravelerInfoScreen.enterFirstName("foo");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		Espresso.pressBack();
 	}
@@ -93,6 +96,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails();
 		FlightsTravelerInfoScreen.clickEditTravelerInfo();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
@@ -106,14 +110,17 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails();
 		FlightsTravelerInfoScreen.clickEnterNewTraveler();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		Espresso.pressBack();
 
 		FlightsTravelerInfoScreen.clickEnterNewTraveler();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		FlightsTravelerInfoScreen.enterFirstName("foo");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		Espresso.pressBack();
 		Espresso.pressBack();
