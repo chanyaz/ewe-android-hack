@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
@@ -18,6 +19,9 @@ public class CarsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 		CarDb.injectEndpoint(this);
 
 		setContentView(R.layout.activity_cars);

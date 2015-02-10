@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,9 @@ public class FlightSearchOverlayActivity extends FragmentActivity implements Fli
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
 		View root = findViewById(android.R.id.content);
 		root.setBackgroundColor(Color.argb(180, 0, 0, 0));

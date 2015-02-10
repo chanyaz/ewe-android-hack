@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -80,6 +81,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
 		mAboutUtils = new AboutUtils(this);
 

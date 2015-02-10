@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -12,6 +13,9 @@ public class FlightRulesActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
 		setContentView(R.layout.activity_flight_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
