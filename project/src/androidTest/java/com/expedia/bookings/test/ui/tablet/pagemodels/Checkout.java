@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.ui.tablet.pagemodels;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
@@ -11,36 +13,27 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.getNameMatchWarningView;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeRight;
 import static org.hamcrest.Matchers.allOf;
 
 public class Checkout {
 	public static void clickOnEmptyTravelerDetails() {
-		onView(allOf(withId(R.id.empty_traveler_container), withChild(withChild(withText("Adult 1 details"))))).perform(click());
+		onView(withId(R.id.empty_traveler_container)).perform(click());
 	}
 
 	public static void clickOnTravelerDetails() {
-		onView(allOf(withId(R.id.traveler_section_container), withChild(withChild(withChild(withText("Mobiata Auto")))))).perform(click());
-	}
-
-	public static void clickOnSecondEmptyTravelerDetails() {
-		onView(allOf(withId(R.id.empty_traveler_container), withChild(withChild(withText("Adult 2 details"))))).perform(click());
-	}
-
-	public static void clickOnSecondTravelerDetails() {
-		onView(allOf(withId(R.id.traveler_section_container), withChild(withChild(withChild(withText("E.B. Android")))))).perform(click());
+		onView(withId(R.id.traveler_section_container)).perform(click());
 	}
 
 	public static ViewInteraction nameMustMatchTextView() {
-		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText("Adult 1 details"))));
-	}
-
-	public static ViewInteraction secondTravelerNameMustMatchTextView() {
-		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText("Adult 2 details"))));
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(allOf(withId(R.id.header_container), withParent(withParent(withParent(withId(R.id.traveler_form_container)))))).perform(getNameMatchWarningView(value));
+		String filterValue = value.get();
+		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText(filterValue))));
 	}
 
 	public static ViewInteraction loginButton() {

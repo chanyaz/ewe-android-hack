@@ -280,6 +280,30 @@ public final class ViewActions {
 		};
 	}
 
+	// View action to get the name match warning's sibling text view
+
+	public static ViewAction getNameMatchWarningView(final AtomicReference<String> value) {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View childView = ((LinearLayout) view).getChildAt(2);
+				View textView = ((LinearLayout) childView).getChildAt(0);
+				value.set(((TextView) textView).getText().toString());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get the name must match ID warning's sibling text view";
+			}
+		};
+	}
+
 	//View Action to get the count of list view items
 
 	public static ViewAction getCount(final AtomicReference<Integer> count) {

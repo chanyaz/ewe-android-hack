@@ -25,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class FlightCheckoutUserInfoTests extends TabletTestCase {
 
 	HotelsUserData mUser;
+
 	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
 
 	public void testCheckFlights() throws Exception {
@@ -37,16 +38,13 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Search.clickOriginButton();
 		Search.typeInOriginEditText("San Francisco, CA");
 		Search.clickSuggestion("San Francisco, CA");
-		Search.clickTravelerButton();
-		Search.incrementAdultButton();
-		Search.clickSearchPopupDone();
 		Search.clickSelectFlightDates();
 		int randomOffset = 20 + (int) (Math.random() * 100);
 		LocalDate startDate = LocalDate.now().plusDays(randomOffset);
 		Search.clickDate(startDate, null);
 		Search.clickSearchPopupDone();
 		Results.swipeUpFlightList();
-		Results.clickFlightAtIndex(2);
+		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
 		Results.clickBookFlight();
 		// Validation
@@ -54,7 +52,6 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		verifyRulesAndRestrictionsButton();
 		verifyMissingTravelerInformationAlerts();
 		verifyNameMustMatchIdWarningWithInfoEntered();
-		verifyNameMustMatchIdWarningSecondTraveler();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
 	}
@@ -81,29 +78,6 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		Checkout.nameMustMatchTextView().perform(click());
 		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
-		Common.pressBack();
-	}
-
-	private void verifyNameMustMatchIdWarningSecondTraveler() {
-		ScreenActions.enterLog(TAG, "Start testing name must match id warning for a second traveler's info");
-		ScreenActions.delay(1);
-		// Warning should appear when second traveler's info container is entered
-		// and should not disappear when the screen is tapped.
-		Checkout.clickOnSecondEmptyTravelerDetails();
-		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
-		Checkout.secondTravelerNameMustMatchTextView().perform(click());
-		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
-		// Warning should persist when traveler info is entered.
-		Checkout.enterFirstName("E.B.");
-		Common.closeSoftKeyboard(Checkout.firstName());
-		Checkout.enterLastName("Android");
-		Common.closeSoftKeyboard(Checkout.lastName());
-		Checkout.enterDateOfBirth(1970, 1, 1);
-		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
-		Checkout.clickOnDone();
-		// Warning should persist when info edit screen is closed and re-entered.
-		Checkout.clickOnSecondTravelerDetails();
-		Checkout.secondTravelerNameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		Common.pressBack();
 	}
 
