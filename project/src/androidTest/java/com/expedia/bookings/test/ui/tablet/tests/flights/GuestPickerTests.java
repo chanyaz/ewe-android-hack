@@ -69,6 +69,7 @@ public class GuestPickerTests extends TabletTestCase {
 			Search.incrementChildButton();
 			childCount++;
 		}
+		Common.pressBack();
 	}
 
 	public void testLapInfantAlret() {
