@@ -114,28 +114,8 @@ public class HotelDetailsTests extends PhoneTestCase {
 		verifyDetailsUIElements();
 	}
 
-	public void testBookingInfoUKPOS() throws Throwable {
-		setPOS(PointOfSaleId.UNITED_KINGDOM);
-		verifyDetailsUIElements();
-	}
-
-	public void testBookingInfoFrancePOS() throws Throwable {
-		setPOS(PointOfSaleId.FRANCE);
-		verifyDetailsUIElements();
-	}
-
-	public void testBookingInfoGermanyPOS() throws Throwable {
-		setPOS(PointOfSaleId.GERMANY);
-		verifyDetailsUIElements();
-	}
-
 	public void testBookingInfoBrazilPOS() throws Throwable {
 		setPOS(PointOfSaleId.BRAZIL);
-		verifyDetailsUIElements();
-	}
-
-	public void testBookingInfoAustraliaPOS() throws Throwable {
-		setPOS(PointOfSaleId.ITALY);
 		verifyDetailsUIElements();
 	}
 

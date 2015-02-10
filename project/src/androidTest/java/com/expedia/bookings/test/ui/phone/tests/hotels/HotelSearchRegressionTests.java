@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.support.test.espresso.Espresso;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -184,7 +185,7 @@ public class HotelSearchRegressionTests extends PhoneTestCase {
 		String resolvedSearchString = EspressoUtils.getText(R.id.search_edit_text);
 		ScreenActions.enterLog(TAG, initialSearch + " resolved to: " + resolvedSearchString);
 		HotelsSearchScreen.clickSearchEditText();
-		HotelsSearchScreen.clickToClearSearchEditText();
+		HotelsSearchScreen.searchEditText().perform(clearText());
 		try {
 			HotelsSearchScreen.clickSuggestionWithName(activity, resolvedSearchString);
 		}

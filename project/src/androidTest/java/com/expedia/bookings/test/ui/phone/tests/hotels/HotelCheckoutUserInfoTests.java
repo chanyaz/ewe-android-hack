@@ -169,6 +169,13 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		HotelsCheckoutScreen.clickLogOutButton();
+		onView(withText(mRes.getString(R.string.log_out))).perform(click());
+		try {
+			onView(withText(R.string.ok)).perform(click());
+		}
+		catch (Exception e) {
+			//
+		}
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
 	}
