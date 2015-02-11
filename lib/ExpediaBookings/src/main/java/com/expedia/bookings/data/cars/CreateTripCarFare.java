@@ -12,5 +12,5 @@ public class CreateTripCarFare extends BaseCarFare {
 	public List<RateBreakdownItem> priceBreakdownOfTotalDueToday;
 	public List<RateBreakdownItem> priceBreakdownOfTotalDueAtPickup;
 
-	String rulesAndRestrictionsURL;
+	public String rulesAndRestrictionsURL;
 }
