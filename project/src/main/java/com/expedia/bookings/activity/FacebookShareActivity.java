@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -79,9 +78,6 @@ public class FacebookShareActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
 
 		mUiHelper = new UiLifecycleHelper(this, mFacebookStatusCallback);
 		mUiHelper.onCreate(savedInstanceState);

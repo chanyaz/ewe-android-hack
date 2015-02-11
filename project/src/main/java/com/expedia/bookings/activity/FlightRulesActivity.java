@@ -17,9 +17,16 @@ public class FlightRulesActivity extends FragmentActivity {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		if (shouldBail()) {
+			return;
+		}
+
 		setContentView(R.layout.activity_flight_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override
