@@ -51,7 +51,13 @@ public class CarConfirmationWidget extends LinearLayout {
 	}
 
 	public void bind(CarCheckoutResponse response) {
-		confirmationText
-			.setText(getResources().getString(R.string.successful_checkout_TEMPLATE, response.newTrip.itineraryNumber));
+		String text;
+		if (response.hasErrors()) {
+			text = response.printErrors();
+		}
+		else {
+			text = getResources().getString(R.string.successful_checkout_TEMPLATE, response.newTrip.itineraryNumber);
+		}
+		confirmationText.setText(text);
 	}
 }
