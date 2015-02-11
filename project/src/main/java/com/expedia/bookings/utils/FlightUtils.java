@@ -169,7 +169,7 @@ public class FlightUtils {
 		LocalDate searchDate = params.getDepartureDate();
 		LocalDate arrivalDate = params.getReturnDate();
 		LocalDate maxSearchDate = LocalDate.now()
-			.plusDays(context.getResources().getInteger(R.integer.calendar_max_days_flight_search));
+			.plusDays(context.getResources().getInteger(R.integer.calendar_max_days_flight_search) + 1);
 		return arrivalDate != null ? arrivalDate.isBefore(maxSearchDate) : searchDate.isBefore(maxSearchDate);
 	}
 }
