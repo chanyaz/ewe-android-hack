@@ -62,6 +62,9 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
 		// When resuming this activity after a background kill, just finish() back to FlightTripOverviewActivity. We
 		// don't have enough information to proceed and crash will happen. FTOA has nice handling of reloading state

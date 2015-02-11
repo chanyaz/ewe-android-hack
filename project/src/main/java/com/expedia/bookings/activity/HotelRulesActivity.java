@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -16,6 +17,9 @@ public class HotelRulesActivity extends FragmentActivity {
 			// Use FlightTheme on hotel checkout for tablet.
 			int themeId = R.style.FlightTheme_Rules;
 			setTheme(themeId);
+		}
+		else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
 		setContentView(R.layout.activity_hotel_rules);
