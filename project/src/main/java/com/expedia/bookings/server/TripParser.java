@@ -98,6 +98,12 @@ public class TripParser {
 			}
 		}
 
+		// Parse air attach qualification
+		if (tripJson.has("airAttachQualificationInfo")) {
+			AirAttach airAttach = new AirAttach(tripJson.optJSONObject("airAttachQualificationInfo"));
+			Db.getTripBucket().setAirAttach(airAttach);
+		}
+
 		return trip;
 	}
 
@@ -563,11 +569,6 @@ public class TripParser {
 				Log.w("No unique ID on trip component: " + obj.toString());
 			}
 			uniqueId = UUID.randomUUID().toString();
-		}
-
-		if (obj.has("airAttachQualificationInfo")) {
-			AirAttach airAttach = new AirAttach(obj.optJSONObject("airAttachQualificationInfo"));
-			Db.getTripBucket().setAirAttach(airAttach);
 		}
 
 		component.setUniqueId(uniqueId);
