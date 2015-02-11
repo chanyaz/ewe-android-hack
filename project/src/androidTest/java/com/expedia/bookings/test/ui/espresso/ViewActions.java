@@ -231,11 +231,19 @@ public final class ViewActions {
 		};
 	}
 
-	// View action to get empty traveler container on checkout
+	// View action for accessing text nested inside two linear layouts
 
-	public static ViewAction getEmptyTravelerViewLayout(final int index, final AtomicReference<String> value) {
-		return new ViewAction() {
+	public final static class NestedTextView implements ViewAction {
+		private final int mUpperLayoutIndex;
+		private final int mLowerLayoutIndex;
+		private final AtomicReference<String> mValue;
 
+		public NestedTextView(final int upperIndex, final int lowerIndex, final AtomicReference<String> value) {
+			mUpperLayoutIndex = upperIndex;
+			mLowerLayoutIndex = lowerIndex;
+			mValue = value;
+		}
+			@SuppressWarnings("unchecked")
 			@Override
 			public Matcher<View> getConstraints() {
 				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
@@ -243,16 +251,27 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-					View childView = ((LinearLayout) view).getChildAt(index);
-					View textView = ((LinearLayout) childView).getChildAt(1);
-					value.set(((TextView) textView).getText().toString());
-				}
+				View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
+				View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
+				mValue.set(((TextView) textView).getText().toString());
+			}
 
 			@Override
 			public String getDescription() {
 				return "Get the empty travelers container text on checkout";
 			}
-		};
+	}
+
+	// View action to get the name match warning's sibling text view
+
+	public static ViewAction getNameMatchWarningView(final AtomicReference<String> value) {
+		return new NestedTextView(2, 0, value);
+	}
+
+	// View action to get empty traveler container on checkout
+
+	public static ViewAction getEmptyTravelerViewLayout(final int index, final AtomicReference<String> value) {
+		return new NestedTextView(index, 1, value);
 	}
 
 	// View action to get traveler container with info entered on checkout
@@ -276,30 +295,6 @@ public final class ViewActions {
 			@Override
 			public String getDescription() {
 				return "Get the empty travelers container text on checkout";
-			}
-		};
-	}
-
-	// View action to get the name match warning's sibling text view
-
-	public static ViewAction getNameMatchWarningView(final AtomicReference<String> value) {
-		return new ViewAction() {
-
-			@Override
-			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				View childView = ((LinearLayout) view).getChildAt(2);
-				View textView = ((LinearLayout) childView).getChildAt(0);
-				value.set(((TextView) textView).getText().toString());
-			}
-
-			@Override
-			public String getDescription() {
-				return "Get the name must match ID warning's sibling text view";
 			}
 		};
 	}
