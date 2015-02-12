@@ -188,7 +188,7 @@ public class LaunchDb {
 			|| (params.getNumAdults() + params.getNumChildren()) > 1));
 	}
 
-	private static boolean isShowNearByTile(SearchParams params) {
+	private static boolean showNearbyTile(SearchParams params) {
 		return (params == null || (params.hasEnoughInfoForHotelsSearch()
 			&& params.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION)
 			|| (params.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
@@ -248,8 +248,8 @@ public class LaunchDb {
 				sDb.mNearByCollection.locations = new ArrayList<LaunchLocation>();
 				sDb.mNearByCollection.locations.add(loc);
 				sDb.mNearByCollection.imageCode = results.getSuggestions().get(0).getAirportCode();
-				if ((sDb.mYourSearchCollection == null && sDb.mCollections != null && !sDb.mCollections.isEmpty())
-					|| isShowNearByTile(Sp.getParams())) {
+				if (sDb.mYourSearchCollection == null && sDb.mCollections != null
+					&& !sDb.mCollections.isEmpty() && showNearbyTile(Sp.getParams())) {
 					sDb.mCollections.add(sNearByTileCollectionIndex, sDb.mNearByCollection);
 					Events.post(sDb.produceLaunchCollections());
 				}
