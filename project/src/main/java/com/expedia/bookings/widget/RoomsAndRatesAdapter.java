@@ -199,6 +199,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		mBuilder.setLength(0);
 
+		int priceTextColor = mDefaultTextColor;
 		// Check if there should be a strike-through rate, if this is on sale
 		if (rate.isOnSale()) {
 			mBuilder.append(mContext.getString(R.string.strike_template,
@@ -206,11 +207,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			mBuilder.append(' ');
 			if (rate.isSaleTenPercentOrBetter() && rate.isAirAttached()) {
 				holder.saleLabel.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.skin_roomsRatesAirAttachRibbonDrawable));
-				holder.price.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_hotelPriceAirAttachColor));
+				priceTextColor = Ui.obtainThemeColor(mContext, R.attr.skin_hotelPriceAirAttachColor);
 			}
 			else {
 				holder.saleLabel.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.skin_roomsRatesSaleRibbonDrawable));
-				holder.price.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_hotelPriceStandardColor));
+				priceTextColor = ProductFlavorFeatureConfiguration.getInstance()
+					.getHotelSalePriceTextColorResourceId(mContext);
 			}
 			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getDiscountPercent()));
 			holder.saleLabel.setVisibility(View.VISIBLE);
@@ -239,7 +241,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 		else {
 			holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
-			holder.price.setTextColor(mDefaultTextColor);
+			holder.price.setTextColor(priceTextColor);
 			holder.priceDescription.setVisibility(View.GONE);
 		}
 
@@ -259,14 +261,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		else {
 			holder.priceExplanation.setVisibility(View.GONE);
 		}
-
 		// We adjust the bed's padding based on whether the sale tag is visible or not
 		int padding;
 		if (rate.isOnSale()) {
 			padding = mBedSalePadding;
-			int hotelSalePriceTextColorResourceId = ProductFlavorFeatureConfiguration.getInstance()
-				.getHotelSalePriceTextColorResourceId(mContext);
-			holder.price.setTextColor(hotelSalePriceTextColorResourceId);
 		}
 		else {
 			if (Build.VERSION.SDK_INT > 7) {
@@ -310,9 +308,18 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		}
 
+		CharSequence valueAdds = mValueAdds.get(position);
+		if (valueAdds != null) {
+			holder.valueAdds.setText(valueAdds);
+			holder.valueAdds.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.valueAdds.setVisibility(View.GONE);
+		}
+
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.valueAddsBeds.getLayoutParams();
-		if (isDepositRequired) {
-			// If there is a deposit, set the view below the price layout
+		if (isDepositRequired || valueAdds != null) {
+			// If there is a deposit or value adds, set the view below the price layout
 			lp.addRule(RelativeLayout.BELOW, R.id.price_layout);
 			holder.valueAddsBeds.setPadding(0, 0, 0, 0);
 		}
@@ -323,15 +330,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 					holder.valueAddsBeds.getPaddingBottom());
 		}
 		holder.valueAddsBeds.setLayoutParams(lp);
-
-		CharSequence valueAdds = mValueAdds.get(position);
-		if (valueAdds != null) {
-			holder.valueAdds.setText(valueAdds);
-			holder.valueAdds.setVisibility(View.VISIBLE);
-		}
-		else {
-			holder.valueAdds.setVisibility(View.GONE);
-		}
 
 		holder.valueAddsBeds.setText(mBuilder.toString());
 
