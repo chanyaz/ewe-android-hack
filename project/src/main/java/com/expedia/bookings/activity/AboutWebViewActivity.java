@@ -39,6 +39,9 @@ public class AboutWebViewActivity extends WebViewActivity {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		if (shouldBail()) {
+			return;
+		}
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 
@@ -81,6 +84,10 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 	private void sendSupportEmail() {
 		SocialUtils.email(this, getString(R.string.email_app_support), "", DebugInfoUtils.generateEmailBody(this));
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 }

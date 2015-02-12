@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -17,9 +16,6 @@ public class FlightUnsupportedPOSActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
 
 		setContentView(R.layout.activity_unsupported_pos);
 		getWindow().setBackgroundDrawable(null);

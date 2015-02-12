@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -33,9 +32,6 @@ public class FlightConfirmationActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
 
 		// The app will get in to this state if being restored after background kill. In this case let's just be a good
 		// guy and send them to the itin screen.

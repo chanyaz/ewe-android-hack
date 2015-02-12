@@ -85,6 +85,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		if (shouldBail()) {
+			return;
+		}
+
 		mAboutUtils = new AboutUtils(this);
 
 		mGestureDetector = new GestureDetectorCompat(this, mOnGestureListener);
@@ -245,6 +249,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	private static final int DIALOG_CONTACT_EXPEDIA = 100;
