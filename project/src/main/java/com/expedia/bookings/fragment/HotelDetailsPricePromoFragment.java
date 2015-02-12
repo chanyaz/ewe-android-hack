@@ -144,7 +144,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 					@Override
 					public void onGlobalLayout() {
-						promoTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						Ui.removeOnGlobalLayoutListener(promoTextView, this);
 						Layout textLayout = promoTextView.getLayout();
 						if (textLayout != null) {
 							int lines = textLayout.getLineCount();

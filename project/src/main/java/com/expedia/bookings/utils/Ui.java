@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -253,6 +254,15 @@ public class Ui extends com.mobiata.android.util.Ui {
 		if (AndroidUtils.getSdkVersion() >= 18) {
 			vto.addOnWindowAttachListener(Api18ViewTreeObserverLogger.getInstance());
 			vto.addOnWindowFocusChangeListener(Api18ViewTreeObserverLogger.getInstance());
+		}
+	}
+
+	public static void removeOnGlobalLayoutListener(View v, OnGlobalLayoutListener listener) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+		}
+		else {
+			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}
 
