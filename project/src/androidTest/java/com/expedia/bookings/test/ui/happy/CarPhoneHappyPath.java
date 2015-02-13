@@ -10,6 +10,7 @@ import com.expedia.bookings.test.ui.utils.EspressoTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class CarPhoneHappyPath extends EspressoTestCase {
 
@@ -18,12 +19,12 @@ public class CarPhoneHappyPath extends EspressoTestCase {
 	}
 
 	public void testCarPhoneHappyPath() throws Throwable {
-		final String pickupAirportCode = "SFO";
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 
 		screenshot("Car_Search");
-		CarViewModel.selectPickupLocation(getInstrumentation(), pickupAirportCode);
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		screenshot("Car_Search_Params_Entered");
