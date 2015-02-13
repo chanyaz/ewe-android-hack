@@ -33,7 +33,7 @@
             android:id="@+id/edit_names_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,14 +46,14 @@
                 style="@style/FakeSpinner"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_gravity="bottom"
                 android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:bufferType="spannable"
                 android:gravity="center_vertical"
                 android:hint="@string/date_of_birth"
                 android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
             <Spinner
                 android:id="@+id/edit_gender_spinner"
@@ -64,39 +64,47 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/cd_traveler_gender_edit" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <FrameLayout
                 android:id="@+id/phone_edit_container"
                 android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="40dp"
-                android:layout_gravity="bottom"
-                android:layout_weight="1">
+                android:layout_gravity="bottom">
 
                 <EditText
                     android:id="@+id/edit_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:paddingLeft="60dp"
                     android:hint="@string/phone_number_hint"
                     android:inputType="phone"
-                    android:paddingLeft="60dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"/>
 
                 <com.expedia.bookings.widget.TelephoneSpinner
                     android:id="@+id/edit_phone_number_country_code_spinner"
                     style="@style/Widget.Spinner.Tablet.CountryCode"
                     android:layout_width="56dp"
                     android:layout_height="40dp"
-                    app:text_view_layout="@layout/simple_spinner_item_18" />
+                    app:text_view_layout="@layout/simple_spinner_item_18"/>
             </FrameLayout>
 
+            <EditText
+                android:id="@+id/edit_email_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/email_address_hint"
+                android:inputType="textEmailAddress"
+                android:singleLine="true" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/edit_email_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email_address_hint"
-            android:inputType="textEmailAddress"
-            android:singleLine="true"/>
 
         <Spinner
             android:id="@+id/edit_passport_country_spinner"
