@@ -66,6 +66,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 		Checkout.nameMustMatchTextView().perform(click());
 		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		Checkout.enterFirstName("foo");
+		Common.closeSoftKeyboard(Checkout.firstName());
 		Checkout.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
 		Common.pressBack();
 	}

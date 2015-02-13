@@ -119,6 +119,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		Espresso.pressBack();
 
 		// Warning should disappear when user starts filling out traveler info.
+		ScreenActions.delay(1);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
