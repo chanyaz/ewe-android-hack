@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.presenter.lx.LXPresenter
+    android:id="@+id/lx_base_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/search_params_widget"
+        layout="@layout/widget_lx_search_params" />
+
+</com.expedia.bookings.presenter.lx.LXPresenter>

@@ -69,6 +69,16 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Select Airport</string>
 
+    <!-- LX -->
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Search For Things To Do</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Enter location</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Location missing</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Select dates</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sort &amp; Filter</string>
