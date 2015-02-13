@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -84,6 +85,12 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+		if (shouldBail()) {
+			return;
+		}
 
 		setContentView(R.layout.activity_login);
 
@@ -218,6 +225,10 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override
