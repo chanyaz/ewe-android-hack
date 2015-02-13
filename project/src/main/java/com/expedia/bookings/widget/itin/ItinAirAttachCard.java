@@ -38,7 +38,8 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 
 	// Views
 	private ViewGroup mAirAttachContainerLayout;
-	private TextView mExpirationDateTv;
+	private ViewGroup mExpirationCountdown;
+	private TextView mExpirationTodayTv;
 	private View mAirAttachButton;
 
 	private String mTripId;
@@ -102,8 +103,22 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		mAirAttachContainerLayout = Ui.findView(this, R.id.itin_button_layout);
 		mAirAttachButton = mAirAttachContainerLayout.findViewById(R.id.button_action_layout);
 		mAirAttachButton.setOnClickListener(mOnClickListener);
-		mExpirationDateTv = Ui.findView(this, R.id.itin_air_attach_expiration_date_text_view);
-		mExpirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+		mExpirationCountdown = Ui.findView(this, R.id.air_attach_countdown_view);
+		mExpirationTodayTv = Ui.findView(this, R.id.air_attach_expires_today_text_view);
+
+		// Air attach expiration message
+		if (daysRemaining > 1) {
+			mExpirationCountdown.setVisibility(View.VISIBLE);
+			mExpirationTodayTv.setVisibility(View.GONE);
+			TextView expirationDateTv = Ui.findView(this, R.id.itin_air_attach_expiration_date_text_view);
+			expirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+		}
+		else {
+			mExpirationCountdown.setVisibility(View.GONE);
+			mExpirationTodayTv.setVisibility(View.VISIBLE);
+		}
+
+		// Hide button
 		mDismissImageView = Ui.findView(this, R.id.dismiss_image_view);
 		mDismissImageView.setVisibility(View.VISIBLE);
 		mDismissImageView.setOnClickListener(new OnClickListener() {
