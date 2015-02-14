@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.Images;
 public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategoriesListAdapter.ViewHolder> {
 	private List<CategorizedCarOffers> categories = new ArrayList<>();
 
-	private static final String ROW_PICASSO_TAG = "car_row";
+	private static final String ROW_PICASSO_TAG = "CAR_CATEGORY_LIST";
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,6 +39,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 
 		String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(holder.backroundImageView)
+			.fade()
 			.setTag(ROW_PICASSO_TAG)
 			.fit()
 			.centerCrop()
@@ -89,8 +90,8 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 			bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
 			doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
 
-			bestPriceTextView.setText(lowestFare.rate.getFormattedMoney());
-			totalTextView.setText(lowestFare.total.getFormattedMoney());
+			bestPriceTextView.setText(totalTextView.getContext().getString(R.string.cars_total_template, lowestFare.rate.getFormattedMoney()));
+			totalTextView.setText(totalTextView.getContext().getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
 		}
 
 		@Override

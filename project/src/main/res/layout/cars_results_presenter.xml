@@ -2,14 +2,13 @@
 <com.expedia.bookings.presenter.CarsResultsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:layout_height="match_parent">
 
     <com.expedia.bookings.widget.CarCategoryListWidget
         android:id="@+id/categories"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:paddingBottom="?attr/actionBarSize"
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/category_list"
@@ -23,21 +22,89 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eaeaea"
-        android:orientation="vertical" >
+        android:paddingBottom="?attr/actionBarSize"
+        android:orientation="vertical">
 
-        <Space
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.OptimizedImageView
-            android:id="@+id/header_image"
-            android:layout_width="match_parent"
-            android:layout_height="144dp"
-            tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
+            <com.expedia.bookings.widget.OptimizedImageView
+                android:id="@+id/header_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+            <LinearLayout
+                android:id="@+id/price_container"
+                android:layout_width="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:tint="@android:color/white"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/person" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/passenger_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="2dp"
+                    android:layout_marginRight="4dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:text="5" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@android:color/white"
+                    android:layout_marginLeft="4dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baggage" />
+
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/bag_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="2dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:text="3" />
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:tint="@android:color/white"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/doors" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/door_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="2dp"
+                    android:layout_marginRight="4dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:text="4" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/offer_list"
@@ -55,5 +122,27 @@
         android:layout_gravity="center"
         android:indeterminate="true" />
 
+    <View
+        android:id="@+id/toolbar_background"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cars_primary_color"
+        android:alpha=".95" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/sort_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:minHeight="?attr/actionBarSize" />
 
 </com.expedia.bookings.presenter.CarsResultsPresenter>

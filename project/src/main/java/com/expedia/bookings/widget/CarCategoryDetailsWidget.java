@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
@@ -28,8 +29,17 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 	@InjectView(R.id.offer_list)
 	RecyclerView offerList;
 
+	@InjectView(R.id.passenger_count)
+	public TextView passengerCount;
+
+	@InjectView(R.id.bag_count)
+	public TextView bagCount;
+
+	@InjectView(R.id.door_count)
+	public TextView doorCount;
+
 	private CarOffersAdapter adapter;
-	private static final int LIST_DIVIDER_HEIGHT = 8;
+	private static final int LIST_DIVIDER_HEIGHT = 12;
 
 	@Override
 	public void onFinishInflate() {
@@ -41,7 +51,8 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 		layoutManager.scrollToPosition(0);
 
 		offerList.setLayoutManager(layoutManager);
-		offerList.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT));
+		offerList.addItemDecoration(
+			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, 0, true));
 		offerList.setHasFixedSize(true);
 
 		adapter = new CarOffersAdapter();
@@ -63,11 +74,18 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		CategorizedCarOffers bucket = event.categorizedCarOffers;
+
+		CarInfo vehicleInfo = bucket.getLowestTotalPriceOffer().vehicleInfo;
+		passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
+		bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
+		doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
+
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
 
 		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(headerImage)
+			.fade()
 			.setTag("Car Details")
 			.fit()
 			.centerCrop()

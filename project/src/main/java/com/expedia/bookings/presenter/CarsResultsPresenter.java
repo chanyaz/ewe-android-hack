@@ -2,8 +2,16 @@ package com.expedia.bookings.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+
 import android.widget.ProgressBar;
+
+import android.view.MenuItem;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -12,6 +20,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -33,6 +42,16 @@ public class CarsResultsPresenter extends Presenter {
 	@InjectView(R.id.details)
 	CarCategoryDetailsWidget details;
 
+	// This is here just for an animation
+	@InjectView(R.id.toolbar_background)
+	View toolbarBackground;
+
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
+
+	@InjectView(R.id.sort_toolbar)
+	Toolbar sortToolbar;
+
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
 	private Subscription createTripSubscription;
@@ -46,6 +65,27 @@ public class CarsResultsPresenter extends Presenter {
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage("Preparing checkout...");
 		createTripDialog.setIndeterminate(true);
+
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+		toolbar.setNavigationIcon(navIcon);
+		toolbar.setTitleTextColor(Color.WHITE);
+		toolbar.setSubtitleTextColor(Color.WHITE);
+		toolbar.inflateMenu(R.menu.cars_results_menu);
+		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+				case R.id.menu_search:
+					Events.post(new Events.CarsGoToSearch());
+					break;
+				}
+				return false;
+			}
+		});
+
+		sortToolbar.inflateMenu(R.menu.cars_sort_menu);
+
 	}
 
 	@Override
@@ -79,7 +119,13 @@ public class CarsResultsPresenter extends Presenter {
 		@Override
 		public void onNext(CarSearch carSearch) {
 			Events.post(new Events.CarsShowSearchResults(carSearch));
+
 			show(categories, true);
+
+//			hide(loading);
+//			show(categories);
+//			showToolbars();
+
 		}
 	};
 
@@ -114,11 +160,18 @@ public class CarsResultsPresenter extends Presenter {
 		cleanup();
 		searchSubscription = CarDb.getCarServices()
 			.carSearch(event.carSearchParams, searchObserver);
+		String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), event.carSearchParams,
+			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+
+		toolbar.setTitle(event.carSearchParams.originDescription);
+		toolbar.setSubtitle(dateTimeRange);
 	}
 
 	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
 		show(details);
+		showToolbars();
+		toolbar.setTitle(event.categorizedCarOffers.category.toString());
 	}
 
 	@Subscribe
@@ -127,5 +180,12 @@ public class CarsResultsPresenter extends Presenter {
 		cleanup();
 		createTripSubscription = CarDb.getCarServices()
 			.createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), createTripObserver);
+	}
+
+	// TODO: Make toolbars a shared component that don't get hidden
+	private void showToolbars() {
+//		SHOW.apply(toolbarBackground, 0);
+//		SHOW.apply(toolbar, 1);
+//		SHOW.apply(sortToolbar, 1);
 	}
 }

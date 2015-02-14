@@ -14,16 +14,17 @@ import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -47,7 +48,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarSearchParamsWidget extends Presenter implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
+public class CarSearchParamsWidget extends Presenter
+	implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
 	private static final String TOOLTIP_PATTERN = "hh:mm aa";
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
@@ -77,28 +79,14 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 	@InjectView(R.id.dropoff_location)
 	TextView dropoffLocation;
 
-	@InjectView(R.id.title)
-	TextView txtTitle;
-
 	@InjectView(R.id.select_date)
 	ToggleButton selectDateButton;
-
-	@InjectView(R.id.backout_btn)
-	ImageButton backButton;
-
-	@InjectView(R.id.search_btn)
-	ImageButton searchButton;
 
 	@InjectView(R.id.calendar_container)
 	CarDateTimeWidget calendarContainer;
 
-	@OnClick(R.id.search_btn)
-	public void startWidgetDownload() {
-		if (isSearchFormFilled()) {
-			Ui.hideKeyboard(this);
-			Events.post(new Events.CarsNewSearchParams(carSearchParams));
-		}
-	}
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
 
 	@OnClick(R.id.pickup_location)
 	public void onPickupEditClicked() {
@@ -117,6 +105,34 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		calendarContainer.setCarDateTimeListener(this);
+
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
+		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		toolbar.setNavigationIcon(navIcon);
+		toolbar.setTitle(getResources().getString(R.string.dates_and_location));
+		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		toolbar.inflateMenu(R.menu.cars_search_menu);
+		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+				case R.id.menu_check:
+					if (isSearchFormFilled()) {
+						Ui.hideKeyboard(CarSearchParamsWidget.this);
+						Events.post(new Events.CarsNewSearchParams(carSearchParams));
+					}
+					break;
+				}
+				return false;
+			}
+		});
+		MenuItem item = toolbar.getMenu().findItem(R.id.menu_check);
+
+		Drawable drawableAction = getResources().getDrawable(R.drawable.ic_check_white_24dp);
+		drawableAction
+			.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		item.setIcon(drawableAction);
+
 		pickupLocation.setVisibility(View.VISIBLE);
 		dropoffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
@@ -135,7 +151,7 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 
 		Drawable drawableDisabled = getResources().getDrawable(R.drawable.location).mutate();
 		drawableDisabled
-				.setColorFilter(getResources().getColor(R.color.cars_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
+			.setColorFilter(getResources().getColor(R.color.cars_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
 		dropoffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
 
 		loadHistory();
@@ -148,6 +164,7 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 	private void setPickupLocation(final Suggestion suggestion) {
 		pickupLocation.setText(StrUtils.formatCityName(suggestion.fullName));
 		searchParamsBuilder.origin(suggestion.airportCode);
+		searchParamsBuilder.originDescription(StrUtils.formatAirportName(suggestion.fullName));
 		paramsChanged();
 		suggestion.isHistory = true;
 
@@ -189,14 +206,14 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 	public void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
-				.setMessage(messageResourceId)
-				.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				})
-				.show();
+			.setMessage(messageResourceId)
+			.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
 	}
 
 	private boolean isSearchFormFilled() {
@@ -246,6 +263,7 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 				selectDateButton.setEnabled(true);
 				pickupLocation.setText("");
 				searchParamsBuilder.origin("");
+				searchParamsBuilder.originDescription("");
 				paramsChanged();
 			}
 		}
@@ -259,7 +277,7 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 		carSearchParams = searchParamsBuilder.build();
 		if (carSearchParams.startDateTime != null) {
 			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams,
-					DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 			selectDateButton.setText(dateTimeRange);
 			selectDateButton.setTextOff(dateTimeRange);
 			selectDateButton.setTextOn(dateTimeRange);
@@ -295,7 +313,7 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 	public void clearFocus() {
 		pickupLocation.clearFocus();
 		InputMethodManager imm = (InputMethodManager) pickupLocation.getContext()
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
+			.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(pickupLocation.getWindowToken(), 0);
 	}
 
@@ -341,8 +359,6 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 		calendarContainer.setVisibility(visibility);
 	}
 
-	// ICarDateTimeListener
-
 	@Override
 	public void onDateTimeChanged(CarSearchParamsBuilder.DateTimeBuilder dtb) {
 		searchParamsBuilder.dateTimeBuilder(dtb);
@@ -359,7 +375,8 @@ public class CarSearchParamsWidget extends Presenter implements EditText.OnEdito
 	public static class CarParamsCalendar {
 	}
 
-	private Presenter.Transition mOneToTwo = new Presenter.Transition(CarParamsDefault.class.getName(), CarParamsCalendar.class.getName()) {
+	private Presenter.Transition mOneToTwo = new Presenter.Transition(CarParamsDefault.class.getName(),
+		CarParamsCalendar.class.getName()) {
 		private int calendarHeight;
 
 		@Override

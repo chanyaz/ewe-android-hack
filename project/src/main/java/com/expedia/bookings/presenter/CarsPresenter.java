@@ -57,6 +57,7 @@ public class CarsPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearch(Events.CarsGoToSearch event) {
+		// TODO: don't hide the other views, show search params widget over them with an alpha
 		show(widgetCarParams, true);
 	}
 }

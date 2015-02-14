@@ -5,15 +5,15 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/widget_car_params"
-        layout="@layout/widget_car_search_params"
+        android:id="@+id/cars_results_presenter"
+        layout="@layout/cars_results_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
     <include
-        android:id="@+id/cars_results_presenter"
-        layout="@layout/cars_results_presenter"
+        android:id="@+id/widget_car_params"
+        layout="@layout/widget_car_search_params"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>

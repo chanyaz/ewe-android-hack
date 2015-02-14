@@ -451,5 +451,16 @@
     <string name="cars_time_slider_pick_up_label">Pick up time</string>
     <!-- SeekBar tooltip description for drop off time-->
     <string name="cars_time_slider_drop_off_label">Drop off time</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_template">Daily %s</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">Total %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Promo Code</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sort &amp; Filter</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Slide to reserve.</string>
+
 
 </resources>

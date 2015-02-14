@@ -181,27 +181,30 @@
         android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#AA000000"
+        android:background="#E6FFFFFF"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="15dp"
-        android:paddingTop="10dp">
+        android:paddingTop="15dp">
 
         <com.expedia.bookings.widget.SlideToWidgetJB
             android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             slideto:destComplete="@drawable/slide_complete"
             slideto:dragImage="@drawable/slide_drag"
-            slideto:lineColor="#46CFCFCF"
+            slideto:sliderBackgroundColor="@color/cars_primary_color"
             slideto:sliderImage="@drawable/slide_hint"
-            slideto:sliderText="@string/slide_to_purchase" />
+            slideto:sliderText="@string/cars_slider_text" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/purchase_total_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@color/cars_primary_color"
             android:textSize="@dimen/slide_to_purchase_price_text_size" />
     </LinearLayout>
 
