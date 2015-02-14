@@ -13,7 +13,6 @@ import org.joda.time.YearMonth;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,7 +32,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -52,6 +50,8 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.LeafPresenter;
+import com.expedia.bookings.presenter.TreePresenter;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
@@ -68,9 +68,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarSearchParamsWidget extends RelativeLayout implements
-	CalendarPicker.DateSelectionChangedListener, CalendarPicker.YearMonthDisplayedChangedListener,
-	SeekBar.OnSeekBarChangeListener, DaysOfWeekView.DayOfWeekRenderer,
+public class CarSearchParamsWidget extends TreePresenter implements
+	CalendarPicker.DateSelectionChangedListener,
+	CalendarPicker.YearMonthDisplayedChangedListener,
+	SeekBar.OnSeekBarChangeListener,
+	DaysOfWeekView.DayOfWeekRenderer,
 	EditText.OnEditorActionListener {
 
 	private static final String TOOLTIP_PATTERN = "hh:mm aa";
@@ -84,15 +86,11 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 	private static final int RECENT_MAX_SIZE = 3;
 
 	public CarSearchParamsWidget(Context context) {
-		super(context);
+		this(context, null);
 	}
 
 	public CarSearchParamsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	}
-
-	public CarSearchParamsWidget(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
 	}
 
 	@InjectView(R.id.pickup_location)
@@ -112,6 +110,9 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 
 	@InjectView(R.id.search_btn)
 	ImageButton searchButton;
+
+	@InjectView(R.id.calendar_container)
+	View calendarContainer;
 
 	@InjectView(R.id.calendar_shadow)
 	View calendarShadow;
@@ -182,7 +183,7 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 		pickupLocation.setVisibility(View.VISIBLE);
 		dropoffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
-		setCalendarVisibility(View.GONE);
+		setCalendarVisibility(View.INVISIBLE);
 
 		calendar.setSelectableDateRange(LocalDate.now(),
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
@@ -222,6 +223,10 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 		dropoffTimeSeekBar.addOnSeekBarChangeListener(this);
 		setupTextFont();
 		loadHistory();
+
+		addTransition(mOneToTwo);
+
+		show(new CarParamsDefault());
 	}
 
 	private void setPickupLocation(final Suggestion suggestion) {
@@ -259,10 +264,7 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
-		Ui.hideKeyboard(this);
-		setCalendarVisibility(View.VISIBLE);
-		selectDateButton.setEnabled(false);
-		pickupLocation.clearFocus();
+		show(new CarParamsCalendar());
 	}
 
 	/*
@@ -478,13 +480,6 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 		v.startAnimation(animation);
 	}
 
-	private void translateViewY(View v, float y) {
-		ObjectAnimator animator = ObjectAnimator.ofFloat(v, "translationY", y);
-		animator.setDuration(400);
-		animator.setInterpolator(new DecelerateInterpolator());
-		animator.start();
-	}
-
 	private void paramsChanged() {
 		carSearchParams = searchParamsBuilder.build();
 		if (carSearchParams.startDateTime != null) {
@@ -572,11 +567,7 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 	}
 
 	public void setCalendarVisibility(int visibility) {
-		int y = visibility == View.GONE ? height : 0;
-		translateViewY(calendarShadow, y);
-		translateViewY(calendar, y);
-		translateViewY(sliderShadow, y);
-		translateViewY(sliderContainer, y);
+		calendarContainer.setVisibility(visibility);
 	}
 
 	private void setupTextFont() {
@@ -602,4 +593,48 @@ public class CarSearchParamsWidget extends RelativeLayout implements
 		}
 		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
 	}
+
+	/*
+	* States and stuff
+	*/
+
+	public static class CarParamsDefault extends LeafPresenter {
+	}
+
+	public static class CarParamsCalendar extends LeafPresenter {
+	}
+
+	private TreePresenter.Transition mOneToTwo = new TreePresenter.Transition(CarParamsDefault.class.getName(), CarParamsCalendar.class.getName()) {
+		private int calendarHeight;
+
+		@Override
+		public void startTransition(boolean forward) {
+			int parentHeight = getHeight();
+			calendarHeight = calendarContainer.getHeight();
+			selectDateButton.setEnabled(!forward);
+			selectDateButton.setChecked(forward);
+			float pos = forward ? parentHeight + calendarHeight : calendarHeight;
+			calendarContainer.setTranslationY(pos);
+			calendarContainer.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float pos = forward ? calendarHeight + (-f * calendarHeight) : (f * calendarHeight);
+			calendarContainer.setTranslationY(pos);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
+			Ui.hideKeyboard(CarSearchParamsWidget.this);
+			setCalendarVisibility(View.VISIBLE);
+			pickupLocation.clearFocus();
+		}
+	};
 }
