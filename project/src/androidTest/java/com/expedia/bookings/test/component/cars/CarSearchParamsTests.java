@@ -49,9 +49,13 @@ public final class CarSearchParamsTests {
 
 		CarSearchParamsWidget widget = (CarSearchParamsWidget) playground.getRoot();
 		CarSearchParams actual;
+		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder =
+				new CarSearchParamsBuilder.DateTimeBuilder()
+				.startDate(expectedStartDate.toLocalDate())
+				.endDate(expectedStartDate.plusDays(3).toLocalDate());
+
 		CarSearchParams expected = new CarSearchParamsBuilder()
-			.startDate(expectedStartDate.toLocalDate())
-			.endDate(expectedStartDate.plusDays(3).toLocalDate())
+			.dateTimeBuilder(dateTimeBuilder)
 			.origin("SFO")
 			.build();
 

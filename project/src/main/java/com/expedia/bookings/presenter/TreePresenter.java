@@ -94,6 +94,10 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 		getStateAnimator(undoState, false).start();
 	}
 
+	public String getCurrentState() {
+		return mCurrentState;
+	}
+
 	// Transition
 
 	public static abstract class Transition {

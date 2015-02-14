@@ -16,13 +16,13 @@ public abstract class FrameLayoutPresenter<T> extends FrameLayout implements IPr
 
 	public FrameLayoutPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		initBackStack();
 	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		initBackStack();
 	}
 
 	@Override

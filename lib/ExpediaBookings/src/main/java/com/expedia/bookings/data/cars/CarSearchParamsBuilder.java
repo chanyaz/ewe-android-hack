@@ -7,30 +7,45 @@ import com.expedia.bookings.utils.Strings;
 
 public class CarSearchParamsBuilder {
 
-	private LocalDate mStartDate;
-	private LocalDate mEndDate;
 	private String mOrigin;
+	private DateTimeBuilder mDateTimeBuilder;
 
-	private int mStartMillis;
-	private int mEndMillis;
+	public static class DateTimeBuilder {
+		private LocalDate mStartDate;
+		private LocalDate mEndDate;
+		private int mStartMillis;
+		private int mEndMillis;
 
-	public CarSearchParamsBuilder startDate(LocalDate date) {
-		mStartDate = date;
-		return this;
+		public DateTimeBuilder() {
+		}
+
+		public DateTimeBuilder startDate(LocalDate date) {
+			mStartDate = date;
+			return this;
+		}
+
+		public DateTimeBuilder endDate(LocalDate date) {
+			mEndDate = date;
+			return this;
+		}
+
+		public DateTimeBuilder startMillis(int millis) {
+			mStartMillis = millis;
+			return this;
+		}
+
+		public DateTimeBuilder endMillis(int millis) {
+			mEndMillis = millis;
+			return this;
+		}
+
+		public boolean areRequiredParamsFilled() {
+			return mStartDate != null && mEndDate != null;
+		}
 	}
 
-	public CarSearchParamsBuilder endDate(LocalDate date) {
-		mEndDate = date;
-		return this;
-	}
-
-	public CarSearchParamsBuilder startMillis(int millis) {
-		mStartMillis = millis;
-		return this;
-	}
-
-	public CarSearchParamsBuilder endMillis(int millis) {
-		mEndMillis = millis;
+	public CarSearchParamsBuilder dateTimeBuilder(DateTimeBuilder dtb) {
+		mDateTimeBuilder = dtb;
 		return this;
 	}
 
@@ -42,13 +57,13 @@ public class CarSearchParamsBuilder {
 	public CarSearchParams build() {
 		CarSearchParams params = new CarSearchParams();
 		params.origin = mOrigin;
-		if (mStartDate != null) {
-			DateTime start = make(mStartDate, mStartMillis);
-			params.startDateTime = start;
-		}
-		if (mEndDate != null) {
-			DateTime end = make(mEndDate, mEndMillis);
-			params.endDateTime = end;
+		if (mDateTimeBuilder != null) {
+			if (mDateTimeBuilder.mStartDate != null) {
+				params.startDateTime = make(mDateTimeBuilder.mStartDate, mDateTimeBuilder.mStartMillis);
+			}
+			if (mDateTimeBuilder.mEndDate != null) {
+				params.endDateTime = make(mDateTimeBuilder.mEndDate, mDateTimeBuilder.mEndMillis);
+			}
 		}
 		return params;
 	}
@@ -63,6 +78,6 @@ public class CarSearchParamsBuilder {
 	}
 
 	public boolean areRequiredParamsFilled() {
-		return Strings.isNotEmpty(mOrigin) && mStartDate != null && mEndDate != null;
+		return Strings.isNotEmpty(mOrigin) && mDateTimeBuilder != null && mDateTimeBuilder.areRequiredParamsFilled();
 	}
 }

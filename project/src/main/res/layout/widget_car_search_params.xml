@@ -29,7 +29,7 @@
                 android:padding="5dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_close_white_48dp"
-                android:tint="@color/cars_actionbar_text_color" />
+                android:tint="@color/cars_actionbar_text_color"/>
 
             <TextView
                 android:id="@+id/title"
@@ -41,7 +41,7 @@
                 android:text="@string/dates_and_location"
                 android:textColor="@color/cars_actionbar_text_color"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <ImageButton
                 android:id="@+id/search_btn"
@@ -52,7 +52,7 @@
                 android:padding="5dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_done_white_48dp"
-                android:tint="@color/cars_actionbar_text_color" />
+                android:tint="@color/cars_actionbar_text_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,9 +79,9 @@
                 android:completionThreshold="1"
                 android:dropDownAnchor="@+id/location_container"
                 android:hint="@string/pick_up_location"
-                android:imeOptions="actionDone" />
+                android:imeOptions="actionDone"/>
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/dropoff_location"
                 style="@style/CarAutocomplete"
                 android:layout_width="0dp"
@@ -92,7 +92,8 @@
                 android:gravity="center_vertical"
                 android:hint="@string/same_as_pick_up"
                 android:textColor="@color/cars_dropdown_disabled_stroke"
-                android:textColorHint="@color/cars_dropdown_disabled_stroke" />
+                android:textColorHint="@color/cars_dropdown_disabled_stroke"
+                app:textStyle="normal"/>
         </LinearLayout>
 
         <ToggleButton
@@ -111,165 +112,13 @@
             android:textColor="@drawable/cars_text_selector"
             android:textOff="@string/select_pickup_and_dropoff_dates"
             android:textOn="@string/select_pickup_and_dropoff_dates"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <include
         android:id="@+id/calendar_container"
+        layout="@layout/widget_car_date_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <View
-            android:id="@+id/calendar_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_above="@+id/calendar"
-            android:background="@drawable/drop_shadow" />
-
-        <com.mobiata.android.time.widget.CalendarPicker
-            android:id="@+id/calendar"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_above="@+id/slider_container"
-            android:background="@android:color/white"
-            android:paddingBottom="8dp"
-            app:calendarBaseColor="@color/cars_valid_days_calendar"
-            app:calendarDaySelectionFillColor="@android:color/white"
-            app:calendarHeaderTextColor="@color/cars_primary_color"
-            app:calendarHeaderTextSize="16dp"
-            app:calendarHighlightColor="@color/cars_secondary_color"
-            app:calendarHighlightInverseColor="@color/cars_secondary_color"
-            app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
-            app:calendarLayout="@layout/cars_calendar"
-            app:calendarSecondaryColor="@color/cars_valid_days_calendar"
-            app:calendarTodayColor="@color/cars_valid_days_calendar"
-            app:calendarWeekSelectionColor="@color/cars_primary_color" />
-
-        <View
-            android:id="@+id/slider_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_above="@+id/slider_container"
-            android:background="@drawable/drop_shadow" />
-
-        <RelativeLayout
-            android:id="@+id/slider_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/cars_primary_color"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp">
-
-            <TextView
-                android:id="@+id/pickup_time_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/pickup_time_seek_bar"
-                android:layout_alignParentLeft="true"
-                android:layout_alignTop="@+id/pickup_time_seek_bar"
-                android:layout_toLeftOf="@+id/pickup_time_seek_bar"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="4dp"
-                android:text="@string/pick_up_time_label"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp" />
-
-            <com.expedia.bookings.widget.CarsTimeSlider
-                android:id="@+id/pickup_time_seek_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/dropoff_time_seek_bar"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="4dp"
-                android:max="47"
-                android:maxHeight="6dp"
-                android:progressDrawable="@drawable/cars_slider_progress" />
-
-            <TextView
-                android:id="@+id/dropoff_time_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/dropoff_time_seek_bar"
-                android:layout_alignParentLeft="true"
-                android:layout_alignTop="@+id/dropoff_time_seek_bar"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="4dp"
-                android:text="@string/drop_off_time_label"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp" />
-
-            <com.expedia.bookings.widget.CarsTimeSlider
-                android:id="@+id/dropoff_time_seek_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pickup_time_seek_bar"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@+id/dropoff_time_title"
-                android:max="47"
-                android:maxHeight="6dp"
-                android:progressDrawable="@drawable/cars_slider_progress" />
-
-        </RelativeLayout>
-
-        <com.expedia.bookings.widget.LinearLayout
-            android:id="@+id/pickup_time_popup_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="1dp"
-            android:visibility="gone">
-
-            <com.expedia.bookings.widget.LinearLayout
-                android:id="@+id/pickup_time_popup_text_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/pickup_time_popup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/pop_up_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="pick up time"
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp" />
-            </com.expedia.bookings.widget.LinearLayout>
-
-            <ImageView
-                android:id="@+id/pickup_time_popup_tail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:layout_marginRight="13dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/toolbar_arrow"
-                android:tint="@color/cars_tooltip_color" />
-
-        </com.expedia.bookings.widget.LinearLayout>
-    </RelativeLayout>
+        android:layout_height="wrap_content"/>
 
 </com.expedia.bookings.widget.CarSearchParamsWidget>
