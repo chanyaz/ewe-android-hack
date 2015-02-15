@@ -7,6 +7,12 @@
 
     <include
         android:id="@+id/search_params_widget"
-        layout="@layout/widget_lx_search_params" />
+        layout="@layout/widget_lx_search_params"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/search_list_presenter"
+        layout="@layout/lx_result_presenter"
+        android:visibility="gone" />
 
 </com.expedia.bookings.presenter.lx.LXPresenter>

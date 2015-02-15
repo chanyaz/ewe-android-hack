@@ -36,7 +36,7 @@ public class LXServices {
 		lxApi = adapter.create(LXApi.class);
 	}
 
-	public Subscription lxSearch(LXSearchParams searchParams, Observer observer) {
+	public Subscription lxSearch(LXSearchParams searchParams, Observer<List<LXActivity>> observer) {
 		return lxApi
 			.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
 			.observeOn(this.observeOn)

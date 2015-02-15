@@ -4,7 +4,7 @@ public class LXActivity {
 
 	public String id;
 	public String title;
-	public String imageURL;
+	public String imageUrl;
 	public String fromPrice;
 	public String duration;
 	public String fromPriceTicketType;
