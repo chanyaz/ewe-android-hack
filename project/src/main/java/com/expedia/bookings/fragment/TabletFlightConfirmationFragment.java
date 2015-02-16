@@ -87,7 +87,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 				OmnitureTracking.trackAddHotelClick(getActivity());
 
 				HotelSearchParams hotelSearchParams = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
-				AirAttachUtils.launchTabletResultsFromItinCrossSell(getActivity(), hotelSearchParams);
+				AirAttachUtils.deepLinkHotels(getActivity(), hotelSearchParams);
 			}
 		});
 
