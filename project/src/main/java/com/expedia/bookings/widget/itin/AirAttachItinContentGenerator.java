@@ -26,8 +26,7 @@ public class AirAttachItinContentGenerator extends ItinButtonContentGenerator<It
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AirAttachUtils.launchTabletResultsFromItinCrossSell(v.getContext(), getItinCardData().getSearchParams(),
-					getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode);
+				AirAttachUtils.launchTabletResultsFromItinCrossSell(v.getContext(), getItinCardData().getSearchParams());
 				OmnitureTracking.trackAirAttachItinCrossSell(v.getContext());
 			}
 		};
