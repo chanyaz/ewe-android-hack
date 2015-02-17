@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
@@ -35,29 +36,28 @@ import rx.functions.Func2;
 public class CarServices {
 
 	private CarApi mApi;
-	private Gson mGson;
-	private OkHttpClient mClient;
 
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
-	public CarServices(String endpoint, OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn) {
+	public CarServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
+		Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 		CookieManager cookieManager = new CookieManager();
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-		mClient = okHttpClient;
-		mClient.setCookieHandler(cookieManager);
+		okHttpClient.setCookieHandler(cookieManager);
 
-		mGson = new GsonBuilder()
+		Gson gson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
 			.create();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
+			.setRequestInterceptor(requestInterceptor)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
-			.setConverter(new GsonConverter(mGson))
-			.setClient(new OkClient(mClient))
+			.setConverter(new GsonConverter(gson))
+			.setClient(new OkClient(okHttpClient))
 			.build();
 
 		mApi = adapter.create(CarApi.class);
@@ -112,7 +112,8 @@ public class CarServices {
 		}
 	};
 
-	public Subscription createTrip(String productKey, String expectedTotalFare, Observer<CarCreateTripResponse> observer) {
+	public Subscription createTrip(String productKey, String expectedTotalFare,
+		Observer<CarCreateTripResponse> observer) {
 		return mApi.createTrip(productKey, expectedTotalFare)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)

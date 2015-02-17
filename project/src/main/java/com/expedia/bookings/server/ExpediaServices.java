@@ -38,7 +38,6 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ChildTraveler;
@@ -96,6 +95,8 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Strings;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -844,8 +845,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
 
 		query.add(new BasicNameValuePair("qualifyAirAttach", Boolean.toString(qualifyAirAttach)));
-		// Source type
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
+		query.add(new BasicNameValuePair("sourceType", ServicesUtil.generateSourceType()));
 
 		return query;
 	}
@@ -1264,22 +1264,18 @@ public class ExpediaServices implements DownloadListener {
 
 	private void addCommonParams(List<BasicNameValuePair> query) {
 		// Source type
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
+		query.add(new BasicNameValuePair("sourceType", ServicesUtil.generateSourceType()));
 
-		// Point of sale information
-		int langId = PointOfSale.getPointOfSale().getDualLanguageId();
-		if (langId != 0) {
-			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
+		String langId = ServicesUtil.generateLangId();
+		if (Strings.isNotEmpty(langId)) {
+			query.add(new BasicNameValuePair("langid", langId));
 		}
 
-		if (!AndroidUtils.isRelease(mContext)
-			&& EndPoint.getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
-			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSale()
-				.getSiteId())));
+		if (EndPoint.requestRequiresSiteId(mContext)) {
+			query.add(new BasicNameValuePair("siteid", ServicesUtil.generateSiteId()));
 		}
 
-		// Client id (see https://confluence/display/POS/ewe+trips+api#ewetripsapi-apiclients)
-		query.add(new BasicNameValuePair("clientid", getClientId(mContext)));
+		query.add(new BasicNameValuePair("clientid", ServicesUtil.generateClientId(mContext)));
 	}
 
 	private void addCommonFlightStatsParams(List<BasicNameValuePair> query) {
@@ -1953,14 +1949,6 @@ public class ExpediaServices implements DownloadListener {
 			return false;
 		}
 		return doGet(url, params);
-	}
-
-	private static String getClientId(Context mContext) {
-
-		String clientName = ProductFlavorFeatureConfiguration.getInstance().getClientShortName();
-		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "tablet" : "phone";
-
-		return clientName + ".app.android." + deviceType + ":" + AndroidUtils.getAppVersion(mContext);
 	}
 
 }

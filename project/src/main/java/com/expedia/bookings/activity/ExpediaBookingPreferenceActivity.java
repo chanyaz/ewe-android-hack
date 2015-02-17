@@ -133,7 +133,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		super.onPause();
 		OmnitureTracking.onPause();
 		if (mApiChanged) {
-			CarDb.injectEndpoint(this);
+			CarDb.inject(this);
 			mApiChanged = false;
 		}
 	}

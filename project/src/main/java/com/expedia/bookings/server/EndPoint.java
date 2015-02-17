@@ -149,4 +149,9 @@ public enum EndPoint {
 		}
 	}
 
+	public static boolean requestRequiresSiteId(Context context) {
+		return !AndroidUtils.isRelease(context)
+			&& EndPoint.getEndPoint(context) == EndPoint.PUBLIC_INTEGRATION;
+	}
+
 }

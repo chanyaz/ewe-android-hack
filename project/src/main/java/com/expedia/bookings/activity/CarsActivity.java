@@ -18,7 +18,7 @@ public class CarsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		CarDb.injectEndpoint(this);
+		CarDb.inject(this);
 
 		setContentView(R.layout.activity_cars);
 		ButterKnife.inject(this);
