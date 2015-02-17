@@ -12,8 +12,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
@@ -40,6 +42,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
@@ -120,10 +123,17 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		ab.setCustomView(R.layout.actionbar_tablet_title);
 
 		mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
-		mAbText1.setText(R.string.Explore);
+		mAbText1.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_ab_launch_text1_base));
 		mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
-		mAbText2.setText(R.string.Destination);
+		mAbText2.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_ab_launch_text2_pin_detail));
 		mAbText2.setAlpha(0f);
+
+		// For Travelocity : Design needs to bring the search box up and place it below the Action Bar.
+		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSearchBarC.getLayoutParams();
+			params.topMargin = LayoutUtils.getActionBarSize(getActivity()) + getResources().getDimensionPixelSize(R.dimen.tablet_launch_search_bar_top_margin);
+			mSearchBarC.setLayoutParams(params);
+		}
 
 		// Fit width
 		Matrix viewport = new Matrix();

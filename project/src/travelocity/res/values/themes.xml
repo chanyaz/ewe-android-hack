@@ -83,6 +83,11 @@
 
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
+        <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size_travelocity</item>
+        <item name="skin_tablet_ab_launch_text1_base">@string/merchant_name</item>
+        <item name="skin_tablet_ab_launch_text2_pin_detail">@string/merchant_name</item>
+        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_tvly</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -151,7 +156,7 @@
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Travelocity">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_travelocity_action_bar_logo_dark</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_travelocity_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
 
         <!-- PopupMenu -->
@@ -199,6 +204,12 @@
 
     <style name="Theme.Phone.WebView">
         <item name="android:logo" tools:targetApi="11">@drawable/icon_home_tvly</item>
+    </style>
+
+    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
+        <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_tvly</item>
     </style>
 
 </resources>

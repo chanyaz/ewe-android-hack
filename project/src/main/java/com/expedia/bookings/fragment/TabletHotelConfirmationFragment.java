@@ -30,9 +30,9 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 public class TabletHotelConfirmationFragment extends TabletConfirmationFragment {
 
@@ -71,11 +71,11 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		Media media = HotelUtils.getRoomMedia(Db.getTripBucket().getHotel());
 		if (media != null) {
 			new PicassoHelper.Builder(getActivity())
-				.setPlaceholder(R.drawable.bg_itin_placeholder).setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
+				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)).setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable
-					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+					.setBitmap(BitmapFactory.decodeResource(getResources(), Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)));
 		}
 
 		setLob(LineOfBusiness.HOTELS);

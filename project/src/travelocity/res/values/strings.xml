@@ -87,4 +87,6 @@
     <string name="sorry_rooms_sold_out_tvly">Sorry, all rooms are sold out on Travelocity.</string>
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total Due to Travelocity Today:</string>
 </resources>

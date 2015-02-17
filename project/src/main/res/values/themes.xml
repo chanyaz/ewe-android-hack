@@ -211,6 +211,11 @@
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
         <item name="skin_actionMenuDoneButtonText">@string/button_confirmation_done</item>
+        <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
+        <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
+        <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
+        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

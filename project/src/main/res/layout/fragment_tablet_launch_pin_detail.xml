@@ -55,8 +55,8 @@
             android:paddingTop="11dp"
             android:paddingBottom="13dp"
             android:includeFontPadding="false"
-            android:background="@drawable/btn_tablet_launch_screen"
-            android:textColor="#3e69b3"
+            android:background="?attr/skin_tablet_pin_detail_button_background"
+            android:textColor="?attr/skin_tablet_pin_detail_button_text_color"
             android:textSize="16sp"
             android:textStyle="bold"
             android:text="@string/explore_now"/>
@@ -81,6 +81,6 @@
         android:layout_toLeftOf="@id/center"
         android:layout_marginRight="130dp"
         android:padding="@dimen/launch_pin_detail_padding"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"/>
 
 </com.expedia.bookings.widget.ContentClickableRelativeLayout>

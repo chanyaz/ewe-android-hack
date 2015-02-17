@@ -164,8 +164,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
 		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
 
-		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-		addExtraRow(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
+		String totalDueToOurBrandToday = getResources().getString(R.string.total_due_to_our_brand_today);
+		addExtraRow(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
 	}
 
 	private static final int LANDSCAPE_EXTRAS_LIMIT = 3;
@@ -179,7 +179,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			addExtraRow(HotelUtils.getRoomCancellationText(getActivity(), rate).toString(), null, true);
 		}
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
-			addExtraRow(getResources().getString(R.string.best_price_guarantee), null, true);
+			addExtraRow(getResources().getString(Ui.obtainThemeResID(getActivity(),R.attr.skin_bestPriceGuaranteeString)), null, true);
 		}
 	}
 
