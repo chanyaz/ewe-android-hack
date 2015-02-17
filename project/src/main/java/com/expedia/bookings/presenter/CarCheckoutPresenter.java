@@ -18,7 +18,7 @@ import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
-public class CarCheckoutPresenter extends ViewPresenter {
+public class CarCheckoutPresenter extends Presenter {
 	public CarCheckoutPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}

@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,30 +13,55 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import com.expedia.bookings.animation.LooseLipsSinkShipsInterpolator;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
+
+import butterknife.ButterKnife;
 
 /**
  * A FrameLayoutPresenter that maintains child presenters and animates
  * transitions between them.
  */
 
-public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
+public class Presenter extends FrameLayout implements IPresenter<Object> {
+
+	private Stack<Object> backstack;
 
 	// Transition vars
 	private Map<String, Map<String, Transition>> transitions = new HashMap<>();
-	private String mCurrentState;
-	private String mDestinationState;
+	private String currentState;
+	private String destinationState;
 
 	// Animation vars
-	private boolean mAcceptAnimationUpdates = false;
-	private float mLastAnimPercentage;
-	private int mFrames;
-	private float mAvgFrameDuration;
+	private boolean acceptAnimationUpdates = false;
+	private float lastAnimPercentage;
+	private int frames;
+	private float avgFrameDuration;
 
 	// View lifecycle
 
-	public TreePresenter(Context context, AttributeSet attrs) {
+	public Presenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		initBackStack();
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+		ButterKnife.inject(this);
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
 	}
 
 	// IPresenter
@@ -47,8 +73,8 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 			return false;
 		}
 
-		IPresenter childPresenter = getBackStack().pop();
-		boolean backPressHandled = childPresenter.back();
+		Object child = getBackStack().pop();
+		boolean backPressHandled = child instanceof IPresenter && ((IPresenter) child).back();
 
 		// BackPress was not handled by the child; handle it here.
 		if (!backPressHandled) {
@@ -63,9 +89,21 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 
 		// BackPress has been handled by the child.
 		else {
-			getBackStack().push(childPresenter);
+			getBackStack().push(child);
 			return true;
 		}
+	}
+
+	// Backstack
+
+	@Override
+	public void initBackStack() {
+		backstack = new Stack<>();
+	}
+
+	@Override
+	public Stack<Object> getBackStack() {
+		return backstack;
 	}
 
 	@Override
@@ -75,27 +113,34 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 		}
 	}
 
-	@Override
-	public void show(IPresenter newState) {
-		if (mCurrentState == null) {
-			mCurrentState = newState.getClass().getName();
+	public void show(Object newState) {
+		show(newState, false);
+	}
+
+	public void show(Object newState, boolean clearBackStack) {
+		Log.d("Presenter", "state: " + newState.getClass().getName());
+		if (currentState == null) {
+			currentState = newState.getClass().getName();
 			getBackStack().push(newState);
 			return;
 		}
-		if (mCurrentState.equals(newState.getClass().getName())) {
+		if (currentState.equals(newState.getClass().getName())) {
 			return;
+		}
+
+		if (clearBackStack) {
+			clearBackStack();
 		}
 		getBackStack().push(newState);
 		getStateAnimator(newState, true).start();
 	}
 
-	@Override
-	public void hide(IPresenter undoState) {
+	public void hide(Object undoState) {
 		getStateAnimator(undoState, false).start();
 	}
 
 	public String getCurrentState() {
-		return mCurrentState;
+		return currentState;
 	}
 
 	// Transition
@@ -149,30 +194,34 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 		transitions.get(transition.state1).put(transition.state2, transition);
 	}
 
+	public Map<String, Map<String, Transition>> getTransitions() {
+		return transitions;
+	}
+
 	// Animations – adapted from StateManager
 
 	private void resetAnimStats() {
-		mLastAnimPercentage = 0;
-		mFrames = 0;
-		mAvgFrameDuration = 0;
+		lastAnimPercentage = 0;
+		frames = 0;
+		avgFrameDuration = 0;
 	}
 
 	private void logAnimStats() {
-		float avgFramePercentageChange = mLastAnimPercentage / mFrames;
-		float animFrameRate = 1000f / mAvgFrameDuration;
-		Log.d("StateManager.AnimationStats (" + mCurrentState + "," + mDestinationState + ") FrameRate:" + animFrameRate
-			+ "f/s. TotalFrames:" + mFrames + ". AverageFrameDuration:" + mAvgFrameDuration
+		float avgFramePercentageChange = lastAnimPercentage / frames;
+		float animFrameRate = 1000f / avgFrameDuration;
+		Log.d("StateManager.AnimationStats (" + currentState + "," + destinationState + ") FrameRate:" + animFrameRate
+			+ "f/s. TotalFrames:" + frames + ". AverageFrameDuration:" + avgFrameDuration
 			+ "ms. AverageFramePercentageChange:" + avgFramePercentageChange + ". LastPercentageFromAnimator:"
-			+ mLastAnimPercentage);
+			+ lastAnimPercentage);
 	}
 
-	public ValueAnimator getStateAnimator(final IPresenter presenter, boolean forward) {
+	public ValueAnimator getStateAnimator(final Object state, boolean forward) {
 		final boolean goForward = forward;
-		final Transition transition = getTransition(mCurrentState, presenter.getClass().getName());
+		final Transition transition = getTransition(currentState, state.getClass().getName());
 
 		if (transition == null) {
 			throw new RuntimeException("No Transition defined for "
-				+ mCurrentState + " to " + presenter.getClass().getName());
+				+ currentState + " to " + state.getClass().getName());
 		}
 
 		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
@@ -190,25 +239,25 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
-				if (mAcceptAnimationUpdates) {
+				if (acceptAnimationUpdates) {
 					float totalDuration = arg0.getCurrentPlayTime() / wrappedInterpolator.getLastInput();
 					long remainingDuration = (long) (totalDuration - arg0.getCurrentPlayTime());
 
 					//Our animation percentage
-					mLastAnimPercentage = (Float) arg0.getAnimatedValue();
+					lastAnimPercentage = (Float) arg0.getAnimatedValue();
 
 					//Update our stats
-					mFrames++;
-					mAvgFrameDuration = ((float) arg0.getCurrentPlayTime()) / mFrames;
+					frames++;
+					avgFrameDuration = ((float) arg0.getCurrentPlayTime()) / frames;
 
-					if (remainingDuration < mAvgFrameDuration || remainingDuration < 0) {
+					if (remainingDuration < avgFrameDuration || remainingDuration < 0) {
 						//If we are nearing the final frame, and we haven't reached one of our maximum values, lets do
 						//so now, preventing some draw glitches between now and onStateFinalized.
-						mLastAnimPercentage = Math.round(mLastAnimPercentage);
-						transition.updateTransition(mLastAnimPercentage, goForward);
+						lastAnimPercentage = Math.round(lastAnimPercentage);
+						transition.updateTransition(lastAnimPercentage, goForward);
 					}
 					else {
-						transition.updateTransition(mLastAnimPercentage, goForward);
+						transition.updateTransition(lastAnimPercentage, goForward);
 					}
 				}
 			}
@@ -218,23 +267,23 @@ public abstract class TreePresenter extends FrameLayoutPresenter<IPresenter> {
 			public void onAnimationStart(Animator arg0) {
 				transition.startTransition(goForward);
 				resetAnimStats();
-				mAcceptAnimationUpdates = true;
-				mDestinationState = presenter.getClass().getName();
+				acceptAnimationUpdates = true;
+				destinationState = state.getClass().getName();
 			}
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				mAcceptAnimationUpdates = false;
+				acceptAnimationUpdates = false;
 				logAnimStats();
 				transition.endTransition(goForward);
 				transition.finalizeTransition(goForward);
-				mCurrentState = goForward ? transition.state2 : transition.state1;
-				mDestinationState = null;
+				currentState = goForward ? transition.state2 : transition.state1;
+				destinationState = null;
 			}
 
 			@Override
 			public void onAnimationCancel(Animator arg0) {
-				mAcceptAnimationUpdates = false;
+				acceptAnimationUpdates = false;
 				logAnimStats();
 			}
 		});

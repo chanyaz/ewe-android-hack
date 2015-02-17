@@ -1,5 +1,13 @@
 package com.expedia.bookings.widget;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,8 +32,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.presenter.LeafPresenter;
-import com.expedia.bookings.presenter.TreePresenter;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
@@ -36,19 +43,11 @@ import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarSearchParamsWidget extends TreePresenter implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
+public class CarSearchParamsWidget extends Presenter implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
 	private static final String TOOLTIP_PATTERN = "hh:mm aa";
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
@@ -354,13 +353,13 @@ public class CarSearchParamsWidget extends TreePresenter implements EditText.OnE
 	* States and stuff
 	*/
 
-	public static class CarParamsDefault extends LeafPresenter {
+	public static class CarParamsDefault {
 	}
 
-	public static class CarParamsCalendar extends LeafPresenter {
+	public static class CarParamsCalendar {
 	}
 
-	private TreePresenter.Transition mOneToTwo = new TreePresenter.Transition(CarParamsDefault.class.getName(), CarParamsCalendar.class.getName()) {
+	private Presenter.Transition mOneToTwo = new Presenter.Transition(CarParamsDefault.class.getName(), CarParamsCalendar.class.getName()) {
 		private int calendarHeight;
 
 		@Override
