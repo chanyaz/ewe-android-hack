@@ -28,7 +28,17 @@
     <string name="error_missing_start_date_param">Thiếu ngày khởi hành</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">Thiếu ngày kết thúc</string>
-
+    <!-- Temporary String for general error message -->
+    <string name="error_car">Đã có lỗi. Kiểm tra lại dữ liệu tìm kiếm.</string>
+    <!-- Checkout -->
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Bàn &amp; xe trong ga</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Không giới hạn dặm</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">Đã đặt thành công! Số lịch trình: %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Thiếu thông tin.</string>
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Nhập điểm đến của quý vị</string>
@@ -137,6 +147,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Rất tiếc, không có khách sạn \ntối nay.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Rất tiếc, hiện không có \nchuyến bay.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">Rất tiếc, chúng tôi không thể tìm chuyến bay quá %1$s ngày tính từ hôm nay.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Đã xóa</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +324,8 @@
     <string name="unable_to_log_into_facebook">Không thể đăng nhập Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vui lòng tạo một tài khoản mới dùng chung cho tất cả các trang web Expedia.\nVui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?\&apos; dưới đây.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mật khẩu Expedia</string>
     <!-- Link accounts -->
@@ -651,71 +665,6 @@
     <string name="add_hotel_fallback">Thêm khách sạn tại điểm đến của quý vị</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Thêm khách sạn</string>
-
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Tham vấn một Local Expert</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Hãy tận hưởng %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Chuyên viên hỗ trợ Local Expert chỉ cách quý vị\nmột cuộc điện thoại cho mọi nhu cầu tham vấn suốt chuyến đi.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Hãy gọi họ</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Ngắm</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">những sinh vật tuyệt vời</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Tham quan</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">những công viên giải trí tuyệt nhất</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Tìm</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">bãi biển tốt nhất</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Bay</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">trực thăng</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Nhảy ùm vào và đi</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">lặn biển</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Thử vận may tại</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">những sòng bạc đẳng cấp thế giới</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Lái</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">Ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Hoạt động giải trí cho</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">cả gia đình</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Thưởng thức</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">những món ăn tuyệt vời</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Tìm</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">những trò giải trí vui nhất</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Tìm đến với</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">âm nhạc bản địa</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1399,6 +1348,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Số thẻ tín dụng</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Ngày hết hạn</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1406,8 @@
     <string name="middle_name">Tên đệm</string>
     <!-- Last name label -->
     <string name="last_name">Họ</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">Họ tên</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Ngày sinh</string>
     <!-- male -->
@@ -1918,6 +1871,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Đặt ngay</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Chọn phòng</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Đặt qua điện thoại</string>
 

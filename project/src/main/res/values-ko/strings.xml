@@ -28,7 +28,17 @@
     <string name="error_missing_start_date_param">시작일이 없습니다.</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">완료일이 없습니다.</string>
-
+    <!-- Temporary String for general error message -->
+    <string name="error_car">오류가 발생했습니다. 검색 매개변수를 확인해 주세요.</string>
+    <!-- Checkout -->
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">터미널 내 데스크 및 차량</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">무제한 마일리지</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">예약되었습니다! 일정 번호: %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">체크아웃 매개변수가 없습니다.</string>
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">목적지 입력</string>
@@ -137,6 +147,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">죄송합니다. \n오늘밤 이용 가능한 호텔이 없습니다.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">죄송합니다. \n현재 이용 가능한 항공편이 없습니다.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">죄송합니다. 오늘을 기준으로 %1$s일을 초과하는 항공편은 검색할 수 없습니다.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">삭제됨</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +324,8 @@
     <string name="unable_to_log_into_facebook">Facebook으로 로그인할 수 없습니다.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">모든 익스피디아 사이트에 사용할 새로운 계정을 만들어 주세요.\n아래의 \&apos;비밀번호를 잊으셨나요?\&apos; 링크를 이용해 비밀번호를 재설정해 주세요.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">익스피디아 비밀번호</string>
     <!-- Link accounts -->
@@ -651,71 +665,6 @@
     <string name="add_hotel_fallback">목적지의 호텔 추가</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">호텔 추가</string>
-
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Local Expert에 문의</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">하와이</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">올랜도</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">라스베이거스</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">%1$s 100배 즐기기!</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">여행 계획과 관련하여 어떤 문제든지 전화 한 통이면 쉽게\nLocal Expert의 도움을 받으실 수 있습니다.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">언제든지 전화주세요!</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">놀라운</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">자연의 세계</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">테마파크</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">해변</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">짜릿한</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">헬리콥터 탑승</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">신비한 바닷속</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">스쿠버 다이빙</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">행운 예감</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">카지노</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">럭셔리 라이드</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">페라리</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">함께하는</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">온 가족 즐길거리</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">꼭 맛봐야 하는</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">현지 음식</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">엔터테인먼트</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">매력적인</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">현지 음악</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1399,6 +1348,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">신용카드 번호</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVC</string>
     <!-- Expiration date label -->
     <string name="expiration_date">만료일</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1406,8 @@
     <string name="middle_name">중간 이름(영문)</string>
     <!-- Last name label -->
     <string name="last_name">성(영문)</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">이름 및 성</string>
     <!-- date of birth label -->
     <string name="date_of_birth">생년월일</string>
     <!-- male -->
@@ -1918,6 +1871,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">지금 예약</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">객실 선택</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">전화로 예약</string>
 

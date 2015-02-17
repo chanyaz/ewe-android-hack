@@ -28,7 +28,17 @@
     <string name="error_missing_start_date_param">缺少开始日期</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">缺少结束日期</string>
-
+    <!-- Temporary String for general error message -->
+    <string name="error_car">出现错误。请检查搜索参数。</string>
+    <!-- Checkout -->
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">航站楼的服务台和车辆</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">不限里程</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">预订成功！行程编号：%1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">缺少付款参数。</string>
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">输入您的目的地</string>
@@ -137,6 +147,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">很抱歉，今晚没有\n可供预订的酒店。</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">很抱歉，未找到\n有余票的航班</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">很抱歉，但是我们无法搜索距今天超过 %1$s 天的航班。</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">已删除</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +324,8 @@
     <string name="unable_to_log_into_facebook">无法登录到 Facebook。</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">登录失败。如果您的电子邮件和密码是正确的，请确认应用的国家/地区设置是否正确。</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">我们需要您为所有 Expedia 网站创建新的国际通用登录信息。\n请使用下面的“忘记密码？”链接重置密码。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 密码</string>
     <!-- Link accounts -->
@@ -651,71 +665,6 @@
     <string name="add_hotel_fallback">添加您的目的地的酒店</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">添加酒店</string>
-
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">与本地服务专家通话</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">夏威夷</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">奥兰多</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">拉斯维加斯</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">享受 %1$s 之旅</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">致电您的本地服务专家，他们可帮助您\n轻松应对旅行中遇到的各种问题。</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">现在致电</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">奇异的</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">海洋生物</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">游览最棒的</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">主题公园</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">漫步迷人的</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">海滩</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">乘坐观光</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">直升飞机</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">投入大海</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">体验水肺潜水</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">世界一流</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">的赌场</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">试驾</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">法拉利</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">家庭</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">活动</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">品尝</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">美食</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">寻找精彩</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">娱乐项目</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">欣赏本地</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">音乐</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1249,7 +1198,7 @@
     <!-- Checkout menu item -->
     <string name="menu_checkout">付款</string>
     <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">最优价格保证</string>
+    <string name="best_price_guarantee">安心价格保证</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;前&lt;b&gt;免费取消预订&lt;/b&gt;</string>
     <!-- Resort fees -->
@@ -1399,6 +1348,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">信用卡号码</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">到期日期</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1406,8 @@
     <string name="middle_name">中间名</string>
     <!-- Last name label -->
     <string name="last_name">姓</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">名字和姓氏</string>
     <!-- date of birth label -->
     <string name="date_of_birth">出生日期</string>
     <!-- male -->
@@ -1918,6 +1871,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">立即预订</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">选择房间</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">电话预订</string>
 
