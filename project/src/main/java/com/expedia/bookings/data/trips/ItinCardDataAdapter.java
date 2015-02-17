@@ -455,8 +455,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		return data.hasSummaryData() && data.hasDetailData() && data.getStartDate() != null;
 	}
 
-	/*
-	SUMMARY
+	/**
+	 * We add attach cross-sell message cards to the timeline after certain flights.
+	 * All one-way flights should be followed by an attach card that links to a one-night hotel search in the destination city.
+	 * Multi-leg trips should have attach cards between flight legs for the intervening dates.
+	 * We do not show these cards when there is already a hotel in the timeline on the same day the flight lands.
 	 */
 
 	private void addAttachData(List<ItinCardData> itinCardDatas) {
@@ -508,19 +511,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			// Ignore last leg flights for a multi-leg trip ONLY IF
-			// the origin and final destination airports are the same.
 			FlightLeg itinFlightLeg = ((ItinCardDataFlight) data).getFlightLeg();
 			Waypoint itinDestination = itinFlightLeg.getLastWaypoint();
 			TripFlight tripFlight = (TripFlight) data.getTripComponent();
 			final int legCount = tripFlight.getFlightTrip().getLegCount();
 
-			if (legCount > 1) {
-				Waypoint tripOrigin = tripFlight.getFlightTrip().getLeg(0).getFirstWaypoint();
-				if (((ItinCardDataFlight) data).getLegNumber() == legCount - 1 &&
-					itinDestination.mAirportCode.equals(tripOrigin.mAirportCode)) {
-					continue;
-				}
+			// Ignore last leg flights for a multi-leg trip
+			if (legCount > 1 && ((ItinCardDataFlight) data).getLegNumber() == legCount - 1) {
+				continue;
 			}
 
 			boolean insertButtonCard = false;
@@ -536,33 +534,41 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 					continue;
 				}
 
+				// Always add an attach button for one-way flights with no hotel
+				if (legCount == 1 && !(nextType == Type.HOTEL)) {
+					insertButtonCard = true;
+				}
+
 				// If the next itin is a flight
-				if (nextType == Type.FLIGHT) {
+				else if (nextType == Type.FLIGHT) {
 					nextFlightLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
 					Waypoint waypointTwo = nextFlightLeg.getFirstWaypoint();
 					DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
 
-					// Check if there is more than 1 day between the two flights
+					// Make sure there is more than 1 day between the two flights
 					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
+						insertButtonCard = true;
 
-						// Check if the next flight departs from the same airport the current flight arrives at
-						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode)) {
-							insertButtonCard = true;
-						}
-
-						// There is a flight 1+ days later from a different airport
-						else {
-							insertButtonCard = true;
+						// If the flights are not part of the same trip,
+						// we won't use the next flight to generate search params
+						if (!itinDestination.mAirportCode.equals(waypointTwo.mAirportCode) ||
+							!(tripFlight.getParentTrip() == nextData.getTripComponent().getParentTrip())) {
 							nextFlightLeg = null;
 						}
 					}
 				}
+
 				// If the next itin is a hotel
 				else if (nextType == Type.HOTEL) {
 					DateTime checkInDate = nextData.getStartDate();
 					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0) {
 						insertButtonCard = true;
 					}
+				}
+
+				// If the next card in the timeline is neither a flight nor a hotel, show attach
+				else {
+					insertButtonCard = true;
 				}
 			}
 			// The flight is the last itin

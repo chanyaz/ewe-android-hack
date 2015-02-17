@@ -1159,6 +1159,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	};
 
 	private boolean hasResetError(SignInResponse response) {
+		if (response == null) {
+			return false;
+		}
 		for (ServerError error : response.getErrors()) {
 			if (error.getMessage() != null && error.getMessage().equalsIgnoreCase("AuthenticationFailedAtMTTWeb")) {
 				return true;
