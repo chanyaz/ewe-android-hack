@@ -40,7 +40,7 @@ public final class CarSearchParamsTests {
 
 	@Before
 	public void before() {
-		CarDb.injectEndpoint(playground.get());
+		CarDb.inject(playground.get());
 	}
 
 	@Test
