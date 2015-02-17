@@ -12,7 +12,7 @@
 
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
-    <string name="open_source_names">JodaTime 2.6, ActiveAndroid, OkHttp 2.2.0, Okio 1.2.0, Otto 1.3.5, Gson 2.3, Picasso 2.4.0, Retrofit 1.9.0</string>
+    <string name="open_source_names">JodaTime 2.6, ActiveAndroid, OkHttp 2.2.0, Okio 1.2.0, Otto 1.3.5, Gson 2.3, Picasso 2.4.0, Retrofit 1.9.0, FlowLayout 0.4.0</string>
 
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
