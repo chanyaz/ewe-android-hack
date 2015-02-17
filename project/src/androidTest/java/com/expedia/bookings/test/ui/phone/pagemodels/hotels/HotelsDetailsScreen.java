@@ -88,4 +88,8 @@ public class HotelsDetailsScreen extends ScreenActions {
 		(vipImageView()).perform(click());
 	}
 
+	public static void clickBookNowPayLater() {
+		onView(withId(R.id.pay_later_info_text)).perform(click());
+	}
+
 }

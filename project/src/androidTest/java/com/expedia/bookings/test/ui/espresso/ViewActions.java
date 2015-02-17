@@ -341,7 +341,29 @@ public final class ViewActions {
 		};
 	}
 
-	//View Action to type multibyte characters
+
+	public static ViewAction clickETPRoomItem(final int position) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				AdapterView av = (AdapterView) view;
+				AdapterView.OnItemClickListener listener = av.getOnItemClickListener();
+				listener.onItemClick(av, null, position, position);
+			}
+
+			@Override
+			public String getDescription() {
+
+				return "Click etp room item";
+			}
+		};
+	}
+//View Action to type multibyte characters
 
 	public static ViewAction setText(final String multiByte) {
 		return new ViewAction() {
