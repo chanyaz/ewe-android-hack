@@ -30,6 +30,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -319,7 +320,7 @@ public class WebViewFragment extends DialogFragment {
 		// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
 		// default user-agent string contains "Android" which tips off the redirect to mobile.
 		if (!mAllowUseableNetRedirects) {
-			String userAgentString = ExpediaServices.getUserAgentString(getActivity());
+			String userAgentString = ServicesUtil.generateUserAgentString(getActivity());
 			mWebView.getSettings().setUserAgentString(userAgentString);
 		}
 

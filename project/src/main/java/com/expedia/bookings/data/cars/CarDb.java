@@ -25,6 +25,7 @@ public final class CarDb {
 		RequestInterceptor requestInterceptor = new RequestInterceptor() {
 			@Override
 			public void intercept(RequestFacade request) {
+				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString(context));
 				request.addEncodedQueryParam("clientid", ServicesUtil.generateClientId(context));
 				request.addEncodedQueryParam("sourceType", ServicesUtil.generateSourceType());
 
