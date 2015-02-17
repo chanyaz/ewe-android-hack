@@ -197,6 +197,8 @@
     <color name="price_change_default">#FFFFFF</color>
     <color name="price_change_air_attach">#fd8126</color>
 
+    <color name="air_attach_expiration_text_color">#9e9d9d</color>
+
     <color name="tablet_book_button_text_color">#FFDB4C</color>
     <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
 

@@ -1527,6 +1527,8 @@
     <string name="air_attach_expires">Offer expires in</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d days</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Offer expires today</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Add Hotel</string>
     <!-- Air attach add hotel button subtitle -->
