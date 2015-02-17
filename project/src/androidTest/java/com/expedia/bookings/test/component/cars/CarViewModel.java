@@ -94,6 +94,10 @@ public final class CarViewModel {
 		carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
+	public static void clickDriverInfo() {
+		onView(withId(R.id.driver_info_card_view)).perform(click());
+	}
+
 	// Details
 
 	public static ViewInteraction carOfferList() {
@@ -144,7 +148,7 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction checkoutDataEnterDone() {
-		return onView(withId(R.id.edit_done));
+		return onView(withId(R.id.menu_done));
 	}
 
 	public static void pressDone() {

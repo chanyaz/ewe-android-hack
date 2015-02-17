@@ -6,11 +6,7 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_menu_search_mtrl_alpha"
         app:showAsAction="always"
+        android:title="@string/search"
         />
-
-    <item
-        android:id="@+id/menu_overflow"
-        android:showAsAction="collapseActionView"
-        android:title="Overflow"/>
 
 </menu>

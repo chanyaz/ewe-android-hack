@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -62,6 +63,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	@InjectView(R.id.month)
 	MonthView monthView;
+
+	@InjectView(R.id.slider_container)
+	ViewGroup sliderContainer;
 
 	@InjectView(R.id.pickup_time_seek_bar)
 	CarsTimeSlider pickupTimeSeekBar;
@@ -230,10 +234,8 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		popupLabel.setText(subtitle);
 
 		Rect thumbRect = seekBar.getThumb().getBounds();
-		int[] location = new int[2];
-		seekBar.getLocationOnScreen(location);
 		final int x = thumbRect.centerX() + seekBar.getLeft();
-		final int y = location[1] - ((CarsTimeSlider) seekBar).getTooltipOffset();
+		final int y = sliderContainer.getTop() + seekBar.getTop() - thumbRect.height()/2;
 
 		pickupTimePopupContainer.setVisibility(View.VISIBLE);
 		ViewTreeObserver vto = pickupTimePopupContainer.getViewTreeObserver();

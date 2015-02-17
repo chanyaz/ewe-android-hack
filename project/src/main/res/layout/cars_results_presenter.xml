@@ -4,25 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.expedia.bookings.widget.CarCategoryListWidget
-        android:id="@+id/categories"
-        android:layout_width="match_parent"
-        android:paddingBottom="?attr/actionBarSize"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/category_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.expedia.bookings.widget.CarCategoryListWidget>
-
     <com.expedia.bookings.widget.CarCategoryDetailsWidget
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eaeaea"
-        android:paddingBottom="?attr/actionBarSize"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <FrameLayout
@@ -32,7 +19,7 @@
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
             <LinearLayout
@@ -114,6 +101,18 @@
 
     </com.expedia.bookings.widget.CarCategoryDetailsWidget>
 
+    <com.expedia.bookings.widget.CarCategoryListWidget
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.expedia.bookings.widget.CarCategoryListWidget>
+
     <ProgressBar
         android:id="@+id/loading"
         style="@android:style/Widget.Holo.Light.ProgressBar.Large"
@@ -137,12 +136,37 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize" />
 
-    <android.support.v7.widget.Toolbar
+    <FrameLayout
         android:id="@+id/sort_toolbar"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:background="@android:color/white"
-        android:minHeight="?attr/actionBarSize" />
+        android:background="#D9FFFFFF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="horizontal"
+        android:layout_height="46dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="left"
+            android:textSize="16dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/text_black"
+            android:drawableLeft="@drawable/promo"
+            android:text="@string/cars_promo_code"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:gravity="right"
+            android:drawablePadding="10dp"
+            android:textColor="@color/text_black"
+            android:layout_gravity="right|center_vertical"
+            android:drawableLeft="@drawable/sort"
+            android:text="@string/cars_sort_filter"/>
+    </FrameLayout>
+ 
 
 </com.expedia.bookings.presenter.CarsResultsPresenter>

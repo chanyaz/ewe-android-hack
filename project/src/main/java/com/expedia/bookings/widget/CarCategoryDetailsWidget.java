@@ -1,9 +1,11 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -50,9 +52,14 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		layoutManager.scrollToPosition(0);
 
+		TypedValue typedValue = new TypedValue();
+		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
+		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
+		int toolbarSize = (int) a.getDimension(0, 44);
+
 		offerList.setLayoutManager(layoutManager);
 		offerList.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, 0, true));
+			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, 0, toolbarSize, true));
 		offerList.setHasFixedSize(true);
 
 		adapter = new CarOffersAdapter();

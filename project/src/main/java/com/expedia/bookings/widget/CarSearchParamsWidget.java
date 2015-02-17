@@ -51,12 +51,9 @@ import butterknife.OnClick;
 public class CarSearchParamsWidget extends Presenter
 	implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
-	private static final String TOOLTIP_PATTERN = "hh:mm aa";
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
 	private DateTimeFormatter df = DateTimeFormat.forPattern(TOOLTIP_DATE_PATTERN);
 	private ArrayList<Suggestion> mRecentCarsLocationsSearches;
-	// We keep a separate (but equal) recents list for routes-based searches
-	// because it's slightly different (e.g., no description)
 	private static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list.dat";
 	private static final int RECENT_MAX_SIZE = 3;
 
@@ -74,10 +71,10 @@ public class CarSearchParamsWidget extends Presenter
 	private CarSuggestionAdapter suggestionAdapter;
 
 	@InjectView(R.id.pickup_location)
-	AutoCompleteTextView pickupLocation;
+	AutoCompleteTextView pickUpLocation;
 
 	@InjectView(R.id.dropoff_location)
-	TextView dropoffLocation;
+	TextView dropOffLocation;
 
 	@InjectView(R.id.select_date)
 	ToggleButton selectDateButton;
@@ -133,26 +130,26 @@ public class CarSearchParamsWidget extends Presenter
 			.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		item.setIcon(drawableAction);
 
-		pickupLocation.setVisibility(View.VISIBLE);
-		dropoffLocation.setVisibility(View.VISIBLE);
+		pickUpLocation.setVisibility(View.VISIBLE);
+		dropOffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
 		setCalendarVisibility(View.INVISIBLE);
 
 		suggestionAdapter = new CarSuggestionAdapter(getContext(), R.layout.cars_dropdown_item);
-		pickupLocation.setAdapter(suggestionAdapter);
-		pickupLocation.setOnItemClickListener(mPickupListListener);
-		pickupLocation.setOnFocusChangeListener(mPickupClickListener);
-		pickupLocation.setOnEditorActionListener(this);
-		pickupLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+		pickUpLocation.setAdapter(suggestionAdapter);
+		pickUpLocation.setOnItemClickListener(mPickupListListener);
+		pickUpLocation.setOnFocusChangeListener(mPickupClickListener);
+		pickUpLocation.setOnEditorActionListener(this);
+		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location);
 		drawableEnabled.setColorFilter(getResources().getColor(R.color.cars_secondary_color), PorterDuff.Mode.SRC_IN);
-		pickupLocation.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
+		pickUpLocation.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 
 		Drawable drawableDisabled = getResources().getDrawable(R.drawable.location).mutate();
 		drawableDisabled
 			.setColorFilter(getResources().getColor(R.color.cars_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
-		dropoffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
+		dropOffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
 
 		loadHistory();
 
@@ -161,8 +158,8 @@ public class CarSearchParamsWidget extends Presenter
 		show(new CarParamsDefault());
 	}
 
-	private void setPickupLocation(final Suggestion suggestion) {
-		pickupLocation.setText(StrUtils.formatCityName(suggestion.fullName));
+	private void setPickUpLocation(final Suggestion suggestion) {
+		pickUpLocation.setText(StrUtils.formatCityName(suggestion.fullName));
 		searchParamsBuilder.origin(suggestion.airportCode);
 		searchParamsBuilder.originDescription(StrUtils.formatAirportName(suggestion.fullName));
 		paramsChanged();
@@ -248,7 +245,7 @@ public class CarSearchParamsWidget extends Presenter
 			Ui.hideKeyboard(CarSearchParamsWidget.this);
 			clearFocus();
 			Suggestion suggestion = suggestionAdapter.getItem(position);
-			setPickupLocation(suggestion);
+			setPickUpLocation(suggestion);
 		}
 	};
 
@@ -261,7 +258,7 @@ public class CarSearchParamsWidget extends Presenter
 				}
 				selectDateButton.setChecked(false);
 				selectDateButton.setEnabled(true);
-				pickupLocation.setText("");
+				pickUpLocation.setText("");
 				searchParamsBuilder.origin("");
 				searchParamsBuilder.originDescription("");
 				paramsChanged();
@@ -299,10 +296,10 @@ public class CarSearchParamsWidget extends Presenter
 			Suggestion topSuggestion = suggestionAdapter.getItem(0);
 			if (topSuggestion != null) {
 				if (carSearchParams == null) {
-					setPickupLocation(topSuggestion);
+					setPickUpLocation(topSuggestion);
 				}
 				else if (Strings.isEmpty(carSearchParams.origin)) {
-					setPickupLocation(topSuggestion);
+					setPickUpLocation(topSuggestion);
 				}
 			}
 			clearFocus();
@@ -311,10 +308,10 @@ public class CarSearchParamsWidget extends Presenter
 	}
 
 	public void clearFocus() {
-		pickupLocation.clearFocus();
-		InputMethodManager imm = (InputMethodManager) pickupLocation.getContext()
+		pickUpLocation.clearFocus();
+		InputMethodManager imm = (InputMethodManager) pickUpLocation.getContext()
 			.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(pickupLocation.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(pickUpLocation.getWindowToken(), 0);
 	}
 
 	public void saveHistory() {
@@ -350,7 +347,7 @@ public class CarSearchParamsWidget extends Presenter
 		suggestionAdapter.addAll(mRecentCarsLocationsSearches);
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
-				pickupLocation.showDropDown();
+				pickUpLocation.showDropDown();
 			}
 		}, 300);
 	}
@@ -406,7 +403,7 @@ public class CarSearchParamsWidget extends Presenter
 			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
 			if (forward) {
 				Ui.hideKeyboard(CarSearchParamsWidget.this);
-				pickupLocation.clearFocus();
+				pickUpLocation.clearFocus();
 			}
 			setCalendarVisibility(View.VISIBLE);
 		}

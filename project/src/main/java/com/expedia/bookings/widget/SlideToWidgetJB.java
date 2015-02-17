@@ -97,8 +97,7 @@ public class SlideToWidgetJB extends RelativeLayout {
 		Shader targetShader = new BitmapShader(mTargetBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 		mPaint.setShader(targetShader);
 		mPaintBackground.setStyle(Paint.Style.FILL);
-
-
+		mPaintBackground.setAntiAlias(true);
 
 		resetSlider();
 	}

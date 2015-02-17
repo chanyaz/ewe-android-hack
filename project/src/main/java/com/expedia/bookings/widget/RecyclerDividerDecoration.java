@@ -29,7 +29,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 	Paint mPaint = new Paint();
 	boolean shouldDrawDivider = false;
 
-	public RecyclerDividerDecoration(Context context, int top, int bottom, int header, boolean drawDivider) {
+	public RecyclerDividerDecoration(Context context, int top, int bottom, int header, int footer, boolean drawDivider) {
 
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
@@ -43,7 +43,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 		mLeft = mTop * 2;
 		mRight = mTop * 2;
 		mHeader = header + mTop * 2;
-		mFooter = mBottom * 2;
+		mFooter = footer + mBottom * 2;
 	}
 
 	@Override

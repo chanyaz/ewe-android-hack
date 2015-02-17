@@ -45,7 +45,7 @@ public class CarCategoryListWidget extends FrameLayout {
 		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
 		int toolbarSize = (int) a.getDimension(0, 44);
 
-		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, toolbarSize, false));
+		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, toolbarSize, toolbarSize, false));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 

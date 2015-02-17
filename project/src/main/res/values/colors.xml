@@ -218,5 +218,6 @@
     <color name="cars_invalid_days_calendar">#A9A9A9</color>
     <color name="cars_valid_days_calendar">#3A3A3A</color>
     <color name="cars_calendar_week_color">#888888</color>
+    <color name="cars_checkmark_color">#29a653</color>
 
 </resources>

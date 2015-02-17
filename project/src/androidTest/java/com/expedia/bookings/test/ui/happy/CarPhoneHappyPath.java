@@ -37,12 +37,12 @@ public class CarPhoneHappyPath extends EspressoTestCase {
 		ScreenActions.delay(1);
 		screenshot("Car_Offers");
 
-
 		CarViewModel.selectCarOffer(0);
 		ScreenActions.delay(1);
 		screenshot("Car_Checkout");
 
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info);
+		CarViewModel.clickDriverInfo();
 		CarViewModel.enterFirstName("FiveStar");
 		CarViewModel.enterLastName("Bear");
 		CarViewModel.enterEmail("noah@mobiata.com");

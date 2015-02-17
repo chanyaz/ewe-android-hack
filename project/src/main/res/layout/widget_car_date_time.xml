@@ -9,14 +9,15 @@
         android:id="@+id/calendar_shadow"
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:layout_above="@+id/calendar"
+        android:layout_alignParentTop="true"
         android:background="@drawable/drop_shadow" />
 
     <com.mobiata.android.time.widget.CalendarPicker
         android:id="@+id/calendar"
+        android:layout_below="@+id/calendar_shadow"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_above="@+id/slider_container"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/slider_shadow"
         android:background="@android:color/white"
         android:paddingBottom="8dp"
         app:calendarBaseColor="@color/cars_valid_days_calendar"
@@ -113,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="4dp">
 
             <TextView
                 android:id="@+id/pickup_time_popup"

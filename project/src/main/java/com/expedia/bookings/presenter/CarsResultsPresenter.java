@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import android.view.MenuItem;
@@ -50,7 +51,7 @@ public class CarsResultsPresenter extends Presenter {
 	Toolbar toolbar;
 
 	@InjectView(R.id.sort_toolbar)
-	Toolbar sortToolbar;
+	ViewGroup sortToolbar;
 
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
@@ -83,8 +84,6 @@ public class CarsResultsPresenter extends Presenter {
 				return false;
 			}
 		});
-
-		sortToolbar.inflateMenu(R.menu.cars_sort_menu);
 
 	}
 
@@ -119,13 +118,7 @@ public class CarsResultsPresenter extends Presenter {
 		@Override
 		public void onNext(CarSearch carSearch) {
 			Events.post(new Events.CarsShowSearchResults(carSearch));
-
 			show(categories, true);
-
-//			hide(loading);
-//			show(categories);
-//			showToolbars();
-
 		}
 	};
 
@@ -170,7 +163,7 @@ public class CarsResultsPresenter extends Presenter {
 	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
 		show(details);
-		showToolbars();
+		toolbarBackground.setVisibility(GONE);
 		toolbar.setTitle(event.categorizedCarOffers.category.toString());
 	}
 
@@ -182,10 +175,4 @@ public class CarsResultsPresenter extends Presenter {
 			.createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), createTripObserver);
 	}
 
-	// TODO: Make toolbars a shared component that don't get hidden
-	private void showToolbars() {
-//		SHOW.apply(toolbarBackground, 0);
-//		SHOW.apply(toolbar, 1);
-//		SHOW.apply(sortToolbar, 1);
-	}
 }

@@ -2,6 +2,7 @@
 <com.expedia.bookings.widget.CarSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="#D9FFFFFF"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
@@ -11,13 +12,11 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize" />
 
-    <RelativeLayout
-        android:id="@+id/search_container"
-        android:paddingBottom="16dp"
-        android:layout_below="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/location_container"
@@ -26,7 +25,6 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_alignParentTop="true"
@@ -38,6 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="43dp"
                 android:layout_marginLeft="8dp"
+                android:inputType="textNoSuggestions"
                 android:layout_marginBottom="8dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
@@ -74,19 +73,21 @@
             android:drawablePadding="12dp"
             android:textAllCaps="false"
             android:paddingLeft="13dp"
-
             android:gravity="left|center_vertical"
             android:paddingRight="5dp"
             android:textColor="@drawable/cars_text_selector"
             android:textOff="@string/select_pickup_and_dropoff_dates"
             android:textOn="@string/select_pickup_and_dropoff_dates"
             android:textSize="14sp" />
-    </RelativeLayout>
 
-    <include
-        android:id="@+id/calendar_container"
-        layout="@layout/widget_car_date_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/calendar_container"
+            layout="@layout/widget_car_date_time"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 </com.expedia.bookings.widget.CarSearchParamsWidget>

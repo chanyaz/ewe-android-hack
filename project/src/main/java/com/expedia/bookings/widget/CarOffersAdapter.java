@@ -108,7 +108,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 						offer.isToggled = true;
 						reserveNow.setChecked(true);
 						Events.post(new Events.CarsKickOffCreateTrip(offer));
-					} else {
+					}
+					else {
 						offer.isToggled = false;
 						onItemExpanded(getPosition());
 					}
@@ -156,6 +157,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	}
 
 	public void setCarOffers(List<SearchCarOffer> offers) {
+		mLastExpanded = 0;
 		this.offers = offers;
 		if (offers.size() >= 1) {
 			SearchCarOffer offer = offers.get(0);
