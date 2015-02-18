@@ -88,6 +88,7 @@
         <item name="skin_tablet_ab_launch_text2_pin_detail">@string/merchant_name</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_tvly</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

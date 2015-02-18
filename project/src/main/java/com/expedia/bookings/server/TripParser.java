@@ -482,8 +482,10 @@ public class TripParser {
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
-			for (int i = 0; i < travelersArr.length(); i++) {
-				activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+			if (travelersArr != null && travelersArr.length() > 0) {
+				for (int i = 0; i < travelersArr.length(); i++) {
+					activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+				}
 			}
 
 			tripActivity.setActivity(activity);

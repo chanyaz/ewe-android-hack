@@ -1607,7 +1607,9 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
 		params.add(new BasicNameValuePair("_type", "json"));
-		params.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		if (!ExpediaBookingApp.IS_VSC) {
+			params.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		}
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));

@@ -582,7 +582,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 					View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
 
-					if (ExpediaBookingApp.IS_TRAVELOCITY) {
+					if (ExpediaBookingApp.IS_TRAVELOCITY || ExpediaBookingApp.IS_VSC) {
 						insuranceLinkView.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View arg0) {
