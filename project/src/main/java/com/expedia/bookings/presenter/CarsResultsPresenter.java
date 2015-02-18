@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
@@ -168,7 +170,6 @@ public class CarsResultsPresenter extends Presenter {
 	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
 		show(details);
-		toolbarBackground.setVisibility(GONE);
 		toolbar.setTitle(event.categorizedCarOffers.category.toString());
 	}
 

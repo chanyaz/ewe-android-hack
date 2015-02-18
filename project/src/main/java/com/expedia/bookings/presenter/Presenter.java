@@ -210,13 +210,13 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		public DefaultTransition(String defaultState) {
 			super(null, defaultState);
 		}
-		public void startTransition(boolean forward){
+		public void startTransition(boolean forward) {
 		}
 
-		public void updateTransition(float f, boolean forward){
+		public void updateTransition(float f, boolean forward) {
 		}
 
-		public void endTransition(boolean forward){
+		public void endTransition(boolean forward) {
 		}
 	}
 
