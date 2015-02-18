@@ -7,21 +7,19 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
-import com.expedia.bookings.utils.DateFormatUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -62,6 +60,7 @@ public class CarsResultsPresenter extends Presenter {
 		super.onFinishInflate();
 		addTransition(loadingToCategories);
 		addTransition(categoriesToDetails);
+		addDefaultTransition(setUpLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage("Preparing checkout...");
@@ -124,6 +123,14 @@ public class CarsResultsPresenter extends Presenter {
 
 	Transition loadingToCategories = new VisibilityTransition(this, ProgressBar.class.getName(), CarCategoryListWidget.class.getName());
 	Transition categoriesToDetails = new VisibilityTransition(this, CarCategoryListWidget.class.getName(), CarCategoryDetailsWidget.class.getName());
+	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			loading.setVisibility(View.VISIBLE);
+			categories.setVisibility(View.GONE);
+			details.setVisibility(View.GONE);
+		}
+	};
 
 	private Observer<CarCreateTripResponse> createTripObserver = new Observer<CarCreateTripResponse>() {
 		@Override
@@ -163,7 +170,6 @@ public class CarsResultsPresenter extends Presenter {
 	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
 		show(details);
-		toolbarBackground.setVisibility(GONE);
 		toolbar.setTitle(event.categorizedCarOffers.category.toString());
 	}
 
