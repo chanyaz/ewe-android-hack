@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.presenter.CarsPresenter;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -18,8 +18,7 @@ public class CarsActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		CarDb.inject(this);
-
+		Ui.getApplication(this).defaultComponents();
 		setContentView(R.layout.activity_cars);
 		ButterKnife.inject(this);
 	}

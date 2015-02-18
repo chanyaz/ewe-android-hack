@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.lx.LXDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
@@ -134,7 +133,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		super.onPause();
 		OmnitureTracking.onPause();
 		if (mApiChanged) {
-			CarDb.inject(this);
 			LXDb.inject(this);
 			mApiChanged = false;
 		}

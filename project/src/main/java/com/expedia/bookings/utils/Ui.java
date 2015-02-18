@@ -19,6 +19,7 @@ import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -121,6 +122,13 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 */
 	public static boolean isAdded(Fragment fragment) {
 		return fragment != null && fragment.isAdded();
+	}
+
+	/**
+	 * Utility method to get the application instance from the given context
+	 */
+	public static ExpediaBookingApp getApplication(Context context) {
+		return (ExpediaBookingApp) context.getApplicationContext();
 	}
 
 	/**

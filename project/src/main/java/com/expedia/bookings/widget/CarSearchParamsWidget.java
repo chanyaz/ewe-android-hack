@@ -136,6 +136,8 @@ public class CarSearchParamsWidget extends Presenter
 		setCalendarVisibility(View.INVISIBLE);
 
 		suggestionAdapter = new CarSuggestionAdapter(getContext(), R.layout.cars_dropdown_item);
+		Ui.getApplication(getContext()).carComponent().inject(suggestionAdapter);
+
 		pickUpLocation.setAdapter(suggestionAdapter);
 		pickUpLocation.setOnItemClickListener(mPickupListListener);
 		pickUpLocation.setOnFocusChangeListener(mPickupClickListener);

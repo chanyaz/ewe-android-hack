@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter;
 
+import javax.inject.Inject;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -14,10 +16,11 @@ import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
 import com.squareup.otto.Subscribe;
@@ -31,6 +34,9 @@ public class CarsResultsPresenter extends Presenter {
 	public CarsResultsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
+	@Inject
+	CarServices carServices;
 
 	@InjectView(R.id.loading)
 	ProgressBar loading;
@@ -58,6 +64,8 @@ public class CarsResultsPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		Ui.getApplication(getContext()).carComponent().inject(this);
+
 		addTransition(loadingToCategories);
 		addTransition(categoriesToDetails);
 		addDefaultTransition(setUpLoading);
@@ -158,13 +166,15 @@ public class CarsResultsPresenter extends Presenter {
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
 		show(loading, true);
 		cleanup();
-		searchSubscription = CarDb.getCarServices()
+		searchSubscription = carServices
 			.carSearch(event.carSearchParams, searchObserver);
 		String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), event.carSearchParams,
 			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 
 		toolbar.setTitle(event.carSearchParams.originDescription);
 		toolbar.setSubtitle(dateTimeRange);
+
+		searchSubscription = carServices.carSearch(event.carSearchParams, searchObserver);
 	}
 
 	@Subscribe
@@ -177,7 +187,7 @@ public class CarsResultsPresenter extends Presenter {
 	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
 		createTripDialog.show();
 		cleanup();
-		createTripSubscription = CarDb.getCarServices()
+		createTripSubscription = carServices
 			.createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), createTripObserver);
 	}
 

@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter;
 
+import javax.inject.Inject;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,8 +12,9 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
-import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCheckoutWidget;
 import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;
@@ -25,6 +28,9 @@ public class CarCheckoutPresenter extends Presenter {
 		super(context, attrs);
 	}
 
+	@Inject
+	CarServices carServices;
+
 	@InjectView(R.id.checkout)
 	CarCheckoutWidget checkout;
 
@@ -37,6 +43,8 @@ public class CarCheckoutPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		Ui.getApplication(getContext()).carComponent().inject(this);
+
 		addTransition(checkoutToConfirmation);
 		addDefaultTransition(defaultCheckoutTransition);
 
@@ -111,7 +119,7 @@ public class CarCheckoutPresenter extends Presenter {
 	public void onDoCheckoutCall(Events.CarsKickOffCheckoutCall event) {
 		CarCheckoutParamsBuilder builder = event.checkoutParamsBuilder;
 		if (builder.areRequiredParamsFilled()) {
-			checkoutSubscription = CarDb.getCarServices().checkout(builder.build(), checkoutObserver);
+			checkoutSubscription = carServices.checkout(builder.build(), checkoutObserver);
 			checkoutDialog.show();
 		}
 		else {

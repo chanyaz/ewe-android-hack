@@ -19,6 +19,9 @@ import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.dagger.CarComponent;
+import com.expedia.bookings.dagger.CarModule;
+import com.expedia.bookings.dagger.Dagger_CarComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
@@ -304,15 +307,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
 	}
 
-	/**
-	 * Tells testers if the app has been initialized.  I would warn against
-	 * using it outside of a testing environment, as its use would indicate
-	 * you are doing something wrong.
-	 */
-	public boolean isInitialized() {
-		return mInitialized;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// All-app utilities
 
@@ -320,6 +314,26 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// we only use tablet UI on ICS+
 	public static boolean useTabletInterface(Context context) {
 		return AndroidUtils.isTablet(context);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Dagger instances
+
+	private CarComponent mCarComponent;
+
+	public void defaultComponents() {
+		setCarComponent(Dagger_CarComponent.builder()
+			.carModule(new CarModule(this))
+			.build());
+	}
+
+	// Used by tests
+	public void setCarComponent(CarComponent carComponent) {
+		mCarComponent = carComponent;
+	}
+
+	public CarComponent carComponent() {
+		return mCarComponent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -447,7 +461,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFAFailed() {
-
+		// ignore
 	}
 
 	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
