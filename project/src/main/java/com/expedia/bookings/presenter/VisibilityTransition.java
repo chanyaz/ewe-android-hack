@@ -26,16 +26,12 @@ public class VisibilityTransition extends Presenter.Transition {
 	@Override
 	public void finalizeTransition(boolean forward) {
 		String destinationState = forward ? state2 : state1;
-		System.out.println("destinationState:" + destinationState);
 		for (int i = 0; i < presenter.getChildCount(); i++) {
-			System.out.println("child:" + presenter.getChildAt(i).getClass().getName());
 			View child = presenter.getChildAt(i);
 			if (child.getClass().getName().equals(destinationState)) {
-				System.out.println("Setting " + child.getClass().getName() + " to VISIBLE");
 				child.setVisibility(View.VISIBLE);
 			}
 			else {
-				System.out.println("Setting " + child.getClass().getName() + " to GONE");
 				child.setVisibility(View.GONE);
 			}
 		}

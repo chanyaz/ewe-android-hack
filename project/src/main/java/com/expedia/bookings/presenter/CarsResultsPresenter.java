@@ -3,13 +3,15 @@ package com.expedia.bookings.presenter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
+import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.CarCategoryDetailsWidget;
+import com.expedia.bookings.widget.CarCategoryListWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -23,13 +25,13 @@ public class CarsResultsPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.loading)
-	View loading;
+	ProgressBar loading;
 
 	@InjectView(R.id.categories)
-	View categories;
+	CarCategoryListWidget categories;
 
 	@InjectView(R.id.details)
-	View details;
+	CarCategoryDetailsWidget details;
 
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
@@ -38,6 +40,8 @@ public class CarsResultsPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		addTransition(loadingToCategories);
+		addTransition(categoriesToDetails);
 
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage("Preparing checkout...");
@@ -75,10 +79,12 @@ public class CarsResultsPresenter extends Presenter {
 		@Override
 		public void onNext(CarSearch carSearch) {
 			Events.post(new Events.CarsShowSearchResults(carSearch));
-			hide(loading);
-			show(categories);
+			show(categories, true);
 		}
 	};
+
+	Transition loadingToCategories = new VisibilityTransition(this, ProgressBar.class.getName(), CarCategoryListWidget.class.getName());
+	Transition categoriesToDetails = new VisibilityTransition(this, CarCategoryListWidget.class.getName(), CarCategoryDetailsWidget.class.getName());
 
 	private Observer<CarCreateTripResponse> createTripObserver = new Observer<CarCreateTripResponse>() {
 		@Override

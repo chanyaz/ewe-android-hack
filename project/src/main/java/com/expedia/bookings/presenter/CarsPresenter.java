@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -30,13 +29,16 @@ public class CarsPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
-		Log.d("carspresenterstuff", (new Object()).getClass().getName());
-		Log.d("carspresenterstuff", (new String()).getClass().getName());
-		Log.d("carspresenterstuff", (Object.class.getName()));
-		Log.d("carspresenterstuff", (String.class.getName()));
+		addTransition(paramsToResults);
+		addTransition(resultsToCheckout);
+		addTransition(checkoutToSearch);
 		show(widgetCarParams);
 		widgetCarParams.setVisibility(View.VISIBLE);
 	}
+
+	private Transition paramsToResults = new VisibilityTransition(this, CarSearchParamsWidget.class.getName(), CarsResultsPresenter.class.getName());
+	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class.getName(), CarCheckoutPresenter.class.getName());
+	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(), CarSearchParamsWidget.class.getName());
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
