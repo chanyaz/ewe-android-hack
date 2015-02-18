@@ -252,6 +252,9 @@
     <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
     <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
 
+    <!-- LX Dimens -->
+    <dimen name="search_widget_calendar_height">220dp</dimen>
+
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="car_time_slider_rectangle_width">70dp</dimen>

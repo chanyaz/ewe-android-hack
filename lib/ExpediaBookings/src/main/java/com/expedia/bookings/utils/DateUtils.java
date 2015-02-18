@@ -12,6 +12,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 public class DateUtils {
+
+	private static final String LX_DATE_PATTERN = "MM-dd-YYYY";
 	/**
 	 * Formats the given date in yyyyMMDD format and returns as int
 	 */
@@ -63,6 +65,10 @@ public class DateUtils {
 		calendar.setTimeInMillis(timeinMilliSeconds);
 
 		return format.format(calendar.getTime());
+	}
+
+	public static String convertToLXDate(LocalDate date) {
+		return date != null ? date.toString(LX_DATE_PATTERN) : null;
 	}
 
 }

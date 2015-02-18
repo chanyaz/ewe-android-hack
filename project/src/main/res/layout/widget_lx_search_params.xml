@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LXSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/search_params_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:src="@drawable/btn_air_attach_close" />
+
+        <TextView
+            android:id="@+id/search_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search_widget_heading" />
+
+        <ImageButton
+            android:id="@+id/search_params_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/btn_air_attach_close" />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/search_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_location_hint" />
+
+    <Button
+        android:id="@+id/select_dates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_lx_search_dates" />
+
+    <!-- This can be replaced by Suggestion list -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.mobiata.android.time.widget.CalendarPicker
+        android:id="@+id/search_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_widget_calendar_height"
+        android:layout_weight="0" />
+
+</com.expedia.bookings.widget.LXSearchParamsWidget>

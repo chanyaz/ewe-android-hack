@@ -26,8 +26,6 @@ public class LXServicesTest {
 	@Rule
 	public MockWebServerRule mockServer = new MockWebServerRule();
 
-	private static final String DATE_PATTERN = "MM-dd-YYYY";
-
 	@Test
 	public void testLXSearchResponse() throws Throwable {
 		String root = new File("../mocke3/templates").getCanonicalPath();
@@ -37,8 +35,8 @@ public class LXServicesTest {
 		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "New York";
-		searchParams.startDate = LocalDate.now().toString(DATE_PATTERN);
-		searchParams.endDate = LocalDate.now().plusDays(1).toString(DATE_PATTERN);
+		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(1);
 		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
 
 		blockingObserver.await();

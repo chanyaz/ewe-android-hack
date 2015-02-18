@@ -576,4 +576,7 @@ public class Events {
 			this.checkoutResponse = checkoutResponse;
 		}
 	}
+
+	public static class LXCloseSearchWidget {
+	}
 }

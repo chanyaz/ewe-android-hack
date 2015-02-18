@@ -278,4 +278,7 @@
     <integer name="country_phone_code_zw">263</integer>
     <integer name="country_phone_code_ax">358</integer>
 
+    <!-- The maximum days range for LX search -->
+    <integer name="calendar_max_days_lx_search">330</integer>
+
 </resources>
