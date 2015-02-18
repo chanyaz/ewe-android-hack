@@ -6,14 +6,6 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp" >
 
-    <ProgressBar
-        android:id="@+id/loading"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
-
     <com.expedia.bookings.widget.CarCategoryListWidget
         android:id="@+id/categories"
         android:layout_width="match_parent"
@@ -54,5 +46,14 @@
             android:layout_weight="2" />
 
     </com.expedia.bookings.widget.CarCategoryDetailsWidget>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
+
 
 </com.expedia.bookings.presenter.CarsResultsPresenter>

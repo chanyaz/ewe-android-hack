@@ -6,128 +6,87 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 
 import android.app.Activity;
-import android.view.View;
-import android.widget.TextView;
 
 import com.expedia.bookings.presenter.Presenter;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class PresenterTest {
-	@Test
-	public void testShowHideBackStack() throws Throwable {
+
+	private class A {
+
+	}
+
+	private class B {
+
+	}
+
+	public Presenter.Transition boringTransition = new Presenter.Transition(A.class.getName(), B.class.getName(), null, 100) {
+		@Override
+		public void startTransition(boolean forward) {
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+		}
+	};
+
+
+	@Test(expected = RuntimeException.class)
+	public void testNoTransitionDefined() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
-		Assert.assertNotNull(root);
-
-		TextView textview1 = new TextView(activity);
-		TextView textview2 = new TextView(activity);
-		textview1.setVisibility(View.GONE);
-		textview2.setVisibility(View.GONE);
-
-		root.addView(textview1);
-		root.addView(textview2);
-
-		root.show(textview1);
-		Assert.assertTrue(textview1.getVisibility() == View.VISIBLE);
-		Assert.assertTrue(textview2.getVisibility() == View.GONE);
-		Assert.assertFalse(root.back());
-		Assert.assertTrue(textview1.getVisibility() == View.GONE);
-		Assert.assertTrue(textview2.getVisibility() == View.GONE);
-
-		root.show(textview1);
-		root.show(textview2);
-		Assert.assertTrue(textview1.getVisibility() == View.GONE);
-		Assert.assertTrue(textview2.getVisibility() == View.VISIBLE);
-		Assert.assertTrue(root.back());
-		Assert.assertTrue(textview1.getVisibility() == View.VISIBLE);
-		Assert.assertTrue(textview2.getVisibility() == View.GONE);
-		Assert.assertFalse(root.back());
-		Assert.assertTrue(textview1.getVisibility() == View.GONE);
-		Assert.assertTrue(textview2.getVisibility() == View.GONE);
-
-		// Test hide stack
-		root.show(textview1);
-		root.show(textview2);
-		root.hide(textview1);
-
-		Assert.assertTrue(textview1.getVisibility() == View.GONE);
-		Assert.assertTrue(textview2.getVisibility() == View.VISIBLE);
-		Assert.assertFalse(root.back());
-		Assert.assertTrue(textview1.getVisibility() == View.GONE);
-		Assert.assertTrue(textview2.getVisibility() == View.GONE);
+		Object a = new Object();
+		String b = new String();
+		root.show(a);
+		root.show(b);
 	}
 
 	@Test
-	public void testNestedPresenter() {
+	public void testReverseTransition() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
-		Assert.assertNotNull(root);
-
-		TextView textView1 = new TextView(activity);
-		TextView textView2 = new TextView(activity);
-		Presenter child1 = new Presenter(activity, null);
-		child1.addView(textView1);
-		child1.addView(textView2);
-
-		child1.show(textView1);
-
-		root.addView(child1);
-		root.show(child1);
-
-		Assert.assertTrue(textView1.getVisibility() == View.VISIBLE);
-		Assert.assertTrue(textView2.getVisibility() == View.GONE);
-
-		Assert.assertFalse(root.back());
-		Assert.assertTrue(textView1.getVisibility() == View.GONE);
-		Assert.assertTrue(textView2.getVisibility() == View.GONE);
-
-		Presenter child2 = new Presenter(activity, null);
-		TextView textView3 = new TextView(activity);
-		child2.addView(textView3);
-
-		child1.show(textView1);
-		child2.show(textView3);
-
-		root.show(child1);
-		root.show(child2);
-
-		Assert.assertTrue(child1.getVisibility() == View.GONE);
-		Assert.assertTrue(textView3.getVisibility() == View.VISIBLE);
-
-		Assert.assertTrue(root.back());
-		Assert.assertTrue(child2.getVisibility() == View.GONE);
-		Assert.assertTrue(child1.getVisibility() == View.VISIBLE);
-		Assert.assertTrue(textView1.getVisibility() == View.VISIBLE);
-
-		Assert.assertFalse(root.back());
-		Assert.assertTrue(child1.getVisibility() == View.GONE);
-		Assert.assertTrue(child2.getVisibility() == View.GONE);
+		root.addTransition(boringTransition);
+		Assert.assertNotNull(root.getTransition(B.class.getName(), A.class.getName()));
 	}
 
 	@Test
-	public void testShowAndClearBackstack() {
+	public void testTransitionsAndShowing() throws Throwable {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
-		Assert.assertNotNull(root);
+		root.addTransition(boringTransition);
+		Assert.assertTrue(root.getTransitions().size() == 1);
 
-		TextView textView1 = new TextView(activity);
-		TextView textView2 = new TextView(activity);
-		root.addView(textView1);
-		root.addView(textView2);
+		root.show(new A());
+		Assert.assertEquals(root.getBackStack().size(), 1);
 
-		root.show(textView1);
-		root.show(textView2);
-		Assert.assertTrue(textView1.getVisibility() == View.GONE);
-		Assert.assertTrue(textView2.getVisibility() == View.VISIBLE);
+		Assert.assertTrue(root.getCurrentState().equals(A.class.getName()));
+		Presenter.Transition t = root.getTransition(A.class.getName(), B.class.getName());
+		Assert.assertNotNull(t);
+		Assert.assertEquals(t, boringTransition);
 
-		Assert.assertTrue(root.back());
-		Assert.assertTrue(textView1.getVisibility() == View.VISIBLE);
-		Assert.assertTrue(textView2.getVisibility() == View.GONE);
-
-		root.show(textView2, true);
-		Assert.assertTrue(textView1.getVisibility() == View.GONE);
-		Assert.assertTrue(textView2.getVisibility() == View.VISIBLE);
-		Assert.assertFalse(root.back());
+		Assert.assertNotNull(root.getStateAnimator(new B(), true));
+		Assert.assertTrue(t.state1.equals(A.class.getName()) && t.state2.equals(B.class.getName()));
+		root.show(new B());
+		Assert.assertEquals(root.getBackStack().size(), 2);
 	}
 
+	@Test
+	public void testClearBackStack() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		Presenter root = new Presenter(activity, null);
+		root.addTransition(boringTransition);
+
+		root.show(new A());
+		Assert.assertEquals(1, root.getBackStack().size());
+		root.show(new B(), true);
+		Assert.assertEquals(1, root.getBackStack().size());
+	}
 }

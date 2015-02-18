@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.CarSearchParamsWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -17,19 +18,27 @@ public class CarsPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.widget_car_params)
-	View widgetCarParams;
+	CarSearchParamsWidget widgetCarParams;
 
 	@InjectView(R.id.cars_results_presenter)
-	Presenter carsResultsPresenter;
+	CarsResultsPresenter carsResultsPresenter;
 
 	@InjectView(R.id.car_checkout_presenter)
-	View checkoutWidget;
+	CarCheckoutPresenter checkoutWidget;
 
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
+		addTransition(paramsToResults);
+		addTransition(resultsToCheckout);
+		addTransition(checkoutToSearch);
 		show(widgetCarParams);
+		widgetCarParams.setVisibility(View.VISIBLE);
 	}
+
+	private Transition paramsToResults = new VisibilityTransition(this, CarSearchParamsWidget.class.getName(), CarsResultsPresenter.class.getName());
+	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class.getName(), CarCheckoutPresenter.class.getName());
+	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(), CarSearchParamsWidget.class.getName());
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {

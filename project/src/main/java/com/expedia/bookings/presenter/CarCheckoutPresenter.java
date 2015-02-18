@@ -5,13 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.CarCheckoutWidget;
+import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -24,10 +25,10 @@ public class CarCheckoutPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.checkout)
-	View checkout;
+	CarCheckoutWidget checkout;
 
 	@InjectView(R.id.confirmation)
-	View confirmation;
+	CarConfirmationWidget confirmation;
 
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
@@ -35,6 +36,8 @@ public class CarCheckoutPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		addTransition(checkoutToConfirmation);
+
 		checkoutDialog = new ProgressDialog(getContext());
 		checkoutDialog.setMessage(getResources().getString(R.string.booking_loading));
 		checkoutDialog.setIndeterminate(true);
@@ -83,6 +86,8 @@ public class CarCheckoutPresenter extends Presenter {
 			show(confirmation, true);
 		}
 	};
+
+	Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CarConfirmationWidget.class.getName());
 
 	/**
 	 * Events
