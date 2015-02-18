@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECEFF1"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/hotels_launch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="#008A82"
+        android:padding="55dp"
+        android:text="Hotels"
+        android:textColor="#FFFFFF" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/hotels_launch_button"
+        android:layout_toRightOf="@+id/hotels_launch_button">
+
+        <TextView
+            android:id="@+id/flights_launch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#1C468D"
+            android:paddingBottom="20dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="20dp"
+            android:text="Flights"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/cars_launch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/flights_launch_button"
+            android:layout_below="@+id/flights_launch_button"
+            android:background="#883369"
+            android:paddingBottom="21dp"
+            android:paddingLeft="57dp"
+            android:paddingRight="56dp"
+            android:paddingTop="20dp"
+            android:text="Cars"
+            android:textColor="#FFFFFF" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
