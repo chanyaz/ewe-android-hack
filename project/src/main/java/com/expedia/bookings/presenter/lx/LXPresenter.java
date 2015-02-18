@@ -23,12 +23,16 @@ public class LXPresenter extends Presenter {
 	LXSearchParamsWidget searchParamsWidget;
 
 	@InjectView(R.id.search_list_presenter)
-	Presenter resultsPresenter;
+	LXResultsPresenter resultsPresenter;
+
+	@InjectView(R.id.activity_details_presenter)
+	LXDetailsPresenter detailsPresenter;
 
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 		addTransition(searchParamsToResults);
+		addTransition(resultsToDetails);
 		show(searchParamsWidget);
 		searchParamsWidget.setVisibility(View.VISIBLE);
 	}
@@ -40,5 +44,38 @@ public class LXPresenter extends Presenter {
 
 	private Transition searchParamsToResults = new VisibilityTransition(this, LXSearchParamsWidget.class.getName(),
 		LXResultsPresenter.class.getName());
+
+	private Transition resultsToDetails = new VisibilityTransition(this, LXResultsPresenter.class.getName(),
+		LXDetailsPresenter.class.getName()) {
+		@Override
+		public void startTransition(boolean forward) {
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				resultsPresenter.setVisibility(View.GONE);
+				detailsPresenter.setVisibility(View.VISIBLE);
+			}
+			else {
+				resultsPresenter.setVisibility(View.VISIBLE);
+				detailsPresenter.setVisibility(View.GONE);
+				detailsPresenter.cleanup();
+			}
+		}
+	};
+
+	@Subscribe
+	public void onActivitySelected(Events.LXActivitySelected event) {
+		show(detailsPresenter);
+	}
 
 }

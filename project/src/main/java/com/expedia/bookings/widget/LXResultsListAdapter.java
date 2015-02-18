@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
 
 import butterknife.ButterKnife;
@@ -69,10 +70,12 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<LXResultsListAdap
 
 		@Override
 		public void onClick(View v) {
-			// TODO navigate to details page.
+			LXActivity activity = (LXActivity)v.getTag();
+			Events.post(new Events.LXActivitySelected(activity));
 		}
 
 		public void bind(LXActivity activity) {
+			itemView.setTag(activity);
 			activityTitle.setText(activity.title);
 		}
 	}

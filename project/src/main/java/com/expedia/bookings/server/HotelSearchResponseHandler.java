@@ -16,7 +16,7 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -269,9 +269,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 						mediaName = reader.nextName();
 						mediaToken = reader.peek();
 						if (mediaName.equals("url") && !mediaToken.equals(JsonToken.NULL)) {
-							Media media = ParserUtils.parseUrl(reader.nextString());
-							if (media != null) {
-								property.addMedia(media);
+							HotelMedia hotelMedia = ParserUtils.parseUrl(reader.nextString());
+							if (hotelMedia != null) {
+								property.addMedia(hotelMedia);
 							}
 						}
 					}

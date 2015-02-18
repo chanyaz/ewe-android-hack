@@ -2,6 +2,8 @@ package com.expedia.bookings.services;
 
 import java.util.List;
 
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
@@ -51,4 +53,13 @@ public class LXServices {
 			return lxSearchResponse.activities;
 		}
 	};
+
+	public Subscription lxDetails(ActivityDetailsParams searchParams, Observer<ActivityDetailsResponse> observer) {
+		return lxApi
+			.activityDetails(searchParams.activityId, searchParams.toServerStartDate(), searchParams.toServerEndDate())
+			.observeOn(this.observeOn)
+			.subscribeOn(this.subscribeOn)
+			.subscribe(observer);
+	}
+
 }

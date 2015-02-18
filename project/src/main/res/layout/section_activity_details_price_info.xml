@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_info_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/price_info_container_height"
+    android:background="#33000000"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="40dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:textColor="@android:color/white"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="2dp"
+        android:drawableLeft="@drawable/ic_clock_small"
+        android:textColor="@android:color/white"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/free_cancellation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/duration"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/duration"
+        android:drawableLeft="@drawable/ic_clock_small"
+        android:text="@string/activity_free_cancellation"
+        android:textColor="@android:color/white"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/per_ticket_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/price"
+        android:layout_below="@id/price"
+        android:textColor="@android:color/white"
+        android:textSize="12dp" />
+</RelativeLayout>

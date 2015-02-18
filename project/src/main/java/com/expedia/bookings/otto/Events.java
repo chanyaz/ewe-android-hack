@@ -24,6 +24,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -598,6 +599,23 @@ public class Events {
 
 		public LXShowSearchResults(List<LXActivity> activities) {
 			this.activities = activities;
+
+		}
+	}
+
+	public static class LXActivitySelected {
+		public LXActivity lxActivity;
+
+		public LXActivitySelected(LXActivity lxActivity) {
+			this.lxActivity = lxActivity;
+		}
+	}
+
+	public static class LXShowDetails {
+		public ActivityDetailsResponse activityDetails;
+
+		public LXShowDetails(ActivityDetailsResponse activityDetails) {
+			this.activityDetails = activityDetails;
 		}
 	}
 }

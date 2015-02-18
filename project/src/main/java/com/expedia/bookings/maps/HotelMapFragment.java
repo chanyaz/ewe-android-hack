@@ -32,7 +32,7 @@ import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -244,13 +244,13 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					}
 
 
-					Media media = property.getThumbnail();
+					HotelMedia hotelMedia = property.getThumbnail();
 					final ImageView imageView = Ui.findView(v, R.id.hotel_thumbnail);
-					if (media == null) {
+					if (hotelMedia == null) {
 						imageView.setVisibility(View.GONE);
 					}
 					else {
-						List<String> urls = media.getBestUrls(
+						List<String> urls = hotelMedia.getBestUrls(
 							(int) (getResources().getDimension(R.dimen.hotel_map_popup_thumbnail_width)));
 						Callback callback = new Callback() {
 							@Override

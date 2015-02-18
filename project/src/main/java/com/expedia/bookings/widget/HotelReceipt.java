@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -149,11 +149,11 @@ public class HotelReceipt extends LinearLayout {
 		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 		mHeaderImageView.setImageDrawable(headerBitmapDrawable);
 
-		Media media = HotelUtils.getRoomMedia(hotel);
+		HotelMedia hotelMedia = HotelUtils.getRoomMedia(hotel);
 		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
-		if (media != null) {
+		if (hotelMedia != null) {
 			new PicassoHelper.Builder(getContext()).setPlaceholder(placeholderResId)
-				.setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
+				.setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderResId));
