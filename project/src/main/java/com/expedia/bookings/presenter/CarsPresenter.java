@@ -32,6 +32,7 @@ public class CarsPresenter extends Presenter {
 		addTransition(paramsToResults);
 		addTransition(resultsToCheckout);
 		addTransition(checkoutToSearch);
+		addTransition(resultsToSearch);
 		show(widgetCarParams);
 		widgetCarParams.setVisibility(View.VISIBLE);
 	}
@@ -39,6 +40,7 @@ public class CarsPresenter extends Presenter {
 	private Transition paramsToResults = new VisibilityTransition(this, CarSearchParamsWidget.class.getName(), CarsResultsPresenter.class.getName());
 	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class.getName(), CarCheckoutPresenter.class.getName());
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(), CarSearchParamsWidget.class.getName());
+	private Transition resultsToSearch = new AddTransition(this, CarsResultsPresenter.class.getName(), CarSearchParamsWidget.class.getName());
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
@@ -57,6 +59,7 @@ public class CarsPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearch(Events.CarsGoToSearch event) {
+		// TODO: don't hide the other views, show search params widget over them with an alpha
 		show(widgetCarParams, true);
 	}
 }

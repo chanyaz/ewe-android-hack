@@ -16,9 +16,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -75,7 +77,7 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(withId(R.id.search_btn));
+		return onView(withId(R.id.menu_check));
 	}
 
 	// Results
@@ -92,6 +94,10 @@ public final class CarViewModel {
 		carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
+	public static void clickDriverInfo() {
+		onView(withId(R.id.driver_info_card_view)).perform(click());
+	}
+
 	// Details
 
 	public static ViewInteraction carOfferList() {
@@ -99,7 +105,8 @@ public final class CarViewModel {
 	}
 
 	public static void selectCarOffer(int position) {
-		carOfferList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
+		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve"))).perform(
+			click());
 	}
 
 	// Checkout
@@ -141,7 +148,7 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction checkoutDataEnterDone() {
-		return onView(withId(R.id.edit_done));
+		return onView(withId(R.id.menu_done));
 	}
 
 	public static void pressDone() {

@@ -263,4 +263,5 @@
     <dimen name="car_time_slider_corner_radius">15dp</dimen>
     <dimen name="car_time_slider_text_size">12dp</dimen>
     <dimen name="car_time_slider_text_container">110dp</dimen>
+    <dimen name="car_checkout_scrollview_padding">200dp</dimen>
 </resources>

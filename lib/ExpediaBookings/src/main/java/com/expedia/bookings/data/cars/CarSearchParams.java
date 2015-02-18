@@ -10,6 +10,7 @@ public class CarSearchParams {
 	public DateTime endDateTime;
 
 	public String origin;
+	public String originDescription;
 
 	@Override
 	public CarSearchParams clone() {
@@ -17,6 +18,7 @@ public class CarSearchParams {
 		clone.startDateTime = new DateTime(startDateTime);
 		clone.endDateTime = new DateTime(endDateTime);
 		clone.origin = origin;
+		clone.originDescription = originDescription;
 		return clone;
 	}
 

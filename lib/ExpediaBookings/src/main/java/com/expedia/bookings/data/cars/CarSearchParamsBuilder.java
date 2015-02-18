@@ -8,6 +8,7 @@ import com.expedia.bookings.utils.Strings;
 public class CarSearchParamsBuilder {
 
 	private String mOrigin;
+	private String mOriginDescription;
 	private DateTimeBuilder mDateTimeBuilder;
 
 	public static class DateTimeBuilder {
@@ -54,6 +55,11 @@ public class CarSearchParamsBuilder {
 		return this;
 	}
 
+	public CarSearchParamsBuilder originDescription(String originDescription) {
+		mOriginDescription = originDescription;
+		return this;
+	}
+
 	public CarSearchParams build() {
 		CarSearchParams params = new CarSearchParams();
 		params.origin = mOrigin;
@@ -64,6 +70,7 @@ public class CarSearchParamsBuilder {
 			if (mDateTimeBuilder.mEndDate != null) {
 				params.endDateTime = make(mDateTimeBuilder.mEndDate, mDateTimeBuilder.mEndMillis);
 			}
+			params.originDescription = mOriginDescription;
 		}
 		return params;
 	}

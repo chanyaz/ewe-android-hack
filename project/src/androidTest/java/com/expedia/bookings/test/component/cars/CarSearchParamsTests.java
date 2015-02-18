@@ -119,7 +119,9 @@ public final class CarSearchParamsTests {
 	}
 
 	@Test
-	public void testSelectingOnlyPickupDateClearsDropoffDate() {
+	public void testSelectingOnlyPickupDateClearsDropoffDate() throws Throwable {
+		CarViewModel.pickupLocation().perform(click());
+		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
 		String expected =

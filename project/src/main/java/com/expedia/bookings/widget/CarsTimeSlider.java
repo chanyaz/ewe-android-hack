@@ -79,10 +79,6 @@ public class CarsTimeSlider extends SeekBar {
 		return mThumb;
 	}
 
-	public int getTooltipOffset() {
-		return thumbPadding;
-	}
-
 	public void init() {
 		setupThumbnail();
 		setThumb(getThumbnail(calculateProgress(getProgress(), SLIDER_PATTERN), false));

@@ -5,204 +5,344 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <com.expedia.bookings.widget.ScrollView
+        android:paddingTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/checkout_scroll"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/info_block"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="144dp"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:animateLayoutChanges="true"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                card_view:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/info_block"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="vertical">
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/car_vendor_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:textColor="@color/text_black"
+                            android:textSize="18dp"
+                            android:paddingBottom="14dp"
+                            android:textStyle="bold" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/category_title_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/car_model_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="14dp"
+                            android:layout_gravity="bottom" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/location_description_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:text="@string/desk_and_vehicle_terminal"
+                            android:textStyle="bold" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/airport_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/date_time_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="14dp"
+                            android:paddingLeft="0dp">
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/free_cancellation_text"
+                                android:text="Free Cancellation"
+                                android:layout_marginRight="12dp"
+                                android:layout_width="wrap_content"
+                                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical" />
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/unlimited_mileage_text"
+                                android:text="Free Mileage"
+                                android:layout_width="wrap_content"
+                                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/grand_total_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignRight="@+id/pickup_text"
+                        android:text="Total with Tax"
+                        android:textSize="12sp" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/price_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/grand_total_text"
+                        android:layout_toRightOf="@+id/info_block"
+                        android:drawableRight="@drawable/ic_info_receipt"
+                        android:gravity="right"
+                        android:drawablePadding="6dp"
+                        android:maxLines="1"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/pickup_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/price_text"
+                        android:text="Due at pick-up"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/driver_info_card_view"
+                android:layout_width="match_parent"
+                android:animateLayoutChanges="true"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                card_view:cardCornerRadius="4dp">
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textSize="18sp"
+                    android:id="@+id/driver_info_text"
+                    android:drawableLeft="@drawable/ic_tablet_checkout_generic_traveler"
+                    android:gravity="center|left"
+                    android:drawablePadding="8dp"
+                    android:text="Enter driver details" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/driver_info_container"
+                    android:padding="16dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edit_first_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/first_name"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/edit_last_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/last_name"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/edit_email_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_address_hint"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.expedia.bookings.widget.TelephoneSpinner
+                            android:id="@+id/phone_country_code_spinner"
+                            style="@style/Widget.Spinner.Phone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <EditText
+                            android:id="@+id/edit_phone_number"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:hint="@string/phone_number_hint"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/payment_info_card_view"
+                android:layout_width="match_parent"
+                android:animateLayoutChanges="true"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                card_view:cardCornerRadius="4dp">
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textSize="18sp"
+                    android:drawableLeft="@drawable/ic_tablet_checkout_generic_credit_card"
+                    android:gravity="center|left"
+                    android:id="@+id/payment_info_text"
+                    android:drawablePadding="8dp"
+                    android:text="Enter payment details" />
+
+                <LinearLayout
+                    android:id="@+id/payment_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edit_credit_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:hint="@string/credit_card_hint"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edit_cvv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/cvv_hint"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/edit_postal_code"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:hint="@string/address_postal_code_hint"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/category_title_text"
-                android:layout_width="wrap_content"
+                android:id="@+id/legal_information_text_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:textStyle="bold" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/car_model_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="8dp" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/location_description_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:text="@string/desk_and_vehicle_terminal"
-                android:textStyle="bold" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/airport_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/date_time_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top" />
+                android:textSize="10sp"
+                android:padding="16dp" />
 
         </LinearLayout>
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/price_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/info_block"
-            android:gravity="right"
-            android:maxLines="1"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/grand_total_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/price_text"
-            android:drawablePadding="6dp"
-            android:drawableRight="@drawable/ic_info_receipt"
-            android:text="@string/trip_total"
-            android:textSize="12sp" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit_first_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/first_name"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edit_last_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/last_name"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/edit_email_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email_address_hint"
-        android:textSize="20sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.expedia.bookings.widget.TelephoneSpinner
-            android:id="@+id/phone_country_code_spinner"
-            style="@style/Widget.Spinner.Phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <EditText
-            android:id="@+id/edit_phone_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:hint="@string/phone_number_hint"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/payment_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/edit_credit_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:hint="@string/credit_card_hint"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edit_cvv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/cvv_hint"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edit_postal_code"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/address_postal_code_hint"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/edit_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="DONE ENTERING CHECKOUT INFO"
-        android:textSize="18sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    </com.expedia.bookings.widget.ScrollView>
 
     <LinearLayout
         android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#AA000000"
+        android:background="#CCFFFFFF"
         android:gravity="center_horizontal"
+        android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:paddingBottom="15dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="2dp"
+        android:paddingTop="12dp">
 
         <com.expedia.bookings.widget.SlideToWidgetJB
             android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#00000000"
             slideto:destComplete="@drawable/slide_complete"
             slideto:dragImage="@drawable/slide_drag"
-            slideto:lineColor="#46CFCFCF"
+            slideto:sliderBackgroundColor="@color/cars_primary_color"
             slideto:sliderImage="@drawable/slide_hint"
-            slideto:sliderText="@string/slide_to_purchase" />
+            slideto:sliderText="@string/cars_slider_text" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/purchase_total_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:padding="4dp"
+            android:textColor="@color/cars_primary_color"
             android:textSize="@dimen/slide_to_purchase_price_text_size" />
     </LinearLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
 
 </com.expedia.bookings.widget.CarCheckoutWidget>
