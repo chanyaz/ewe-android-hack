@@ -261,6 +261,20 @@ public class StrUtils {
 		return waypoint.mAirportCode;
 	}
 
+	public static String getWaypointCodeOrCityStateString(Waypoint waypoint) {
+		Airport airport = waypoint.getAirport();
+		if (airport == null || Strings.isEmpty(airport.mCity)) {
+			return waypoint.mAirportCode;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append(airport.mCity);
+		if (Strings.isNotEmpty(airport.mStateCode)) {
+			builder.append(", ");
+			builder.append(airport.mStateCode);
+		}
+		return builder.toString();
+	}
+
 	public static String getLocationCityOrCode(Location location) {
 		String city = location.getCity();
 		if (!TextUtils.isEmpty(location.getCity())) {

@@ -46,7 +46,24 @@ public class AirAttachUtils {
 				});
 		}
 		else {
-			NavUtils.goToHotels(context, hotelSearchParams);
+			BackgroundDownloader.getInstance()
+				.startDownload("itinCrossSellSuggest", new BackgroundDownloader.Download<SuggestionResponse>() {
+					@Override
+					public SuggestionResponse doDownload() {
+						ExpediaServices services = new ExpediaServices(context);
+						return services.suggestionsCityNearby(hotelSearchParams.getSearchLatitude(),
+							hotelSearchParams.getSearchLongitude());
+					}
+				}, new BackgroundDownloader.OnDownloadComplete<SuggestionResponse>() {
+					@Override
+					public void onDownload(SuggestionResponse results) {
+						if (results != null && results.getSuggestions().size() > 0) {
+							hotelSearchParams.setRegionId(Integer.toString(
+								results.getSuggestions().get(0).getMultiCityRegionId()));
+							NavUtils.goToHotels(context, hotelSearchParams);
+						}
+					}
+				});
 		}
 	}
 
