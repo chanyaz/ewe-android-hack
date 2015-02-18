@@ -29,7 +29,7 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 	}
 
 	public static void clickSetButton() {
-		onView(withText("Set")).perform(click());
+		onView(withText(R.string.ok)).perform(click());
 	}
 
 	public static void clickEmptyTravelerDetails(int index) {
