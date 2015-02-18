@@ -6,8 +6,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.AttributeSet;
 
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.VisibilityTransition;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class PresenterTest {
@@ -18,6 +21,12 @@ public class PresenterTest {
 
 	private class B {
 
+	}
+
+	private class C extends Presenter {
+		public C(Context context, AttributeSet attrs) {
+			super(context, attrs);
+		}
 	}
 
 	public Presenter.Transition boringTransition = new Presenter.Transition(A.class.getName(), B.class.getName(), null, 100) {
@@ -88,5 +97,35 @@ public class PresenterTest {
 		Assert.assertEquals(1, root.getBackStack().size());
 		root.show(new B(), true);
 		Assert.assertEquals(1, root.getBackStack().size());
+	}
+
+	@Test
+	public void testClearNestedBackstacks() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		Presenter root = new Presenter(activity, null);
+		root.addTransition(new VisibilityTransition(root, A.class.getName(), C.class.getName()));
+		Presenter node = new C(activity, null);
+		root.show(new A());
+		root.show(node);
+		node.show(new A());
+		root.clearBackStack();
+		Assert.assertEquals(0, root.getBackStack().size());
+		Assert.assertEquals(0, node.getBackStack().size());
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testOneDefaultTransitionAllowed() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		Presenter root = new Presenter(activity, null);
+		root.addDefaultTransition(new Presenter.DefaultTransition("FOO") {
+			@Override
+			public void finalizeTransition(boolean forward) {
+			}
+		});
+		root.addDefaultTransition(new Presenter.DefaultTransition("BAR") {
+			@Override
+			public void finalizeTransition(boolean forward) {
+			}
+		});
 	}
 }

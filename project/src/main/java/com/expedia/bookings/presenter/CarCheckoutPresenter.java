@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
@@ -37,6 +38,7 @@ public class CarCheckoutPresenter extends Presenter {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		addTransition(checkoutToConfirmation);
+		addDefaultTransition(defaultCheckoutTransition);
 
 		checkoutDialog = new ProgressDialog(getContext());
 		checkoutDialog.setMessage(getResources().getString(R.string.booking_loading));
@@ -87,7 +89,14 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 
-	Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CarConfirmationWidget.class.getName());
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CarConfirmationWidget.class.getName());
+	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			checkout.setVisibility(View.VISIBLE);
+			confirmation.setVisibility(View.GONE);
+		}
+	};
 
 	/**
 	 * Events

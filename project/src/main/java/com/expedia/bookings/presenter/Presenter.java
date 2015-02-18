@@ -30,6 +30,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 	// Transition vars
 	private Map<String, Map<String, Transition>> transitions = new HashMap<>();
+	private Transition toDefaultTransition;
 	private String currentState;
 	private String destinationState;
 
@@ -80,6 +81,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		if (!backPressHandled) {
 
 			if (getBackStack().isEmpty()) {
+				currentState = null;
 				return false;
 			}
 
@@ -109,8 +111,13 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	@Override
 	public void clearBackStack() {
 		while (getBackStack().size() > 0) {
+			Object o = getBackStack().peek();
+			if (o instanceof IPresenter) {
+				((IPresenter) o).clearBackStack();
+			}
 			getBackStack().pop();
 		}
+		currentState = null;
 	}
 
 	public void show(Object newState) {
@@ -120,6 +127,10 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	public void show(Object newState, boolean clearBackStack) {
 		Log.d("Presenter", "state: " + newState.getClass().getName());
 		if (currentState == null) {
+			// If we have a default transition added, execute it.
+			if (toDefaultTransition != null && newState.getClass().getName().equals(toDefaultTransition.state2)) {
+				toDefaultTransition.finalizeTransition(true);
+			}
 			currentState = newState.getClass().getName();
 			getBackStack().push(newState);
 			return;
@@ -128,11 +139,12 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			return;
 		}
 
+		ValueAnimator animator = getStateAnimator(newState, true);
 		if (clearBackStack) {
 			clearBackStack();
 		}
 		getBackStack().push(newState);
-		getStateAnimator(newState, true).start();
+		animator.start();
 	}
 
 	public void hide(Object undoState) {
@@ -192,6 +204,27 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			transitions.put(transition.state1, new HashMap<String, Transition>());
 		}
 		transitions.get(transition.state1).put(transition.state2, transition);
+	}
+
+	public static abstract class DefaultTransition extends Transition {
+		public DefaultTransition(String defaultState) {
+			super(null, defaultState);
+		}
+		public void startTransition(boolean forward){
+		}
+
+		public void updateTransition(float f, boolean forward){
+		}
+
+		public void endTransition(boolean forward){
+		}
+	}
+
+	public void addDefaultTransition(DefaultTransition transition) {
+		if (toDefaultTransition != null) {
+			throw new RuntimeException("You can't have more than one default transition.");
+		}
+		toDefaultTransition = transition;
 	}
 
 	public Map<String, Map<String, Transition>> getTransitions() {
