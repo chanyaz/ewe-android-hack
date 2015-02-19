@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/hotels_launch_button"
+        android:id="@+id/hotels_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -21,11 +21,11 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/hotels_launch_button"
-        android:layout_toRightOf="@+id/hotels_launch_button">
+        android:layout_alignTop="@id/hotels_button"
+        android:layout_toRightOf="@+id/hotels_button">
 
         <TextView
-            android:id="@+id/flights_launch_button"
+            android:id="@+id/flights_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -39,11 +39,11 @@
             android:textColor="#FFFFFF" />
 
         <TextView
-            android:id="@+id/cars_launch_button"
+            android:id="@+id/cars_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/flights_launch_button"
-            android:layout_below="@+id/flights_launch_button"
+            android:layout_alignLeft="@+id/flights_button"
+            android:layout_below="@+id/flights_button"
             android:background="#883369"
             android:paddingBottom="21dp"
             android:paddingLeft="57dp"

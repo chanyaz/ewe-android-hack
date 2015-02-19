@@ -13,4 +13,16 @@
         android:textColor="#222222"
         android:textSize="20sp" />
 
+    <com.expedia.bookings.widget.NearbyHotelsWidget
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/nearby_hotel_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.expedia.bookings.widget.NearbyHotelsWidget>
+
+
 </LinearLayout>
