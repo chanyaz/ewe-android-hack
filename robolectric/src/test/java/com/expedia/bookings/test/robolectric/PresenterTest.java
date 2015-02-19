@@ -77,11 +77,11 @@ public class PresenterTest {
 		Assert.assertEquals(root.getBackStack().size(), 1);
 
 		Assert.assertTrue(root.getCurrentState().equals(A.class.getName()));
-		Presenter.Transition t = root.getTransition(A.class.getName(), B.class.getName());
+		Presenter.Transition t = root.getTransition(A.class.getName(), B.class.getName()).transition;
 		Assert.assertNotNull(t);
 		Assert.assertEquals(t, boringTransition);
 
-		Assert.assertNotNull(root.getStateAnimator(new B(), true));
+		Assert.assertNotNull(root.getStateAnimator(new B()));
 		Assert.assertTrue(t.state1.equals(A.class.getName()) && t.state2.equals(B.class.getName()));
 		root.show(new B());
 		Assert.assertEquals(root.getBackStack().size(), 2);
@@ -95,8 +95,20 @@ public class PresenterTest {
 
 		root.show(new A());
 		Assert.assertEquals(1, root.getBackStack().size());
-		root.show(new B(), true);
+		root.show(new B(), Presenter.FLAG_CLEAR_BACKSTACK);
 		Assert.assertEquals(1, root.getBackStack().size());
+	}
+
+	@Test
+	public void testClearTop() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		Presenter root = new Presenter(activity, null);
+		root.addTransition(new VisibilityTransition(root, A.class.getName(), B.class.getName()));
+		root.show(new A(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
+		root.show(new B(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
+		root.show(new A(), Presenter.FLAG_CLEAR_TOP);
+		Assert.assertEquals(1, root.getBackStack().size());
+		Assert.assertEquals(A.class.getName(), root.getBackStack().pop().getClass().getName());
 	}
 
 	@Test

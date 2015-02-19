@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -48,7 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarSearchParamsWidget extends Presenter
+public class CarSearchPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
@@ -57,11 +58,11 @@ public class CarSearchParamsWidget extends Presenter
 	private static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list.dat";
 	private static final int RECENT_MAX_SIZE = 3;
 
-	public CarSearchParamsWidget(Context context) {
+	public CarSearchPresenter(Context context) {
 		this(context, null);
 	}
 
-	public CarSearchParamsWidget(Context context, AttributeSet attrs) {
+	public CarSearchPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -72,6 +73,9 @@ public class CarSearchParamsWidget extends Presenter
 
 	@InjectView(R.id.pickup_location)
 	AutoCompleteTextView pickUpLocation;
+
+	@InjectView(R.id.search_container)
+	ViewGroup searchContainer;
 
 	@InjectView(R.id.dropoff_location)
 	TextView dropOffLocation;
@@ -115,7 +119,7 @@ public class CarSearchParamsWidget extends Presenter
 				switch (menuItem.getItemId()) {
 				case R.id.menu_check:
 					if (isSearchFormFilled()) {
-						Ui.hideKeyboard(CarSearchParamsWidget.this);
+						Ui.hideKeyboard(CarSearchPresenter.this);
 						Events.post(new Events.CarsNewSearchParams(carSearchParams));
 					}
 					break;
@@ -244,7 +248,7 @@ public class CarSearchParamsWidget extends Presenter
 	private AdapterView.OnItemClickListener mPickupListListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Ui.hideKeyboard(CarSearchParamsWidget.this);
+			Ui.hideKeyboard(CarSearchPresenter.this);
 			clearFocus();
 			Suggestion suggestion = suggestionAdapter.getItem(position);
 			setPickUpLocation(suggestion);
@@ -404,10 +408,26 @@ public class CarSearchParamsWidget extends Presenter
 		public void finalizeTransition(boolean forward) {
 			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
 			if (forward) {
-				Ui.hideKeyboard(CarSearchParamsWidget.this);
+				Ui.hideKeyboard(CarSearchPresenter.this);
 				pickUpLocation.clearFocus();
 			}
 			setCalendarVisibility(View.VISIBLE);
 		}
 	};
+
+	public void animationStart(boolean forward) {
+		searchContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
+		toolbar.setTranslationY(forward ? -toolbar.getHeight() : 0);
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
+		searchContainer.setTranslationY(translation);
+		toolbar.setTranslationY(forward ? -toolbar.getHeight() * (1 - f) : -toolbar.getHeight() * f);
+	}
+
+	public void animationFinalize(boolean forward) {
+		searchContainer.setTranslationY(0);
+		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+	}
 }

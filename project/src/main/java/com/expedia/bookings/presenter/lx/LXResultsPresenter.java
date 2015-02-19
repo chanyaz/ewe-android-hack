@@ -64,7 +64,7 @@ public class LXResultsPresenter extends Presenter {
 		@Override
 		public void onNext(List<LXActivity> lxActivities) {
 			Events.post(new Events.LXShowSearchResults(lxActivities));
-			show(searchResultsWidget, true);
+			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
 	};
 

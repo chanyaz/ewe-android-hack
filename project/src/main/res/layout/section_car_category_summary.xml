@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     card_view:cardCornerRadius="4dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -124,7 +123,6 @@
                 android:textColor="@color/cars_actionbar_text_color"
                 android:textSize="12sp"
                 android:text="4" />
-
 
             <TextView
                 android:id="@+id/total_price_text"

@@ -1,9 +1,5 @@
 package com.expedia.bookings.presenter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -17,6 +13,10 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 import butterknife.ButterKnife;
 
 /**
@@ -25,6 +25,17 @@ import butterknife.ButterKnife;
  */
 
 public class Presenter extends FrameLayout implements IPresenter<Object> {
+
+	// If set, and the object being added is already somewhere in the stack,
+	// then instead of adding another instance of that object to the stack,
+	// all of the other objects on top of it will be popped and this object
+	// will be pushed to the top of the stack.
+	public static final int FLAG_CLEAR_TOP = 0x04000000;
+	// Remove all Objects on stack prior to pushing another Object on to it
+	public static final int  FLAG_CLEAR_BACKSTACK = 0x00008000;
+	// ONLY USE IN TESTING - A flag to have the currentState be set without
+	// the necessity of the StateAnimator getting to its end.
+	public static final int TEST_FLAG_FORCE_NEW_STATE = 0x00000002;
 
 	private Stack<Object> backstack;
 
@@ -96,8 +107,6 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		}
 	}
 
-	// Backstack
-
 	@Override
 	public void initBackStack() {
 		backstack = new Stack<>();
@@ -121,10 +130,10 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	}
 
 	public void show(Object newState) {
-		show(newState, false);
+		show(newState, 0);
 	}
 
-	public void show(Object newState, boolean clearBackStack) {
+	public void show(Object newState, int flags) {
 		Log.d("Presenter", "state: " + newState.getClass().getName());
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
@@ -139,16 +148,41 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			return;
 		}
 
-		ValueAnimator animator = getStateAnimator(newState, true);
-		if (clearBackStack) {
-			clearBackStack();
-		}
+		ValueAnimator animator = getStateAnimator(newState);
+		handleFlags(newState.getClass().getName(), flags);
+
 		getBackStack().push(newState);
 		animator.start();
 	}
 
+	private void handleFlags(String newStateId, int flags) {
+		if ((flags & FLAG_CLEAR_BACKSTACK) == FLAG_CLEAR_BACKSTACK) {
+			clearBackStack();
+		}
+
+		if ((flags & FLAG_CLEAR_TOP) == FLAG_CLEAR_TOP) {
+			int index = -1;
+			for (int i = 0; i < backstack.size(); i++) {
+				if (backstack.get(i).getClass().getName().equals(newStateId)) {
+					index = i;
+					break;
+				}
+			}
+			if (index == -1) {
+				return;
+			}
+			while (backstack.size() > index) {
+				backstack.pop();
+			}
+		}
+
+		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == TEST_FLAG_FORCE_NEW_STATE) {
+			currentState = newStateId;
+		}
+	}
+
 	public void hide(Object undoState) {
-		getStateAnimator(undoState, false).start();
+		getStateAnimator(undoState).start();
 	}
 
 	public String getCurrentState() {
@@ -187,12 +221,21 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 	}
 
-	public Transition getTransition(String a, String b) {
+	public static class TransitionWrapper {
+		public final Transition transition;
+		public final boolean forward;
+		public TransitionWrapper(Transition transition, boolean forward) {
+			this.transition = transition;
+			this.forward = forward;
+		}
+	}
+
+	public TransitionWrapper getTransition(String a, String b) {
 		if (transitions.containsKey(a) && transitions.get(a).containsKey(b)) {
-			return transitions.get(a).get(b);
+			return new TransitionWrapper(transitions.get(a).get(b), true);
 		}
 		else if (transitions.containsKey(b) && transitions.get(b).containsKey(a)) {
-			return transitions.get(b).get(a);
+			return new TransitionWrapper(transitions.get(b).get(a), false);
 		}
 		else {
 			throw new RuntimeException("No Transition defined for " + a + " to " + b);
@@ -248,9 +291,9 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			+ lastAnimPercentage);
 	}
 
-	public ValueAnimator getStateAnimator(final Object state, boolean forward) {
-		final boolean goForward = forward;
-		final Transition transition = getTransition(currentState, state.getClass().getName());
+	public ValueAnimator getStateAnimator(final Object state) {
+		final TransitionWrapper meta = getTransition(currentState, state.getClass().getName());
+		final Transition transition = meta.transition;
 
 		if (transition == null) {
 			throw new RuntimeException("No Transition defined for "
@@ -287,10 +330,10 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 						//If we are nearing the final frame, and we haven't reached one of our maximum values, lets do
 						//so now, preventing some draw glitches between now and onStateFinalized.
 						lastAnimPercentage = Math.round(lastAnimPercentage);
-						transition.updateTransition(lastAnimPercentage, goForward);
+						transition.updateTransition(lastAnimPercentage, meta.forward);
 					}
 					else {
-						transition.updateTransition(lastAnimPercentage, goForward);
+						transition.updateTransition(lastAnimPercentage, meta.forward);
 					}
 				}
 			}
@@ -298,7 +341,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		animator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator arg0) {
-				transition.startTransition(goForward);
+				transition.startTransition(meta.forward);
 				resetAnimStats();
 				acceptAnimationUpdates = true;
 				destinationState = state.getClass().getName();
@@ -308,9 +351,9 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			public void onAnimationEnd(Animator arg0) {
 				acceptAnimationUpdates = false;
 				logAnimStats();
-				transition.endTransition(goForward);
-				transition.finalizeTransition(goForward);
-				currentState = goForward ? transition.state2 : transition.state1;
+				transition.endTransition(meta.forward);
+				transition.finalizeTransition(meta.forward);
+				currentState = meta.forward ? transition.state2 : transition.state1;
 				destinationState = null;
 			}
 
