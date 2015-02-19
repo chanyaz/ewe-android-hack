@@ -40,8 +40,33 @@ public class CarsPresenter extends Presenter {
 		widgetCarParams.setVisibility(View.VISIBLE);
 	}
 
-	private Transition paramsToResults = new VisibilityTransition(this, CarSearchParamsWidget.class.getName(),
-		CarsResultsPresenter.class.getName());
+	private Transition paramsToResults = new Transition(CarSearchParamsWidget.class.getName(), CarsResultsPresenter.class.getName()) {
+		@Override
+		public void startTransition(boolean forward) {
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				widgetCarParams.setVisibility(View.GONE);
+				carsResultsPresenter.setVisibility(View.VISIBLE);
+			}
+			else {
+				widgetCarParams.setVisibility(View.VISIBLE);
+				carsResultsPresenter.setVisibility(View.GONE);
+				carsResultsPresenter.cleanup();
+			}
+		}
+	};
+
 	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class.getName(),
 		CarCheckoutPresenter.class.getName());
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(),
