@@ -92,7 +92,7 @@ public class CarsResultsPresenter extends Presenter {
 		super.onDetachedFromWindow();
 	}
 
-	private void cleanup() {
+	public void cleanup() {
 		if (searchSubscription != null) {
 			searchSubscription.unsubscribe();
 			searchSubscription = null;
@@ -156,7 +156,7 @@ public class CarsResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		show(loading);
+		show(loading, true);
 		cleanup();
 		searchSubscription = CarDb.getCarServices()
 			.carSearch(event.carSearchParams, searchObserver);
