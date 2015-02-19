@@ -1,14 +1,22 @@
 package com.expedia.bookings.test.component.lx;
 
+import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.Matchers.allOf;
 
 public class LXViewModel {
 	public static ViewInteraction calendar() {
@@ -42,8 +50,30 @@ public class LXViewModel {
 	public static ViewInteraction alertDialogMessage() {
 		return onView(withId(android.R.id.message));
 	}
-	
+
 	public static ViewInteraction alertDialogNeutralButton() {
 		return onView(withId(android.R.id.button3));
+	}
+
+	public static ViewInteraction progress() {
+		return onView(withId(R.id.loading_results));
+	}
+
+	public static ViewInteraction searchResultsWidget() {
+		return onView(withId(R.id.lx_search_results_widget));
+	}
+
+	public static ViewInteraction searchList() {
+		return onView(recyclerView(R.id.lx_search_results_list));
+	}
+
+	public static Matcher<View> recyclerView(int viewId) {
+		return allOf(isAssignableFrom(RecyclerView.class), withId(viewId));
+	}
+
+	public static ViewInteraction recyclerItemView(Matcher<View> identifyingMatcher, int recyclerViewId) {
+		Matcher<View> itemView = allOf(withParent(recyclerView(recyclerViewId)),
+			withChild(identifyingMatcher));
+		return Espresso.onView(itemView);
 	}
 }

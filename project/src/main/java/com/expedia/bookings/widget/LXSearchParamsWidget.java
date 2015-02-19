@@ -71,8 +71,8 @@ public class LXSearchParamsWidget extends LinearLayout
 	public void performSearch() {
 		searchParams = searchParamsBuilder.build();
 		// Validate input
-		if (!validateSearchInput()) {
-			// Post event for search
+		if (validateSearchInput()) {
+			Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 			Ui.hideKeyboard(this);
 		}
 	}

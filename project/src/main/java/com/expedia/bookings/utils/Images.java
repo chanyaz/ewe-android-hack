@@ -34,4 +34,8 @@ public class Images {
 		final String code = categoryString + "_" + typeString;
 		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg";
 	}
+
+	public static String getLXImageURL(String url) {
+		return "http:" + url;
+	}
 }

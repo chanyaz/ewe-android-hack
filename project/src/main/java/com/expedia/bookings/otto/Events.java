@@ -24,6 +24,8 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -578,5 +580,21 @@ public class Events {
 	}
 
 	public static class LXCloseSearchWidget {
+	}
+
+	public static class LXNewSearchParamsAvailable {
+		public LXSearchParams lxSearchParams;
+
+		public LXNewSearchParamsAvailable(LXSearchParams params) {
+			lxSearchParams = params;
+		}
+	}
+
+	public static class LXShowSearchResults {
+		public List<LXActivity> activities;
+
+		public LXShowSearchResults(List<LXActivity> activities) {
+			this.activities = activities;
+		}
 	}
 }

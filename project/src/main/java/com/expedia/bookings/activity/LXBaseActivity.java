@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.lx.LXDb;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.squareup.otto.Subscribe;
@@ -21,6 +22,7 @@ public class LXBaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lx_base_layout);
 
+		LXDb.inject(this);
 		ButterKnife.inject(this);
 		Events.register(this);
 	}
