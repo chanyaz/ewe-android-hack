@@ -2,12 +2,14 @@ package com.expedia.bookings.test.ui.happy;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsConfirmationScreen;
@@ -19,7 +21,10 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsConfirmationSc
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+
+import static android.support.test.espresso.action.ViewActions.click;
 
 public class PhoneHappyPath extends PhoneTestCase {
 
@@ -146,4 +151,24 @@ public class PhoneHappyPath extends PhoneTestCase {
 		screenshot("Confirmation");
 		HotelsConfirmationScreen.clickDoneButton();
 	}
+
+	public void testViewItineraries() throws Throwable {
+		screenshot("Launch");
+		LaunchScreen.tripsButton().perform(click());
+		screenshot("Itins");
+		TripsScreen.clickOnLogInButton();
+		screenshot("Login");
+		LogInScreen.typeTextEmailEditText("user");
+		LogInScreen.typeTextPasswordEditText("password");
+		LogInScreen.clickOnLoginButton();
+		screenshot("Trips");
+		for (int i = 0; i < 3; i++) {
+			TripsScreen.clickListItem(i);
+			ScreenActions.delay(2);
+			screenshot("Trips_item_" + i + "_press");
+			Common.pressBack();
+			screenshot("Trips");
+		}
+	}
+
 }
