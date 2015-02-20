@@ -5,14 +5,12 @@ import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
 
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
 public class LaunchScreen extends LaunchActionBar {
 
 	public static ViewInteraction hotelLaunchWithContentDescription(Resources res) {
@@ -29,6 +27,11 @@ public class LaunchScreen extends LaunchActionBar {
 
 	public static ViewInteraction flightLaunchButton() {
 		return onView(withId(R.id.flights_button));
+	}
+
+	public static ViewInteraction tripsButton() {
+		return onView(withText(R.string.trips));
+
 	}
 
 	public static void launchHotels() {
