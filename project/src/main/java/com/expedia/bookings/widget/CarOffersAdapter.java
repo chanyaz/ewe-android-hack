@@ -168,9 +168,10 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	public void onItemExpanded(int index) {
 		if (mLastExpanded != index) {
 			offers.get(mLastExpanded).isToggled = false;
+			notifyItemChanged(mLastExpanded);
 			offers.get(index).isToggled = true;
+			notifyItemChanged(index);
 			mLastExpanded = index;
-			notifyDataSetChanged();
 		}
 	}
 }
