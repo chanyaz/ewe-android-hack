@@ -2,11 +2,11 @@ package com.expedia.bookings.presenter;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.widget.CarSearchParamsWidget;
+import com.expedia.bookings.widget.CarSearchPresenter;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -18,7 +18,7 @@ public class CarsPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.widget_car_params)
-	CarSearchParamsWidget widgetCarParams;
+	CarSearchPresenter carSearchPresenter;
 
 	@InjectView(R.id.cars_results_presenter)
 	CarsResultsPresenter carsResultsPresenter;
@@ -32,57 +32,33 @@ public class CarsPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
-		addTransition(paramsToResults);
+		addTransition(searchToResults);
 		addTransition(resultsToCheckout);
 		addTransition(checkoutToSearch);
 		addTransition(showParamsOverlay);
-		show(widgetCarParams);
-		widgetCarParams.setVisibility(View.VISIBLE);
+		show(carSearchPresenter);
+		carSearchPresenter.setVisibility(VISIBLE);
 	}
-
-	private Transition paramsToResults = new Transition(CarSearchParamsWidget.class.getName(), CarsResultsPresenter.class.getName()) {
-		@Override
-		public void startTransition(boolean forward) {
-		}
-
-		@Override
-		public void updateTransition(float f, boolean forward) {
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			if (forward) {
-				widgetCarParams.setVisibility(View.GONE);
-				carsResultsPresenter.setVisibility(View.VISIBLE);
-			}
-			else {
-				widgetCarParams.setVisibility(View.VISIBLE);
-				carsResultsPresenter.setVisibility(View.GONE);
-				carsResultsPresenter.cleanup();
-			}
-		}
-	};
 
 	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class.getName(),
 		CarCheckoutPresenter.class.getName());
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(),
-		CarSearchParamsWidget.class.getName());
+		CarSearchPresenter.class.getName());
 
-	private Transition showParamsOverlay = new Transition(CarsResultsPresenter.class.getName(), ParamsOverlayState.class.getName()) {
+	private Transition showParamsOverlay = new Transition(CarsResultsPresenter.class.getName(),
+		ParamsOverlayState.class.getName(), new DecelerateInterpolator(), 700) {
 		@Override
 		public void startTransition(boolean forward) {
-			widgetCarParams.setTranslationY(forward ? widgetCarParams.getHeight() : 0);
-			widgetCarParams.setVisibility(View.VISIBLE);
+			carsResultsPresenter.setVisibility(VISIBLE);
+			carSearchPresenter.setVisibility(VISIBLE);
+			carsResultsPresenter.animationStart(forward);
+			carSearchPresenter.animationStart(forward);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
-			float translation = forward ? widgetCarParams.getHeight() * (1 - f) : widgetCarParams.getHeight() * f;
-			widgetCarParams.setTranslationY(translation);
+			carsResultsPresenter.animationUpdate(f, forward);
+			carSearchPresenter.animationUpdate(f, forward);
 		}
 
 		@Override
@@ -91,14 +67,45 @@ public class CarsPresenter extends Presenter {
 
 		@Override
 		public void finalizeTransition(boolean forward) {
-			widgetCarParams.setVisibility(forward ? View.VISIBLE : View.GONE);
-			widgetCarParams.setTranslationY(0);
+			carsResultsPresenter.setVisibility(VISIBLE);
+			carSearchPresenter.setVisibility(forward ? VISIBLE : GONE);
+			carsResultsPresenter.animationFinalize(forward);
+			carSearchPresenter.animationFinalize(forward);
+		}
+	};
+
+	private Transition searchToResults = new Transition(CarSearchPresenter.class.getName(),
+		CarsResultsPresenter.class.getName(), new DecelerateInterpolator(), 700) {
+		@Override
+		public void startTransition(boolean forward) {
+			carsResultsPresenter.setVisibility(VISIBLE);
+			carSearchPresenter.setVisibility(VISIBLE);
+			carsResultsPresenter.animationStart(!forward);
+			carSearchPresenter.animationStart(!forward);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			carsResultsPresenter.animationUpdate(f, !forward);
+			carSearchPresenter.animationUpdate(f, !forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			carsResultsPresenter.setVisibility(forward ? VISIBLE : GONE);
+			carSearchPresenter.setVisibility(forward ? GONE : VISIBLE);
+			carsResultsPresenter.animationFinalize(!forward);
+			carSearchPresenter.animationFinalize(!forward);
 		}
 	};
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		show(carsResultsPresenter);
+		show(carsResultsPresenter, FLAG_CLEAR_TOP);
 	}
 
 	@Subscribe
@@ -108,12 +115,16 @@ public class CarsPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowConfirmation(Events.CarsShowConfirmation event) {
-		show(checkoutWidget, true);
+		show(checkoutWidget, FLAG_CLEAR_BACKSTACK);
 	}
 
 	@Subscribe
-	public void onShowSearch(Events.CarsGoToSearch event) {
-		// TODO: don't hide the other views, show search params widget over them with an alpha
-		show(new ParamsOverlayState(), false);
+	 public void onShowParamsOverlay(Events.CarsGoToOverlay event) {
+		show(new ParamsOverlayState());
+	}
+
+	@Subscribe
+	public void onShowSearchWidget(Events.CarsGoToSearch event) {
+		show(carSearchPresenter);
 	}
 }

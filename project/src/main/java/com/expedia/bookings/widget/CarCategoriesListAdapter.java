@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,9 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		@InjectView(R.id.door_count)
 		public TextView doorCount;
 
+		@InjectView(R.id.card_view)
+		public CardView cardView;
+
 		public ViewHolder(View view) {
 			super(view);
 			ButterKnife.inject(this, itemView);
@@ -89,7 +93,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 			passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
 			bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
 			doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
-
+			cardView.setPreventCornerOverlap(false);
 			bestPriceTextView.setText(totalTextView.getContext().getString(R.string.cars_total_template, lowestFare.rate.getFormattedMoney()));
 			totalTextView.setText(totalTextView.getContext().getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
 		}

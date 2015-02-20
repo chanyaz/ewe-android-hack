@@ -15,7 +15,7 @@ import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.widget.CarSearchParamsWidget;
+import com.expedia.bookings.widget.CarSearchPresenter;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -40,7 +40,7 @@ public final class CarSearchParamsTests {
 	public void testViewPopulatesSearchParams() throws Throwable {
 		DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
 
-		CarSearchParamsWidget widget = (CarSearchParamsWidget) playground.getRoot();
+		CarSearchPresenter widget = (CarSearchPresenter) playground.getRoot();
 		CarSearchParams actual;
 		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder =
 				new CarSearchParamsBuilder.DateTimeBuilder()

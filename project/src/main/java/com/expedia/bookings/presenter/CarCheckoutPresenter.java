@@ -93,7 +93,7 @@ public class CarCheckoutPresenter extends Presenter {
 		public void onNext(CarCheckoutResponse carCheckoutResponse) {
 			checkoutDialog.dismiss();
 			Events.post(new Events.CarsShowConfirmation(carCheckoutResponse));
-			show(confirmation, true);
+			show(confirmation, FLAG_CLEAR_BACKSTACK);
 		}
 	};
 

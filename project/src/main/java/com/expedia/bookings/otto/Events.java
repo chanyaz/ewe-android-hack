@@ -523,6 +523,9 @@ public class Events {
 	public static class CarsGoToSearch {
 	}
 
+	public static class CarsGoToOverlay {
+	}
+
 	public static class CarsNewSearchParams {
 		public CarSearchParams carSearchParams;
 

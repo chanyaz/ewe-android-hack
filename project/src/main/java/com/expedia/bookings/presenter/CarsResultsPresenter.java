@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -60,6 +62,8 @@ public class CarsResultsPresenter extends Presenter {
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
 	private Subscription createTripSubscription;
+	private CarSearchParams mParams;
+	private CategorizedCarOffers mOffer;
 
 	@Override
 	protected void onFinishInflate() {
@@ -68,6 +72,7 @@ public class CarsResultsPresenter extends Presenter {
 
 		addTransition(loadingToCategories);
 		addTransition(categoriesToDetails);
+		addTransition(loadingToDetails);
 		addDefaultTransition(setUpLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
@@ -85,7 +90,7 @@ public class CarsResultsPresenter extends Presenter {
 			public boolean onMenuItemClick(MenuItem menuItem) {
 				switch (menuItem.getItemId()) {
 				case R.id.menu_search:
-					Events.post(new Events.CarsGoToSearch());
+					Events.post(new Events.CarsGoToOverlay());
 					break;
 				}
 				return false;
@@ -125,12 +130,90 @@ public class CarsResultsPresenter extends Presenter {
 		@Override
 		public void onNext(CarSearch carSearch) {
 			Events.post(new Events.CarsShowSearchResults(carSearch));
-			show(categories, true);
+			show(categories, FLAG_CLEAR_BACKSTACK);
 		}
 	};
 
-	Transition loadingToCategories = new VisibilityTransition(this, ProgressBar.class.getName(), CarCategoryListWidget.class.getName());
-	Transition categoriesToDetails = new VisibilityTransition(this, CarCategoryListWidget.class.getName(), CarCategoryDetailsWidget.class.getName());
+	Transition loadingToCategories = new VisibilityTransition(this, ProgressBar.class.getName(),
+		CarCategoryListWidget.class.getName());
+	Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(),
+		CarCategoryDetailsWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			toolbarBackground.setVisibility(View.VISIBLE);
+			toolbarBackground.setTranslationX(0);
+		}
+	};
+
+	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class.getName(),
+		CarCategoryDetailsWidget.class.getName()) {
+
+		@Override
+		public void startTransition(boolean forward) {
+			toolbarBackground.setTranslationX(forward ? 0 : -toolbarBackground.getWidth());
+			toolbarBackground.setVisibility(VISIBLE);
+
+			categories.setTranslationX(forward ? 0 : -categories.getWidth());
+			categories.setVisibility(VISIBLE);
+
+			details.setTranslationX(forward ? details.getWidth() : 0);
+			details.setVisibility(VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float translationD = forward ? -toolbarBackground.getWidth() * f : toolbarBackground.getWidth() * (f - 1);
+			toolbarBackground.setTranslationX(translationD);
+
+			float translationC = forward ? -categories.getWidth() * f : categories.getWidth() * (f - 1);
+			categories.setTranslationX(translationC);
+
+			float translationX = forward ? -details.getWidth() * (f - 1) : details.getWidth() * f;
+			details.setTranslationX(translationX);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			toolbarBackground.setVisibility(forward ? GONE : VISIBLE);
+			toolbarBackground.setTranslationX(forward ? -toolbar.getWidth() : 0);
+
+			categories.setVisibility(forward ? GONE : VISIBLE);
+			categories.setTranslationX(0);
+
+			details.setVisibility(forward ? VISIBLE : GONE);
+			details.setTranslationX(0);
+
+			if (forward) {
+				setToolBarDetailsText();
+			}
+			else {
+				setToolBarResultsText();
+			}
+
+		}
+	};
+
+	private void setToolBarDetailsText() {
+		if (mOffer != null) {
+			toolbar.setTitle(mOffer.category.toString());
+		}
+	}
+
+	private void setToolBarResultsText() {
+		if (mParams != null) {
+			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), mParams,
+				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			toolbar.setTitle(mParams.originDescription);
+			toolbar.setSubtitle(dateTimeRange);
+		}
+	}
+
 	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
@@ -164,23 +247,19 @@ public class CarsResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		show(loading, true);
+		show(loading, FLAG_CLEAR_BACKSTACK);
 		cleanup();
+		mParams = event.carSearchParams;
 		searchSubscription = carServices
 			.carSearch(event.carSearchParams, searchObserver);
-		String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), event.carSearchParams,
-			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
-
-		toolbar.setTitle(event.carSearchParams.originDescription);
-		toolbar.setSubtitle(dateTimeRange);
-
-		searchSubscription = carServices.carSearch(event.carSearchParams, searchObserver);
+		setToolBarResultsText();
 	}
 
 	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
 		show(details);
-		toolbar.setTitle(event.categorizedCarOffers.category.toString());
+		mOffer = event.categorizedCarOffers;
+		setToolBarDetailsText();
 	}
 
 	@Subscribe
@@ -189,6 +268,22 @@ public class CarsResultsPresenter extends Presenter {
 		cleanup();
 		createTripSubscription = carServices
 			.createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), createTripObserver);
+	}
+
+	public void animationStart(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
+		toolbar.setTranslationY(forward ? 0 : 50);
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		toolbarBackground
+			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
+		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+	}
+
+	public void animationFinalize(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
+		toolbar.setTranslationY(forward ? 50 : 0);
 	}
 
 }
