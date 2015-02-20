@@ -36,9 +36,18 @@
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">Reservation was successful! Itin #: %1$s</string>
+    <string name="successful_checkout_TEMPLATE">Itinerary # %1$s sent to</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Missing checkout params.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hotels in %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Flights in %1$s</string>
+    <!-- Car confirmation screen lable -->
+    <string name="successful_checkout_pickup_label">Pick-up at</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Call Customer Support</string>
+    <!-- Error message for some missing checkout params -->
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Enter your destination</string>
@@ -445,6 +454,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinerary ready</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->

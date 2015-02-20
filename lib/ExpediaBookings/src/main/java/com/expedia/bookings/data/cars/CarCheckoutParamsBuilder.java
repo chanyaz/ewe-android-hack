@@ -69,4 +69,7 @@ public class CarCheckoutParamsBuilder {
 			&& mGrandTotal != null;
 	}
 
+	public String getEmailAddress() {
+		return mEmailAddress;
+	}
 }

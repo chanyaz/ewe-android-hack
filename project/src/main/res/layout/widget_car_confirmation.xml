@@ -1,22 +1,163 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <com.expedia.bookings.widget.CarConfirmationWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="#1A1D20"
     android:orientation="vertical">
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/confirmation_text"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.widget.OptimizedImageView
+            android:id="@+id/background_image_view"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"></com.expedia.bookings.widget.OptimizedImageView>
+
+        <ImageView
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:id="@+id/close_image_button"
+            android:src="@drawable/ic_close_white_24dp"></ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/vendor_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/itin_white_text"
+               ></com.expedia.bookings.widget.TextView>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/pickup_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/itin_white_text"
+                android:text="@string/successful_checkout_pickup_label"></com.expedia.bookings.widget.TextView>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/pickup_location_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/itin_white_text"
+                ></com.expedia.bookings.widget.TextView>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/pickup_date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pickup_location_text"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/itin_white_text"
+                ></com.expedia.bookings.widget.TextView>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/dropoff_date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pickup_date_text"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/itin_white_text"
+                ></com.expedia.bookings.widget.TextView>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#2F343B"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            style="@style/CarsBookingButton"
+            android:drawableLeft="@drawable/ic_direction"
+            android:text="@string/directions"
+            android:layout_height="wrap_content"></Button>
+
+        <Button
+            android:layout_marginTop="1dp"
+            style="@style/CarsBookingButton"
+            android:layout_width="match_parent"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:text="@string/add_to_calendar"
+            android:layout_height="wrap_content"></Button>
+
+        <Button
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_width="match_parent"
+            style="@style/CarsBookingButton"
+            android:drawableLeft="@drawable/ic_phone"
+            android:text="@string/call_customer_support"
+            android:layout_height="wrap_content"></Button>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="#202429"></View>
+
+        <Button
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:id="@+id/add_hotel_button"
+            android:drawableLeft="@drawable/ic_suggest_hotel"
+            style="@style/CarsBookingButton"
+            android:layout_height="wrap_content"></Button>
+
+        <Button
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:id="@+id/add_flight_button"
+            style="@style/CarsBookingButton"
+            android:layout_width="match_parent"
+            android:drawableLeft="@drawable/ic_logo_flights"
+            android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        tools:text="Itin #: 1230923" />
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/cars_back_to_search"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="@string/DONE" />
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/confirmation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textColor="#C3C3C3"
+            ></com.expedia.bookings.widget.TextView>
 
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#C3C3C3"
+            android:layout_gravity="center_horizontal"
+            ></com.expedia.bookings.widget.TextView>
+    </LinearLayout>
 </com.expedia.bookings.widget.CarConfirmationWidget>
