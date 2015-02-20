@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 public class PlaygroundActivity extends Activity {
 
@@ -26,6 +27,7 @@ public class PlaygroundActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Ui.getApplication(this).defaultComponents();
 		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.activity_cars));
 	}
 }

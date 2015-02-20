@@ -3,6 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,39 +15,40 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarDb;
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
-
 import rx.Observer;
 
 public class CarSuggestionAdapter extends ArrayAdapter<Suggestion> implements Filterable {
 
-	private List<Suggestion> mList;
-	private LayoutInflater mInflater;
+	@Inject
+	SuggestionServices suggestionServices;
 
+	private List<Suggestion> suggestions = new ArrayList<>();
+	private SuggestFilter filter = new SuggestFilter();
 
 	public CarSuggestionAdapter(Context context, int resource) {
 		super(context, resource);
-		mInflater = LayoutInflater.from(context);
-		mList = new ArrayList<>();
 	}
 
 	@Override
 	public int getCount() {
-		return mList.size();
+		return suggestions.size();
 	}
 
 	public void addAll(List<Suggestion> list) {
-		mList.addAll(list);
-		mFilter.publishResults("", null);
+		suggestions.addAll(list);
+		filter.publishResults("", null);
 	}
 
 	@Override
 	public Suggestion getItem(int position) {
-		return mList.get(position);
+		return suggestions.get(position);
 	}
 
 	@Override
@@ -53,13 +56,9 @@ public class CarSuggestionAdapter extends ArrayAdapter<Suggestion> implements Fi
 		Suggestion suggestion = getItem(position);
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.cars_dropdown_item, parent, false);
-			holder = new ViewHolder();
-			holder.displayName = (TextView) convertView.findViewById(R.id.display_name_textView);
-			holder.airportName = (TextView) convertView.findViewById(R.id.airport_name_textView);
-			holder.dropdownImage = (ImageView) convertView.findViewById(R.id.cars_dropdown_imageView);
+			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cars_dropdown_item, parent, false);
+			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
-
 		}
 		else {
 			holder = (ViewHolder) convertView.getTag();
@@ -75,34 +74,38 @@ public class CarSuggestionAdapter extends ArrayAdapter<Suggestion> implements Fi
 	}
 
 	public static class ViewHolder {
+		@InjectView(R.id.display_name_textView)
 		TextView displayName;
+
+		@InjectView(R.id.airport_name_textView)
 		TextView airportName;
+
+		@InjectView(R.id.cars_dropdown_imageView)
 		ImageView dropdownImage;
+
+		public ViewHolder(View root) {
+			ButterKnife.inject(this, root);
+		}
 	}
 
 	@Override
 	public Filter getFilter() {
-		return mFilter;
+		return filter;
 	}
 
-	private SuggestFilter mFilter = new SuggestFilter();
-
-
 	private class SuggestFilter extends Filter {
-
 		public SuggestFilter() {
-
+			// ignore
 		}
 
 		@Override
 		protected FilterResults performFiltering(CharSequence s) {
 			FilterResults oReturn = new FilterResults();
 			if (s != null && s.length() >= 3) {
-				CarDb.getSuggestionServices()
-					.getAirportSuggestions(s.toString(), mSuggestionsRequestObs);
+				suggestionServices.getAirportSuggestions(s.toString(), suggestionsObserver);
 			}
-			oReturn.count = mList.size();
-			oReturn.values = mList;
+			oReturn.count = suggestions.size();
+			oReturn.values = suggestions;
 			return oReturn;
 		}
 
@@ -113,13 +116,10 @@ public class CarSuggestionAdapter extends ArrayAdapter<Suggestion> implements Fi
 		}
 	}
 
-	Observer<List<Suggestion>> mSuggestionsRequestObs = new Observer<List<Suggestion>>() {
-		List<Suggestion> list;
-
+	private Observer<List<Suggestion>> suggestionsObserver = new Observer<List<Suggestion>>() {
 		@Override
 		public void onCompleted() {
-			mList = list;
-			mFilter.publishResults("", null);
+			filter.publishResults("", null);
 		}
 
 		@Override
@@ -129,7 +129,7 @@ public class CarSuggestionAdapter extends ArrayAdapter<Suggestion> implements Fi
 
 		@Override
 		public void onNext(List<Suggestion> suggestions) {
-			list = suggestions;
+			CarSuggestionAdapter.this.suggestions = suggestions;
 		}
 	};
 }

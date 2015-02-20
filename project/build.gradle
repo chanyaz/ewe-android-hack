@@ -6,6 +6,7 @@ def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 
@@ -13,6 +14,7 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' } // For dagger 2.0-snapshot
 }
 
 dependencies {
@@ -56,15 +58,22 @@ dependencies {
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'com.wefika:flowlayout:0.4.0'
 
+    // Dagger 2.0
+    compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
+    apt 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
     compile ('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
         transitive = true
     }
 
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.0'){
         exclude group: 'com.android.support'
+        exclude group: 'javax.inject'
     }
     androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.0'){
         exclude group: 'com.android.support'
+        exclude group: 'javax.inject'
     }
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
     androidTestCompile('com.squareup.okhttp:mockwebserver:2.1.0') {
