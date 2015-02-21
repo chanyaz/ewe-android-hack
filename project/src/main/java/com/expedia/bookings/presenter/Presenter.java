@@ -1,5 +1,9 @@
 package com.expedia.bookings.presenter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -12,10 +16,6 @@ import com.expedia.bookings.animation.LooseLipsSinkShipsInterpolator;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
 
 import butterknife.ButterKnife;
 
@@ -32,7 +32,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	// will be pushed to the top of the stack.
 	public static final int FLAG_CLEAR_TOP = 0x04000000;
 	// Remove all Objects on stack prior to pushing another Object on to it
-	public static final int  FLAG_CLEAR_BACKSTACK = 0x00008000;
+	public static final int FLAG_CLEAR_BACKSTACK = 0x00008000;
 	// ONLY USE IN TESTING - A flag to have the currentState be set without
 	// the necessity of the StateAnimator getting to its end.
 	public static final int TEST_FLAG_FORCE_NEW_STATE = 0x00000002;
@@ -211,6 +211,17 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
 		}
 
+		public Transition(Class state1, Class state2, Interpolator interpolator, int duration) {
+			this.state1 = state1.getName();
+			this.state2 = state2.getName();
+			this.interpolator = interpolator;
+			this.duration = duration;
+		}
+
+		public Transition(Class state1, Class state2) {
+			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
+		}
+
 		public abstract void startTransition(boolean forward);
 
 		public abstract void updateTransition(float f, boolean forward);
@@ -224,6 +235,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	public static class TransitionWrapper {
 		public final Transition transition;
 		public final boolean forward;
+
 		public TransitionWrapper(Transition transition, boolean forward) {
 			this.transition = transition;
 			this.forward = forward;
@@ -253,6 +265,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		public DefaultTransition(String defaultState) {
 			super(null, defaultState);
 		}
+
 		public void startTransition(boolean forward) {
 		}
 

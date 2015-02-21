@@ -29,7 +29,7 @@ public class PresenterTest {
 		}
 	}
 
-	public Presenter.Transition boringTransition = new Presenter.Transition(A.class.getName(), B.class.getName(), null, 100) {
+	public Presenter.Transition boringTransition = new Presenter.Transition(A.class, B.class, null, 100) {
 		@Override
 		public void startTransition(boolean forward) {
 		}

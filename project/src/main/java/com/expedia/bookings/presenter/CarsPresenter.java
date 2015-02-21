@@ -40,13 +40,13 @@ public class CarsPresenter extends Presenter {
 		carSearchPresenter.setVisibility(VISIBLE);
 	}
 
-	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class.getName(),
-		CarCheckoutPresenter.class.getName());
-	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(),
-		CarSearchPresenter.class.getName());
+	private Transition resultsToCheckout = new VisibilityTransition(this, CarsResultsPresenter.class,
+		CarCheckoutPresenter.class);
+	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class,
+		CarSearchPresenter.class);
 
-	private Transition showParamsOverlay = new Transition(CarsResultsPresenter.class.getName(),
-		ParamsOverlayState.class.getName(), new DecelerateInterpolator(), 700) {
+	private Transition showParamsOverlay = new Transition(CarsResultsPresenter.class,
+		ParamsOverlayState.class, new DecelerateInterpolator(), 700) {
 		@Override
 		public void startTransition(boolean forward) {
 			carsResultsPresenter.setVisibility(VISIBLE);
@@ -74,8 +74,8 @@ public class CarsPresenter extends Presenter {
 		}
 	};
 
-	private Transition searchToResults = new Transition(CarSearchPresenter.class.getName(),
-		CarsResultsPresenter.class.getName(), new DecelerateInterpolator(), 700) {
+	private Transition searchToResults = new Transition(CarSearchPresenter.class,
+		CarsResultsPresenter.class, new DecelerateInterpolator(), 700) {
 		@Override
 		public void startTransition(boolean forward) {
 			carsResultsPresenter.setVisibility(VISIBLE);
@@ -119,7 +119,7 @@ public class CarsPresenter extends Presenter {
 	}
 
 	@Subscribe
-	 public void onShowParamsOverlay(Events.CarsGoToOverlay event) {
+	public void onShowParamsOverlay(Events.CarsGoToOverlay event) {
 		show(new ParamsOverlayState());
 	}
 
