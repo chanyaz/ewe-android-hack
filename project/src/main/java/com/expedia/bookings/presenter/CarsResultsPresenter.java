@@ -146,8 +146,8 @@ public class CarsResultsPresenter extends Presenter {
 		}
 	};
 
-	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class.getName(),
-		CarCategoryDetailsWidget.class.getName()) {
+	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class,
+		CarCategoryDetailsWidget.class) {
 
 		@Override
 		public void startTransition(boolean forward) {

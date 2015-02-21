@@ -159,7 +159,7 @@ public class CarSearchPresenter extends Presenter
 
 		loadHistory();
 
-		addTransition(mOneToTwo);
+		addTransition(defaultToCal);
 
 		show(new CarParamsDefault());
 	}
@@ -378,8 +378,8 @@ public class CarSearchPresenter extends Presenter
 	public static class CarParamsCalendar {
 	}
 
-	private Presenter.Transition mOneToTwo = new Presenter.Transition(CarParamsDefault.class.getName(),
-		CarParamsCalendar.class.getName()) {
+	private Presenter.Transition defaultToCal = new Presenter.Transition(CarParamsDefault.class,
+		CarParamsCalendar.class) {
 		private int calendarHeight;
 
 		@Override

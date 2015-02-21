@@ -6,6 +6,11 @@ public class VisibilityTransition extends Presenter.Transition {
 
 	private final Presenter presenter;
 
+	public VisibilityTransition(Presenter presenter, Class state1, Class state2) {
+		super(state1, state2, null, 0);
+		this.presenter = presenter;
+	}
+
 	public VisibilityTransition(Presenter presenter, String state1, String state2) {
 		super(state1, state2, null, 0);
 		this.presenter = presenter;
