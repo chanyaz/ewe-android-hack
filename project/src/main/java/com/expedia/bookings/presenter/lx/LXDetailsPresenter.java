@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
+import javax.inject.Inject;
+
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -10,10 +12,11 @@ import android.widget.ProgressBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
-import com.expedia.bookings.data.lx.LXDb;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
+import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.squareup.otto.Subscribe;
 
@@ -39,6 +42,9 @@ public class LXDetailsPresenter extends Presenter {
 
 	private Subscription detailsSubscription;
 
+	@Inject
+	LXServices lxServices;
+
 	// Transitions
 	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName());
 	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
@@ -52,6 +58,8 @@ public class LXDetailsPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		Ui.getApplication(getContext()).lxComponent().inject(this);
+
 		addTransition(loadingToDetails);
 		addDefaultTransition(setUpLoading);
 	}
@@ -94,7 +102,7 @@ public class LXDetailsPresenter extends Presenter {
 		activityDetailsParams.activityId = event.lxActivity.id;
 		activityDetailsParams.startDate = LocalDate.now();
 		activityDetailsParams.endDate = LocalDate.now().plusDays(4);
-		detailsSubscription = LXDb.getLxServices().lxDetails(activityDetailsParams, detailsObserver);
+		detailsSubscription = lxServices.lxDetails(activityDetailsParams, detailsObserver);
 	}
 
 }

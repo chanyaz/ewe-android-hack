@@ -20,7 +20,7 @@ public class CarsActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Ui.getApplication(this).defaultComponents();
+		Ui.getApplication(this).defaultCarComponents();
 		setContentView(R.layout.activity_cars);
 		ButterKnife.inject(this);
 	}

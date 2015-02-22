@@ -27,7 +27,8 @@ public class PlaygroundActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Ui.getApplication(this).defaultComponents();
+		Ui.getApplication(this).defaultCarComponents();
+		Ui.getApplication(this).defaultLXComponents();
 		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.activity_cars));
 	}
 }

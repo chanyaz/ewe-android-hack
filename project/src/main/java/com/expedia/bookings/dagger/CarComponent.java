@@ -8,7 +8,7 @@ import com.expedia.bookings.widget.CarSuggestionAdapter;
 import dagger.Component;
 
 @Singleton
-@Component(modules = CarModule.class)
+@Component(modules = {AppModule.class, CarModule.class})
 public interface CarComponent {
 	void inject(CarCheckoutPresenter presenter);
 	void inject(CarsResultsPresenter presenter);

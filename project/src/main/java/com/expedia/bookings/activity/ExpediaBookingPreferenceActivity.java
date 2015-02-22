@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.lx.LXDb;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
@@ -42,10 +41,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 	private static final int DIALOG_CLEAR_DATA = 0;
 	private static final int DIALOG_CLEAR_DATA_SIGNED_OUT = 1;
 
-	// We cannot assign the CarServices endpoint in the change listener because
-	// the value has not necessarily been set in preference at that point.
-	boolean mApiChanged = false;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +56,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					ClearPrivateDataUtil.clear(ExpediaBookingPreferenceActivity.this);
-					mApiChanged = true;
 					return true;
 				}
 			});
@@ -132,10 +126,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 	protected void onPause() {
 		super.onPause();
 		OmnitureTracking.onPause();
-		if (mApiChanged) {
-			LXDb.inject(this);
-			mApiChanged = false;
-		}
 	}
 
 	@Override
