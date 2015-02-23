@@ -21,7 +21,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
@@ -102,17 +102,17 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				len = photos.length();
 				for (int a = 0; a < len; a++) {
 					JSONObject photo = photos.optJSONObject(a);
-					Media media = ParserUtils.parseUrl(photo.optString("url"));
-					if (media != null) {
-						property.addMedia(media);
+					HotelMedia hotelMedia = ParserUtils.parseUrl(photo.optString("url"));
+					if (hotelMedia != null) {
+						property.addMedia(hotelMedia);
 					}
 				}
 
 				// Adding the first media as the thumbnail media, if it exists
 				if (property.getMediaCount() > 0) {
-					Media media = property.getMedia(0);
-					Media thumbnailMedia = new Media(media.getUrl(Media.Size.BIG));
-					property.setThumbnail(thumbnailMedia);
+					HotelMedia hotelMedia = property.getMedia(0);
+					HotelMedia thumbnailHotelMedia = new HotelMedia(hotelMedia.getUrl(HotelMedia.Size.BIG));
+					property.setThumbnail(thumbnailHotelMedia);
 				}
 			}
 

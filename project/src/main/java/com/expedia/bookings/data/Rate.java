@@ -106,7 +106,7 @@ public class Rate implements JSONable {
 	private RateRules mRateRules;
 
 	// #1266: There's sometimes thumbnail associated with the rate (of the specific room)
-	private Media mThumbnail;
+	private HotelMedia mThumbnail;
 
 	// Air Attach - is this rate discounted as the result of a flight booking?
 	private boolean mAirAttached;
@@ -486,11 +486,11 @@ public class Rate implements JSONable {
 		return mRateRules;
 	}
 
-	public void setThumbnail(Media thumbnail) {
+	public void setThumbnail(HotelMedia thumbnail) {
 		mThumbnail = thumbnail;
 	}
 
-	public Media getThumbnail() {
+	public HotelMedia getThumbnail() {
 		return mThumbnail;
 	}
 
@@ -826,7 +826,7 @@ public class Rate implements JSONable {
 			mBedTypes = new HashSet<BedType>(bedTypes);
 		}
 		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
-		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
+		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", HotelMedia.class);
 		mAirAttached = obj.optBoolean("airAttached", false);
 		mEtpRate = JSONUtils.getJSONable(obj, "etpRate", Rate.class);
 		mIsPayLater = obj.optBoolean("isPayLater", false);

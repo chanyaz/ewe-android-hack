@@ -21,7 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -53,7 +53,7 @@ public class HotelUtils {
 	 * Tries to return the best "room" picture, but falls back to property
 	 * images/thumbnails if none exists.  May return null if all fails.
 	 */
-	public static Media getRoomMedia(TripBucketItemHotel hotel) {
+	public static HotelMedia getRoomMedia(TripBucketItemHotel hotel) {
 		Rate rate = hotel.getRate();
 		Rate oldRate = hotel.getOldRate();
 		Property property = hotel.getProperty();

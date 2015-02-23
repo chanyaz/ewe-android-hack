@@ -76,4 +76,33 @@ public class LXViewModel {
 			withChild(identifyingMatcher));
 		return Espresso.onView(itemView);
 	}
+
+	public static ViewInteraction progressDetails() {
+		return onView(withId(R.id.loading_details));
+	}
+
+	public static ViewInteraction detailsWidget() {
+		return onView(withId(R.id.activity_details));
+	}
+
+	public static ViewInteraction recyclerGallery() {
+		return onView(withId(R.id.activity_gallery));
+	}
+
+	public static ViewInteraction infoContainer() {
+		return onView(withId(R.id.activity_info_container));
+	}
+
+	public static ViewInteraction locationContent() {
+		return onView(withId(R.id.location));
+	}
+
+	public static ViewInteraction descriptionContent() {
+		return onView(withId(R.id.description));
+	}
+
+	public static ViewInteraction highlightsContent() {
+		return onView(withId(R.id.highlights));
+	}
+
 }

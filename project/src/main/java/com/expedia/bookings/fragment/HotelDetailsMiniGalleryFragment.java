@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.widget.RecyclerGallery;
 import com.mobiata.android.util.Ui;
@@ -72,20 +72,20 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	}
 
 	public void populateViews(Property property) {
-		final List<Media> media = new ArrayList<Media>();
+		final List<HotelMedia> hotelMedia = new ArrayList<HotelMedia>();
 
 		if (property != null && property.getMediaCount() > 0) {
-			media.addAll(property.getMediaList());
+			hotelMedia.addAll(property.getMediaList());
 		}
 
-		if (media.size() == 0) {
+		if (hotelMedia.size() == 0) {
 			return;
 		}
-		mGallery.setDataSource(media);
+		mGallery.setDataSource(hotelMedia);
 
 		mGallery.setOnItemClickListener(mListener);
 
-		if (mGalleryPosition > 0 && media.size() > mGalleryPosition) {
+		if (mGalleryPosition > 0 && hotelMedia.size() > mGalleryPosition) {
 			mGallery.scrollToPosition(mGalleryPosition);
 		}
 

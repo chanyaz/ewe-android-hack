@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -168,7 +168,7 @@ public class RecyclerGallery extends RecyclerView {
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 
-		mAdapter = new RecyclerAdapter(getContext(), new ArrayList<Media>());
+		mAdapter = new RecyclerAdapter(getContext(), new ArrayList<IMedia>());
 		setAdapter(mAdapter);
 	}
 
@@ -179,12 +179,12 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-		private List<Media> mMedia;
+		private List<? extends IMedia> mMedia;
 		private Context mContext;
 		private LinearLayout.LayoutParams mLayoutParams;
 		private static final int MAX_IMAGES_LOADED = 5;
 
-		private RecyclerAdapter(Context context, List<Media> media) {
+		private RecyclerAdapter(Context context, List<? extends IMedia> media) {
 			mContext = context;
 			mMedia = media;
 			setWidth();
@@ -276,8 +276,8 @@ public class RecyclerGallery extends RecyclerView {
 
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
-			Media media = mMedia.get(position);
-			media.loadHighResImage(holder.mImageView, holder.callback,
+			IMedia media = mMedia.get(position);
+			media.loadImage(holder.mImageView, holder.callback,
 				mMode == MODE_CENTER ? R.drawable.bg_tablet_hotel_results_placeholder : 0);
 			preFetchImages(position);
 		}
@@ -287,7 +287,7 @@ public class RecyclerGallery extends RecyclerView {
 			return mMedia.size();
 		}
 
-		private void replaceWith(List<Media> media) {
+		private void replaceWith(List<? extends IMedia> media) {
 			mMedia = media;
 			notifyDataSetChanged();
 		}
@@ -303,7 +303,7 @@ public class RecyclerGallery extends RecyclerView {
 				hasMore = false;
 				if (left > 0) {
 					left--;
-					mMedia.get(left).preloadHighResImage(mContext);
+					mMedia.get(left).preloadImage(mContext);
 					loaded++;
 					hasMore = true;
 				}
@@ -312,7 +312,7 @@ public class RecyclerGallery extends RecyclerView {
 				}
 				if (right < len - 1) {
 					right++;
-					mMedia.get(right).preloadHighResImage(mContext);
+					mMedia.get(right).preloadImage(mContext);
 					loaded++;
 					hasMore = true;
 				}
@@ -329,7 +329,7 @@ public class RecyclerGallery extends RecyclerView {
 		return position;
 	}
 
-	public void setDataSource(List<Media> media) {
+	public void setDataSource(List<? extends IMedia> media) {
 		mAdapter.replaceWith(media);
 	}
 

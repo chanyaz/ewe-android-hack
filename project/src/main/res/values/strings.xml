@@ -78,6 +78,14 @@
     <string name="lx_error_missing_location">Location missing</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Select dates</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Highlights</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Description</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Location</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Free cancellation</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

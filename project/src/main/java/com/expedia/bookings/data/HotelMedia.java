@@ -12,6 +12,7 @@ import android.content.Context;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
@@ -26,7 +27,7 @@ import com.mobiata.android.json.JSONable;
  * @author doug
  *
  */
-public class Media implements JSONable {
+public class HotelMedia implements JSONable, IMedia {
 
 	/*
 	 * The suffixes for different image sizes is documented here:
@@ -93,11 +94,11 @@ public class Media implements JSONable {
 	private String mBaseUrl;
 	private Size mOriginalType;
 
-	public Media() {
+	public HotelMedia() {
 		// Default constructor
 	}
 
-	public Media(String url) {
+	public HotelMedia(String url) {
 		setUrl(url);
 	}
 
@@ -205,11 +206,13 @@ public class Media implements JSONable {
 		mOriginalType = Size.parse(url.substring(split, split + 1));
 	}
 
-	public void loadHighResImage(ImageView imageView, PicassoTarget target, int defaultResId) {
+	@Override
+	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
 		new PicassoHelper.Builder(imageView).setPlaceholder(defaultResId).setTarget(target).build().load(getHighResUrls());
 	}
 
-	public void preloadHighResImage(Context context) {
+	@Override
+	public void preloadImage(Context context) {
 		new PicassoHelper.Builder(context).build().load(getHighResUrls());
 	}
 
@@ -236,13 +239,13 @@ public class Media implements JSONable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Media)) {
+		if (!(o instanceof HotelMedia)) {
 			return false;
 		}
 
 		// Equals compares the base URL, not the full URL (which could vary but ultimately means the same image)
 
-		Media other = (Media) o;
+		HotelMedia other = (HotelMedia) o;
 		return mBaseUrl.equals(other.mBaseUrl);
 	}
 
