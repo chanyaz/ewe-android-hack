@@ -246,6 +246,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
 
+        <!-- Cars activity -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.CarsActivity"
+            android:taskAffinity="com.expedia.bookings.activity.CarsActivity"
+            android:screenOrientation="portrait"
+            android:label="Cars"
+            android:theme="@style/V2.Theme.Cars" >
+        </activity>
+
         <!-- About/Preferences/WebView activities -->
 
         <activity

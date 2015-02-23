@@ -18,18 +18,6 @@
         </activity>
 
         <activity
-            android:name="com.expedia.bookings.activity.CarsActivity"
-            android:taskAffinity="com.expedia.bookings.activity.CarsActivity"
-            android:screenOrientation="portrait"
-            android:label="Cars"
-            android:theme="@style/V2.Theme.Cars" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name="com.expedia.bookings.activity.LXBaseActivity"
             android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:label="LX Activities"
