@@ -29,6 +29,10 @@ public class LaunchScreen extends LaunchActionBar {
 		return onView(withId(R.id.flights_button));
 	}
 
+	public static ViewInteraction carLaunchButton() {
+		return onView(withId(R.id.cars_button));
+	}
+
 	public static ViewInteraction tripsButton() {
 		return onView(withText(R.string.trips));
 
@@ -40,6 +44,10 @@ public class LaunchScreen extends LaunchActionBar {
 
 	public static void launchFlights() {
 		flightLaunchButton().perform(click());
+	}
+
+	public static void launchCars() {
+		carLaunchButton().perform(click());
 	}
 }
 
