@@ -13,6 +13,7 @@ import com.expedia.bookings.data.LXMedia;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LXFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
 
@@ -97,11 +98,10 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {
 
-		String descriptionContent = activityDetailsResponse.description;
-		String locationContent = activityDetailsResponse.location;
-		String highlightsContent = formatHighlights(activityDetailsResponse.highlights);
+		String descriptionContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.description);
+		String locationContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.location);
+		String highlightsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.highlights);
 
-		// TODO Write a formatter for handling markup from api
 		if (Strings.isNotEmpty(descriptionContent)) {
 			description.bindData(getResources().getString(R.string.description_activity_details), descriptionContent);
 			description.setVisibility(View.VISIBLE);
@@ -114,14 +114,6 @@ public class LXActivityDetailsWidget extends ScrollView {
 			highlights.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent);
 			highlights.setVisibility(View.VISIBLE);
 		}
-	}
-
-	private String formatHighlights(List<String> stringsList) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < stringsList.size(); i++) {
-			sb.append(stringsList.get(i));
-		}
-		return sb.toString();
 	}
 }
 
