@@ -15,5 +15,6 @@ public class NearbyHotelOffer {
 	public NearbyHotelRate lowRateInfo;
 	public String proximityDistanceInMiles;
 	public String proximityDistanceInKiloMeters;
-
+	public String distanceUnit;
+	public String largeThumbnailUrl;
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
 
@@ -13,6 +14,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NearbyHotelsWidget extends FrameLayout {
+
+	private static final String PICASSO_TAG = "NEARBY_HOTELS_LIST";
 
 	@InjectView(R.id.nearby_hotel_list)
 	RecyclerView nearbyHotels;
@@ -32,11 +35,14 @@ public class NearbyHotelsWidget extends FrameLayout {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
+			StaggeredGridLayoutManager.VERTICAL);
 		nearbyHotels.setLayoutManager(layoutManager);
 
 		adapter = new NearbyHotelsListAdapter();
 		nearbyHotels.setAdapter(adapter);
+		nearbyHotels.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+		nearbyHotels.getLayoutParams().height = 3200;
 	}
 
 	@Override

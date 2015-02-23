@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#ECEFF1"
     android:gravity="center_horizontal"
+    android:padding="10dp"
     android:orientation="vertical">
 
 
@@ -11,7 +12,6 @@
         android:id="@+id/hotels_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:background="#008A82"
         android:padding="55dp"
         android:text="Hotels"

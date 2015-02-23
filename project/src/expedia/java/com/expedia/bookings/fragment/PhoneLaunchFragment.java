@@ -39,6 +39,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private NearbyServices nearbyServices;
 
+	private View nearbyDealsList;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_new_phone_launch, container, false);
@@ -47,6 +49,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.cars_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.see_all_hotels_button).setOnClickListener(mHeaderItemOnClickListener);
+
+		nearbyDealsList = Ui.findView(v, R.id.nearby_deals_widget);
 
 		RequestInterceptor requestInterceptor = new RequestInterceptor() {
 			@Override

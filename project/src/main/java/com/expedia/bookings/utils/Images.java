@@ -6,6 +6,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.hotels.NearbyHotelOffer;
 
 public class Images {
 	private Images() {
@@ -37,5 +38,9 @@ public class Images {
 
 	public static String getLXImageURL(String url) {
 		return "http:" + url;
+	}
+
+	public static String getNearbyHotelImage(NearbyHotelOffer offer) {
+		return ExpediaBookingApp.MEDIA_URL + offer.largeThumbnailUrl;
 	}
 }
