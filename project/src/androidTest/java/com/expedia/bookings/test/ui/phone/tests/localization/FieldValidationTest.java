@@ -12,6 +12,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
@@ -29,6 +30,7 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.setText;
 
@@ -47,7 +49,7 @@ public class FieldValidationTest extends PhoneTestCase {
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
-		LocalDate endDate = LocalDate.now().plusDays(40);
+		LocalDate endDate = LocalDate.now().plusDays(36);
 		FlightsSearchScreen.clickDate(startDate, endDate);
 		FlightsSearchScreen.clickSearchButton();
 		FlightsSearchResultsScreen.clickListItem(1);
@@ -86,19 +88,23 @@ public class FieldValidationTest extends PhoneTestCase {
 		catch (Exception e) {
 			// No add new card option
 		}
-		//test field validation for multibyte character
-		onView(withId(R.id.edit_address_line_one)).perform(setText("ш"));
-		assertPopup();
-		onView(withId(R.id.edit_address_city)).perform(setText("ш"));
-		assertPopup();
-		onView(withId(R.id.edit_address_postal_code)).perform(setText("ш"));
-		assertPopup();
+		try {
+			//test field validation for multibyte character
+			onView(withId(R.id.edit_address_line_one)).perform(setText("ш"));
+			assertPopup();
+			onView(withId(R.id.edit_address_city)).perform(setText("ш"));
+			assertPopup();
+			onView(withId(R.id.edit_address_postal_code)).perform(setText("ш"));
+			assertPopup();
 
-		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-		BillingAddressScreen.typeTextCity("San Francisco");
-		BillingAddressScreen.typeTextPostalCode("94105");
-		BillingAddressScreen.clickNextButton();
-
+			BillingAddressScreen.typeTextAddressLineOne("123 California Street");
+			BillingAddressScreen.typeTextCity("San Francisco");
+			BillingAddressScreen.typeTextPostalCode("94105");
+			BillingAddressScreen.clickNextButton();
+		}
+		catch (Exception e) {
+			//Billing address not needed
+		}
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
@@ -113,6 +119,7 @@ public class FieldValidationTest extends PhoneTestCase {
 		assertPopup();
 
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.nameOnCardEditText().perform(click());
 		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
 		CardInfoScreen.clickOnDoneButton();
 		try {
@@ -125,7 +132,8 @@ public class FieldValidationTest extends PhoneTestCase {
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		FlightsConfirmationScreen.clickDoneButton();
-		LaunchScreen.pressShop();
+		Common.pressBack();
+		ScreenActions.delay(1);
 	}
 
 	public void bookHotel() throws Throwable {
