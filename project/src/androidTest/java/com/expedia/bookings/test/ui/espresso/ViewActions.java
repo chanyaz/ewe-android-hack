@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.ui.espresso;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.Matcher;
@@ -16,6 +17,7 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,6 +32,7 @@ import com.expedia.bookings.R;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static junit.framework.Assert.assertTrue;
 
 public final class ViewActions {
 
@@ -305,12 +308,19 @@ public final class ViewActions {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+				return Matchers.anyOf(isAssignableFrom(AdapterView.class), isAssignableFrom(RecyclerView.class));
 			}
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				count.set(((AdapterView) view).getCount());
+				int children = 0;
+				if (view instanceof AdapterView) {
+					children = ((AdapterView) view).getCount();
+				}
+				else if (view instanceof RecyclerView) {
+					children = ((RecyclerView) view).getChildCount();
+				}
+				count.set(children);
 			}
 
 			@Override
@@ -384,6 +394,49 @@ public final class ViewActions {
 			}
 		};
 	}
+
+
+	public static ViewAction waitFor(final long timeOutSource, final TimeUnit timeUnit, final Class className) {
+		return new ViewAction() {
+			final static int WAIT_ON_UI_THREAD = 50;
+			final long mWaitTimeMillis = TimeUnit.MILLISECONDS.convert(timeOutSource, timeUnit);
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return isAssignableFrom(className);
+			}
+
+			@Override
+			public String getDescription() {
+				return "Wait for the view to disappear, max wait time is : " + TimeUnit.SECONDS
+					.convert(timeOutSource, TimeUnit.SECONDS)
+					+ " seconds.";
+			}
+
+			@Override
+			public void perform(final UiController uiController, final View myView) {
+				uiController.loopMainThreadUntilIdle();
+				long startTime = System.currentTimeMillis();
+				final long endTime = startTime + mWaitTimeMillis;
+				do {
+					if (myView.getVisibility() == View.GONE || myView.getVisibility() == View.INVISIBLE) {
+						// we are done waiting
+						return;
+					}
+					// otherwise idle wait for defined time
+					uiController.loopMainThreadForAtLeast(WAIT_ON_UI_THREAD);
+					startTime = System.currentTimeMillis();
+				}
+				while (startTime <= endTime);
+				//	Last try,if fail throw the exception
+				assertTrue("The View must disappear after " + TimeUnit.SECONDS.convert(timeOutSource, TimeUnit.SECONDS)
+						+ " seconds",
+					myView.getVisibility() == View.GONE || myView.getVisibility() == View.INVISIBLE);
+			}
+		};
+
+	}
+
 }
 
 
