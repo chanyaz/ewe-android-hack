@@ -9,27 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eaeaea"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:visibility="gone">
 
         <FrameLayout
+            android:id="@+id/background_header"
+            android:layout_gravity="top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/cars_details_gradient_top" />
 
             <LinearLayout
                 android:id="@+id/price_container"
-                android:layout_width="wrap_content"
-                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:background="@drawable/cars_details_gradient_bottom"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:orientation="horizontal"
                 android:padding="12dp">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -90,14 +101,12 @@
                     android:text="4" />
 
             </LinearLayout>
-
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/offer_list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" />
+            android:layout_height="match_parent" />
 
     </com.expedia.bookings.widget.CarCategoryDetailsWidget>
 

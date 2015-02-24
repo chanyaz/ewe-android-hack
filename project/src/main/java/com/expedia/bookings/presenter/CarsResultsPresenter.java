@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
@@ -86,6 +87,8 @@ public class CarsResultsPresenter extends Presenter {
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar.setSubtitleTextColor(Color.WHITE);
 		toolbar.inflateMenu(R.menu.cars_results_menu);
+		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
+		toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance);
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
@@ -100,9 +103,11 @@ public class CarsResultsPresenter extends Presenter {
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((Activity)getContext()).onBackPressed();
+				((Activity) getContext()).onBackPressed();
 			}
 		});
+
+		details.offerList.setOnScrollListener(parallaxScrollListener);
 
 	}
 
@@ -160,6 +165,7 @@ public class CarsResultsPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			toolbarBackground.setTranslationX(forward ? 0 : -toolbarBackground.getWidth());
 			toolbarBackground.setVisibility(VISIBLE);
+			toolbarBackground.setAlpha(1f);
 
 			categories.setTranslationX(forward ? 0 : -categories.getWidth());
 			categories.setVisibility(VISIBLE);
@@ -187,14 +193,17 @@ public class CarsResultsPresenter extends Presenter {
 
 		@Override
 		public void finalizeTransition(boolean forward) {
-			toolbarBackground.setVisibility(forward ? GONE : VISIBLE);
-			toolbarBackground.setTranslationX(forward ? -toolbar.getWidth() : 0);
+			toolbarBackground.setVisibility(VISIBLE);
+			toolbarBackground.setTranslationX(0);
+			toolbarBackground.setAlpha(forward ? 0f : 1f);
 
 			categories.setVisibility(forward ? GONE : VISIBLE);
 			categories.setTranslationX(0);
 
 			details.setVisibility(forward ? VISIBLE : GONE);
 			details.setTranslationX(0);
+
+			details.reset();
 
 			if (forward) {
 				setToolBarDetailsText();
@@ -293,4 +302,25 @@ public class CarsResultsPresenter extends Presenter {
 		toolbar.setTranslationY(forward ? 50 : 0);
 	}
 
+	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+			super.onScrollStateChanged(recyclerView, newState);
+		}
+
+		@Override
+		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+			super.onScrolled(recyclerView, dx, dy);
+
+			float ratio = details.parallaxScrollHeader();
+			toolbarBackground.setAlpha(ratio);
+			moveSortBar(dy);
+
+		}
+	};
+
+	private void moveSortBar(int dy) {
+		float y = dy + sortToolbar.getTranslationY();
+		sortToolbar.setTranslationY(dy < 0 ? Math.max(y, 0) : Math.min(y, sortToolbar.getHeight()));
+	}
 }

@@ -123,7 +123,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			cardView.setCardBackgroundColor(isChecked ? Color.WHITE : Color.TRANSPARENT);
 			mapView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 			mapText.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-			cardView.setCardElevation(isChecked ? 5 : 0);
+			cardView.setCardElevation(isChecked ? 3f : 0f);
 			if (isChecked) {
 				mapView.onCreate(null);
 				mapView.getMapAsync(this);
