@@ -109,7 +109,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		String tomorrow = dtf.print(currentDate.plusDays(1));
 
 		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()), String.valueOf(loc.getLongitude()), "1",
-		today, tomorrow);
+		today, tomorrow, "MobileDeals");
 
 		nearbyServices.hotelSearch(params, downloadListener);
 	}

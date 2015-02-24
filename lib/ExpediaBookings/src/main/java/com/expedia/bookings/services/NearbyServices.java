@@ -53,7 +53,7 @@ public class NearbyServices {
 
 	public Subscription hotelSearch(NearbyHotelParams params, rx.Observer<List<NearbyHotelOffer>> observer) {
 		return mHotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
-			params.checkOutDate)
+			params.checkOutDate, params.sortOrder)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.flatMap(NEARBY_RESPONSE_TO_OFFERS)

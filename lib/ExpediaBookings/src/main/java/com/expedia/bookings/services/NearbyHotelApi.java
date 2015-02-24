@@ -14,5 +14,6 @@ public interface NearbyHotelApi {
 		@Query("longitude") String longitude,
 		@Query("room1") String count,
 		@Query("checkInDate") String checkInDate,
-		@Query("checkOutDate") String checkOutDate);
+		@Query("checkOutDate") String checkOutDate,
+		@Query("sortOrder") String sortOrder);
 }
