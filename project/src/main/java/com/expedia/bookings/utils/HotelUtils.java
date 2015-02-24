@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -27,6 +28,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.hotels.NearbyHotelOffer;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -256,5 +258,28 @@ public class HotelUtils {
 		// TODO should we be referring to Db.getHotelSearch() or Sp.toHotelSearch() ??
 		return Sp.getParams().toHotelSearchParams().getStayDuration() <= context.getResources()
 			.getInteger(R.integer.calendar_max_days_hotel_stay);
+	}
+
+	// Distance formatting
+
+	public static String formatDistanceForNearby(Context context, NearbyHotelOffer offer, boolean abbreviated) {
+		boolean isMiles = offer.distanceUnit.equals("Miles");
+		double distance = Double.valueOf(isMiles ? offer.proximityDistanceInMiles : offer.proximityDistanceInKiloMeters);
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMaximumFractionDigits(1);
+
+		// This skirts the pluralization problem, while also being more precise.
+		// We will display "1.0 miles away" instead of "1 miles away".
+		nf.setMinimumFractionDigits(abbreviated ? 0 : 1);
+
+		int unitStrId;
+		if (!isMiles) {
+			unitStrId = abbreviated ? R.string.unit_kilometers : R.string.unit_kilometers_full;
+		}
+		else {
+			unitStrId = abbreviated ? R.string.unit_miles : R.string.unit_miles_full;
+		}
+		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
+		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
 	}
 }
