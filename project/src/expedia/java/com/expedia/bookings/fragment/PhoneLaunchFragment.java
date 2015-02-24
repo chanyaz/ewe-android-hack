@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.CarsActivity;
@@ -43,6 +44,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Used to prevent launching of both flight and hotel activities at once
 	// (as it is otherwise possible to quickly click on both sides).
 	private boolean mLaunchingActivity;
+	ViewGroup lobSelector;
 
 	private NearbyServices nearbyServices;
 
@@ -61,10 +63,23 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_new_phone_launch, container, false);
 
-		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.cars_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.see_all_hotels_button).setOnClickListener(mHeaderItemOnClickListener);
+		lobSelector = Ui.findView(v, R.id.lob_selector);
+		Ui.findView(lobSelector, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
+		Ui.findView(lobSelector, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
+		Ui.findView(lobSelector, R.id.cars_button).setOnClickListener(mHeaderItemOnClickListener);
+		Ui.findView(lobSelector, R.id.see_all_hotels_button).setOnClickListener(mHeaderItemOnClickListener);
+
+		lobSelector.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				ViewGroup nearby = Ui.findView(v, R.id.nearby_deals_widget);
+				ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) nearby
+					.getLayoutParams();
+				marginLayoutParams.topMargin = lobSelector.getBottom();
+				nearby.setLayoutParams(marginLayoutParams);
+				Ui.removeOnGlobalLayoutListener(lobSelector, this);
+			}
+		});
 
 		RequestInterceptor requestInterceptor = new RequestInterceptor() {
 			@Override
@@ -108,8 +123,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		String today = dtf.print(currentDate);
 		String tomorrow = dtf.print(currentDate.plusDays(1));
 
-		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()), String.valueOf(loc.getLongitude()), "1",
-		today, tomorrow, "MobileDeals");
+		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
+			String.valueOf(loc.getLongitude()), "1",
+			today, tomorrow, "MobileDeals");
 
 		nearbyServices.hotelSearch(params, downloadListener);
 	}

@@ -10,23 +10,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Top deals tonight"
-        android:textColor="#222222"
-        android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Top deals tonight"
+            android:textColor="#222222"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/see_all_hotels_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="#ffffff"
             android:background="#1C468D"
+            android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="SEE ALL" />
+            android:text="SEE ALL"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
@@ -37,7 +37,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/nearby_hotel_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.expedia.bookings.widget.NearbyHotelsWidget>
 

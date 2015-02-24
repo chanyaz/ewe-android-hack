@@ -42,7 +42,6 @@ public class NearbyHotelsWidget extends FrameLayout {
 		adapter = new NearbyHotelsListAdapter();
 		nearbyHotels.setAdapter(adapter);
 		nearbyHotels.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
-		nearbyHotels.getLayoutParams().height = 3200;
 	}
 
 	@Override
