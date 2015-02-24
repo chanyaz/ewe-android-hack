@@ -8,6 +8,7 @@ import java.util.Iterator;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -125,6 +126,12 @@ public class CarSearchPresenter extends Presenter
 					break;
 				}
 				return false;
+			}
+		});
+		toolbar.setNavigationOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((Activity)getContext()).onBackPressed();
 			}
 		});
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_check);

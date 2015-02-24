@@ -4,7 +4,12 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -21,7 +26,6 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class CarConfirmationWidget extends LinearLayout {
 
@@ -32,6 +36,9 @@ public class CarConfirmationWidget extends LinearLayout {
 	public CarConfirmationWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
 
 	@InjectView(R.id.confirmation_text)
 	TextView confirmationText;
@@ -60,16 +67,20 @@ public class CarConfirmationWidget extends LinearLayout {
 	@InjectView(R.id.add_flight_button)
 	Button addFlightButton;
 
-	@OnClick(R.id.close_image_button)
-	public void goBackToSearch() {
-		Events.post(new Events.CarsGoToSearch());
-	}
-
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+		toolbar.setNavigationIcon(navIcon);
+		toolbar.setNavigationOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.CarsGoToSearch());
+			}
+		});
 	}
 
 	@Override

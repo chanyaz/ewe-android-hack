@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter;
 
 import javax.inject.Inject;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -94,6 +95,12 @@ public class CarsResultsPresenter extends Presenter {
 					break;
 				}
 				return false;
+			}
+		});
+		toolbar.setNavigationOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((Activity)getContext()).onBackPressed();
 			}
 		});
 
