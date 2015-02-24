@@ -460,7 +460,9 @@
     <!-- Text for cars sort and filter-->
     <string name="cars_sort_filter">Sort &amp; Filter</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">Slide to reserve.</string>
+    <string name="cars_slider_text">Slide to reserve</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Checkout</string>
 
 
 </resources>

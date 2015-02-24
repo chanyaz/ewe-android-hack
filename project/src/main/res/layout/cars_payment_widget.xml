@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.CarPaymentWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/payment_info_card_view"
+    android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
+    android:layout_height="wrap_content"
+    android:background="#FFF"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    card_view:cardCornerRadius="4dp">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:drawableLeft="@drawable/credit_large"
+        android:gravity="center|left"
+        android:id="@+id/payment_info_text"
+        android:drawablePadding="8dp"
+        android:text="Enter payment details" />
+
+    <LinearLayout
+        android:id="@+id/payment_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_credit_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:hint="@string/credit_card_hint"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_cvv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/cvv_hint"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edit_postal_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/address_postal_code_hint"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.expedia.bookings.widget.CarPaymentWidget>
