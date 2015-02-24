@@ -81,6 +81,11 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	@Override
 	public boolean back() {
 
+		// If we're animating, ignore back presses.
+		if (acceptAnimationUpdates) {
+			return true;
+		}
+
 		if (getBackStack().isEmpty()) {
 			return false;
 		}
@@ -144,13 +149,14 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			getBackStack().push(newState);
 			return;
 		}
-		if (currentState.equals(newState.getClass().getName())) {
+		// If we're already at a given state, or we are animating to a new state,
+		// ignore any attempt to show a new state.
+		if (currentState.equals(newState.getClass().getName()) || acceptAnimationUpdates) {
 			return;
 		}
 
 		ValueAnimator animator = getStateAnimator(newState);
 		handleFlags(newState.getClass().getName(), flags);
-
 		getBackStack().push(newState);
 		animator.start();
 	}
@@ -362,10 +368,10 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				acceptAnimationUpdates = false;
 				logAnimStats();
 				transition.endTransition(meta.forward);
 				transition.finalizeTransition(meta.forward);
+				acceptAnimationUpdates = false;
 				currentState = meta.forward ? transition.state2 : transition.state1;
 				destinationState = null;
 			}
