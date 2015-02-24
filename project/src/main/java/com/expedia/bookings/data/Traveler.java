@@ -520,7 +520,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public void setSeatPreference(SeatPreference pref) {
-		mSeatPreference = pref;
+		if (pref == null) {
+			mSeatPreference = SeatPreference.WINDOW;
+		}
+		else {
+			mSeatPreference = pref;
+		}
 	}
 
 	public void setAssistance(AssistanceType assistance) {
@@ -621,7 +626,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			JodaUtils.putLocalDateInJson(obj, "birthLocalDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
-			if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
+			if (mSeatPreference == null || mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
 				//We only want to support window and AISLE with window being the default
 				JSONUtils.putEnum(obj, "seatPreference", SeatPreference.WINDOW);
 			}
@@ -677,7 +682,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
-		if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
+		if (mSeatPreference == null || mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
 			//We only want to support window and AISLE with window being the default
 			mSeatPreference = SeatPreference.WINDOW;
 		}
