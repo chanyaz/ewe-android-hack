@@ -8,9 +8,10 @@
         android:id="@+id/touch_target"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/slide_slider"
+        android:src="@drawable/slide"
         android:contentDescription="@string/cd_slide_to_checkout_start"/>
 
     <View

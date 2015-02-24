@@ -8,19 +8,53 @@
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:colorPrimaryDark">#532C45</item>
         <item name="colorControlNormal">#C3C3C3</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+
+        <!-- Required white label attr for login widget -->
+        <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
+        <item name="skin_loginButtonColor">@android:color/black</item>
+        <item name="skin_passwordHint">@string/expedia_password_hint</item>
+        <item name="skin_loadingAccount">@string/loading_expedia_account</item>
+        <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
     </style>
 
     <style name="CarsActionBarTitle" parent="V2.Theme.Cars">
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="CarsBookingButton" parent="V2.Theme.Cars">
-                <item name="android:gravity">left|center_vertical</item>
-                <item name="android:background">@drawable/itin_button</item>
-                <item name="android:height">60dp</item>
-                <item name="android:textColor">@android:color/white</item>
-                <item name="android:textSize">18sp</item>
-                <item name="android:paddingLeft">25dp</item>
-                <item name="android:drawablePadding">15dp</item>
-            </style>
+    <style name="CarsBookingButton" parent="V2.Theme.Cars">   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:height">60dp</item>
+        <item name="android:textColor">@android:color/white</item>     
+        <item name="android:textSize">18sp</item>     
+        <item name="android:paddingLeft">25dp</item>      
+        <item name="android:drawablePadding">15dp</item>
+    </style>
+
+    <style name="CarsLoginFormButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CarsLoginFormEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:textColor">#c6c8c9</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

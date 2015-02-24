@@ -21,6 +21,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -88,6 +89,10 @@ public class SlideToWidgetJB extends RelativeLayout {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.SlideToWidget, 0, 0);
 			setText(ta.getText(R.styleable.SlideToWidget_sliderText));
 			mPaintBackground.setColor(ta.getColor(R.styleable.SlideToWidget_sliderBackgroundColor, Color.TRANSPARENT));
+			Drawable drawable = ta.getDrawable(R.styleable.SlideToWidget_sliderImage);
+			if (drawable != null) {
+				mTouchTarget.setImageDrawable(drawable);
+			}
 			ta.recycle();
 		}
 

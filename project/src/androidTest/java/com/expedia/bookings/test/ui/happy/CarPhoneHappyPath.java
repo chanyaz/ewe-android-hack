@@ -40,7 +40,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		ScreenActions.delay(1);
 		screenshot("Car_Checkout");
 
-		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
 		CarViewModel.clickDriverInfo();
 		CarViewModel.enterFirstName("FiveStar");
 		CarViewModel.enterLastName("Bear");
