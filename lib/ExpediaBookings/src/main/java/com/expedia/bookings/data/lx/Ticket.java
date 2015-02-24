@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Ticket {
 	public String code;
+	public String name;
 	public String restrictionText;
 	public String price;
 	public BigDecimal amount;

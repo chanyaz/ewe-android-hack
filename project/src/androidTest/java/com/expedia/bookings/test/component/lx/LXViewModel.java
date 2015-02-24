@@ -25,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 
 public class LXViewModel {
 	public static ViewInteraction calendar() {
@@ -109,4 +110,7 @@ public class LXViewModel {
 		return onView(withId(R.id.activity_info_container));
 	}
 
+	public static ViewInteraction withOfferText(String offerText) {
+		return onView(withChild(withChild(withText(startsWith(offerText)))));
+	}
 }

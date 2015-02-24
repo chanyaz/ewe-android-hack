@@ -47,6 +47,12 @@
 
             </HorizontalScrollView>
 
+            <com.expedia.bookings.widget.LXOffersListWidget
+                android:id="@+id/offers"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical" />
+
             <include
                 android:id="@+id/description"
                 layout="@layout/widget_lx_detail_section_data" />
@@ -54,7 +60,6 @@
             <include
                 android:id="@+id/location"
                 layout="@layout/widget_lx_detail_section_data" />
-
         </LinearLayout>
 
     </com.expedia.bookings.widget.LXActivityDetailsWidget>
