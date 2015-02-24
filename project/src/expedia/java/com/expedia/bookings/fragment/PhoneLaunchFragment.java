@@ -2,7 +2,13 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
+import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,6 +31,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.NetUtils;
 
 import retrofit.RequestInterceptor;
 import rx.Subscriber;
@@ -39,7 +46,16 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private NearbyServices nearbyServices;
 
-	private View nearbyDealsList;
+	// Invisible Fragment that handles FusedLocationProvider
+	private FusedLocationProviderFragment mLocationFragment;
+
+	private static final String TAG = "LAUNCH_SCREEN";
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,8 +65,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.cars_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.see_all_hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-
-		nearbyDealsList = Ui.findView(v, R.id.nearby_deals_widget);
 
 		RequestInterceptor requestInterceptor = new RequestInterceptor() {
 			@Override
@@ -77,6 +91,29 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		return v;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		findLocation();
+		mLaunchingActivity = false;
+	}
+
+	// Nearby hotel search
+
+	private void startNearbyHotelSearch(Location loc) {
+		Log.i(TAG, "Start hotel search");
+		LocalDate currentDate = new LocalDate();
+		DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+		String today = dtf.print(currentDate);
+		String tomorrow = dtf.print(currentDate.plusDays(1));
+
+		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()), String.valueOf(loc.getLongitude()), "1",
+		today, tomorrow, "MobileDeals");
+
+		nearbyServices.hotelSearch(params, downloadListener);
+	}
+
 	private Subscriber<List<NearbyHotelOffer>> downloadListener = new Subscriber<List<NearbyHotelOffer>>() {
 		@Override
 		public void onCompleted() {
@@ -90,19 +127,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 		@Override
 		public void onNext(List<NearbyHotelOffer> nearbyHotelResponse) {
-			Ui.showToast(getActivity(), "We have hotels!");
 			Events.post(new Events.NearbyHotelSearchResults(nearbyHotelResponse));
 		}
 	};
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		NearbyHotelParams params = new NearbyHotelParams("51.5033630", "-0.1276250", "1", "2015-03-03", "2015-03-04");
-		nearbyServices.hotelSearch(params, downloadListener);
-		mLaunchingActivity = false;
-
-	}
 
 	// Listeners
 
@@ -150,5 +177,28 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public void reset() {
 
+	}
+
+	// Location finder
+
+	private void findLocation() {
+
+		if (!NetUtils.isOnline(getActivity())) {
+			// TODO: Use fallback data
+			return;
+		}
+
+		mLocationFragment.find(new FusedLocationProviderFragment.FusedLocationProviderListener() {
+
+			@Override
+			public void onFound(Location currentLocation) {
+				startNearbyHotelSearch(currentLocation);
+			}
+
+			@Override
+			public void onError() {
+				// TODO: Use fallback data
+			}
+		});
 	}
 }
