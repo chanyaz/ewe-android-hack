@@ -34,6 +34,19 @@
                 android:id="@+id/highlights"
                 layout="@layout/widget_lx_detail_section_data" />
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <RadioGroup
+                    android:id="@+id/offer_dates_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
             <include
                 android:id="@+id/description"
                 layout="@layout/widget_lx_detail_section_data" />
