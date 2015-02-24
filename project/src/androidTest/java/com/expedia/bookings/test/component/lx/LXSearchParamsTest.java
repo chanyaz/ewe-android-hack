@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.LXSearchParamsWidget;
@@ -26,6 +27,9 @@ public class LXSearchParamsTest {
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_lx_search_params);
 
+	@Rule
+	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
+
 	@Test
 	public void testViewVisibilities() {
 		LXViewModel.doneButton().check(matches(isDisplayed()));
@@ -39,18 +43,22 @@ public class LXSearchParamsTest {
 	}
 
 	@Test
-	public void testInputParams() {
-		String location = "New york";
+	public void testInputParams() throws Throwable {
+		String typedLocationText = "San";
+		String expectedLocationDisplayName = "San Francisco, CA";
+		String expectedLocationFullName = "San Francisco (and vicinity), California, United States of America";
+
 		LocalDate start = LocalDate.now();
 		LocalDate end = LocalDate.now().plusDays(14);
 		LXSearchParams expected = new LXSearchParams();
 		expected.startDate = start;
 		expected.endDate = end;
-		expected.location = location;
+		expected.location = expectedLocationFullName;
 
 		LXSearchParamsWidget searchParamsWidget = (LXSearchParamsWidget) playground.getRoot();
 
-		LXViewModel.location().perform(typeText(location));
+		LXViewModel.location().perform(typeText(typedLocationText));
+		LXViewModel.selectLocation(playground.instrumentation(), expectedLocationDisplayName);
 		LXViewModel.selectDateButton().check(matches(withText(R.string.select_lx_search_dates)));
 		LXViewModel.selectDateButton().perform(click());
 

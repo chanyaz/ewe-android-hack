@@ -9,15 +9,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
@@ -39,12 +42,13 @@ public class LXSearchParamsWidget extends LinearLayout
 	CalendarPicker calendarPicker;
 
 	@InjectView(R.id.search_location)
-	EditText location;
+	AutoCompleteTextView location;
 
 	@InjectView(R.id.select_dates)
 	Button selectDates;
 
 	LXSearchParams searchParams;
+	private LxSuggestionAdapter suggestionAdapter;
 
 	private LXSearchParamsBuilder searchParamsBuilder = new LXSearchParamsBuilder();
 
@@ -62,7 +66,37 @@ public class LXSearchParamsWidget extends LinearLayout
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
 		calendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_lx_search));
 		calendarPicker.setDateChangedListener(this);
+
+		suggestionAdapter = new LxSuggestionAdapter();
+		Ui.getApplication(getContext()).lxComponent().inject(suggestionAdapter);
+
 		location.addTextChangedListener(this);
+		location.setAdapter(suggestionAdapter);
+		location.setOnItemClickListener(mLocationListListener);
+	}
+
+	private AdapterView.OnItemClickListener mLocationListListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Ui.hideKeyboard(LXSearchParamsWidget.this);
+			clearFocus();
+			Suggestion suggestion = suggestionAdapter.getItem(position);
+			setSearchLocation(suggestion);
+		}
+	};
+
+	private void setSearchLocation(final Suggestion suggestion) {
+		location.setText(StrUtils.formatCityName(suggestion.fullName));
+		searchParamsBuilder.location(suggestion.fullName);
+		searchParamsChanged();
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		if (suggestionAdapter != null) {
+			suggestionAdapter.cleanup();
+		}
+		super.onDetachedFromWindow();
 	}
 
 	// Click events

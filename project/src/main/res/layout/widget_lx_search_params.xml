@@ -30,11 +30,32 @@
             android:src="@drawable/btn_air_attach_close" />
     </FrameLayout>
 
-    <EditText
-        android:id="@+id/search_location"
+
+    <LinearLayout
+        android:id="@+id/location_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_location_hint" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+    <AutoCompleteTextView
+        android:id="@+id/search_location"
+        style="@style/V2.Theme.LX.Autocomplete"
+        android:layout_width="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="4dp"
+        android:layout_height="43dp"
+        android:layout_weight="1"
+        android:completionThreshold="1"
+        android:imeOptions="actionDone"
+        android:dropDownAnchor="@+id/location_container"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/select_dates"

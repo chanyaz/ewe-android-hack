@@ -2,6 +2,7 @@ package com.expedia.bookings.services;
 
 import java.util.List;
 
+import com.expedia.bookings.data.SuggestionResultType;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.cars.SuggestionResponse;
 import com.squareup.okhttp.OkHttpClient;
@@ -9,6 +10,7 @@ import com.squareup.okhttp.OkHttpClient;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
+import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
@@ -45,20 +47,32 @@ public class SuggestionServices {
 	}
 
 	private static final int MAX_AIRPORTS_RETURNED = 3;
-
 	public Subscription getAirportSuggestions(String query, Observer<List<Suggestion>> observer) {
-		return mSuggestApi.suggestAirport(query)
+		return mSuggestApi.suggestV3(query, SuggestionResultType.AIRPORT)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.map(sToList)
+			.flatMap(sFlattenSuggestions)
+			.take(MAX_AIRPORTS_RETURNED)
+			.toList()
 			.subscribe(observer);
 	}
 
-	private static Func1<SuggestionResponse, List<Suggestion>> sToList = new Func1<SuggestionResponse, List<Suggestion>>() {
+	private static final int MAX_LX_SUGGESTIONS_RETURNED = 3;
+	public Subscription getLxSuggestions(String query, Observer<List<Suggestion>> observer) {
+		int lxSuggestionsType = SuggestionResultType.CITY | SuggestionResultType.MULTI_CITY | SuggestionResultType.NEIGHBORHOOD;
+		return mSuggestApi.suggestV3(query, lxSuggestionsType)
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.flatMap(sFlattenSuggestions)
+			.take(MAX_LX_SUGGESTIONS_RETURNED)
+			.toList()
+			.subscribe(observer);
+	}
+
+	private static Func1<SuggestionResponse, Observable<Suggestion>> sFlattenSuggestions = new Func1<SuggestionResponse, Observable<Suggestion>>() {
 		@Override
-		public List<Suggestion> call(SuggestionResponse suggestionResponse) {
-			int maxSuggestions = suggestionResponse.suggestions.size() > MAX_AIRPORTS_RETURNED ? MAX_AIRPORTS_RETURNED : suggestionResponse.suggestions.size();
-			return suggestionResponse.suggestions.subList(0, maxSuggestions);
+		public Observable<Suggestion> call(SuggestionResponse suggestionResponse) {
+			return Observable.from(suggestionResponse.suggestions);
 		}
 	};
 }

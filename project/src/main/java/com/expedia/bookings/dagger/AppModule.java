@@ -12,6 +12,7 @@ import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.dagger.tags.E3Endpoint;
+import com.expedia.bookings.dagger.tags.SuggestEndpoint;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
@@ -103,5 +104,12 @@ public class AppModule {
 	@E3Endpoint
 	String provideExpediaEndpoint(Context context) {
 		return EndPoint.getE3EndpointUrl(context, true /*isSecure*/);
+	}
+
+	@Provides
+	@Singleton
+	@SuggestEndpoint
+	String provideSuggestEndpoint(Context context) {
+		return EndPoint.getEssEndpointUrl(context, true /*isSecure*/);
 	}
 }

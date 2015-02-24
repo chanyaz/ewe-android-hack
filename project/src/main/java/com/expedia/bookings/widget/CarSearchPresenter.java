@@ -146,7 +146,7 @@ public class CarSearchPresenter extends Presenter
 		selectDateButton.setVisibility(View.VISIBLE);
 		setCalendarVisibility(View.INVISIBLE);
 
-		suggestionAdapter = new CarSuggestionAdapter(getContext(), R.layout.cars_dropdown_item);
+		suggestionAdapter = new CarSuggestionAdapter();
 		Ui.getApplication(getContext()).carComponent().inject(suggestionAdapter);
 
 		pickUpLocation.setAdapter(suggestionAdapter);
@@ -210,6 +210,9 @@ public class CarSearchPresenter extends Presenter
 
 	@Override
 	protected void onDetachedFromWindow() {
+		if (suggestionAdapter != null) {
+			suggestionAdapter.cleanup();
+		}
 		super.onDetachedFromWindow();
 	}
 
