@@ -125,6 +125,6 @@ public class CarsPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearchWidget(Events.CarsGoToSearch event) {
-		show(carSearchPresenter, FLAG_CLEAR_BACKSTACK);
+		show(carSearchPresenter, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
 	}
 }

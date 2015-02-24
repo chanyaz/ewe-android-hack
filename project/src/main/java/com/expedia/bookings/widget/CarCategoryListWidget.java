@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
@@ -14,6 +16,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class CarCategoryListWidget extends FrameLayout {
 
@@ -23,6 +26,9 @@ public class CarCategoryListWidget extends FrameLayout {
 
 	@InjectView(R.id.category_list)
 	public RecyclerView recyclerView;
+
+	@InjectView(R.id.category_error_container)
+	ViewGroup categoriesErrorContainer;
 
 	CarCategoriesListAdapter adapter;
 
@@ -65,9 +71,22 @@ public class CarCategoryListWidget extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
+	@OnClick(R.id.category_error_action_button)
+	public void onErrorActionButtonClick() {
+		Events.post(new Events.CarsGoToSearch());
+	}
+
 	@Subscribe
 	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
+		recyclerView.setVisibility(View.VISIBLE);
+		categoriesErrorContainer.setVisibility(View.GONE);
 		adapter.setCategories(event.results.categories);
 		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void onCarsShowSearchResultsError(Events.CarsShowSearchResultsError event) {
+		recyclerView.setVisibility(View.GONE);
+		categoriesErrorContainer.setVisibility(View.VISIBLE);
 	}
 }

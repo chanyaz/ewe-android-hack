@@ -32,6 +32,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
+import rx.exceptions.OnErrorNotImplementedException;
 
 public class CarsResultsPresenter extends Presenter {
 
@@ -137,7 +138,8 @@ public class CarsResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			throw new RuntimeException(e);
+			Events.post(new Events.CarsShowSearchResultsError());
+			show(categories, FLAG_CLEAR_BACKSTACK);
 		}
 
 		@Override
@@ -248,7 +250,7 @@ public class CarsResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			throw new RuntimeException(e);
+			throw new OnErrorNotImplementedException(e);
 		}
 
 		@Override
