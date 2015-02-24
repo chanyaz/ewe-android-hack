@@ -95,6 +95,12 @@
     <string name="location_activity_details">Location &#8212;</string>
     <!-- Free cancellation message for LX activity -->
     <string name="activity_free_cancellation">Free cancellation</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now">Book Now %1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count">%1$s %2$s</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

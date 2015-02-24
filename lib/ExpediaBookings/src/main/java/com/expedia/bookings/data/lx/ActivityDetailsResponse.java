@@ -12,4 +12,5 @@ public class ActivityDetailsResponse {
 	public String location;
 	public List<String> highlights;
 	public boolean freeCancellation;
+	public OffersDetail offersDetail;
 }
