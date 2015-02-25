@@ -2,16 +2,19 @@ package com.expedia.bookings.presenter.lx;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXDb;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
+import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
 import com.squareup.otto.Subscribe;
 
@@ -20,6 +23,9 @@ import rx.Observer;
 import rx.Subscription;
 
 public class LXResultsPresenter extends Presenter {
+
+	@Inject
+	LXServices lxServices;
 
 	@InjectView(R.id.lx_search_results_widget)
 	LXSearchResultsWidget searchResultsWidget;
@@ -39,6 +45,8 @@ public class LXResultsPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		Ui.getApplication(getContext()).lxComponent().inject(this);
+
 		addTransition(loadingToSearchResults);
 	}
 
@@ -71,7 +79,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		show(loadingProgress);
-		searchSubscription = LXDb.getLxServices().lxSearch(event.lxSearchParams, searchResultObserver);
+		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
 	}
 
 }

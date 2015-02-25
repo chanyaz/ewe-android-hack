@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.component.lx;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +9,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXDb;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -31,11 +29,6 @@ public class LXDetailsPresenterTests {
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
-
-	@Before
-	public void before() {
-		LXDb.inject(playground.get());
-	}
 
 	@Test
 	public void testActivityDetails() {
