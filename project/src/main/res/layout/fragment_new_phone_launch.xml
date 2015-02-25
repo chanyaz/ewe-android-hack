@@ -27,4 +27,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize" />
 
+    <TextView
+        android:id="@+id/location_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="We couldn't load any hotels. Make sure we can access your location."
+        android:visibility="gone"/>
+
 </FrameLayout>

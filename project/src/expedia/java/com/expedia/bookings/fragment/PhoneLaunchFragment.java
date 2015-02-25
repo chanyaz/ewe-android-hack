@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.CarsActivity;
@@ -62,6 +63,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	@InjectView(R.id.nearby_deals_widget)
 	ViewGroup nearbyDealsWidget;
+
+	@InjectView(R.id.location_error)
+	TextView errorText;
 
 	private int actionBarSpace;
 
@@ -118,7 +122,13 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public void onResume() {
 		super.onResume();
-		findLocation();
+		if (!NetUtils.isOnline(getActivity())) {
+			errorText.setVisibility(View.VISIBLE);
+			nearbyDealsWidget.setVisibility(View.GONE);
+		}
+		else {
+			findLocation();
+		}
 		Events.register(this);
 		launchingActivity = false;
 	}
@@ -239,21 +249,19 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private void findLocation() {
 
-		if (!NetUtils.isOnline(getActivity())) {
-			// TODO: Use fallback data
-			return;
-		}
-
 		locationFragment.find(new FusedLocationProviderFragment.FusedLocationProviderListener() {
 
 			@Override
 			public void onFound(Location currentLocation) {
+				nearbyDealsWidget.setVisibility(View.VISIBLE);
+				errorText.setVisibility(View.GONE);
 				startNearbyHotelSearch(currentLocation);
 			}
 
 			@Override
 			public void onError() {
-				// TODO: Use fallback data
+				errorText.setVisibility(View.VISIBLE);
+				nearbyDealsWidget.setVisibility(View.GONE);
 			}
 		});
 	}
