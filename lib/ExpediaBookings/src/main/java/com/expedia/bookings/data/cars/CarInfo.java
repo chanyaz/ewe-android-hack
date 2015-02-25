@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.cars;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarInfo {
@@ -11,7 +12,7 @@ public class CarInfo {
 	public Drive drive;
 
 	public boolean hasAirConditioning;
-	public List<String> makes;
+	public List<String> makes = new ArrayList<>();
 
 	public int minDoors;
 	public int maxDoors;
@@ -19,4 +20,20 @@ public class CarInfo {
 	public int childCapacity;
 	public int largeLuggageCapacity;
 	public int smallLuggageCapacity;
+
+	/**
+	 * makes usually contains an array of car make descriptions, although, is
+	 * occasionally empty.
+	 *
+	 * @return - description of the make of the car
+	 */
+	public String getMakesDescription() {
+		if (makes.isEmpty()) {
+			return "";
+		}
+		else {
+			return makes.get(0);
+		}
+	}
+
 }

@@ -92,7 +92,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			itemView.setTag(offer);
 
 			vendor.setText(offer.vendor.name);
-			carDetails.setText(offer.vehicleInfo.makes.get(0));
+			carDetails.setText(offer.vehicleInfo.getMakesDescription());
 			ratePrice.setText(
 				ratePrice.getContext().getString(R.string.cars_daily_template, offer.fare.rate.getFormattedMoney()));
 			totalPrice.setText(
