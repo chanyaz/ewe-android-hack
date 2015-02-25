@@ -40,7 +40,7 @@
         android:layout_width="105dp"
         android:layout_height="105dp"
         android:layout_margin="5dp"
-        android:layout_toRightOf="@+id/hotels_button"
+        android:layout_toRightOf="@id/hotels_button"
         android:background="#204A8E"
         app:radius="4dp">
 
@@ -67,7 +67,7 @@
         android:layout_width="105dp"
         android:layout_height="105dp"
         android:layout_margin="5dp"
-        android:layout_toRightOf="@+id/flights_button"
+        android:layout_toRightOf="@id/flights_button"
         android:background="#89366A"
         app:radius="4dp">
 

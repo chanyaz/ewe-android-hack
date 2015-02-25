@@ -598,13 +598,7 @@ public class Property implements JSONable {
 		mPropertyId = offer.hotelId;
 
 		mLocation = new Location();
-		List<String> addressList = new ArrayList<String>();
-		addressList.add(offer.address);
-		mLocation.setStreetAddress(new ArrayList<String>() {
-			{
-				add(offer.address);
-			}
-		});
+		mLocation.addStreetAddressLine(offer.address);
 		mLocation.setCity(offer.city);
 		mLocation.setDescription(offer.locationDescription);
 		mLocation.setStateCode(offer.stateProvinceCode);

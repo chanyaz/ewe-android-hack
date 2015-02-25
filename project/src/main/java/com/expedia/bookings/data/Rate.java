@@ -834,7 +834,8 @@ public class Rate implements JSONable {
 		return true;
 	}
 
-	// Only current for search response stuff
+	// Don't use this with the expectation that data we get
+	// from /offers will be moved properly with this method.
 	public void updateSearchRateFrom(HotelRate rate) {
 		mRatePlanCode = rate.ratePlanCode;
 		mNightlyRateTotal = new Money();

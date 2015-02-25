@@ -41,6 +41,8 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.RequestInterceptor;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,13 +72,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_new_phone_launch, container, false);
+		ButterKnife.inject(this, v);
 
 		lobSelector = Ui.findView(v, R.id.lob_selector);
-		Ui.findView(lobSelector, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(lobSelector, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(lobSelector, R.id.cars_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.see_all_hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-
 		lobSelector.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -128,6 +126,11 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Events.unregister(this);
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		ButterKnife.reset(this);
+	}
 	// Nearby hotel search
 
 	private void startNearbyHotelSearch(Location loc) {
@@ -177,36 +180,35 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	// Listeners
 
-	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
-
-			switch (v.getId()) {
-			case R.id.see_all_hotels_button:
-			case R.id.hotels_button:
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToHotels(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
-				}
-				break;
-			case R.id.flights_button:
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToFlights(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
-				}
-				break;
-			case R.id.cars_button:
+	@OnClick({R.id.see_all_hotels_button, R.id.hotels_button, R.id.flights_button, R.id.cars_button})
+	public void enterLob(View view) {
+		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
+		switch (view.getId()) {
+		case R.id.see_all_hotels_button:
+		case R.id.hotels_button:
+			if (!mLaunchingActivity) {
+				mLaunchingActivity = true;
+				NavUtils.goToHotels(getActivity(), animOptions);
+				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+			}
+			break;
+		case R.id.flights_button:
+			if (!mLaunchingActivity) {
+				mLaunchingActivity = true;
+				NavUtils.goToFlights(getActivity(), animOptions);
+				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+			}
+			break;
+		case R.id.cars_button:
+			if (!mLaunchingActivity) {
+				mLaunchingActivity = true;
 				Intent carsIntent = new Intent(getActivity(), CarsActivity.class);
 				getActivity().startActivity(carsIntent);
 				break;
 			}
-
-			cleanUp();
 		}
-	};
+		cleanUp();
+	}
 
 	@Override
 	public void startMarquee() {
