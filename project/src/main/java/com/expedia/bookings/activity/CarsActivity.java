@@ -22,6 +22,7 @@ public class CarsActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultCarComponents();
 		setContentView(R.layout.activity_cars);
+		Ui.showTransparentStatusBar(this);
 		ButterKnife.inject(this);
 	}
 

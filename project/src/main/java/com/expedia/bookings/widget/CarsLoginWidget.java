@@ -698,10 +698,6 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 	protected void setIsLoading(boolean loading) {
 		mIsLoading = loading;
 
-		if (getContext() == null || !this.isAttachedToWindow()) {
-			return;
-		}
-
 		if (mIsLoading) {
 			//TODO: DISABLE ALL BUTTONS?
 		}
@@ -739,17 +735,13 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 	}
 
 	protected void setStatusTextExpediaAccountFound(String name) {
-		if (getContext() != null && this.isAttachedToWindow()) {
-			String str = String.format(getContext().getString(R.string.facebook_weve_found_your_account), name);
-			setStatusText(str, false);
-		}
+		String str = String.format(getContext().getString(R.string.facebook_weve_found_your_account), name);
+		setStatusText(str, false);
 	}
 
 	protected void setStatusTextFbInfoLoaded(String name) {
-		if (getContext() != null && this.isAttachedToWindow()) {
-			String str = String.format(getContext().getString(R.string.facebook_weve_fetched_your_info), name);
-			setStatusText(str, false);
-		}
+		String str = String.format(getContext().getString(R.string.facebook_weve_fetched_your_info), name);
+		setStatusText(str, false);
 	}
 
 	protected void setStatusTextVisibility(int visibility) {
@@ -767,9 +759,7 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 			}
 		};
 		mStatusText = text;
-		if (getContext() != null && this.isAttachedToWindow()) {
-			((Activity) getContext()).runOnUiThread(runner);
-		}
+		((Activity) getContext()).runOnUiThread(runner);
 		updateButtonState();
 	}
 
@@ -791,10 +781,8 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 	}
 
 	protected void setStatusText(int resId, boolean isHeading) {
-		if (getContext() != null && this.isAttachedToWindow()) {
-			String str = getContext().getString(resId);
-			setStatusText(str, isHeading);
-		}
+		String str = getContext().getString(resId);
+		setStatusText(str, isHeading);
 	}
 
 	protected void setLoadingText(final String text) {
@@ -807,17 +795,13 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 			}
 		};
 		mLoadingText = text;
-		if (getContext() != null && this.isAttachedToWindow()) {
-			((Activity) getContext()).runOnUiThread(runner);
-		}
+		((Activity) getContext()).runOnUiThread(runner);
 
 	}
 
 	protected void setLoadingText(int resId) {
-		if (getContext() != null && this.isAttachedToWindow()) {
-			String str = getContext().getString(resId);
-			setLoadingText(str);
-		}
+		String str = getContext().getString(resId);
+		setLoadingText(str);
 	}
 
 	protected void clearPasswordField() {
@@ -829,9 +813,8 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 				}
 			}
 		};
-		if (getContext() != null && this.isAttachedToWindow()) {
-			((Activity) getContext()).runOnUiThread(runner);
-		}
+		((Activity) getContext()).runOnUiThread(runner);
+
 	}
 
 	protected void setFbUserVars(GraphUser user) {
