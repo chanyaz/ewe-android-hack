@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
@@ -42,26 +43,39 @@ public class LXResultsPresenter extends Presenter {
 	// Transitions
 	private Transition loadingToSearchResults = new VisibilityTransition(this, ProgressBar.class.getName(), LXSearchResultsWidget.class.getName());
 
+	private DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			loadingProgress.setVisibility(View.VISIBLE);
+			searchResultsWidget.setVisibility(View.GONE);
+		}
+	};
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		addTransition(loadingToSearchResults);
+		addDefaultTransition(setUpLoading);
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
+		cleanup();
+		super.onDetachedFromWindow();
+	}
+
+	private void cleanup() {
 		if (searchSubscription != null) {
 			searchSubscription.unsubscribe();
 		}
-		super.onDetachedFromWindow();
 	}
 
 	private Observer<List<LXActivity>> searchResultObserver = new Observer<List<LXActivity>>() {
 		@Override
 		public void onCompleted() {
-			// ignore
+			cleanup();
 		}
 
 		@Override
@@ -78,6 +92,7 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
+		cleanup();
 		show(loadingProgress);
 		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
 	}
