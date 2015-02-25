@@ -12,6 +12,7 @@ OUTPUT_DIR="spoon/cars"
 
 add_test "com.expedia.bookings.test.component.cars.CarSearchParamsTests"
 add_test "com.expedia.bookings.test.ui.happy.CarPhoneHappyPath"
+add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarSearchErrorTests"
 
 rm -rf "spoon"
 java \
