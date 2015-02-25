@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -19,17 +20,20 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarCategoryDetailsWidget extends LinearLayout {
+public class CarCategoryDetailsWidget extends FrameLayout {
 
 	public CarCategoryDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
+	@InjectView(R.id.background_header)
+	View backgroundHeader;
+
 	@InjectView(R.id.header_image)
 	ImageView headerImage;
 
 	@InjectView(R.id.offer_list)
-	RecyclerView offerList;
+	public RecyclerView offerList;
 
 	@InjectView(R.id.passenger_count)
 	public TextView passengerCount;
@@ -41,7 +45,8 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 	public TextView doorCount;
 
 	private CarOffersAdapter adapter;
-	private static final int LIST_DIVIDER_HEIGHT = 12;
+	private static final int LIST_DIVIDER_HEIGHT = 0;
+	private float headerHeight;
 
 	@Override
 	public void onFinishInflate() {
@@ -55,15 +60,18 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 		TypedValue typedValue = new TypedValue();
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
-		int toolbarSize = (int) a.getDimension(0, 44);
+		float toolbarSize = a.getDimension(0, 44f);
+
+		headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getContext().getResources().getDisplayMetrics());
 
 		offerList.setLayoutManager(layoutManager);
 		offerList.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, 0, toolbarSize, true));
+			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, (int) toolbarSize, true));
 		offerList.setHasFixedSize(true);
 
 		adapter = new CarOffersAdapter();
 		offerList.setAdapter(adapter);
+
 	}
 
 	@Override
@@ -99,4 +107,17 @@ public class CarCategoryDetailsWidget extends LinearLayout {
 			.build()
 			.load(url);
 	}
+
+ 	public float parallaxScrollHeader() {
+		View view = offerList.getChildAt(0);
+		float y = headerHeight - view.getTop();
+		backgroundHeader.setTranslationY(Math.min(-y * 0.5f, 0f));
+		return y / headerHeight;
+	}
+
+	public void reset() {
+		offerList.getLayoutManager().scrollToPosition(0);
+		backgroundHeader.setTranslationY(0);
+	}
+
 }

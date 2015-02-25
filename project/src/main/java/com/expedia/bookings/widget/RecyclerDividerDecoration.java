@@ -29,7 +29,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 	Paint mPaint = new Paint();
 	boolean shouldDrawDivider = false;
 
-	public RecyclerDividerDecoration(Context context, int top, int bottom, int header, int footer, boolean drawDivider) {
+	public RecyclerDividerDecoration(Context context, int padding, int header, int footer, boolean drawDivider) {
 
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
@@ -38,12 +38,13 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 		mPaint.setColor(context.getResources().getColor(R.color.cars_dropdown_disabled_stroke));
 		shouldDrawDivider = drawDivider;
 
-		mTop = (int) context.getResources().getDisplayMetrics().density * top / 2;
-		mBottom = (int) context.getResources().getDisplayMetrics().density * bottom / 2;
-		mLeft = mTop * 2;
-		mRight = mTop * 2;
-		mHeader = header + mTop * 2;
-		mFooter = footer + mBottom * 2;
+		int scaledPadding = (int) context.getResources().getDisplayMetrics().density * padding;
+		mTop = scaledPadding / 2;
+		mBottom = scaledPadding / 2;
+		mLeft = scaledPadding;
+		mRight = scaledPadding;
+		mHeader = header + scaledPadding;
+		mFooter = footer + scaledPadding;
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 	}
 
 	@Override
-	public void onDraw(Canvas c, RecyclerView parent) {
+	public void onDrawOver (Canvas c, RecyclerView parent, RecyclerView.State state) {
 		if (!shouldDrawDivider) {
 			return;
 		}

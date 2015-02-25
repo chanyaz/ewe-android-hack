@@ -37,7 +37,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView
 			.addItemDecoration(
-				new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, LIST_DIVIDER_HEIGHT, 0, 0, false));
+				new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, 0, 0, false));
 		recyclerView.setHasFixedSize(true);
 
 		adapter = new LXResultsListAdapter();
