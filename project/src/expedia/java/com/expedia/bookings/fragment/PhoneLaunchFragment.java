@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,15 +16,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.CarsActivity;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.services.NearbyServices;
+import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DbUtils;
@@ -32,7 +39,10 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.NetUtils;
+import com.squareup.otto.Subscribe;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.RequestInterceptor;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,8 +53,10 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Used to prevent launching of both flight and hotel activities at once
 	// (as it is otherwise possible to quickly click on both sides).
 	private boolean mLaunchingActivity;
+	ViewGroup lobSelector;
 
-	private NearbyServices nearbyServices;
+	private HotelServices hotelServices;
+	HotelSearchParams mSearchParams;
 
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment mLocationFragment;
@@ -60,11 +72,20 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_new_phone_launch, container, false);
+		ButterKnife.inject(this, v);
 
-		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.cars_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.see_all_hotels_button).setOnClickListener(mHeaderItemOnClickListener);
+		lobSelector = Ui.findView(v, R.id.lob_selector);
+		lobSelector.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				ViewGroup nearby = Ui.findView(v, R.id.nearby_deals_widget);
+				ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) nearby
+					.getLayoutParams();
+				marginLayoutParams.topMargin = lobSelector.getBottom();
+				nearby.setLayoutParams(marginLayoutParams);
+				Ui.removeOnGlobalLayoutListener(lobSelector, this);
+			}
+		});
 
 		RequestInterceptor requestInterceptor = new RequestInterceptor() {
 			@Override
@@ -82,7 +103,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				}
 			}
 		};
-		nearbyServices = new NearbyServices(EndPoint.getE3EndpointUrl(getActivity(), true /*isSecure*/),
+		hotelServices = new HotelServices(EndPoint.getE3EndpointUrl(getActivity(), true /*isSecure*/),
 			DbUtils.generateOkHttpClient(),
 			requestInterceptor,
 			AndroidSchedulers.mainThread(),
@@ -95,9 +116,21 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void onResume() {
 		super.onResume();
 		findLocation();
+		Events.register(this);
 		mLaunchingActivity = false;
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		ButterKnife.reset(this);
+	}
 	// Nearby hotel search
 
 	private void startNearbyHotelSearch(Location loc) {
@@ -108,13 +141,18 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		String today = dtf.print(currentDate);
 		String tomorrow = dtf.print(currentDate.plusDays(1));
 
-		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()), String.valueOf(loc.getLongitude()), "1",
-		today, tomorrow, "MobileDeals");
+		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
+			String.valueOf(loc.getLongitude()), "1",
+			today, tomorrow, "MobileDeals");
+		mSearchParams = new HotelSearchParams();
+		mSearchParams.setCheckInDate(currentDate);
+		mSearchParams.setCheckOutDate(currentDate.plusDays(1));
+		mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
-		nearbyServices.hotelSearch(params, downloadListener);
+		hotelServices.hotelSearch(params, downloadListener);
 	}
 
-	private Subscriber<List<NearbyHotelOffer>> downloadListener = new Subscriber<List<NearbyHotelOffer>>() {
+	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
 		@Override
 		public void onCompleted() {
 			Log.d("nearbyhotelstatus", "completed");
@@ -126,43 +164,51 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 
 		@Override
-		public void onNext(List<NearbyHotelOffer> nearbyHotelResponse) {
+		public void onNext(List<Hotel> nearbyHotelResponse) {
+			// Pump our results into a HotelSearchResponse to appease some
+			// legacy code.
+			HotelSearchResponse response = new HotelSearchResponse();
+			for (Hotel offer : nearbyHotelResponse) {
+				Property p = new Property();
+				p.updateFrom(offer);
+				response.addProperty(p);
+			}
+			Db.getHotelSearch().setSearchResponse(response);
 			Events.post(new Events.NearbyHotelSearchResults(nearbyHotelResponse));
 		}
 	};
 
 	// Listeners
 
-	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
-
-			switch (v.getId()) {
-			case R.id.see_all_hotels_button:
-			case R.id.hotels_button:
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToHotels(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
-				}
-				break;
-			case R.id.flights_button:
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToFlights(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
-				}
-				break;
-			case R.id.cars_button:
+	@OnClick({R.id.see_all_hotels_button, R.id.hotels_button, R.id.flights_button, R.id.cars_button})
+	public void enterLob(View view) {
+		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
+		switch (view.getId()) {
+		case R.id.see_all_hotels_button:
+		case R.id.hotels_button:
+			if (!mLaunchingActivity) {
+				mLaunchingActivity = true;
+				NavUtils.goToHotels(getActivity(), animOptions);
+				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+			}
+			break;
+		case R.id.flights_button:
+			if (!mLaunchingActivity) {
+				mLaunchingActivity = true;
+				NavUtils.goToFlights(getActivity(), animOptions);
+				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+			}
+			break;
+		case R.id.cars_button:
+			if (!mLaunchingActivity) {
+				mLaunchingActivity = true;
 				Intent carsIntent = new Intent(getActivity(), CarsActivity.class);
 				getActivity().startActivity(carsIntent);
 				break;
 			}
-
-			cleanUp();
 		}
-	};
+		cleanUp();
+	}
 
 	@Override
 	public void startMarquee() {
@@ -200,5 +246,20 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				// TODO: Use fallback data
 			}
 		});
+	}
+
+	// Otto events
+
+	@Subscribe
+	public void onHotelOfferSelected(Events.NearbyHotelOfferSelected event) throws JSONException {
+		Hotel offer = event.offer;
+		Property property = new Property();
+		property.updateFrom(offer);
+		Db.getHotelSearch().setSearchParams(mSearchParams);
+		Db.getHotelSearch().setSelectedProperty(property);
+
+		Intent intent = new Intent(getActivity(), HotelDetailsFragmentActivity.class);
+		intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
+		NavUtils.startActivity(getActivity(), intent, null);
 	}
 }

@@ -24,10 +24,10 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
@@ -631,11 +631,20 @@ public class Events {
 		}
 	}
 
-	public static class NearbyHotelSearchResults {
-		public List<NearbyHotelOffer> topTen;
+	// Nearby/Launch things
 
-		public NearbyHotelSearchResults(List<NearbyHotelOffer> topTen) {
+	public static class NearbyHotelSearchResults {
+		public List<Hotel> topTen;
+
+		public NearbyHotelSearchResults(List<Hotel> topTen) {
 			this.topTen = topTen;
+		}
+	}
+
+	public static class NearbyHotelOfferSelected {
+		public Hotel offer;
+		public NearbyHotelOfferSelected(Hotel offer) {
+			this.offer = offer;
 		}
 	}
 }

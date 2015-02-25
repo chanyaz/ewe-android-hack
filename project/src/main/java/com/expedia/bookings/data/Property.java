@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -590,6 +591,45 @@ public class Property implements JSONable {
 		// Only switch on with an update
 		mIsVipAccess |= property.isVipAccess();
 		mShowCircles |= property.shouldShowCircles();
+	}
+
+	public void updateFrom(final Hotel offer) {
+		mName = offer.name;
+		mPropertyId = offer.hotelId;
+
+		mLocation = new Location();
+		mLocation.addStreetAddressLine(offer.address);
+		mLocation.setCity(offer.city);
+		mLocation.setDescription(offer.locationDescription);
+		mLocation.setStateCode(offer.stateProvinceCode);
+		mLocation.setCountryCode(offer.countryCode);
+		mLocation.setPostalCode(offer.postalCode);
+		mLocation.setLatitude(offer.latitude);
+		mLocation.setLongitude(offer.longitude);
+
+		mDescriptionText = offer.shortDescription;
+		mThumbnail = new HotelMedia(offer.largeThumbnailUrl);
+		mAvailable = offer.isHotelAvailable;
+		mDistanceFromUser = offer.distanceUnit.equals("Miles") ?
+			new Distance(offer.proximityDistanceInMiles, Distance.DistanceUnit.MILES) :
+			new Distance(offer.proximityDistanceInKiloMeters, Distance.DistanceUnit.KILOMETERS);
+		mRoomsLeftAtThisRate = offer.roomsLeftAtThisRate;
+		mSupplierType = offer.supplierType;
+		mHotelRating = offer.hotelStarRating;
+		mTotalReviews = offer.totalReviews;
+		mTotalRecommendations = offer.totalRecommendations;
+		mAverageExpediaRating = offer.hotelGuestRating;
+		mLowestRate = new Rate();
+		mLowestRate.setPromoDescription(offer.discountMessage);
+		mLowestRate.setNumRoomsLeft(offer.roomsLeftAtThisRate);
+		mLowestRate.setThumbnail(mThumbnail);
+		mLowestRate.setIsPayLater(offer.isPaymentChoiceAvailable);
+		mLowestRate.updateSearchRateFrom(offer.lowRateInfo);
+
+		mHasEtpOffer = offer.isPaymentChoiceAvailable;
+		mIsVipAccess = offer.isVipAccess;
+
+		mIsSponsored = offer.isSponsoredListing;
 	}
 
 	public Property clone() {

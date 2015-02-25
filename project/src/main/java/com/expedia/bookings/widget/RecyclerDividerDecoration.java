@@ -29,6 +29,10 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 	Paint mPaint = new Paint();
 	boolean shouldDrawDivider = false;
 
+	public RecyclerDividerDecoration() {
+		// Default constructor
+	}
+
 	public RecyclerDividerDecoration(Context context, int padding, int header, int footer, boolean drawDivider) {
 
 		mPaint = new Paint();

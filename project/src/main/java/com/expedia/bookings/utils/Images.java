@@ -6,7 +6,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.hotels.Hotel;
 
 public class Images {
 	private Images() {
@@ -40,7 +40,7 @@ public class Images {
 		return "http:" + url;
 	}
 
-	public static String getNearbyHotelImage(NearbyHotelOffer offer) {
+	public static String getNearbyHotelImage(Hotel offer) {
 		return ExpediaBookingApp.MEDIA_URL + offer.largeThumbnailUrl;
 	}
 }

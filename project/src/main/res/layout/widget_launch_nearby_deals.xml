@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="#ECEFF1"
     android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Top deals tonight"
-        android:textColor="#222222"
-        android:textSize="20sp" />
+        android:layout_margin="16dp">
 
         <TextView
-            android:id="@+id/see_all_hotels_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="#ffffff"
-            android:background="#1C468D"
-            android:padding="8dp"
-            android:text="SEE ALL" />
+            android:layout_gravity="left|center_vertical"
+            android:text="@string/nearby_deals_title"
+            android:textColor="#222222"
+            android:textSize="20sp" />
 
-    </LinearLayout>
+        <com.expedia.bookings.widget.RoundedCornerFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="right"
+            app:radius="4dp">
+
+            <TextView
+                android:id="@+id/see_all_hotels_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#1C468D"
+                android:padding="8dp"
+                android:text="@string/nearby_deals_expand"
+                android:textAllCaps="true"
+                android:textColor="#ffffff" />
+
+        </com.expedia.bookings.widget.RoundedCornerFrameLayout>
+
+    </FrameLayout>
 
     <com.expedia.bookings.widget.NearbyHotelsWidget
         android:layout_width="match_parent"
@@ -37,7 +48,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/nearby_hotel_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.expedia.bookings.widget.NearbyHotelsWidget>
 

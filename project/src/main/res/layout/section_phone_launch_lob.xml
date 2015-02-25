@@ -1,57 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ECEFF1"
+    android:background="#ffffff"
     android:gravity="center_horizontal"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
-
-    <TextView
+    <com.expedia.bookings.widget.RoundedCornerFrameLayout
         android:id="@+id/hotels_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#008A82"
-        android:padding="55dp"
-        android:text="Hotels"
-        android:textColor="#FFFFFF" />
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_margin="5dp"
+        android:background="#028F87"
+        app:radius="4dp">
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/hotels_button"
-        android:layout_toRightOf="@+id/hotels_button">
-
-        <TextView
-            android:id="@+id/flights_button"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="10dp"
+            android:alpha="0.3"
+            android:src="@drawable/ic_lob_hotels" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="#1C468D"
-            android:paddingBottom="20dp"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
-            android:paddingTop="20dp"
-            android:text="Flights"
-            android:textColor="#FFFFFF" />
+            android:text="@string/launch_hotels"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
-        <TextView
-            android:id="@+id/cars_button"
+    <com.expedia.bookings.widget.RoundedCornerFrameLayout
+        android:id="@+id/flights_button"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/hotels_button"
+        android:background="#204A8E"
+        app:radius="4dp">
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/flights_button"
-            android:layout_below="@+id/flights_button"
-            android:background="#883369"
-            android:paddingBottom="21dp"
-            android:paddingLeft="57dp"
-            android:paddingRight="56dp"
-            android:paddingTop="20dp"
-            android:text="Cars"
-            android:textColor="#FFFFFF" />
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="10dp"
+            android:alpha="0.3"
+            android:src="@drawable/ic_lob_flights" />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="10dp"
+            android:text="@string/launch_flights"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </com.expedia.bookings.widget.RoundedCornerFrameLayout>
+
+    <com.expedia.bookings.widget.RoundedCornerFrameLayout
+        android:id="@+id/cars_button"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/flights_button"
+        android:background="#89366A"
+        app:radius="4dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="10dp"
+            android:alpha="0.3"
+            android:src="@drawable/ic_lob_cars" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="10dp"
+            android:text="@string/launch_cars"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
 </RelativeLayout>

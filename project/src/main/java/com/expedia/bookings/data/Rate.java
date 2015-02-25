@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
@@ -831,6 +832,56 @@ public class Rate implements JSONable {
 		mEtpRate = JSONUtils.getJSONable(obj, "etpRate", Rate.class);
 		mIsPayLater = obj.optBoolean("isPayLater", false);
 		return true;
+	}
+
+	// Don't use this with the expectation that data we get
+	// from /offers will be moved properly with this method.
+	public void updateSearchRateFrom(HotelRate rate) {
+		mRatePlanCode = rate.ratePlanCode;
+		mNightlyRateTotal = new Money();
+		mNightlyRateTotal.setAmount(rate.nightlyRateTotal);
+		mNightlyRateTotal.setCurrency(rate.currencyCode);
+
+		mRoomTypeCode = rate.roomTypeCode;
+		mBookingCode = rate.ratePlanCode;
+
+		mAverageRate = new Money();
+		mAverageRate.setCurrency(rate.currencyCode);
+		mAverageRate.setAmount(rate.averageRate);
+
+		mAverageBaseRate = new Money();
+		mAverageBaseRate.setCurrency(rate.currencyCode);
+		mAverageBaseRate.setAmount(rate.averageBaseRate);
+
+		mDiscountPercent = rate.discountPercent;
+
+		mTotalSurcharge = new Money();
+		mTotalSurcharge.setCurrency(rate.currencyCode);
+		mTotalSurcharge.setAmount(rate.surchargeTotal);
+
+		mTotalMandatoryFees = new Money();
+		mTotalMandatoryFees.setCurrency(rate.currencyCode);
+		mTotalMandatoryFees.setAmount(rate.totalMandatoryFees);
+
+		mTotalPriceWithMandatoryFees = new Money();
+		mTotalPriceWithMandatoryFees.setCurrency(rate.currencyCode);
+		mTotalPriceWithMandatoryFees.setAmount(rate.totalPriceMandatoryFees);
+
+		setUserPriceType(rate.userPriceType);
+		setCheckoutPriceType(rate.checkoutPriceType);
+
+		mPriceToShowUsers = new Money();
+		mPriceToShowUsers.setCurrency(rate.currencyCode);
+		mPriceToShowUsers.setAmount(rate.priceToShowUsers);
+
+		mStrikethroughPriceToShowUsers = new Money();
+		mStrikethroughPriceToShowUsers.setCurrency(rate.currencyCode);
+		mStrikethroughPriceToShowUsers.setAmount(rate.strikethroughPriceToShowUsers);
+
+		mShowResortFees = rate.showResortFeeMessage;
+		mResortFeeInclusion = rate.resortFeeInclusion;
+
+		mAirAttached = rate.airAttached;
 	}
 
 	@Override

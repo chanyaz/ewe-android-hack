@@ -28,7 +28,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -262,7 +262,7 @@ public class HotelUtils {
 
 	// Distance formatting
 
-	public static String formatDistanceForNearby(Context context, NearbyHotelOffer offer, boolean abbreviated) {
+	public static String formatDistanceForNearby(Context context, Hotel offer, boolean abbreviated) {
 		boolean isMiles = offer.distanceUnit.equals("Miles");
 		double distance = Double.valueOf(isMiles ? offer.proximityDistanceInMiles : offer.proximityDistanceInKiloMeters);
 		NumberFormat nf = NumberFormat.getInstance();
