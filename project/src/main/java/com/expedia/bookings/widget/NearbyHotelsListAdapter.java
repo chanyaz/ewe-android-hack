@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
 
@@ -35,7 +36,7 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 	@Override
 	public void onBindViewHolder(NearbyHotelsListAdapter.ViewHolder holder, int position) {
 		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-		if (position % 3 == 0) {
+		if (position % 5 == 0) {
 			layoutParams.setFullSpan(true);
 		}
 		else {
@@ -86,7 +87,8 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 
 		@Override
 		public void onClick(View view) {
-
+			NearbyHotelOffer selectedOffer = (NearbyHotelOffer) view.getTag();
+			Events.post(new Events.NearbyHotelOfferSelected(selectedOffer));
 		}
 	}
 }

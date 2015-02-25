@@ -631,11 +631,20 @@ public class Events {
 		}
 	}
 
+	// Nearby/Launch things
+
 	public static class NearbyHotelSearchResults {
 		public List<NearbyHotelOffer> topTen;
 
 		public NearbyHotelSearchResults(List<NearbyHotelOffer> topTen) {
 			this.topTen = topTen;
+		}
+	}
+
+	public static class NearbyHotelOfferSelected {
+		public NearbyHotelOffer offer;
+		public NearbyHotelOfferSelected(NearbyHotelOffer offer) {
+			this.offer = offer;
 		}
 	}
 }

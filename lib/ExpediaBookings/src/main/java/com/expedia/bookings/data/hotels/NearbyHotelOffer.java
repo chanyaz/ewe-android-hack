@@ -2,19 +2,50 @@ package com.expedia.bookings.data.hotels;
 
 public class NearbyHotelOffer {
 
-	/*
-	Need to parse:
-	name
-	lowRateInfo
-	proximityDistanceInMiles
-	proximityDistanceInKilometers probably
-	 */
-
-
+	public int sortIndex;
+	public String hotelId;
 	public String name;
+	public String localizedName;
+	public String nonLocalizedName;
+	public String address;
+	public String city;
+	public String stateProvinceCode;
+	public String countryCode;
+	public String postalCode;
+	public String airportCode;
+	public String supplierType;
+	public float hotelStarRating;
+	public String hotelStarRatingCssClassName;
+	public float hotelGuestRating;
+	public int totalRecommendations;
+	public int percentRecommended;
+	public int totalReviews;
+	public String shortDescription;
+	public String locationDescription;
+	public String locationId;
+	public float lowRate;
 	public NearbyHotelRate lowRateInfo;
-	public String proximityDistanceInMiles;
-	public String proximityDistanceInKiloMeters;
-	public String distanceUnit;
+	public String rateCurrencyCode;
+	public String rateCurrencySymbol;
+	public int roomsLeftAtThisRate;
+	public double latitude;
+	public double longitude;
+	public double proximityDistanceInMiles;
+	public double proximityDistanceInKiloMeters;
 	public String largeThumbnailUrl;
+	public String thumbnailUrl;
+	public String discountMessage;
+	public boolean isDiscountRestrictedToCurrentSourceType;
+	public boolean isSameDayDRR;
+	public boolean isHotelAvailable;
+	public String notAvailableMessage;
+	public boolean isSponsoredListing;
+	public boolean hasFreeCancellation;
+	public String distanceUnit;
+	public boolean didGetBackHighestPriceFromSurvey;
+	public boolean isDudley;
+	public boolean isVipAccess;
+	public boolean isPaymentChoiceAvailable;
+	public boolean isShowEtpChoice;
+	public String shortDistanceMessage;
 }
