@@ -197,6 +197,10 @@ public class NavUtils {
 		goToFlights(context, false, animOptions);
 	}
 
+	public static void goToFlightsUsingSearchParams(Context context) {
+		goToFlights(context, true, null);
+	}
+
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions) {
 		goToFlights(context, usePresetSearchParams, animOptions, 0);
 	}

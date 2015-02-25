@@ -23,4 +23,13 @@ public class CarLocation {
 	public String locationCode;
 	public Double latitude;
 	public Double longitude;
+	public String addressLine1;
+	public String cityName;
+	public String provinceStateName;
+	public String countryCode;
+
+	public String toAddress() {
+		return addressLine1 + " " + cityName + " " + provinceStateName + " " + countryCode;
+	}
+
 }

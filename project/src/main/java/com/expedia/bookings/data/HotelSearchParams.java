@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -472,6 +474,30 @@ public class HotelSearchParams implements JSONable {
 		numHotelAdults = Math.max(numHotelAdults, GuestsPickerUtils.MIN_ADULTS); // just in case default...
 		hotelParams.setNumAdults(numHotelAdults);
 
+		return hotelParams;
+	}
+
+	public static HotelSearchParams fromCarParams(CreateTripCarOffer offer) {
+		HotelSearchParams hotelParams = new HotelSearchParams();
+
+		// Where //
+		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
+
+		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		String cityStr = offer.pickUpLocation.cityName;
+		hotelParams.setUserQuery(cityStr);
+		hotelParams.setQuery(cityStr);
+
+		double latitude = offer.pickUpLocation.latitude;
+		double longitude = offer.pickUpLocation.longitude;
+
+		hotelParams.setSearchLatLon(latitude, longitude);
+
+		LocalDate checkInDate = LocalDate.fromCalendarFields(offer.pickupTime.toCalendar(Locale.US));
+		hotelParams.setCheckInDate(checkInDate);
+
+		LocalDate checkOutDate = LocalDate.fromCalendarFields(offer.dropOffTime.toCalendar(Locale.US));
+		hotelParams.setCheckOutDate(checkOutDate);
 		return hotelParams;
 	}
 
