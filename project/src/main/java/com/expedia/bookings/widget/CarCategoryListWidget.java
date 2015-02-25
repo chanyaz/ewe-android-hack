@@ -22,7 +22,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	}
 
 	@InjectView(R.id.category_list)
-	RecyclerView recyclerView;
+	public RecyclerView recyclerView;
 
 	CarCategoriesListAdapter adapter;
 
