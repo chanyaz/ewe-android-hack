@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.hotels;
 
-public class NearbyHotelRate {
+public class HotelRate {
 
 	public float maxNightlyRate;
 	public float averageRate;

@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -593,7 +593,7 @@ public class Property implements JSONable {
 		mShowCircles |= property.shouldShowCircles();
 	}
 
-	public void updateFrom(final NearbyHotelOffer offer) {
+	public void updateFrom(final Hotel offer) {
 		mName = offer.name;
 		mPropertyId = offer.hotelId;
 

@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
-import com.expedia.bookings.data.hotels.NearbyHotelRate;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
@@ -835,7 +835,7 @@ public class Rate implements JSONable {
 	}
 
 	// Only current for search response stuff
-	public void updateSearchRateFrom(NearbyHotelRate rate) {
+	public void updateSearchRateFrom(HotelRate rate) {
 		mRatePlanCode = rate.ratePlanCode;
 		mNightlyRateTotal = new Money();
 		mNightlyRateTotal.setAmount(rate.nightlyRateTotal);

@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
-import com.expedia.bookings.data.hotels.NearbyHotelResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -22,13 +22,13 @@ import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Func1;
 
-public class NearbyServices {
+public class HotelServices {
 
 	Scheduler mObserveOn;
 	Scheduler mSubscribeOn;
 	NearbyHotelApi mHotelApi;
 
-	public NearbyServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
+	public HotelServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
 		Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
@@ -51,7 +51,7 @@ public class NearbyServices {
 		mHotelApi = adapter.create(NearbyHotelApi.class);
 	}
 
-	public Subscription hotelSearch(NearbyHotelParams params, rx.Observer<List<NearbyHotelOffer>> observer) {
+	public Subscription hotelSearch(NearbyHotelParams params, rx.Observer<List<Hotel>> observer) {
 		return mHotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
 			params.checkOutDate, params.sortOrder)
 			.observeOn(mObserveOn)
@@ -62,10 +62,12 @@ public class NearbyServices {
 			.subscribe(observer);
 	}
 
-	private static final Func1<NearbyHotelResponse, Observable<NearbyHotelOffer>> NEARBY_RESPONSE_TO_OFFERS = new Func1<NearbyHotelResponse, Observable<NearbyHotelOffer>>() {
+
+
+	private static final Func1<HotelSearchResponse, Observable<Hotel>> NEARBY_RESPONSE_TO_OFFERS = new Func1<HotelSearchResponse, Observable<Hotel>>() {
 		@Override
-		public Observable<NearbyHotelOffer> call(NearbyHotelResponse nearbyHotelResponse) {
-			return Observable.from(nearbyHotelResponse.hotelList);
+		public Observable<Hotel> call(HotelSearchResponse hotelSearchResponse) {
+			return Observable.from(hotelSearchResponse.hotelList);
 		}
 	};
 }

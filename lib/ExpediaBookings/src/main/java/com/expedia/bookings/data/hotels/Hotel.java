@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.hotels;
 
-public class NearbyHotelOffer {
+public class Hotel {
 
 	public int sortIndex;
 	public String hotelId;
@@ -24,7 +24,7 @@ public class NearbyHotelOffer {
 	public String locationDescription;
 	public String locationId;
 	public float lowRate;
-	public NearbyHotelRate lowRateInfo;
+	public HotelRate lowRateInfo;
 	public String rateCurrencyCode;
 	public String rateCurrencySymbol;
 	public int roomsLeftAtThisRate;

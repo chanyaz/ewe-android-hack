@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelMedia;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsListAdapter.ViewHolder> {
-	private List<NearbyHotelOffer> nearbyHotels = new ArrayList<>();
+	private List<Hotel> nearbyHotels = new ArrayList<>();
 
 	private ViewGroup parentView;
 
@@ -57,7 +57,7 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 		return nearbyHotels.size();
 	}
 
-	public void setNearbyHotels(List<NearbyHotelOffer> nearbyHotels) {
+	public void setNearbyHotels(List<Hotel> nearbyHotels) {
 		this.nearbyHotels = nearbyHotels;
 	}
 
@@ -83,7 +83,7 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 			itemView.setOnClickListener(this);
 		}
 
-		public void bindNearbyHotelOffers(NearbyHotelOffer offer, boolean fullWidthTile) {
+		public void bindNearbyHotelOffers(Hotel offer, boolean fullWidthTile) {
 			itemView.setTag(offer);
 			hotelName.setText(offer.name);
 			hotelProximity.setText(HotelUtils.formatDistanceForNearby(itemView.getContext(), offer, true));
@@ -101,7 +101,7 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 
 		@Override
 		public void onClick(View view) {
-			NearbyHotelOffer selectedOffer = (NearbyHotelOffer) view.getTag();
+			Hotel selectedOffer = (Hotel) view.getTag();
 			Events.post(new Events.NearbyHotelOfferSelected(selectedOffer));
 		}
 	}

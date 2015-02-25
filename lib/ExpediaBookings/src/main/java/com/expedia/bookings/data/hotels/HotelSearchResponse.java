@@ -2,8 +2,8 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
-public class NearbyHotelResponse {
+public class HotelSearchResponse {
 
 	//List of offers
-	public List<NearbyHotelOffer> hotelList;
+	public List<Hotel> hotelList;
 }

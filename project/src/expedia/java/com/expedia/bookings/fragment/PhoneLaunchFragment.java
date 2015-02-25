@@ -25,12 +25,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.services.NearbyServices;
+import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DbUtils;
@@ -53,7 +53,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private boolean mLaunchingActivity;
 	ViewGroup lobSelector;
 
-	private NearbyServices nearbyServices;
+	private HotelServices hotelServices;
 	HotelSearchParams mSearchParams;
 
 	// Invisible Fragment that handles FusedLocationProvider
@@ -105,7 +105,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				}
 			}
 		};
-		nearbyServices = new NearbyServices(EndPoint.getE3EndpointUrl(getActivity(), true /*isSecure*/),
+		hotelServices = new HotelServices(EndPoint.getE3EndpointUrl(getActivity(), true /*isSecure*/),
 			DbUtils.generateOkHttpClient(),
 			requestInterceptor,
 			AndroidSchedulers.mainThread(),
@@ -146,10 +146,10 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		mSearchParams.setCheckOutDate(currentDate.plusDays(1));
 		mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
-		nearbyServices.hotelSearch(params, downloadListener);
+		hotelServices.hotelSearch(params, downloadListener);
 	}
 
-	private Subscriber<List<NearbyHotelOffer>> downloadListener = new Subscriber<List<NearbyHotelOffer>>() {
+	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
 		@Override
 		public void onCompleted() {
 			Log.d("nearbyhotelstatus", "completed");
@@ -161,11 +161,11 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 
 		@Override
-		public void onNext(List<NearbyHotelOffer> nearbyHotelResponse) {
+		public void onNext(List<Hotel> nearbyHotelResponse) {
 			// Pump our results into a HotelSearchResponse to appease some
 			// legacy code.
 			HotelSearchResponse response = new HotelSearchResponse();
-			for (NearbyHotelOffer offer : nearbyHotelResponse) {
+			for (Hotel offer : nearbyHotelResponse) {
 				Property p = new Property();
 				p.updateFrom(offer);
 				response.addProperty(p);
@@ -250,7 +250,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	@Subscribe
 	public void onHotelOfferSelected(Events.NearbyHotelOfferSelected event) throws JSONException {
-		NearbyHotelOffer offer = event.offer;
+		Hotel offer = event.offer;
 		Property property = new Property();
 		property.updateFrom(offer);
 		Db.getHotelSearch().setSearchParams(mSearchParams);
