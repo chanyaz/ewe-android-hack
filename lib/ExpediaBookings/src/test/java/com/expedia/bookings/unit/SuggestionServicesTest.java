@@ -20,6 +20,9 @@ import static junit.framework.Assert.assertEquals;
 
 
 public class SuggestionServicesTest {
+
+	private static final int NUM_SUGGESTIONS_IN_MOCK_TEMPLATES = 3;
+
 	@Rule
 	public MockWebServerRule mServer = new MockWebServerRule();
 
@@ -35,11 +38,12 @@ public class SuggestionServicesTest {
 		observer.await();
 		sub.unsubscribe();
 
-		assertEquals(observer.getItems().get(0).size(), 2);
+		assertEquals(observer.getItems().get(0).size(), NUM_SUGGESTIONS_IN_MOCK_TEMPLATES);
 	}
 
 	private SuggestionServices getTestSuggestionServices() throws Throwable {
-		return new SuggestionServices("http://localhost:" + mServer.getPort(), new OkHttpClient(), Schedulers.immediate(),
+		return new SuggestionServices("http://localhost:" + mServer.getPort(), new OkHttpClient(),
+			Schedulers.immediate(),
 			Schedulers.immediate());
 	}
 
