@@ -28,6 +28,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelOffer;
+import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -619,6 +620,17 @@ public class Events {
 			this.activityDetails = activityDetails;
 		}
 	}
+
+	public static class LXTicketCountChanged {
+		public Ticket ticket;
+		public int count;
+
+		public LXTicketCountChanged(Ticket ticket, int count) {
+			this.ticket = ticket;
+			this.count = count;
+		}
+	}
+
 	public static class NearbyHotelSearchResults {
 		public List<NearbyHotelOffer> topTen;
 

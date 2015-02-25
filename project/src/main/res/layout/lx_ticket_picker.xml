@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LXTicketPicker
+    android:id="@+id/ticket_picker"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/ticket_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/ticket_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:text="+"
+        android:textSize="32dp" />
+
+    <TextView
+        android:id="@+id/ticket_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:textSize="32dp" />
+
+    <TextView
+        android:id="@+id/ticket_remove"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:text="-"
+        android:textSize="32dp" />
+
+</com.expedia.bookings.widget.LXTicketPicker>
