@@ -42,6 +42,7 @@ import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RequestInterceptor;
 import rx.Subscriber;
@@ -50,40 +51,42 @@ import rx.schedulers.Schedulers;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
+	private static final String TAG = "LAUNCH_SCREEN";
+
 	// Used to prevent launching of both flight and hotel activities at once
 	// (as it is otherwise possible to quickly click on both sides).
-	private boolean mLaunchingActivity;
-	ViewGroup lobSelector;
+	private boolean launchingActivity;
+
+	@InjectView(R.id.lob_selector)
+	ViewGroup lobSelectorWidget;
+
+	@InjectView(R.id.nearby_deals_widget)
+	ViewGroup nearbyDealsWidget;
+
+	private int actionBarSpace;
 
 	private HotelServices hotelServices;
-	HotelSearchParams mSearchParams;
+	private HotelSearchParams searchParams;
 
 	// Invisible Fragment that handles FusedLocationProvider
-	private FusedLocationProviderFragment mLocationFragment;
-
-	private static final String TAG = "LAUNCH_SCREEN";
+	private FusedLocationProviderFragment locationFragment;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
+		locationFragment = FusedLocationProviderFragment.getInstance(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_new_phone_launch, container, false);
 		ButterKnife.inject(this, v);
-
-		lobSelector = Ui.findView(v, R.id.lob_selector);
-		lobSelector.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+		lobSelectorWidget.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				ViewGroup nearby = Ui.findView(v, R.id.nearby_deals_widget);
-				ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) nearby
-					.getLayoutParams();
-				marginLayoutParams.topMargin = lobSelector.getBottom();
-				nearby.setLayoutParams(marginLayoutParams);
-				Ui.removeOnGlobalLayoutListener(lobSelector, this);
+				actionBarSpace = ButterKnife.findById(v, R.id.action_bar_space).getHeight();
+				nearbyDealsWidget.setTranslationY(lobSelectorWidget.getBottom() - actionBarSpace);
+				Ui.removeOnGlobalLayoutListener(lobSelectorWidget, this);
 			}
 		});
 
@@ -117,7 +120,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		super.onResume();
 		findLocation();
 		Events.register(this);
-		mLaunchingActivity = false;
+		launchingActivity = false;
 	}
 
 	@Override
@@ -131,6 +134,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		super.onDestroy();
 		ButterKnife.reset(this);
 	}
+
 	// Nearby hotel search
 
 	private void startNearbyHotelSearch(Location loc) {
@@ -144,10 +148,10 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
 			String.valueOf(loc.getLongitude()), "1",
 			today, tomorrow, "MobileDeals");
-		mSearchParams = new HotelSearchParams();
-		mSearchParams.setCheckInDate(currentDate);
-		mSearchParams.setCheckOutDate(currentDate.plusDays(1));
-		mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+		searchParams = new HotelSearchParams();
+		searchParams.setCheckInDate(currentDate);
+		searchParams.setCheckOutDate(currentDate.plusDays(1));
+		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
 		hotelServices.hotelSearch(params, downloadListener);
 	}
@@ -174,40 +178,46 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				response.addProperty(p);
 			}
 			Db.getHotelSearch().setSearchResponse(response);
-			Events.post(new Events.NearbyHotelSearchResults(nearbyHotelResponse));
+			Events.post(new Events.LaunchHotelSearchResponse(nearbyHotelResponse));
 		}
 	};
 
 	// Listeners
 
-	@OnClick({R.id.see_all_hotels_button, R.id.hotels_button, R.id.flights_button, R.id.cars_button})
+	// The onClick for the "SEE ALL" button in the list header is in
+	// NearbyHotelsListAdapter. See onSeeAllButtonPressed() below
+	// for the Otto event sent by that onClick()
+	@OnClick({R.id.hotels_button, R.id.flights_button, R.id.cars_button})
 	public void enterLob(View view) {
 		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 		switch (view.getId()) {
-		case R.id.see_all_hotels_button:
 		case R.id.hotels_button:
-			if (!mLaunchingActivity) {
-				mLaunchingActivity = true;
-				NavUtils.goToHotels(getActivity(), animOptions);
-				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
-			}
+			goToHotels(animOptions);
 			break;
 		case R.id.flights_button:
-			if (!mLaunchingActivity) {
-				mLaunchingActivity = true;
+			if (!launchingActivity) {
+				launchingActivity = true;
 				NavUtils.goToFlights(getActivity(), animOptions);
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 			}
 			break;
 		case R.id.cars_button:
-			if (!mLaunchingActivity) {
-				mLaunchingActivity = true;
+			if (!launchingActivity) {
+				launchingActivity = true;
 				Intent carsIntent = new Intent(getActivity(), CarsActivity.class);
 				getActivity().startActivity(carsIntent);
 				break;
 			}
 		}
 		cleanUp();
+	}
+
+	public void goToHotels(Bundle animOptions) {
+		if (!launchingActivity) {
+			launchingActivity = true;
+			NavUtils.goToHotels(getActivity(), animOptions);
+			OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+		}
 	}
 
 	@Override
@@ -234,7 +244,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			return;
 		}
 
-		mLocationFragment.find(new FusedLocationProviderFragment.FusedLocationProviderListener() {
+		locationFragment.find(new FusedLocationProviderFragment.FusedLocationProviderListener() {
 
 			@Override
 			public void onFound(Location currentLocation) {
@@ -251,15 +261,21 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Otto events
 
 	@Subscribe
-	public void onHotelOfferSelected(Events.NearbyHotelOfferSelected event) throws JSONException {
+	public void onHotelOfferSelected(Events.LaunchListItemSelected event) throws JSONException {
 		Hotel offer = event.offer;
 		Property property = new Property();
 		property.updateFrom(offer);
-		Db.getHotelSearch().setSearchParams(mSearchParams);
+		Db.getHotelSearch().setSearchParams(searchParams);
 		Db.getHotelSearch().setSelectedProperty(property);
 
 		Intent intent = new Intent(getActivity(), HotelDetailsFragmentActivity.class);
 		intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
 		NavUtils.startActivity(getActivity(), intent, null);
+	}
+
+	// "SEE ALL" button's onClick
+	@Subscribe
+	public void onSeeAllButtonPressed(Events.LaunchSeeAllButtonPressed event) {
+		goToHotels(event.animOptions);
 	}
 }
