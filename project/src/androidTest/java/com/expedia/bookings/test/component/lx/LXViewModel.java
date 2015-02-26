@@ -85,24 +85,12 @@ public class LXViewModel {
 		return onView(withId(R.id.activity_details));
 	}
 
-	public static ViewInteraction recyclerGallery() {
-		return onView(withId(R.id.activity_gallery));
+	public static Matcher<View> recyclerGalleryMatcher() {
+		return withId(R.id.activity_gallery);
 	}
 
 	public static ViewInteraction infoContainer() {
 		return onView(withId(R.id.activity_info_container));
-	}
-
-	public static ViewInteraction locationContent() {
-		return onView(withId(R.id.location));
-	}
-
-	public static ViewInteraction descriptionContent() {
-		return onView(withId(R.id.description));
-	}
-
-	public static ViewInteraction highlightsContent() {
-		return onView(withId(R.id.highlights));
 	}
 
 }

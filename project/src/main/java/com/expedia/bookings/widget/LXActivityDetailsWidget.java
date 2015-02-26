@@ -3,9 +3,12 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -15,6 +18,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -49,6 +53,9 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@InjectView(R.id.location)
 	LXDetailSectionDataWidget location;
 
+	@InjectView(R.id.offer_dates_container)
+	RadioGroup offerDatesContainer;
+
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -63,6 +70,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		description.setVisibility(View.GONE);
 		location.setVisibility(View.GONE);
 		freeCancellation.setVisibility(View.GONE);
+		offerDatesContainer.setVisibility(View.GONE);
 	}
 
 	@Subscribe
@@ -72,7 +80,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 		buildGallery(activityDetails);
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
-
+		// TODO Replace hardcoded date with search start date.
+		buildOfferDatesSelector(LocalDate.now());
 	}
 
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
@@ -113,6 +122,17 @@ public class LXActivityDetailsWidget extends ScrollView {
 		if (Strings.isNotEmpty(highlightsContent)) {
 			highlights.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent);
 			highlights.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void buildOfferDatesSelector(LocalDate startDate) {
+		offerDatesContainer.setVisibility(View.VISIBLE);
+		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
+
+		for (int i = 0; i < noOfDaysToDisplay; i++) {
+			LXOfferDatesButton dateButton = Ui.inflate(R.layout.lx_offer_date_button, offerDatesContainer, false);
+			dateButton.bind(startDate.plusDays(i));
+			offerDatesContainer.addView(dateButton);
 		}
 	}
 }
