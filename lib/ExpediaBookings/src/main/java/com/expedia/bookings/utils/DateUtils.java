@@ -14,7 +14,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 public class DateUtils {
 
-	private static final String LX_DATE_PATTERN = "MM-dd-YYYY";
+	private static final String LX_DATE_PATTERN = "yyyy-MM-dd";
 	/**
 	 * Formats the given date in yyyyMMDD format and returns as int
 	 */
