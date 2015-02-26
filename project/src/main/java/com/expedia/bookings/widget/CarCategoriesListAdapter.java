@@ -39,7 +39,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		holder.bindCategorizedOffers(cco);
 
 		String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
-		new PicassoHelper.Builder(holder.backroundImageView)
+		new PicassoHelper.Builder(holder.backgroundImageView)
 			.fade()
 			.setTag(ROW_PICASSO_TAG)
 			.fit()
@@ -64,7 +64,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		public TextView totalTextView;
 
 		@InjectView(R.id.background_image_view)
-		public ImageView backroundImageView;
+		public ImageView backgroundImageView;
 
 		@InjectView(R.id.passenger_count)
 		public TextView passengerCount;
