@@ -30,6 +30,8 @@
     <string name="error_missing_end_date_param">End Date missing</string>
     <!-- Temporary String for general error message -->
     <string name="error_car">There was some error. Check search params.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- Checkout -->
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>

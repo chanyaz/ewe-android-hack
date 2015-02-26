@@ -31,10 +31,10 @@
             <LinearLayout
                 android:id="@+id/price_container"
                 android:layout_width="match_parent"
-                android:background="@drawable/cars_details_gradient_bottom"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:orientation="horizontal"
+                android:background="@drawable/cars_details_gradient_bottom"
                 android:padding="12dp">
 
                 <Space
@@ -44,61 +44,61 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:tint="@android:color/white"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/person" />
+                    android:src="@drawable/person"
+                    android:tint="@android:color/white" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/passenger_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:padding="2dp"
                     android:layout_marginRight="4dp"
+                    android:padding="2dp"
+                    android:text="5"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:text="5" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:tint="@android:color/white"
-                    android:layout_marginLeft="4dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baggage" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/baggage"
+                    android:tint="@android:color/white" />
 
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/bag_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="4dp"
                     android:padding="2dp"
+                    android:text="3"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:text="3" />
+                    android:textSize="14sp" />
 
                 <ImageView
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:tint="@android:color/white"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/doors" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/doors"
+                    android:tint="@android:color/white" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/door_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:padding="2dp"
                     android:layout_marginRight="4dp"
+                    android:padding="2dp"
+                    android:text="4"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:text="4" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </FrameLayout>
@@ -114,6 +114,49 @@
         android:id="@+id/categories"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/category_error_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/car" />
+
+                <Button
+                    android:id="@+id/category_error_action_button"
+                    style="@style/CarButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/edit_search" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginRight="72dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/error_car_search_message"
+                    android:textSize="13sp"
+                    android:textColor="#7D7D7D" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/category_list"
@@ -133,48 +176,48 @@
     <View
         android:id="@+id/toolbar_background"
         android:layout_width="match_parent"
-        android:layout_gravity="top"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/cars_primary_color" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize" />
 
     <FrameLayout
         android:id="@+id/sort_toolbar"
         android:layout_width="match_parent"
+        android:layout_height="46dp"
         android:layout_gravity="bottom"
         android:background="#D9FFFFFF"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:orientation="horizontal"
-        android:layout_height="46dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:gravity="left"
-            android:textSize="16dp"
-            android:drawablePadding="10dp"
-            android:textColor="@color/text_black"
-            android:drawableLeft="@drawable/promo"
-            android:text="@string/cars_promo_code"/>
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:gravity="right"
+            android:layout_gravity="left|center_vertical"
+            android:drawableLeft="@drawable/promo"
             android:drawablePadding="10dp"
+            android:gravity="left"
+            android:text="@string/cars_promo_code"
             android:textColor="@color/text_black"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:drawableLeft="@drawable/sort"
-            android:text="@string/cars_sort_filter"/>
+            android:drawablePadding="10dp"
+            android:gravity="right"
+            android:text="@string/cars_sort_filter"
+            android:textColor="@color/text_black"
+            android:textSize="16dp" />
     </FrameLayout>
- 
+
 
 </com.expedia.bookings.presenter.CarsResultsPresenter>

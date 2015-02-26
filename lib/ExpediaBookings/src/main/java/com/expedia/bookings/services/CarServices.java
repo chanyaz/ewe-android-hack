@@ -67,18 +67,28 @@ public class CarServices {
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
+			.map(HANDLE_ERRORS)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
 			.map(PUT_IN_CARSEARCH)
 			.subscribe(observer);
 	}
 
+	private static final Func1<CarSearchResponse, CarSearchResponse> HANDLE_ERRORS = new Func1<CarSearchResponse, CarSearchResponse>() {
+		@Override
+		public CarSearchResponse call(CarSearchResponse carSearchResponse) {
+			if (carSearchResponse.hasErrors()) {
+				throw new RuntimeException(carSearchResponse.errorsToString());
+			}
+			return carSearchResponse;
+		}
+	};
+
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
 		public Observable<CategorizedCarOffers> call(CarSearchResponse carSearchResponse) {
 			EnumMap<CarCategory, CategorizedCarOffers> buckets = new EnumMap<>(CarCategory.class);
 			List<SearchCarOffer> offers = carSearchResponse.offers;
-
 			for (SearchCarOffer offer : offers) {
 				CarCategory category = offer.vehicleInfo.category;
 				CategorizedCarOffers bucket = buckets.get(category);
@@ -101,7 +111,6 @@ public class CarServices {
 			return search;
 		}
 	};
-
 
 	private static final Func2<CategorizedCarOffers, CategorizedCarOffers, Integer> SORT_BY_LOWEST_TOTAL = new Func2<CategorizedCarOffers, CategorizedCarOffers, Integer>() {
 		@Override

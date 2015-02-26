@@ -545,6 +545,9 @@ public class Events {
 		}
 	}
 
+	public static class CarsShowSearchResultsError {
+	}
+
 	public static class CarsShowDetails {
 		public CategorizedCarOffers categorizedCarOffers;
 

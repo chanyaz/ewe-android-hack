@@ -117,7 +117,7 @@ public class CarConfirmationWidget extends LinearLayout {
 	public void bind(CarCheckoutResponse response) {
 		String text;
 		if (response.hasErrors()) {
-			text = response.printErrors();
+			text = response.errorsToString();
 		}
 		else {
 

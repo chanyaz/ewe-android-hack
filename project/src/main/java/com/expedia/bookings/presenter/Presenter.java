@@ -197,7 +197,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 	// Transition
 
-	public static abstract class Transition {
+	public static class Transition {
 
 		public static final int DEFAULT_ANIMATION_DURATION = 300;
 
@@ -228,13 +228,21 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
 		}
 
-		public abstract void startTransition(boolean forward);
+		public void startTransition(boolean forward) {
 
-		public abstract void updateTransition(float f, boolean forward);
+		}
 
-		public abstract void endTransition(boolean forward);
+		public void updateTransition(float f, boolean forward) {
 
-		public abstract void finalizeTransition(boolean forward);
+		}
+
+		public void endTransition(boolean forward) {
+
+		}
+
+		public void finalizeTransition(boolean forward) {
+
+		}
 
 	}
 
