@@ -321,9 +321,13 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	public int getSelectedItem() {
-		int position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-		if (position == -1) {
-			position = mLayoutManager.findFirstVisibleItemPosition();
+		int position = NO_POSITION;
+
+		if (mLayoutManager != null && getChildCount() > 0) {
+			position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+			if (position == NO_POSITION) {
+				position = mLayoutManager.findFirstVisibleItemPosition();
+			}
 		}
 
 		return position;
@@ -412,6 +416,9 @@ public class RecyclerGallery extends RecyclerView {
 	private void showNext() {
 		int position = mLayoutManager.findFirstVisibleItemPosition();
 		View v = mLayoutManager.findViewByPosition(position);
+		if (v == null) {
+			return;
+		}
 		int offset = mLayoutManager.getRightDecorationWidth(v) * 2;
 		smoothScrollBy(v.getMeasuredWidth() + offset, 0);
 	}
