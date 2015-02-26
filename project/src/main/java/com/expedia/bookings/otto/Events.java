@@ -2,6 +2,7 @@ package com.expedia.bookings.otto;
 
 import java.util.List;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -634,20 +635,27 @@ public class Events {
 		}
 	}
 
-	// Nearby/Launch things
+	// Launch screen
 
-	public static class NearbyHotelSearchResults {
+	public static class LaunchHotelSearchResponse {
 		public List<Hotel> topTen;
 
-		public NearbyHotelSearchResults(List<Hotel> topTen) {
+		public LaunchHotelSearchResponse(List<Hotel> topTen) {
 			this.topTen = topTen;
 		}
 	}
 
-	public static class NearbyHotelOfferSelected {
+	public static class LaunchListItemSelected {
 		public Hotel offer;
-		public NearbyHotelOfferSelected(Hotel offer) {
+		public LaunchListItemSelected(Hotel offer) {
 			this.offer = offer;
+		}
+	}
+
+	public static class LaunchSeeAllButtonPressed {
+		public Bundle animOptions;
+		public LaunchSeeAllButtonPressed(Bundle animOptions) {
+			this.animOptions = animOptions;
 		}
 	}
 }

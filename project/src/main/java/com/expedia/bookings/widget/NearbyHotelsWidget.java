@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -42,8 +43,8 @@ public class NearbyHotelsWidget extends FrameLayout {
 		nearbyHotels.setLayoutManager(layoutManager);
 
 		nearbyHotels.addItemDecoration(new NearbyHotelsDividerDecoration(getContext(), 8, false));
-
-		adapter = new NearbyHotelsListAdapter();
+		LayoutInflater li = LayoutInflater.from(getContext());
+		adapter = new NearbyHotelsListAdapter(li.inflate(R.layout.snippet_nearby_hotels_header, null));
 		nearbyHotels.setAdapter(adapter);
 		nearbyHotels.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 	}
@@ -62,7 +63,7 @@ public class NearbyHotelsWidget extends FrameLayout {
 
 
 	@Subscribe
-	public void onNearbyHotelsSearchResults(Events.NearbyHotelSearchResults event) {
+	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
 		adapter.setNearbyHotels(event.topTen);
 		adapter.notifyDataSetChanged();
 	}
@@ -105,7 +106,8 @@ public class NearbyHotelsWidget extends FrameLayout {
 			outRect.top = mTop;
 			outRect.bottom = mBottom;
 
-			int pos = parent.getChildPosition(view);
+			// Because of a header
+			int pos = parent.getChildPosition(view) - 1;
 			// Big guys (0, 5, 10, etc)
 			if (pos % 5 == 0) {
 				outRect.left = mLeft;
