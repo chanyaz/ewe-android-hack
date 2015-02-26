@@ -2744,7 +2744,7 @@ public class OmnitureTracking {
 		if (AndroidUtils.isRelease(context)) {
 			//for Travelocity we will only send data to 1 Omniture Report Suite
 			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalapp";
+				id = "expediaglobalapp,tvlglobalapp";
 			}
 			//For Travelocity, VSC and AirAsiaGo
 			else {
@@ -2756,12 +2756,7 @@ public class OmnitureTracking {
 			}
 		}
 		else {
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalappdev";
-			}
-			else {
-				id = "expediaglobalappdev";
-			}
+			id = "expediaglobalappdev";
 
 			if (ExpediaBookingApp.IS_VSC) {
 				id += ",expedia7androidappdev";
