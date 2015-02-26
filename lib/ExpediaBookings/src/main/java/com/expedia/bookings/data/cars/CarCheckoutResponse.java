@@ -3,6 +3,7 @@ package com.expedia.bookings.data.cars;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.google.gson.Gson;
 
 public class CarCheckoutResponse {
 	public String activityId;
@@ -20,13 +21,8 @@ public class CarCheckoutResponse {
 		return errors != null && errors.size() > 0;
 	}
 
-	public String printErrors() {
-		StringBuilder builder = new StringBuilder();
-		for (CarApiError error : errors) {
-			builder.append(error.toDebugString());
-			builder.append("\n");
-		}
-		return builder.toString();
+	public String errorsToString() {
+		return new Gson().toJson(errors);
 	}
 
 }

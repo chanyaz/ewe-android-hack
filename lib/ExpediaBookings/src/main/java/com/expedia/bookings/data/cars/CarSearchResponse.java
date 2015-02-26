@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.google.gson.Gson;
+
 public class CarSearchResponse {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
@@ -15,12 +17,7 @@ public class CarSearchResponse {
 		return errors != null && errors.size() > 0;
 	}
 
-	public String printErrors() {
-		StringBuilder builder = new StringBuilder();
-		for (CarApiError error : errors) {
-			builder.append(error.toDebugString());
-			builder.append("\n");
-		}
-		return builder.toString();
+	public String errorsToString() {
+		return new Gson().toJson(errors);
 	}
 }
