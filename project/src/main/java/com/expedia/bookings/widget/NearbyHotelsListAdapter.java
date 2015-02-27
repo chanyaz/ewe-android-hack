@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
@@ -80,7 +81,8 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 		}
 
 		String url = Images.getNearbyHotelImage(nearbyHotels.get(actualPosition));
-		new HotelMedia(url).fillImageView(holder.hotelBackgroundImage, parentView.getWidth(), R.drawable.bg_tablet_hotel_results_placeholder, null, PICASSO_TAG);
+		new HotelMedia(url).fillImageView(holder.hotelBackgroundImage, parentView.getWidth(),
+			R.drawable.bg_tablet_hotel_results_placeholder, null, PICASSO_TAG);
 		holder.bindNearbyHotelOffers(nearbyHotels.get(actualPosition), fullWidthTile);
 
 	}
@@ -111,6 +113,10 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 		private static final int HALF_TILE_TEXT_SIZE = 17;
 
 		@Optional
+		@InjectView(R.id.card_view)
+		public CardView cardView;
+
+		@Optional
 		@InjectView(R.id.hotel_name)
 		public TextView hotelName;
 
@@ -134,6 +140,7 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 
 		public void bindNearbyHotelOffers(Hotel offer, boolean fullWidthTile) {
 			itemView.setTag(offer);
+			cardView.setPreventCornerOverlap(false);
 			hotelName.setText(offer.name);
 			hotelProximity.setText(HotelUtils.formatDistanceForNearby(itemView.getContext(), offer, true));
 			hotelPrice.setText(offer.lowRateInfo.currencySymbol + Math.round(offer.lowRateInfo.priceToShowUsers));
