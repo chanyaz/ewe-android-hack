@@ -14,6 +14,7 @@ import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -116,7 +117,7 @@ public final class CarViewModel {
 	}
 
 	public static void enterFirstName(String name) {
-		firstName().perform(typeText(name));
+		firstName().perform(scrollTo(), typeText(name));
 	}
 
 	public static ViewInteraction lastName() {
@@ -124,7 +125,7 @@ public final class CarViewModel {
 	}
 
 	public static void enterLastName(String name) {
-		lastName().perform(typeText(name));
+		lastName().perform(scrollTo(), typeText(name));
 	}
 
 	public static ViewInteraction email() {
@@ -132,7 +133,7 @@ public final class CarViewModel {
 	}
 
 	public static void enterEmail(String email) {
-		email().perform(typeText(email));
+		email().perform(scrollTo(), typeText(email));
 	}
 
 	public static ViewInteraction phone() {
@@ -140,7 +141,7 @@ public final class CarViewModel {
 	}
 
 	public static void enterPhoneNumber(String number) {
-		phone().perform(typeText(number));
+		phone().perform(scrollTo(), typeText(number));
 	}
 
 	public static ViewInteraction paymentContainer() {

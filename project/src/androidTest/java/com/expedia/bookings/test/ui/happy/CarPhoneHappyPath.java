@@ -16,30 +16,30 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 public class CarPhoneHappyPath extends PhoneTestCase {
 
 	public void testCarPhoneHappyPath() throws Throwable {
-
+		screenshot("Launch");
 		LaunchScreen.launchCars();
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
 
 		screenshot("Car_Search");
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		screenshot("Car_Search_Params_Entered");
 
+		screenshot("Car_Search_Params_Entered");
 		CarViewModel.searchButton().perform(click());
 		ScreenActions.delay(1);
-		screenshot("Car_Search_Results");
 
+		screenshot("Car_Search_Results");
 		CarViewModel.selectCarCategory(0);
 		ScreenActions.delay(1);
-		screenshot("Car_Offers");
 
+		screenshot("Car_Offers");
 		CarViewModel.selectCarOffer(0);
 		ScreenActions.delay(1);
-		screenshot("Car_Checkout");
 
+		screenshot("Car_Checkout");
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
 		CarViewModel.clickDriverInfo();
 		CarViewModel.enterFirstName("FiveStar");
