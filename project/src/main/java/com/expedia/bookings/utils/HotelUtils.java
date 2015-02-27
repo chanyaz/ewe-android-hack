@@ -20,15 +20,16 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -281,5 +282,17 @@ public class HotelUtils {
 		}
 		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
 		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
+	}
+
+	public static float getDiscountPercent(HotelRate rate) {
+		return Math.abs(rate.discountPercent);
+	}
+
+	public static boolean isDiscountTenPercentOrBetter(HotelRate rate) {
+		float discountPercent = getDiscountPercent(rate);
+		if (discountPercent <= 100 && discountPercent >= 0) {
+			return discountPercent > 9.5;
+		}
+		return false;
 	}
 }

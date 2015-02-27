@@ -13,6 +13,11 @@
     <color name="low_memory_bg_color">#404040</color>
     <color name="bg_air_attach_phone_launch">#1e2022</color>
 
+    <!-- New launch screen colors -->
+    <color name="launch_mobile_exclusive">#980351</color>
+    <color name="launch_discount">#03C690</color>
+    <color name="launch_air_attach">#F27D0F</color>
+
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
