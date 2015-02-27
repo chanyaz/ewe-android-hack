@@ -124,6 +124,13 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 				return false;
 			}
 		});
+
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		if (statusBarHeight > 0) {
+			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			addView(Ui.setUpStatusBar(getContext(), toolbar, scrollView, color));
+		}
+
 	}
 
 	@Override

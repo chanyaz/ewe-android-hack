@@ -111,6 +111,11 @@ public class CarsResultsPresenter extends Presenter {
 		categories.recyclerView.setOnScrollListener(sortScrollListener);
 		details.offerList.setOnScrollListener(parallaxScrollListener);
 
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		toolbarBackground.getLayoutParams().height += statusBarHeight;
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		categories.setPadding(0, statusBarHeight, 0, 0);
+
 	}
 
 	@Override
@@ -214,7 +219,6 @@ public class CarsResultsPresenter extends Presenter {
 			else {
 				setToolBarResultsText();
 			}
-
 		}
 	};
 

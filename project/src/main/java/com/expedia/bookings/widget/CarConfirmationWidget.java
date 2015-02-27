@@ -22,6 +22,7 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -81,6 +82,8 @@ public class CarConfirmationWidget extends LinearLayout {
 				Events.post(new Events.CarsGoToSearch());
 			}
 		});
+
+		toolbar.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
 	}
 
 	@Override

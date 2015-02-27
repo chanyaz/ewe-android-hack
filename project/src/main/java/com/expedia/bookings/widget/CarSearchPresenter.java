@@ -131,7 +131,7 @@ public class CarSearchPresenter extends Presenter
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((Activity)getContext()).onBackPressed();
+				((Activity) getContext()).onBackPressed();
 			}
 		});
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_check);
@@ -168,7 +168,14 @@ public class CarSearchPresenter extends Presenter
 
 		addTransition(defaultToCal);
 
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		if (statusBarHeight > 0) {
+			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			addView(Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color));
+		}
+
 		show(new CarParamsDefault());
+
 	}
 
 	private void setPickUpLocation(final Suggestion suggestion) {
