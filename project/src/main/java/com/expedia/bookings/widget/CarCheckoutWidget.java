@@ -85,7 +85,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	@InjectView(R.id.payment_info_card_view)
 	CarPaymentWidget paymentInfoCardView;
 
-	@InjectView(R.id.toolbar)
+	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
 
 	MenuItem menuDone;

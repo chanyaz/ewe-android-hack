@@ -50,6 +50,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		Common.closeSoftKeyboard(CarViewModel.email());
 		ScreenActions.delay(1);
 		CarViewModel.enterPhoneNumber("4158675309");
+		CarViewModel.pressClose();
 		CarViewModel.pressDone();
 
 		screenshot("Car_Checkout_Ready_To_Purchase");

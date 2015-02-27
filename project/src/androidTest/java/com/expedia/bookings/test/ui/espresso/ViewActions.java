@@ -18,6 +18,7 @@ import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -230,6 +231,30 @@ public final class ViewActions {
 			@Override
 			public String getDescription() {
 				return "get the  airline checkbox text";
+			}
+		};
+	}
+
+	//View Action to get the Up botton in the support v7 toolbar
+
+	public static ViewAction getChildViewButton(final int index) {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View childView = ((Toolbar) view).getChildAt(index);
+				childView.performClick();
+				uiController.loopMainThreadUntilIdle();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Click on child view";
 			}
 		};
 	}

@@ -152,6 +152,10 @@ public final class CarViewModel {
 		return onView(withId(R.id.menu_done));
 	}
 
+	public static void pressClose() {
+		onView(withId(R.id.checkout_toolbar)).perform(ViewActions.getChildViewButton(0));
+	}
+
 	public static void pressDone() {
 		checkoutDataEnterDone().perform(click());
 	}
