@@ -183,10 +183,10 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 		loginText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				expand(true);
 				if (mToobarListener != null) {
 					mToobarListener.onWidgetExpanded();
 				}
+				setExpanded(true);
 			}
 		});
 
@@ -1386,7 +1386,7 @@ public class CarsLoginWidget extends CardView implements LoginExtenderListener,
 		public void onLoginFailed();
 	}
 
-	public void expand(boolean isExpanded) {
+	public void setExpanded(boolean isExpanded) {
 		if (!isExpanded) {
 			setVisibilityState(VisibilityState.SIGN_IN, true);
 			return;
