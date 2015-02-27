@@ -494,6 +494,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
+			if (ExpediaBookingApp.sIsAutomation) {
+				return;
+			}
+
 			Db.setAbacusResponse(abacusResponse);
 			// Modify the bucket values based on dev settings;
 			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
