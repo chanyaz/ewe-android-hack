@@ -23,20 +23,16 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Suggestion suggestion = getItem(position);
-		LxSuggestionViewHolder viewHolder;
+		LxSuggestionViewHolder holder;
+
 		if (convertView == null) {
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.lx_dropdown_item, parent, false);
-			LxSuggestionViewHolder suggestionViewHolder = new LxSuggestionViewHolder(convertView);
-			convertView.setTag(suggestionViewHolder);
+			convertView.setTag(new LxSuggestionViewHolder(convertView));
 		}
 
-		viewHolder = (LxSuggestionViewHolder) convertView.getTag();
+		holder = (LxSuggestionViewHolder) convertView.getTag();
+		holder.bind(getItem(position));
 
-		String name = StrUtils.formatCityName(suggestion.displayName);
-		viewHolder.displayName.setText(Html.fromHtml(name));
-		viewHolder.dropdownImage.setImageResource(
-			suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
 		return convertView;
 	}
 
@@ -50,11 +46,15 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 		public LxSuggestionViewHolder(View root) {
 			ButterKnife.inject(this, root);
 		}
+
+		public void bind(Suggestion suggestion) {
+			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
+			dropdownImage.setImageResource(suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
+		}
 	}
 
 	@Override
-	protected Subscription invokeSuggestionService(CharSequence query, SuggestionServices suggestionServices,
-		Observer<List<Suggestion>> suggestionsObserver) {
-		return suggestionServices.getLxSuggestions(query.toString(), suggestionsObserver);
+	protected Subscription suggest(SuggestionServices service, Observer<List<Suggestion>> observer, CharSequence query) {
+		return service.getLxSuggestions(query.toString(), observer);
 	}
 }

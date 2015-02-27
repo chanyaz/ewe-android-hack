@@ -51,7 +51,7 @@ public class SuggestionServices {
 		return mSuggestApi.suggestV3(query, SuggestionResultType.AIRPORT)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.flatMap(sFlattenSuggestions)
+			.concatMap(FLATTEN_SUGGESTIONS)
 			.take(MAX_AIRPORTS_RETURNED)
 			.toList()
 			.subscribe(observer);
@@ -63,13 +63,13 @@ public class SuggestionServices {
 		return mSuggestApi.suggestV3(query, lxSuggestionsType)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.flatMap(sFlattenSuggestions)
+			.flatMap(FLATTEN_SUGGESTIONS)
 			.take(MAX_LX_SUGGESTIONS_RETURNED)
 			.toList()
 			.subscribe(observer);
 	}
 
-	private static Func1<SuggestionResponse, Observable<Suggestion>> sFlattenSuggestions = new Func1<SuggestionResponse, Observable<Suggestion>>() {
+	private static final Func1<SuggestionResponse, Observable<Suggestion>> FLATTEN_SUGGESTIONS = new Func1<SuggestionResponse, Observable<Suggestion>>() {
 		@Override
 		public Observable<Suggestion> call(SuggestionResponse suggestionResponse) {
 			return Observable.from(suggestionResponse.suggestions);

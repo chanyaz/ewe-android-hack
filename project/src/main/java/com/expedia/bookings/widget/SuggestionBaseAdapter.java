@@ -20,14 +20,16 @@ import rx.exceptions.OnErrorNotImplementedException;
 
 public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filterable {
 
+	// Implementing class decides how to use the suggestion service to provide suggestions
+	protected abstract Subscription suggest(SuggestionServices suggestionServices,
+			Observer<List<Suggestion>> suggestionsObserver, CharSequence query);
+
 	@Inject
 	SuggestionServices suggestionServices;
 
 	private List<Suggestion> suggestions = new ArrayList<>();
-
-	//Abstract Methods to be implemented by child classes
-	protected abstract Subscription invokeSuggestionService(CharSequence query, SuggestionServices suggestionServices,
-		Observer<List<Suggestion>> suggestionsObserver);
+	private Subscription suggestSubscription;
+	private final SuggestFilter filter = new SuggestFilter();
 
 	@Override
 	public int getCount() {
@@ -54,21 +56,17 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		return filter;
 	}
 
-	private SuggestFilter filter = new SuggestFilter();
-
-	private Subscription suggestSubscription;
 	private class SuggestFilter extends Filter {
-
 		@Override
-		protected FilterResults performFiltering(CharSequence s) {
-			FilterResults oReturn = new FilterResults();
-			if (Strings.isNotEmpty(s) && s.length() >= 3) {
+		protected FilterResults performFiltering(CharSequence query) {
+			FilterResults results = new FilterResults();
+			if (Strings.isNotEmpty(query) && query.length() >= 3) {
 				cleanup();
-				suggestSubscription = invokeSuggestionService(s, suggestionServices, suggestionsObserver);
+				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query);
 			}
-			oReturn.count = suggestions.size();
-			oReturn.values = suggestions;
-			return oReturn;
+			results.count = suggestions.size();
+			results.values = suggestions;
+			return results;
 		}
 
 		@Override
@@ -77,10 +75,11 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		}
 	}
 
-	private Observer<List<Suggestion>> suggestionsObserver = new Observer<List<Suggestion>>() {
+	private final Observer<List<Suggestion>> suggestionsObserver = new Observer<List<Suggestion>>() {
 		@Override
 		public void onCompleted() {
 			filter.publishResults("", null);
+			cleanup();
 		}
 
 		@Override

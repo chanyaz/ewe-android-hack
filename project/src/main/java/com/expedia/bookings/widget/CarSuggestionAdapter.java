@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-
 import java.util.List;
 
 import android.text.Html;
@@ -19,27 +18,20 @@ import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
 
-
 public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Suggestion suggestion = getItem(position);
-		CarSuggestionViewHolder viewHolder;
+		CarSuggestionViewHolder holder;
+
 		if (convertView == null) {
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cars_dropdown_item, parent, false);
-			CarSuggestionViewHolder carSuggestionViewHolder = new CarSuggestionViewHolder(convertView);
-			convertView.setTag(carSuggestionViewHolder);
+			convertView.setTag(new CarSuggestionViewHolder(convertView));
 		}
 
-		viewHolder = (CarSuggestionViewHolder) convertView.getTag();
+		holder = (CarSuggestionViewHolder) convertView.getTag();
+		holder.bind(getItem(position));
 
-		viewHolder.airportName.setText(StrUtils.formatAirportName(suggestion.shortName));
-		String name = StrUtils.formatCityName(suggestion.displayName);
-		viewHolder.displayName.setText(Html.fromHtml(name));
-		viewHolder.dropdownImage
-			.setImageResource(suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
-		viewHolder.dropdownImage.setColorFilter(parent.getResources().getColor(R.color.cars_secondary_color));
 		return convertView;
 	}
 
@@ -56,11 +48,18 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		public CarSuggestionViewHolder(View root) {
 			ButterKnife.inject(this, root);
 		}
+
+		public void bind(Suggestion suggestion) {
+			airportName.setText(StrUtils.formatAirportName(suggestion.shortName));
+			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
+
+			dropdownImage.setImageResource(suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
+			dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.cars_secondary_color));
+		}
 	}
 
 	@Override
-	protected Subscription invokeSuggestionService(CharSequence query, SuggestionServices suggestionServices,
-		Observer<List<Suggestion>> suggestionsObserver) {
+	protected Subscription suggest(SuggestionServices suggestionServices, Observer<List<Suggestion>> suggestionsObserver, CharSequence query) {
 		return suggestionServices.getAirportSuggestions(query.toString(), suggestionsObserver);
 	}
 }
