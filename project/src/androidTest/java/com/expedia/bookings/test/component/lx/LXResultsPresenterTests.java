@@ -3,6 +3,7 @@ package com.expedia.bookings.test.component.lx;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,6 +56,25 @@ public class LXResultsPresenterTests {
 		searchResultItem.check(matches(isDisplayed()));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
+	}
+
+	@Test
+	public void testToolbar() {
+		String location = "New York";
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = LocalDate.now().plusDays(14);
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.startDate = startDate;
+		searchParams.endDate = endDate;
+		searchParams.location = location;
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+		ScreenActions.delay(2);
+
+		String expectedToolbarDateRange = startDate.toString("MMM dd") + " - " + endDate.toString("MMM dd");
+		ViewInteraction searchToolbar = LXViewModel.toolbar();
+		searchToolbar.check(matches(isDisplayed()));
+		searchToolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
+		searchToolbar.check(matches(hasDescendant(withText(location))));
 	}
 
 	@Test

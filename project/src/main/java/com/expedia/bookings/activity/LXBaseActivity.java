@@ -7,7 +7,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.Ui;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +24,7 @@ public class LXBaseActivity extends Activity {
 
 		ButterKnife.inject(this);
 		Events.register(this);
+		Ui.showTransparentStatusBar(this);
 	}
 
 	@Override
@@ -34,8 +34,4 @@ public class LXBaseActivity extends Activity {
 		}
 	}
 
-	@Subscribe
-	public void closeSearchWidget(Events.LXCloseSearchWidget event) {
-		onBackPressed();
-	}
 }

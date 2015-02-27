@@ -45,7 +45,9 @@ public class LXDetailsPresenterTests {
 	public void before() {
 		// To setup LXState
 		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-02-24");
+		searchParams.location = "New York";
+		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-02-04");
+		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-02-18");
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 
@@ -63,6 +65,19 @@ public class LXDetailsPresenterTests {
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.highlights))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.offers))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.offer_dates_container))));
+	}
+
+	@Test
+	public void testToolbar() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		ScreenActions.delay(2);
+		LXViewModel.toolbar().check(matches(isDisplayed()));
+
+		String expectedToolbarDateRange = "Feb 04 - Feb 18";
+		ViewInteraction toolbar = LXViewModel.toolbar();
+		toolbar.check(matches(isDisplayed()));
+		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
+		toolbar.check(matches(hasDescendant(withText("New York"))));
 	}
 
 	@Test

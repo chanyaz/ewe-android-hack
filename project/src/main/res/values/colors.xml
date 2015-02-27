@@ -233,4 +233,8 @@
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
 
+    <color name="lx_primary_color">#AF580A</color>
+    <color name="lx_secondary_color">#DB6F0D</color>
+    <color name="lx_heading_text_color">#5C5C5C</color>
+
 </resources>

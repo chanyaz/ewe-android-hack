@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -14,9 +15,12 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.LXSearchParamsWidget;
 
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
@@ -32,9 +36,10 @@ public class LXSearchParamsTest {
 
 	@Test
 	public void testViewVisibilities() {
-		LXViewModel.doneButton().check(matches(isDisplayed()));
-		LXViewModel.closeButton().check(matches(isDisplayed()));
-		LXViewModel.header().check(matches(isDisplayed()));
+		LXViewModel.toolbar().check(matches(isDisplayed()));
+		LXViewModel.toolbar().check(matches(hasDescendant(isAssignableFrom(ImageButton.class))));
+		LXViewModel.searchButton().check(matches(isDisplayed()));
+		LXViewModel.toolbar().check(matches(hasDescendant(withText(R.string.search_widget_heading))));
 		LXViewModel.location().check(matches(isDisplayed()));
 		LXViewModel.selectDateButton().check(matches(isDisplayed()));
 		LXViewModel.calendar().check(matches(not(isDisplayed())));
@@ -65,7 +70,7 @@ public class LXSearchParamsTest {
 		LXViewModel.selectDates(start, null);
 		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMM dd");
 		LXViewModel.selectDateButton().check(matches(withText(expectedDateText)));
-		LXViewModel.doneButton().perform(click());
+		LXViewModel.searchButton().perform(click());
 		LXSearchParams actual = searchParamsWidget.getCurrentParams();
 		assertEquals(expected.startDate, actual.startDate);
 		assertEquals(end, actual.endDate);
@@ -75,20 +80,20 @@ public class LXSearchParamsTest {
 	@Test
 	public void testRequiredParamsFilled() {
 		// Nothing entered
-		LXViewModel.doneButton().perform(click());
+		LXViewModel.searchButton().perform(click());
 		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_location)));
 		LXViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 		LXViewModel.alertDialogNeutralButton().perform(click());
 
 		LXViewModel.location().perform(typeText("New York"));
-		LXViewModel.doneButton().perform(click());
+		LXViewModel.searchButton().perform(click());
 		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_start_date)));
 		LXViewModel.alertDialogNeutralButton().perform(click());
 
+		LXViewModel.location().perform(clearText());
 		LXViewModel.selectDateButton().perform(click());
-		LXViewModel.location().perform(typeText(""));
 		LXViewModel.selectDates(LocalDate.now(), null);
-		LXViewModel.doneButton().perform(click());
+		LXViewModel.searchButton().perform(click());
 		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_location)));
 
 	}

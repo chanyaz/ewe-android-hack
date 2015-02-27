@@ -34,18 +34,6 @@ public class LXViewModel {
 		return onView(withId(R.id.search_calendar));
 	}
 
-	public static ViewInteraction closeButton() {
-		return onView(withId(R.id.search_params_close));
-	}
-
-	public static ViewInteraction doneButton() {
-		return onView(withId(R.id.search_params_done));
-	}
-
-	public static ViewInteraction header() {
-		return onView(withId(R.id.search_header));
-	}
-
 	public static ViewInteraction location() {
 		return onView(withId(R.id.search_location));
 	}
@@ -121,10 +109,20 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction ticketPicker(String offerText) {
-		return onView(allOf(withId(R.id.offer_tickets_picker), hasSibling(withChild(withChild(withText(startsWith(offerText)))))));
+		return onView(allOf(withId(R.id.offer_tickets_picker),
+			hasSibling(withChild(withChild(withText(startsWith(offerText)))))));
+	}
+
+	public static ViewInteraction toolbar() {
+		return onView(withId(R.id.toolbar));
+	}
+
+	public static ViewInteraction searchButton() {
+		return onView(withId(R.id.menu_search));
 	}
 
 	public static ViewInteraction detailsDate(String dateText) {
 		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(endsWith(dateText))));
 	}
+
 }
