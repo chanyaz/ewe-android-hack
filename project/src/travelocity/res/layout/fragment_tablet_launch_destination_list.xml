@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/destinations_scrollview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/launch_destination_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/bg_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/launch_destination_title"
+        android:layout_width="@dimen/tablet_launch_destination_list_text_width"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingTop="30dp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/tablet_launch_destination_list_text_size" />
+
+    <com.expedia.bookings.widget.HorizontalGridView
+        android:id="@+id/launch_destinations_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="300dp"
+        android:background="@android:color/transparent"
+        android:overScrollMode="never"
+        android:rowHeight="@dimen/tablet_destination_tile_size"
+        android:scrollbars="none" />
+</FrameLayout>

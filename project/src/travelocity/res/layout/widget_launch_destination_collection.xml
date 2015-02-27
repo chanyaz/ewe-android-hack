@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/front_image_view"
-        android:scaleType="matrix"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="matrix" />
 
     <View
         android:id="@+id/bg_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0"
-        />
+        android:alpha="0" />
+
+    <View
+        android:id="@+id/text_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/destination_text_container_height"
+        android:layout_gravity="center|bottom"
+        android:gravity="left" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/text"
         android:layout_width="@dimen/destination_search_tile_width"
-        android:layout_height="@dimen/destination_stack_text_container_height"
+        android:layout_height="@dimen/destination_text_container_height"
         android:layout_gravity="center|bottom"
         android:ellipsize="end"
         android:gravity="left"
         android:maxLines="2"
+        android:padding="@dimen/destination_text_padding"
         android:textColor="#ffffff"
-        android:textSize="@dimen/destination_stack_text_size"
+        android:textSize="@dimen/tablet_launch_destination_list_text_size"
         app:textStyle="thin" />
 
 </merge>

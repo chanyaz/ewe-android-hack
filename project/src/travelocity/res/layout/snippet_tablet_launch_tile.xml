@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.fragment.LaunchCard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/tablet_destination_tile_size"
+    android:layout_height="@dimen/tablet_destination_tile_size">
+
+    <com.expedia.bookings.widget.FrameLayout
+        android:id="@+id/launch_title_front_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/launch_title_front_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_launch_link_tile" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/launch_title_front_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#ccffffff"
+            android:gravity="top|left"
+            android:padding="5dp"
+            android:textAllCaps="true"
+            android:textColor="@color/launch_card_title_text_color"
+            android:textSize="16sp" />
+    </com.expedia.bookings.widget.FrameLayout>
+
+    <com.expedia.bookings.widget.FrameLayout
+        android:id="@+id/launch_title_back_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/launch_card_back_container_color"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/launch_card_back_text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/launch_card_back_text_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:includeFontPadding="false"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/button_explore_now"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            android:background="@color/launch_card_explore_now_background_color"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/explore_now"
+            android:textColor="@android:color/white" />
+    </com.expedia.bookings.widget.FrameLayout>
+
+</com.expedia.bookings.fragment.LaunchCard>
