@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -38,7 +37,6 @@ import com.expedia.bookings.utils.DbUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
@@ -67,8 +65,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@InjectView(R.id.location_error)
 	TextView errorText;
 
-	private int actionBarSpace;
-
 	private HotelServices hotelServices;
 	private HotelSearchParams searchParams;
 
@@ -85,14 +81,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_new_phone_launch, container, false);
 		ButterKnife.inject(this, v);
-		lobSelectorWidget.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				actionBarSpace = ButterKnife.findById(v, R.id.action_bar_space).getHeight();
-				nearbyDealsWidget.setTranslationY(lobSelectorWidget.getBottom() - actionBarSpace);
-				Ui.removeOnGlobalLayoutListener(lobSelectorWidget, this);
-			}
-		});
 
 		RequestInterceptor requestInterceptor = new RequestInterceptor() {
 			@Override

@@ -393,14 +393,10 @@
     <string name="nav_flights">Flights</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
+    <!-- Cars -->
+    <string name="nav_cars">Cars</string>
 
     <!-- New launch screen -->
-    <!-- Hotels -->
-    <string name="launch_hotels">Hotels</string>
-    <!-- Flights -->
-    <string name="launch_flights">Flights</string>
-    <!-- Flights -->
-    <string name="launch_cars">Cars</string>
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Top deals tonight</string>
     <!-- See all nearby deals -->

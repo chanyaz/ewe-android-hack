@@ -11,82 +11,99 @@
 
     <com.expedia.bookings.widget.RoundedCornerFrameLayout
         android:id="@+id/hotels_button"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="#028F87"
         app:radius="4dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="10dp"
-            android:alpha="0.3"
-            android:src="@drawable/ic_lob_hotels" />
+        <FrameLayout
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:background="#028F87">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="10dp"
-            android:text="@string/launch_hotels"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="10dp"
+                android:alpha="0.3"
+                android:src="@drawable/ic_lob_hotels" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="10dp"
+                android:text="@string/nav_hotels"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+        </FrameLayout>
     </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
     <com.expedia.bookings.widget.RoundedCornerFrameLayout
         android:id="@+id/flights_button"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_toRightOf="@id/hotels_button"
-        android:background="#204A8E"
         app:radius="4dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="10dp"
-            android:alpha="0.3"
-            android:src="@drawable/ic_lob_flights" />
+        <FrameLayout
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:background="#204A8E">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="10dp"
-            android:text="@string/launch_flights"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="10dp"
+                android:alpha="0.3"
+                android:src="@drawable/ic_lob_flights" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="10dp"
+                android:text="@string/nav_flights"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </FrameLayout>
     </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
     <com.expedia.bookings.widget.RoundedCornerFrameLayout
         android:id="@+id/cars_button"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_toRightOf="@id/flights_button"
-        android:background="#89366A"
         app:radius="4dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="10dp"
-            android:alpha="0.3"
-            android:src="@drawable/ic_lob_cars" />
+        <FrameLayout
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:background="#89366A">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="10dp"
-            android:text="@string/launch_cars"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="10dp"
+                android:alpha="0.3"
+                android:src="@drawable/ic_lob_cars" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="10dp"
+                android:text="@string/nav_cars"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+        </FrameLayout>
     </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
 </RelativeLayout>
