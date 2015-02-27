@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
 import com.expedia.bookings.presenter.lx.LXResultsPresenter;
+import com.expedia.bookings.widget.LxSuggestionAdapter;
 
 import dagger.Component;
 
@@ -12,4 +13,5 @@ import dagger.Component;
 public interface LXComponent {
 	void inject(LXResultsPresenter lxResultsPresenter);
 	void inject(LXDetailsPresenter lxDetailsPresenter);
+	void inject(LxSuggestionAdapter adapter);
 }

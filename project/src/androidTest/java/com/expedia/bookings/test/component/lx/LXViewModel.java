@@ -3,6 +3,7 @@ package com.expedia.bookings.test.component.lx;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 
+import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +11,20 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class LXViewModel {
 	public static ViewInteraction calendar() {
@@ -37,6 +45,14 @@ public class LXViewModel {
 
 	public static ViewInteraction location() {
 		return onView(withId(R.id.search_location));
+	}
+
+	public static void selectLocation(Instrumentation instrumentation, String location) throws Throwable {
+		ScreenActions.delay(1);
+		onView(withText(location))
+			.inRoot(withDecorView(
+				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+			.perform(click());
 	}
 
 	public static ViewInteraction selectDateButton() {
