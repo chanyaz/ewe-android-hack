@@ -2,16 +2,16 @@ package com.expedia.bookings.presenter.lx;
 
 import javax.inject.Inject;
 
-import org.joda.time.LocalDate;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -39,6 +39,9 @@ public class LXDetailsPresenter extends Presenter {
 
 	@InjectView(R.id.activity_details)
 	LXActivityDetailsWidget details;
+
+	@Inject
+	LXState lxState;
 
 	private Subscription detailsSubscription;
 
@@ -98,10 +101,11 @@ public class LXDetailsPresenter extends Presenter {
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
 		show(loadingProgress);
+		LXSearchParams searchParams = lxState.searchParams;
 		ActivityDetailsParams activityDetailsParams = new ActivityDetailsParams();
 		activityDetailsParams.activityId = event.lxActivity.id;
-		activityDetailsParams.startDate = LocalDate.now();
-		activityDetailsParams.endDate = LocalDate.now().plusDays(4);
+		activityDetailsParams.startDate = searchParams.startDate;
+		activityDetailsParams.endDate = searchParams.endDate;
 		detailsSubscription = lxServices.lxDetails(activityDetailsParams, detailsObserver);
 	}
 
