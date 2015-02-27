@@ -29,6 +29,8 @@
         android:padding="16dp"
         android:orientation="vertical">
 
+        <include layout="@layout/checkout_traveler_button" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,11 +43,13 @@
                 android:layout_weight="1"
                 android:hint="@string/first_name"
                 android:singleLine="true"
+                android:nextFocusDown="@+id/edit_last_name"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edit_last_name"
                 android:layout_width="0dp"
+                android:nextFocusDown="@+id/edit_email_address"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
@@ -57,6 +61,7 @@
         <EditText
             android:id="@+id/edit_email_address"
             android:layout_width="match_parent"
+            android:nextFocusDown="@+id/edit_phone_number"
             android:layout_height="wrap_content"
             android:hint="@string/email_address_hint"
             android:singleLine="true"
@@ -79,6 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:imeOptions="actionDone"
                 android:hint="@string/phone_number_hint"
                 android:singleLine="true"
                 android:textSize="16sp" />

@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -81,7 +80,7 @@ import butterknife.InjectView;
  * ---- We assume here that it is because an account with that email already exists, so we let them enter a password and associate the existing account
  * ---- If associating fails we let them try again, however since our api response is mostly worthless we sort of just get stuck here.
  */
-public class AccountLoginWidget extends CardView implements LoginExtenderListener,
+public class AccountLoginWidget extends ExpandableCardView implements LoginExtenderListener,
 	AccountButtonV2.AccountButtonClickListener {
 
 	private static final String NET_MANUAL_LOGIN = "NET_MANUAL_SIGNIN";
@@ -176,7 +175,7 @@ public class AccountLoginWidget extends CardView implements LoginExtenderListene
 			@Override
 			public void onClick(View v) {
 				if (mToobarListener != null) {
-					mToobarListener.onWidgetExpanded();
+					mToobarListener.onWidgetExpanded(AccountLoginWidget.this);
 				}
 				setExpanded(true);
 			}
@@ -203,6 +202,9 @@ public class AccountLoginWidget extends CardView implements LoginExtenderListene
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mTryFacebookAgain = Ui.findView(v, R.id.try_facebook_again);
 		mTryFacebookAgainCancel = Ui.findView(v, R.id.try_facebook_again_cancel);
+
+		mExpediaUserName.setOnFocusChangeListener(this);
+		mExpediaPassword.setOnFocusChangeListener(this);
 
 		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mLogInWithFacebookBtn, Font.ROBOTO_REGULAR);
@@ -243,10 +245,6 @@ public class AccountLoginWidget extends CardView implements LoginExtenderListene
 		}
 
 		setupView();
-	}
-
-	public void setToolbarListener(ToolbarListener listener) {
-		mToobarListener = listener;
 	}
 
 	public void setupView() {
@@ -1378,10 +1376,20 @@ public class AccountLoginWidget extends CardView implements LoginExtenderListene
 		public void onLoginFailed();
 	}
 
-	public void setExpanded(boolean isExpanded) {
-		if (!isExpanded) {
-			setVisibilityState(VisibilityState.SIGN_IN, true);
+	@Override
+	public void setExpanded(boolean expand) {
+		super.setExpanded(expand);
+		if (!expand) {
+			if (User.isLoggedIn(getContext())) {
+				setVisibilityState(VisibilityState.LOGGED_IN, true);
+			}
+			else {
+				setVisibilityState(VisibilityState.SIGN_IN, true);
+			}
 			return;
+		}
+		if (mToolbarListener != null) {
+			mToolbarListener.setActionBarTitle(getActionBarTitle());
 		}
 		VisibilityState state = VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON;
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
@@ -1394,5 +1402,24 @@ public class AccountLoginWidget extends CardView implements LoginExtenderListene
 		}
 		setVisibilityState(state, true);
 	}
+
+	@Override
+	public boolean getDoneButtonFocus() {
+		if (mExpediaPassword != null) {
+			return mExpediaPassword.hasFocus();
+		}
+		return false;
+	}
+
+	@Override
+	public void onDonePressed() {
+		initiateLoginWithExpedia();
+	}
+
+	@Override
+	public String getActionBarTitle() {
+		return getResources().getString(R.string.Log_In);
+	}
+
 
 }

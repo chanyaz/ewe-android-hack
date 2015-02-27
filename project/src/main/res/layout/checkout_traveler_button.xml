@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.TravelerButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:id="@+id/traveler_button"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+   <Button
+       android:id="@+id/select_traveler_button"
+       android:layout_width="match_parent"
+       android:drawableLeft="@drawable/driver_small"
+       android:text="Select saved contacts"
+       android:textColor="@color/cars_actionbar_text_color"
+       android:textSize="16sp"
+       android:padding="16dp"
+       android:drawablePadding="12dp"
+       android:drawableRight="@drawable/ic_expand"
+       android:textAllCaps="false"
+       android:background="@drawable/cars_fake_spinner"
+       android:gravity="left|center_vertical"
+       android:layout_height="wrap_content" />
+
+</com.expedia.bookings.widget.TravelerButton>

@@ -25,6 +25,7 @@
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
+        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
     </style>
 
     <style name="CarsActionBarTitle" parent="V2.Theme.Cars">

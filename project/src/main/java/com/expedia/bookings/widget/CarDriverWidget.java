@@ -1,18 +1,21 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.interfaces.ToolbarListener;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarDriverWidget extends CardView {
+public class CarDriverWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
 	public CarDriverWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -39,15 +42,16 @@ public class CarDriverWidget extends CardView {
 	@InjectView(R.id.edit_phone_number)
 	EditText phoneNumber;
 
+	@InjectView(R.id.traveler_button)
+	TravelerButton travelerButton;
+
 	@OnClick(R.id.driver_info_card_view)
 	public void onCardExpanded() {
-		if (mToobarListener != null) {
-			mToobarListener.onWidgetExpanded();
+		if (driverInfoContainer.getVisibility() != VISIBLE && mToolbarListener != null) {
+			mToolbarListener.onWidgetExpanded(this);
 		}
 		setExpanded(true);
 	}
-
-	private ToolbarListener mToobarListener;
 
 	@Override
 	protected void onFinishInflate() {
@@ -55,18 +59,81 @@ public class CarDriverWidget extends CardView {
 		ButterKnife.inject(this);
 
 		phoneSpinner.selectPOSCountry();
+		travelerButton.setVisibility(GONE);
+		travelerButton.setTravelButtonListener(this);
+		phoneNumber.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					setExpanded(false);
+					mToolbarListener.onWidgetClosed();
+				}
+				return false;
+			}
+		});
+		firstName.setOnFocusChangeListener(this);
+		lastName.setOnFocusChangeListener(this);
+		emailAddress.setOnFocusChangeListener(this);
+		phoneNumber.setOnFocusChangeListener(this);
 	}
 
-	public void setExpanded(boolean isExpanded) {
-		if (isExpanded && mToobarListener != null) {
-			mToobarListener.setActionBarTitle(getResources().getString(R.string.cars_driver_details_text));
+	public void setPhoneCountyCode(String code) {
+		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) phoneSpinner.getAdapter();
+		for (int i = 0; i < adapter.getCount(); i++) {
+			if (code.equalsIgnoreCase(Integer.toString(adapter.getCountryCode(i)))) {
+				phoneSpinner.setSelection(i);
+				break;
+			}
 		}
-		driverInfoText.setVisibility(isExpanded ? GONE : VISIBLE);
-		driverInfoContainer.setVisibility(isExpanded ? VISIBLE : GONE);
 	}
 
-	public void setToolbarListener(ToolbarListener listener) {
-		mToobarListener = listener;
+	@Override
+	public void setExpanded(boolean expand) {
+		super.setExpanded(expand);
+		if (expand && mToolbarListener != null) {
+			mToolbarListener.setActionBarTitle(getActionBarTitle());
+		}
+		if (expand && User.isLoggedIn(getContext())) {
+			travelerButton.setVisibility(VISIBLE);
+		}
+		else {
+			travelerButton.setVisibility(GONE);
+		}
+		driverInfoText.setVisibility(expand ? GONE : VISIBLE);
+		driverInfoContainer.setVisibility(expand ? VISIBLE : GONE);
 	}
 
+	@Override
+	public void onTravelerChosen(Traveler traveler) {
+		firstName.setText(traveler.getFirstName());
+		lastName.setText(traveler.getLastName());
+		emailAddress.setText(traveler.getEmail());
+		setPhoneCountyCode(traveler.getPhoneCountryCode());
+		phoneNumber.setText(traveler.getPhoneNumber());
+		driverInfoText.setText(traveler.getFullName());
+	}
+
+	@Override
+	public void onAddNewTravelerSelected() {
+
+	}
+
+	@Override
+	public boolean getDoneButtonFocus() {
+		if (phoneNumber != null) {
+			return phoneNumber.hasFocus();
+		}
+		return false;
+	}
+
+	@Override
+	public String getActionBarTitle() {
+		return getResources().getString(R.string.cars_driver_details_text);
+	}
+
+
+	@Override
+	public void onDonePressed() {
+		setExpanded(false);
+	}
 }

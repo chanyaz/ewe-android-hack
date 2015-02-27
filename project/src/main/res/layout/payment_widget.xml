@@ -32,6 +32,7 @@
         <EditText
             android:id="@+id/edit_credit_card"
             android:layout_width="match_parent"
+            android:nextFocusDown="@+id/edit_cvv"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:hint="@string/credit_card_hint"
@@ -46,6 +47,8 @@
                 android:id="@+id/edit_cvv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:nextFocusDown="@+id/edit_postal_code"
+                android:singleLine="true"
                 android:layout_weight="1"
                 android:hint="@string/cvv_hint"
                 android:textSize="16sp" />
@@ -55,6 +58,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:hint="@string/address_postal_code_hint"
                 android:textSize="16sp" />
         </LinearLayout>
