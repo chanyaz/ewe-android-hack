@@ -427,8 +427,8 @@ public class HotelSummarySection extends RelativeLayout {
 			if (property.getThumbnail() != null) {
 				PaletteCallback callback = new PaletteCallback(mHotelBackgroundView) {
 					@Override
-					public void onSuccess(int vibrantColor) {
-						setDominantColor(vibrantColor);
+					public void onSuccess(int color) {
+						setDominantColor(color);
 					}
 
 					@Override
