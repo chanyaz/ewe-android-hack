@@ -210,7 +210,7 @@
     <!-- Cars colors -->
     <color name="cars_primary_color">#7E4569</color>
     <color name="cars_secondary_color">#915B7C</color>
-    <color name="cars_tooltip_color">#AF89A1</color>
+    <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_slider_progress_color">#50FFFFFF</color>
     <color name="cars_dropdown_disabled_stroke">#C3C3C3</color>
     <color name="cars_dropdown_background_color">#ECECEC</color>

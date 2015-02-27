@@ -467,4 +467,8 @@
     <string name="cars_reserve_text">Reserve</string>
     <!-- Text for viewing details-->
     <string name="cars_view_details_text">View Details</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Driver details</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Payment details</string>
 </resources>

@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,8 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	MenuItem menuDone;
 	MenuItem menuNext;
 
+	int cardPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics());
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -97,6 +100,8 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setToolbarListener(loginListener);
+		driverInfoCardView.setToolbarListener(driverListener);
+		paymentInfoCardView.setToolbarListener(paymentListener);
 
 		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
@@ -154,7 +159,6 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		createTripResponse = createTrip;
 		CreateTripCarOffer offer = createTripResponse.carProduct;
 
-
 		if (offer.checkoutRequiresCard) {
 			paymentInfoCardView.setVisibility(View.VISIBLE);
 		}
@@ -186,18 +190,6 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		driverInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(View.GONE);
-		driverInfoCardView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				driverInfoCardView.setExpanded(true);
-			}
-		});
-		paymentInfoCardView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				paymentInfoCardView.setExpanded(true);
-			}
-		});
 		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 	}
 
@@ -243,13 +235,11 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 
 		@Override
 		public void onWidgetExpanded() {
-			menuNext.setVisible(true);
-			menuDone.setVisible(false);
-			toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+			expandWidget(loginWidget);
 			toolbar.setNavigationOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					loginWidget.expand(false);
+					loginWidget.setExpanded(false);
 					onWidgetClosed();
 				}
 			});
@@ -257,16 +247,84 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 
 		@Override
 		public void onWidgetClosed() {
-			toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-			toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+			closeWidget();
+		}
+	};
+
+	ToolbarListener driverListener = new ToolbarListener() {
+		@Override
+		public void setActionBarTitle(String title) {
+			toolbar.setTitle(title);
+		}
+
+		@Override
+		public void onWidgetExpanded() {
+			expandWidget(driverInfoCardView);
 			toolbar.setNavigationOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((Activity) getContext()).onBackPressed();
+					driverInfoCardView.setExpanded(false);
+					onWidgetClosed();
 				}
 			});
-			menuNext.setVisible(false);
-			menuDone.setVisible(true);
+		}
+
+		@Override
+		public void onWidgetClosed() {
+			closeWidget();
 		}
 	};
+
+	ToolbarListener paymentListener = new ToolbarListener() {
+		@Override
+		public void setActionBarTitle(String title) {
+			toolbar.setTitle(title);
+		}
+
+		@Override
+		public void onWidgetExpanded() {
+			expandWidget(paymentInfoCardView);
+			toolbar.setNavigationOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					paymentInfoCardView.setExpanded(false);
+					closeWidget();
+				}
+			});
+		}
+
+		@Override
+		public void onWidgetClosed() {
+			closeWidget();
+		}
+	};
+
+	private void expandWidget(final View v) {
+		loginWidget.setExpanded(false);
+		driverInfoCardView.setExpanded(false);
+		paymentInfoCardView.setExpanded(false);
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollView.smoothScrollTo(0, v.getTop() - cardPadding);
+			}
+		}, 100);
+		menuNext.setVisible(true);
+		menuDone.setVisible(false);
+		toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+	}
+
+	private void closeWidget() {
+		scrollView.smoothScrollTo(0, 0);
+		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
+		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+		toolbar.setNavigationOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((Activity) getContext()).onBackPressed();
+			}
+		});
+		menuNext.setVisible(false);
+		menuDone.setVisible(true);
+	}
 }

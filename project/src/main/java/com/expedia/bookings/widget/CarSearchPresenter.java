@@ -204,6 +204,8 @@ public class CarSearchPresenter extends Presenter
 		// Save
 		saveHistory();
 
+		selectDateButton.setChecked(true);
+		show(new CarParamsCalendar());
 	}
 
 	@Override

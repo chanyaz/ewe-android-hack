@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/left"
-            android:background="@drawable/cars_calendar_carat_selector"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center_vertical"
             android:paddingBottom="20dp"
             android:tint="@color/cars_primary_color"
@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:tint="@color/cars_primary_color"
-            android:background="@drawable/cars_calendar_carat_selector"
+            android:background="?android:attr/selectableItemBackground"
             android:paddingBottom="20dp"
             android:paddingTop="20dp" />
     </LinearLayout>
