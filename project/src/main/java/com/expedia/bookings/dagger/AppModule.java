@@ -15,6 +15,7 @@ import com.expedia.bookings.dagger.tags.E3Endpoint;
 import com.expedia.bookings.dagger.tags.SuggestEndpoint;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -73,6 +74,7 @@ public class AppModule {
 		OkHttpClient client = new OkHttpClient();
 		if (BuildConfig.DEBUG) {
 			client.setSslSocketFactory(sslContext.getSocketFactory());
+			StethoShim.install(client);
 		}
 		return client;
 	}

@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.SocketActivityHierarchyServer;
+import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
@@ -76,13 +77,13 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// For bug #2249 where we did not point at the production push server
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
-	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
-
-	public static boolean sIsAutomation = false;
-
 	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
+
+	// Debug / test settings
+
+	public static boolean sIsAutomation = false;
 
 	// This is used only for testing; normally you can assume that onCreate()
 	// has been called before any other code, but that's not always the case
@@ -99,13 +100,16 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		super.onCreate();
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 
+		Fabric.with(this, new Crashlytics());
+		startupTimer.addSplit("Crashlytics started.");
+
+		StethoShim.install(this);
+		startupTimer.addSplit("Stetho Init");
+
 		PicassoHelper.init(this);
 		Boolean isLoggingEnabled = SettingUtils.get(this, getString(R.string.preference_enable_picasso_logging), false);
 		new PicassoHelper.Builder(this).build().setLoggingEnabled(isLoggingEnabled);
 		startupTimer.addSplit("Picasso started.");
-
-		Fabric.with(this, new Crashlytics());
-		startupTimer.addSplit("Crashlytics started.");
 
 		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this,
 			getString(R.string.preference_should_start_hierarchy_server), false)) {
