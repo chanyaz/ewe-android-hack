@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -111,6 +112,9 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		private static final int FULL_TILE_TEXT_SIZE = 19;
 		private static final int HALF_TILE_TEXT_SIZE = 17;
+		private final int green;
+		private final int orange;
+		private final int purple;
 
 		@Optional
 		@InjectView(R.id.card_view)
@@ -132,18 +136,45 @@ public class NearbyHotelsListAdapter extends RecyclerView.Adapter<NearbyHotelsLi
 		@InjectView(R.id.hotel_background_image)
 		public ImageView hotelBackgroundImage;
 
+		@Optional
+		@InjectView(R.id.launch_tile_sale_text_view)
+		public TextView saleTextView;
+
 		public ViewHolder(View view) {
 			super(view);
+			green = view.getResources().getColor(R.color.launch_discount);
+			orange = view.getResources().getColor(R.color.launch_air_attach);
+			purple = view.getResources().getColor(R.color.launch_mobile_exclusive);
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 		}
 
 		public void bindNearbyHotelOffers(Hotel offer, boolean fullWidthTile) {
+			Context context = itemView.getContext();
+
 			itemView.setTag(offer);
 			cardView.setPreventCornerOverlap(false);
 			hotelName.setText(offer.name);
-			hotelProximity.setText(HotelUtils.formatDistanceForNearby(itemView.getContext(), offer, true));
+			hotelProximity.setText(HotelUtils.formatDistanceForNearby(context, offer, true));
 			hotelPrice.setText(offer.lowRateInfo.currencySymbol + Math.round(offer.lowRateInfo.priceToShowUsers));
+
+			if (HotelUtils.isDiscountTenPercentOrBetter(offer.lowRateInfo)) {
+				saleTextView.setText(context.getString(R.string.percent_off_TEMPLATE,
+					HotelUtils.getDiscountPercent(offer.lowRateInfo)));
+				if (offer.lowRateInfo.airAttached) {
+					saleTextView.setBackgroundColor(orange);
+				}
+				else {
+					saleTextView.setBackgroundColor(green);
+				}
+				saleTextView.setVisibility(View.VISIBLE);
+			}
+			//TODO: resolve mobile exclusive string length localization issue
+//			else if (HotelUtils.getDiscountPercent(offer.lowRateInfo) > 0 && offer.isDiscountRestrictedToCurrentSourceType) {
+//				saleTextView.setText(R.string.mobile_exclusive);
+//				saleTextView.setBackgroundColor(purple);
+//				saleTextView.setVisibility(View.VISIBLE);
+//			}
 
 			if (fullWidthTile) {
 				hotelName.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
