@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.component.lx;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,21 +12,24 @@ import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.widget.LXOffersListWidget;
 
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
-
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -35,6 +39,14 @@ public class LXDetailsPresenterTests {
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
+
+	@Before
+	public void before() {
+		// To setup LXState
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-02-24");
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+	}
 
 	@Test
 	public void testActivityDetails() {
@@ -97,6 +109,46 @@ public class LXDetailsPresenterTests {
 		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("7-Day New York Pass"))))));
 		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
 		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
+	}
+
+	@Test
+	public void testOffersExpandCollapse() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		ScreenActions.delay(2);
+
+		ViewInteraction firstOfferTicketPicker = LXViewModel.ticketPicker("2-Day New York Pass");
+		ViewInteraction secondOfferTicketPicker = LXViewModel.ticketPicker("3-Day New York Pass");
+		ViewInteraction thirdOfferTicketPicker = LXViewModel.ticketPicker("5-Day New York Pass");
+		ViewInteraction fourthOfferTicketPicker = LXViewModel.ticketPicker("7-Day New York Pass");
+
+		firstOfferTicketPicker.check(matches(not(isDisplayed())));
+		secondOfferTicketPicker.check(matches(not(isDisplayed())));
+		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
+
+		ViewInteraction firstOfferSelectTicket = LXViewModel.selectTicketsButton("2-Day New York Pass");
+		firstOfferSelectTicket.perform(scrollTo(), click());
+
+		firstOfferTicketPicker.check(matches(isDisplayed()));
+		secondOfferTicketPicker.check(matches(not(isDisplayed())));
+		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
+
+		ViewInteraction secondOfferSelectTicket = LXViewModel.selectTicketsButton("3-Day New York Pass");
+		secondOfferSelectTicket.perform(scrollTo(), click());
+
+		firstOfferTicketPicker.check(matches(not(isDisplayed())));
+		secondOfferTicketPicker.check(matches(isDisplayed()));
+		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
+
+		ViewInteraction thirdOfferSelectTicket = LXViewModel.selectTicketsButton("5-Day New York Pass");
+		thirdOfferSelectTicket.perform(scrollTo(), click());
+
+		firstOfferTicketPicker.check(matches(not(isDisplayed())));
+		secondOfferTicketPicker.check(matches(not(isDisplayed())));
+		thirdOfferTicketPicker.check(matches(isDisplayed()));
+		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
 	}
 
 	@Test

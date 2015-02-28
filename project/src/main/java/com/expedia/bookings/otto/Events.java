@@ -629,10 +629,20 @@ public class Events {
 	public static class LXTicketCountChanged {
 		public Ticket ticket;
 		public int count;
+		public String offerId;
 
-		public LXTicketCountChanged(Ticket ticket, int count) {
+		public LXTicketCountChanged(Ticket ticket, int count, String offerId) {
 			this.ticket = ticket;
 			this.count = count;
+			this.offerId = offerId;
+		}
+	}
+
+	public static class LXOfferExpanded {
+		public String offerId;
+
+		public LXOfferExpanded(String offerId) {
+			this.offerId = offerId;
 		}
 	}
 

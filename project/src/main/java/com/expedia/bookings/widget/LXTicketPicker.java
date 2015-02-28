@@ -28,6 +28,7 @@ public class LXTicketPicker extends LinearLayout {
 
 	private Ticket ticket;
 	private int count;
+	private String offerId;
 
 	private static final int MIN_TICKET_COUNT = 0;
 	private static final int MAX_TICKET_COUNT = 8;
@@ -54,8 +55,9 @@ public class LXTicketPicker extends LinearLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bind(Ticket ticket) {
+	public void bind(Ticket ticket, String offerId) {
 		this.ticket = ticket;
+		this.offerId = offerId;
 		String ticketDetailsText = String
 			.format(getResources().getString(R.string.ticket_details_template), ticket.code,
 				ticket.price, ticket.restrictionText);
@@ -76,6 +78,6 @@ public class LXTicketPicker extends LinearLayout {
 			ticketAdd.setEnabled(true);
 			ticketRemove.setEnabled(true);
 		}
-		Events.post(new Events.LXTicketCountChanged(ticket, count));
+		Events.post(new Events.LXTicketCountChanged(ticket, count, offerId));
 	}
 }
