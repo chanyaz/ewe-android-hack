@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
@@ -11,6 +12,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.otto.Events;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -42,7 +44,18 @@ public class NearbyHotelsWidget extends FrameLayout {
 			StaggeredGridLayoutManager.VERTICAL);
 		nearbyHotels.setLayoutManager(layoutManager);
 
-		nearbyHotels.addItemDecoration(new NearbyHotelsDividerDecoration(getContext(), 8, false));
+		// We don't draw rounded corners on <LOLLIPOP right now, so the item
+		// decoration spacing gets crazy. This is (hopefully) a temporary solution.
+		float margin;
+		float density = getResources().getDisplayMetrics().density;
+		if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
+			margin = 16 / density;
+		}
+		else {
+			margin = 24 / density;
+		}
+
+		nearbyHotels.addItemDecoration(new NearbyHotelsDividerDecoration(getContext(), (int) margin, false));
 		LayoutInflater li = LayoutInflater.from(getContext());
 		adapter = new NearbyHotelsListAdapter(li.inflate(R.layout.snippet_nearby_hotels_header, null));
 		nearbyHotels.setAdapter(adapter);
@@ -97,6 +110,12 @@ public class NearbyHotelsWidget extends FrameLayout {
 
 			mTop = (int) context.getResources().getDisplayMetrics().density * margin / 2;
 			mBottom = (int) context.getResources().getDisplayMetrics().density * margin / 2;
+			// Because of way the height computation works with the lack of rounded corners on
+			// <LOLLIPOP, we are shaving off some of the margin temporarily.
+			if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
+				mBottom -= 4;
+			}
+
 			mLeft = mTop * 2;
 			mRight = mTop * 2;
 		}

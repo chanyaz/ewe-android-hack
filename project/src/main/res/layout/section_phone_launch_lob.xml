@@ -13,12 +13,12 @@
         android:id="@+id/hotels_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/launch_lob_margin"
         app:radius="4dp">
 
         <FrameLayout
-            android:layout_width="105dp"
-            android:layout_height="105dp"
+            android:layout_width="@dimen/launch_lob_tiles"
+            android:layout_height="@dimen/launch_lob_tiles"
             android:background="#028F87">
 
             <ImageView
@@ -45,13 +45,13 @@
         android:id="@+id/flights_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/launch_lob_margin"
         android:layout_toRightOf="@id/hotels_button"
         app:radius="4dp">
 
         <FrameLayout
-            android:layout_width="105dp"
-            android:layout_height="105dp"
+            android:layout_width="@dimen/launch_lob_tiles"
+            android:layout_height="@dimen/launch_lob_tiles"
             android:background="#204A8E">
 
             <ImageView
@@ -77,13 +77,13 @@
         android:id="@+id/cars_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/launch_lob_margin"
         android:layout_toRightOf="@id/flights_button"
         app:radius="4dp">
 
         <FrameLayout
-            android:layout_width="105dp"
-            android:layout_height="105dp"
+            android:layout_width="@dimen/launch_lob_tiles"
+            android:layout_height="@dimen/launch_lob_tiles"
             android:background="#89366A">
 
             <ImageView
