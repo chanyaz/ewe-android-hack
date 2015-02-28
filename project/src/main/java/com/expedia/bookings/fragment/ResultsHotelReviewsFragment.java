@@ -35,7 +35,6 @@ import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RowRoomRateLayout;
@@ -150,9 +149,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		if (property.getThumbnail() != null) {
 			PaletteCallback mHeaderBitmapLoadedCallback = new PaletteCallback(mHotelImage) {
 				@Override
-				public void onSuccess(int vibrantColor) {
-					ColorBuilder builder = new ColorBuilder(vibrantColor).darkenBy(0.4f);
-					setDominantColor(builder.build());
+				public void onSuccess(int color) {
+					setDominantColor(color);
 				}
 
 				@Override
