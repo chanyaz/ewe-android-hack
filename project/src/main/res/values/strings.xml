@@ -87,6 +87,8 @@
     <string name="search_location_hint">Enter location</string>
     <!-- Error messge for missing Location in LX search form -->
     <string name="lx_error_missing_location">Location missing</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Date missing</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Select dates</string>
     <!-- Activity details highlights heading -->

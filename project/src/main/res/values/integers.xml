@@ -280,6 +280,6 @@
 
     <!-- The maximum days range for LX search -->
     <integer name="calendar_max_days_lx_search">330</integer>
-    <integer name="lx_default_search_range">15</integer>
+    <integer name="lx_default_search_range">14</integer>
 
 </resources>

@@ -49,10 +49,9 @@ public class LXSearchParamsTest {
 		String expectedLocationFullName = "San Francisco (and vicinity), California, United States of America";
 
 		LocalDate start = LocalDate.now();
-		LocalDate end = LocalDate.now().plusDays(14);
+		LocalDate end = start.plusDays(playground.get().getResources().getInteger(R.integer.lx_default_search_range));
 		LXSearchParams expected = new LXSearchParams();
 		expected.startDate = start;
-		expected.endDate = end;
 		expected.location = expectedLocationFullName;
 
 		LXSearchParamsWidget searchParamsWidget = (LXSearchParamsWidget) playground.getRoot();
@@ -62,22 +61,15 @@ public class LXSearchParamsTest {
 		LXViewModel.selectDateButton().check(matches(withText(R.string.select_lx_search_dates)));
 		LXViewModel.selectDateButton().perform(click());
 
-		// Select only start date
+		// Select start date
 		LXViewModel.selectDates(start, null);
 		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMM dd");
 		LXViewModel.selectDateButton().check(matches(withText(expectedDateText)));
 		LXViewModel.doneButton().perform(click());
 		LXSearchParams actual = searchParamsWidget.getCurrentParams();
 		assertEquals(expected.startDate, actual.startDate);
-		assertEquals(null, actual.endDate);
+		assertEquals(end, actual.endDate);
 
-		// Select start date and end date
-		LXViewModel.selectDates(start, end);
-		LXViewModel.doneButton().perform(click());
-		actual = searchParamsWidget.getCurrentParams();
-		assertEquals(expected.startDate, actual.startDate);
-		assertEquals(expected.endDate, actual.endDate);
-		assertEquals(expected.location, actual.location);
 	}
 
 	@Test
@@ -88,10 +80,16 @@ public class LXSearchParamsTest {
 		LXViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 		LXViewModel.alertDialogNeutralButton().perform(click());
 
-		LXViewModel.selectDateButton().perform(click());
-		LXViewModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
+		LXViewModel.location().perform(typeText("New York"));
+		LXViewModel.doneButton().perform(click());
+		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_start_date)));
+		LXViewModel.alertDialogNeutralButton().perform(click());
 
+		LXViewModel.selectDateButton().perform(click());
+		LXViewModel.location().perform(typeText(""));
+		LXViewModel.selectDates(LocalDate.now(), null);
 		LXViewModel.doneButton().perform(click());
 		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_location)));
+
 	}
 }

@@ -20,6 +20,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -63,8 +64,7 @@ public class LXSearchParamsWidget extends LinearLayout
 
 		calendarPicker.setVisibility(View.INVISIBLE);
 		calendarPicker.setSelectableDateRange(LocalDate.now(),
-			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
-		calendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_lx_search));
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_lx_search)));
 		calendarPicker.setDateChangedListener(this);
 
 		suggestionAdapter = new LxSuggestionAdapter();
@@ -117,9 +117,12 @@ public class LXSearchParamsWidget extends LinearLayout
 	}
 
 	private boolean validateSearchInput() {
-		// TODO Api defaults dates if not provided. Check what is required for mobile !
 		if (Strings.isEmpty(searchParams.location)) {
 			showAlertMessage(R.string.lx_error_missing_location, R.string.ok);
+			return false;
+		}
+		else if (searchParams.startDate == null) {
+			showAlertMessage(R.string.lx_error_missing_start_date, R.string.ok);
 			return false;
 		}
 		return true;
@@ -164,16 +167,16 @@ public class LXSearchParamsWidget extends LinearLayout
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
 		searchParamsBuilder.startDate(start);
-		searchParamsBuilder.endDate(end);
+		searchParamsBuilder.endDate(start.plusDays(getResources().getInteger(R.integer.lx_default_search_range)));
 		searchParamsChanged();
 	}
 
 	private void searchParamsChanged() {
 		if (searchParamsBuilder.startDate != null) {
-			String dateRangeText = DateFormatUtils
-				.formatLXSearchDateRange(getContext(), searchParamsBuilder.startDate, searchParamsBuilder.endDate,
-					DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
-			selectDates.setText(dateRangeText);
+			String dateText = JodaUtils
+				.formatLocalDate(getContext(), searchParamsBuilder.startDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
+
+			selectDates.setText(dateText);
 		}
 	}
 

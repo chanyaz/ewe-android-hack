@@ -124,13 +124,6 @@ public class DateFormatUtils {
 		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
 	}
 
-	public static String formatLXSearchDateRange(Context context, LocalDate startDate, LocalDate endDate, int flags) {
-		if (endDate != null) {
-			return formatDateRange(context, startDate, endDate, flags);
-		}
-		return JodaUtils.formatLocalDate(context, startDate, flags);
-	}
-
 	/**
 	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
 	 */
