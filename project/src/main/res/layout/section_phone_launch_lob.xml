@@ -14,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/launch_lob_margin"
+        android:foreground="?android:attr/selectableItemBackground"
         app:radius="4dp">
 
         <FrameLayout
@@ -47,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/launch_lob_margin"
         android:layout_toRightOf="@id/hotels_button"
+        android:foreground="?android:attr/selectableItemBackground"
         app:radius="4dp">
 
         <FrameLayout
@@ -79,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/launch_lob_margin"
         android:layout_toRightOf="@id/flights_button"
+        android:foreground="?android:attr/selectableItemBackground"
         app:radius="4dp">
 
         <FrameLayout
