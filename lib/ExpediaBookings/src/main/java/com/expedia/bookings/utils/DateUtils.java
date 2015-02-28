@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -71,4 +72,11 @@ public class DateUtils {
 		return date != null ? date.toString(LX_DATE_PATTERN) : null;
 	}
 
+	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
+		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
+	}
+
+	public static LocalDate yyyyMMddHHmmssToLocalDate(String dateyyyyMMddHHmmss) {
+		return LocalDate.parse(dateyyyyMMddHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+	}
 }

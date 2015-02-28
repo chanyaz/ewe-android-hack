@@ -15,14 +15,18 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.widget.LXOffersListWidget;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class LXDetailsPresenterTests {
@@ -44,6 +48,7 @@ public class LXDetailsPresenterTests {
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.description))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.location))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.highlights))));
+		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.offers))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.offer_dates_container))));
 	}
 
@@ -57,7 +62,41 @@ public class LXDetailsPresenterTests {
 		info.check(matches(hasDescendant(allOf(withId(R.id.price), withText("$130")))));
 		info.check(matches(hasDescendant(allOf(withId(R.id.duration), withText("2d")))));
 		info.check(matches(hasDescendant(withId(R.id.free_cancellation))));
+	}
 
+	@Test
+	public void testActivityOffers() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		ScreenActions.delay(2);
+
+		//Ensure that we have 4 offers!
+		LXOffersListWidget offersListWidget = (LXOffersListWidget) playground.getRoot().findViewById(R.id.offers);
+		int offersCount = offersListWidget.getChildCount();
+		assertTrue(offersCount == 4);
+
+		//Check 1st offer
+		ViewInteraction firstOffer = LXViewModel.withOfferText("2-Day New York Pass");
+		firstOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("2-Day New York Pass"))))));
+		firstOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		firstOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$130 Adult, $110 Child"))))));
+
+		//Check 2nd offer
+		ViewInteraction secondOffer = LXViewModel.withOfferText("3-Day New York Pass");
+		secondOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("3-Day New York Pass"))))));
+		secondOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		secondOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$180 Adult, $140 Child"))))));
+
+		//Check 3rd offer
+		ViewInteraction thirdOffer = LXViewModel.withOfferText("5-Day New York Pass");
+		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("5-Day New York Pass"))))));
+		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
+
+		//Check 4th offer
+		ViewInteraction fourthOffer = LXViewModel.withOfferText("7-Day New York Pass");
+		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("7-Day New York Pass"))))));
+		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
 	}
 
 	@Test

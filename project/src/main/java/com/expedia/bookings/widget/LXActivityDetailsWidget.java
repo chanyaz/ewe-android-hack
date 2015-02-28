@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatUtils;
 import com.expedia.bookings.utils.Strings;
@@ -47,6 +48,9 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@InjectView(R.id.highlights)
 	LXDetailSectionDataWidget highlights;
 
+	@InjectView(R.id.offers)
+	LXOffersListWidget offers;
+
 	@InjectView(R.id.description)
 	LXDetailSectionDataWidget description;
 
@@ -71,6 +75,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		location.setVisibility(View.GONE);
 		freeCancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
+		offers.setVisibility(View.GONE);
 	}
 
 	@Subscribe
@@ -82,6 +87,13 @@ public class LXActivityDetailsWidget extends ScrollView {
 		buildSections(activityDetails);
 		// TODO Replace hardcoded date with search start date.
 		buildOfferDatesSelector(LocalDate.now());
+		buildOffersSection(activityDetails);
+	}
+
+	private void buildOffersSection(ActivityDetailsResponse activityDetails) {
+		LocalDate initialSelectedDate = DateUtils.yyyyMMddToLocalDate(activityDetails.startDate);
+		offers.setOffers(activityDetails.offersDetail.offers, initialSelectedDate);
+		offers.setVisibility(View.VISIBLE);
 	}
 
 	private void buildGallery(ActivityDetailsResponse activityDetails) {

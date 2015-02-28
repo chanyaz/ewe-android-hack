@@ -13,4 +13,5 @@ public class ActivityDetailsResponse {
 	public List<String> highlights;
 	public boolean freeCancellation;
 	public OffersDetail offersDetail;
+	public String startDate;
 }
