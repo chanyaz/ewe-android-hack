@@ -2,6 +2,7 @@ package com.expedia.bookings.otto;
 
 import java.util.List;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -657,5 +658,15 @@ public class Events {
 		public LaunchSeeAllButtonPressed(Bundle animOptions) {
 			this.animOptions = animOptions;
 		}
+	}
+
+	public static class LaunchLocationFetchComplete {
+		public final Location location;
+		public LaunchLocationFetchComplete(Location location) {
+			this.location = location;
+		}
+	}
+
+	public static class LaunchLocationFetchError {
 	}
 }
