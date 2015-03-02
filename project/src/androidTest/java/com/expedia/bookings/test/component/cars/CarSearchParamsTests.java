@@ -11,11 +11,11 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
+import com.expedia.bookings.presenter.CarSearchPresenter;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.widget.CarSearchPresenter;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;

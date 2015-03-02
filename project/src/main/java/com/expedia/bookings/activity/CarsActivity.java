@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.presenter.CarsPresenter;
+import com.expedia.bookings.presenter.CarPresenter;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
 
@@ -14,8 +14,8 @@ import butterknife.InjectView;
 
 public class CarsActivity extends ActionBarActivity {
 
-	@InjectView(R.id.cars_presenter)
-	CarsPresenter carsPresenter;
+	@InjectView(R.id.car_presenter)
+	CarPresenter carsPresenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
