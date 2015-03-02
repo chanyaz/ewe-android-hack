@@ -65,7 +65,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	TextView unlimitedMileageText;
 
 	@InjectView(R.id.login_widget)
-	CarsLoginWidget loginWidget;
+	CarLoginWidget loginWidget;
 
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;

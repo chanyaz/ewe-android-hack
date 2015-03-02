@@ -24,7 +24,7 @@ import com.expedia.bookings.R;
 /**
  * Created by mohsharma on 2/9/15.
  */
-public class CarsTimeSlider extends SeekBar {
+public class CarTimeSlider extends SeekBar {
 	private static final String TOOLTIP_PATTERN = "hh:mm aa";
 	private static final String SLIDER_PATTERN = "h:mmaa";
 
@@ -48,26 +48,10 @@ public class CarsTimeSlider extends SeekBar {
 	private Bitmap canvasBitmap;
 	private int thumbPadding;
 
-	public CarsTimeSlider(Context context) {
-		super(context);
-		init();
-	}
-
-	public CarsTimeSlider(Context context, AttributeSet attrs) {
+	public CarTimeSlider(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
-
-	public CarsTimeSlider(Context context, AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
-		init();
-	}
-
-	public CarsTimeSlider(Context context, AttributeSet attrs, int defStyleAttr,
-		int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
-	}
-
 
 	@Override
 	public void setThumb(Drawable thumb) {

@@ -63,7 +63,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
-        <com.expedia.bookings.widget.CarsTimeSlider
+        <com.expedia.bookings.widget.CarTimeSlider
             android:id="@+id/pickup_time_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
-        <com.expedia.bookings.widget.CarsTimeSlider
+        <com.expedia.bookings.widget.CarTimeSlider
             android:id="@+id/dropoff_time_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
