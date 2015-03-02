@@ -13,7 +13,7 @@ fi
 
 
 java \
-    -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
+    -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
     --class-name "com.expedia.bookings.test.ui.happy.TabletHappyPath,com.expedia.bookings.test.ui.happy.PhoneHappyPath,com.expedia.bookings.test.ui.happy.CarPhoneHappyPath" \

@@ -16,7 +16,7 @@ for i in $* ; do
 done
 
 java \
-    -jar "jars/spoon-runner-1.1.1-jar-with-dependencies.jar" \
+    -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
     --class-name "${TESTS}" \
