@@ -12,7 +12,7 @@ import com.facebook.Session;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarsActivity extends ActionBarActivity {
+public class CarActivity extends ActionBarActivity {
 
 	@InjectView(R.id.car_presenter)
 	CarPresenter carsPresenter;
@@ -21,7 +21,7 @@ public class CarsActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultCarComponents();
-		setContentView(R.layout.activity_cars);
+		setContentView(R.layout.activity_car);
 		Ui.showTransparentStatusBar(this);
 		ButterKnife.inject(this);
 	}
@@ -36,6 +36,6 @@ public class CarsActivity extends ActionBarActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(CarsActivity.this, requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(CarActivity.this, requestCode, resultCode, data);
 	}
 }

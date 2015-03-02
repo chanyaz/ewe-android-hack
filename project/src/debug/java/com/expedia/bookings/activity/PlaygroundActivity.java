@@ -29,6 +29,6 @@ public class PlaygroundActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultCarComponents();
 		Ui.getApplication(this).defaultLXComponents();
-		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.activity_cars));
+		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.activity_car));
 	}
 }
