@@ -81,11 +81,10 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			StackTraceElement testClass = findTestClassTraceElement(t);
 			if (testClass != null) {
 				String failedTestMethodName = testClass.getMethodName().replaceAll("[^A-Za-z0-9._-]", "_");
-				String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
 				String tag = failedTestMethodName + "--FAILURE";
 
 				//takes a screenshot on test failure
-				SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), className, failedTestMethodName);
+				SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), testClass);
 			}
 			throw t;
 		}
