@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.PhoneLaunchWidget xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECEFF1"
-    android:orientation="vertical"
     android:theme="@style/Theme.AppCompat.Light">
-
-    <!-- ActionBar spacer -->
 
     <View
         android:id="@+id/action_bar_space"
@@ -35,6 +32,5 @@
         android:textSize="15sp"
         android:gravity="center"
         android:text="We couldn't load any hotels. Make sure we can access your location."
-        android:visibility="gone"/>
-
-</FrameLayout>
+        android:visibility="gone" />
+</com.expedia.bookings.widget.PhoneLaunchWidget>
