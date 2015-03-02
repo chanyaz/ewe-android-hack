@@ -22,41 +22,18 @@
         android:drawablePadding="8dp"
         android:text="Enter driver details" />
 
-    <LinearLayout
+    <com.expedia.bookings.section.SectionTravelerInfo
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/driver_info_container"
-        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:id="@+id/section_traveler_info_container"
         android:orientation="vertical">
 
-        <include layout="@layout/checkout_traveler_button" />
-
         <LinearLayout
+            android:id="@+id/edit_names_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_first_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/first_name"
-                android:singleLine="true"
-                android:nextFocusDown="@+id/edit_last_name"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/edit_last_name"
-                android:layout_width="0dp"
-                android:nextFocusDown="@+id/edit_email_address"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:hint="@string/last_name"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+            android:orientation="vertical" />
 
         <EditText
             android:id="@+id/edit_email_address"
@@ -73,7 +50,7 @@
             android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TelephoneSpinner
-                android:id="@+id/phone_country_code_spinner"
+                android:id="@+id/edit_phone_number_country_code_spinner"
                 style="@style/Widget.Spinner.Phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -90,5 +67,5 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-    </LinearLayout>
+    </com.expedia.bookings.section.SectionTravelerInfo>
 </com.expedia.bookings.widget.CarDriverWidget>

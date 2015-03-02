@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.section.SectionTravelerInfo;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,8 +22,8 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		super(context, attr);
 	}
 
-	@InjectView(R.id.driver_info_container)
-	android.widget.LinearLayout driverInfoContainer;
+	@InjectView(R.id.section_traveler_info_container)
+	SectionTravelerInfo sectionTravelerInfo;
 
 	@InjectView(R.id.driver_info_text)
 	TextView driverInfoText;
@@ -36,7 +37,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@InjectView(R.id.edit_email_address)
 	EditText emailAddress;
 
-	@InjectView(R.id.phone_country_code_spinner)
+	@InjectView(R.id.edit_phone_number_country_code_spinner)
 	TelephoneSpinner phoneSpinner;
 
 	@InjectView(R.id.edit_phone_number)
@@ -47,7 +48,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 	@OnClick(R.id.driver_info_card_view)
 	public void onCardExpanded() {
-		if (driverInfoContainer.getVisibility() != VISIBLE && mToolbarListener != null) {
+		if (sectionTravelerInfo.getVisibility() != VISIBLE && mToolbarListener != null) {
 			mToolbarListener.onWidgetExpanded(this);
 		}
 		setExpanded(true);
@@ -61,30 +62,11 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		phoneSpinner.selectPOSCountry();
 		travelerButton.setVisibility(GONE);
 		travelerButton.setTravelButtonListener(this);
-		phoneNumber.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					setExpanded(false);
-					mToolbarListener.onWidgetClosed();
-				}
-				return false;
-			}
-		});
 		firstName.setOnFocusChangeListener(this);
 		lastName.setOnFocusChangeListener(this);
 		emailAddress.setOnFocusChangeListener(this);
 		phoneNumber.setOnFocusChangeListener(this);
-	}
-
-	public void setPhoneCountyCode(String code) {
-		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) phoneSpinner.getAdapter();
-		for (int i = 0; i < adapter.getCount(); i++) {
-			if (code.equalsIgnoreCase(Integer.toString(adapter.getCountryCode(i)))) {
-				phoneSpinner.setSelection(i);
-				break;
-			}
-		}
+		sectionTravelerInfo.setEmailFieldsEnabled(true);
 	}
 
 	@Override
@@ -94,23 +76,18 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			mToolbarListener.setActionBarTitle(getActionBarTitle());
 		}
 		if (expand && User.isLoggedIn(getContext())) {
-			travelerButton.setVisibility(VISIBLE);
+
 		}
 		else {
-			travelerButton.setVisibility(GONE);
+
 		}
 		driverInfoText.setVisibility(expand ? GONE : VISIBLE);
-		driverInfoContainer.setVisibility(expand ? VISIBLE : GONE);
+		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 	}
 
 	@Override
 	public void onTravelerChosen(Traveler traveler) {
-		firstName.setText(traveler.getFirstName());
-		lastName.setText(traveler.getLastName());
-		emailAddress.setText(traveler.getEmail());
-		setPhoneCountyCode(traveler.getPhoneCountryCode());
-		phoneNumber.setText(traveler.getPhoneNumber());
-		driverInfoText.setText(traveler.getFullName());
+		sectionTravelerInfo.bind(traveler);
 	}
 
 	@Override
@@ -134,6 +111,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 	@Override
 	public void onDonePressed() {
-		setExpanded(false);
+		if (sectionTravelerInfo.performValidation()) {
+			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, R.drawable.checkmark, 0);
+			setExpanded(false);
+		}
 	}
 }
