@@ -26,7 +26,7 @@ public class HotelServices {
 
 	Scheduler mObserveOn;
 	Scheduler mSubscribeOn;
-	NearbyHotelApi mHotelApi;
+	HotelApi mHotelApi;
 
 	public HotelServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
 		Scheduler observeOn, Scheduler subscribeOn) {
@@ -48,7 +48,7 @@ public class HotelServices {
 			.setClient(new OkClient(okHttpClient))
 			.build();
 
-		mHotelApi = adapter.create(NearbyHotelApi.class);
+		mHotelApi = adapter.create(HotelApi.class);
 	}
 
 	public Subscription hotelSearch(NearbyHotelParams params, rx.Observer<List<Hotel>> observer) {
