@@ -37,7 +37,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	// the necessity of the StateAnimator getting to its end.
 	public static final int TEST_FLAG_FORCE_NEW_STATE = 0x00000002;
 
-	private Stack<Object> backstack;
+	private Stack<Object> backstack = new Stack<>();
 
 	// Transition vars
 	private Map<String, Map<String, Transition>> transitions = new HashMap<>();
@@ -55,7 +55,6 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 	public Presenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initBackStack();
 	}
 
 	@Override
@@ -110,11 +109,6 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			getBackStack().push(child);
 			return true;
 		}
-	}
-
-	@Override
-	public void initBackStack() {
-		backstack = new Stack<>();
 	}
 
 	@Override
