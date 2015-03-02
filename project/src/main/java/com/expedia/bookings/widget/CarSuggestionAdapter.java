@@ -25,7 +25,7 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		CarSuggestionViewHolder holder;
 
 		if (convertView == null) {
-			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cars_dropdown_item, parent, false);
+			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_dropdown_item, parent, false);
 			convertView.setTag(new CarSuggestionViewHolder(convertView));
 		}
 
