@@ -26,6 +26,8 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.collections.Collection;
+import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -678,5 +680,22 @@ public class Events {
 	}
 
 	public static class LaunchLocationFetchError {
+	}
+
+	public static class CollectionDownloadComplete {
+		public Collection collection;
+
+		public CollectionDownloadComplete(Collection collection) {
+			this.collection = collection;
+		}
+	}
+
+	public static class LaunchCollectionItemSelected {
+		public CollectionLocation collectionLocation;
+		public Bundle animOptions;
+		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions) {
+			this.collectionLocation = location;
+			this.animOptions = animOptions;
+		}
 	}
 }

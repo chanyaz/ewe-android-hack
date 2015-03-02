@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -23,11 +24,15 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -48,19 +53,18 @@ import rx.schedulers.Schedulers;
 public class PhoneLaunchWidget extends FrameLayout {
 
 	private static final String TAG = "PhoneLaunchWidget";
+	private static final String COLLECTION_TITLE = "global-staff-picks";
 
 	private HotelServices hotelServices;
 	private HotelSearchParams searchParams;
+	private CollectionServices collectionServices;
 
 
 	@InjectView(R.id.lob_selector)
 	ViewGroup lobSelectorWidget;
 
-	@InjectView(R.id.nearby_deals_widget)
-	ViewGroup nearbyDealsWidget;
-
-	@InjectView(R.id.location_error)
-	android.widget.TextView errorText;
+	@InjectView(R.id.launch_list_widget)
+	ViewGroup launchListWidget;
 
 	// Lifecycle
 
@@ -110,6 +114,12 @@ public class PhoneLaunchWidget extends FrameLayout {
 				requestInterceptor,
 				AndroidSchedulers.mainThread(),
 				Schedulers.io());
+
+		collectionServices = new CollectionServices(EndPoint.getE3EndpointUrl(getContext(), true /*isSecure*/),
+			DbUtils.generateOkHttpClient(),
+			requestInterceptor,
+			AndroidSchedulers.mainThread(),
+			Schedulers.io());
 	}
 
 	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
@@ -138,10 +148,28 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	};
 
+	private Subscriber<Collection> collectionDownloadListener = new Subscriber<Collection>() {
+		@Override
+		public void onCompleted() {
+			Log.d(TAG, "Collection download completed.");
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
+			collectionServices.getCollection(COLLECTION_TITLE, country, "default", collectionDownloadListener);
+		}
+
+		@Override
+		public void onNext(Collection collection) {
+			Events.post(new Events.CollectionDownloadComplete(collection));
+		}
+	};
+
 	// Clicking
 
 	// The onClick for the "SEE ALL" button in the list header is in
-	// NearbyHotelsListAdapter. See onSeeAllButtonPressed() below
+	// LaunchListAdapter. See onSeeAllButtonPressed() below
 	// for the Otto event sent by that onClick()
 	@OnClick({R.id.hotels_button, R.id.flights_button, R.id.cars_button})
 	public void enterLob(View view) {
@@ -189,10 +217,26 @@ public class PhoneLaunchWidget extends FrameLayout {
 		NavUtils.startActivity(getContext(), intent, null);
 	}
 
+	// Hotel search in collection location
+	@Subscribe
+	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) throws JSONException {
+		Suggestion location = event.collectionLocation.location;
+		HotelSearchParams params = new HotelSearchParams();
+		params.setQuery(location.shortName);
+		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));
+		params.setRegionId(location.id);
+		params.setSearchLatLon(location.latLong.lat, location.latLong.lng);
+		LocalDate now = LocalDate.now();
+		params.setCheckInDate(now.plusDays(1));
+		params.setCheckOutDate(now.plusDays(2));
+		params.setNumAdults(2);
+		params.setChildren(null);
+		NavUtils.goToHotels(getContext(), params, event.animOptions, 0);
+	}
+
 	// Hotel Search
 	@Subscribe
 	public void onLocationFound(Events.LaunchLocationFetchComplete event) {
-		toggleListVisibilities(true);
 		Location loc = event.location;
 		Log.i(TAG, "Start hotel search");
 		LocalDate currentDate = new LocalDate();
@@ -214,17 +258,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLocationNotAvailable(Events.LaunchLocationFetchError event) {
-		toggleListVisibilities(false);
-	}
-
-	public void toggleListVisibilities(boolean showList) {
-		if (showList) {
-			nearbyDealsWidget.setVisibility(View.VISIBLE);
-			errorText.setVisibility(View.GONE);
-		}
-		else {
-			nearbyDealsWidget.setVisibility(View.GONE);
-			errorText.setVisibility(View.VISIBLE);
-		}
+		Log.i(TAG, "Start collection download");
+		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
+		String localeCode = getContext().getResources().getConfiguration().locale.toString();
+		collectionServices.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
 	}
 }

@@ -18,20 +18,20 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class NearbyHotelsWidget extends FrameLayout {
+public class LaunchListWidget extends FrameLayout {
 
-	private static final String PICASSO_TAG = "NEARBY_HOTELS_LIST";
+	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
-	@InjectView(R.id.nearby_hotel_list)
-	RecyclerView nearbyHotels;
+	@InjectView(R.id.launch_item_list)
+	RecyclerView launchList;
 
-	private NearbyHotelsListAdapter adapter;
+	private LaunchListAdapter adapter;
 
-	public NearbyHotelsWidget(Context context) {
+	public LaunchListWidget(Context context) {
 		super(context);
 	}
 
-	public NearbyHotelsWidget(Context context, AttributeSet attrs) {
+	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -42,7 +42,7 @@ public class NearbyHotelsWidget extends FrameLayout {
 
 		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
 			StaggeredGridLayoutManager.VERTICAL);
-		nearbyHotels.setLayoutManager(layoutManager);
+		launchList.setLayoutManager(layoutManager);
 
 		// We don't draw rounded corners on <LOLLIPOP right now, so the item
 		// decoration spacing gets crazy. This is (hopefully) a temporary solution.
@@ -55,11 +55,11 @@ public class NearbyHotelsWidget extends FrameLayout {
 			margin = 24 / density;
 		}
 
-		nearbyHotels.addItemDecoration(new NearbyHotelsDividerDecoration(getContext(), (int) margin, false));
+		launchList.addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
 		LayoutInflater li = LayoutInflater.from(getContext());
-		adapter = new NearbyHotelsListAdapter(li.inflate(R.layout.snippet_nearby_hotels_header, null));
-		nearbyHotels.setAdapter(adapter);
-		nearbyHotels.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+		adapter = new LaunchListAdapter(li.inflate(R.layout.snippet_launch_list_header, null));
+		launchList.setAdapter(adapter);
+		launchList.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 	}
 
 	@Override
@@ -77,7 +77,15 @@ public class NearbyHotelsWidget extends FrameLayout {
 
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
-		adapter.setNearbyHotels(event.topTen);
+		String headerTitle = getResources().getString(R.string.nearby_deals_title);
+		adapter.setListData(event.topTen, headerTitle);
+		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void onCollectionDownloadComplete(Events.CollectionDownloadComplete event) {
+		String headerTitle = event.collection.title;
+		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -94,7 +102,7 @@ public class NearbyHotelsWidget extends FrameLayout {
 	 | etc etc etc |
 	  **/
 
-	private class NearbyHotelsDividerDecoration extends RecyclerDividerDecoration {
+	private class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 
 		int mTop;
 		int mBottom;
@@ -104,7 +112,7 @@ public class NearbyHotelsWidget extends FrameLayout {
 		// Divider Separator
 		boolean shouldDrawDivider = false;
 
-		private NearbyHotelsDividerDecoration(Context context, int margin, boolean drawDivider) {
+		private LaunchListDividerDecoration(Context context, int margin, boolean drawDivider) {
 
 			shouldDrawDivider = drawDivider;
 
