@@ -3,6 +3,7 @@ package com.expedia.bookings.dagger;
 import javax.inject.Singleton;
 
 import com.expedia.bookings.dagger.tags.E3Endpoint;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.dagger.tags.SuggestEndpoint;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.services.SuggestionServices;
@@ -26,5 +27,11 @@ public class LXModule {
 	@Singleton
 	SuggestionServices provideLxSuggestionServices(@SuggestEndpoint String endpoint, OkHttpClient client) {
 		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	LXState provideLXState() {
+		return new LXState();
 	}
 }
