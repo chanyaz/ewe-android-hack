@@ -94,6 +94,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
@@ -215,6 +216,9 @@ public class ExpediaServices implements DownloadListener {
 
 			client.setHostnameVerifier(new AllowAllHostnameVerifier());
 		}
+
+		// Add Stetho debugging network interceptor
+		StethoShim.install(client);
 
 		return client;
 	}

@@ -67,6 +67,14 @@ dependencies {
         transitive = true
     }
 
+    // Debug dependencies
+
+    def stethoVersion = '1.0.1'
+    debugCompile "com.facebook.stetho:stetho:$stethoVersion"
+    debugCompile "com.facebook.stetho:stetho-okhttp:$stethoVersion"
+
+    // Test dependencies
+
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.0'){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
@@ -100,6 +108,8 @@ android {
 
     packagingOptions {
         exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 
     signingConfigs {
