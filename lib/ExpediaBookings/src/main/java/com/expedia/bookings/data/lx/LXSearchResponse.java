@@ -7,4 +7,5 @@ public class LXSearchResponse {
 	public String startDate;
 	public String endDate;
 	public List<LXActivity> activities;
+	public boolean searchFailure;
 }

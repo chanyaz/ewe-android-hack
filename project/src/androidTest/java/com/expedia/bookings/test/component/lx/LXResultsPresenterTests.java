@@ -43,6 +43,8 @@ public class LXResultsPresenterTests {
 	@Test
 	public void testSearchResultsList() {
 		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "happy";
+		searchParams.startDate = LocalDate.now();
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 		LXViewModel.progress().check(matches(isDisplayed()));
 		ScreenActions.delay(2);
@@ -100,6 +102,17 @@ public class LXResultsPresenterTests {
 		Assert.assertEquals(activities.size(), rv.getAdapter().getItemCount());
 		TextView tv = (TextView) viewHolder.itemView.findViewById(R.id.activity_title);
 		Assert.assertEquals(title, tv.getText());
+	}
+
+	@Test
+	public void testNoSearchResults() {
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "search_failure";
+		searchParams.startDate = LocalDate.now();
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+		ScreenActions.delay(2);
+		LXViewModel.searchFailed().check(matches(isDisplayed()));
+		LXViewModel.searchFailed().check(matches(hasDescendant(withText(R.string.error_car_search_message))));
 	}
 
 }

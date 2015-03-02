@@ -594,6 +594,10 @@ public class Events {
 		}
 	}
 
+	public static class LXShowSearchWidget {
+		// ignore
+	}
+
 	public static class LXNewSearchParamsAvailable {
 		public LXSearchParams lxSearchParams;
 
@@ -609,6 +613,10 @@ public class Events {
 			this.activities = activities;
 
 		}
+	}
+
+	public static class LXShowSearchError {
+		// ignore
 	}
 
 	public static class LXActivitySelected {

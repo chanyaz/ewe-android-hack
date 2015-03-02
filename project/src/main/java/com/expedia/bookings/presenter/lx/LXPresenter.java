@@ -78,4 +78,9 @@ public class LXPresenter extends Presenter {
 		show(detailsPresenter);
 	}
 
+	@Subscribe
+	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
+		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
+	}
+
 }
