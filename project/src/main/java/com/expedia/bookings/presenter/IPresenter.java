@@ -11,7 +11,4 @@ public interface IPresenter<T> {
 	void clearBackStack();
 
 	void show(T presenter);
-
-	void hide(T presenter);
-
 }
