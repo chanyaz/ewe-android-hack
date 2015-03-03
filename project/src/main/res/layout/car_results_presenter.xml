@@ -186,38 +186,4 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize" />
 
-    <FrameLayout
-        android:id="@+id/sort_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_gravity="bottom"
-        android:background="#D9FFFFFF"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:drawableLeft="@drawable/promo"
-            android:drawablePadding="10dp"
-            android:gravity="left"
-            android:text="@string/cars_promo_code"
-            android:textColor="@color/text_black"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:drawableLeft="@drawable/sort"
-            android:drawablePadding="10dp"
-            android:gravity="right"
-            android:text="@string/cars_sort_filter"
-            android:textColor="@color/text_black"
-            android:textSize="16dp" />
-    </FrameLayout>
-
-
 </com.expedia.bookings.presenter.CarResultsPresenter>
