@@ -79,6 +79,10 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 	@Override
 	public boolean back() {
+		return back(0);
+	}
+
+	public boolean back(int flags) {
 
 		// If we're animating, ignore back presses.
 		if (acceptAnimationUpdates) {
@@ -89,10 +93,10 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			return false;
 		}
 
-		Object child = getBackStack().pop();
-		boolean backPressHandled = child instanceof IPresenter && ((IPresenter) child).back();
+		Object currentChild = getBackStack().pop();
+		boolean backPressHandled = currentChild instanceof IPresenter && ((IPresenter) currentChild).back();
 
-		// BackPress was not handled by the child; handle it here.
+		// BackPress was not handled by the top child in the stack; handle it here.
 		if (!backPressHandled) {
 
 			if (getBackStack().isEmpty()) {
@@ -100,13 +104,15 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 				return false;
 			}
 
-			hide(getBackStack().peek());
+			Object previousState = getBackStack().pop();
+			//Only test flags should go through!
+			show(previousState, flags & TEST_FLAG_FORCE_NEW_STATE);
 			return true;
 		}
 
-		// BackPress has been handled by the child.
+		// BackPress has been handled by the top child in the stack.
 		else {
-			getBackStack().push(child);
+			getBackStack().push(currentChild);
 			return true;
 		}
 	}
@@ -179,10 +185,6 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == TEST_FLAG_FORCE_NEW_STATE) {
 			currentState = newStateId;
 		}
-	}
-
-	public void hide(Object undoState) {
-		getStateAnimator(undoState).start();
 	}
 
 	public String getCurrentState() {
@@ -334,6 +336,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 
 		animator.setInterpolator(wrappedInterpolator);
 		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
 				if (acceptAnimationUpdates) {
