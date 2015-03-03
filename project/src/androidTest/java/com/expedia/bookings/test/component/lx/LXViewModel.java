@@ -17,6 +17,7 @@ import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -112,5 +113,13 @@ public class LXViewModel {
 
 	public static ViewInteraction withOfferText(String offerText) {
 		return onView(withChild(withChild(withText(startsWith(offerText)))));
+	}
+
+	public static ViewInteraction selectTicketsButton(String offerText) {
+		return onView(allOf(withId(R.id.select_tickets), hasSibling(withChild(withText(startsWith(offerText))))));
+	}
+
+	public static ViewInteraction ticketPicker(String offerText) {
+		return onView(allOf(withId(R.id.offer_tickets_picker), hasSibling(withChild(withChild(withText(startsWith(offerText)))))));
 	}
 }

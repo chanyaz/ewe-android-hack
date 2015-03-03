@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.utils.DateUtils;
 
 public class Offer {
+	public String id;
 	public String title;
 	public List<AvailabilityInfo> availabilityInfo;
 

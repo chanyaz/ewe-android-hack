@@ -62,7 +62,10 @@ public class LXTicketSelectionWidgetTest {
 			.inflate(R.layout.widget_lx_ticket_selection, null);
 
 		AvailabilityInfo availabilityInfo = singleTicketAvailability();
+
+		widget.setOfferId("offerId");
 		widget.buildTicketPickers(availabilityInfo);
+
 		Ticket testTicket = availabilityInfo.tickets.get(0);
 
 		TextView ticketDetails = (TextView) widget.findViewById(R.id.ticket_details);
@@ -112,6 +115,8 @@ public class LXTicketSelectionWidgetTest {
 		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.widget_lx_ticket_selection, null);
 		AvailabilityInfo availabilityInfo = multipleTicketAvailability();
+
+		widget.setOfferId("offerId");
 		widget.buildTicketPickers(availabilityInfo);
 
 		List<Ticket> tickets = availabilityInfo.tickets;

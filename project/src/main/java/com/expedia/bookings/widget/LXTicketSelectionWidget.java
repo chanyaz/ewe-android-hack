@@ -40,6 +40,8 @@ public class LXTicketSelectionWidget extends LinearLayout {
 
 	private Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
 
+	private String offerId;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -47,12 +49,17 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		Events.register(this);
 	}
 
+	public void setOfferId(String offerId) {
+		this.offerId = offerId;
+	}
+
 	public void buildTicketPickers(AvailabilityInfo availabilityInfo) {
+
 		for (Ticket ticket : availabilityInfo.tickets) {
 			LXTicketPicker ticketPicker = Ui.inflate(R.layout.lx_ticket_picker, ticketSelectorContainer, false);
 			ticketSelectorContainer.addView(ticketPicker);
 
-			ticketPicker.bind(ticket);
+			ticketPicker.bind(ticket, offerId);
 
 			// Initialize all ticket types with 0 count.
 			selectedTickets.put(ticket, 0);
@@ -61,8 +68,11 @@ public class LXTicketSelectionWidget extends LinearLayout {
 
 	@Subscribe
 	public void onTicketCountChanged(Events.LXTicketCountChanged event) {
-		selectedTickets.put(event.ticket, event.count);
-		updateTicketSelection();
+		// Update only if the event was done by TicketPicker of belonging to this widget.
+		if (Strings.isNotEmpty(offerId) && offerId.equals(event.offerId)) {
+			selectedTickets.put(event.ticket, event.count);
+			updateTicketSelection();
+		}
 	}
 
 	private void updateTicketSelection() {

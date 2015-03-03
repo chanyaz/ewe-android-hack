@@ -9,17 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Strings;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class LXOffersListAdapter extends BaseAdapter {
 	private List<Offer> offers = new ArrayList<>();
@@ -69,11 +72,11 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 	public static class ViewHolder {
 
-		View itemView;
+		private String offerId;
 
 		public ViewHolder(View itemView) {
-			this.itemView = itemView;
 			ButterKnife.inject(this, itemView);
+			Events.register(this);
 		}
 
 		@InjectView(R.id.offer_title)
@@ -85,12 +88,24 @@ public class LXOffersListAdapter extends BaseAdapter {
 		@InjectView(R.id.select_tickets)
 		Button selectTickets;
 
+		@InjectView(R.id.offer_row)
+		View offerRow;
+
+		@InjectView(R.id.offer_tickets_picker)
+		LXTicketSelectionWidget ticketSelectionWidget;
+
+		@OnClick(R.id.select_tickets)
+		public void offerSelected() {
+			Events.post(new Events.LXOfferExpanded(offerId));
+		}
+
 		public void bind(Offer offer, LocalDate dateSelected) {
+			this.offerId = offer.id;
 			AvailabilityInfo availabilityInfoForSelectedDate = offer
 				.getAvailabilityInfoOnDate(dateSelected);
 
 			List<String> priceSummaries = new ArrayList<String>();
-
+			ticketSelectionWidget.setOfferId(offerId);
 			if (availabilityInfoForSelectedDate != null) {
 				for (Ticket ticket : availabilityInfoForSelectedDate.tickets) {
 					priceSummaries.add(String.format("%s %s", ticket.price, ticket.name));
@@ -98,9 +113,25 @@ public class LXOffersListAdapter extends BaseAdapter {
 				String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
 
 				priceSummary.setText(priceSummaryText);
+				ticketSelectionWidget.buildTicketPickers(availabilityInfoForSelectedDate);
+			}
+			else {
+				selectTickets.setEnabled(false);
 			}
 
 			offerTitle.setText(offer.title);
+		}
+
+		@Subscribe
+		public void onOfferExpanded(Events.LXOfferExpanded event) {
+			if (offerId.equals(event.offerId)) {
+				offerRow.setVisibility(View.GONE);
+				ticketSelectionWidget.setVisibility(View.VISIBLE);
+			}
+			else {
+				offerRow.setVisibility(View.VISIBLE);
+				ticketSelectionWidget.setVisibility(View.GONE);
+			}
 		}
 	}
 }
