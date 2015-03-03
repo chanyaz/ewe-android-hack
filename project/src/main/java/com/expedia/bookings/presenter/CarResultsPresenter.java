@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
@@ -58,9 +57,6 @@ public class CarResultsPresenter extends Presenter {
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
-
-	@InjectView(R.id.sort_toolbar)
-	ViewGroup sortToolbar;
 
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
@@ -108,7 +104,6 @@ public class CarResultsPresenter extends Presenter {
 			}
 		});
 
-		categories.recyclerView.setOnScrollListener(sortScrollListener);
 		details.offerList.setOnScrollListener(parallaxScrollListener);
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
@@ -309,19 +304,6 @@ public class CarResultsPresenter extends Presenter {
 		toolbar.setTranslationY(forward ? 50 : 0);
 	}
 
-	RecyclerView.OnScrollListener sortScrollListener = new RecyclerView.OnScrollListener() {
-		@Override
-		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-			super.onScrollStateChanged(recyclerView, newState);
-		}
-
-		@Override
-		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			super.onScrolled(recyclerView, dx, dy);
-			moveSortBar(dy);
-		}
-	};
-
 	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -334,13 +316,7 @@ public class CarResultsPresenter extends Presenter {
 
 			float ratio = details.parallaxScrollHeader();
 			toolbarBackground.setAlpha(ratio);
-			moveSortBar(dy);
-
 		}
 	};
 
-	private void moveSortBar(int dy) {
-		float y = dy + sortToolbar.getTranslationY();
-		sortToolbar.setTranslationY(dy < 0 ? Math.max(y, 0) : Math.min(y, sortToolbar.getHeight()));
-	}
 }
