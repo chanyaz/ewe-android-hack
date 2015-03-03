@@ -1,13 +1,18 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +21,18 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.ISlideToListener {
 
@@ -173,11 +181,11 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 
 		carCompanyText.setText(offer.vendor.name);
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
-		carModelText.setText(offer.vehicleInfo.makes.get(0));
+		carModelText.setText(getContext().getString(R.string.car_model_name_template, offer.vehicleInfo.makes.get(0)));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(offer.detailedFare.grandTotal.getFormattedMoney());
+		tripTotalText.setText(offer.detailedFare.grandTotal.formattedPrice);
 		sliderTotalText.setText(getResources()
-			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.detailedFare.grandTotal.getFormattedMoney()));
+			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.detailedFare.grandTotal.formattedPrice));
 
 		dateTimeText.setText(DateFormatUtils
 			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
@@ -327,4 +335,53 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		menuNext.setVisible(false);
 		menuDone.setVisible(true);
 	}
+
+	@OnClick(R.id.price_text)
+	public void showCarCostBreakdown() {
+		buildCarBreakdownDialog(getContext(), createTripResponse.carProduct);
+	}
+
+	public static void buildCarBreakdownDialog(Context context, CreateTripCarOffer offer) {
+		List<RateBreakdownItem> rateBreakdownDueAtPickup = offer.detailedFare.priceBreakdownOfTotalDueAtPickup;
+		List<RateBreakdownItem> rateBreakdownDueToday = offer.detailedFare.priceBreakdownOfTotalDueToday;
+
+		View view = LayoutInflater.from(context).inflate(R.layout.car_cost_summary_alert, null);
+		LinearLayout ll = Ui.findView(view, R.id.parent);
+
+		for (RateBreakdownItem item : rateBreakdownDueAtPickup) {
+			ll.addView(
+				addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+		}
+
+		for (RateBreakdownItem item : rateBreakdownDueToday) {
+			ll.addView(
+				addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+		}
+
+		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_due_today),
+			offer.detailedFare.totalDueToday.formattedPrice));
+		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
+			offer.detailedFare.totalDueAtPickup.formattedPrice));
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setView(view);
+		builder.setPositiveButton(context.getString(R.string.car_cost_breakdown_button_text),
+			new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+		builder.create().show();
+	}
+
+	public static View addRow(Context context, String leftSideText, String rightSideText) {
+		View row = LayoutInflater.from(context).inflate(R.layout.car_cost_summary_row, null);
+		TextView priceDescription = Ui.findView(row, R.id.price_type_text_view);
+		TextView priceValue = Ui.findView(row, R.id.price_text_view);
+		priceDescription.setText(leftSideText);
+		priceValue.setText(rightSideText);
+		return row;
+	}
+
 }
