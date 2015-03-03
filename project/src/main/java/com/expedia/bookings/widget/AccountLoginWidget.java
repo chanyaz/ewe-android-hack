@@ -1433,5 +1433,4 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		return getResources().getString(R.string.Log_In);
 	}
 
-
 }

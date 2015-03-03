@@ -34,13 +34,22 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	private String mFilterStr;
 	private int mTravelerNumber = -1;
 
+	private boolean isAddTravelerEnabled = true;
+	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
+
 	public TravelerAutoCompleteAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
 	}
 
+	public TravelerAutoCompleteAdapter(Context context, boolean addTravelerEnabled, int travelerDrawable) {
+		super(context, R.layout.traveler_autocomplete_row);
+		isAddTravelerEnabled = addTravelerEnabled;
+		mTravelerBackgroundDrawable = travelerDrawable;
+	}
+
 	@Override
 	public int getCount() {
-		return getAvailableTravelers().size() + 2;
+		return getAvailableTravelers().size() + (isAddTravelerEnabled ? 2 : 1);
 	}
 
 	@Override
@@ -125,6 +134,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				vh = (ViewHolder) retView.getTag();
 			}
 			vh.tv.setText(trav.getFullName());
+			vh.initials.setBackgroundResource(mTravelerBackgroundDrawable);
 			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(trav.getFullName()));
 			break;
 		case ITEM_VIEW_TYPE_ADD_TRAVELER:
@@ -151,7 +161,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public int getItemViewType(int position) {
-		if (position == getCount() - 1) {
+		if (isAddTravelerEnabled && position == getCount() - 1) {
 			return ITEM_VIEW_TYPE_ADD_TRAVELER;
 		}
 		else if (position == 0) {

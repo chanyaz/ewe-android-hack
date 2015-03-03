@@ -284,4 +284,15 @@
         <attr name="android:textColorLink" />
     </declare-styleable>
 
+    <declare-styleable name="DriverInfo">
+        <attr name="state">
+            <enum name="begin" value="0" />
+            <enum name="complete" value="1" />
+            <enum name="incomplete" value="2" />
+        </attr>
+        <attr name="state_default" format="boolean" />
+        <attr name="state_complete" format="boolean" />
+        <attr name="state_incomplete" format="boolean" />
+    </declare-styleable>
+
 </resources>

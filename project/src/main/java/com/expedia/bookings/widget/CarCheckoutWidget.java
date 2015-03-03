@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -370,6 +372,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 
 		@Override
 		public void onLoginCompleted() {
+			driverInfoCardView.sectionTravelerInfo.bind(Db.getUser().getPrimaryTraveler());
 			driverInfoCardView.bind();
 		}
 
@@ -380,6 +383,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 
 		@Override
 		public void onLogout() {
+			driverInfoCardView.sectionTravelerInfo.bind(new Traveler());
 			driverInfoCardView.bind();
 		}
 	};

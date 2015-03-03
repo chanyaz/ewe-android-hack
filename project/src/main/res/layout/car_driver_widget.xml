@@ -11,23 +11,47 @@
     android:layout_marginRight="10dp"
     card_view:cardCornerRadius="4dp">
 
-    <com.expedia.bookings.widget.TextView
+    <LinearLayout
+        android:id="@+id/driver_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:id="@+id/driver_info_text"
-        android:drawableLeft="@drawable/driver_large"
-        android:gravity="center|left"
-        android:drawablePadding="8dp"
-        android:text="@string/enter_driver_details" />
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.CarDriverCheckoutStatusRightImageView
+            android:id="@+id/travelerNameIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:id="@+id/driver_info_text"
+            android:gravity="center|left"
+            android:text="@string/enter_driver_details" />
+
+        <com.expedia.bookings.widget.CarDriverCheckoutStatusLeftImageView
+            android:id="@+id/travelerStatusIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
+
+    </LinearLayout>
 
     <com.expedia.bookings.section.SectionTravelerInfo
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:padding="16dp"
         android:id="@+id/section_traveler_info_container"
         android:orientation="vertical">
+
+        <include layout="@layout/checkout_traveler_button"/>
 
         <LinearLayout
             android:id="@+id/edit_names_container"

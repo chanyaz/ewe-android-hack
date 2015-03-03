@@ -62,7 +62,7 @@ public class TravelerButton extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext());
+		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), false, R.drawable.car_driver_checkout_circle);
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		if (dl.isDownloading(getTravelerDownloadKey())) {
 			dl.registerDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);

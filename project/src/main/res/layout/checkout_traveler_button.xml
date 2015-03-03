@@ -11,7 +11,7 @@
        android:id="@+id/select_traveler_button"
        android:layout_width="match_parent"
        android:drawableLeft="@drawable/driver_small"
-       android:text="Select saved contacts"
+       android:text="@string/cars_saved_contacts_text"
        android:textColor="@color/cars_actionbar_text_color"
        android:textSize="16sp"
        android:padding="16dp"

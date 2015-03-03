@@ -33,6 +33,8 @@
     <string name="cars_payment_details_text">Payment details</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Select saved contacts</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
