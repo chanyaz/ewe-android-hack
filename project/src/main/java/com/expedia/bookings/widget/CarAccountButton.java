@@ -24,7 +24,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
-public class CarsAccountButton extends LinearLayout {
+public class CarAccountButton extends LinearLayout {
 	private Context mContext;
 	private AccountButtonClickListener mListener;
 
@@ -39,12 +39,12 @@ public class CarsAccountButton extends LinearLayout {
 	private View mLoadingLogoutButton;
 	private ImageView mExpediaLogo;
 
-	public CarsAccountButton(Context context, AttributeSet attrs) {
+	public CarAccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
 	}
 
-	public CarsAccountButton(Context context) {
+	public CarAccountButton(Context context) {
 		super(context);
 		mContext = context;
 	}

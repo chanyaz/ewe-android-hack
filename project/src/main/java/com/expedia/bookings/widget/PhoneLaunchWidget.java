@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.CarsActivity;
+import com.expedia.bookings.activity.CarActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -155,7 +155,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
 				break;
 			case R.id.cars_button:
-				Intent carsIntent = new Intent(getContext(), CarsActivity.class);
+				Intent carsIntent = new Intent(getContext(), CarActivity.class);
 				getContext().startActivity(carsIntent);
 				break;
 		}

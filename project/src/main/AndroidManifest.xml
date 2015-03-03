@@ -249,8 +249,8 @@
         <!-- Cars activity -->
 
         <activity
-            android:name="com.expedia.bookings.activity.CarsActivity"
-            android:taskAffinity="com.expedia.bookings.activity.CarsActivity"
+            android:name="com.expedia.bookings.activity.CarActivity"
+            android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:screenOrientation="portrait"
             android:label="Cars"
             android:theme="@style/V2.Theme.Cars" >

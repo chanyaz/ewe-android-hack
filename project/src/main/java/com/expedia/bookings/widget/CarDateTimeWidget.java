@@ -68,10 +68,10 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	ViewGroup sliderContainer;
 
 	@InjectView(R.id.pickup_time_seek_bar)
-	CarsTimeSlider pickupTimeSeekBar;
+	CarTimeSlider pickupTimeSeekBar;
 
 	@InjectView(R.id.dropoff_time_seek_bar)
-	CarsTimeSlider dropoffTimeSeekBar;
+	CarTimeSlider dropoffTimeSeekBar;
 
 	@InjectView(R.id.pickup_time_popup)
 	android.widget.TextView pickupTimePopup;
@@ -226,7 +226,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	public void drawSliderTooltip(SeekBar seekBar) {
 
-		String title = ((CarsTimeSlider) seekBar).calculateProgress(seekBar.getProgress(), TOOLTIP_PATTERN);
+		String title = ((CarTimeSlider) seekBar).calculateProgress(seekBar.getProgress(), TOOLTIP_PATTERN);
 		String subtitle = seekBar.getId() == R.id.pickup_time_seek_bar ? getContext().getResources()
 				.getString(R.string.cars_time_slider_pick_up_label)
 				: getContext().getResources().getString(R.string.cars_time_slider_drop_off_label);

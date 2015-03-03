@@ -4,8 +4,6 @@ import java.util.Stack;
 
 public interface IPresenter<T> {
 
-	void initBackStack();
-
 	Stack<T> getBackStack();
 
 	boolean back();

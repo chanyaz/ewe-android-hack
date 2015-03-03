@@ -150,11 +150,11 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-            <include layout="@layout/cars_login_widget" />
+            <include layout="@layout/car_login_widget" />
 
-            <include layout="@layout/cars_driver_widget"/>
+            <include layout="@layout/car_driver_widget"/>
 
-            <include layout="@layout/cars_payment_widget"/>
+            <include layout="@layout/car_payment_widget"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/legal_information_text_view"

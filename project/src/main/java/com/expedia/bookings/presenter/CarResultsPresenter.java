@@ -34,9 +34,9 @@ import rx.Observer;
 import rx.Subscription;
 import rx.exceptions.OnErrorNotImplementedException;
 
-public class CarsResultsPresenter extends Presenter {
+public class CarResultsPresenter extends Presenter {
 
-	public CarsResultsPresenter(Context context, AttributeSet attrs) {
+	public CarResultsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

@@ -27,7 +27,7 @@
         app:calendarHighlightColor="@color/cars_secondary_color"
         app:calendarHighlightInverseColor="@color/cars_secondary_color"
         app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
-        app:calendarLayout="@layout/cars_calendar"
+        app:calendarLayout="@layout/car_calendar"
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
         app:calendarTodayColor="@color/cars_valid_days_calendar"
         app:calendarWeekSelectionColor="@color/cars_primary_color" />
@@ -63,7 +63,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
-        <com.expedia.bookings.widget.CarsTimeSlider
+        <com.expedia.bookings.widget.CarTimeSlider
             android:id="@+id/pickup_time_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
-        <com.expedia.bookings.widget.CarsTimeSlider
+        <com.expedia.bookings.widget.CarTimeSlider
             android:id="@+id/dropoff_time_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

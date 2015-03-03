@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.presenter;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -35,12 +35,13 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CarDateTimeWidget;
+import com.expedia.bookings.widget.CarSuggestionAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
