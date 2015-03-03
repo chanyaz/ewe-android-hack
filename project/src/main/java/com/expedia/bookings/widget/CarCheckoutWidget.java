@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
@@ -143,9 +142,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 					break;
 				case R.id.menu_done:
 					mCurrentExpandedCard.onDonePressed();
-					InputMethodManager imm = (InputMethodManager)getContext().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(mCurrentExpandedCard.getFocusedEditText().getWindowToken(), 0);
+					Ui.hideKeyboard(CarCheckoutWidget.this);
 					break;
 				}
 
@@ -297,6 +294,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	}
 
 	private void closeWidget() {
+		Ui.hideKeyboard(CarCheckoutWidget.this);
 		scrollView.postDelayed(new Runnable() {
 			@Override
 			public void run() {

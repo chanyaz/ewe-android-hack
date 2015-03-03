@@ -32,6 +32,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@InjectView(R.id.edit_first_name)
 	EditText firstName;
 
+	@InjectView(R.id.edit_middle_name)
+	EditText middleName;
+
 	@InjectView(R.id.edit_last_name)
 	EditText lastName;
 
@@ -51,8 +54,8 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	public void onCardExpanded() {
 		if (sectionTravelerInfo.getVisibility() != VISIBLE && mToolbarListener != null) {
 			mToolbarListener.onWidgetExpanded(this);
+			setExpanded(true);
 		}
-		setExpanded(true);
 	}
 
 	@Override
@@ -63,24 +66,44 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		phoneSpinner.selectPOSCountry();
 		travelerButton.setVisibility(GONE);
 		travelerButton.setTravelButtonListener(this);
+		phoneNumber.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					setExpanded(false);
+					mToolbarListener.onWidgetClosed();
+				}
+				return false;
+			}
+		});
+		sectionTravelerInfo.bind(new Traveler());
+		sectionTravelerInfo.setEmailFieldsEnabled(true);
 		firstName.setOnFocusChangeListener(this);
+		middleName.setOnFocusChangeListener(this);
 		lastName.setOnFocusChangeListener(this);
 		emailAddress.setOnFocusChangeListener(this);
+		lastName.setNextFocusDownId(emailAddress.getId());
+		lastName.setNextFocusRightId(emailAddress.getId());
 		phoneNumber.setOnFocusChangeListener(this);
-		sectionTravelerInfo.setEmailFieldsEnabled(true);
 		bind();
 	}
 
 	public void bind() {
 		if (User.isLoggedIn(getContext())) {
 			Traveler traveler = Db.getUser().getPrimaryTraveler();
+			sectionTravelerInfo.bind(traveler);
 			driverInfoText.setText(traveler.getFullName());
-			onTravelerChosen(traveler);
+			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, R.drawable.checkmark, 0);
+		}
+		else if (sectionTravelerInfo.performValidation()) {
+			Traveler traveler = sectionTravelerInfo.getTraveler();
+			driverInfoText.setText(traveler.getFullName());
 			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, R.drawable.checkmark, 0);
 		}
 		else {
 			driverInfoText.setText(R.string.enter_driver_details);
 			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, 0, 0);
+
 		}
 	}
 
@@ -90,11 +113,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		if (expand && mToolbarListener != null) {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());
 		}
-		if (expand && User.isLoggedIn(getContext())) {
-		}
-		else {
-
-		}
+		bind();
 		driverInfoText.setVisibility(expand ? GONE : VISIBLE);
 		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 	}
@@ -126,7 +145,6 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@Override
 	public void onDonePressed() {
 		if (sectionTravelerInfo.performValidation()) {
-			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, R.drawable.checkmark, 0);
 			setExpanded(false);
 		}
 	}

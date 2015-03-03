@@ -49,8 +49,13 @@ public abstract class ExpandableCardView extends CardView implements View.OnFocu
 
 	public void setNextFocus() {
 		if (mCurrentEditText != null) {
-			View v = mCurrentEditText.focusSearch(View.FOCUS_DOWN);
-			v.requestFocus();
+			View v = mCurrentEditText.focusSearch(View.FOCUS_RIGHT);
+			if (v == null) {
+				v = mCurrentEditText.focusSearch(View.FOCUS_DOWN);
+			}
+			if (v != null)  {
+				v.requestFocus();
+			}
 		}
 	}
 
