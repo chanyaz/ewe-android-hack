@@ -26,6 +26,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -91,6 +92,8 @@ public class CarSearchPresenter extends Presenter
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
+	Button searchButton;
+
 	@OnClick(R.id.pickup_location)
 	public void onPickupEditClicked() {
 		if (!getCurrentState().equals(CarParamsDefault.class.getName())) {
@@ -115,20 +118,7 @@ public class CarSearchPresenter extends Presenter
 		toolbar.setTitle(getResources().getString(R.string.dates_and_location));
 		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
-		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem menuItem) {
-				switch (menuItem.getItemId()) {
-				case R.id.menu_check:
-					if (isSearchFormFilled()) {
-						Ui.hideKeyboard(CarSearchPresenter.this);
-						Events.post(new Events.CarsNewSearchParams(carSearchParams));
-					}
-					break;
-				}
-				return false;
-			}
-		});
+
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -136,11 +126,8 @@ public class CarSearchPresenter extends Presenter
 			}
 		});
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_check);
-
-		Drawable drawableAction = getResources().getDrawable(R.drawable.ic_check_white_24dp);
-		drawableAction
-			.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
-		item.setIcon(drawableAction);
+		searchButton = setupToolBarCheckmark(item);
+		setUpSearchButton();
 
 		pickUpLocation.setVisibility(View.VISIBLE);
 		dropOffLocation.setVisibility(View.VISIBLE);
@@ -176,9 +163,25 @@ public class CarSearchPresenter extends Presenter
 		}
 
 		show(new CarParamsDefault());
-
 	}
 
+	public Button setupToolBarCheckmark(final MenuItem menuItem) {
+		Button tv = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (isSearchFormFilled()) {
+					Ui.hideKeyboard(CarSearchPresenter.this);
+					Events.post(new Events.CarsNewSearchParams(carSearchParams));
+				}
+			}
+		});
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		navIcon.setColorFilter(getResources().getColor(R.color.cars_primary_color), PorterDuff.Mode.SRC_IN);
+		tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		menuItem.setActionView(tv);
+		return tv;
+	}
 	private void setPickUpLocation(final Suggestion suggestion) {
 		pickUpLocation.setText(StrUtils.formatCityName(suggestion.fullName));
 		searchParamsBuilder.origin(suggestion.airportCode);
@@ -207,6 +210,8 @@ public class CarSearchPresenter extends Presenter
 
 		selectDateButton.setChecked(true);
 		show(new CarParamsCalendar());
+
+		setUpSearchButton();
 	}
 
 	@Override
@@ -288,6 +293,7 @@ public class CarSearchPresenter extends Presenter
 				searchParamsBuilder.origin("");
 				searchParamsBuilder.originDescription("");
 				paramsChanged();
+				setUpSearchButton();
 			}
 		}
 	};
@@ -386,6 +392,7 @@ public class CarSearchPresenter extends Presenter
 	public void onDateTimeChanged(CarSearchParamsBuilder.DateTimeBuilder dtb) {
 		searchParamsBuilder.dateTimeBuilder(dtb);
 		paramsChanged();
+		setUpSearchButton();
 	}
 
 	/*
@@ -449,5 +456,16 @@ public class CarSearchPresenter extends Presenter
 	public void animationFinalize(boolean forward) {
 		searchContainer.setTranslationY(0);
 		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+	}
+
+	public void setUpSearchButton() {
+		if (searchParamsBuilder.areRequiredParamsFilled()) {
+			searchButton.setEnabled(true);
+			searchButton.setAlpha(1f);
+		}
+		else {
+			searchButton.setEnabled(false);
+			searchButton.setAlpha(.7f);
+		}
 	}
 }
