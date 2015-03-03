@@ -20,7 +20,7 @@
         android:drawableLeft="@drawable/driver_large"
         android:gravity="center|left"
         android:drawablePadding="8dp"
-        android:text="Enter driver details" />
+        android:text="@string/enter_driver_details" />
 
     <com.expedia.bookings.section.SectionTravelerInfo
         android:layout_width="match_parent"

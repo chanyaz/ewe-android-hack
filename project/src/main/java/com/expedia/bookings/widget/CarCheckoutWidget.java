@@ -111,6 +111,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setToolbarListener(toolbarListener);
+		loginWidget.setLoginStatusListener(mLoginStatusListener);
 		driverInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 
@@ -362,5 +363,27 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		priceValue.setText(rightSideText);
 		return row;
 	}
+
+	AccountLoginWidget.LogInStatusListener mLoginStatusListener = new AccountLoginWidget.LogInStatusListener() {
+		@Override
+		public void onLoginStarted() {
+
+		}
+
+		@Override
+		public void onLoginCompleted() {
+			driverInfoCardView.bind();
+		}
+
+		@Override
+		public void onLoginFailed() {
+
+		}
+
+		@Override
+		public void onLogout() {
+			driverInfoCardView.bind();
+		}
+	};
 
 }

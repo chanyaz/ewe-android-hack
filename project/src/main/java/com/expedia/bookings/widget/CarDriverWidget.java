@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -67,6 +68,20 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		emailAddress.setOnFocusChangeListener(this);
 		phoneNumber.setOnFocusChangeListener(this);
 		sectionTravelerInfo.setEmailFieldsEnabled(true);
+		bind();
+	}
+
+	public void bind() {
+		if (User.isLoggedIn(getContext())) {
+			Traveler traveler = Db.getUser().getPrimaryTraveler();
+			driverInfoText.setText(traveler.getFullName());
+			onTravelerChosen(traveler);
+			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, R.drawable.checkmark, 0);
+		}
+		else {
+			driverInfoText.setText(R.string.enter_driver_details);
+			driverInfoText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.driver_large, 0, 0, 0);
+		}
 	}
 
 	@Override
@@ -76,7 +91,6 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			mToolbarListener.setActionBarTitle(getActionBarTitle());
 		}
 		if (expand && User.isLoggedIn(getContext())) {
-
 		}
 		else {
 

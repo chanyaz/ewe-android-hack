@@ -95,6 +95,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	private ToolbarListener mToobarListener;
 	private LoginExtender mLoginExtender;
+	private LogInStatusListener mLogInStatusListener;
 
 	//UI ELEMENTS
 	private ViewGroup mExpediaSigninContainer;
@@ -280,6 +281,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	private void loginWorkComplete() {
 		User.addUserToAccountManager(getContext(), Db.getUser());
+		if (mLogInStatusListener != null) {
+			mLogInStatusListener.onLoginCompleted();
+		}
 		if (mLoginExtender != null) {
 			doLoginExtenderWork();
 		}
@@ -973,6 +977,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		mFacebookExpectingClose = true;
 		User.signOut(getContext());
 		setVisibilityState(VisibilityState.SIGN_IN, false);
+		if (mLogInStatusListener != null) {
+			mLogInStatusListener.onLogout();
+		}
 	}
 
 	//////////////////////////////////
@@ -1367,13 +1374,18 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		setVisibilityState(VisibilityState.FACEBOOK_EMAIL_DENIED, false);
 	}
 
-	//This is here for compatibility with the old SignInFragment.SignInFragmentListener
-	public interface LogInListener {
+	public interface LogInStatusListener {
 		public void onLoginStarted();
 
 		public void onLoginCompleted();
 
 		public void onLoginFailed();
+
+		public void onLogout();
+	}
+
+	public void setLoginStatusListener(LogInStatusListener listener) {
+		mLogInStatusListener = listener;
 	}
 
 	@Override
