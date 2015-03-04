@@ -1,18 +1,27 @@
 package com.expedia.bookings.test.component.lx;
 
+import java.util.List;
+
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
+import org.junit.Assert;
 
 import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
+import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -129,4 +138,49 @@ public class LXViewModel {
 		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(endsWith(dateText))));
 	}
 
+	public static ViewAction setLXActivities(final List<LXActivity> activities) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return withId(R.id.lx_search_results_list);
+			}
+
+			@Override
+			public String getDescription() {
+				return "Placing the view holder in the recycler view";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				uiController.loopMainThreadUntilIdle();
+				RecyclerView rv = (RecyclerView) view;
+				((LXResultsListAdapter) rv.getAdapter()).setActivities(activities);
+			}
+		};
+	}
+
+	public static ViewAction performViewHolderComparison(final String title, final String price, final List<String> categoriesList) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return null;
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View viewHolder) {
+				TextView titleText = (TextView) viewHolder.findViewById(R.id.activity_title);
+				TextView priceText = (TextView) viewHolder.findViewById(R.id.activity_price);
+				TextView categoriesText = (TextView) viewHolder.findViewById(R.id.activity_categories);
+
+				Assert.assertEquals(title, titleText.getText());
+				Assert.assertEquals(price, priceText.getText());
+				Assert.assertEquals(Strings.joinWithoutEmpties(",", categoriesList), categoriesText.getText());
+			}
+		};
+	}
 }
