@@ -6,5 +6,5 @@ import org.joda.time.DateTime;
 public class CreateTripCarOffer extends BaseCarOffer {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
-	public CreateTripCarFare fare;
+	public CreateTripCarFare detailedFare;
 }

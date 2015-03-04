@@ -175,9 +175,9 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
 		carModelText.setText(offer.vehicleInfo.makes.get(0));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(offer.fare.grandTotal.getFormattedMoney());
+		tripTotalText.setText(offer.detailedFare.grandTotal.getFormattedMoney());
 		sliderTotalText.setText(getResources()
-			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.fare.grandTotal.getFormattedMoney()));
+			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.detailedFare.grandTotal.getFormattedMoney()));
 
 		dateTimeText.setText(DateFormatUtils
 			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
@@ -215,7 +215,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 				.firstName(driverInfoCardView.firstName.getText().toString())
 				.lastName(driverInfoCardView.lastName.getText().toString())
 				.emailAddress(driverInfoCardView.emailAddress.getText().toString())
-				.grandTotal(createTripResponse.carProduct.fare.grandTotal)
+				.grandTotal(createTripResponse.carProduct.detailedFare.grandTotal)
 				.phoneCountryCode(Integer.toString(driverInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(driverInfoCardView.phoneNumber.getText().toString())
 				.tripId(createTripResponse.tripId);
