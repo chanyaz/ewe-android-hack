@@ -17,6 +17,9 @@
     <color name="launch_mobile_exclusive">#980351</color>
     <color name="launch_discount">#03C690</color>
     <color name="launch_air_attach">#F27D0F</color>
+    <color name="hotel_lob_btn">#028F87</color>
+    <color name="flight_lob_btn">#204A8E</color>
+    <color name="car_lob_btn">#89366A</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>

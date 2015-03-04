@@ -15,14 +15,12 @@
         layout="@layout/widget_launch_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize"
-        android:background="@drawable/drop_shadow" />
+        android:layout_marginTop="?android:attr/actionBarSize" />
 
-    <include
+    <com.expedia.bookings.widget.LaunchLobWidget
         android:id="@+id/lob_selector"
-        layout="@layout/section_phone_launch_lob"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/launch_lob_container_height"
         android:layout_marginTop="?android:attr/actionBarSize" />
 
 </com.expedia.bookings.widget.PhoneLaunchWidget>
