@@ -81,8 +81,8 @@ import butterknife.InjectView;
  * ---- We assume here that it is because an account with that email already exists, so we let them enter a password and associate the existing account
  * ---- If associating fails we let them try again, however since our api response is mostly worthless we sort of just get stuck here.
  */
-public class CarLoginWidget extends CardView implements LoginExtenderListener,
-	CarAccountButton.AccountButtonClickListener {
+public class AccountLoginWidget extends CardView implements LoginExtenderListener,
+	AccountButtonV2.AccountButtonClickListener {
 
 	private static final String NET_MANUAL_LOGIN = "NET_MANUAL_SIGNIN";
 	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
@@ -120,7 +120,7 @@ public class CarLoginWidget extends CardView implements LoginExtenderListener,
 	private EditText mExpediaPassword;
 	private EditText mLinkPassword;
 
-	private CarAccountButton mAccountButton;
+	private AccountButtonV2 mAccountButton;
 
 	private ThrobberDialog mLoadingFragment;
 
@@ -147,7 +147,7 @@ public class CarLoginWidget extends CardView implements LoginExtenderListener,
 	// Boolean for OmnitureTracking related purposes. false means user logged in manually
 	private boolean loginWithFacebook = false;
 
-	public CarLoginWidget(Context context, AttributeSet attrs) {
+	public AccountLoginWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

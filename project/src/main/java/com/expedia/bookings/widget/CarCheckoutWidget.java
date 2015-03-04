@@ -65,7 +65,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	TextView unlimitedMileageText;
 
 	@InjectView(R.id.login_widget)
-	CarLoginWidget loginWidget;
+	AccountLoginWidget loginWidget;
 
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;
@@ -83,7 +83,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	CarDriverWidget driverInfoCardView;
 
 	@InjectView(R.id.payment_info_card_view)
-	CarPaymentWidget paymentInfoCardView;
+	PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;

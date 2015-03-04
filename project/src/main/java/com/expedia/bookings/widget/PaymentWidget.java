@@ -12,9 +12,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarPaymentWidget extends CardView {
+public class PaymentWidget extends CardView {
 
-	public CarPaymentWidget(Context context, AttributeSet attr) {
+	public PaymentWidget(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 
