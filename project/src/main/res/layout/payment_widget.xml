@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.CarPaymentWidget xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.PaymentWidget xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/payment_info_card_view"
     android:layout_width="match_parent"
@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:hint="@string/credit_card_hint"
-            android:singleLine="true"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -47,7 +46,6 @@
                 android:id="@+id/edit_cvv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:layout_weight="1"
                 android:hint="@string/cvv_hint"
                 android:textSize="16sp" />
@@ -57,10 +55,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:singleLine="true"
                 android:hint="@string/address_postal_code_hint"
                 android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
-</com.expedia.bookings.widget.CarPaymentWidget>
+</com.expedia.bookings.widget.PaymentWidget>

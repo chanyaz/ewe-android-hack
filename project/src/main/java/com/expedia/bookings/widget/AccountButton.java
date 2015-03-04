@@ -181,25 +181,21 @@ public class AccountButton extends LinearLayout {
 		int bottomTextResId = 0;
 		int colorResId = 0;
 		int textColorResId = 0;
-		int rewardsBgResId = 0;
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BLUE:
 			bottomTextResId = R.string.Expedia_plus_blue;
 			colorResId = R.color.expedia_plus_blue;
 			textColorResId = R.color.expedia_plus_blue_text;
-			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
 			break;
 		case SILVER:
 			bottomTextResId = R.string.Expedia_plus_silver;
 			colorResId = R.color.expedia_plus_silver;
 			textColorResId = R.color.expedia_plus_silver_text;
-			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
 			break;
 		case GOLD:
 			bottomTextResId = R.string.Expedia_plus_gold;
 			colorResId = R.color.expedia_plus_gold;
 			textColorResId = R.color.expedia_plus_gold_text;
-			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
 			break;
 		}
 
@@ -238,7 +234,7 @@ public class AccountButton extends LinearLayout {
 
 			FontCache.setTypeface(bottom, FontCache.Font.EXPEDIASANS_REGULAR);
 			mRewardsContainer.setVisibility(View.VISIBLE);
-			mRewardsContainer.setBackgroundResource(rewardsBgResId);
+			setRewardsContainerBackground(mRewardsContainer, traveler.getLoyaltyMembershipTier());
 			mRewardsTextView.setText(pointsText);
 			mRewardsTextView.setTextColor(getResources().getColor(textColorResId));
 			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
@@ -246,12 +242,34 @@ public class AccountButton extends LinearLayout {
 		else {
 			bottom.setVisibility(View.GONE);
 			mRewardsContainer.setVisibility(View.GONE);
-			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
+			setLogoutContainerBackground(mLogoutContainer);
 		}
 
 		// Logo
 		mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
 	}
+
+	protected void setLogoutContainerBackground(View logoutContainer) {
+		logoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
+	}
+
+	protected void setRewardsContainerBackground(View rewardsContainer, Traveler.LoyaltyMembershipTier membershipTier) {
+		int rewardsBgResId = 0;
+		switch (membershipTier) {
+			case BLUE:
+				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
+				break;
+			case SILVER:
+				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
+				break;
+			case GOLD:
+				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
+				break;
+		}
+
+		rewardsContainer.setBackgroundResource(rewardsBgResId);
+	}
+
 
 	private void clearCheckoutData() {
 		clearHotelCheckoutData();
