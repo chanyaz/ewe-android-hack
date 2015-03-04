@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -44,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarConfirmationWidget extends RelativeLayout {
+public class CarConfirmationWidget extends FrameLayout {
 
 	private CarCheckoutParamsBuilder builder;
 	private CategorizedCarOffers bucket;

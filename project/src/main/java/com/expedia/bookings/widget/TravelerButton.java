@@ -74,7 +74,8 @@ public class TravelerButton extends LinearLayout {
 	}
 
 	private void onStoredTravelerSelected(int position) {
-		if (position == mTravelerAdapter.getCount() - 1) {
+		// Todo - Commenting this code temporarily. Since for cars MVP we don't support "Add new Driver/Traveler" option. When we do want to add it back just uncomment this.
+		/*if (position == mTravelerAdapter.getCount() - 1) {
 			if (mTravelerButtonListener != null) {
 				mTravelerButtonListener.onAddNewTravelerSelected();
 			}
@@ -82,6 +83,11 @@ public class TravelerButton extends LinearLayout {
 			return;
 		}
 		else if (position == 0) {
+			return;
+		}*/
+
+		// If adapter header do nothing.
+		if (position == 0) {
 			return;
 		}
 		mTraveler = mTravelerAdapter.getItem(position);

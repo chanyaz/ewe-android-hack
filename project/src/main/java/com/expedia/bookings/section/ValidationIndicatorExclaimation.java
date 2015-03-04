@@ -26,7 +26,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
 		if (!isValid && (force || mWasValid)) {
 			//Not valid, but it was the last time we validated
-			Drawable errorIcon = field.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
+			Drawable errorIcon = field.getContext().getResources().getDrawable(R.drawable.input_validation);
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
 			Drawable[] compounds = field.getCompoundDrawables();
 			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);

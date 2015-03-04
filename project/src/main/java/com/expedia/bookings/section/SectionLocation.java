@@ -571,6 +571,11 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			return false;
 		}
 
+		if (mLineOfBusiness == LineOfBusiness.CARS) {
+			// TODO Check with product for CARS lob postal code restrictions.
+			return true;
+		}
+
 		return false;
 	}
 

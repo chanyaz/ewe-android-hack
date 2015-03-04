@@ -60,7 +60,17 @@ public abstract class ExpandableCardView extends CardView implements View.OnFocu
 	}
 
 	public void setExpanded(boolean expand) {
+		setExpanded(expand, true);
+	}
+
+	public void setExpanded(boolean expand, boolean animate) {
+		if (isExpanded == expand) {
+			return;
+		}
 		isExpanded = expand;
+		if (!animate) {
+			return;
+		}
 		if (mToolbarListener != null) {
 			if (expand) {
 				mToolbarListener.onWidgetExpanded(this);
@@ -80,4 +90,12 @@ public abstract class ExpandableCardView extends CardView implements View.OnFocu
 	// Actions to perform once the user presses done on the toolbar
 	public abstract void onDonePressed();
 
+	// Actions to perform once the user has logged in
+	public abstract void onLogin();
+
+	// Actions to perform once the user has logged out
+	public abstract void onLogout();
+
+	// Is the status of the widget complete?
+	public abstract boolean isComplete();
 }

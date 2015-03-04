@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.CarCheckoutWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:slideto="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,28 +14,30 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
-            android:paddingBottom="400dp"
+            android:paddingBottom="200dp"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view"
+                android:id="@+id/summery_container"
                 android:layout_width="match_parent"
                 android:animateLayoutChanges="true"
                 android:layout_height="wrap_content"
                 android:background="#FFF"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                card_view:cardCornerRadius="4dp">
+                android:layout_marginTop="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                card_view:cardElevation="1dp"
+                card_view:cardCornerRadius="3dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp">
+                    android:layout_marginLeft="14dp">
 
                     <LinearLayout
                         android:id="@+id/info_block"
@@ -49,35 +51,43 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
-                            android:textColor="@color/text_black"
-                            android:textSize="18dp"
-                            android:paddingBottom="14dp"
-                            android:textStyle="bold" />
+                            android:textColor="#3C3C3C"
+                            android:textSize="17sp"
+                            app:textStyle="medium"
+                            android:paddingBottom="8dp" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/category_title_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/cars_checkout_text_color"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/car_model_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="14dp"
+                            android:textSize="12sp"
+                            android:textColor="@color/cars_checkout_text_color"
+                            android:paddingBottom="8dp"
                             android:layout_gravity="bottom" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/location_description_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="12sp"
                             android:layout_gravity="top"
+                            android:textColor="@color/cars_checkout_text_color"
                             android:text="@string/desk_and_vehicle_terminal"
                             android:textStyle="bold" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/airport_text"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/cars_checkout_text_color"
+                            android:textSize="13sp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom" />
 
@@ -85,21 +95,24 @@
                             android:id="@+id/date_time_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="@color/cars_checkout_text_color"
                             android:layout_gravity="top" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingTop="14dp"
-                            android:paddingLeft="0dp">
+                            android:paddingTop="8dp">
 
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/free_cancellation_text"
                                 android:text="Free Cancellation"
                                 android:layout_marginRight="12dp"
+                                android:textColor="@color/cars_checkout_text_color"
                                 android:layout_width="wrap_content"
-                                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
+                                android:textSize="12sp"
+                                android:drawableLeft="@drawable/check"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical" />
 
@@ -107,7 +120,9 @@
                                 android:id="@+id/unlimited_mileage_text"
                                 android:text="Free Mileage"
                                 android:layout_width="wrap_content"
-                                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
+                                android:textSize="12sp"
+                                android:drawableLeft="@drawable/check"
+                                android:textColor="@color/cars_checkout_text_color"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical" />
 
@@ -120,9 +135,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:textColor="@color/cars_checkout_text_color"
                         android:layout_alignRight="@+id/pickup_text"
                         android:text="Total with Tax"
-                        android:textSize="12sp" />
+                        android:textSize="11sp" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/price_text"
@@ -130,31 +146,66 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/grand_total_text"
-                        android:layout_toRightOf="@+id/info_block"
-                        android:drawableRight="@drawable/ic_info_receipt"
+                        android:textColor="@color/cars_checkout_text_color"
+                        android:drawableRight="@drawable/info"
                         android:gravity="right"
+                        app:textStyle="medium"
                         android:drawablePadding="6dp"
                         android:maxLines="1"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/pickup_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/cars_checkout_text_color"
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/price_text"
                         android:text="Due at pick-up"
-                        android:textSize="12sp" />
+                        android:textSize="11sp" />
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
             <include layout="@layout/login_widget" />
 
-            <include layout="@layout/car_driver_widget"/>
+            <LinearLayout
+                android:id="@+id/hint_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
 
-            <include layout="@layout/payment_widget"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="1dp"
+                    android:background="#979797" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="or"
+                    android:textColor="#676767" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="1dp"
+                    android:background="#979797" />
+
+            </LinearLayout>
+
+            <include layout="@layout/car_driver_widget" />
+
+            <include layout="@layout/payment_widget" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/legal_information_text_view"
@@ -184,11 +235,11 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:background="#00000000"
-            slideto:destComplete="@drawable/slide_complete"
-            slideto:dragImage="@drawable/slide_drag"
-            slideto:sliderBackgroundColor="@color/cars_primary_color"
-            slideto:sliderImage="@drawable/slide"
-            slideto:sliderText="@string/cars_slider_text" />
+            app:destComplete="@drawable/slide_complete"
+            app:dragImage="@drawable/slide_drag"
+            app:sliderBackgroundColor="@color/cars_primary_color"
+            app:sliderImage="@drawable/slide"
+            app:sliderText="@string/cars_slider_text" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/purchase_total_text_view"

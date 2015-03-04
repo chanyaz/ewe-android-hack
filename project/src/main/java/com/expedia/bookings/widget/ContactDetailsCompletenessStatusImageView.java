@@ -77,8 +77,8 @@ public class ContactDetailsCompletenessStatusImageView extends ImageView {
 			Resources res = context.getResources();
 
 			addState(STATE_DEFAULT, null);
-			addState(STATE_COMPLETE, res.getDrawable(R.drawable.checkmark));
-			addState(STATE_INCOMPLETE, res.getDrawable(R.drawable.incomplete));
+			addState(STATE_COMPLETE, res.getDrawable(R.drawable.validated));
+			addState(STATE_INCOMPLETE, res.getDrawable(R.drawable.invalid));
 		}
 	}
 

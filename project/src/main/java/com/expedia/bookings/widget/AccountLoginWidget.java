@@ -42,7 +42,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
-import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -93,7 +92,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	private static final int ANIM_BUTTON_FLIP_DURATION = 200;
 
-	private ToolbarListener mToobarListener;
 	private LoginExtender mLoginExtender;
 	private LogInStatusListener mLogInStatusListener;
 
@@ -175,8 +173,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		loginText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mToobarListener != null) {
-					mToobarListener.onWidgetExpanded(AccountLoginWidget.this);
+				if (mToolbarListener != null) {
+					mToolbarListener.onWidgetExpanded(AccountLoginWidget.this);
 				}
 				setExpanded(true);
 			}
@@ -281,6 +279,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	private void loginWorkComplete() {
 		User.addUserToAccountManager(getContext(), Db.getUser());
+
 		if (mLogInStatusListener != null) {
 			mLogInStatusListener.onLoginCompleted();
 		}
@@ -549,9 +548,11 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.VISIBLE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			if (mToobarListener != null) {
-				mToobarListener.setActionBarTitle(getResources().getString(R.string.already_logged_in));
-				mToobarListener.onWidgetClosed();
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.already_logged_in));
+				if (animate) {
+					mToolbarListener.onWidgetClosed();
+				}
 			}
 			break;
 		case FACEBOOK_LINK:
@@ -565,8 +566,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.VISIBLE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			if (mToobarListener != null) {
-				mToobarListener.setActionBarTitle(getResources().getString(R.string.link_accounts));
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.link_accounts));
 			}
 			break;
 		case FACEBOOK_EMAIL_DENIED:
@@ -580,8 +581,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.VISIBLE);
-			if (mToobarListener != null) {
-				mToobarListener.setActionBarTitle(getResources().getString(R.string.Facebook));
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Facebook));
 			}
 			break;
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
@@ -595,8 +596,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			if (mToobarListener != null) {
-				mToobarListener.setActionBarTitle(getResources().getString(R.string.Log_In));
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Log_In));
 			}
 			toggleLoginButtons(false, animate);
 			break;
@@ -611,8 +612,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			if (mToobarListener != null) {
-				mToobarListener.onWidgetClosed();
+			if (mToolbarListener != null && animate) {
+				mToolbarListener.onWidgetClosed();
 			}
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
@@ -627,8 +628,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			if (mToobarListener != null) {
-				mToobarListener.setActionBarTitle(getResources().getString(R.string.Log_In));
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Log_In));
 			}
 			toggleLoginButtons(true, animate);
 			break;
@@ -641,7 +642,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		if (enabled) {
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
-			mToobarListener.setActionBarTitle(null);
+			mToolbarListener.setActionBarTitle(null);
 			Ui.hideKeyboardIfEditText((Activity) getContext());
 			mOuterContainer.setGravity(Gravity.CENTER);
 		}
@@ -976,10 +977,13 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	public void accountLogoutClicked() {
 		mFacebookExpectingClose = true;
 		User.signOut(getContext());
-		setVisibilityState(VisibilityState.SIGN_IN, false);
+		// Let's clear expedia username and password on logout.
+		mExpediaUserName.setText("");
+		mExpediaPassword.setText("");
 		if (mLogInStatusListener != null) {
 			mLogInStatusListener.onLogout();
 		}
+		setVisibilityState(VisibilityState.SIGN_IN, true);
 	}
 
 	//////////////////////////////////
@@ -1389,14 +1393,14 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	}
 
 	@Override
-	public void setExpanded(boolean expand) {
-		super.setExpanded(expand);
+	public void setExpanded(boolean expand, boolean animate) {
+		super.setExpanded(expand, animate);
 		if (!expand) {
 			if (User.isLoggedIn(getContext())) {
-				setVisibilityState(VisibilityState.LOGGED_IN, true);
+				setVisibilityState(VisibilityState.LOGGED_IN, animate);
 			}
 			else {
-				setVisibilityState(VisibilityState.SIGN_IN, true);
+				setVisibilityState(VisibilityState.SIGN_IN, animate);
 			}
 			return;
 		}
@@ -1412,7 +1416,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				state = VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON;
 			}
 		}
-		setVisibilityState(state, true);
+		setVisibilityState(state, animate);
 	}
 
 	@Override
@@ -1429,8 +1433,22 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	}
 
 	@Override
+	public void onLogin() {
+
+	}
+
+	@Override
+	public void onLogout() {
+
+	}
+
+	@Override
 	public String getActionBarTitle() {
 		return getResources().getString(R.string.Log_In);
 	}
 
+	@Override
+	public boolean isComplete() {
+		return true;
+	}
 }

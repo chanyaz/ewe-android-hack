@@ -36,6 +36,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@InjectView(R.id.driver_info_text)
 	TextView driverInfoText;
 
+	@InjectView(R.id.driver_phone_text)
+	TextView driverPhoneText;
+
 	@InjectView(R.id.edit_first_name)
 	EditText firstName;
 
@@ -62,8 +65,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 	@OnClick(R.id.driver_info_card_view)
 	public void onCardExpanded() {
-		if (sectionTravelerInfo.getVisibility() != VISIBLE && mToolbarListener != null) {
-			mToolbarListener.onWidgetExpanded(this);
+		if (!isExpanded()) {
 			setExpanded(true);
 		}
 	}
@@ -120,6 +122,8 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 			sectionTravelerInfo.bind(traveler);
 			driverInfoText.setText(traveler.getFullName());
+			driverPhoneText.setText(traveler.getPhoneNumber());
+			driverPhoneText.setVisibility(VISIBLE);
 		}
 		else {
 			// Default
@@ -131,7 +135,13 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
 			driverInfoText.setText(R.string.enter_driver_details);
+
 			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
+
+			driverPhoneText.setText("");
+			driverPhoneText.setVisibility(GONE);
+
+
 			driverCheckoutStatusRightImageView.setTraveler(null);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			return;
@@ -140,6 +150,8 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		// Validate
 		boolean isValid = sectionTravelerInfo.performValidation();
 		driverInfoText.setText(traveler.getFullName());
+		driverPhoneText.setText(traveler.getPhoneNumber());
+		driverPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
 		driverCheckoutStatusLeftImageView.setStatus(
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
 		driverCheckoutStatusRightImageView.setTraveler(traveler);
@@ -147,17 +159,21 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	}
 
 	@Override
-	public void setExpanded(boolean expand) {
-		super.setExpanded(expand);
-		if (expand && mToolbarListener != null) {
-			mToolbarListener.setActionBarTitle(getActionBarTitle());
+	public void setExpanded(boolean expand, boolean animate) {
+		super.setExpanded(expand, animate);
+		if (expand) {
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getActionBarTitle());
+			}
+			if (User.isLoggedIn(getContext())) {
+				travelerButton.setVisibility(VISIBLE);
+			}
+			else {
+				travelerButton.setVisibility(GONE);
+			}
+			firstName.requestFocus();
 		}
-		if (expand && User.isLoggedIn(getContext())) {
-			travelerButton.setVisibility(VISIBLE);
-		}
-		else {
-			travelerButton.setVisibility(GONE);
-		}
+
 		bind();
 		driverInfoContainer.setVisibility(expand ? GONE : VISIBLE);
 		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
@@ -192,4 +208,22 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			setExpanded(false);
 		}
 	}
+
+	@Override
+	public void onLogin() {
+		sectionTravelerInfo.bind(null);
+		setExpanded(false);
+	}
+
+	@Override
+	public void onLogout() {
+		sectionTravelerInfo.bind(new Traveler());
+		setExpanded(false);
+	}
+
+	@Override
+	public boolean isComplete() {
+		return sectionTravelerInfo.performValidation();
+	}
+
 }

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.AccountLoginWidget xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
     android:layout_height="wrap_content"
     android:background="#FFF"
     android:id="@+id/login_widget"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="12dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    card_view:cardCornerRadius="4dp">
+    app:cardElevation="1dp"
+    app:cardCornerRadius="3dp">
 
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/login_container"
@@ -282,6 +283,6 @@
         android:id="@+id/login_text"
         android:drawableLeft="@drawable/expedia"
         android:gravity="center|left"
-        android:drawablePadding="8dp"
+        android:drawablePadding="16dp"
         android:text="Sign in with Expedia" />
 </com.expedia.bookings.widget.AccountLoginWidget>

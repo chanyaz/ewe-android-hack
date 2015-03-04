@@ -158,7 +158,7 @@ public class CarSearchPresenter extends Presenter
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			int color = getContext().getResources().getColor(R.color.cars_status_bar_color);
 			addView(Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color));
 		}
 

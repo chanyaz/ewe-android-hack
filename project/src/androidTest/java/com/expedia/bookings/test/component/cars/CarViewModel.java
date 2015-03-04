@@ -150,10 +150,6 @@ public final class CarViewModel {
 		phone().perform(scrollTo(), typeText(number));
 	}
 
-	public static ViewInteraction paymentContainer() {
-		return onView(withId(R.id.payment_info));
-	}
-
 	public static ViewInteraction checkoutDataEnterDone() {
 		return onView(withId(R.id.menu_checkout));
 	}
