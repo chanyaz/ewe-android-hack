@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -77,4 +78,29 @@ public class AddToCalendarUtils {
 		return intent;
 	}
 
+	public static Intent generateCarAddToCalendarIntent(Context context, PointOfSale pointOfSale,
+		String itineraryNumber, CreateTripCarOffer offer) {
+		Intent intent = new Intent(Intent.ACTION_INSERT);
+		intent.setData(CalendarContract.Events.CONTENT_URI);
+		intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.calendar_car_title_TEMPLATE,
+			offer.pickUpLocation.locationCode));
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, offer.pickupTime.getMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, offer.dropOffTime.getMillis());
+		intent.putExtra(
+			CalendarContract.Events.EVENT_LOCATION,
+			context.getString(R.string.calendar_car_location_TEMPLATE, offer.pickUpLocation.toAddress()));
+
+
+		StringBuilder sb = new StringBuilder();
+		if (!TextUtils.isEmpty(itineraryNumber)) {
+			sb.append(context.getString((R.string.calendar_car_desc_itinerary_TEMPLATE), itineraryNumber));
+			sb.append("\n\n");
+		}
+		sb.append("\n\n");
+		sb.append(context.getString((R.string.calendar_car_desc_support_TEMPLATE), offer.vendor.localPhoneNumber,
+			offer.vendor.phoneNumber));
+		sb.append("\n\n");
+		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
+		return intent;
+	}
 }

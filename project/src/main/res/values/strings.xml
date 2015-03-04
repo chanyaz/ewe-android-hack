@@ -2,6 +2,50 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Next: Select return date</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Drag to modify</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Pick up time</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Drop off time</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_template">Daily %s</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">Total %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Promo Code</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sort &amp; Filter</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Slide to reserve</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Checkout</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Reserve</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">View Details</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Driver details</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Payment details</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Pick-up Location %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia Itinerary #: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Expedia Customer Support: %1$s and %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Local number : %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Toll free number : %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Pick-up time</string>
     <!-- Car search label for drop-off time-->
