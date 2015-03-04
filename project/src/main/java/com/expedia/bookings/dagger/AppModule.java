@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.net.CookieManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -18,7 +20,7 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
-
+import com.expedia.bookings.services.PersistentCookieManager;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
@@ -68,14 +70,34 @@ public class AppModule {
 		}
 	}
 
+	private static final String COOKIE_FILE_V2 = "cookies-2.dat";
+	private static final String COOKIE_FILE_V3 = "cookies-3.dat";
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(SSLContext sslContext) {
+	CookieManager provideCookieManager(Context context) {
+		File storageV3 = context.getFileStreamPath(COOKIE_FILE_V3);
+		PersistentCookieManager manager = new PersistentCookieManager(storageV3);
+
+		// REMOVE THIS once people upgrade
+		File storageV2 = context.getFileStreamPath(COOKIE_FILE_V2);
+		PersistentCookieManager.fillWithOldCookies(manager, storageV2);
+
+		return manager;
+	}
+
+	@Provides
+	@Singleton
+	OkHttpClient provideOkHttpClient(CookieManager cookieManager, SSLContext sslContext) {
 		OkHttpClient client = new OkHttpClient();
+
+		client.setCookieHandler(cookieManager);
+
 		if (BuildConfig.DEBUG) {
+			// We don't care about cert validity for debug builds
 			client.setSslSocketFactory(sslContext.getSocketFactory());
 			StethoShim.install(client);
 		}
+
 		return client;
 	}
 

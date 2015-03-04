@@ -3,6 +3,9 @@ package com.expedia.bookings.utils;
 import java.util.Collection;
 import java.util.Iterator;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class Strings {
 
 	public static boolean isEmpty(CharSequence seq) {
@@ -131,5 +134,10 @@ public class Strings {
 		}
 
 		return sb.toString();
+	}
+
+	public static String toPrettyString(Object any) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		return gson.toJson(any);
 	}
 }

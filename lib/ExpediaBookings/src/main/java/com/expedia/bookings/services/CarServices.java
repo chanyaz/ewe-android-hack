@@ -1,7 +1,5 @@
 package com.expedia.bookings.services;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,9 +45,6 @@ public class CarServices {
 		Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
-		CookieManager cookieManager = new CookieManager();
-		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-		okHttpClient.setCookieHandler(cookieManager);
 
 		Gson gson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
