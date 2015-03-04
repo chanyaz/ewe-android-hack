@@ -10,7 +10,7 @@
     app:cardPreventCornerOverlap="false">
 
     <com.expedia.bookings.widget.OptimizedImageView
-        android:id="@+id/hotel_background_image"
+        android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="144dp"
         android:scaleType="centerCrop" />
@@ -21,7 +21,7 @@
         android:background="@drawable/launch_hotels_gradient_bottom"/>
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/launch_tile_sale_text_view"
+        android:id="@+id/launch_tile_upsell_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -48,11 +48,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/hotel_price"
+            android:layout_toLeftOf="@+id/price"
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_name"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -62,16 +62,16 @@
                 app:textStyle="light"/>
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_proximity"
+                android:id="@+id/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 app:textStyle="light"/>
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_price"
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

@@ -31,6 +31,14 @@ public class Suggestion {
 	@SerializedName("c")
 	public String countryName;
 
+	@SerializedName("ll")
+	public LatLong latLong;
+
+	public static class LatLong {
+		public double lat;
+		public double lng;
+	}
+
 	public boolean isMinorAirport;
 
 	public boolean isHistory = false;

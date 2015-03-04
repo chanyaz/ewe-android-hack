@@ -2,13 +2,12 @@ package com.expedia.bookings.services;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.data.hotels.HotelSearchResponse;
-import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.data.collections.Collection;
+import com.expedia.bookings.data.collections.CollectionResponse;
+import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -18,17 +17,18 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 import rx.Observable;
+import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Func1;
 
-public class HotelServices {
+public class CollectionServices {
 
 	Scheduler mObserveOn;
 	Scheduler mSubscribeOn;
-	HotelApi mHotelApi;
+	CollectionApi mCollectionApi;
 
-	public HotelServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
+	public CollectionServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
 		Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
@@ -48,26 +48,27 @@ public class HotelServices {
 			.setClient(new OkClient(okHttpClient))
 			.build();
 
-		mHotelApi = adapter.create(HotelApi.class);
+		mCollectionApi = adapter.create(CollectionApi.class);
 	}
 
-	public Subscription hotelSearch(NearbyHotelParams params, rx.Observer<List<Hotel>> observer) {
-		return mHotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
-			params.checkOutDate, params.sortOrder)
+	public Subscription getCollection(final String collectionId, String twoLetterCountryCode, String localeCode, Observer<Collection> observer) {
+		return mCollectionApi.collections(twoLetterCountryCode, localeCode)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.flatMap(NEARBY_RESPONSE_TO_OFFERS)
-			.take(10)
-			.toList()
+			.flatMap(COLLECTION_RESPONSE_TO_COLLECTIONS)
+			.takeFirst(new Func1<Collection, Boolean>() {
+				@Override
+				public Boolean call(Collection collection) {
+					return Strings.equals(collection.id, collectionId);
+				}
+			})
 			.subscribe(observer);
 	}
 
-
-
-	private static final Func1<HotelSearchResponse, Observable<Hotel>> NEARBY_RESPONSE_TO_OFFERS = new Func1<HotelSearchResponse, Observable<Hotel>>() {
+	private static final Func1<CollectionResponse, Observable<Collection>> COLLECTION_RESPONSE_TO_COLLECTIONS = new Func1<CollectionResponse, Observable<Collection>>() {
 		@Override
-		public Observable<Hotel> call(HotelSearchResponse hotelSearchResponse) {
-			return Observable.from(hotelSearchResponse.hotelList);
+		public Observable<Collection> call(CollectionResponse collectionResponse) {
+			return Observable.from(collectionResponse.collections);
 		}
 	};
 }

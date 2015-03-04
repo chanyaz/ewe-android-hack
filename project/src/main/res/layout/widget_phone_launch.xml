@@ -11,8 +11,8 @@
         android:layout_height="?android:attr/actionBarSize" />
 
     <include
-        android:id="@+id/nearby_deals_widget"
-        layout="@layout/widget_launch_nearby_deals"
+        android:id="@+id/launch_list_widget"
+        layout="@layout/widget_launch_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
@@ -25,12 +25,4 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize" />
 
-    <TextView
-        android:id="@+id/location_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="We couldn't load any hotels. Make sure we can access your location."
-        android:visibility="gone" />
 </com.expedia.bookings.widget.PhoneLaunchWidget>

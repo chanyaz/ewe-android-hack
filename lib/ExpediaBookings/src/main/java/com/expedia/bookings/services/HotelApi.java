@@ -6,7 +6,7 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
 
-public interface NearbyHotelApi {
+public interface HotelApi {
 
 	@GET("/m/api/hotel/search")
 	public Observable<HotelSearchResponse> nearbyHotelSearch(

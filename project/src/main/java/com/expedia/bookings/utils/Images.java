@@ -2,15 +2,25 @@ package com.expedia.bookings.utils;
 
 import java.util.Locale;
 
+import android.content.Context;
+
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 
 public class Images {
 	private Images() {
 		// ignore
+	}
+
+	public static String getResizedImageUrl(Context context, CollectionLocation location, int widthPx) {
+		String url = getTabletLaunch(location.imageCode);
+		return new Akeakamai(url) //
+			.downsize(Akeakamai.pixels(widthPx), Akeakamai.preserve()) //
+			.build();
 	}
 
 	public static String getTabletLaunch(String destination) {
