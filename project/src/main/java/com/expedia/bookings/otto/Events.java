@@ -2,6 +2,8 @@ package com.expedia.bookings.otto;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -645,6 +647,14 @@ public class Events {
 
 		public LXOfferExpanded(String offerId) {
 			this.offerId = offerId;
+		}
+	}
+
+	public static class LXDetailsDateChanged {
+		public LocalDate dateSelected;
+
+		public LXDetailsDateChanged(LocalDate dateSelected) {
+			this.dateSelected = dateSelected;
 		}
 	}
 

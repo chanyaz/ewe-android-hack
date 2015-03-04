@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -65,6 +66,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@Inject
 	LXState lxState;
 
+	private ActivityDetailsResponse activityDetails;
+
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -86,17 +89,22 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
-		ActivityDetailsResponse activityDetails = event.activityDetails;
+		activityDetails = event.activityDetails;
 
 		buildGallery(activityDetails);
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
 		buildOfferDatesSelector(lxState.searchParams.startDate);
-		buildOffersSection(activityDetails);
+		buildOffersSection(lxState.searchParams.startDate);
 	}
 
-	private void buildOffersSection(ActivityDetailsResponse activityDetails) {
-		offers.setOffers(activityDetails.offersDetail.offers, lxState.searchParams.startDate);
+	@Subscribe
+	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+		buildOffersSection(event.dateSelected);
+	}
+
+	private void buildOffersSection(LocalDate startDate) {
+		offers.setOffers(activityDetails.offersDetail.offers, startDate);
 		offers.setVisibility(View.VISIBLE);
 	}
 
@@ -142,6 +150,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 	}
 
 	private void buildOfferDatesSelector(LocalDate startDate) {
+		offerDatesContainer.removeAllViews();
 		offerDatesContainer.setVisibility(View.VISIBLE);
 		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 
@@ -150,6 +159,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 			dateButton.bind(startDate.plusDays(i));
 			offerDatesContainer.addView(dateButton);
 		}
+		// Set first date as selected.
+		((RadioButton) offerDatesContainer.getChildAt(0)).setChecked(true);
 	}
 }
 
