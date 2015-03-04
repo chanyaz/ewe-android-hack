@@ -3,8 +3,10 @@ package com.expedia.bookings.services;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.ArrayList;
-import java.util.EnumMap;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -16,6 +18,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
+import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.google.gson.Gson;
@@ -70,7 +73,7 @@ public class CarServices {
 			.map(HANDLE_ERRORS)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
-			.map(PUT_IN_CARSEARCH)
+			.map(PUT_IN_CAR_SEARCH)
 			.subscribe(observer);
 	}
 
@@ -84,17 +87,46 @@ public class CarServices {
 		}
 	};
 
+	// Custom classed required only by BUCKET_OFFERS for storing Categorized offers uniquely
+	private static class CarBucket {
+		CarCategory category;
+		CarType type;
+
+		public CarBucket(CarCategory category, CarType type) {
+			this.category = category;
+			this.type = type;
+		}
+
+		@Override
+		public int hashCode() {
+			return Arrays.hashCode(new Object[] {
+				category,
+				type
+			});
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof CarBucket) {
+				CarBucket ob = (CarBucket) obj;
+				return category == ob.category && type == ob.type;
+			}
+			return false;
+		}
+	}
+
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
 		public Observable<CategorizedCarOffers> call(CarSearchResponse carSearchResponse) {
-			EnumMap<CarCategory, CategorizedCarOffers> buckets = new EnumMap<>(CarCategory.class);
-			List<SearchCarOffer> offers = carSearchResponse.offers;
-			for (SearchCarOffer offer : offers) {
+			Map<CarBucket, CategorizedCarOffers> buckets = new HashMap<>();
+			for (SearchCarOffer offer : carSearchResponse.offers) {
 				CarCategory category = offer.vehicleInfo.category;
-				CategorizedCarOffers bucket = buckets.get(category);
+				CarType type = offer.vehicleInfo.type;
+				CarBucket combo = new CarBucket(category, type);
+				CategorizedCarOffers bucket = buckets.get(combo);
 				if (bucket == null) {
-					bucket = new CategorizedCarOffers(category);
-					buckets.put(category, bucket);
+					bucket = new CategorizedCarOffers(category, type);
+					buckets.put(combo, bucket);
 				}
 				bucket.add(offer);
 			}
@@ -103,7 +135,7 @@ public class CarServices {
 		}
 	};
 
-	private static final Func1<List<CategorizedCarOffers>, CarSearch> PUT_IN_CARSEARCH = new Func1<List<CategorizedCarOffers>, CarSearch>() {
+	private static final Func1<List<CategorizedCarOffers>, CarSearch> PUT_IN_CAR_SEARCH = new Func1<List<CategorizedCarOffers>, CarSearch>() {
 		@Override
 		public CarSearch call(List<CategorizedCarOffers> categories) {
 			CarSearch search = new CarSearch();

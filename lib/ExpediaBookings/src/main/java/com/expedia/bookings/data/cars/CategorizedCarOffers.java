@@ -5,12 +5,14 @@ import java.util.List;
 
 public class CategorizedCarOffers {
 	public CarCategory category;
+	public CarType type;
 	public List<SearchCarOffer> offers = new ArrayList<>();
 
 	private SearchCarOffer lowestTotalPriceOffer;
 
-	public CategorizedCarOffers(CarCategory category) {
+	public CategorizedCarOffers(CarCategory category, CarType type) {
 		this.category = category;
+		this.type = type;
 	}
 
 	public void add(SearchCarOffer offer) {
