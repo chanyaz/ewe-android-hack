@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 
 /*
  * Connecting lib-ExpediaBookings car data stuctures to Android-based
@@ -70,4 +71,20 @@ public class CarDataUtils {
 	public static String getCategoryStringFor(Context c, CarCategory category) {
 		return c.getResources().getString(CAR_TYPE_DESCRIPTION_MAP.get(category));
 	}
+
+	public static String getFareBreakdownType(Context ctx, RentalFareBreakdownType type) {
+		switch (type) {
+		case BASE:
+			return ctx.getString(R.string.car_rental_breakdown_base);
+		case TAXES_AND_FEES:
+			return ctx.getString(R.string.car_rental_breakdown_taxes_and_fees);
+		case INSURANCE:
+			return ctx.getString(R.string.car_rental_breakdown_insurance);
+		case DROP_OFF_CHARGE:
+			return ctx.getString(R.string.car_rental_breakdown_drop_off_charges);
+		default:
+			return type.toString();
+		}
+	}
+
 }

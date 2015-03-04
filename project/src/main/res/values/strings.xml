@@ -77,8 +77,25 @@
     <!-- Car search error -->
     <string name="error_car_search_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s or similar</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Total due today</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Total amount due at pick-up</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Done</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Car rental</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Estimated taxes and fees</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Insurance</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Drop off charge</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
     <!-- Checkout confirmation message (temporary) -->
