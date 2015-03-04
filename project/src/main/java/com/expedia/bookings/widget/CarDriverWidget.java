@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 
 import butterknife.ButterKnife;
@@ -55,16 +54,7 @@ public class CarDriverWidget extends CardView {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		// TODO - encapsulate data fields better, so that this isn't here.
-		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) phoneSpinner.getAdapter();
-		String targetCountry = getContext().getString(PointOfSale.getPointOfSale()
-			.getCountryNameResId());
-		for (int i = 0; i < adapter.getCount(); i++) {
-			if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
-				phoneSpinner.setSelection(i);
-				break;
-			}
-		}
+		phoneSpinner.selectPOSCountry();
 	}
 
 	public void setExpanded(boolean isExpanded) {
