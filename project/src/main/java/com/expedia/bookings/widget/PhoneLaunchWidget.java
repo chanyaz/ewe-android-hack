@@ -54,7 +54,7 @@ import rx.schedulers.Schedulers;
 public class PhoneLaunchWidget extends FrameLayout {
 
 	private static final String TAG = "PhoneLaunchWidget";
-	private static final String COLLECTION_TITLE = "global-staff-picks";
+	private static final String COLLECTION_TITLE = "staff-picks";
 
 	private HotelServices hotelServices;
 	private HotelSearchParams searchParams;
