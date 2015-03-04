@@ -25,6 +25,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -159,5 +160,19 @@ public class LXDetailsPresenterTests {
 		RadioGroup container = (RadioGroup) playground.getRoot().findViewById(R.id.offer_dates_container);
 		int count = container.getChildCount();
 		Assert.assertEquals(playground.get().getResources().getInteger(R.integer.lx_default_search_range), count);
+	}
+
+	@Test
+	public void testDatesContainerSelection() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		ScreenActions.delay(2);
+
+		LXViewModel.detailsDate("25").perform(click());
+
+		ViewInteraction offer = LXViewModel.withOfferText("2-Day New York Pass");
+		offer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets),
+			withText(startsWith("Select Tickets")), not(isEnabled())))));
+		offer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith(""))))));
+
 	}
 }

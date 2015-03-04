@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.SpannableBuilder;
 
 
@@ -38,6 +39,6 @@ public class LXOfferDatesButton extends RadioButton implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Post event for offers section refresh.
+		Events.post(new Events.LXDetailsDateChanged(offerDate));
 	}
 }
