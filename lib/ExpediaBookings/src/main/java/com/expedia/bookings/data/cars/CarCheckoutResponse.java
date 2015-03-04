@@ -3,11 +3,12 @@ package com.expedia.bookings.data.cars;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripInfo;
 import com.google.gson.Gson;
 
 public class CarCheckoutResponse {
 	public String activityId;
-	public CarTripInfo newTrip;
+	public TripInfo newTrip;
 	public String orderId;
 	public Money totalChargesPrice; // TODO: API needs to include currency code in this object.
 

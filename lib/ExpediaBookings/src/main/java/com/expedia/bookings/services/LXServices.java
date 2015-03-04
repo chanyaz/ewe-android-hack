@@ -1,10 +1,14 @@
 package com.expedia.bookings.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
+import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.squareup.okhttp.OkHttpClient;
@@ -60,6 +64,39 @@ public class LXServices {
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.subscribe(observer);
+	}
+
+	public Subscription lxCheckout(LXCheckoutParams checkoutParams, Observer<LXCheckoutResponse> observer) {
+		return lxApi.
+			checkout(createCheckoutParams(checkoutParams))
+			.observeOn(this.observeOn)
+			.subscribeOn(this.subscribeOn)
+			.subscribe(observer);
+	}
+
+	private Map<String, Object> createCheckoutParams(LXCheckoutParams checkoutParams) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("streetAddress", checkoutParams.streetAddress);
+		params.put("firstName", checkoutParams.firstName);
+		params.put("lastName", checkoutParams.lastName);
+		params.put("phone", checkoutParams.phone);
+		params.put("checkInDate", checkoutParams.checkInDate);
+		params.put("phoneCountryCode", checkoutParams.phoneCountryCode);
+		params.put("tripId", checkoutParams.tripId);
+		params.put("state", checkoutParams.state);
+		params.put("city", checkoutParams.city);
+		params.put("country", checkoutParams.country);
+		params.put("postalCode", checkoutParams.postalCode);
+		params.put("expectedFareCurrencyCode", checkoutParams.expectedFareCurrencyCode);
+		params.put("expectedFareCurrencyCode", checkoutParams.expectedFareCurrencyCode);
+		params.put("expectedTotalFare", checkoutParams.expectedTotalFare);
+		params.put("nameOnCard", checkoutParams.nameOnCard);
+		params.put("creditCardNumber", checkoutParams.creditCardNumber);
+		params.put("expirationDateYear", checkoutParams.expirationDateYear);
+		params.put("expirationDateMonth", checkoutParams.expirationDateMonth);
+		params.put("cvv", checkoutParams.cvv);
+		params.put("email", checkoutParams.email);
+		return params;
 	}
 
 }
