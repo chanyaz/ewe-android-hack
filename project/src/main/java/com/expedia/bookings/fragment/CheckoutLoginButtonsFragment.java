@@ -172,6 +172,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		if (loggedIn != mWasLoggedIn) {
 			BookingInfoUtils.populateTravelerDataFromUser(context, getLob());
 			BookingInfoUtils.populatePaymentDataFromUser(context, getLob());
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(Db.getBillingInfo().getStoredCard());
+			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			if (mListener != null) {
 				mListener.onLoginStateChanged();
 			}
