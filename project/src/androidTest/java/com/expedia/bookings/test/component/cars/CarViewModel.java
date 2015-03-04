@@ -149,7 +149,7 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction checkoutDataEnterDone() {
-		return onView(withId(R.id.menu_done));
+		return onView(withId(R.id.menu_checkout));
 	}
 
 	public static void pressClose() {

@@ -3,12 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_done"
+        android:id="@+id/menu_checkout"
         android:icon="@drawable/ic_check_white_24dp"
         app:showAsAction="always"
-        android:title="@string/search" />
+        android:title="@string/cars_checkout_text" />
     <item
         android:id="@+id/menu_next"
         app:showAsAction="withText|always"
         android:title="@string/next" />
+
+    <item
+        android:id="@+id/menu_done"
+        app:showAsAction="withText|always"
+        android:title="@string/Done" />
 </menu>

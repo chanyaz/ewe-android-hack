@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -96,44 +98,56 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
 
-	MenuItem menuDone;
+	MenuItem menuCheckout;
 	MenuItem menuNext;
+	MenuItem menuDone;
 
 	int cardPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics());
 
+	ExpandableCardView mCurrentExpandedCard;
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		slideWidget.addSlideToListener(this);
 
-		loginWidget.setToolbarListener(loginListener);
-		driverInfoCardView.setToolbarListener(driverListener);
-		paymentInfoCardView.setToolbarListener(paymentListener);
+		loginWidget.setToolbarListener(toolbarListener);
+		loginWidget.setLoginStatusListener(mLoginStatusListener);
+		driverInfoCardView.setToolbarListener(toolbarListener);
+		paymentInfoCardView.setToolbarListener(toolbarListener);
 
 		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
-		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
-		menuDone.setVisible(true);
+		menuCheckout = toolbar.getMenu().findItem(R.id.menu_checkout);
+		menuCheckout.setVisible(true);
 
 		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
 		menuNext.setVisible(false);
+
+		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
+		menuDone.setVisible(false);
 
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
 				switch (menuItem.getItemId()) {
-				case R.id.menu_done:
+				case R.id.menu_checkout:
 					Ui.hideKeyboard(CarCheckoutWidget.this);
 					menuItem.setVisible(false);
 					slideToContainer.setVisibility(View.VISIBLE);
 					break;
 				case R.id.menu_next:
+					mCurrentExpandedCard.setNextFocus();
+					break;
+				case R.id.menu_done:
+					mCurrentExpandedCard.onDonePressed();
+					Ui.hideKeyboard(CarCheckoutWidget.this);
 					break;
 				}
+
 				return false;
 			}
 		});
@@ -235,75 +249,27 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	}
 
 	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
-	ToolbarListener loginListener = new ToolbarListener() {
+	ToolbarListener toolbarListener = new ToolbarListener() {
 		@Override
 		public void setActionBarTitle(String title) {
 			toolbar.setTitle(title);
 		}
 
 		@Override
-		public void onWidgetExpanded() {
-			expandWidget(loginWidget);
-			toolbar.setNavigationOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					loginWidget.setExpanded(false);
-					onWidgetClosed();
-				}
-			});
+		public void onWidgetExpanded(ExpandableCardView cardView) {
+			mCurrentExpandedCard = cardView;
+			expandWidget(mCurrentExpandedCard);
 		}
 
 		@Override
 		public void onWidgetClosed() {
 			closeWidget();
 		}
-	};
-
-	ToolbarListener driverListener = new ToolbarListener() {
-		@Override
-		public void setActionBarTitle(String title) {
-			toolbar.setTitle(title);
-		}
 
 		@Override
-		public void onWidgetExpanded() {
-			expandWidget(driverInfoCardView);
-			toolbar.setNavigationOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					driverInfoCardView.setExpanded(false);
-					onWidgetClosed();
-				}
-			});
-		}
-
-		@Override
-		public void onWidgetClosed() {
-			closeWidget();
-		}
-	};
-
-	ToolbarListener paymentListener = new ToolbarListener() {
-		@Override
-		public void setActionBarTitle(String title) {
-			toolbar.setTitle(title);
-		}
-
-		@Override
-		public void onWidgetExpanded() {
-			expandWidget(paymentInfoCardView);
-			toolbar.setNavigationOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					paymentInfoCardView.setExpanded(false);
-					closeWidget();
-				}
-			});
-		}
-
-		@Override
-		public void onWidgetClosed() {
-			closeWidget();
+		public void onEditingComplete() {
+			menuNext.setVisible(false);
+			menuDone.setVisible(true);
 		}
 	};
 
@@ -316,14 +282,27 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 			public void run() {
 				scrollView.smoothScrollTo(0, v.getTop() - cardPadding);
 			}
-		}, 100);
+		}, 700);
+		toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+		toolbar.setNavigationOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mCurrentExpandedCard.setExpanded(false);
+			}
+		});
+		menuCheckout.setVisible(false);
 		menuNext.setVisible(true);
 		menuDone.setVisible(false);
-		toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
 	}
 
 	private void closeWidget() {
-		scrollView.smoothScrollTo(0, 0);
+		Ui.hideKeyboard(CarCheckoutWidget.this);
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollView.smoothScrollTo(0, 0);
+			}
+		}, 300);
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -332,8 +311,9 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 				((Activity) getContext()).onBackPressed();
 			}
 		});
+		menuCheckout.setVisible(true);
 		menuNext.setVisible(false);
-		menuDone.setVisible(true);
+		menuDone.setVisible(false);
 	}
 
 	@OnClick(R.id.price_text)
@@ -383,5 +363,29 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		priceValue.setText(rightSideText);
 		return row;
 	}
+
+	AccountLoginWidget.LogInStatusListener mLoginStatusListener = new AccountLoginWidget.LogInStatusListener() {
+		@Override
+		public void onLoginStarted() {
+
+		}
+
+		@Override
+		public void onLoginCompleted() {
+			driverInfoCardView.sectionTravelerInfo.bind(Db.getUser().getPrimaryTraveler());
+			driverInfoCardView.bind();
+		}
+
+		@Override
+		public void onLoginFailed() {
+
+		}
+
+		@Override
+		public void onLogout() {
+			driverInfoCardView.sectionTravelerInfo.bind(new Traveler());
+			driverInfoCardView.bind();
+		}
+	};
 
 }

@@ -270,7 +270,6 @@ public class AccountButton extends LinearLayout {
 		rewardsContainer.setBackgroundResource(rewardsBgResId);
 	}
 
-
 	private void clearCheckoutData() {
 		clearHotelCheckoutData();
 		clearFlightCheckoutData();

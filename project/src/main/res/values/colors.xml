@@ -230,5 +230,7 @@
     <color name="cars_confirmation_action_text_color">#F3F3F3</color>
     <color name="cars_confirmation_email_text_color">#C8C8C8</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
+    <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
+    <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
 
 </resources>

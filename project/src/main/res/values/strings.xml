@@ -31,6 +31,10 @@
     <string name="cars_driver_details_text">Driver details</string>
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">Payment details</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Enter driver details</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Select saved contacts</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -79,6 +83,7 @@
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s or similar</string>
+
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
     <!-- Car checkout cost breakdown total due today -->
