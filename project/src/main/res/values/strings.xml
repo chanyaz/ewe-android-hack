@@ -471,6 +471,8 @@
     <string name="nav_cars">Cars</string>
 
     <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Shop travel</string>
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Top deals tonight</string>
     <!-- See all nearby deals -->

@@ -136,8 +136,8 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 		});
 
 		// Tabs
-		Tab shopTab = getActionBar().newTab().setText(R.string.shop).setTabListener(mShopTabListener);
-		Tab itineraryTab = getActionBar().newTab().setText(R.string.trips).setTabListener(mItineraryTabListener);
+		Tab shopTab = getActionBar().newTab().setText(R.string.shop_travel).setTabListener(mShopTabListener);
+		Tab itineraryTab = getActionBar().newTab().setText(R.string.Your_Trips).setTabListener(mItineraryTabListener);
 
 		ActionBar actionBar = getActionBar();
 		enableEmbeddedTabs(actionBar);
