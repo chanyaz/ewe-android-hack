@@ -47,6 +47,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RequestInterceptor;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -58,7 +59,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private HotelServices hotelServices;
 	private HotelSearchParams searchParams;
 	private CollectionServices collectionServices;
-
+	private Subscription downloadSubscription;
 
 	@InjectView(R.id.lob_selector)
 	ViewGroup lobSelectorWidget;
@@ -87,7 +88,15 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Override
 	public void onDetachedFromWindow() {
 		Events.unregister(this);
+		cleanup();
 		super.onDetachedFromWindow();
+	}
+
+	private void cleanup() {
+		if (downloadSubscription != null) {
+			downloadSubscription.unsubscribe();
+			downloadSubscription = null;
+		}
 	}
 
 	// Set up
@@ -125,6 +134,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
 		@Override
 		public void onCompleted() {
+			cleanup();
 			Log.d(TAG, "Hotel download completed.");
 		}
 
@@ -151,13 +161,33 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private Subscriber<Collection> collectionDownloadListener = new Subscriber<Collection>() {
 		@Override
 		public void onCompleted() {
+			cleanup();
 			Log.d(TAG, "Collection download completed.");
 		}
 
 		@Override
 		public void onError(Throwable e) {
+			Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.");
 			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-			collectionServices.getCollection(COLLECTION_TITLE, country, "default", collectionDownloadListener);
+			downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, "default", defaultCollectionListener);
+		}
+
+		@Override
+		public void onNext(Collection collection) {
+			Events.post(new Events.CollectionDownloadComplete(collection));
+		}
+	};
+
+	private Subscriber<Collection> defaultCollectionListener = new Subscriber<Collection>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+			Log.d(TAG, "Default collection download completed.");
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.d(TAG, e.getMessage());
 		}
 
 		@Override
@@ -253,7 +283,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		searchParams.setCheckOutDate(currentDate.plusDays(1));
 		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
-		hotelServices.hotelSearch(params, downloadListener);
+		downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
 	}
 
 	@Subscribe
@@ -261,6 +291,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start collection download");
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
-		collectionServices.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
+		downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
 	}
 }
