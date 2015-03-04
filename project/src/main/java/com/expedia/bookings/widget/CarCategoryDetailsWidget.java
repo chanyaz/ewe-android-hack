@@ -93,7 +93,13 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		CarInfo vehicleInfo = bucket.getLowestTotalPriceOffer().vehicleInfo;
 		passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
 		bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
-		doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
+		if (vehicleInfo.minDoors != vehicleInfo.maxDoors) {
+			doorCount.setText(doorCount.getContext()
+				.getString(R.string.car_door_range_TEMPLATE, vehicleInfo.minDoors, vehicleInfo.maxDoors));
+		}
+		else {
+			doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
+		}
 
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();

@@ -11,15 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategoriesListAdapter.ViewHolder> {
 	private List<CategorizedCarOffers> categories = new ArrayList<>();
@@ -89,13 +91,22 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 
 			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
-			categoryTextView.setText(cco.category.toString());
+			categoryTextView.setText(CarDataUtils.getCategoryStringForResults(categoryTextView.getContext(),
+				cco.category));
 			passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
 			bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
-			doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
+			if (vehicleInfo.minDoors != vehicleInfo.maxDoors) {
+				doorCount.setText(doorCount.getContext()
+					.getString(R.string.car_door_range_TEMPLATE, vehicleInfo.minDoors, vehicleInfo.maxDoors));
+			}
+			else {
+				doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
+			}
 			cardView.setPreventCornerOverlap(false);
-			bestPriceTextView.setText(totalTextView.getContext().getString(R.string.cars_total_template, lowestFare.rate.getFormattedMoney()));
-			totalTextView.setText(totalTextView.getContext().getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
+			bestPriceTextView.setText(totalTextView.getContext()
+				.getString(R.string.cars_daily_template, lowestFare.rate.getFormattedMoney()));
+			totalTextView.setText(totalTextView.getContext()
+				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
 		}
 
 		@Override

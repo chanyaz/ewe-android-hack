@@ -64,6 +64,39 @@ public class CarDataUtils {
 		}
 	};
 
+	public static final Map<CarCategory, Integer> CAR_CATEGORY_DESCRIPTION_MAP_FOR_RESULTS = new HashMap<CarCategory, Integer>() {
+		{
+			put(CarCategory.MINI, R.string.car_category_result_mini);
+			put(CarCategory.ECONOMY, R.string.car_category_result_economy);
+			put(CarCategory.COMPACT, R.string.car_category_result_compact);
+			put(CarCategory.MIDSIZE, R.string.car_category_result_midsize);
+			put(CarCategory.STANDARD, R.string.car_category_result_standard);
+			put(CarCategory.FULLSIZE, R.string.car_category_result_fullsize);
+			put(CarCategory.PREMIUM, R.string.car_category_result_premium);
+			put(CarCategory.LUXURY, R.string.car_category_result_luxury);
+			put(CarCategory.MINI_ELITE, R.string.car_category_result_mini_elite);
+			put(CarCategory.ECONOMY_ELITE, R.string.car_category_result_economy_elite);
+			put(CarCategory.COMPACT_ELITE, R.string.car_category_result_compact_elite);
+			put(CarCategory.SPECIAL, R.string.car_type_special);
+			put(CarCategory.MIDSIZE_ELITE, R.string.car_category_result_midsize_elite);
+			put(CarCategory.STANDARD_ELITE, R.string.car_category_result_standard_elite);
+			put(CarCategory.FULLSIZE_ELITE, R.string.car_category_result_fullsize_elite);
+			put(CarCategory.PREMIUM_ELITE, R.string.car_category_result_premium_elite);
+			put(CarCategory.LUXURY_ELITE, R.string.car_category_result_luxury_elite);
+			put(CarCategory.OVERSIZE, R.string.car_category_result_oversize);
+		}
+	};
+
+	public static final Map<RentalFareBreakdownType, Integer> RENTAL_FARE_BREAKDOWN_TYPE_MAP = new HashMap<RentalFareBreakdownType, Integer>() {
+		{
+			put(RentalFareBreakdownType.BASE, R.string.car_rental_breakdown_base);
+			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.car_rental_breakdown_taxes_and_fees);
+			put(RentalFareBreakdownType.INSURANCE, R.string.car_rental_breakdown_insurance);
+			put(RentalFareBreakdownType.DROP_OFF_CHARGE, R.string.car_rental_breakdown_drop_off_charges);
+
+		}
+	};
+
 	public static String getShareMessageFor(Context c, CarCategory category) {
 		return c.getResources().getString(CAR_TYPE_SHARE_MSG_MAP.get(category));
 	}
@@ -73,18 +106,11 @@ public class CarDataUtils {
 	}
 
 	public static String getFareBreakdownType(Context ctx, RentalFareBreakdownType type) {
-		switch (type) {
-		case BASE:
-			return ctx.getString(R.string.car_rental_breakdown_base);
-		case TAXES_AND_FEES:
-			return ctx.getString(R.string.car_rental_breakdown_taxes_and_fees);
-		case INSURANCE:
-			return ctx.getString(R.string.car_rental_breakdown_insurance);
-		case DROP_OFF_CHARGE:
-			return ctx.getString(R.string.car_rental_breakdown_drop_off_charges);
-		default:
-			return type.toString();
-		}
+		return ctx.getResources().getString(RENTAL_FARE_BREAKDOWN_TYPE_MAP.get(type));
+	}
+
+	public static String getCategoryStringForResults(Context c, CarCategory category) {
+		return c.getResources().getString(CAR_CATEGORY_DESCRIPTION_MAP_FOR_RESULTS.get(category));
 	}
 
 }

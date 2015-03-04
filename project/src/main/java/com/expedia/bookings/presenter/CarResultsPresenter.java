@@ -22,6 +22,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
@@ -219,7 +220,8 @@ public class CarResultsPresenter extends Presenter {
 
 	private void setToolBarDetailsText() {
 		if (mOffer != null) {
-			toolbar.setTitle(mOffer.category.toString());
+			toolbar.setTitle(CarDataUtils.getCategoryStringForResults(getContext(),
+				mOffer.category));
 		}
 	}
 
