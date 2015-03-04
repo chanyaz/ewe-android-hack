@@ -295,4 +295,6 @@
         <attr name="state_incomplete" format="boolean" />
     </declare-styleable>
 
+    <attr name="calendar_month_tint_color" format="reference" />
+
 </resources>

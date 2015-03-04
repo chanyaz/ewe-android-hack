@@ -1,12 +1,18 @@
 package com.expedia.bookings.widget;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,8 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
@@ -25,17 +31,20 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
+import com.mobiata.android.time.widget.DaysOfWeekView;
+import com.mobiata.android.time.widget.MonthView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class LXSearchParamsWidget extends FrameLayout
-	implements TextWatcher, CalendarPicker.DateSelectionChangedListener {
+	implements TextWatcher, CalendarPicker.DateSelectionChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
 	@InjectView(R.id.search_calendar)
 	CalendarPicker calendarPicker;
@@ -44,13 +53,22 @@ public class LXSearchParamsWidget extends FrameLayout
 	AutoCompleteTextView location;
 
 	@InjectView(R.id.select_dates)
-	Button selectDates;
+	ToggleButton selectDates;
+
+	@InjectView(R.id.calendar_container)
+	View calendarContainer;
 
 	@InjectView(R.id.search_params_container)
 	ViewGroup searchParamContainer;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
+
+	@InjectView(R.id.days_of_week)
+	DaysOfWeekView daysOfWeekView;
+
+	@InjectView(R.id.month)
+	MonthView monthView;
 
 	LXSearchParams searchParams;
 	private LxSuggestionAdapter suggestionAdapter;
@@ -66,11 +84,7 @@ public class LXSearchParamsWidget extends FrameLayout
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		calendarPicker.setVisibility(View.INVISIBLE);
-		calendarPicker.setSelectableDateRange(LocalDate.now(),
-			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_lx_search)));
-		calendarPicker.setDateChangedListener(this);
-
+		setupCalendar();
 		suggestionAdapter = new LxSuggestionAdapter();
 		Ui.getApplication(getContext()).lxComponent().inject(suggestionAdapter);
 
@@ -78,6 +92,9 @@ public class LXSearchParamsWidget extends FrameLayout
 		setupToolbar();
 		location.setAdapter(suggestionAdapter);
 		location.setOnItemClickListener(mLocationListListener);
+		Drawable locationDrawable = getResources().getDrawable(R.drawable.location);
+		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_secondary_color), PorterDuff.Mode.SRC_IN);
+		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
 	}
 
 	private AdapterView.OnItemClickListener mLocationListListener = new AdapterView.OnItemClickListener() {
@@ -108,7 +125,7 @@ public class LXSearchParamsWidget extends FrameLayout
 
 	@OnClick(R.id.select_dates)
 	public void showCalendar() {
-		calendarPicker.setVisibility(View.VISIBLE);
+		calendarContainer.setVisibility(View.VISIBLE);
 	}
 
 	private boolean validateSearchInput() {
@@ -166,7 +183,21 @@ public class LXSearchParamsWidget extends FrameLayout
 			String dateText = DateUtils.localDateToMMMdd(searchParamsBuilder.startDate);
 
 			selectDates.setText(dateText);
+			selectDates.setTextOff(dateText);
+			selectDates.setTextOn(dateText);
 		}
+	}
+
+	@Override
+	public String renderDayOfWeek(LocalDate.Property dayOfWeek) {
+		if (Build.VERSION.SDK_INT >= 18) {
+			SimpleDateFormat sdf = new SimpleDateFormat("EEEEE", Locale.getDefault());
+			return sdf.format(dayOfWeek.getLocalDate().toDate());
+		}
+		else if (Locale.getDefault().getLanguage().equals("en")) {
+			return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1);
+		}
+		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
 	}
 
 	public LXSearchParams getCurrentParams() {
@@ -208,4 +239,20 @@ public class LXSearchParamsWidget extends FrameLayout
 			addView(Ui.setUpStatusBar(getContext(), toolbar, searchParamContainer, toolbarColor));
 		}
 	}
+
+	private void setupCalendar() {
+		calendarContainer.setVisibility(View.INVISIBLE);
+		calendarPicker.setSelectableDateRange(LocalDate.now(),
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_lx_search)));
+		calendarPicker.setDateChangedListener(this);
+		daysOfWeekView.setDayOfWeekRenderer(this);
+		daysOfWeekView.setTextColor(getContext().getResources().getColor(R.color.lx_calendar_week_color));
+		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
+		monthView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
+		monthView.setTextEqualDatesColor(Color.WHITE);
+		calendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+	}
+
 }

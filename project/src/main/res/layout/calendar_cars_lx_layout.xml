@@ -18,7 +18,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center_vertical"
             android:paddingBottom="20dp"
-            android:tint="@color/cars_primary_color"
+            android:tint="?attr/calendar_month_tint_color"
             android:paddingTop="20dp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:tint="@color/cars_primary_color"
+            android:tint="?attr/calendar_month_tint_color"
             android:background="?android:attr/selectableItemBackground"
             android:paddingBottom="20dp"
             android:paddingTop="20dp" />
