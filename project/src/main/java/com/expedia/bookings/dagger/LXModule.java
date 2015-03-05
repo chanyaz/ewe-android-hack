@@ -1,8 +1,7 @@
 package com.expedia.bookings.dagger;
 
-import javax.inject.Singleton;
-
 import com.expedia.bookings.dagger.tags.E3Endpoint;
+import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.dagger.tags.SuggestEndpoint;
 import com.expedia.bookings.services.LXServices;
@@ -18,19 +17,19 @@ import rx.schedulers.Schedulers;
 @Module
 public class LXModule {
 	@Provides
-	@Singleton
+	@LXScope
 	LXServices provideLXServices(@E3Endpoint String endpoint, OkHttpClient client, RequestInterceptor interceptor) {
 		return new LXServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
-	@Singleton
+	@LXScope
 	SuggestionServices provideLxSuggestionServices(@SuggestEndpoint String endpoint, OkHttpClient client) {
 		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
-	@Singleton
+	@LXScope
 	LXState provideLXState() {
 		return new LXState();
 	}

@@ -20,7 +20,9 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppModule;
+import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.CarComponent;
+import com.expedia.bookings.dagger.Dagger_AppComponent;
 import com.expedia.bookings.dagger.Dagger_CarComponent;
 import com.expedia.bookings.dagger.Dagger_LXComponent;
 import com.expedia.bookings.dagger.LXComponent;
@@ -105,6 +107,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		StethoShim.install(this);
 		startupTimer.addSplit("Stetho Init");
+
+		mAppComponent = Dagger_AppComponent.builder()
+			.appModule(new AppModule(this))
+			.build();
+		startupTimer.addSplit("Dagger AppModule created");
 
 		PicassoHelper.init(this);
 		Boolean isLoggingEnabled = SettingUtils.get(this, getString(R.string.preference_enable_picasso_logging), false);
@@ -325,12 +332,13 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	//////////////////////////////////////////////////////////////////////////
 	// Dagger instances
 
+	private AppComponent mAppComponent;
 	private CarComponent mCarComponent;
 	private LXComponent mLXComponent;
 
 	public void defaultCarComponents() {
 		setCarComponent(Dagger_CarComponent.builder()
-			.appModule(new AppModule(this))
+			.appComponent(mAppComponent)
 			.build());
 	}
 
@@ -345,7 +353,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public void defaultLXComponents() {
 		setLXComponent(Dagger_LXComponent.builder()
-			.appModule(new AppModule(this))
+			.appComponent(mAppComponent)
 			.build());
 	}
 
