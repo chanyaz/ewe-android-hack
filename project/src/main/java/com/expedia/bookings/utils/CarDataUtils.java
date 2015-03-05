@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 
 /*
@@ -87,6 +88,33 @@ public class CarDataUtils {
 		}
 	};
 
+	public static final Map<CarType, Integer> CAR_TYPE_DESCRIPTION_MAP_FOR_RESULTS = new HashMap<CarType, Integer>() {
+		{
+			put(CarType.TWO_DOOR_CAR, R.string.car_type_two_door);
+			put(CarType.THREE_DOOR_CAR, R.string.car_type_three_door);
+			put(CarType.FOUR_DOOR_CAR, R.string.car_type_four_door);
+			put(CarType.VAN, R.string.car_type_van);
+			put(CarType.WAGON, R.string.car_type_wagon);
+			put(CarType.LIMOUSINE, R.string.car_type_limousine);
+			put(CarType.RECREATIONAL_VEHICLE, R.string.car_type_recreational_vehicle);
+			put(CarType.CONVERTIBLE, R.string.car_type_convertible);
+			put(CarType.SPORTS_CAR, R.string.car_type_sports_car);
+			put(CarType.SUV, R.string.car_type_suv);
+			put(CarType.PICKUP_REGULAR_CAB, R.string.car_type_pickup_regular_cab);
+			put(CarType.OPEN_AIR_ALL_TERRAIN, R.string.car_type_open_air_all_terrain);
+			put(CarType.SPECIAL, R.string.car_type_special);
+			put(CarType.COMMERCIAL_VAN_TRUCK, R.string.car_type_commercial_van_truck);
+			put(CarType.PICKUP_EXTENDED_CAB, R.string.car_type_pickup_extended_cab);
+			put(CarType.SPECIAL_OFFER_CAR, R.string.car_type_special_offer_car);
+			put(CarType.COUPE, R.string.car_type_coupe);
+			put(CarType.MONOSPACE, R.string.car_type_monospace);
+			put(CarType.MOTORHOME, R.string.car_type_motor_home);
+			put(CarType.TWO_WHEEL_VEHICLE, R.string.car_type_two_wheel_vehicle);
+			put(CarType.ROADSTER, R.string.car_type_roadster);
+			put(CarType.CROSSOVER, R.string.car_type_crossover);
+		}
+	};
+
 	public static final Map<RentalFareBreakdownType, Integer> RENTAL_FARE_BREAKDOWN_TYPE_MAP = new HashMap<RentalFareBreakdownType, Integer>() {
 		{
 			put(RentalFareBreakdownType.BASE, R.string.car_rental_breakdown_base);
@@ -111,6 +139,10 @@ public class CarDataUtils {
 
 	public static String getCategoryStringForResults(Context c, CarCategory category) {
 		return c.getResources().getString(CAR_CATEGORY_DESCRIPTION_MAP_FOR_RESULTS.get(category));
+	}
+
+	public static String getTypeStringForResults(Context c, CarType type) {
+		return c.getResources().getString(CAR_TYPE_DESCRIPTION_MAP_FOR_RESULTS.get(type));
 	}
 
 }
