@@ -31,7 +31,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		LXViewModel.selectDateButton().perform(click());
 		LXViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		screenshot("LX_Search_Params_Entered");
-		LXViewModel.doneButton().perform(click());
+		LXViewModel.searchButton().perform(click());
 		onView(withId(R.id.loading_results)).perform(waitFor(10L, TimeUnit.SECONDS, ProgressBar.class));
 		screenshot("On_Search_Screen");
 		assertTrue("Atleast one result must appear", (EspressoUtils.getListCount(LXViewModel.searchList()) >= 1));

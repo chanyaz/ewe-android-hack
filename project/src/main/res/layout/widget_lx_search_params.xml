@@ -1,78 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.LXSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:id="@+id/search_params_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:src="@drawable/btn_air_attach_close" />
-
-        <TextView
-            android:id="@+id/search_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/search_widget_heading" />
-
-        <ImageButton
-            android:id="@+id/search_params_done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:src="@drawable/btn_air_attach_close" />
-    </FrameLayout>
-
-
     <LinearLayout
-        android:id="@+id/location_container"
+        android:id="@+id/search_params_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
 
-    <AutoCompleteTextView
-        android:id="@+id/search_location"
-        style="@style/V2.Theme.LX.Autocomplete"
-        android:layout_width="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="4dp"
-        android:layout_height="43dp"
-        android:layout_weight="1"
-        android:completionThreshold="1"
-        android:imeOptions="actionDone"
-        android:dropDownAnchor="@+id/location_container"/>
+        <LinearLayout
+            android:id="@+id/location_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/search_location"
+                style="@style/V2.Theme.LX.Autocomplete"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:completionThreshold="1"
+                android:dropDownAnchor="@+id/location_container"
+                android:imeOptions="actionDone" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/select_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_lx_search_dates" />
+
+        <!-- This can be replaced by Suggestion list -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.mobiata.android.time.widget.CalendarPicker
+            android:id="@+id/search_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/search_widget_calendar_height"
+            android:layout_weight="0" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/select_dates"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/select_lx_search_dates" />
-
-    <!-- This can be replaced by Suggestion list -->
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <com.mobiata.android.time.widget.CalendarPicker
-        android:id="@+id/search_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/search_widget_calendar_height"
-        android:layout_weight="0" />
+        android:layout_gravity="top"
+        android:background="@color/lx_primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:subtitleTextAppearance="@style/LXToolbarSubtitleTextAppearance"
+        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
 
 </com.expedia.bookings.widget.LXSearchParamsWidget>

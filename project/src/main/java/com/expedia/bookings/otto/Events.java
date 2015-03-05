@@ -594,9 +594,6 @@ public class Events {
 		}
 	}
 
-	public static class LXCloseSearchWidget {
-	}
-
 	public static class LXNewSearchParamsAvailable {
 		public LXSearchParams lxSearchParams;
 
