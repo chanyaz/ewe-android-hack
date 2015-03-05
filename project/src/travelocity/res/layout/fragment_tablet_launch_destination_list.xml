@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/collection_overlay_color"
     android:orientation="horizontal">
 
     <com.expedia.bookings.widget.OptimizedImageView
@@ -18,12 +19,18 @@
 
     <TextView
         android:id="@+id/launch_destination_title"
-        android:layout_width="@dimen/tablet_launch_destination_list_text_width"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_text_container_height"
+        android:layout_marginTop="@dimen/tablet_launch_destination_title_margin_top"
         android:background="@android:color/transparent"
-        android:paddingLeft="10dp"
-        android:paddingTop="30dp"
-        android:textColor="@android:color/white"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/destination_text_padding_vertical"
+        android:paddingLeft="@dimen/destination_text_padding_horizontal"
+        android:paddingRight="@dimen/destination_text_padding_horizontal"
+        android:paddingTop="@dimen/destination_text_padding_vertical"
+        android:textColor="#ffffff"
         android:textSize="@dimen/tablet_launch_destination_list_text_size" />
 
     <com.expedia.bookings.widget.HorizontalGridView

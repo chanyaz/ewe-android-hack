@@ -1,9 +1,12 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,12 +30,15 @@ import com.squareup.otto.Subscribe;
 
 public class TabletLaunchDestinationListFragment extends Fragment {
 
-	private HashMap<LaunchLocation, LaunchCard> locations = new HashMap<>();
-
+	private static final int TILE_ANIMATION_TIME = 300;
+	private static final int POPIN_ANIMATION_TIME = 200;
+	private static final int POPIN_ANIMATION_DELAY = 50;
 	private View rootC;
 	private OptimizedImageView launchLocationsBackgroundImageView;
 	private TextView launchDestinationTitle;
 	private TabletLaunchDestinationListAdapter destinationListAdapter;
+	private HorizontalGridView launchListContainer;
+	private ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback> picassoTargetCallbacks = new ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback>();
 
 	public static TabletLaunchDestinationListFragment newInstance() {
 		TabletLaunchDestinationListFragment frag = new TabletLaunchDestinationListFragment();
@@ -46,18 +52,17 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 
 		launchLocationsBackgroundImageView = Ui.findView(rootC, R.id.launch_destination_background_image);
 		launchDestinationTitle = Ui.findView(rootC, R.id.launch_destination_title);
-		HorizontalGridView launchListContainer = Ui.findView(rootC, R.id.launch_destinations_list_container);
+		launchListContainer = Ui.findView(rootC, R.id.launch_destinations_list_container);
 
 		destinationListAdapter = new TabletLaunchDestinationListAdapter(getParentFragment().getActivity());
 		launchListContainer.setAdapter(destinationListAdapter);
 
 		FontCache.setTypeface(launchDestinationTitle, FontCache.Font.ROBOTO_LIGHT);
 
-		LaunchScreenAnimationUtil.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay));
+		LaunchScreenAnimationUtil
+			.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay));
 		centerAlignGridView(launchListContainer);
-
 		return rootC;
-
 	}
 
 	private void centerAlignGridView(HorizontalGridView launchListContainer) {
@@ -85,22 +90,53 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 		Events.unregister(this);
 	}
 
-	private ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback> picassoTargetCallbacks = new ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback>();
-
 	@Subscribe
 	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
 		if (event.launchCollection != null) {
 			replaceAllPins(event.launchCollection.locations);
+			launchLocationsBackgroundImageView.setImageDrawable(event.launchCollection.imageDrawable);
 			launchDestinationTitle.setText(event.launchCollection.title);
-			launchLocationsBackgroundImageView.setImageDrawable(
-				LaunchScreenAnimationUtil
-					.makeHeaderBitmapDrawable(getParentFragment().getActivity(), picassoTargetCallbacks, event.launchCollection.getImageUrl(),
-						false));
+			startTilesPopinAnimation();
 		}
 	}
 
 	private void replaceAllPins(List<LaunchLocation> locations) {
-		this.locations.clear();
 		destinationListAdapter.updateLocations(locations);
+	}
+
+	public void startTilesPopinAnimation() {
+		launchListContainer.setAlpha(0);
+
+		int screenHeight = AndroidUtils.getDisplaySize(getActivity()).y;
+		int actionBarNavBarSize = LaunchScreenAnimationUtil.getActionBarNavBarSize(getActivity());
+		int destinationListTitleTextMarginTop = getResources()
+			.getDimensionPixelSize(R.dimen.tablet_launch_destination_title_margin_top);
+		int collectionTitleTextContainerHeight = getResources().getDimensionPixelSize(
+			R.dimen.destination_text_container_height);
+		int extraMarginBottom = LaunchScreenAnimationUtil.getMarginBottom(getActivity());
+
+		launchDestinationTitle
+			.setTranslationY(screenHeight - actionBarNavBarSize - destinationListTitleTextMarginTop
+				- collectionTitleTextContainerHeight
+				- extraMarginBottom);
+
+		final List<Animator> tilesPopInAnimatorList = new ArrayList<>();
+		final AnimatorSet animatorSet = new AnimatorSet();
+		Random rand = new Random();
+
+		for (View destination : launchListContainer.getChildViews()) {
+			destination.setAlpha(0);
+			ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(destination, "alpha", 1f)
+				.setDuration(POPIN_ANIMATION_TIME);
+			objectAnimator.setStartDelay(POPIN_ANIMATION_DELAY * rand.nextInt(7));
+			tilesPopInAnimatorList.add(objectAnimator);
+		}
+
+		animatorSet.playTogether(tilesPopInAnimatorList);
+		launchListContainer.setAlpha(1f);
+		launchListContainer.setScrollX(0);
+		animatorSet.start();
+		ObjectAnimator.ofFloat(launchDestinationTitle, "translationY", 0)
+			.setDuration(TILE_ANIMATION_TIME).start();
 	}
 }

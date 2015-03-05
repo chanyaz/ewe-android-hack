@@ -42,9 +42,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
-/**
- * Created by dmelton on 6/6/14.
- */
 public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragment
 	implements IBackManageable, IStateProvider<LaunchState>,
 	TabletWaypointFragment.ITabletWaypointFragmentListener,

@@ -23,9 +23,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
-/**
- * Created by dmelton on 6/6/14.
- */
 public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFragment implements
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 	protected static final String FRAG_TAG_LIST = "FRAG_TAG_LIST";
@@ -174,19 +171,16 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 		}
 	}
 
-
 	public void switchListFragment() {
 		if (mTilesFragment.getView().getVisibility() == View.VISIBLE) {
 			mListDetailContainer.setVisibility(View.VISIBLE);
 			mTilesFragment.getView().setVisibility(View.GONE);
-			mSearchBarC.setVisibility(View.GONE);
 			switchActionbar(true);
 			setLaunchState(LaunchState.DESTINATION_LIST, false);
 		}
 		else {
 			mListDetailContainer.setVisibility(View.GONE);
 			mTilesFragment.getView().setVisibility(View.VISIBLE);
-			mSearchBarC.setVisibility(View.VISIBLE);
 			switchActionbar(false);
 			setLaunchState(LaunchState.OVERVIEW, false);
 		}

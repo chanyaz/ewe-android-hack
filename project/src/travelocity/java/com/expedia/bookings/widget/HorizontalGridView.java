@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,6 +19,7 @@ public class HorizontalGridView extends HorizontalScrollView {
 	private BaseAdapter adapter;
 	private LinearLayout rootLinearLayout;
 	private ColumnProvider columnProvider;
+	private List<View> childViews;
 
 	public HorizontalGridView(Context context) {
 		super(context);
@@ -32,6 +36,7 @@ public class HorizontalGridView extends HorizontalScrollView {
 	}
 
 	private void init(AttributeSet attrs) {
+		childViews = new ArrayList<>();
 		rootLinearLayout = new LinearLayout(getContext());
 		rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
 		LayoutParams rootLinearLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -55,9 +60,11 @@ public class HorizontalGridView extends HorizontalScrollView {
 
 			removeAllViews();
 			rootLinearLayout.removeAllViews();
-
+			childViews.clear();
 			for (int index = 0; index < adapter.getCount(); index++) {
-				columnProvider.addViewInLayout(adapter.getView(index, null, rootLinearLayout));
+				View newView = adapter.getView(index, null, rootLinearLayout);
+				childViews.add(newView);
+				columnProvider.addViewInLayout(newView);
 			}
 			addView(rootLinearLayout);
 		}
@@ -66,6 +73,10 @@ public class HorizontalGridView extends HorizontalScrollView {
 	public void setAdapter(BaseAdapter adapter) {
 		this.adapter = adapter;
 		adapter.registerDataSetObserver(dataSetObserver);
+	}
+
+	public List<View> getChildViews() {
+		return childViews;
 	}
 
 	private class ColumnProvider {

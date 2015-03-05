@@ -78,9 +78,18 @@ public class LaunchScreenAnimationUtil {
 		final int marginTop = getActionBarNavBarSize(context);
 		final int marginBottom = getMarginBottom(context);
 
-		final String imageUrl = new Akeakamai(url)
-			.downsize(Akeakamai.preserve(), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
-			.build();
+		String imageUrl = url;
+
+		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			imageUrl = new Akeakamai(url)
+				.downsize(Akeakamai.preserve(), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
+				.build();
+		}
+		else {
+			imageUrl = new Akeakamai(url)
+				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
+				.build();
+		}
 		PicassoTargetCallback callback = new PicassoTargetCallback(headerBitmapDrawable);
 		picassoTargetCallbacks.add(callback);
 		//These callbacks require a strong reference
@@ -96,6 +105,8 @@ public class LaunchScreenAnimationUtil {
 		}
 		new PicassoHelper.Builder(context).setPlaceholder(Ui.obtainThemeResID(context,
 			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(urls);
+
+		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.CENTER_CROP);
 
 		return headerBitmapDrawable;
 	}
