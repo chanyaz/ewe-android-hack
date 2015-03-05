@@ -4,6 +4,8 @@
     <style name="V2.Theme.LX" parent="@style/Theme.AppCompat.Light">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
+        <item name="calendar_month_tint_color">@color/lx_primary_color</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
@@ -13,12 +15,20 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="V2.Theme.LX.Autocomplete">
+    <style name="DropDownListViewStyle">
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
+
+    <style name="LXAutocomplete" parent="V2.Theme.LX">
+        <item name="android:background">@drawable/lx_autocomplete_background_selector</item>
         <item name="android:layout_height">43dp</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">5dp</item>
+        <item name="android:textColorHint">@color/lx_primary_color</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/lx_primary_color</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
     </style>

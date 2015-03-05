@@ -50,6 +50,7 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 		public void bind(Suggestion suggestion) {
 			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 			dropdownImage.setImageResource(suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
+			dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_secondary_color));
 		}
 	}
 

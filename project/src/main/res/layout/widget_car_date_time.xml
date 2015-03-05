@@ -27,7 +27,7 @@
         app:calendarHighlightColor="@color/cars_secondary_color"
         app:calendarHighlightInverseColor="@color/cars_secondary_color"
         app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
-        app:calendarLayout="@layout/car_calendar"
+        app:calendarLayout="@layout/calendar_cars_lx_layout"
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
         app:calendarTodayColor="@color/cars_valid_days_calendar"
         app:calendarWeekSelectionColor="@color/cars_primary_color" />
