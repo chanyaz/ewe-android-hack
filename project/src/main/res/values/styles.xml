@@ -1088,4 +1088,12 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="LXOfferDayTextView">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="LXOfferDateTextView">
+        <item name="android:textSize">14dp</item>
+    </style>
+
 </resources>

@@ -16,7 +16,8 @@
     <com.expedia.bookings.widget.LXActivityDetailsWidget
         android:id="@+id/activity_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/lx_details_background_color">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,8 +51,8 @@
 
             <com.expedia.bookings.widget.LXOffersListWidget
                 android:id="@+id/offers"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
             <include
