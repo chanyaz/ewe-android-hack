@@ -15,7 +15,6 @@ import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -104,7 +103,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	RequestInterceptor provideRequestInterceptor(final Context context) {
+	RequestInterceptor provideRequestInterceptor(final Context context, final EndpointProvider endpointProvider) {
 		return new RequestInterceptor() {
 			@Override
 			public void intercept(RequestFacade request) {
@@ -117,7 +116,7 @@ public class AppModule {
 					request.addEncodedQueryParam("langid", langid);
 				}
 
-				if (EndPoint.requestRequiresSiteId(context)) {
+				if (endpointProvider.requestRequiresSiteId()) {
 					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
 				}
 			}

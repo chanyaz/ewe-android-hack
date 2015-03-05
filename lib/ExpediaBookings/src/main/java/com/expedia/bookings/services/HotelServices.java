@@ -1,7 +1,5 @@
 package com.expedia.bookings.services;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -32,9 +30,6 @@ public class HotelServices {
 		Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
-		CookieManager cookieManager = new CookieManager();
-		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-		okHttpClient.setCookieHandler(cookieManager);
 
 		Gson gson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
@@ -61,8 +56,6 @@ public class HotelServices {
 			.toList()
 			.subscribe(observer);
 	}
-
-
 
 	private static final Func1<HotelSearchResponse, Observable<Hotel>> NEARBY_RESPONSE_TO_OFFERS = new Func1<HotelSearchResponse, Observable<Hotel>>() {
 		@Override

@@ -1,8 +1,5 @@
 package com.expedia.bookings.services;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.collections.Collection;
@@ -32,9 +29,6 @@ public class CollectionServices {
 		Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
-		CookieManager cookieManager = new CookieManager();
-		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-		okHttpClient.setCookieHandler(cookieManager);
 
 		Gson gson = new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
