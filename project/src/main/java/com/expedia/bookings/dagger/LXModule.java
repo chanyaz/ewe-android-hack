@@ -1,9 +1,8 @@
 package com.expedia.bookings.dagger;
 
-import com.expedia.bookings.dagger.tags.E3Endpoint;
-import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.LXState;
-import com.expedia.bookings.dagger.tags.SuggestEndpoint;
+import com.expedia.bookings.dagger.tags.LXScope;
+import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.services.SuggestionServices;
 import com.squareup.okhttp.OkHttpClient;
@@ -18,13 +17,15 @@ import rx.schedulers.Schedulers;
 public class LXModule {
 	@Provides
 	@LXScope
-	LXServices provideLXServices(@E3Endpoint String endpoint, OkHttpClient client, RequestInterceptor interceptor) {
+	LXServices provideLXServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
 		return new LXServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LXScope
-	SuggestionServices provideLxSuggestionServices(@SuggestEndpoint String endpoint, OkHttpClient client) {
+	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client) {
+		final String endpoint = endpointProvider.getEssEndpointUrl(true /*isSecure*/);
 		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

@@ -1,7 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import javax.inject.Singleton;
-
 import com.expedia.bookings.dagger.tags.CarScope;
 import com.expedia.bookings.presenter.CarCheckoutPresenter;
 import com.expedia.bookings.presenter.CarResultsPresenter;

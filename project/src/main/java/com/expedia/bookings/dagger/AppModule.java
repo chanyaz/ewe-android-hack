@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.CookieManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -13,14 +14,14 @@ import javax.net.ssl.X509TrustManager;
 import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.dagger.tags.E3Endpoint;
-import com.expedia.bookings.dagger.tags.SuggestEndpoint;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
-import com.expedia.bookings.services.PersistentCookieManager;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
@@ -125,15 +126,14 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	@E3Endpoint
-	String provideExpediaEndpoint(Context context) {
-		return EndPoint.getE3EndpointUrl(context, true /*isSecure*/);
-	}
-
-	@Provides
-	@Singleton
-	@SuggestEndpoint
-	String provideSuggestEndpoint(Context context) {
-		return EndPoint.getEssEndpointUrl(context, true /*isSecure*/);
+	EndpointProvider provideEndpointProvider(Context context) {
+		try {
+			String serverUrlPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
+			InputStream serverUrlStream = context.getAssets().open(serverUrlPath);
+			return new EndpointProvider(context, serverUrlStream);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -2,8 +2,7 @@ package com.expedia.bookings.dagger;
 
 import javax.inject.Singleton;
 
-import com.expedia.bookings.dagger.tags.E3Endpoint;
-import com.expedia.bookings.dagger.tags.SuggestEndpoint;
+import com.expedia.bookings.server.EndpointProvider;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Component;
 import retrofit.RequestInterceptor;
@@ -11,8 +10,7 @@ import retrofit.RequestInterceptor;
 @Component(modules = {AppModule.class})
 @Singleton
 public interface AppComponent {
-	@SuggestEndpoint String suggestEndpoint();
-	@E3Endpoint String e3Endpoint();
+	EndpointProvider endpointProvider();
 	OkHttpClient okHttpClient();
 	RequestInterceptor requestInterceptor();
 }
