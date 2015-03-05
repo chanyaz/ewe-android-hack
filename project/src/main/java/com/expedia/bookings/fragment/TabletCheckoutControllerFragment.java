@@ -755,8 +755,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean checkoutFormsAvailable = state != CheckoutState.BOOKING_UNAVAILABLE;
 		boolean slideToPurchaseAvailable = true;
 		boolean isBookingUnvailable = state == CheckoutState.BOOKING_UNAVAILABLE;
-		boolean cvvAvailable =
-			state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
+		boolean cvvAvailable = true;
 
 		boolean mFlightConfAvailable = state.shouldShowConfirmation() && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state.shouldShowConfirmation() && getLob() == LineOfBusiness.HOTELS;
