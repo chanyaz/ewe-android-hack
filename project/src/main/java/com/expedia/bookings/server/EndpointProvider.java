@@ -98,7 +98,7 @@ public class EndpointProvider {
 	/**
 	 * Returns the base suggestion server url, based on dev settings
 	 */
-	private final static String ESS_PRODUCTION_ENDPOINT = "http://suggest.expedia.com";
+	private final static String ESS_PRODUCTION_ENDPOINT = "http://suggest.expedia.com/";
 
 	public String getEssEndpointUrl(final boolean isSecure) {
 		EndPoint endPoint = getEndPoint();
@@ -156,7 +156,7 @@ public class EndpointProvider {
 	}
 
 	public boolean requestRequiresSiteId() {
-		return BuildConfig.DEBUG && EndPoint.getEndPoint(context) == EndPoint.PUBLIC_INTEGRATION;
+		return BuildConfig.DEBUG && getEndPoint() == EndPoint.PUBLIC_INTEGRATION;
 	}
 
 }

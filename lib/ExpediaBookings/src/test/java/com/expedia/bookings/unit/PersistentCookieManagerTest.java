@@ -88,6 +88,34 @@ public class PersistentCookieManagerTest {
 	}
 
 	@Test
+	public void clearingCookies() throws Throwable {
+		expectNotExists(storage);
+		manager.put(expedia, EXPEDIA_COOKIES);
+		expectExists(storage);
+		expectCookies(11);
+
+		manager.clear();
+		expectCookies(0);
+		expectNotExists(storage);
+	}
+
+	@Test
+	public void removeCookiesByName() throws Throwable {
+		expectNotExists(storage);
+		manager.put(expedia, EXPEDIA_COOKIES);
+		expectExists(storage);
+		expectCookies(11);
+
+		manager.removeNamedCookies(new String[] {"MC1"});
+		expectCookies(10);
+		expectExists(storage);
+
+		manager.removeNamedCookies(new String[] {"JSESSION", "SSID1"});
+		expectCookies(8);
+		expectExists(storage);
+	}
+
+	@Test
 	public void saveThenLoadExpediaCookies() throws Throwable {
 		saveExpediaCookies();
 		expectExists(storage);
@@ -158,7 +186,6 @@ public class PersistentCookieManagerTest {
 		expectCookies(0);
 		expectNotExists(storage);
 	}
-
 
 	public void expectCookies(int num) {
 		List<HttpCookie> cookies = manager.getCookieStore().getCookies();

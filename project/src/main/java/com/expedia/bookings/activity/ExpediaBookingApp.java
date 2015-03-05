@@ -41,7 +41,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -101,8 +100,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
-		super.onCreate();
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+		super.onCreate();
+		startupTimer.addSplit("super.onCreate()");
 
 		Fabric.with(this, new Crashlytics());
 		startupTimer.addSplit("Crashlytics started.");
@@ -147,9 +147,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// the Provider before anything tries to use Joda time
 		JodaTimeAndroid.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
-
-		ExpediaServices.init(this);
-		startupTimer.addSplit("ExpediaServices init");
 
 		try {
 			if (!isRelease) {
@@ -203,10 +200,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
-
-		String serverEndpointsConfigurationPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
-		EndPoint.init(this, serverEndpointsConfigurationPath);
-		startupTimer.addSplit("ExpediaServices endpoints init");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
@@ -477,7 +470,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		String localeId = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
-		String api = EndPoint.getEndPoint(context).name();
+		String api = appComponent().endpointProvider().getEndPoint().name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
 

@@ -36,6 +36,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
@@ -595,7 +596,7 @@ public class PointOfSale {
 			String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
 			String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
-			EndPoint endPoint = EndPoint.getEndPoint(context);
+			EndPoint endPoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
 			for (PointOfSale posInfo : sPointOfSale.values()) {
 				//Skip Non-Prod POS, if we are in PROD Environment
 				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {

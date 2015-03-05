@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,6 +34,29 @@ public class PersistentCookieManager extends CookieManager {
 	@Override
 	public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
 		super.put(uri, responseHeaders);
+		save();
+	}
+
+	public void clear() {
+		getCookieStore().removeAll();
+		storage.delete();
+	}
+
+	public void removeNamedCookies(String[] names) {
+		ArrayList<UriCookiePair> deads = new ArrayList<>();
+		for (URI uri : getCookieStore().getURIs()) {
+			for (HttpCookie cookie : getCookieStore().get(uri)) {
+				for (String name : names) {
+					if (Strings.equals(name, cookie.getName())) {
+						deads.add(new UriCookiePair(uri, cookie));
+					}
+				}
+			}
+		}
+
+		for (UriCookiePair pair : deads) {
+			getCookieStore().remove(pair.uri, pair.cookie);
+		}
 		save();
 	}
 

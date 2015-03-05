@@ -2,7 +2,6 @@ package com.expedia.bookings.dagger;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.CookieManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -74,7 +73,7 @@ public class AppModule {
 	private static final String COOKIE_FILE_V3 = "cookies-3.dat";
 	@Provides
 	@Singleton
-	CookieManager provideCookieManager(Context context) {
+	PersistentCookieManager provideCookieManager(Context context) {
 		File storageV3 = context.getFileStreamPath(COOKIE_FILE_V3);
 		PersistentCookieManager manager = new PersistentCookieManager(storageV3);
 
@@ -87,9 +86,10 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(CookieManager cookieManager, SSLContext sslContext) {
+	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext) {
 		OkHttpClient client = new OkHttpClient();
 
+		client.setFollowSslRedirects(true);
 		client.setCookieHandler(cookieManager);
 
 		if (BuildConfig.DEBUG) {
