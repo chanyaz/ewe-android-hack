@@ -7,8 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 
@@ -18,9 +20,46 @@ import static org.junit.Assert.assertNull;
 public class GsonUtilTest {
 
 	@Test
+	public void readWithMoneyTypeAdapter() {
+		String moneyString = "{\"total\" : {\"amount\" : 123.4, \"currency\" : \"USD\"}}";
+		JSONObject moneyJson = new JSONObject(moneyString);
+		Assert.assertNotNull(moneyJson);
+
+		Money result = GsonUtil.getForJsonable(moneyJson, "total", Money.class);
+		Assert.assertNotNull(result);
+		Assert.assertEquals(new BigDecimal("123.4"), result.amount);
+		Assert.assertEquals("USD", result.currencyCode);
+
+
+		moneyString = "{\"total\" : {\"amount\" : \"123.4\", \"currency\" : \"USD\"}}";
+		moneyJson = new JSONObject(moneyString);
+		Assert.assertNotNull(moneyJson);
+
+		result = GsonUtil.getForJsonable(moneyJson, "total", Money.class);
+		Assert.assertNotNull(result);
+		Assert.assertEquals(new BigDecimal("123.4"), result.amount);
+		Assert.assertEquals("USD", result.currencyCode);
+	}
+
+	@Test
+	public void writeAndReadWithMoneyTypeAdapter() throws Throwable {
+		Money expectedMoney = new Money("123.4", "USD");
+
+		JSONObject json = new JSONObject();
+		GsonUtil.putForJsonable(json, "total", expectedMoney);
+
+		JSONObject result = json.getJSONObject("total");
+		Assert.assertEquals("123.4", result.getString("amount"));
+		Assert.assertEquals("USD", result.getString("currency"));
+
+		Money resultMoney = GsonUtil.getForJsonable(json, "total", Money.class);
+		Assert.assertEquals(expectedMoney, resultMoney);
+	}
+
+	@Test
 	public void instanceSerialization() {
 		final String expectedName = "foo";
-		final BigDecimal expectedMoney = new BigDecimal(120.45d);
+		final BigDecimal expectedMoney = new BigDecimal("120.45");
 		final TestClass.SpecialEnum expectedType = TestClass.SpecialEnum.TWO;
 		final TestClass expectedTestClass = new TestClass(expectedName, expectedMoney, expectedType);
 
@@ -46,12 +85,12 @@ public class GsonUtilTest {
 	@Test
 	public void listInstanceSerialization() {
 		final String expectedName1 = "foo";
-		final BigDecimal expectedMoney1 = new BigDecimal(120.45d);
+		final BigDecimal expectedMoney1 = new BigDecimal("120.45");
 		final TestClass.SpecialEnum expectedType1 = TestClass.SpecialEnum.ONE;
 		final TestClass unserialized1 = new TestClass(expectedName1, expectedMoney1, expectedType1);
 
 		final String expectedName2 = "bar";
-		final BigDecimal expectedMoney2 = new BigDecimal(123.45d);
+		final BigDecimal expectedMoney2 = new BigDecimal("123.45");
 		final TestClass.SpecialEnum expectedType2 = TestClass.SpecialEnum.TWO;
 		final TestClass unserialized2 = new TestClass(expectedName2, expectedMoney2, expectedType2);
 
