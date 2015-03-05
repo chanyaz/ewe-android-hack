@@ -1,20 +1,18 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.text.Html;
-import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.SpannableBuilder;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class LXDetailSectionDataWidget extends TextView {
+public class LXDetailSectionDataWidget extends LinearLayout {
 
 	public LXDetailSectionDataWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -23,6 +21,9 @@ public class LXDetailSectionDataWidget extends TextView {
 	@InjectView(R.id.section_content)
 	TextView sectionContent;
 
+	@InjectView(R.id.section_title)
+	TextView sectionTitle;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -30,9 +31,7 @@ public class LXDetailSectionDataWidget extends TextView {
 	}
 
 	public void bindData(String title, String content) {
-		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(title, new StyleSpan(Typeface.BOLD));
-		sb.append(Html.fromHtml(content));
-		sectionContent.setText(sb.build());
+		sectionTitle.setText(title);
+		sectionContent.setText(Html.fromHtml(content));
 	}
 }

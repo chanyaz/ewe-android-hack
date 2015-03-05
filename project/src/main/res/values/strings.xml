@@ -162,11 +162,11 @@
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Select date</string>
     <!-- Activity details highlights heading -->
-    <string name="highlights_activity_details">Highlights &#8212;</string>
+    <string name="highlights_activity_details">Highlights</string>
     <!-- Activity details description heading -->
-    <string name="description_activity_details">Description &#8212;</string>
+    <string name="description_activity_details">Description</string>
     <!-- Activity details location heading -->
-    <string name="location_activity_details">Location &#8212;</string>
+    <string name="location_activity_details">Location</string>
     <!-- Free cancellation message for LX activity -->
     <string name="activity_free_cancellation">Free cancellation</string>
     <!-- Template for ticket details -->

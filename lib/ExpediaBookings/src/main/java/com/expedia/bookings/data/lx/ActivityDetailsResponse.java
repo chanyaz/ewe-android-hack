@@ -8,9 +8,8 @@ public class ActivityDetailsResponse {
 	public List<ActivityImages> images;
 	public String fromPrice;
 	public String fromPriceTicketType;
-	public String duration;
+	public String category;
 	public String location;
 	public List<String> highlights;
-	public boolean freeCancellation;
 	public OffersDetail offersDetail;
 }

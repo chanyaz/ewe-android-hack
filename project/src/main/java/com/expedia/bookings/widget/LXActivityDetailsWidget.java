@@ -39,11 +39,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@InjectView(R.id.price)
 	TextView price;
 
-	@InjectView(R.id.duration)
-	TextView duration;
-
-	@InjectView(R.id.free_cancellation)
-	TextView freeCancellation;
+	@InjectView(R.id.category)
+	TextView category;
 
 	@InjectView(R.id.per_ticket_type)
 	TextView perTicketType;
@@ -82,7 +79,6 @@ public class LXActivityDetailsWidget extends ScrollView {
 		highlights.setVisibility(View.GONE);
 		description.setVisibility(View.GONE);
 		location.setVisibility(View.GONE);
-		freeCancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
 		offers.setVisibility(View.GONE);
 	}
@@ -122,10 +118,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 	private void buildInfo(ActivityDetailsResponse activityDetails) {
 		title.setText(activityDetails.title);
 		price.setText(activityDetails.fromPrice);
-		duration.setText(activityDetails.duration);
-		if (activityDetails.freeCancellation) {
-			freeCancellation.setVisibility(View.VISIBLE);
-		}
+		category.setText(activityDetails.category);
 		perTicketType.setText(activityDetails.fromPriceTicketType);
 	}
 

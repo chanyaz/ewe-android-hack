@@ -3,7 +3,7 @@
     android:id="@+id/activity_info_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/price_info_container_height"
-    android:background="#33000000"
+    android:background="@drawable/lx_details_gradient_bottom"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="10dp">
@@ -13,9 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="60dp"
         android:singleLine="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/price"
@@ -24,29 +25,15 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="right"
         android:textColor="@android:color/white"
-        android:textSize="11dp" />
+        android:textSize="14dp" />
 
     <TextView
-        android:id="@+id/duration"
+        android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_marginTop="2dp"
-        android:drawableLeft="@drawable/ic_clock_small"
         android:textColor="@android:color/white"
-        android:textSize="11dp" />
-
-    <TextView
-        android:id="@+id/free_cancellation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/duration"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/duration"
-        android:drawableLeft="@drawable/ic_clock_small"
-        android:text="@string/activity_free_cancellation"
-        android:textColor="@android:color/white"
-        android:textSize="11dp" />
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/per_ticket_type"

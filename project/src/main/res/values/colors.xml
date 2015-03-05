@@ -242,9 +242,10 @@
     <color name="lx_valid_days_calendar">#3A3A3A</color>
     <color name="lx_invalid_days_calendar">#A9A9A9</color>
     <color name="lx_calendar_week_color">#888888</color>
-
-    <!-- LX colors -->
     <color name="lx_search_result_info_text_color">#5C5C5C</color>
-
+    <color name="lx_dates_text_color">#707070</color>
+    <color name="lx_details_text_color">#525252</color>
+    <color name="lx_offer_background_color">#7C7C7C</color>
+    <color name="lx_details_background_color">#EEEEED</color>
 
 </resources>

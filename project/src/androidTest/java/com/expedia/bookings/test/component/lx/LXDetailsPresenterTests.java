@@ -88,8 +88,7 @@ public class LXDetailsPresenterTests {
 		ViewInteraction info = LXViewModel.infoContainer();
 		info.check(matches(hasDescendant(allOf(withId(R.id.title), withText(startsWith("New York Pass"))))));
 		info.check(matches(hasDescendant(allOf(withId(R.id.price), withText("$130")))));
-		info.check(matches(hasDescendant(allOf(withId(R.id.duration), withText("2d")))));
-		info.check(matches(hasDescendant(withId(R.id.free_cancellation))));
+		info.check(matches(hasDescendant(allOf(withId(R.id.category), withText("Attractions")))));
 	}
 
 	@Test
