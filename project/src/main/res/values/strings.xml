@@ -36,6 +36,10 @@
     <!-- Text for select saved contacts-->
     <string name="cars_saved_contacts_text">Select saved contacts</string>
 
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
     <string name="calendar_car_title_TEMPLATE">Pick-up Location %1$s</string>
@@ -818,6 +822,44 @@
     <string name="car_category_special">Special Car</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Oversize Car</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Economy</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Compact</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Mid-size</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Full-size</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Luxury</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Mini Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Economy Elite</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Compact Elite</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Mid-size Elite</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Standard Elite</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Full-size Elite</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Premium Elite</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Luxury Elite</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Special</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Oversize</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">Two Door Car</string>

@@ -122,15 +122,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/map_view"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
+                android:alpha=".8"
                 android:background="@android:color/white"
-                android:alpha=".9"
-                android:textColor="@color/cars_actionbar_text_color"
-                android:textSize="10dp"
-                android:text=""
                 android:paddingBottom="8dp"
-                android:paddingRight="16dp" />
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text=""
+                android:textColor="@color/cars_actionbar_text_color"
+                android:textSize="10dp" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
