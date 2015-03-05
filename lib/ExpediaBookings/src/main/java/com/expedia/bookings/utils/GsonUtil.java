@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.Money;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -121,7 +122,60 @@ public class GsonUtil {
 	private static Gson getGson() {
 		return new GsonBuilder()
 			.registerTypeAdapter(BigDecimal.class, new BigDecimalTypeAdapter())
+			.registerTypeAdapter(Money.class, new MoneyTypeAdapter())
 			.create();
+	}
+
+
+	public static class MoneyTypeAdapter extends TypeAdapter<Money> {
+
+		private static final String KEY = "moneyMoney";
+
+		@Override
+		public void write(JsonWriter out, Money value) throws IOException {
+			out.beginObject();
+
+			out.name(KEY);
+			out.value(new GsonBuilder()
+				.registerTypeAdapter(BigDecimal.class, new BigDecimalTypeAdapter())
+				.create()
+				.toJson(value));
+
+			out.endObject();
+		}
+
+		@Override
+		public Money read(JsonReader reader) throws IOException {
+			JsonToken token = reader.peek();
+			String amountStr = null, currencyStr = null;
+			if (token.equals(JsonToken.BEGIN_OBJECT)) {
+				reader.beginObject();
+				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+					String name = reader.nextName();
+					switch (name) {
+					case KEY:
+						return getGson().fromJson(reader.nextString(), Money.class);
+					case "amount":
+						amountStr = reader.nextString();
+						break;
+					case "currency":
+						currencyStr = reader.nextString();
+						break;
+					default:
+						reader.skipValue();
+						break;
+					}
+				}
+				reader.endObject();
+
+			}
+			if (Strings.isNotEmpty(amountStr) && Strings.isNotEmpty(currencyStr)) {
+				return new Money(amountStr, currencyStr);
+			}
+			else {
+				return null;
+			}
+		}
 	}
 
 	public static class BigDecimalTypeAdapter extends TypeAdapter<BigDecimal> {
@@ -139,7 +193,6 @@ public class GsonUtil {
 		public BigDecimal read(JsonReader reader) throws IOException {
 			JsonToken token = reader.peek();
 			String bigDecimalStringRepresentation = null;
-
 			if (token.equals(JsonToken.BEGIN_OBJECT)) {
 				reader.beginObject();
 				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
