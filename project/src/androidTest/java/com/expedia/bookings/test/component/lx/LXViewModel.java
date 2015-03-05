@@ -70,6 +70,10 @@ public class LXViewModel {
 		return onView(withId(R.id.lx_search_results_widget));
 	}
 
+	public static ViewInteraction searchFailed() {
+		return onView(withId(R.id.lx_search_failure));
+	}
+
 	public static ViewInteraction searchList() {
 		return onView(recyclerView(R.id.lx_search_results_list));
 	}

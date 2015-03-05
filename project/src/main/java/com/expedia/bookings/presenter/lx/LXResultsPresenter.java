@@ -93,7 +93,8 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			// ignore
+			Events.post(new Events.LXShowSearchError());
+			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
 
 		@Override

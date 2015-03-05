@@ -43,7 +43,7 @@ public class LXServicesTest {
 
 		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
 		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
+		searchParams.location = "happy";
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(1);
 		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
@@ -80,6 +80,21 @@ public class LXServicesTest {
 		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
+		assertEquals(1, blockingObserver.getErrors().size());
+		assertEquals(0, blockingObserver.getItems().size());
+		throw blockingObserver.getErrors().get(0);
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testSearchFailure() throws Throwable {
+		mockServer.enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
+		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
+		LXSearchParams searchParams = new LXSearchParams();
+
+		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
+		blockingObserver.await();
+		subscription.unsubscribe();
+
 		assertEquals(1, blockingObserver.getErrors().size());
 		assertEquals(0, blockingObserver.getItems().size());
 		throw blockingObserver.getErrors().get(0);

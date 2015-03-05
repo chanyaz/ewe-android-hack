@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
@@ -11,6 +13,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class LXSearchResultsWidget extends FrameLayout {
 
@@ -21,9 +24,17 @@ public class LXSearchResultsWidget extends FrameLayout {
 	@InjectView(R.id.lx_search_results_list)
 	RecyclerView recyclerView;
 
+	@InjectView(R.id.lx_search_failure)
+	LinearLayout searchFailure;
+
 	private LXResultsListAdapter adapter;
 
 	private static final int LIST_DIVIDER_HEIGHT = 4;
+
+	@OnClick(R.id.edit_search)
+	public void onEditSearch() {
+		Events.post(new Events.LXShowSearchWidget());
+	}
 
 	@Override
 	protected void onFinishInflate() {
@@ -42,6 +53,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 		adapter = new LXResultsListAdapter();
 		recyclerView.setAdapter(adapter);
+		searchFailure.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -51,6 +63,14 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLXSearchAvailable(Events.LXShowSearchResults event) {
+		recyclerView.setVisibility(View.VISIBLE);
+		searchFailure.setVisibility(View.GONE);
 		adapter.setActivities(event.activities);
+	}
+
+	@Subscribe
+	public void onLXSearchError(Events.LXShowSearchError event) {
+		recyclerView.setVisibility(View.GONE);
+		searchFailure.setVisibility(View.VISIBLE);
 	}
 }

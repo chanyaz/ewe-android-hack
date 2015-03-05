@@ -47,9 +47,20 @@ public class LXServices {
 			.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
+			.map(HANDLE_SEARCH_ERROR)
 			.map(sToList)
 			.subscribe(observer);
 	}
+
+	private static final Func1<LXSearchResponse, LXSearchResponse> HANDLE_SEARCH_ERROR = new Func1<LXSearchResponse, LXSearchResponse>() {
+		@Override
+		public LXSearchResponse call(LXSearchResponse lxSearchResponse) {
+			if (lxSearchResponse.searchFailure) {
+				throw new RuntimeException();
+			}
+			return lxSearchResponse;
+		}
+	};
 
 	private Func1<LXSearchResponse, List<LXActivity>> sToList = new Func1<LXSearchResponse, List<LXActivity>>() {
 		@Override
