@@ -16,8 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -28,6 +31,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -232,6 +236,21 @@ public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISli
 				.phoneCountryCode(Integer.toString(driverInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(driverInfoCardView.phoneNumber.getText().toString())
 				.tripId(createTripResponse.tripId);
+
+		if (createTripResponse.carProduct.checkoutRequiresCard && Db.getWorkingBillingInfoManager()
+			.getWorkingBillingInfo().hasStoredCard()) {
+			builder.storedCCID(Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()).cvv("376");
+		}
+		else if (createTripResponse.carProduct.checkoutRequiresCard) {
+			BillingInfo info = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
+			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
+
+			//TODO: Set CVV
+			builder.ccNumber(info.getNumber()).expirationYear(expirationYear)
+				.expirationMonth(expirationMonth).ccPostalCode(info.getLocation().getPostalCode())
+				.ccName(info.getNameOnCard()).cvv("735");
+		}
 		Events.post(new Events.CarsKickOffCheckoutCall(builder));
 	}
 

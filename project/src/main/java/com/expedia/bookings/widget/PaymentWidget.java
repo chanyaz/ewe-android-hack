@@ -138,7 +138,9 @@ public class PaymentWidget extends ExpandableCardView {
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 			// let's bind sectionBillingInfo & sectionLocation to a new one. So next time around we start afresh.
 			sectionBillingInfo.bind(new BillingInfo());
-			sectionLocation.bind(new Location());
+			Location location = new Location();
+			sectionBillingInfo.getBillingInfo().setLocation(location);
+			sectionLocation.bind(location);
 		}
 		// Card info user entered is valid
 		else if (isBillingInfoValid && isPostalCodeValid) {
@@ -147,8 +149,9 @@ public class PaymentWidget extends ExpandableCardView {
 			CreditCardType cardType = info.getCardType();
 			String expiration = JodaUtils.format(info.getExpirationDate(), "MM/yy");
 			bindCard(cardType, cardNumber, expiration);
-			cardInfoExpiration.setVisibility(VISIBLE);
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info);
+
 		}
 		// Card info partially entered & not valid
 		else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
@@ -160,7 +163,9 @@ public class PaymentWidget extends ExpandableCardView {
 			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			sectionBillingInfo.bind(new BillingInfo());
-			sectionLocation.bind(new Location());
+			Location location = new Location();
+			sectionBillingInfo.getBillingInfo().setLocation(location);
+			sectionLocation.bind(location);
 		}
 	}
 
@@ -169,6 +174,7 @@ public class PaymentWidget extends ExpandableCardView {
 		storedCardName.setText(cardNumber);
 		if (!TextUtils.isEmpty(cardExpiration)) {
 			cardInfoExpiration.setText(getResources().getString(R.string.selected_card_template, cardExpiration));
+			cardInfoExpiration.setVisibility(VISIBLE);
 		}
 		else {
 			cardInfoExpiration.setText("");
@@ -215,6 +221,7 @@ public class PaymentWidget extends ExpandableCardView {
 		else {
 			cardInfoContainer.setVisibility(VISIBLE);
 			billingInfoContainer.setVisibility(GONE);
+			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		}
 		bind();
 	}
