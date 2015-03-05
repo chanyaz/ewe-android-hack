@@ -2,7 +2,6 @@ package com.expedia.bookings.utils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -57,12 +56,11 @@ public class GsonUtil {
 	 */
 	public static <T> T getForJsonable(JSONObject obj, String key, Class<T> cls) {
 		try {
-			Gson gson = getGson();
 			JSONObject json = obj.optJSONObject(key);
 			if (json == null) {
 				return null;
 			}
-			return gson.fromJson(json.toString(), cls);
+			return getGson().fromJson(json.toString(), cls);
 		}
 		catch (JSONException e) {
 			throw new RuntimeException("GsonUtil.getForJsonable failure", e);
@@ -121,7 +119,6 @@ public class GsonUtil {
 
 	private static Gson getGson() {
 		return new GsonBuilder()
-			.registerTypeAdapter(BigDecimal.class, new BigDecimalTypeAdapter())
 			.registerTypeAdapter(Money.class, new MoneyTypeAdapter())
 			.create();
 	}
@@ -129,32 +126,28 @@ public class GsonUtil {
 
 	public static class MoneyTypeAdapter extends TypeAdapter<Money> {
 
-		private static final String KEY = "moneyMoney";
-
 		@Override
 		public void write(JsonWriter out, Money value) throws IOException {
 			out.beginObject();
+			out.name("amount");
+			out.value(value.amount.toString());
 
-			out.name(KEY);
-			out.value(new GsonBuilder()
-				.registerTypeAdapter(BigDecimal.class, new BigDecimalTypeAdapter())
-				.create()
-				.toJson(value));
-
+			out.name("currency");
+			out.value(value.currencyCode);
 			out.endObject();
 		}
 
 		@Override
 		public Money read(JsonReader reader) throws IOException {
+			String amountStr = null;
+			String currencyStr = null;
+
 			JsonToken token = reader.peek();
-			String amountStr = null, currencyStr = null;
 			if (token.equals(JsonToken.BEGIN_OBJECT)) {
 				reader.beginObject();
 				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
 					String name = reader.nextName();
 					switch (name) {
-					case KEY:
-						return getGson().fromJson(reader.nextString(), Money.class);
 					case "amount":
 						amountStr = reader.nextString();
 						break;
@@ -167,48 +160,9 @@ public class GsonUtil {
 					}
 				}
 				reader.endObject();
+			}
 
-			}
-			if (Strings.isNotEmpty(amountStr) && Strings.isNotEmpty(currencyStr)) {
-				return new Money(amountStr, currencyStr);
-			}
-			else {
-				return null;
-			}
+			return new Money(amountStr, currencyStr);
 		}
 	}
-
-	public static class BigDecimalTypeAdapter extends TypeAdapter<BigDecimal> {
-		@Override
-		public void write(JsonWriter out, BigDecimal value) throws IOException {
-			out.beginObject();
-
-			out.name("bigDecimalStringRepresentation");
-			out.value(value.toString());
-
-			out.endObject();
-		}
-
-		@Override
-		public BigDecimal read(JsonReader reader) throws IOException {
-			JsonToken token = reader.peek();
-			String bigDecimalStringRepresentation = null;
-			if (token.equals(JsonToken.BEGIN_OBJECT)) {
-				reader.beginObject();
-				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
-					String name = reader.nextName();
-					if (Strings.equals(name, "bigDecimalStringRepresentation")) {
-						bigDecimalStringRepresentation = reader.nextString();
-					}
-					else {
-						reader.skipValue();
-					}
-				}
-				reader.endObject();
-			}
-
-			return new BigDecimal(bigDecimalStringRepresentation);
-		}
-	}
-
 }
