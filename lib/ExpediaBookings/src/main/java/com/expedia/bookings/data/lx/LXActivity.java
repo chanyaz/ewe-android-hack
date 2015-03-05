@@ -1,12 +1,13 @@
 package com.expedia.bookings.data.lx;
 
+import java.util.List;
+
 public class LXActivity {
 
 	public String id;
 	public String title;
 	public String imageUrl;
 	public String fromPrice;
-	public String duration;
 	public String fromPriceTicketType;
-	public boolean freeCancellation;
+	public List<String> categories;
 }

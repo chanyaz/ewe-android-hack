@@ -29,7 +29,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	private LXResultsListAdapter adapter;
 
-	private static final int LIST_DIVIDER_HEIGHT = 4;
+	private static final int LIST_DIVIDER_HEIGHT = 12;
 
 	@OnClick(R.id.edit_search)
 	public void onEditSearch() {
