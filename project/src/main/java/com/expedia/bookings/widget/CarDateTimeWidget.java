@@ -119,9 +119,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 		pickupTimePopupContainerText.setBackground(drawablePopUp);
 
-		pickupTimeSeekBar.setProgress(new DateTime().plusHours(2).getHourOfDay() * 2);
+		pickupTimeSeekBar.setProgress(new DateTime().withHourOfDay(9).getHourOfDay() * 2);
 		pickupTimeSeekBar.addOnSeekBarChangeListener(this);
-		dropoffTimeSeekBar.setProgress(new DateTime().plusHours(2).getHourOfDay() * 2);
+		dropoffTimeSeekBar.setProgress(new DateTime().withHourOfDay(18).getHourOfDay() * 2);
 		dropoffTimeSeekBar.addOnSeekBarChangeListener(this);
 
 		calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
@@ -169,6 +169,17 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	public void onDateSelectionChanged(final LocalDate start, final LocalDate end) {
 		dateTimeBuilder.startDate(start);
 		dateTimeBuilder.endDate(end);
+
+		// Logic to change the time slider value when user selects current date
+		DateTime now = DateTime.now();
+		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8) {
+			pickupTimeSeekBar.setProgress(((now.getHourOfDay() + 1) * 2) + (now.getMinuteOfHour() > 30 ? 1 : 0));
+		}
+		if (end != null && end.equals(LocalDate.now()) && now.getHourOfDay() >= 16) {
+			dropoffTimeSeekBar
+				.setProgress(((now.plusHours(2).getHourOfDay() + 1) * 2) + (now.getMinuteOfHour() > 30 ? 1 : 0));
+		}
+
 		dateTimeBuilder.startMillis(convertProgressToMillis(pickupTimeSeekBar.getProgress()));
 		if (end != null) {
 			dateTimeBuilder.endMillis(convertProgressToMillis(dropoffTimeSeekBar.getProgress()));
