@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/search_params_widget"
-        layout="@layout/widget_lx_search_params"
+        android:id="@+id/activity_details_presenter"
+        layout="@layout/lx_details_presenter"
         android:visibility="gone" />
 
     <include
@@ -15,8 +15,8 @@
         android:visibility="gone" />
 
     <include
-        android:id="@+id/activity_details_presenter"
-        layout="@layout/lx_details_presenter"
+        android:id="@+id/search_params_widget"
+        layout="@layout/widget_lx_search_params"
         android:visibility="gone" />
 
 </com.expedia.bookings.presenter.lx.LXPresenter>

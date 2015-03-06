@@ -663,6 +663,10 @@ public class Events {
 		}
 	}
 
+	public static class LXSearchParamsOverlay {
+		// ignore
+	}
+
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {

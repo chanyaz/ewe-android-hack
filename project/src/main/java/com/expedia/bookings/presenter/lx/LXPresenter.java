@@ -28,22 +28,35 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.activity_details_presenter)
 	LXDetailsPresenter detailsPresenter;
 
+	private static class LXParamsOverlay {
+		// ignore
+	}
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 		addTransition(searchParamsToResults);
 		addTransition(resultsToDetails);
+		addTransition(searchOverlayOnResults);
+		addTransition(searchOverlayOnDetails);
 		show(searchParamsWidget);
 		searchParamsWidget.setVisibility(View.VISIBLE);
 	}
 
-	@Subscribe
-	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
-		show(resultsPresenter);
-	}
-
 	private Transition searchParamsToResults = new VisibilityTransition(this, LXSearchParamsWidget.class.getName(),
-		LXResultsPresenter.class.getName());
+		LXResultsPresenter.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				searchParamsWidget.setVisibility(View.GONE);
+				resultsPresenter.setVisibility(View.VISIBLE);
+			}
+			else {
+				searchParamsWidget.setVisibility(View.VISIBLE);
+				resultsPresenter.setVisibility(View.GONE);
+			}
+		}
+	};
 
 	private Transition resultsToDetails = new VisibilityTransition(this, LXResultsPresenter.class.getName(),
 		LXDetailsPresenter.class.getName()) {
@@ -73,6 +86,43 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
+	private Transition searchOverlayOnResults = new VisibilityTransition(this, LXResultsPresenter.class.getName(),
+		LXParamsOverlay.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				resultsPresenter.setVisibility(View.VISIBLE);
+				searchParamsWidget.setVisibility(View.VISIBLE);
+				detailsPresenter.setVisibility(View.GONE);
+			}
+			else {
+				resultsPresenter.setVisibility(View.VISIBLE);
+				searchParamsWidget.setVisibility(View.GONE);
+				detailsPresenter.setVisibility(View.GONE);
+			}
+		}
+	};
+
+	private Transition searchOverlayOnDetails = new VisibilityTransition(this, LXDetailsPresenter.class.getName(),
+		LXParamsOverlay.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				detailsPresenter.setVisibility(View.VISIBLE);
+				searchParamsWidget.setVisibility(View.VISIBLE);
+			}
+			else {
+				detailsPresenter.setVisibility(View.VISIBLE);
+				searchParamsWidget.setVisibility(View.GONE);
+			}
+		}
+	};
+
+	@Subscribe
+	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
+		show(resultsPresenter, FLAG_CLEAR_TOP);
+	}
+
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
 		show(detailsPresenter);
@@ -81,6 +131,11 @@ public class LXPresenter extends Presenter {
 	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
+	}
+
+	@Subscribe
+	public void onShowParamsOverlayOnResults(Events.LXSearchParamsOverlay event) {
+		show(new LXParamsOverlay());
 	}
 
 }

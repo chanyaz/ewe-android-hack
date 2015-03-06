@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -108,7 +109,7 @@ public class LXResultsPresenter extends Presenter {
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		cleanup();
 		setToolbarTitles();
-		show(loadingProgress);
+		show(loadingProgress, FLAG_CLEAR_BACKSTACK);
 		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
 	}
 
@@ -121,6 +122,17 @@ public class LXResultsPresenter extends Presenter {
 			@Override
 			public void onClick(View v) {
 				((Activity) getContext()).onBackPressed();
+			}
+		});
+		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+				case R.id.menu_open_search:
+					Events.post(new Events.LXSearchParamsOverlay());
+					return true;
+				}
+				return false;
 			}
 		});
 
