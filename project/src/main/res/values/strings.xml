@@ -172,9 +172,9 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now">Book Now %1$s</string>
+    <string name="offer_book_now_TEMPLATE">Book Now %1$s%2$s</string>
     <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count">%1$s %2$s</string>
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Activity search results per ticket type e.g. per traveller -->
     <string name="per_ticket_type_TEMPLATE">per %1$s</string>
 

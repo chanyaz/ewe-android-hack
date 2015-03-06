@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -23,7 +24,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LXTicketSelectionWidget extends LinearLayout {
+public class LXTicketSelectionWidget extends CardView {
 
 	public LXTicketSelectionWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -38,9 +39,14 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.lx_book_now)
 	Button bookNow;
 
+	@InjectView(R.id.offer_title)
+	TextView title;
+
 	private Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
 
 	private String offerId;
+	private String offerTitle;
+	private String currencySymbol;
 
 	@Override
 	protected void onFinishInflate() {
@@ -53,7 +59,17 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		this.offerId = offerId;
 	}
 
+	public void setOfferTitle(String offerTitle) {
+		this.offerTitle = offerTitle;
+	}
+
+	public void setCurrencySymbol(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
+	}
+
 	public void buildTicketPickers(AvailabilityInfo availabilityInfo) {
+
+		title.setText(offerTitle);
 
 		for (Ticket ticket : availabilityInfo.tickets) {
 			LXTicketPicker ticketPicker = Ui.inflate(R.layout.lx_ticket_picker, ticketSelectorContainer, false);
@@ -78,16 +94,16 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	private void updateTicketSelection() {
 		BigDecimal total = BigDecimal.ZERO;
 		List<String> ticketsSummaryList = new ArrayList<>();
-		String ticketSummaryTemplate = getResources().getString(R.string.ticket_summary_type_count);
+		String ticketSummaryTemplate = getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
 
 		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
 			int ticketCount = ticketAndCount.getValue();
 			Ticket ticket = ticketAndCount.getKey();
-			ticketsSummaryList.add(String.format(ticketSummaryTemplate, ticket.code, ticketCount));
+			ticketsSummaryList.add(String.format(ticketSummaryTemplate, ticketCount, ticket.code));
 			total = total.add(ticket.amount.multiply(BigDecimal.valueOf(ticketCount)));
 		}
 
-		ticketSummary.setText(Strings.joinWithoutEmpties(",", ticketsSummaryList));
-		bookNow.setText(String.format(getResources().getString(R.string.offer_book_now), total));
+		ticketSummary.setText(Strings.joinWithoutEmpties(", ", ticketsSummaryList));
+		bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE), currencySymbol, total));
 	}
 }
