@@ -34,7 +34,7 @@ public class LaunchScreen extends LaunchActionBar {
 	}
 
 	public static ViewInteraction tripsButton() {
-		return onView(withText(R.string.trips));
+		return onView(withText(R.string.Your_Trips));
 
 	}
 
