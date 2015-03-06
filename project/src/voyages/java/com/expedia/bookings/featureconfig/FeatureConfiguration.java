@@ -40,7 +40,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppSupportUrl(Context context) {
-		return context.getString(R.string.app_support_url_vsc);
+		return "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html";
 	}
 
 	public int getCrossSellStringResourceIdForShareEmail() {

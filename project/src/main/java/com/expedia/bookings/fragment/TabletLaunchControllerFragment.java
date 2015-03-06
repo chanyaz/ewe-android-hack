@@ -128,13 +128,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mAbText2.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_ab_launch_text2_pin_detail));
 		mAbText2.setAlpha(0f);
 
-		// For Travelocity : Design needs to bring the search box up and place it below the Action Bar.
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSearchBarC.getLayoutParams();
-			params.topMargin = LayoutUtils.getActionBarSize(getActivity()) + getResources().getDimensionPixelSize(R.dimen.tablet_launch_search_bar_top_margin);
-			mSearchBarC.setLayoutParams(params);
-		}
-
 		// Fit width
 		Matrix viewport = new Matrix();
 		Point screen = Ui.getScreenSize(getActivity());
