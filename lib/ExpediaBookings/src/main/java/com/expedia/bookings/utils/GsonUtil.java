@@ -2,13 +2,13 @@ package com.expedia.bookings.utils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.Money;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -56,12 +56,11 @@ public class GsonUtil {
 	 */
 	public static <T> T getForJsonable(JSONObject obj, String key, Class<T> cls) {
 		try {
-			Gson gson = getGson();
 			JSONObject json = obj.optJSONObject(key);
 			if (json == null) {
 				return null;
 			}
-			return gson.fromJson(json.toString(), cls);
+			return getGson().fromJson(json.toString(), cls);
 		}
 		catch (JSONException e) {
 			throw new RuntimeException("GsonUtil.getForJsonable failure", e);
@@ -120,42 +119,50 @@ public class GsonUtil {
 
 	private static Gson getGson() {
 		return new GsonBuilder()
-			.registerTypeAdapter(BigDecimal.class, new BigDecimalTypeAdapter())
+			.registerTypeAdapter(Money.class, new MoneyTypeAdapter())
 			.create();
 	}
 
-	public static class BigDecimalTypeAdapter extends TypeAdapter<BigDecimal> {
+
+	public static class MoneyTypeAdapter extends TypeAdapter<Money> {
+
 		@Override
-		public void write(JsonWriter out, BigDecimal value) throws IOException {
+		public void write(JsonWriter out, Money value) throws IOException {
 			out.beginObject();
+			out.name("amount");
+			out.value(value.amount.toString());
 
-			out.name("bigDecimalStringRepresentation");
-			out.value(value.toString());
-
+			out.name("currency");
+			out.value(value.currencyCode);
 			out.endObject();
 		}
 
 		@Override
-		public BigDecimal read(JsonReader reader) throws IOException {
-			JsonToken token = reader.peek();
-			String bigDecimalStringRepresentation = null;
+		public Money read(JsonReader reader) throws IOException {
+			String amountStr = null;
+			String currencyStr = null;
 
+			JsonToken token = reader.peek();
 			if (token.equals(JsonToken.BEGIN_OBJECT)) {
 				reader.beginObject();
 				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
 					String name = reader.nextName();
-					if (Strings.equals(name, "bigDecimalStringRepresentation")) {
-						bigDecimalStringRepresentation = reader.nextString();
-					}
-					else {
+					switch (name) {
+					case "amount":
+						amountStr = reader.nextString();
+						break;
+					case "currency":
+						currencyStr = reader.nextString();
+						break;
+					default:
 						reader.skipValue();
+						break;
 					}
 				}
 				reader.endObject();
 			}
 
-			return new BigDecimal(bigDecimalStringRepresentation);
+			return new Money(amountStr, currencyStr);
 		}
 	}
-
 }

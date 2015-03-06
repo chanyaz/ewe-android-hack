@@ -47,7 +47,6 @@ import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -307,9 +306,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		if (property.getThumbnail() != null) {
 			PaletteCallback mHeaderBitmapLoadedCallback = new PaletteCallback(hotelImage) {
 				@Override
-				public void onSuccess(int vibrantColor) {
-					ColorBuilder builder = new ColorBuilder(vibrantColor).darkenBy(0.4f);
-					mHeaderContainer.setDominantColor(builder.build());
+				public void onSuccess(int color) {
+					mHeaderContainer.setDominantColor(color);
 				}
 
 				@Override

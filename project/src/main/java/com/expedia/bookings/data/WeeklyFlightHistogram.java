@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 
 import android.util.SparseArray;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.time.util.JodaUtils;
 
 /**
@@ -29,7 +30,9 @@ public class WeeklyFlightHistogram extends SparseArray<FlightHistogram> implemen
 
 	public boolean add(FlightHistogram gram) {
 		if (!isInWeek(gram)) {
-			throw new RuntimeException("The passed flight histogram is not in the valid week range");
+			Log.w("The passed flight histogram (" + gram.getKeyDate() + ") is not in the valid week range ("
+				+ getWeekStart() + "-" + getWeekEnd() + ")");
+			return false;
 		}
 		int index = Days.daysBetween(mWeekStart, gram.getKeyDate()).getDays();
 		put(index, gram);

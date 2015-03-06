@@ -114,7 +114,7 @@ public class ZipCodeValidationTest extends PhoneTestCase {
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
-		HotelsRoomsRatesScreen.selectRoomItem(1);
+		HotelsRoomsRatesScreen.selectETPRoomItem(1);
 		HotelsCheckoutScreen.clickCheckoutButton();
 
 		HotelsCheckoutScreen.clickGuestDetails();

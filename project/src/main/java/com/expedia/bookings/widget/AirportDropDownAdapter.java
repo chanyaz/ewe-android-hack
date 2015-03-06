@@ -185,6 +185,9 @@ public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> impl
 		@Override
 		protected void publishResults(CharSequence constraint, FilterResults results) {
 			data = (ArrayList<AirportSuggestion>) results.values;
+			if (data == null) {
+				data = new ArrayList<>();
+			}
 			notifyDataSetChanged();
 		}
 
