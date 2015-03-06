@@ -41,8 +41,9 @@ public class LXResultsPresenterTests {
 	@Test
 	public void testSearchResultsList() {
 		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "happy";
+		searchParams.location = "New York";
 		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 		LXViewModel.progress().check(matches(isDisplayed()));
 		ScreenActions.delay(2);
@@ -107,6 +108,7 @@ public class LXResultsPresenterTests {
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "search_failure";
 		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 		ScreenActions.delay(2);
 		LXViewModel.searchFailed().check(matches(isDisplayed()));

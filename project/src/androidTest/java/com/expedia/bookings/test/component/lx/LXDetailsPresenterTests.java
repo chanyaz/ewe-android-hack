@@ -46,8 +46,8 @@ public class LXDetailsPresenterTests {
 		// To setup LXState
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "New York";
-		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-02-04");
-		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-02-18");
+		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-02-24");
+		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-03-09");
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 
@@ -73,7 +73,7 @@ public class LXDetailsPresenterTests {
 		ScreenActions.delay(2);
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
-		String expectedToolbarDateRange = "Feb 04 - Feb 18";
+		String expectedToolbarDateRange = "Feb 24 - Mar 09";
 		ViewInteraction toolbar = LXViewModel.toolbar();
 		toolbar.check(matches(isDisplayed()));
 		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
