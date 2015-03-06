@@ -21,6 +21,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.OffersDetail;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -120,7 +121,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		title.setText(activityDetails.title);
 		price.setText(activityDetails.fromPrice);
 		category.setText(activityDetails.category);
-		perTicketType.setText(activityDetails.fromPriceTicketType);
+		perTicketType.setText(getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(activityDetails.fromPriceTicketCode)));
 	}
 
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {

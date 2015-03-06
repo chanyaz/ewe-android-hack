@@ -15,6 +15,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -86,6 +87,7 @@ public class LXResultsPresenterTests {
 		String title = "test";
 		String price = "$10";
 		String category = "tour";
+		LXTicketType code = LXTicketType.Adult;
 		List<String> categoriesList = new ArrayList<>();
 		for (int i = 0; i < 2; i++) {
 			categoriesList.add(category);
@@ -96,6 +98,7 @@ public class LXResultsPresenterTests {
 		a.title = title;
 		a.fromPrice = price;
 		a.categories = categoriesList;
+		a.fromPriceTicketCode = code;
 		activities.add(a);
 
 		onView(withId(R.id.lx_search_results_list)).perform(LXViewModel.setLXActivities(activities));

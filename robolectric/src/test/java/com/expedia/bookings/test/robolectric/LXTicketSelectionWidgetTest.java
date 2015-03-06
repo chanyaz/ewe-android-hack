@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.widget.LXTicketPicker;
 import com.expedia.bookings.widget.LXTicketSelectionWidget;
@@ -178,7 +179,7 @@ public class LXTicketSelectionWidgetTest {
 		List<Ticket> tickets = new ArrayList<>();
 		Ticket testTicket = new Ticket();
 		testTicket.amount = new BigDecimal(40);
-		testTicket.code = "Adult";
+		testTicket.code = LXTicketType.Adult;
 		testTicket.price = "$40";
 		testTicket.restrictionText = "13+ years";
 		tickets.add(testTicket);
@@ -191,14 +192,14 @@ public class LXTicketSelectionWidgetTest {
 		List<Ticket> tickets = new ArrayList<>();
 		Ticket adultTicket = new Ticket();
 		adultTicket.amount = new BigDecimal(40);
-		adultTicket.code = "Adult";
+		adultTicket.code = LXTicketType.Adult;
 		adultTicket.price = "$40";
 		adultTicket.restrictionText = "13+ years";
 		tickets.add(adultTicket);
 
 		Ticket childTicket = new Ticket();
 		childTicket.amount = new BigDecimal(30);
-		childTicket.code = "Child";
+		childTicket.code = LXTicketType.Adult;
 		childTicket.price = "$30";
 		childTicket.restrictionText = "4-12 years";
 		tickets.add(childTicket);

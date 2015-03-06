@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
 
@@ -69,7 +70,10 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		private String offerId;
 
+		private View itemView;
+
 		public ViewHolder(View itemView) {
+			this.itemView = itemView;
 			ButterKnife.inject(this, itemView);
 			Events.register(this);
 		}
@@ -102,11 +106,12 @@ public class LXOffersListAdapter extends BaseAdapter {
 			ticketSelectionWidget.setOfferTitle(offer.title);
 			ticketSelectionWidget.setCurrencySymbol(offer.currencySymbol);
 
+
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
-				priceSummaries.add(String.format("%s %s", ticket.price, ticket.name));
+				priceSummaries.add(String.format("%s %s", ticket.price, itemView.getResources().getString(
+					LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
 			}
 			String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
-
 			priceSummary.setText(priceSummaryText);
 			ticketSelectionWidget.buildTicketPickers(offer.availabilityInfoOfSelectedDate);
 

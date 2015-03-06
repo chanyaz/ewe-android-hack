@@ -53,7 +53,7 @@ public class LXServicesTest {
 
 		assertEquals(0, blockingObserver.getErrors().size());
 		assertEquals(1, blockingObserver.getItems().size());
-		assertEquals(86, blockingObserver.getItems().get(0).size());
+		assertEquals(114, blockingObserver.getItems().get(0).size());
 
 	}
 

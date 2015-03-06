@@ -7,7 +7,7 @@ public class ActivityDetailsResponse {
 	public String description;
 	public List<ActivityImages> images;
 	public String fromPrice;
-	public String fromPriceTicketType;
+	public LXTicketType fromPriceTicketCode;
 	public String category;
 	public String location;
 	public List<String> highlights;
