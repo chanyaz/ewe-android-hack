@@ -231,6 +231,74 @@ public final class ViewActions {
 		};
 	}
 
+	// View action for accessing text nested inside two linear layouts
+
+	public final static class NestedTextView implements ViewAction {
+		private final int mUpperLayoutIndex;
+		private final int mLowerLayoutIndex;
+		private final AtomicReference<String> mValue;
+
+		public NestedTextView(final int upperIndex, final int lowerIndex, final AtomicReference<String> value) {
+			mUpperLayoutIndex = upperIndex;
+			mLowerLayoutIndex = lowerIndex;
+			mValue = value;
+		}
+			@SuppressWarnings("unchecked")
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
+				View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
+				mValue.set(((TextView) textView).getText().toString());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get the empty travelers container text on checkout";
+			}
+	}
+
+	// View action to get the name match warning's sibling text view
+
+	public static ViewAction getNameMatchWarningView(final AtomicReference<String> value) {
+		return new NestedTextView(2, 0, value);
+	}
+
+	// View action to get empty traveler container on checkout
+
+	public static ViewAction getEmptyTravelerViewLayout(final int index, final AtomicReference<String> value) {
+		return new NestedTextView(index, 1, value);
+	}
+
+	// View action to get traveler container with info entered on checkout
+
+	public static ViewAction getPopulatedTravelerViewLayout(final int index, final AtomicReference<String> value) {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View upperChildView = ((LinearLayout) view).getChildAt(index);
+				View lowerChildView = ((LinearLayout) upperChildView).getChildAt(1);
+				View textView = ((LinearLayout) lowerChildView).getChildAt(0);
+				value.set(((TextView) textView).getText().toString());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get the empty travelers container text on checkout";
+			}
+		};
+	}
+
 	//View Action to get the count of list view items
 
 	public static ViewAction getCount(final AtomicReference<Integer> count) {
@@ -273,7 +341,29 @@ public final class ViewActions {
 		};
 	}
 
-	//View Action to type multibyte characters
+
+	public static ViewAction clickETPRoomItem(final int position) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				AdapterView av = (AdapterView) view;
+				AdapterView.OnItemClickListener listener = av.getOnItemClickListener();
+				listener.onItemClick(av, null, position, position);
+			}
+
+			@Override
+			public String getDescription() {
+
+				return "Click etp room item";
+			}
+		};
+	}
+//View Action to type multibyte characters
 
 	public static ViewAction setText(final String multiByte) {
 		return new ViewAction() {

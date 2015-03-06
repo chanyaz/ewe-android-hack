@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.not;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 
@@ -176,6 +177,10 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	public static void clickHotelWithName(String hotelName) {
 		onData(withHotelName(hotelName)).inAdapterView(withId(android.R.id.list)).perform(click());
+	}
+
+	public static void clickSearchButton() {
+		onView(withId(R.id.search_button)).perform(click());
 	}
 }
 

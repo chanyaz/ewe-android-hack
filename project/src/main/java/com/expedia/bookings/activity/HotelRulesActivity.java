@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -12,25 +13,25 @@ public class HotelRulesActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setTitle(R.string.legal_information);
-		int themeId;
-		if (ExpediaBookingApp.IS_TRAVELOCITY || ExpediaBookingApp.IS_AAG) {
-			themeId = R.style.Theme_Phone_WebView_WithTitle;
-		}
-		else if (ExpediaBookingApp.useTabletInterface(this)) {
+		if (ExpediaBookingApp.useTabletInterface(this)) {
 			// Use FlightTheme on hotel checkout for tablet.
-			themeId = R.style.FlightTheme;
+			int themeId = R.style.FlightTheme_Rules;
+			setTheme(themeId);
 		}
 		else {
-			themeId = R.style.Theme_Phone_WebView;
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
-		setTheme(themeId);
+
+		if (shouldBail()) {
+			return;
+		}
 
 		setContentView(R.layout.activity_hotel_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			getActionBar().setLogo(R.drawable.ic_expedia_action_bar_logo_dark);
-		}
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override

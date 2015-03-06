@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -128,7 +129,7 @@ public abstract class TripBucketItem implements JSONable {
 			obj.put("isSelected", mIsSelected);
 			obj.put("hasPriceChanged", mHasPriceChanged);
 
-			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
+			GsonUtil.putListForJsonable(obj, "validPayments", mValidPayments);
 
 			return obj;
 		}
@@ -143,7 +144,7 @@ public abstract class TripBucketItem implements JSONable {
 		mState = JSONUtils.getEnum(obj, "state", TripBucketItemState.class);
 		mIsSelected = obj.optBoolean("isSelected");
 		mHasPriceChanged = obj.optBoolean("hasPriceChanged");
-		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
+		mValidPayments = GsonUtil.getListForJsonable(obj, "validPayments", ValidPayment.gsonListTypeToken);
 		return true;
 	}
 

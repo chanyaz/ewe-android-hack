@@ -17,6 +17,13 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
+import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarSearch;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -136,7 +143,8 @@ public class Events {
 		public LaunchCollection selectedCollection;
 		public LaunchLocation selectedLocation;
 
-		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection, LaunchLocation selectedLocation) {
+		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection,
+			LaunchLocation selectedLocation) {
 			this.collections = collections;
 			this.selectedCollection = selectedCollection;
 			this.selectedLocation = selectedLocation;
@@ -333,6 +341,7 @@ public class Events {
 	 */
 	public static class ShowNoInternetDialog {
 		public final int callBackId;
+
 		public ShowNoInternetDialog(int callBackId) {
 			this.callBackId = callBackId;
 		}
@@ -472,6 +481,7 @@ public class Events {
 	 */
 	public static class ShowSearchFragment {
 		public final ResultsSearchState searchState;
+
 		public ShowSearchFragment(ResultsSearchState state) {
 			searchState = state;
 		}
@@ -479,6 +489,7 @@ public class Events {
 
 	public static class FlightSearchResponseAvailable {
 		public final FlightSearchResponse response;
+
 		public FlightSearchResponseAvailable(FlightSearchResponse response) {
 			this.response = response;
 		}
@@ -486,6 +497,7 @@ public class Events {
 
 	public static class HotelSearchResponseAvailable {
 		public final HotelSearchResponse response;
+
 		public HotelSearchResponseAvailable(HotelSearchResponse response) {
 			this.response = response;
 		}
@@ -493,6 +505,7 @@ public class Events {
 
 	public static class HotelOffersResponseAvailable {
 		public final HotelOffersResponse response;
+
 		public HotelOffersResponseAvailable(HotelOffersResponse response) {
 			this.response = response;
 		}
@@ -504,7 +517,63 @@ public class Events {
 	/**
 	 * Cars cars cars
 	 */
-	public static class EnableCarsSearchResults {
 
+	public static class CarsGoToSearch {
+	}
+
+	public static class CarsNewSearchParams {
+		public CarSearchParams carSearchParams;
+
+		public CarsNewSearchParams(CarSearchParams params) {
+			carSearchParams = params;
+		}
+	}
+
+	public static class CarsShowSearchResults {
+		public CarSearch results;
+
+		public CarsShowSearchResults(CarSearch results) {
+			this.results = results;
+		}
+	}
+
+	public static class CarsShowDetails {
+		public CategorizedCarOffers categorizedCarOffers;
+
+		public CarsShowDetails(CategorizedCarOffers offers) {
+			categorizedCarOffers = offers;
+		}
+	}
+
+	public static class CarsShowCheckout {
+		public CarCreateTripResponse createTripResponse;
+
+		public CarsShowCheckout(CarCreateTripResponse createTripResponse) {
+			this.createTripResponse = createTripResponse;
+		}
+	}
+
+	public static class CarsKickOffCreateTrip {
+		public SearchCarOffer offer;
+
+		public CarsKickOffCreateTrip(SearchCarOffer offer) {
+			this.offer = offer;
+		}
+	}
+
+	public static class CarsKickOffCheckoutCall {
+		public CarCheckoutParamsBuilder checkoutParamsBuilder;
+
+		public CarsKickOffCheckoutCall(CarCheckoutParamsBuilder checkoutParamsBuilder) {
+			this.checkoutParamsBuilder = checkoutParamsBuilder;
+		}
+	}
+
+	public static class CarsShowConfirmation {
+		public CarCheckoutResponse checkoutResponse;
+
+		public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
+			this.checkoutResponse = checkoutResponse;
+		}
 	}
 }

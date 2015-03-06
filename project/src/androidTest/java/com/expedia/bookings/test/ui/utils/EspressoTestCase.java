@@ -121,13 +121,6 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 		//to rotate it back to original orientation
 		rotateScreen();
-		try {
-			// Wait just a little for frames to settle
-			Thread.sleep(500);
-		}
-		catch (Exception e) {
-			// ignore
-		}
 	}
 
 	public void rotateScreen() throws Throwable {
@@ -142,6 +135,14 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		case LANDSCAPE:
 			currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			break;
+		}
+
+		try {
+			// Wait just a little for frames to settle
+			Thread.sleep(1000);
+		}
+		catch (Exception e) {
+			// ignore
 		}
 	}
 

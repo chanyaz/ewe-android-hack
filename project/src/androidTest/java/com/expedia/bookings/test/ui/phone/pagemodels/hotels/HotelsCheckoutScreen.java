@@ -1,8 +1,9 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 
+import android.support.test.espresso.ViewInteraction;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
-import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -30,5 +31,9 @@ public class HotelsCheckoutScreen extends CommonCheckoutScreen {
 
 	public static ViewInteraction ratingBar() {
 		return (onView(withId(RATING_VIEW_ID)));
+	}
+
+	public static ViewInteraction guestCountView() {
+		return onView(withId(R.id.guests_text));
 	}
 }

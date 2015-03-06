@@ -72,6 +72,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -89,6 +90,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.HotelListFragment;
@@ -304,6 +306,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		public void onDownload(HotelSearchResponse searchResponse) {
 			Db.getHotelSearch().setSearchResponse(searchResponse);
 			loadSearchResponse(searchResponse);
+			if (searchResponse != null) {
+				AdImpressionTracking.trackAdClickOrImpression(HotelSearchActivity.this, searchResponse.getBeaconUrl(), null);
+			}
 		}
 	};
 
@@ -587,7 +592,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		mIsActivityResumed = false;
 
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 			mProgressBar.onPause();
 		}
 
@@ -622,7 +627,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		if (mDisplayType != DisplayType.CALENDAR) {
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1205,7 +1210,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		mProgressBarLayout = (ViewGroup) findViewById(R.id.search_progress_layout);
 
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled()) {
 			mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
 		}
 
@@ -1241,7 +1246,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
 
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled()) {
 			mProgressBar.addOnDrawStartedListener(this);
 		}
 
@@ -1816,7 +1821,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			hideFilterOptions();
 
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1851,7 +1856,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				mProgressBar.onPause();
 			}
 
@@ -2112,7 +2117,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 			mProgressBar.postDelayed(new Runnable() {
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
@@ -2128,11 +2133,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			findViewById(R.id.search_progress_image_tvly).bringToFront();
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			findViewById(R.id.search_progress_image_aag).bringToFront();
+		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
+		if (searchProgressImageResId != 0) {
+			findViewById(searchProgressImageResId).bringToFront();
 		}
 
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
@@ -2143,7 +2146,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// In the case that the user is an emulator and this isn't a release build,
 			// disable the hanging tag for speed purposes
 
-			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
 				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
 					mProgressBar.setVisibility(View.GONE);
 				}
@@ -2414,12 +2417,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		mSearchSuggestionAdapter.swapCursor(data);
+		mSearchSuggestionAdapter.updateData(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		mSearchSuggestionAdapter.swapCursor(null);
+		mSearchSuggestionAdapter.updateData(null);
 	}
 
 	//----------------------------------
@@ -2429,14 +2432,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			Cursor c = mSearchSuggestionAdapter.getCursor();
-			c.moveToPosition(position);
+			AutocompleteSuggestion suggestion = mSearchSuggestionAdapter.getItem(position);
 
-			if (c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX).equals(getString(R.string.current_location))) {
+			if (suggestion.getText().equals(getString(R.string.current_location))) {
 				getCurrentSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
-				Object o = AutocompleteProvider.extractSearchOrString(c);
+				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
 
 				if (o instanceof Search) {
 					mEditedSearchParams.fillFromSearch((Search) o);
@@ -2551,11 +2553,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			// Select the first item in the autosuggest list when the user hits the search softkey and then start the search.
-			Cursor c = mSearchSuggestionAdapter.getCursor();
+			AutocompleteSuggestion suggestion  = mSearchSuggestionAdapter.getItem(0);
 			// 1574: It seems that the cursor is null if we are still finding location
-			if (c == null) {
-				c.moveToPosition(0);
-				Object o = AutocompleteProvider.extractSearchOrString(c);
+			if (suggestion != null) {
+				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
 				if (o instanceof Search) {
 					mEditedSearchParams.fillFromSearch((Search) o);
 				}

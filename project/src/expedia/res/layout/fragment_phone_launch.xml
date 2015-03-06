@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="22dp"
-                android:src="@drawable/btn_local_expert_close"
+                android:src="@drawable/btn_air_attach_close"
                 android:background="@drawable/bg_air_attach_phone_launch_close"/>
 
         </LinearLayout>

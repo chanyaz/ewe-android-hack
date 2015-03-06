@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,14 +63,12 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			// Air Attach - Booking a flight tends to qualify the user for a discounted hotel room
 			JSONObject airAttachJson = response.optJSONObject("mobileAirAttachQualifier");
 			if (airAttachJson != null) {
-				AirAttach airAttach = new AirAttach();
-				airAttach.setAirAttachQualified(airAttachJson.optBoolean("airAttachQualified", false));
-				DateTime expires = DateTimeParser.parseDateTime(airAttachJson.opt("offerExpires"));
-				airAttach.setExpirationDate(expires);
+				AirAttach airAttach = new AirAttach(airAttachJson);
 
 				if (airAttach.isAirAttachQualified()) {
-					Db.getTripBucket().setAirAttach(airAttach);
-					Db.saveTripBucket(mContext);
+					if (Db.getTripBucket().setAirAttach(airAttach)) {
+						Db.saveTripBucket(mContext);
+					}
 				}
 			}
 		}

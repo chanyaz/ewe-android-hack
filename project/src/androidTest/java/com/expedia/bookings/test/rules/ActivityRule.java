@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.view.View;
+import android.widget.FrameLayout;
 
 /**
  * This will automatically launch the activity for each test method. Jacked from JakeWharton's gist.
@@ -25,6 +27,11 @@ public class ActivityRule<T extends Activity> implements TestRule {
 	public final T get() {
 		launchActivity();
 		return mActivity;
+	}
+
+	public final View getRoot() {
+		launchActivity();
+		return ((FrameLayout) mActivity.findViewById(android.R.id.content)).getChildAt(0);
 	}
 
 	public final Instrumentation instrumentation() {

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -631,7 +632,7 @@ public class Property implements JSONable {
 			obj.putOpt("isDesktopOverrideNumber", mIsDesktopOverrideNumber);
 			obj.putOpt("isVipAccess", mIsVipAccess);
 			obj.putOpt("showCircles", mShowCircles);
-			JSONUtils.putJSONable(obj, "highestPriceFromSurvey", mHighestPriceFromSurvey);
+			GsonUtil.putForJsonable(obj, "highestPriceFromSurvey", mHighestPriceFromSurvey);
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
 			obj.putOpt("isFromSearchByHotel", mIsFromSearchByHotel);
 			obj.putOpt("itinBedType", mItinBedType);
@@ -683,7 +684,7 @@ public class Property implements JSONable {
 		mIsDesktopOverrideNumber = obj.optBoolean("isDesktopOverrideNumber", true);
 		mIsVipAccess = obj.optBoolean("isVipAccess", false);
 		mShowCircles = obj.optBoolean("showCircles", false);
-		mHighestPriceFromSurvey = JSONUtils.getJSONable(obj, "highestPriceFromSurvey", Money.class);
+		mHighestPriceFromSurvey = GsonUtil.getForJsonable(obj, "highestPriceFromSurvey", Money.class);
 		mIsFromSearchByHotel = obj.optBoolean("isFromSearchByHotel", false);
 		mItinRoomType = obj.optString("itinRoomType", null);
 		mItinBedType = obj.optString("itinBedType", null);

@@ -31,6 +31,7 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.Akeakamai;
@@ -275,25 +276,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
 					.setStyle(style)
 					.setTicker(mNotification.getTitle())
-					.setSmallIcon(R.drawable.ic_stat_expedia)
 					.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), mNotification.getIconResId()))
 					.setContentTitle(mNotification.getTitle())
 					.setContentText(mNotification.getBody())
 					.setAutoCancel(true)
 					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification))
-					.setContentIntent(clickPendingIntent)
-					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
+					.setContentIntent(clickPendingIntent);
 
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				builder.setSmallIcon(R.drawable.ic_stat_travelocity);
-				builder.setLights(0x072b61, 200, 8000); // Travelocity blue color
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				builder.setSmallIcon(R.drawable.ic_stat_aag);
-			}
-			else if (ExpediaBookingApp.IS_VSC) {
-				builder.setSmallIcon(R.drawable.ic_stat_vsc);
-			}
+			int notificationIconResourceId = ProductFlavorFeatureConfiguration.getInstance().getNotificationIconResourceId();
+			builder.setSmallIcon(notificationIconResourceId);
+
+			int notificationIndicatorLEDColor = ProductFlavorFeatureConfiguration.getInstance().getNotificationIndicatorLEDColor();
+			builder.setLights(notificationIndicatorLEDColor, 200, 8000);
 
 			long flags = mNotification.getFlags();
 			ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());

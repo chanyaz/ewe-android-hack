@@ -110,7 +110,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		// 1373: Need to hide cross sell until we can fix the poor search results
-		// TODO: 1370: When you enable this, please make sure to disable flights cross sell if its a VSC build. i.e. use ExpediaBookingApp.IS_VSC to check
+		// TODO: 1370: When you enable this, please make sure to disable flights cross sell if its a VSC build.
 		//if (pos.showHotelCrossSell() && pos.supportsFlights()) {
 		if (false) {
 			ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_there_text_view));

@@ -38,7 +38,6 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ChildTraveler;
@@ -93,8 +92,11 @@ import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Strings;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -843,8 +845,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
 
 		query.add(new BasicNameValuePair("qualifyAirAttach", Boolean.toString(qualifyAirAttach)));
-		// Source type
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
+		query.add(new BasicNameValuePair("sourceType", ServicesUtil.generateSourceType()));
 
 		return query;
 	}
@@ -1132,18 +1133,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		StringBuffer shortUrl = new StringBuffer("http://");
-		if (ExpediaBookingApp.IS_AAG) {
-			shortUrl.append("a.aago.co");
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			shortUrl.append("t.tvly.co");
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			shortUrl.append("v.vygs.co");
-		}
-		else {
-			shortUrl.append("e.xpda.co");
-		}
+		shortUrl.append(ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl());
 		shortUrl.append("/v1/shorten");
 
 		Request.Builder post = new Request.Builder().url(shortUrl.toString());
@@ -1274,22 +1264,18 @@ public class ExpediaServices implements DownloadListener {
 
 	private void addCommonParams(List<BasicNameValuePair> query) {
 		// Source type
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
+		query.add(new BasicNameValuePair("sourceType", ServicesUtil.generateSourceType()));
 
-		// Point of sale information
-		int langId = PointOfSale.getPointOfSale().getDualLanguageId();
-		if (langId != 0) {
-			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
+		String langId = ServicesUtil.generateLangId();
+		if (Strings.isNotEmpty(langId)) {
+			query.add(new BasicNameValuePair("langid", langId));
 		}
 
-		if (!AndroidUtils.isRelease(mContext)
-			&& EndPoint.getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
-			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSale()
-				.getSiteId())));
+		if (EndPoint.requestRequiresSiteId(mContext)) {
+			query.add(new BasicNameValuePair("siteid", ServicesUtil.generateSiteId()));
 		}
 
-		// Client id (see https://confluence/display/POS/ewe+trips+api#ewetripsapi-apiclients)
-		query.add(new BasicNameValuePair("clientid", "expedia.phone.android:" + AndroidUtils.getAppVersion(mContext)));
+		query.add(new BasicNameValuePair("clientid", ServicesUtil.generateClientId(mContext)));
 	}
 
 	private void addCommonFlightStatsParams(List<BasicNameValuePair> query) {
@@ -1542,22 +1528,12 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
-		String appName = "ExpediaBookings";
-		if (ExpediaBookingApp.IS_AAG) {
-			appName = "AAGBookings";
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			appName = "TvlyBookings";
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			appName = "VSCBookings";
-		}
-
+		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
-			post.addHeader("MobiataPushName", appName);
+			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader);
 		}
 		else {
-			post.addHeader("MobiataPushName", appName + "Alpha");
+			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader + "Alpha");
 		}
 
 		if (AndroidUtils.isRelease(mContext)
@@ -1613,11 +1589,11 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			params.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
-		}
-		else if (ExpediaBookingApp.IS_VSC) {
-			params.add(new BasicNameValuePair("origin", "VSC"));
+		List<BasicNameValuePair> additionalParamsForReviewsRequest = ProductFlavorFeatureConfiguration.getInstance().getAdditionalParamsForReviewsRequest();
+		if (additionalParamsForReviewsRequest != null) {
+			for (BasicNameValuePair param : additionalParamsForReviewsRequest) {
+				params.add(param);
+			}
 		}
 		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
 	}
@@ -1976,4 +1952,5 @@ public class ExpediaServices implements DownloadListener {
 		}
 		return doGet(url, params);
 	}
+
 }

@@ -103,10 +103,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mStateManager.setDefaultState(state);
 		}
 
+		final int defaultOverlayColor = getResources().getColor(R.color.transparent_dark);
+
 		// Top Part
 		if (mTopC != null) {
 			mTripBucketImageView = Ui.findView(mTopC, R.id.tripbucket_card_background_view);
 			mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+			mHeaderBitmapDrawable.setDefaultOverlayColor(defaultOverlayColor);
 			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
 			mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 
@@ -123,6 +126,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		else {
 			mTripBucketImageView = Ui.findView(mRootC, R.id.tripbucket_card_background_view);
 			mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+			mHeaderBitmapDrawable.setDefaultOverlayColor(defaultOverlayColor);
 			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
 			mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 		}

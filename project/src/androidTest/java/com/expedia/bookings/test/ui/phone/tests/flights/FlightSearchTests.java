@@ -18,6 +18,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
  * Created by dmadan on 5/2/14.
  */
 public class FlightSearchTests extends PhoneTestCase {
+	/*
+	*  #289 eb_tp test for flight search.
+	*/
 	private static final String TAG = "FlightSearchTests";
 
 	// Test to check duplicate airport search gives error message
@@ -35,8 +38,6 @@ public class FlightSearchTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Departure and arrival airports must be different.");
 		ScreenActions.enterLog(TAG, "Duplicate airport search error message displayed.");
 		SettingsScreen.clickOkString();
-		pressBack();
-		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
 
@@ -51,8 +52,6 @@ public class FlightSearchTests extends PhoneTestCase {
 			assertEquals(adultQuantity, adultQuantityTextView);
 			FlightsSearchScreen.incrementAdultsButton();
 		}
-		pressBack();
-		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
 
@@ -69,8 +68,6 @@ public class FlightSearchTests extends PhoneTestCase {
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickClearSelectedDatesButton();
 		FlightsSearchScreen.checkHint("Select a departure date");
-		pressBack();
-		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
 
@@ -97,7 +94,6 @@ public class FlightSearchTests extends PhoneTestCase {
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.searchButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Successfully asserted that the search button is shown.");
-		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
 
@@ -111,8 +107,6 @@ public class FlightSearchTests extends PhoneTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
-		pressBack();
-		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
 
@@ -127,8 +121,64 @@ public class FlightSearchTests extends PhoneTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		FlightsSearchScreen.clickDate(startDate, endDate);
 		FlightsSearchScreen.clickSearchButton();
-		pressBack();
-		pressBack();
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
+
+	//Test One way Domestic flights,and getting to search results screen
+	public void testOneWayDomesticFlight() throws Exception {
+		ScreenActions.enterLog(TAG, "START TEST:");
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
+		FlightsSearchScreen.clickSearchButton();
+		ScreenActions.enterLog(TAG, "END TEST");
+	}
+
+	//Test Round trip international flights,and getting to search results screen
+	public void testRoundTripDomesticFlight() throws Exception {
+		ScreenActions.enterLog(TAG, "START TEST:");
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		FlightsSearchScreen.clickDate(startDate, endDate);
+		FlightsSearchScreen.clickSearchButton();
+		ScreenActions.enterLog(TAG, "END TEST");
+	}
+
+	//Test for starting the same search again
+	public void testSameSearch() throws Exception {
+		ScreenActions.enterLog(TAG, "START TEST:");
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		FlightsSearchScreen.clickDate(startDate, endDate);
+		FlightsSearchScreen.clickSearchButton();
+		pressBack();
+		FlightsSearchScreen.clickSearchButton();
+		ScreenActions.enterLog(TAG, "END TEST");
+	}
+
+	//Test for locations with no airport
+	public void testLocationwithNoAirport() throws Exception {
+		ScreenActions.enterLog(TAG, "START TEST:");
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("Meeker");
+		FlightsSearchScreen.enterArrivalAirport("Colorado");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		FlightsSearchScreen.clickDate(startDate, endDate);
+		FlightsSearchScreen.clickSearchButton();
+		ScreenActions.enterLog(TAG, "END TEST");
+	}
+
 }

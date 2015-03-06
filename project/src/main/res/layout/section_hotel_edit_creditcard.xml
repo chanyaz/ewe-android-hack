@@ -56,8 +56,6 @@
         android:id="@+id/edit_name_on_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/name_on_card_hint"
-        android:inputType="textPersonName|textCapWords"
-        android:singleLine="true" />
+        style="?attr/skin_HotelCheckout_CreditCardEditTextStyle" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

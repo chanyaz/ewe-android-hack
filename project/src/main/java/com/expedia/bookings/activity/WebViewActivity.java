@@ -2,13 +2,14 @@ package com.expedia.bookings.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.widget.Toast;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
@@ -99,7 +100,13 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
+		if (shouldBail()) {
+			return;
+		}
 
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
@@ -190,5 +197,9 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	@Override
 	public void setLoading(boolean loading) {
 		setProgressBarIndeterminateVisibility(loading);
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 }

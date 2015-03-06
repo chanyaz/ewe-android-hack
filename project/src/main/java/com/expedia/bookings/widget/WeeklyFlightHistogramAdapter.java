@@ -69,6 +69,9 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 					if (mSelectedDepartureDate != null && gram.getKeyDate().isBefore(mSelectedDepartureDate)) {
 						continue;
 					}
+					if (gram.getKeyDate().isBefore(current.getWeekStart())) {
+						continue;
+					}
 					while (current.getWeekEnd().isBefore(gram.getKeyDate())) {
 						current = new WeeklyFlightHistogram(current.getWeekEnd().plusDays(1));
 						mWeeklyHistograms.add(current);

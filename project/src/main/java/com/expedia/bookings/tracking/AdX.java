@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -21,7 +20,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -329,25 +328,7 @@ public class AdX {
 	}
 
 	private static void addCommonRetargeting() {
-		int adXPosIdentifier = 2601;
-
-		if (ExpediaBookingApp.IS_AAG) {
-			adXPosIdentifier = 6259;
-
-			// For AirAsiaGo Thailand setting a separate ID.
-			if (PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase().equals("th")) {
-				adXPosIdentifier = 6258;
-			}
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			adXPosIdentifier = 13292;
-
-			// For Travelocity canada setting a separate ID.
-			if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.TRAVELOCITY_CA) {
-				adXPosIdentifier = 14776;
-			}
-		}
-
+		int adXPosIdentifier = ProductFlavorFeatureConfiguration.getInstance().getAdXPosIdentifier();
 
 		AdXConnect.setEventParameterOfName("a", adXPosIdentifier);
 

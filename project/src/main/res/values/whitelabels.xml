@@ -252,7 +252,6 @@
     <attr name="skin_calendarFlightDescSupport" format="reference|string" />
     <attr name="skin_flightPriceTextColor" format="reference|color" />
     <attr name="skin_icSuitCaseBaggage" format="reference" />
-    <attr name="skin_flightLoginActionBarIcon" format="reference" />
 
     <attr name="skin_action_bar_logo_tablet" format="reference"/>
     <attr name="skin_collection_overlay_static_color" format="reference|color" />
@@ -291,5 +290,18 @@
 
     <!-- Menu for AboutWebViewActivity-->
     <attr name="skin_menuAboutWebViewActivity" format="reference" />
+   
+    <!-- Hotel Checkout Credit Card Edit Text, Postal Code Section & Coupon Edit Text Style -->
+    <attr name="skin_HotelCheckout_CreditCardEditTextStyle" format="reference" />
+    <attr name="skin_HotelCheckout_PostalCodeSectionStyle" format="reference" />
+    <attr name="skin_HotelCheckout_couponEditTextStyle" format="reference" />
+
+    <!-- Rules Activity action bar logo -->
+    <attr name="skin_hotelRulesActionBarLogo" format="reference" />
+    <attr name="skin_flightRulesActionBarLogo" format="reference" />
+
+    <!-- Login Activity action bar Icon -->
+    <attr name="skin_hotelLoginActionBarIcon" format="reference" />
+    <attr name="skin_flightLoginActionBarIcon" format="reference" />
 
 </resources>

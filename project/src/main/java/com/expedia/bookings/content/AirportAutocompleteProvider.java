@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
+import com.expedia.bookings.data.AirportSuggestion;
 import com.expedia.bookings.server.ExpediaServices;
 
 public class AirportAutocompleteProvider extends ContentProvider {
@@ -45,6 +46,17 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	public boolean onCreate() {
 		mServices = new ExpediaServices(getContext());
 		return true;
+	}
+
+
+	public static AirportSuggestion rowToSuggestion(Cursor c) {
+		AirportSuggestion suggestion = new AirportSuggestion();
+		suggestion.setIcon(c.getInt(COL_SUGGEST_COLUMN_ICON_1));
+		suggestion.setText1(c.getString(COL_SUGGEST_COLUMN_TEXT_1));
+		suggestion.setText2(c.getString(COL_SUGGEST_COLUMN_TEXT_2));
+		suggestion.setLocation(createLocationFromRow(c));
+
+		return suggestion;
 	}
 
 	@Override

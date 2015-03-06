@@ -162,7 +162,7 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 				if (collectionToAdd.id.equals(LaunchDb.YOUR_SEARCH_TILE_ID)) {
 					Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location,  true));
 				}
-				else if (collectionToAdd.id.equals(LaunchDb.CUREENT_LOCATION_SEARCH_TILE_ID)) {
+				else if (collectionToAdd.id.equals(LaunchDb.CURRENT_LOCATION_SEARCH_TILE_ID)) {
 					if (null == collectionToAdd.locations || collectionToAdd.locations.isEmpty()) {
 						// Show the message to user to enable location
 						NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();

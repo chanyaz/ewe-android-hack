@@ -20,11 +20,11 @@ def makeDirectories(locCode):
 	os.system('mkdir ' + screenshotDir + locCode)
 
 def changeLocale(language, country):
-    setLanguageCommand = 'python add_key_value_pair_to_config.py Language {lang}'.format(lang=language)
+    setLanguageCommand = 'python add_key_value_pair_to_config.py language {lang}'.format(lang=language)
     os.system(setLanguageCommand)
     print setLanguageCommand
     
-    setCountryCommand = 'python add_key_value_pair_to_config.py Country {co}'.format(co=country)
+    setCountryCommand = 'python add_key_value_pair_to_config.py country {co}'.format(co=country)
     os.system(setCountryCommand)
     print setCountryCommand
     
@@ -66,8 +66,8 @@ locs = {
     'zh_TW',
 }
 
-apk = pathToApk + 'project-expedia-latest-unaligned.apk'
-testApk = pathToApk + 'project-expedia-latest-test-unaligned.apk'
+apk = pathToApk + 'project-expedia-debug-unaligned.apk'
+testApk = pathToApk + 'project-expedia-debug-test-unaligned.apk'
 
 os.system('adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X uninstall com.expedia.bookings.latest')
 os.system('adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X install {apkPath}'.format(apkPath=apk))

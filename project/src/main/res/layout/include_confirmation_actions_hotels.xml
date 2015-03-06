@@ -42,13 +42,6 @@
         android:drawableLeft="@drawable/ic_calendar_add"
         android:text="@string/add_to_calendar" />
 
-    <View
-        android:id="@+id/vsc_app_divider"
-        style="@style/Confirmation.Divider.Action.Hotel"
-        android:visibility="gone" />
-
-    <include
-        layout="@layout/vsc_train_confirmation_row"
-        android:visibility="gone" />
+    <include layout="@layout/other_apps_crosssell_confirmation_row"/>
 
 </merge>

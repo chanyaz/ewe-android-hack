@@ -1,26 +1,33 @@
 package com.expedia.bookings.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.presenter.CarsPresenter;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class CarsActivity extends Activity {
 
-	private static final String KEY_LAYOUT_RES = "KEY_LAYOUT_RES";
-
-	public static Intent createIntent(Context context, @LayoutRes int layoutResId) {
-		Intent intent = new Intent(context, CarsActivity.class);
-		intent.putExtra(KEY_LAYOUT_RES, layoutResId);
-		return intent;
-	}
+	@InjectView(R.id.cars_presenter)
+	CarsPresenter carsPresenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.activity_cars));
+		CarDb.inject(this);
+
+		setContentView(R.layout.activity_cars);
+		ButterKnife.inject(this);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!carsPresenter.back()) {
+			super.onBackPressed();
+		}
 	}
 }

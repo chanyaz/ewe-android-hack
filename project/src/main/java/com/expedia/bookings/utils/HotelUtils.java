@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.Sp;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -247,5 +248,13 @@ public class HotelUtils {
 			String tripTotal = rate.getDisplayTotalPrice().getFormattedMoney();
 			return Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal));
 		}
+	}
+	/*
+	 * Helper method to check if it's valid to start the hotel search.
+	 */
+	public static boolean dateRangeSupportsHotelSearch(Context context) {
+		// TODO should we be referring to Db.getHotelSearch() or Sp.toHotelSearch() ??
+		return Sp.getParams().toHotelSearchParams().getStayDuration() <= context.getResources()
+			.getInteger(R.integer.calendar_max_days_hotel_stay);
 	}
 }
