@@ -32,7 +32,12 @@ public class PersistentCookieManager extends CookieManager {
 	}
 
 	@Override
-	public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
+	public synchronized Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {
+		return super.get(uri, requestHeaders);
+	}
+
+	@Override
+	public synchronized void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
 		super.put(uri, responseHeaders);
 		save();
 	}

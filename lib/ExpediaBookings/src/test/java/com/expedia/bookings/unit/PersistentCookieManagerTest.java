@@ -88,6 +88,13 @@ public class PersistentCookieManagerTest {
 	}
 
 	@Test
+	public void get() throws Throwable {
+		manager.put(expedia, EXPEDIA_COOKIES);
+		Map<String, List<String>> cookies = manager.get(expedia, new HashMap<String, List<String>>());
+		Assert.assertNotEquals("Expected cookies " + Strings.toPrettyString(cookies), 0, cookies.size());
+	}
+
+	@Test
 	public void clearingCookies() throws Throwable {
 		expectNotExists(storage);
 		manager.put(expedia, EXPEDIA_COOKIES);
