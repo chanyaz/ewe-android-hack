@@ -5,11 +5,14 @@ import java.util.List;
 import com.expedia.bookings.data.SuggestionResultType;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.cars.SuggestionResponse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
+import retrofit.converter.GsonConverter;
 import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
@@ -23,6 +26,7 @@ public class SuggestionServices {
 
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
+	private static final int MAX_NEARBY_AIRPORTS = 2;
 
 	private static final RequestInterceptor REQUEST_INTERCEPTOR = new RequestInterceptor() {
 		@Override
@@ -36,9 +40,14 @@ public class SuggestionServices {
 		mSubscribeOn = subscribeOn;
 		mClient = okHttpClient;
 
+		Gson gson = new GsonBuilder()
+			.registerTypeAdapter(SuggestionResponse.class, new SuggestionResponse())
+			.create();
+
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(mClient))
 			.setRequestInterceptor(REQUEST_INTERCEPTOR)
 			.build();
@@ -47,6 +56,7 @@ public class SuggestionServices {
 	}
 
 	private static final int MAX_AIRPORTS_RETURNED = 3;
+
 	public Subscription getAirportSuggestions(String query, Observer<List<Suggestion>> observer) {
 		return mSuggestApi.suggestV3(query, SuggestionResultType.AIRPORT)
 			.observeOn(mObserveOn)
@@ -58,6 +68,7 @@ public class SuggestionServices {
 	}
 
 	private static final int MAX_LX_SUGGESTIONS_RETURNED = 3;
+
 	public Subscription getLxSuggestions(String query, Observer<List<Suggestion>> observer) {
 		int lxSuggestionsType = SuggestionResultType.CITY | SuggestionResultType.MULTI_CITY | SuggestionResultType.NEIGHBORHOOD;
 		return mSuggestApi.suggestV3(query, lxSuggestionsType)
@@ -75,4 +86,27 @@ public class SuggestionServices {
 			return Observable.from(suggestionResponse.suggestions);
 		}
 	};
+
+	public Subscription getNearbyAirportSuggestions(String query, Observer<List<Suggestion>> observer) {
+		return mSuggestApi.suggestNearbyAirport(query)
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.map(sToListNearby)
+			.subscribe(observer);
+	}
+
+	private static Func1<SuggestionResponse, List<Suggestion>> sToListNearby = new Func1<SuggestionResponse, List<Suggestion>>() {
+		@Override
+		public List<Suggestion> call(SuggestionResponse suggestionResponse) {
+			if (suggestionResponse != null) {
+				List<Suggestion> result = suggestionResponse.suggestions.subList(0, suggestionResponse.suggestions.size() >= 2 ? MAX_NEARBY_AIRPORTS : 1);
+				for (Suggestion suggestion : result) {
+					suggestion.iconType = Suggestion.IconType.CURRENT_LOCATION_ICON;
+				}
+				return result;
+			}
+			return null;
+		}
+	};
+
 }

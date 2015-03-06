@@ -8,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import rx.Observer;
-import rx.Subscription;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import rx.Observer;
+import rx.Subscription;
 
 public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
@@ -53,8 +53,17 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 			airportName.setText(StrUtils.formatAirportName(suggestion.shortName));
 			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 
-			dropdownImage.setImageResource(suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
-			dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.cars_secondary_color));
+			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
+				dropdownImage.setImageResource(R.drawable.recents);
+			}
+			else if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
+				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
+			}
+			else {
+				dropdownImage.setImageResource(R.drawable.search_type_icon);
+			}
+			dropdownImage
+				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.cars_secondary_color));
 		}
 	}
 
