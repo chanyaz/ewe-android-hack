@@ -20,9 +20,13 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppModule;
+import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.CarComponent;
+import com.expedia.bookings.dagger.Dagger_AppComponent;
 import com.expedia.bookings.dagger.Dagger_CarComponent;
+import com.expedia.bookings.dagger.Dagger_LaunchComponent;
 import com.expedia.bookings.dagger.Dagger_LXComponent;
+import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -37,7 +41,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -97,14 +100,20 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
-		super.onCreate();
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+		super.onCreate();
+		startupTimer.addSplit("super.onCreate()");
 
 		Fabric.with(this, new Crashlytics());
 		startupTimer.addSplit("Crashlytics started.");
 
 		StethoShim.install(this);
 		startupTimer.addSplit("Stetho Init");
+
+		mAppComponent = Dagger_AppComponent.builder()
+			.appModule(new AppModule(this))
+			.build();
+		startupTimer.addSplit("Dagger AppModule created");
 
 		PicassoHelper.init(this);
 		Boolean isLoggingEnabled = SettingUtils.get(this, getString(R.string.preference_enable_picasso_logging), false);
@@ -138,9 +147,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// the Provider before anything tries to use Joda time
 		JodaTimeAndroid.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
-
-		ExpediaServices.init(this);
-		startupTimer.addSplit("ExpediaServices init");
 
 		try {
 			if (!isRelease) {
@@ -194,10 +200,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
-
-		String serverEndpointsConfigurationPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
-		EndPoint.init(this, serverEndpointsConfigurationPath);
-		startupTimer.addSplit("ExpediaServices endpoints init");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
@@ -325,16 +327,21 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	//////////////////////////////////////////////////////////////////////////
 	// Dagger instances
 
+	private AppComponent mAppComponent;
 	private CarComponent mCarComponent;
 	private LXComponent mLXComponent;
+	private LaunchComponent mLaunchComponent;
+
+	public AppComponent appComponent() {
+		return mAppComponent;
+	}
 
 	public void defaultCarComponents() {
 		setCarComponent(Dagger_CarComponent.builder()
-			.appModule(new AppModule(this))
+			.appComponent(mAppComponent)
 			.build());
 	}
 
-	// Used by tests
 	public void setCarComponent(CarComponent carComponent) {
 		mCarComponent = carComponent;
 	}
@@ -345,7 +352,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public void defaultLXComponents() {
 		setLXComponent(Dagger_LXComponent.builder()
-			.appModule(new AppModule(this))
+			.appComponent(mAppComponent)
 			.build());
 	}
 
@@ -355,6 +362,20 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public LXComponent lxComponent() {
 		return mLXComponent;
+	}
+
+	public void defaultLaunchComponents() {
+		setLaunchComponent(Dagger_LaunchComponent.builder()
+			.appComponent(mAppComponent)
+			.build());
+	}
+
+	public void setLaunchComponent(LaunchComponent launchComponent) {
+		mLaunchComponent = launchComponent;
+	}
+
+	public LaunchComponent launchComponent() {
+		return mLaunchComponent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -449,7 +470,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		String localeId = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
-		String api = EndPoint.getEndPoint(context).name();
+		String api = appComponent().endpointProvider().getEndPoint().name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
 

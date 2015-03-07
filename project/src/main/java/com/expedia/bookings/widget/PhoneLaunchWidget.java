@@ -3,6 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -31,34 +33,32 @@ import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.DbUtils;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.ServicesUtil;
-import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit.RequestInterceptor;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class PhoneLaunchWidget extends FrameLayout {
 
 	private static final String TAG = "PhoneLaunchWidget";
 	private static final String COLLECTION_TITLE = "staff-picks";
 
-	private HotelServices hotelServices;
+	@Inject
+	public HotelServices hotelServices;
+
+	@Inject
+	public CollectionServices collectionServices;
+
 	private HotelSearchParams searchParams;
-	private CollectionServices collectionServices;
 	private Subscription downloadSubscription;
 
 	@InjectView(R.id.lob_selector)
@@ -76,7 +76,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Override
 	public void onFinishInflate() {
 		ButterKnife.inject(this);
-		setUpServices();
+		Ui.getApplication(getContext()).launchComponent().inject(this);
 	}
 
 	@Override
@@ -97,38 +97,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 			downloadSubscription.unsubscribe();
 			downloadSubscription = null;
 		}
-	}
-
-	// Set up
-	// TODO not this
-	private void setUpServices() {
-		RequestInterceptor requestInterceptor = new RequestInterceptor() {
-			@Override
-			public void intercept(RequestFacade request) {
-				request.addEncodedQueryParam("clientid", ServicesUtil.generateClientId(getContext()));
-				request.addEncodedQueryParam("sourceType", ServicesUtil.generateSourceType());
-
-				String langid = ServicesUtil.generateLangId();
-				if (Strings.isNotEmpty(langid)) {
-					request.addEncodedQueryParam("langid", langid);
-				}
-
-				if (EndPoint.requestRequiresSiteId(getContext())) {
-					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
-				}
-			}
-		};
-		hotelServices = new HotelServices(EndPoint.getE3EndpointUrl(getContext(), true /*isSecure*/),
-				DbUtils.generateOkHttpClient(),
-				requestInterceptor,
-				AndroidSchedulers.mainThread(),
-				Schedulers.io());
-
-		collectionServices = new CollectionServices(EndPoint.getE3EndpointUrl(getContext(), true /*isSecure*/),
-			DbUtils.generateOkHttpClient(),
-			requestInterceptor,
-			AndroidSchedulers.mainThread(),
-			Schedulers.io());
 	}
 
 	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {

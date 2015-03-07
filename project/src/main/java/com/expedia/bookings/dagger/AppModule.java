@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -11,14 +13,13 @@ import javax.net.ssl.X509TrustManager;
 import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.dagger.tags.E3Endpoint;
-import com.expedia.bookings.dagger.tags.SuggestEndpoint;
-import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
-
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
@@ -68,20 +69,41 @@ public class AppModule {
 		}
 	}
 
+	private static final String COOKIE_FILE_V2 = "cookies-2.dat";
+	private static final String COOKIE_FILE_V3 = "cookies-3.dat";
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(SSLContext sslContext) {
+	PersistentCookieManager provideCookieManager(Context context) {
+		File storageV3 = context.getFileStreamPath(COOKIE_FILE_V3);
+		PersistentCookieManager manager = new PersistentCookieManager(storageV3);
+
+		// REMOVE THIS once people upgrade
+		File storageV2 = context.getFileStreamPath(COOKIE_FILE_V2);
+		PersistentCookieManager.fillWithOldCookies(manager, storageV2);
+
+		return manager;
+	}
+
+	@Provides
+	@Singleton
+	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext) {
 		OkHttpClient client = new OkHttpClient();
+
+		client.setFollowSslRedirects(true);
+		client.setCookieHandler(cookieManager);
+
 		if (BuildConfig.DEBUG) {
+			// We don't care about cert validity for debug builds
 			client.setSslSocketFactory(sslContext.getSocketFactory());
 			StethoShim.install(client);
 		}
+
 		return client;
 	}
 
 	@Provides
 	@Singleton
-	RequestInterceptor provideRequestInterceptor(final Context context) {
+	RequestInterceptor provideRequestInterceptor(final Context context, final EndpointProvider endpointProvider) {
 		return new RequestInterceptor() {
 			@Override
 			public void intercept(RequestFacade request) {
@@ -94,7 +116,7 @@ public class AppModule {
 					request.addEncodedQueryParam("langid", langid);
 				}
 
-				if (EndPoint.requestRequiresSiteId(context)) {
+				if (endpointProvider.requestRequiresSiteId()) {
 					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
 				}
 			}
@@ -103,15 +125,14 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	@E3Endpoint
-	String provideExpediaEndpoint(Context context) {
-		return EndPoint.getE3EndpointUrl(context, true /*isSecure*/);
-	}
-
-	@Provides
-	@Singleton
-	@SuggestEndpoint
-	String provideSuggestEndpoint(Context context) {
-		return EndPoint.getEssEndpointUrl(context, true /*isSecure*/);
+	EndpointProvider provideEndpointProvider(Context context) {
+		try {
+			String serverUrlPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
+			InputStream serverUrlStream = context.getAssets().open(serverUrlPath);
+			return new EndpointProvider(context, serverUrlStream);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

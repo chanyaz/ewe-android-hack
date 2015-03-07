@@ -96,6 +96,8 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Ui.getApplication(this).defaultLaunchComponents();
+
 		if (Db.getTripBucket().isEmpty()) {
 			Db.loadTripBucket(this);
 		}

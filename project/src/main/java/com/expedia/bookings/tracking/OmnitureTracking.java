@@ -64,6 +64,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -2654,7 +2655,8 @@ public class OmnitureTracking {
 	}
 
 	private static String getTrackingServer(Context context) {
-		if (EndPoint.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
+		EndPoint endpoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
+		if (endpoint == EndPoint.CUSTOM_SERVER) {
 			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
 		else {
