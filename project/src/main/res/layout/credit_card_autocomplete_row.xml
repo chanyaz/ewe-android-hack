@@ -6,7 +6,7 @@
     android:background="@drawable/bg_checkout_saved_spinner_row"
     android:orientation="horizontal">
 
-    <ImageView
+    <com.expedia.bookings.widget.RoundImageView
         android:id="@+id/icon"
         android:layout_width="32dp"
         android:layout_height="32dp"

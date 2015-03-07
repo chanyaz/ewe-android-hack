@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.PaymentButton xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingLeft="16dp"
-    android:id="@+id/payment_button"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content">
 
-   <Button
-       android:id="@+id/select_payment_button"
-       android:layout_width="match_parent"
-       android:drawableLeft="@drawable/cars_stored_cc_spinner_icon"
-       android:text="Select saved cards"
-       android:textColor="@color/cars_actionbar_text_color"
-       android:textSize="16sp"
-       android:padding="16dp"
-       android:drawablePadding="12dp"
-       android:drawableRight="@drawable/ic_expand"
-       android:textAllCaps="false"
-       android:background="@drawable/cars_fake_spinner"
-       android:gravity="left|center_vertical"
-       android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/select_payment_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cars_fake_spinner"
+        android:drawableLeft="@drawable/cars_stored_cc_spinner_icon"
+        android:drawablePadding="12dp"
+        android:gravity="left|center_vertical"
+        android:padding="16dp"
+        android:text="Select saved cards"
+        android:textAllCaps="false"
+        android:textColor="@color/cars_actionbar_text_color"
+        android:textSize="16sp" />
 
-</com.expedia.bookings.widget.PaymentButton>
+</merge>

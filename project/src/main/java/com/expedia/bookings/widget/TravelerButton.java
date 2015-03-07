@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -61,6 +62,8 @@ public class TravelerButton extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		inflater.inflate(R.layout.checkout_traveler_button, this);
 		ButterKnife.inject(this);
 		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), false, R.drawable.car_driver_checkout_circle);
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();

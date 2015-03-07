@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -52,9 +53,11 @@ public class PaymentButton extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		inflater.inflate(R.layout.checkout_payment_button, this);
 		ButterKnife.inject(this);
 		Db.loadBillingInfo(getContext());
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(), null, false);
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(), Db.getTripBucket().getCar(), false);
 	}
 
 	public void setPaymentButtonListener(IPaymentButtonListener listener) {

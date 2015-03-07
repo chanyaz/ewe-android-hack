@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -31,6 +33,12 @@ public class PaymentWidget extends ExpandableCardView {
 		super(context, attr);
 	}
 
+	@InjectView(R.id.card_info_container)
+	ViewGroup cardInfoContainer;
+
+	@InjectView(R.id.section_billing_info_container)
+	ViewGroup billingInfoContainer;
+
 	@InjectView(R.id.section_billing_info)
 	SectionBillingInfo sectionBillingInfo;
 
@@ -46,37 +54,35 @@ public class PaymentWidget extends ExpandableCardView {
 	@InjectView(R.id.edit_address_postal_code)
 	EditText creditCardPostalCode;
 
+	@InjectView(R.id.card_info_icon)
+	RoundImageView cardInfoIcon;
+
+	@InjectView(R.id.card_info_name)
+	TextView cardInfoName;
+
+	@InjectView(R.id.card_info_expiration)
+	TextView cardInfoExpiration;
+
+	@InjectView(R.id.card_info_status_icon)
+	ContactDetailsCompletenessStatusImageView paymentStatusIcon;
+
 	@InjectView(R.id.payment_button)
 	PaymentButton paymentButton;
 
 	@InjectView(R.id.stored_card_container)
 	LinearLayout storedCardContainer;
 
+	@InjectView(R.id.display_credit_card_brand_icon_tablet)
+	RoundImageView storedCardImageView;
+
 	@InjectView(R.id.stored_card_name)
 	TextView storedCardName;
-
-	@InjectView(R.id.stored_card_expiration)
-	TextView storedCardExpiration;
-
-	@InjectView(R.id.display_credit_card_brand_icon_tablet)
-	ImageView storedCardImageView;
-
-	@InjectView(R.id.remove_stored_card_button)
-	ImageView removedStoredCardImageView;
-
-	@InjectView(R.id.paymentStatusIcon)
-	CarDriverCheckoutStatusLeftImageView paymentStatusIcon;
 
 	private boolean isCreditCardRequired = false;
 
 	public void setCreditCardRequired(boolean required) {
 		isCreditCardRequired = required;
-		if (required) {
-			setVisibility(VISIBLE);
-		}
-		else {
-			setVisibility(GONE);
-		}
+		setVisibility(required ? VISIBLE : GONE);
 	}
 
 	public boolean isCreditCardRequired() {
@@ -95,16 +101,11 @@ public class PaymentWidget extends ExpandableCardView {
 		sectionBillingInfo.setVisibility(VISIBLE);
 	}
 
-	@OnClick(R.id.payment_info_card_view)
-	public void onCardExpanded() {
-		if (!isExpanded()) {
-			setExpanded(true);
-		}
-	}
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+ 		inflater.inflate(R.layout.payment_widget, this);
 		ButterKnife.inject(this);
 
 		creditCardPostalCode.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
@@ -126,56 +127,60 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	public void bind() {
+		boolean isBillingInfoValid = sectionBillingInfo.performValidation();
+		boolean isPostalCodeValid = sectionLocation.performValidation();
 		// User is logged in and has a stored card
 		if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
 			StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
 			String cardName = card.getDescription();
 			CreditCardType cardType = card.getType();
-			bindCard(cardType, cardName, "");
-			storedCardExpiration.setVisibility(GONE);
-			paymentStatusIcon.setStatus(CarDriverWidget.DriverCheckoutStatus.COMPLETE);
+			bindCard(cardType, cardName, null);
+			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 			// let's bind sectionBillingInfo & sectionLocation to a new one. So next time around we start afresh.
 			sectionBillingInfo.bind(new BillingInfo());
 			sectionLocation.bind(new Location());
 		}
 		// Card info user entered is valid
-		else if (sectionBillingInfo.performValidation() && sectionLocation.performValidation()) {
+		else if (isBillingInfoValid && isPostalCodeValid) {
 			BillingInfo info = sectionBillingInfo.getBillingInfo();
 			String cardNumber = NumberMaskFormatter.obscureCreditCardNumber(info.getNumber());
 			CreditCardType cardType = info.getCardType();
 			String expiration = JodaUtils.format(info.getExpirationDate(), "MM/yy");
 			bindCard(cardType, cardNumber, expiration);
-			storedCardExpiration.setVisibility(VISIBLE);
-			paymentStatusIcon.setStatus(CarDriverWidget.DriverCheckoutStatus.COMPLETE);
+			cardInfoExpiration.setVisibility(VISIBLE);
+			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 		}
 		// Card info partially entered & not valid
-		else if (isFilled() && (!sectionBillingInfo.performValidation() || !sectionLocation.performValidation())) {
-			storedCardName.setText(getResources().getString(R.string.enter_payment_details));
-			storedCardExpiration.setText("");
-			storedCardExpiration.setVisibility(GONE);
-			storedCardImageView.setImageResource(R.drawable.cars_checkout_cc_default_icon);
-			paymentStatusIcon.setStatus(CarDriverWidget.DriverCheckoutStatus.INCOMPLETE);
+		else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
+			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.INCOMPLETE);
 		}
 		// Default all fields are empty
 		else {
-			storedCardName.setText(getResources().getString(R.string.enter_payment_details));
-			storedCardExpiration.setText("");
-			storedCardExpiration.setVisibility(GONE);
-			storedCardImageView.setImageResource(R.drawable.cars_checkout_cc_default_icon);
-			paymentStatusIcon.setStatus(CarDriverWidget.DriverCheckoutStatus.DEFAULT);
+			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			sectionBillingInfo.bind(new BillingInfo());
 			sectionLocation.bind(new Location());
 		}
 	}
 
 	private void bindCard(CreditCardType cardType, String cardNumber, String cardExpiration) {
+		cardInfoName.setText(cardNumber);
 		storedCardName.setText(cardNumber);
-		storedCardExpiration.setText(getResources().getString(R.string.selected_card_template, cardExpiration));
-		if (cardType != null) {
-			storedCardImageView.setImageResource(BookingInfoUtils.getTabletCardIcon(cardType));
+		if (!TextUtils.isEmpty(cardExpiration)) {
+			cardInfoExpiration.setText(getResources().getString(R.string.selected_card_template, cardExpiration));
 		}
 		else {
-			storedCardImageView.setImageResource(R.drawable.cars_checkout_cc_default_icon);
+			cardInfoExpiration.setText("");
+			cardInfoExpiration.setVisibility(GONE);
+		}
+		if (cardType != null) {
+			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+			storedCardImageView.setImageDrawable(getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+		}
+		else {
+			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
+			storedCardImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
 		}
 	}
 
@@ -186,6 +191,8 @@ public class PaymentWidget extends ExpandableCardView {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());
 		}
 		if (expand) {
+			cardInfoContainer.setVisibility(GONE);
+			billingInfoContainer.setVisibility(VISIBLE);
 			if (User.isLoggedIn(getContext())) {
 				paymentButton.setVisibility(VISIBLE);
 				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
@@ -199,20 +206,15 @@ public class PaymentWidget extends ExpandableCardView {
 				}
 			}
 			else {
+				paymentButton.setVisibility(GONE);
 				storedCardContainer.setVisibility(GONE);
 				sectionBillingInfo.setVisibility(VISIBLE);
 			}
-
-			paymentStatusIcon.setVisibility(GONE);
-			removedStoredCardImageView.setVisibility(VISIBLE);
 			creditCardNumber.requestFocus();
 		}
 		else {
-			paymentButton.setVisibility(GONE);
-			storedCardContainer.setVisibility(VISIBLE);
-			paymentStatusIcon.setVisibility(VISIBLE);
-			removedStoredCardImageView.setVisibility(GONE);
-			sectionBillingInfo.setVisibility(GONE);
+			cardInfoContainer.setVisibility(VISIBLE);
+			billingInfoContainer.setVisibility(GONE);
 		}
 		bind();
 	}
@@ -272,9 +274,14 @@ public class PaymentWidget extends ExpandableCardView {
 			return true;
 		}
 		// If payment is required check to see if the entered/selected stored CC is valid.
-		else {
-			return (isCreditCardRequired && (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard() || (sectionBillingInfo.performValidation() && sectionLocation.performValidation())));
+		else if (isCreditCardRequired && (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard())) {
+			return true;
 		}
+		else if (isCreditCardRequired && (sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -167,18 +168,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		inflater.inflate(R.layout.login_widget, this);
 		ButterKnife.inject(this);
 		View v = this;
-
-		loginText.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mToolbarListener != null) {
-					mToolbarListener.onWidgetExpanded(AccountLoginWidget.this);
-				}
-				setExpanded(true);
-			}
-		});
 
 		mOuterContainer = Ui.findView(v, R.id.outer_container);
 		mExpediaSigninContainer = Ui.findView(v, R.id.expedia_signin_container);
@@ -247,16 +240,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	}
 
 	public void setupView() {
-
-		mStatusTextContent = getContext()
-			.getString(Ui.obtainThemeResID(getContext(), R.attr.skin_loginWithExpediaTitleText));
-		if (mStatusText == null
-			|| mStatusText.equalsIgnoreCase(mStatusTextContent)) {
-			setStatusText(mStatusTextContent, true);
-		}
-		else if (mStatusText != null) {
-			setStatusText(mStatusText, false);
-		}
 
 		initOnClicks();
 
@@ -612,9 +595,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			if (mToolbarListener != null && animate) {
-				mToolbarListener.onWidgetClosed();
-			}
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
 		default:

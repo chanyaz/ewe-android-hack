@@ -27,7 +27,7 @@ public class ContactDetailsCompletenessStatusImageView extends ImageView {
 
 	public ContactDetailsCompletenessStatusImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SwipeOutLayout, 0, 0);
+		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ContactDetailsCompleteness, 0, 0);
 
 		if (ta.hasValue(R.styleable.ContactDetailsCompleteness_state)) {
 			ContactDetailsCompletenessStatus checkoutStatus = ContactDetailsCompletenessStatus.values()[ta

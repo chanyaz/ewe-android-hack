@@ -7,8 +7,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -18,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -25,6 +25,7 @@ import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.ISlideToListener {
+public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISlideToListener {
 
 	public CarCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -90,8 +91,8 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	@InjectView(R.id.slide_to_purchase_widget)
 	SlideToWidgetJB slideWidget;
 
-	@InjectView(R.id.summery_container)
-	CardView summeryContainer;
+	@InjectView(R.id.summary_container)
+	CardView summaryContainer;
 
 	@InjectView(R.id.driver_info_card_view)
 	CarDriverWidget driverInfoCardView;
@@ -105,8 +106,9 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 	MenuItem menuNext;
 	MenuItem menuDone;
 
-	ExpandableCardView mLastExpandedCard;
-	ExpandableCardView mCurrentExpandedCard;
+	ExpandableCardView lastExpandedCard;
+	ExpandableCardView currentExpandedCard;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -147,10 +149,10 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 					slideToContainer.setVisibility(View.VISIBLE);
 					break;
 				case R.id.menu_next:
-					mCurrentExpandedCard.setNextFocus();
+					currentExpandedCard.setNextFocus();
 					break;
 				case R.id.menu_done:
-					mCurrentExpandedCard.onDonePressed();
+					currentExpandedCard.onDonePressed();
 					Ui.hideKeyboard(CarCheckoutWidget.this);
 					break;
 				}
@@ -165,18 +167,8 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 			addView(Ui.setUpStatusBar(getContext(), toolbar, scrollView, color));
 		}
 
-	}
+		addTransition(defaultToExpanded);
 
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		Events.register(this);
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		Events.unregister(this);
-		super.onDetachedFromWindow();
 	}
 
 	@Subscribe
@@ -206,15 +198,12 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.ic_action_bar_checkmark_white);
-		drawableEnabled.setColorFilter(getResources().getColor(R.color.cars_checkmark_color), PorterDuff.Mode.SRC_IN);
-		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
-		unlimitedMileageText.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 		driverInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(View.GONE);
 		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 		isCheckoutComplete();
+		show(new CarCheckoutDefault());
 	}
 
 	@Subscribe
@@ -238,7 +227,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 			new CarCheckoutParamsBuilder()
 				.firstName(driverInfoCardView.firstName.getText().toString())
 				.lastName(driverInfoCardView.lastName.getText().toString())
-				.emailAddress(driverInfoCardView.emailAddress.getText().toString())
+				.emailAddress(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail() : driverInfoCardView.emailAddress.getText().toString())
 				.grandTotal(createTripResponse.carProduct.detailedFare.grandTotal)
 				.phoneCountryCode(Integer.toString(driverInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(driverInfoCardView.phoneNumber.getText().toString())
@@ -259,14 +248,14 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 
 		@Override
 		public void onWidgetExpanded(ExpandableCardView cardView) {
-			mLastExpandedCard = mCurrentExpandedCard;
-			mCurrentExpandedCard = cardView;
-			expandWidget(mCurrentExpandedCard);
+			lastExpandedCard = currentExpandedCard;
+			currentExpandedCard = cardView;
+			show(new CarWidgetExpanded());
 		}
 
 		@Override
 		public void onWidgetClosed() {
-			closeWidget();
+			((Activity)getContext()).onBackPressed();
 		}
 
 		@Override
@@ -275,70 +264,6 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 			menuDone.setVisible(true);
 		}
 	};
-
-	private void expandWidget(final View v) {
-		scrollView.post(new Runnable() {
-			@Override
-			public void run() {
-				scrollView.smoothScrollTo(0, 0);
-				summeryContainer.setVisibility(GONE);
-				if (loginWidget != mCurrentExpandedCard) {
-					loginWidget.setVisibility(GONE);
-				}
-				hintContainer.setVisibility(GONE);
-				if (driverInfoCardView != mCurrentExpandedCard) {
-					driverInfoCardView.setVisibility(GONE);
-				}
-				if (paymentInfoCardView != mCurrentExpandedCard) {
-					paymentInfoCardView.setVisibility(GONE);
-				}
-				legalInformationText.setVisibility(GONE);
-				if (mLastExpandedCard != null && mLastExpandedCard != mCurrentExpandedCard) {
-					mLastExpandedCard.setExpanded(false, false);
-				}
-			}
-		});
-		toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-		toolbar.setNavigationOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mCurrentExpandedCard.setExpanded(false);
-			}
-		});
-		menuNext.setVisible(true);
-		menuDone.setVisible(false);
-		slideToContainer.setVisibility(GONE);
-	}
-
-	private void closeWidget() {
-		Ui.hideKeyboard(CarCheckoutWidget.this);
-		scrollView.post(new Runnable() {
-			@Override
-			public void run() {
-				scrollView.smoothScrollTo(0, 0);
-				summeryContainer.setVisibility(VISIBLE);
-				loginWidget.setVisibility(VISIBLE);
-				hintContainer.setVisibility(VISIBLE);
-				driverInfoCardView.setVisibility(VISIBLE);
-				if (paymentInfoCardView.isCreditCardRequired()) {
-					paymentInfoCardView.setVisibility(VISIBLE);
-				}
-				legalInformationText.setVisibility(VISIBLE);
-				// After user enters either the payment/driver widget (i.e. data changed) let's check the checkout status. If complete, show slider widget.
-				isCheckoutComplete();
-			}
-		});
-		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-		toolbar.setNavigationOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				((Activity) getContext()).onBackPressed();
-			}
-		});
-		menuNext.setVisible(false);
-		menuDone.setVisible(false);
-	}
 
 	private void isCheckoutComplete() {
 		if (driverInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
@@ -407,6 +332,7 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		public void onLoginCompleted() {
 			driverInfoCardView.onLogin();
 			paymentInfoCardView.onLogin();
+			isCheckoutComplete();
 		}
 
 		@Override
@@ -418,7 +344,80 @@ public class CarCheckoutWidget extends FrameLayout implements SlideToWidgetJB.IS
 		public void onLogout() {
 			driverInfoCardView.onLogout();
 			paymentInfoCardView.onLogout();
+			isCheckoutComplete();
 		}
 	};
 
+		/*
+	* States and stuff
+	*/
+
+	public static class CarCheckoutDefault {
+	}
+
+	public static class CarWidgetExpanded {
+	}
+
+	private Presenter.Transition defaultToExpanded = new Presenter.Transition(CarCheckoutDefault.class,
+		CarWidgetExpanded.class) {
+
+		@Override
+		public void startTransition(boolean forward) {
+			if (forward) {
+				summaryContainer.setVisibility(GONE);
+				if (loginWidget != currentExpandedCard) {
+					loginWidget.setVisibility(GONE);
+				}
+				hintContainer.setVisibility(GONE);
+				if (driverInfoCardView != currentExpandedCard) {
+					driverInfoCardView.setVisibility(GONE);
+				}
+				if (paymentInfoCardView != currentExpandedCard) {
+					paymentInfoCardView.setVisibility(GONE);
+				}
+				legalInformationText.setVisibility(GONE);
+				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
+					lastExpandedCard.setExpanded(false, false);
+				}
+				Ui.showKeyboard(CarCheckoutWidget.this, null);
+			}
+			else {
+				currentExpandedCard.setExpanded(false, false);
+				summaryContainer.setVisibility(VISIBLE);
+				loginWidget.setVisibility(VISIBLE);
+				hintContainer.setVisibility(VISIBLE);
+				driverInfoCardView.setVisibility(VISIBLE);
+				if (paymentInfoCardView.isCreditCardRequired()) {
+					paymentInfoCardView.setVisibility(VISIBLE);
+				}
+				legalInformationText.setVisibility(VISIBLE);
+				Ui.hideKeyboard(CarCheckoutWidget.this);
+			}
+
+			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle() : getContext().getString(R.string.cars_checkout_text));
+			toolbar.setNavigationIcon(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp);
+			menuNext.setVisible(forward ? true : false);
+			menuDone.setVisible(false);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				slideToContainer.setVisibility(GONE);
+			}
+			else {
+				isCheckoutComplete();
+			}
+		}
+	};
 }

@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.widget.RoundImageView;
 import com.mobiata.android.util.Ui;
 
 public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
@@ -82,6 +83,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		View retView = convertView;
 		TextView tv;
 		ImageView icon;
+		RoundImageView rIcon;
 		switch(itemType) {
 		case ITEM_VIEW_TYPE_SELECT_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
@@ -98,9 +100,8 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 			}
 
 			tv = Ui.findView(retView, R.id.text1);
-			icon = Ui.findView(retView, R.id.icon);
+			rIcon = Ui.findView(retView, R.id.icon);
 			tv.setText(card.getDescription());
-			icon.setImageResource(BookingInfoUtils.getTabletCardIcon(card.getType()));
 			retView.setEnabled(card.isSelectable());
 
 			// Show a special icon for an invalid credit card (can happen in flights mode)
@@ -111,7 +112,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 			int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(card.getType()) :
 				R.drawable.ic_tablet_checkout_disabled_credit_card;
-			icon.setImageResource(imgRes);
+			rIcon.setImageDrawable(getContext().getResources().getDrawable(imgRes));
 			break;
 		case ITEM_VIEW_TYPE_ADD_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);

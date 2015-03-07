@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -16,7 +17,6 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class CarDriverWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
@@ -25,10 +25,10 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	}
 
 	@InjectView(R.id.travelerStatusIcon)
-	ContactDetailsCompletenessStatusImageView driverCheckoutStatusLeftImageView;
+	ContactDetailsCompletenessStatusImageView driverCheckoutStatusRightImageView;
 
 	@InjectView(R.id.travelerNameIcon)
-	ContactInitialsImageView driverCheckoutStatusRightImageView;
+	ContactInitialsImageView driverCheckoutStatusLeftImageView;
 
 	@InjectView(R.id.section_traveler_info_container)
 	SectionTravelerInfo sectionTravelerInfo;
@@ -41,9 +41,6 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 	@InjectView(R.id.edit_first_name)
 	EditText firstName;
-
-	@InjectView(R.id.edit_middle_name)
-	EditText middleName;
 
 	@InjectView(R.id.edit_last_name)
 	EditText lastName;
@@ -63,16 +60,11 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@InjectView(R.id.traveler_button)
 	TravelerButton travelerButton;
 
-	@OnClick(R.id.driver_info_card_view)
-	public void onCardExpanded() {
-		if (!isExpanded()) {
-			setExpanded(true);
-		}
-	}
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		inflater.inflate(R.layout.car_driver_widget, this);
 		ButterKnife.inject(this);
 
 		phoneSpinner.selectPOSCountry();
@@ -90,14 +82,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		});
 		travelerButton.setVisibility(GONE);
 		travelerButton.setTravelButtonListener(this);
-
-		sectionTravelerInfo.setEmailFieldsEnabled(true);
 		firstName.setOnFocusChangeListener(this);
-		middleName.setOnFocusChangeListener(this);
 		lastName.setOnFocusChangeListener(this);
 		emailAddress.setOnFocusChangeListener(this);
-		lastName.setNextFocusDownId(emailAddress.getId());
-		lastName.setNextFocusRightId(emailAddress.getId());
 		phoneNumber.setOnFocusChangeListener(this);
 		bind();
 	}
@@ -119,8 +106,11 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			if (traveler == null) {
 				traveler = Db.getUser().getPrimaryTraveler();
 			}
-
+			traveler.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 			sectionTravelerInfo.bind(traveler);
+			sectionTravelerInfo.refreshOnLoginStatusChange();
+			lastName.setNextFocusRightId(phoneNumber.getId());
+			lastName.setNextFocusDownId(phoneNumber.getId());
 			driverInfoText.setText(traveler.getFullName());
 			driverPhoneText.setText(traveler.getPhoneNumber());
 			driverPhoneText.setVisibility(VISIBLE);
@@ -131,18 +121,17 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 				traveler = new Traveler();
 				sectionTravelerInfo.bind(traveler);
 			}
+			sectionTravelerInfo.refreshOnLoginStatusChange();
+			lastName.setNextFocusRightId(emailAddress.getId());
+			lastName.setNextFocusDownId(emailAddress.getId());
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
 			driverInfoText.setText(R.string.enter_driver_details);
-
-			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
-
 			driverPhoneText.setText("");
 			driverPhoneText.setVisibility(GONE);
-
-
-			driverCheckoutStatusRightImageView.setTraveler(null);
+			driverCheckoutStatusLeftImageView.setTraveler(null);
+			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			return;
 		}
@@ -152,15 +141,18 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		driverInfoText.setText(traveler.getFullName());
 		driverPhoneText.setText(traveler.getPhoneNumber());
 		driverPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
+		driverCheckoutStatusLeftImageView.setTraveler(traveler);
 		driverCheckoutStatusLeftImageView.setStatus(
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
-		driverCheckoutStatusRightImageView.setTraveler(traveler);
-		driverCheckoutStatusRightImageView.setStatus(isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
+		driverCheckoutStatusRightImageView.setStatus(
+			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
 	}
 
 	@Override
 	public void setExpanded(boolean expand, boolean animate) {
 		super.setExpanded(expand, animate);
+		driverInfoContainer.setVisibility(expand ? GONE : VISIBLE);
+		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 		if (expand) {
 			if (mToolbarListener != null) {
 				mToolbarListener.setActionBarTitle(getActionBarTitle());
@@ -173,10 +165,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			}
 			firstName.requestFocus();
 		}
-
 		bind();
-		driverInfoContainer.setVisibility(expand ? GONE : VISIBLE);
-		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 	}
 
 	@Override

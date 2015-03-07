@@ -11,26 +11,31 @@ import com.expedia.bookings.interfaces.ToolbarListener;
 /**
  * Created by malnguyen on 2/28/15.
  */
-public abstract class ExpandableCardView extends CardView implements View.OnFocusChangeListener {
+public abstract class ExpandableCardView extends CardView implements View.OnFocusChangeListener, View.OnClickListener {
 
 	public ExpandableCardView(Context context) {
 		super(context);
+		setOnClickListener(this);
 	}
 
 	public ExpandableCardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		setOnClickListener(this);
 	}
 
 	private EditText mCurrentEditText;
 	public ToolbarListener mToolbarListener;
 	private boolean isExpanded;
 
-	public void setToolbarListener(ToolbarListener listener) {
-		mToolbarListener = listener;
+	@Override
+	public void onClick(View v) {
+		if (!isExpanded) {
+			setExpanded(true);
+		}
 	}
 
-	public boolean isExpanded() {
-		return isExpanded;
+	public void setToolbarListener(ToolbarListener listener) {
+		mToolbarListener = listener;
 	}
 
 	public EditText getFocusedEditText() {

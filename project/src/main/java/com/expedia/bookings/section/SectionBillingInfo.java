@@ -1042,8 +1042,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
 		}
 		if (lob == LineOfBusiness.CARS) {
-			// Todo Check to see if cars LOB has any cardTypeRestriction.
-			return true;
+			return Db.getTripBucket().getCar() != null
+				&& Db.getTripBucket().getCar().isCardTypeSupported(info.getCardType());
 		}
 
 		throw new RuntimeException("Line of business required");
