@@ -114,7 +114,7 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction withOfferText(String offerText) {
-		return onView(withChild(withChild(withText(startsWith(offerText)))));
+		return onView(allOf(withId(R.id.offer_row), withChild(withChild(withText(startsWith(offerText))))));
 	}
 
 	public static ViewInteraction selectTicketsButton(String offerText) {
