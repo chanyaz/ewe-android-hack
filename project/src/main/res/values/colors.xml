@@ -247,5 +247,8 @@
     <color name="lx_details_text_color">#525252</color>
     <color name="lx_offer_background_color">#7C7C7C</color>
     <color name="lx_details_background_color">#EEEEED</color>
+    <color name="lx_ticket_summary_color">#5D5D5D</color>
+    <color name="lx_ticket_title_color">#3A3A3A</color>
+    <color name="lx_select_ticket_button_color">#7C7C7C</color>
 
 </resources>

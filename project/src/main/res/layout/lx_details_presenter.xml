@@ -53,6 +53,8 @@
                 android:id="@+id/offers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:showDividers="middle|end"
+                android:divider="?android:dividerHorizontal"
                 android:orientation="vertical" />
 
             <include
