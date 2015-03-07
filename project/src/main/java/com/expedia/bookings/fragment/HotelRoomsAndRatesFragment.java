@@ -256,7 +256,6 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			@Override
 			public void onGlobalLayout() {
 				Ui.removeOnGlobalLayoutListener(mNoticeContainer, this);
-				mNoticeContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeaderPlaceholder.getLayoutParams();
 				params.height = mNoticeContainer.getHeight() + mStickyHeader.getHeight();
 				mHeaderPlaceholder.setLayoutParams(params);
