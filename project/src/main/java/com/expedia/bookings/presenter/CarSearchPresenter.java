@@ -460,11 +460,9 @@ public class CarSearchPresenter extends Presenter
 
 	public void setUpSearchButton() {
 		if (searchParamsBuilder.areRequiredParamsFilled()) {
-			searchButton.setEnabled(true);
 			searchButton.setAlpha(1f);
 		}
 		else {
-			searchButton.setEnabled(false);
 			searchButton.setAlpha(.7f);
 		}
 	}
