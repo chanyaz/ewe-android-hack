@@ -18,9 +18,9 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarDriverWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
+public class TravelerContactDetailsWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
-	public CarDriverWidget(Context context, AttributeSet attr) {
+	public TravelerContactDetailsWidget(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 
@@ -33,11 +33,11 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@InjectView(R.id.section_traveler_info_container)
 	SectionTravelerInfo sectionTravelerInfo;
 
-	@InjectView(R.id.driver_info_text)
-	TextView driverInfoText;
+	@InjectView(R.id.enter_details_text)
+	TextView enterDetailsText;
 
-	@InjectView(R.id.driver_phone_text)
-	TextView driverPhoneText;
+	@InjectView(R.id.traveler_phone_text)
+	TextView travelerPhoneText;
 
 	@InjectView(R.id.edit_first_name)
 	EditText firstName;
@@ -54,8 +54,8 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@InjectView(R.id.edit_phone_number)
 	EditText phoneNumber;
 
-	@InjectView(R.id.driver_info_container)
-	ViewGroup driverInfoContainer;
+	@InjectView(R.id.traveler_contact_info_container)
+	ViewGroup travelerContactInfoContainer;
 
 	@InjectView(R.id.traveler_button)
 	TravelerButton travelerButton;
@@ -64,7 +64,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.car_driver_widget, this);
+		inflater.inflate(R.layout.traveler_contact_details_widget, this);
 		ButterKnife.inject(this);
 
 		phoneSpinner.selectPOSCountry();
@@ -89,6 +89,10 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		bind();
 	}
 
+	public void setEnterDetailsText(String text) {
+		enterDetailsText.setText(text);
+	}
+
 	public void bind() {
 
 		// Cases
@@ -111,6 +115,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
+			enterDetailsText.setText(traveler.getFullName());
+			travelerPhoneText.setText(traveler.getPhoneNumber());
+			travelerPhoneText.setVisibility(VISIBLE);
 		}
 		else {
 			// Default
@@ -124,9 +131,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			driverInfoText.setText(R.string.enter_driver_details);
-			driverPhoneText.setText("");
-			driverPhoneText.setVisibility(GONE);
+			enterDetailsText.setText(R.string.enter_driver_details);
+			travelerPhoneText.setText("");
+			travelerPhoneText.setVisibility(GONE);
 			driverCheckoutStatusLeftImageView.setTraveler(null);
 			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
@@ -135,9 +142,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 		// Validate
 		boolean isValid = sectionTravelerInfo.performValidation();
-		driverInfoText.setText(traveler.getFullName());
-		driverPhoneText.setText(traveler.getPhoneNumber());
-		driverPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
+		enterDetailsText.setText(traveler.getFullName());
+		travelerPhoneText.setText(traveler.getPhoneNumber());
+		travelerPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
 		driverCheckoutStatusLeftImageView.setTraveler(traveler);
 		driverCheckoutStatusLeftImageView.setStatus(
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
@@ -149,7 +156,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 	@Override
 	public void setExpanded(boolean expand, boolean animate) {
 		super.setExpanded(expand, animate);
-		driverInfoContainer.setVisibility(expand ? GONE : VISIBLE);
+		travelerContactInfoContainer.setVisibility(expand ? GONE : VISIBLE);
 		sectionTravelerInfo.setVisibility(expand ? VISIBLE : GONE);
 		if (expand) {
 			if (mToolbarListener != null) {

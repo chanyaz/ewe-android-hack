@@ -94,6 +94,7 @@
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s or similar</string>
 
+    <string name="preparing_checkout_message">Preparing checkout&#8230;</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -282,7 +283,21 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per vehicle</string>
 
-
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Slide to book</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Checkout</string>
+    <!-- Total Price with currency -->
+    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Free cancellation</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Total with Tax</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Contact details</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Enter contact details</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

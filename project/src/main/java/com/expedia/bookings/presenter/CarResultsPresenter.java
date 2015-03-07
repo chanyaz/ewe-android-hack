@@ -78,7 +78,7 @@ public class CarResultsPresenter extends Presenter {
 		addDefaultTransition(setUpLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
-		createTripDialog.setMessage("Preparing checkout...");
+		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
 		createTripDialog.setIndeterminate(true);
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);

@@ -102,7 +102,7 @@ public final class CarViewModel {
 	}
 
 	public static void clickDriverInfo() {
-		onView(withId(R.id.driver_info_card_view)).perform(click());
+		onView(withId(R.id.main_contact_info_card_view)).perform(click());
 	}
 
 	public static void clickPaymentInfo() {

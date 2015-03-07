@@ -1,8 +1,10 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
+
 
 import android.location.Location;
 import android.os.Bundle;
@@ -34,7 +36,11 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
+import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
@@ -644,6 +650,14 @@ public class Events {
 		}
 	}
 
+	public static class LXCreateTripSucceeded {
+		public LXCreateTripResponse createTripResponse;
+
+		public LXCreateTripSucceeded(LXCreateTripResponse createTripResponse) {
+			this.createTripResponse = createTripResponse;
+		}
+	}
+
 	public static class LXTicketCountChanged {
 		public Ticket ticket;
 		public int count;
@@ -657,10 +671,36 @@ public class Events {
 	}
 
 	public static class LXOfferExpanded {
-		public String offerId;
+		public Offer offer;
 
-		public LXOfferExpanded(String offerId) {
-			this.offerId = offerId;
+		public LXOfferExpanded(Offer offer) {
+			this.offer = offer;
+		}
+	}
+
+	public static class LXOfferBooked {
+		public Offer offer;
+		public Map<Ticket, Integer> tickets;
+
+		public LXOfferBooked(Offer offer , Map<Ticket, Integer> tickets) {
+			this.offer = offer;
+			this.tickets = tickets;
+		}
+	}
+
+	public static class LXKickOffCheckoutCall {
+		public LXCheckoutParams checkoutParams;
+
+		public LXKickOffCheckoutCall(LXCheckoutParams checkoutParams) {
+			this.checkoutParams = checkoutParams;
+		}
+	}
+
+	public static class LXCheckoutSucceeded {
+		public LXCheckoutResponse checkoutResponse;
+
+		public LXCheckoutSucceeded(LXCheckoutResponse checkoutResponse) {
+			this.checkoutResponse = checkoutResponse;
 		}
 	}
 

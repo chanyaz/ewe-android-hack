@@ -260,5 +260,7 @@
     <color name="lx_ticket_title_color">#3A3A3A</color>
     <color name="lx_select_ticket_button_color">#7C7C7C</color>
     <color name="lx_date_disabled_background_color">#D3D3D3</color>
+    <color name="lx_checkmark_color">#29a653</color>
+    <color name="lx_actionbar_text_color">#FFFFFF</color>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.lx.LXPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.lx.LXPresenter
     android:id="@+id/lx_base_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,6 +18,13 @@
     <include
         android:id="@+id/search_params_widget"
         layout="@layout/widget_lx_search_params"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/lx_checkout_presenter"
+        layout="@layout/lx_checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
 </com.expedia.bookings.presenter.lx.LXPresenter>

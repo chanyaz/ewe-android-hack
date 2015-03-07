@@ -263,7 +263,7 @@ public class LXServicesTest {
 		params.nameOnCard = "Test";
 		params.creditCardNumber = "4111111111111111";
 		params.expirationDateYear = "2020";
-		params.cvv = 111;
+		params.cvv = "111";
 		params.email = "test@gmail.com";
 		return params;
 	}

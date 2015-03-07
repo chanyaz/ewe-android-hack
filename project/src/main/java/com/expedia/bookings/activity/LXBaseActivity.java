@@ -1,7 +1,7 @@
 package com.expedia.bookings.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.Ui;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LXBaseActivity extends Activity {
+public class LXBaseActivity extends ActionBarActivity {
 
 	@InjectView(R.id.lx_base_presenter)
 	LXPresenter lxPresenter;
