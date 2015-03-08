@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.OffersDetail;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatUtils;
@@ -90,7 +91,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		buildGallery(activityDetails);
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
-		buildOfferDatesSelector(lxState.searchParams.startDate);
+		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
 		buildOffersSection(lxState.searchParams.startDate);
 	}
 
@@ -142,14 +143,14 @@ public class LXActivityDetailsWidget extends ScrollView {
 		}
 	}
 
-	private void buildOfferDatesSelector(LocalDate startDate) {
+	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
 		offerDatesContainer.removeAllViews();
 		offerDatesContainer.setVisibility(View.VISIBLE);
 		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 
 		for (int i = 0; i < noOfDaysToDisplay; i++) {
 			LXOfferDatesButton dateButton = Ui.inflate(R.layout.lx_offer_date_button, offerDatesContainer, false);
-			dateButton.bind(startDate.plusDays(i));
+			dateButton.bind(offersDetail, startDate.plusDays(i));
 			offerDatesContainer.addView(dateButton);
 		}
 		// Set first date as selected.

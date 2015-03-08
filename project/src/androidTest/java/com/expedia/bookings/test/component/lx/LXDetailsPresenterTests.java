@@ -181,12 +181,7 @@ public class LXDetailsPresenterTests {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
 		ScreenActions.delay(2);
 
-		LXViewModel.detailsDate("25").perform(click());
-
-		ViewInteraction offer = LXViewModel.withOfferText("2-Day New York Pass");
-		offer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets),
-			withText(startsWith("Select Tickets")), not(isEnabled())))));
-		offer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith(""))))));
-
+		LXViewModel.detailsDate("25").check(matches(not(isEnabled())));
+		LXViewModel.detailsDate("24").check(matches(isEnabled()));
 	}
 }
