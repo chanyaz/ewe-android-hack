@@ -12,10 +12,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
@@ -42,7 +40,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
