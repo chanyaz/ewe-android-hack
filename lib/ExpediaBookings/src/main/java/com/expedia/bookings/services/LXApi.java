@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 
 import retrofit.http.GET;
@@ -32,9 +33,13 @@ public interface LXApi {
 		@Query("startDate") String startDate,
 		@Query("endDate") String endDate);
 
+	@GET("/m/api/lx/trip/create")
+	public Observable<LXCreateTripResponse> createTrip(
+		@QueryMap Map<String, Object> params
+	);
+
 	@GET("/m/api/lx/trip/checkout")
 	public Observable<LXCheckoutResponse> checkout(
 		@QueryMap Map<String, Object> params
 	);
 }
-
