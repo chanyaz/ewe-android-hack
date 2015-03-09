@@ -12,12 +12,17 @@ public class Offer {
 	public String currencySymbol;
 	public List<AvailabilityInfo> availabilityInfo;
 
-	public AvailabilityInfo getAvailabilityInfoOnDate(LocalDate dateSelected) {
+	// Utility for available info on selected date - not coming from the API
+	public AvailabilityInfo availabilityInfoOfSelectedDate;
+
+
+	public AvailabilityInfo getAvailabilityInfoOfSelectedDate(LocalDate dateSelected) {
 		for (AvailabilityInfo activityAvailabilityInfo : availabilityInfo) {
 			LocalDate availabilityDate = DateUtils
 				.yyyyMMddHHmmssToLocalDate(activityAvailabilityInfo.availabilities.valueDate);
 			if (availabilityDate.equals(dateSelected)) {
-				return activityAvailabilityInfo;
+				this.availabilityInfoOfSelectedDate = activityAvailabilityInfo;
+				return availabilityInfoOfSelectedDate;
 			}
 		}
 

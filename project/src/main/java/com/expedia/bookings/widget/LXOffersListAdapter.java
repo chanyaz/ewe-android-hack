@@ -3,8 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -26,11 +23,9 @@ import butterknife.OnClick;
 
 public class LXOffersListAdapter extends BaseAdapter {
 	private List<Offer> offers = new ArrayList<>();
-	private LocalDate dateSelected;
 
-	public void setOffers(List<Offer> availableOffers, LocalDate dateSelected) {
-		this.offers = availableOffers;
-		this.dateSelected = dateSelected;
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
 		notifyDataSetChanged();
 	}
 
@@ -58,7 +53,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		}
 
 		viewHolder = (ViewHolder) convertView.getTag();
-		viewHolder.bind(offer, dateSelected);
+		viewHolder.bind(offer);
 		return convertView;
 	}
 
@@ -99,28 +94,22 @@ public class LXOffersListAdapter extends BaseAdapter {
 			Events.post(new Events.LXOfferExpanded(offerId));
 		}
 
-		public void bind(Offer offer, LocalDate dateSelected) {
+		public void bind(Offer offer) {
 			this.offerId = offer.id;
-			AvailabilityInfo availabilityInfoForSelectedDate = offer
-				.getAvailabilityInfoOnDate(dateSelected);
 
 			List<String> priceSummaries = new ArrayList<String>();
 			ticketSelectionWidget.setOfferId(offerId);
 			ticketSelectionWidget.setOfferTitle(offer.title);
 			ticketSelectionWidget.setCurrencySymbol(offer.currencySymbol);
 
-			if (availabilityInfoForSelectedDate != null) {
-				for (Ticket ticket : availabilityInfoForSelectedDate.tickets) {
-					priceSummaries.add(String.format("%s %s", ticket.price, ticket.name));
-				}
-				String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
+			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
+				priceSummaries.add(String.format("%s %s", ticket.price, ticket.name));
+			}
+			String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
 
-				priceSummary.setText(priceSummaryText);
-				ticketSelectionWidget.buildTicketPickers(availabilityInfoForSelectedDate);
-			}
-			else {
-				selectTickets.setEnabled(false);
-			}
+			priceSummary.setText(priceSummaryText);
+			ticketSelectionWidget.buildTicketPickers(offer.availabilityInfoOfSelectedDate);
+
 
 			offerTitle.setText(offer.title);
 		}

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -16,12 +17,21 @@ public class LXOffersListWidget extends LinearLayout {
 	}
 
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
+	private List<Offer> availableOffers;
 
 	public void setOffers(List<Offer> offers, LocalDate dateSelected) {
-		adapter.setOffers(offers, dateSelected);
+
+		availableOffers = new ArrayList<>();
+		for (Offer offer : offers) {
+			if (offer.getAvailabilityInfoOfSelectedDate(dateSelected) != null) {
+				availableOffers.add(offer);
+			}
+		}
+
+		adapter.setOffers(availableOffers);
 
 		this.removeAllViews();
-		for (int position = 0; position < offers.size(); position++) {
+		for (int position = 0; position < availableOffers.size(); position++) {
 			View offerRow = adapter.getView(position, null, this);
 			this.addView(offerRow);
 		}
