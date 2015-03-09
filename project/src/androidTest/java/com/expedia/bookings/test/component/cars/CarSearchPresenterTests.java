@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public final class CarSearchParamsTests {
+public final class CarSearchPresenterTests {
 	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
 
 	@Rule
@@ -69,6 +69,7 @@ public final class CarSearchParamsTests {
 		assertEquals(expected.endDateTime, actual.endDateTime.withTimeAtStartOfDay());
 	}
 
+	// FIXME
 	@Test
 	public void testDateButtonTextPopulation() {
 		CarViewModel.dropOffLocation().perform(click());
@@ -89,6 +90,7 @@ public final class CarSearchParamsTests {
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
+	// FIXME
 	@Test
 	public void testSelectTimeBeforeDates() {
 		// 24 == 12:00 PM
@@ -111,6 +113,7 @@ public final class CarSearchParamsTests {
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
+	// FIXME
 	@Test
 	public void testSelectingOnlyPickupDateClearsDropoffDate() throws Throwable {
 		CarViewModel.pickupLocation().perform(click());
