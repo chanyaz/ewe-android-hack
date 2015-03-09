@@ -15,7 +15,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -80,11 +79,14 @@ public class CarConfirmationWidget extends FrameLayout {
 	@InjectView(R.id.dropoff_date_text)
 	TextView dropofDateText;
 
-	@InjectView(R.id.add_hotel_button)
-	Button addHotelButton;
+	@InjectView(R.id.itinerary_text_view)
+	TextView itinText;
 
-	@InjectView(R.id.add_flight_button)
-	Button addFlightButton;
+	@InjectView(R.id.add_hotel_textView)
+	TextView addHotelTextView;
+
+	@InjectView(R.id.add_flight_textView)
+	TextView addFlightTextView;
 
 	@InjectView(R.id.call_parent)
 	ViewGroup callParent;
@@ -98,14 +100,14 @@ public class CarConfirmationWidget extends FrameLayout {
 	@InjectView(R.id.toll_free_phone_number_text_view)
 	TextView tollFreePhoneNumber;
 
-	@InjectView(R.id.direction_action_button)
-	Button directionsButton;
+	@InjectView(R.id.direction_action_textView)
+	TextView directionsTextView;
 
-	@InjectView(R.id.calendar_action_button)
-	Button calendarButton;
+	@InjectView(R.id.calendar_action_textView)
+	TextView calendarTextView;
 
-	@InjectView(R.id.call_action_button)
-	Button callButton;
+	@InjectView(R.id.call_action_textView)
+	TextView callTextView;
 
 	private CreateTripCarOffer offer;
 	private String itineraryNumber;
@@ -177,8 +179,9 @@ public class CarConfirmationWidget extends FrameLayout {
 			itineraryNumber = response.newTrip.itineraryNumber;
 			text = getResources().getString(R.string.successful_checkout_TEMPLATE, itineraryNumber);
 		}
-		confirmationText.setText(text);
+		confirmationText.setText(getResources().getString(R.string.successful_checkout_email_label));
 		emailText.setText(builder.getEmailAddress());
+		itinText.setText(text);
 
 		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(backgroundImageView)
@@ -191,13 +194,14 @@ public class CarConfirmationWidget extends FrameLayout {
 		offer = createTrip.carProduct;
 		vendorText.setText(offer.vendor.name);
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);
+		directionsTextView.setText(getResources().getString(R.string.car_confirmation_directions, offer.vendor.name));
 
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("MMM dd, hh:mm aa");
 		pickupDateText.setText(dtf.print(offer.pickupTime) + " to");
 		dropofDateText.setText(dtf.print(offer.dropOffTime));
-		addHotelButton.setText(getResources()
+		addHotelTextView.setText(getResources()
 			.getString(R.string.successful_checkout_cross_sell_hotel, offer.pickUpLocation.locationDescription));
-		addFlightButton.setText(getResources()
+		addFlightTextView.setText(getResources()
 			.getString(R.string.successful_checkout_cross_sell_flight, offer.pickUpLocation.locationDescription));
 		localPhoneNumber.setText(
 			getResources().getString(R.string.car_confirmation_local_support_TEMPLATE, offer.vendor.localPhoneNumber));
@@ -209,56 +213,56 @@ public class CarConfirmationWidget extends FrameLayout {
 		Drawable drawableDirection = getResources().getDrawable(R.drawable.car_directions);
 		drawableDirection
 			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		directionsButton.setCompoundDrawablesWithIntrinsicBounds(drawableDirection, null, null, null);
-		FontCache.setTypeface(directionsButton, FontCache.Font.ROBOTO_REGULAR);
+		directionsTextView.setCompoundDrawablesWithIntrinsicBounds(drawableDirection, null, null, null);
+		FontCache.setTypeface(directionsTextView, FontCache.Font.ROBOTO_REGULAR);
 
 		Drawable drawableCalendar = getResources().getDrawable(R.drawable.add_to_calendar);
 		drawableCalendar
 			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		calendarButton.setCompoundDrawablesWithIntrinsicBounds(drawableCalendar, null, null, null);
-		FontCache.setTypeface(calendarButton, FontCache.Font.ROBOTO_REGULAR);
+		calendarTextView.setCompoundDrawablesWithIntrinsicBounds(drawableCalendar, null, null, null);
+		FontCache.setTypeface(calendarTextView, FontCache.Font.ROBOTO_REGULAR);
 
 		Drawable drawableCustomerSupport = getResources().getDrawable(R.drawable.car_call);
 		drawableCustomerSupport
 			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		callButton.setCompoundDrawablesWithIntrinsicBounds(drawableCustomerSupport, null, null, null);
-		FontCache.setTypeface(callButton, FontCache.Font.ROBOTO_REGULAR);
+		callTextView.setCompoundDrawablesWithIntrinsicBounds(drawableCustomerSupport, null, null, null);
+		FontCache.setTypeface(callTextView, FontCache.Font.ROBOTO_REGULAR);
 
 		Drawable drawableHotel = getResources().getDrawable(R.drawable.car_hotel);
 		drawableHotel
 			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		addHotelButton.setCompoundDrawablesWithIntrinsicBounds(drawableHotel, null, null, null);
-		FontCache.setTypeface(addHotelButton, FontCache.Font.ROBOTO_REGULAR);
+		addHotelTextView.setCompoundDrawablesWithIntrinsicBounds(drawableHotel, null, null, null);
+		FontCache.setTypeface(addHotelTextView, FontCache.Font.ROBOTO_REGULAR);
 
 		Drawable drawableFlight = getResources().getDrawable(R.drawable.car_flights);
 		drawableFlight
 			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		addFlightButton.setCompoundDrawablesWithIntrinsicBounds(drawableFlight, null, null, null);
-		FontCache.setTypeface(addFlightButton, FontCache.Font.ROBOTO_REGULAR);
+		addFlightTextView.setCompoundDrawablesWithIntrinsicBounds(drawableFlight, null, null, null);
+		FontCache.setTypeface(addFlightTextView, FontCache.Font.ROBOTO_REGULAR);
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
 	}
 
-	@OnClick(R.id.add_hotel_button)
+	@OnClick(R.id.add_hotel_textView)
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
 		NavUtils.goToHotels(getContext(), sp);
 	}
 
-	@OnClick(R.id.add_flight_button)
+	@OnClick(R.id.add_flight_textView)
 	public void searchFlight() {
 		searchForFlights();
 	}
 
-	@OnClick(R.id.direction_action_button)
+	@OnClick(R.id.direction_action_textView)
 	public void getDirections() {
 		Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + offer.pickUpLocation.toAddress());
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		getContext().startActivity(intent);
 	}
 
-	@OnClick(R.id.calendar_action_button)
+	@OnClick(R.id.calendar_action_textView)
 	public void generateCalendarInsertIntent() {
 		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
 		Intent intent = AddToCalendarUtils
@@ -266,7 +270,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		getContext().startActivity(intent);
 	}
 
-	@OnClick(R.id.call_action_button)
+	@OnClick(R.id.call_action_textView)
 	public void callSupport() {
 		if (offer.vendor.phoneNumber != null && offer.vendor.localPhoneNumber
 			.equalsIgnoreCase(offer.vendor.phoneNumber)) {

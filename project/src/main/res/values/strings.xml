@@ -112,15 +112,19 @@
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">Itinerary # %1$s sent to</string>
+    <string name="successful_checkout_TEMPLATE">Itinerary # %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Missing checkout params.</string>
     <!--Adding hotel from Car Confirmation -->
     <string name="successful_checkout_cross_sell_hotel">Hotels in %1$s</string>
     <!--Adding flight from Car Confirmation -->
     <string name="successful_checkout_cross_sell_flight">Flights in %1$s</string>
-    <!-- Car confirmation screen lable -->
+    <!-- Car confirmation screen label -->
     <string name="successful_checkout_pickup_label">Pick-up at</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Itinerary sent to</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Directions to %1$s</string>
     <!-- Button label for calling customer support -->
     <string name="call_customer_support">Call Customer Support</string>
     <!-- Error message for some missing checkout params -->
