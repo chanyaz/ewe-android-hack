@@ -14,28 +14,28 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
 
-public class CarDriverCheckoutStatusRightImageView extends ImageView {
+public class ContactInitialsImageView extends ImageView {
 
 	private static final int[] STATE_DEFAULT_INCOMPLETE = {R.attr.state_default, R.attr.state_incomplete};
 	private static final int[] STATE_COMPLETE = {R.attr.state_complete};
 
-	private CarDriverWidget.DriverCheckoutStatus mStatus = CarDriverWidget.DriverCheckoutStatus.DEFAULT;
+	private ContactDetailsCompletenessStatus mStatus = ContactDetailsCompletenessStatus.DEFAULT;
 
-	public CarDriverCheckoutStatusRightImageView(Context context) {
+	public ContactInitialsImageView(Context context) {
 		super(context, null);
 	}
 
-	public CarDriverCheckoutStatusRightImageView(Context context, AttributeSet attrs) {
+	public ContactInitialsImageView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public CarDriverCheckoutStatusRightImageView(Context context, AttributeSet attrs, int defStyle) {
+	public ContactInitialsImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SwipeOutLayout, 0, 0);
 
-		if (ta.hasValue(R.styleable.DriverInfo_state)) {
-			CarDriverWidget.DriverCheckoutStatus direction = CarDriverWidget.DriverCheckoutStatus.values()[ta.getInt(R.styleable.DriverInfo_state,
-				CarDriverWidget.DriverCheckoutStatus.DEFAULT.ordinal())];
+		if (ta.hasValue(R.styleable.ContactDetailsCompleteness_state)) {
+			ContactDetailsCompletenessStatus direction = ContactDetailsCompletenessStatus.values()[ta.getInt(R.styleable.ContactDetailsCompleteness_state,
+				ContactDetailsCompletenessStatus.DEFAULT.ordinal())];
 			mStatus = direction;
 		}
 
@@ -43,12 +43,12 @@ public class CarDriverCheckoutStatusRightImageView extends ImageView {
 		setTraveler(null);
 	}
 
-	public CarDriverWidget.DriverCheckoutStatus getStatus() {
+	public ContactDetailsCompletenessStatus getStatus() {
 		return mStatus;
 	}
 
 	public int[] getState() {
-		if (mStatus == CarDriverWidget.DriverCheckoutStatus.DEFAULT || mStatus == CarDriverWidget.DriverCheckoutStatus.INCOMPLETE) {
+		if (mStatus == ContactDetailsCompletenessStatus.DEFAULT || mStatus == ContactDetailsCompletenessStatus.INCOMPLETE) {
 			return STATE_DEFAULT_INCOMPLETE;
 		}
 		else {
@@ -56,7 +56,7 @@ public class CarDriverCheckoutStatusRightImageView extends ImageView {
 		}
 	}
 
-	public void setStatus(CarDriverWidget.DriverCheckoutStatus status) {
+	public void setStatus(ContactDetailsCompletenessStatus status) {
 		if (mStatus != status) {
 			mStatus = status;
 			refreshDrawableState();

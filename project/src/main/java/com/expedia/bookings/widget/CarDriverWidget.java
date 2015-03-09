@@ -20,21 +20,15 @@ import butterknife.OnClick;
 
 public class CarDriverWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
-	public enum DriverCheckoutStatus {
-		DEFAULT,
-		COMPLETE,
-		INCOMPLETE
-	}
-
 	public CarDriverWidget(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 
 	@InjectView(R.id.travelerStatusIcon)
-	CarDriverCheckoutStatusLeftImageView driverCheckoutStatusLeftImageView;
+	ContactDetailsCompletenessStatusImageView driverCheckoutStatusLeftImageView;
 
 	@InjectView(R.id.travelerNameIcon)
-	CarDriverCheckoutStatusRightImageView driverCheckoutStatusRightImageView;
+	ContactInitialsImageView driverCheckoutStatusRightImageView;
 
 	@InjectView(R.id.section_traveler_info_container)
 	SectionTravelerInfo sectionTravelerInfo;
@@ -137,9 +131,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
 			driverInfoText.setText(R.string.enter_driver_details);
-			driverCheckoutStatusLeftImageView.setStatus(DriverCheckoutStatus.DEFAULT);
+			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setTraveler(null);
-			driverCheckoutStatusRightImageView.setStatus(DriverCheckoutStatus.DEFAULT);
+			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			return;
 		}
 
@@ -147,9 +141,9 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 		boolean isValid = sectionTravelerInfo.performValidation();
 		driverInfoText.setText(traveler.getFullName());
 		driverCheckoutStatusLeftImageView.setStatus(
-			isValid ? DriverCheckoutStatus.COMPLETE : DriverCheckoutStatus.INCOMPLETE);
+			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
 		driverCheckoutStatusRightImageView.setTraveler(traveler);
-		driverCheckoutStatusRightImageView.setStatus(isValid ? DriverCheckoutStatus.COMPLETE : DriverCheckoutStatus.INCOMPLETE);
+		driverCheckoutStatusRightImageView.setStatus(isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
 	}
 
 	@Override
@@ -198,5 +192,4 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			setExpanded(false);
 		}
 	}
-
 }

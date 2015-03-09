@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.expedia.bookings.widget.CarDriverCheckoutStatusRightImageView
+        <com.expedia.bookings.widget.ContactInitialsImageView
             android:id="@+id/travelerNameIcon"
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -34,7 +34,7 @@
             android:gravity="center|left"
             android:text="@string/enter_driver_details" />
 
-        <com.expedia.bookings.widget.CarDriverCheckoutStatusLeftImageView
+        <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
             android:id="@+id/travelerStatusIcon"
             android:layout_width="35dp"
             android:layout_height="35dp"
