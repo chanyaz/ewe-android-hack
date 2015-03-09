@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="?attr/actionBarSize">
+        android:background="#D9FFFFFF"
+        android:paddingTop="?attr/actionBarSize" >
 
         <LinearLayout
             android:id="@+id/location_container"

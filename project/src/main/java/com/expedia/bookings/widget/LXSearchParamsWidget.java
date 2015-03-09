@@ -227,7 +227,7 @@ public class LXSearchParamsWidget extends FrameLayout
 						Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 						Ui.hideKeyboard(LXSearchParamsWidget.this);
 					}
-					break;
+					return true;
 				}
 				return false;
 			}
