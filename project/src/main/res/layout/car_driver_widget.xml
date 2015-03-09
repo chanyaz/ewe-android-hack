@@ -1,71 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.CarDriverWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/driver_info_card_view"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:animateLayoutChanges="true"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    card_view:cardCornerRadius="4dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/driver_info_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:orientation="horizontal">
 
         <com.expedia.bookings.widget.ContactInitialsImageView
             android:id="@+id/travelerNameIcon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp" />
 
-        <com.expedia.bookings.widget.TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:padding="16dp"
-            android:textSize="18sp"
-            android:id="@+id/driver_info_text"
-            android:gravity="center|left"
-            android:text="@string/enter_driver_details" />
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/driver_info_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text="@string/enter_driver_details"
+                android:textSize="16sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/driver_phone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
             android:id="@+id/travelerStatusIcon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="16dp" />
 
     </LinearLayout>
 
     <com.expedia.bookings.section.SectionTravelerInfo
+        android:id="@+id/section_traveler_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:id="@+id/section_traveler_info_container"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <include layout="@layout/checkout_traveler_button"/>
-
-        <LinearLayout
-            android:id="@+id/edit_names_container"
+        <com.expedia.bookings.widget.TravelerButton
+            android:id="@+id/traveler_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/edit_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName|textCapWords"
+                android:nextFocusDown="@+id/edit_last_name"
+                android:nextFocusRight="@+id/edit_last_name"
+                android:paddingBottom="12dp"
+                android:singleLine="true" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/edit_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="4dp"
+                android:nextFocusRight="@+id/edit_email_address"
+                android:nextFocusDown="@+id/edit_email_address"
+                android:hint="@string/last_name"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingBottom="12dp"
+                android:singleLine="true" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_email_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_address_hint"
-            android:nextFocusRight="@+id/edit_phone_number"
             android:nextFocusDown="@+id/edit_phone_number"
+            android:nextFocusRight="@+id/edit_phone_number"
             android:singleLine="true"
             android:textSize="16sp" />
 
@@ -86,11 +132,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:imeOptions="actionDone"
                 android:hint="@string/phone_number_hint"
+                android:imeOptions="actionDone"
                 android:singleLine="true"
                 android:textSize="16sp" />
         </LinearLayout>
 
     </com.expedia.bookings.section.SectionTravelerInfo>
-</com.expedia.bookings.widget.CarDriverWidget>
+</merge>

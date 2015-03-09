@@ -203,8 +203,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		setPhoneContainerVisibility(enabled ? View.VISIBLE : View.GONE);
 	}
 
-	public void setEmailFieldsEnabled(boolean enabled) {
-		mFields.setFieldEnabled(mEditEmailAddress, enabled);
+	public void refreshOnLoginStatusChange() {
+		removeFieldsForLoggedIn();
 	}
 
 	private void setPhoneContainerVisibility(int visibility) {

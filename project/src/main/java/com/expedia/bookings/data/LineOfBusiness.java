@@ -11,5 +11,6 @@ package com.expedia.bookings.data;
 public enum LineOfBusiness {
 	FLIGHTS,
 	HOTELS,
+	CARS,
 	ITIN;
 }

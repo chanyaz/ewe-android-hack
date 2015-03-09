@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -61,6 +62,8 @@ public class TravelerButton extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		inflater.inflate(R.layout.checkout_traveler_button, this);
 		ButterKnife.inject(this);
 		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), false, R.drawable.car_driver_checkout_circle);
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
@@ -74,7 +77,8 @@ public class TravelerButton extends LinearLayout {
 	}
 
 	private void onStoredTravelerSelected(int position) {
-		if (position == mTravelerAdapter.getCount() - 1) {
+		// Todo - Commenting this code temporarily. Since for cars MVP we don't support "Add new Driver/Traveler" option. When we do want to add it back just uncomment this.
+		/*if (position == mTravelerAdapter.getCount() - 1) {
 			if (mTravelerButtonListener != null) {
 				mTravelerButtonListener.onAddNewTravelerSelected();
 			}
@@ -82,6 +86,11 @@ public class TravelerButton extends LinearLayout {
 			return;
 		}
 		else if (position == 0) {
+			return;
+		}*/
+
+		// If adapter header do nothing.
+		if (position == 0) {
 			return;
 		}
 		mTraveler = mTravelerAdapter.getItem(position);

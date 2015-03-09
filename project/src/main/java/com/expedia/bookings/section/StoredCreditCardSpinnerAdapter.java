@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.widget.RoundImageView;
 import com.mobiata.android.util.Ui;
 
 public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
@@ -23,15 +24,22 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	private static final int ITEM_VIEW_TYPE_COUNT = 3;
 
 	private TripBucketItem mTripBucketItem;
+	private boolean isAddStoredCardEnabled = true;
 
 	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item) {
 		super(context, R.layout.traveler_autocomplete_row);
 		mTripBucketItem = item;
 	}
 
+	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item, boolean addStoredCardEnabled) {
+		super(context, R.layout.traveler_autocomplete_row);
+		mTripBucketItem = item;
+		isAddStoredCardEnabled = addStoredCardEnabled;
+	}
+
 	@Override
 	public int getCount() {
-		return getAvailableStoredCards().size() + 2;
+		return getAvailableStoredCards().size() + (isAddStoredCardEnabled ? 2 : 1);
 	}
 
 	@Override
@@ -57,7 +65,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	@Override
 	public int getItemViewType(int position) {
-		if (position == getCount() - 1) {
+		if (isAddStoredCardEnabled && position == getCount() - 1) {
 			return ITEM_VIEW_TYPE_ADD_CREDITCARD;
 		}
 		else if (position == 0) {
@@ -75,6 +83,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		View retView = convertView;
 		TextView tv;
 		ImageView icon;
+		RoundImageView rIcon;
 		switch(itemType) {
 		case ITEM_VIEW_TYPE_SELECT_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
@@ -87,13 +96,12 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		case ITEM_VIEW_TYPE_CREDITCARD:
 			StoredCreditCard card = getItem(position);
 			if (retView == null) {
-				retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
+				retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			}
 
-			tv = Ui.findView(retView, android.R.id.text1);
-			icon = Ui.findView(retView, android.R.id.icon);
+			tv = Ui.findView(retView, R.id.text1);
+			rIcon = Ui.findView(retView, R.id.icon);
 			tv.setText(card.getDescription());
-			icon.setImageResource(BookingInfoUtils.getTabletCardIcon(card.getType()));
 			retView.setEnabled(card.isSelectable());
 
 			// Show a special icon for an invalid credit card (can happen in flights mode)
@@ -104,7 +112,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 			int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(card.getType()) :
 				R.drawable.ic_tablet_checkout_disabled_credit_card;
-			icon.setImageResource(imgRes);
+			rIcon.setImageDrawable(getContext().getResources().getDrawable(imgRes));
 			break;
 		case ITEM_VIEW_TYPE_ADD_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);

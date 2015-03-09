@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
@@ -15,7 +16,10 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class CarPhoneHappyPath extends PhoneTestCase {
 
-	public void testCarPhoneHappyPath() throws Throwable {
+	private final static int CREDIT_CARD_NOT_REQUIRED = 0;
+	private final static int CREDIT_CARD_REQUIRED = 1;
+
+	private void goToCarDetails() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.launchCars();
 
@@ -34,13 +38,33 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		screenshot("Car_Search_Results");
 		CarViewModel.selectCarCategory(0);
 		ScreenActions.delay(1);
+	}
 
+	private void selectCarOffer(int carOfferNum) throws Throwable {
 		screenshot("Car_Offers");
-		CarViewModel.selectCarOffer(0);
+		//Selecting an already expanded offer opens google maps
+		if (carOfferNum != 0) {
+			CarViewModel.expandCarOffer(carOfferNum);
+		}
+		CarViewModel.selectCarOffer();
 		ScreenActions.delay(1);
 
 		screenshot("Car_Checkout");
-		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
+	}
+
+	private void doLogin() throws Throwable {
+		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
+		CarViewModel.clickCarLogin();
+		CarViewModel.enterUsername("username");
+		CarViewModel.enterPassword("password");
+		ScreenActions.delay(1);
+		screenshot("Car_LoginScreen");
+		CarViewModel.pressDoLogin();
+		ScreenActions.delay(1);
+		screenshot("Car_Login_Success");
+	}
+
+	private void enterDriverInfo() {
 		CarViewModel.clickDriverInfo();
 		CarViewModel.enterFirstName("FiveStar");
 		CarViewModel.enterLastName("Bear");
@@ -51,13 +75,87 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		ScreenActions.delay(1);
 		CarViewModel.enterPhoneNumber("4158675309");
 		CarViewModel.pressClose();
-		CarViewModel.pressDone();
+	}
 
+	private void enterPaymentInfo() throws Throwable {
+		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
+		CarViewModel.clickPaymentInfo();
+
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextPostalCode("666");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		screenshot("Car_Checkout_Payment_Entered");
+		CarViewModel.pressClose();
+	}
+
+	private void slideToPurchase() throws Throwable {
 		screenshot("Car_Checkout_Ready_To_Purchase");
 		CarViewModel.performSlideToPurchase();
 		ScreenActions.delay(1);
 
 		screenshot("Car_Confirmation");
+	}
+
+	public void testCarPhoneHappyPath() throws Throwable {
+		goToCarDetails();
+		selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
+		enterDriverInfo();
+
+		slideToPurchase();
+	}
+
+	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
+		goToCarDetails();
+		selectCarOffer(CREDIT_CARD_REQUIRED);
+		enterDriverInfo();
+		screenshot("Car_Checkout_Driver_Entered");
+
+		enterPaymentInfo();
+
+		slideToPurchase();
+	}
+
+	public void testCarPhoneLoggedInHappyPath() throws Throwable {
+		goToCarDetails();
+		selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		doLogin();
+
+		slideToPurchase();
+	}
+
+	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
+		goToCarDetails();
+		selectCarOffer(CREDIT_CARD_REQUIRED);
+		doLogin();
+
+		CarViewModel.clickPaymentInfo();
+		CarViewModel.clickStoredCardButton();
+		CarViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
+		slideToPurchase();
+	}
+
+
+	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
+		goToCarDetails();
+		selectCarOffer(CREDIT_CARD_REQUIRED);
+		doLogin();
+
+		CarViewModel.clickDriverInfo();
+		CarViewModel.clickStoredTravelerButton();
+		CarViewModel.selectStoredTraveler(getInstrumentation(), "Public Enemy Number Cat");
+		CarViewModel.pressClose();
+		screenshot("Car_Checkout_Driver_Entered");
+
+		CarViewModel.clickPaymentInfo();
+		CarViewModel.clickStoredCardButton();
+		CarViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
+		slideToPurchase();
 	}
 
 }

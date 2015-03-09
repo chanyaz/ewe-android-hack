@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -257,6 +259,7 @@ public class CarResultsPresenter extends Presenter {
 		@Override
 		public void onNext(CarCreateTripResponse response) {
 			createTripDialog.dismiss();
+			Db.getTripBucket().add(new TripBucketItemCar(response));
 			Events.post(new Events.CarsShowCheckout(response));
 		}
 	};

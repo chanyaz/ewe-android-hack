@@ -124,6 +124,14 @@ public class TripBucket implements JSONable {
 		checkForMismatchedItems();
 	}
 
+	public void add(TripBucketItemCar car) {
+		mLastLOBAdded = LineOfBusiness.CARS;
+		mRefreshCount++;
+		mItems.add(car);
+
+		checkForMismatchedItems();
+	}
+
 	/**
 	 * Adds a Flight to the trip bucket.
 	 */
@@ -147,6 +155,17 @@ public class TripBucket implements JSONable {
 	public boolean isEmpty() {
 		return mItems.size() < 1;
 	}
+
+	/**
+	 * Returns the first car found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemCar getCar() {
+		int index = getIndexOf(LineOfBusiness.CARS);
+		return index == -1 ? null : (TripBucketItemCar) mItems.get(index);
+	}
+
 
 	/**
 	 * Returns the first hotel found in the bucket, or null if not found.

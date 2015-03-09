@@ -105,18 +105,46 @@ public final class CarViewModel {
 		onView(withId(R.id.driver_info_card_view)).perform(click());
 	}
 
+	public static void clickPaymentInfo() {
+		onView(withId(R.id.payment_info_card_view)).perform(click());
+	}
+
+	public static void clickCarLogin() {
+		onView(withId(R.id.login_widget)).perform(click());
+	}
+
 	// Details
 
 	public static ViewInteraction carOfferList() {
 		return onView(withId(R.id.offer_list));
 	}
 
-	public static void selectCarOffer(int position) {
+	public static void expandCarOffer(int position) {
+		carOfferList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
+	}
+
+	public static void selectCarOffer() {
 		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve"))).perform(
 			click());
 	}
 
 	// Checkout
+
+	public static ViewInteraction userName() {
+		return onView(withId(R.id.username_edit_text));
+	}
+
+	public static void enterUsername(String name) {
+		userName().perform(scrollTo(), typeText(name));
+	}
+
+	public static ViewInteraction password() {
+		return onView(withId(R.id.password_edit_text));
+	}
+
+	public static void enterPassword(String name) {
+		password().perform(scrollTo(), typeText(name));
+	}
 
 	public static ViewInteraction firstName() {
 		return onView(withId(R.id.edit_first_name));
@@ -150,10 +178,6 @@ public final class CarViewModel {
 		phone().perform(scrollTo(), typeText(number));
 	}
 
-	public static ViewInteraction paymentContainer() {
-		return onView(withId(R.id.payment_info));
-	}
-
 	public static ViewInteraction checkoutDataEnterDone() {
 		return onView(withId(R.id.menu_checkout));
 	}
@@ -166,8 +190,34 @@ public final class CarViewModel {
 		checkoutDataEnterDone().perform(click());
 	}
 
+	public static void clickStoredTravelerButton() {
+		onView(withId(R.id.select_traveler_button)).perform(click());
+	}
+
+	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
+		onView(withText(travelername))
+			.inRoot(withDecorView(
+				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+			.perform(click());
+	}
+
+	public static void clickStoredCardButton() {
+		 onView(withId(R.id.select_payment_button)).perform(click());
+	}
+
+	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
+		onView(withText(cardname))
+			.inRoot(withDecorView(
+		not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+			.perform(click());
+	}
+
 	public static ViewInteraction performSlideToPurchase() {
 		return onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+	}
+
+	public static void pressDoLogin() {
+		onView(withId(R.id.log_in_with_expedia_btn)).perform(click());
 	}
 
 	// Confirmation
