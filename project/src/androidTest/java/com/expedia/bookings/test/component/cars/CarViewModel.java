@@ -45,6 +45,12 @@ public final class CarViewModel {
 			.perform(click());
 	}
 
+	public static void selectAirport(Instrumentation instrumentation, String airportCode,
+		String displayName) throws Throwable {
+		pickupLocation().perform(typeText(airportCode));
+		selectPickupLocation(instrumentation, displayName);
+	}
+
 	public static ViewInteraction dropOffLocation() {
 		return onView(withId(R.id.dropoff_location));
 	}

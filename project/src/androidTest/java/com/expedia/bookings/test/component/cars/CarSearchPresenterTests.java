@@ -19,7 +19,6 @@ import com.expedia.bookings.utils.JodaUtils;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -28,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public final class CarSearchParamsTests {
+public final class CarSearchPresenterTests {
 	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
 
 	@Rule
@@ -43,7 +42,7 @@ public final class CarSearchParamsTests {
 		CarSearchPresenter widget = (CarSearchPresenter) playground.getRoot();
 		CarSearchParams actual;
 		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder =
-				new CarSearchParamsBuilder.DateTimeBuilder()
+			new CarSearchParamsBuilder.DateTimeBuilder()
 				.startDate(expectedStartDate.toLocalDate())
 				.endDate(expectedStartDate.plusDays(3).toLocalDate());
 
@@ -57,8 +56,7 @@ public final class CarSearchParamsTests {
 		assertNull(actual.startDateTime);
 		assertNull(actual.endDateTime);
 
-		CarViewModel.pickupLocation().perform(typeText("SFO"));
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(expected.startDateTime.toLocalDate(), expected.endDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
@@ -71,22 +69,42 @@ public final class CarSearchParamsTests {
 
 	@Test
 	public void testDateButtonTextPopulation() {
+		// Open calendar
 		CarViewModel.dropOffLocation().perform(click());
 		CarViewModel.alertDialogNeutralButton().perform(click());
-
 		CarViewModel.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 		CarViewModel.selectDateButton().perform(click());
-		// Select first date
-		CarViewModel.selectDates(LocalDate.now(), null);
 
-		String today = JodaUtils.format(DateTime.now().plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN);
-		CarViewModel.selectDateButton().check(matches(withText(today + " – Select return date")));
-		// Select round-trip, overnight
-		CarViewModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
-		String expected = JodaUtils.format(DateTime.now().plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN)
-			+ " – " + JodaUtils
-			.format(DateTime.now().plusDays(1).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN);
+		final DateTime tomorrow = DateTime.now().plusDays(1);
+		final DateTime tomorrowsTomorrow = tomorrow.plusDays(1);
+		String tomorrowStr = generateDefaultStartDateTimeStrForDateTimeButton(tomorrow);
+		String tomorrowsTomorrowStr = generateDefaultEndDateTimeStrForDateTimeButton(tomorrowsTomorrow);
+
+		// Select start date
+		String expectedText = tomorrowStr + " – Select return date";
+		CarViewModel.selectDates(tomorrow.toLocalDate(), null);
+		CarViewModel.selectDateButton().check(matches(withText(expectedText)));
+
+		// Select end date
+		CarViewModel.selectDates(tomorrow.toLocalDate(), tomorrowsTomorrow.toLocalDate());
+		String expected = tomorrowStr + " – " + tomorrowsTomorrowStr;
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
+	}
+
+	private static String generateDefaultStartDateTimeStrForDateTimeButton(DateTime dateTime) {
+		return JodaUtils.format(dateTime
+				.withTimeAtStartOfDay()
+				.plusHours(9)
+				.withMinuteOfHour(0),
+			DATE_TIME_PATTERN);
+	}
+
+	private static String generateDefaultEndDateTimeStrForDateTimeButton(DateTime dateTime) {
+		return JodaUtils.format(dateTime
+				.withTimeAtStartOfDay()
+				.plusHours(18)
+				.withMinuteOfHour(0),
+			DATE_TIME_PATTERN);
 	}
 
 	@Test
@@ -101,32 +119,33 @@ public final class CarSearchParamsTests {
 		CarViewModel.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 
 		//Select dates from calendar
-		CarViewModel.selectDates(LocalDate.now(), LocalDate.now().plusDays(1));
+		final DateTime tomorrow = DateTime.now().plusDays(1);
+		final DateTime tomorrowsTomorrow = tomorrow.plusDays(1);
+		CarViewModel.selectDates(tomorrow.toLocalDate(), tomorrowsTomorrow.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
 		String expected = JodaUtils
-			.format(DateTime.now().withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), DATE_TIME_PATTERN)
+			.format(tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), DATE_TIME_PATTERN)
 			+ " – " + JodaUtils
-			.format(DateTime.now().plusDays(1).withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis),
+			.format(tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis),
 				DATE_TIME_PATTERN);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
+	// FIXME
 	@Test
 	public void testSelectingOnlyPickupDateClearsDropoffDate() throws Throwable {
-		CarViewModel.pickupLocation().perform(click());
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
-		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		String expected =
-			JodaUtils.format(DateTime.now().plusDays(3).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN)
-				+ " – " + JodaUtils
-				.format(DateTime.now().plusDays(4).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN);
+		final DateTime twoDaysOut = DateTime.now().plusDays(3);
+		final DateTime threeDaysOut = DateTime.now().plusDays(3);
+		final DateTime fourDaysOut = threeDaysOut.plusDays(1);
+		CarViewModel.selectDates(threeDaysOut.toLocalDate(), fourDaysOut.toLocalDate());
+		String expected = generateDefaultStartDateTimeStrForDateTimeButton(threeDaysOut) +
+			" – " + generateDefaultEndDateTimeStrForDateTimeButton(fourDaysOut);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 
-		CarViewModel.selectDates(LocalDate.now().plusDays(2), null);
-		String expected2 =
-			JodaUtils.format(DateTime.now().plusDays(2).plusHours(2).withMinuteOfHour(0), DATE_TIME_PATTERN)
-				+ " – Select return date";
+		CarViewModel.selectDates(twoDaysOut.toLocalDate(), null);
+		String expected2 = generateDefaultStartDateTimeStrForDateTimeButton(twoDaysOut) + " – Select return date";
 		CarViewModel.selectDateButton().check(matches(withText(expected2)));
 	}
 
@@ -140,8 +159,7 @@ public final class CarSearchParamsTests {
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
 		// Test with only pickup location
-		CarViewModel.pickupLocation().perform(typeText("SFO"));
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.searchButton().perform(click());
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
@@ -169,8 +187,7 @@ public final class CarSearchParamsTests {
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
 		// Test with origin and start date selected
-		CarViewModel.pickupLocation().perform(typeText("SFO"));
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarViewModel.searchButton().perform(click());
@@ -181,8 +198,7 @@ public final class CarSearchParamsTests {
 
 	@Test
 	public void testSearchButtonHasNoErrorMessageForCompleteParams() throws Throwable {
-		CarViewModel.pickupLocation().perform(typeText("SFO"));
-		CarViewModel.selectPickupLocation(playground.instrumentation(), "San Francisco, CA");
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
 		CarViewModel.searchButton().perform(click());
