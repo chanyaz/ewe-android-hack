@@ -53,6 +53,16 @@ public class DateUtils {
 	}
 
 	/**
+	 * Return YYYY-MM-ddThh:mm:ss format for a given DateTime
+	 */
+	public static String toYYYYMMTddhhmmss(DateTime d) {
+		DateTimeFormatter dateFmt = ISODateTimeFormat.date();
+		DateTimeFormatter timeFmt = ISODateTimeFormat.hourMinuteSecond();
+
+		return dateFmt.print(d) + "T" + timeFmt.print(d);
+	}
+
+	/**
 	 * Formats the milliseconds in date format and return as string
 	 */
 	public static String convertMilliSecondsForLogging(Long timeinMilliSeconds) {
@@ -82,5 +92,9 @@ public class DateUtils {
 
 	public static LocalDate yyyyMMddHHmmssToLocalDate(String dateyyyyMMddHHmmss) {
 		return LocalDate.parse(dateyyyyMMddHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+	}
+
+	public static DateTime yyyyMMddHHmmssToDateTime(String dateyyyyMMddHHmmss) {
+		return DateTime.parse(dateyyyyMMddHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }

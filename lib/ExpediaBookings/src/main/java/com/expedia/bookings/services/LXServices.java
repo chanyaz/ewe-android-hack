@@ -1,5 +1,7 @@
 package com.expedia.bookings.services;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +11,13 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripParams;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXTicketSelected;
+import com.expedia.bookings.utils.DateUtils;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
@@ -77,6 +84,40 @@ public class LXServices {
 			.subscribe(observer);
 	}
 
+	public Subscription createTrip(LXCreateTripParams createTripParams, Observer<LXCreateTripResponse> observer)
+		throws UnsupportedEncodingException {
+		return lxApi.
+			createTrip(createCreateTripParams(createTripParams))
+			.observeOn(this.observeOn)
+			.subscribeOn(this.subscribeOn)
+			.subscribe(observer);
+	}
+
+	private Map<String, Object> createCreateTripParams(LXCreateTripParams createTripParams) throws
+		UnsupportedEncodingException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("tripName", URLEncoder.encode(createTripParams.tripName, "utf-8"));
+		int offerIndex = 0;
+		for (LXOfferSelected offerSelected : createTripParams.offersSelected) {
+			String offerPrefix = "items[" + offerIndex + "].";
+			params.put(URLEncoder.encode(offerPrefix + "activityId", "utf-8"), offerSelected.activityId);
+			params.put(URLEncoder.encode(offerPrefix + "activityItemId", "utf-8"), offerSelected.offerId);
+			params.put(URLEncoder.encode(offerPrefix + "activityDate", "utf-8"), DateUtils.toYYYYMMTddhhmmss(offerSelected.offerDate));
+			params.put(URLEncoder.encode(offerPrefix + "amount", "utf-8"), offerSelected.amount);
+
+			int ticketIndex = 0;
+			for (LXTicketSelected ticketSelected : offerSelected.tickets) {
+				String ticketPrefix = offerPrefix + "tickets[" + ticketIndex + "].";
+				params.put(URLEncoder.encode(ticketPrefix + "count", "utf-8"), ticketSelected.count);
+				params.put(URLEncoder.encode(ticketPrefix + "code", "utf-8"), ticketSelected.code);
+				params.put(URLEncoder.encode(ticketPrefix + "ticketId", "utf-8"), ticketSelected.ticketId);
+				ticketIndex++;
+			}
+			offerIndex++;
+		}
+		return params;
+	}
+
 	public Subscription lxCheckout(LXCheckoutParams checkoutParams, Observer<LXCheckoutResponse> observer) {
 		return lxApi.
 			checkout(createCheckoutParams(checkoutParams))
@@ -109,5 +150,4 @@ public class LXServices {
 		params.put("email", checkoutParams.email);
 		return params;
 	}
-
 }
