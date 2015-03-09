@@ -13,29 +13,33 @@
 
         <LinearLayout
             android:id="@+id/outer_container"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp">
+            android:padding="12dp" >
 
             <!-- Header message -->
 
             <TextView
                 android:id="@+id/login_status_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:bufferType="spannable"
-                android:drawableLeft="@drawable/expedia_login"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="#1b2747"
-                android:textStyle="bold"
-                android:textSize="@dimen/login_header_text_size" />
+                android:gravity="left"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/expedia_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/expedia_login" />
 
             <!-- The fields for expedia login -->
 
@@ -44,20 +48,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                layout="@layout/include_log_in_fields" />
+                layout="@layout/include_log_in_fields_vertical_cars" />
 
             <!-- Log in with Expedia -or- Log in with Facebook -->
 
             <FrameLayout
                 android:id="@+id/signin_button_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/login_or_spacing"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/or_facebook_container"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -67,73 +74,64 @@
                         android:id="@+id/or_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/login_or_spacing"
-                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <View
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="@integer/login_or_spacers_weight" />
-
-                        <View
-                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="9dp"
+                            android:layout_gravity="center_vertical"
                             android:layout_height="1dp"
-                            android:layout_weight="@integer/login_or_lines_weight"
-                            android:background="@drawable/divider_grey_gradient_left" />
+                            android:background="#979797" />
 
                         <TextView
-                            android:id="@+id/or_tv"
-                            android:layout_width="40dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="@string/or"
-                            android:textColor="#c7c8ca"
-                            android:textSize="16sp"
-                            android:textStyle="italic" />
+                            android:layout_gravity="center_vertical"
+                            android:text="or"
+                            android:textColor="#676767" />
 
                         <View
                             android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="9dp"
+                            android:layout_gravity="center_vertical"
                             android:layout_height="1dp"
-                            android:layout_weight="@integer/login_or_lines_weight"
-                            android:background="@drawable/divider_grey_gradient_right" />
+                            android:background="#979797" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="@integer/login_or_spacers_weight" />
                     </LinearLayout>
 
                     <Button
                         android:id="@+id/log_in_with_facebook_btn"
                         style="@style/CarsLoginFormButton"
-                        android:layout_marginLeft="@dimen/login_side_margin_small"
-                        android:layout_marginRight="@dimen/login_side_margin_small"
-                        android:background="@drawable/btn_facebook_signin"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/btn_facebook_signin_cars"
                         android:contentDescription="@string/cd_log_in_with_facebook"
                         android:gravity="center"
+                        android:textAllCaps="false"
                         android:text="@string/Log_in_with_Facebook" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/log_in_with_expedia_button_container"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/login_side_margin_small"
-                    android:paddingRight="@dimen/login_side_margin_small"
                     android:visibility="gone">
 
                     <Button
                         android:id="@+id/log_in_with_expedia_btn"
                         style="@style/CarsLoginFormButton"
-                        android:background="?attr/skin_loginBookNowButtonDrawable"
                         android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
                         android:gravity="center"
+                        android:background="@drawable/btn_signin_cars"
+                        android:textColor="#836B11"
+                        android:textAllCaps="false"
                         android:text="?attr/skin_loginWithExpediaButtonText"
-                        android:textColor="?attr/skin_loginButtonColor" />
+                      />
 
                     <TextView
                         android:id="@+id/forgot_your_password_link"
@@ -215,8 +213,6 @@
                 android:id="@+id/facebook_button_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/login_side_margin_small"
-                android:layout_marginRight="@dimen/login_side_margin_small"
                 android:layout_marginTop="@dimen/login_fb_buttons_top_spacing"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -273,5 +269,5 @@
         android:drawableLeft="@drawable/expedia"
         android:gravity="center|left"
         android:drawablePadding="16dp"
-        android:text="Sign in with Expedia" />
+        android:text="@string/cars_login_text" />
 </merge>

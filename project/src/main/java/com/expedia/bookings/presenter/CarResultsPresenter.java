@@ -317,6 +317,7 @@ public class CarResultsPresenter extends Presenter {
 	public void animationStart(boolean forward) {
 		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
 		toolbar.setTranslationY(forward ? 0 : 50);
+		toolbar.setVisibility(VISIBLE);
 	}
 
 	public void animationUpdate(float f, boolean forward) {
@@ -328,6 +329,7 @@ public class CarResultsPresenter extends Presenter {
 	public void animationFinalize(boolean forward) {
 		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
 		toolbar.setTranslationY(forward ? 50 : 0);
+		toolbar.setVisibility(forward ? GONE : VISIBLE);
 	}
 
 	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {

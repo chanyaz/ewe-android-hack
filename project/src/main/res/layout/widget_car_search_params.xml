@@ -9,7 +9,7 @@
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:background="#D9FFFFFF"
+        android:background="#F2FFFFFF"
         android:paddingTop="?attr/actionBarSize"
         android:clipToPadding="false"
         android:clipChildren="false"

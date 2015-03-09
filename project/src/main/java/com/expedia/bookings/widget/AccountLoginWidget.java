@@ -10,14 +10,12 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -161,6 +160,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	@InjectView(R.id.login_text)
 	TextView loginText;
+
+	@InjectView(R.id.expedia_icon)
+	ImageView icon;
 
 	@InjectView(R.id.login_container)
 	ScrollView loginContainer;
@@ -523,7 +525,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		case LOGGED_IN:
 			loginText.setVisibility(GONE);
 			loginContainer.setVisibility(VISIBLE);
-			setStatusTextVisibility(View.GONE);
+			mStatusMessageTv.setVisibility(GONE);
+			icon.setVisibility(GONE);
 			mExpediaSigninContainer.setVisibility(View.GONE);
 			mOrFacebookContainer.setVisibility(View.GONE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
@@ -541,7 +544,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		case FACEBOOK_LINK:
 			loginText.setVisibility(GONE);
 			loginContainer.setVisibility(VISIBLE);
-			setStatusTextVisibility(View.VISIBLE);
+			mStatusMessageTv.setVisibility(GONE);
+			icon.setVisibility(VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.GONE);
 			mOrFacebookContainer.setVisibility(View.GONE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
@@ -556,7 +560,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		case FACEBOOK_EMAIL_DENIED:
 			loginText.setVisibility(GONE);
 			loginContainer.setVisibility(VISIBLE);
-			setStatusTextVisibility(View.VISIBLE);
+			mStatusMessageTv.setVisibility(GONE);
+			icon.setVisibility(VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.GONE);
 			mOrFacebookContainer.setVisibility(View.GONE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
@@ -571,7 +576,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
 			loginText.setVisibility(GONE);
 			loginContainer.setVisibility(VISIBLE);
-			setStatusTextVisibility(View.VISIBLE);
+			mStatusMessageTv.setVisibility(GONE);
+			icon.setVisibility(VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
@@ -587,7 +593,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		case SIGN_IN:
 			loginText.setVisibility(VISIBLE);
 			loginContainer.setVisibility(GONE);
-			setStatusTextVisibility(View.VISIBLE);
+			mStatusMessageTv.setVisibility(GONE);
+			icon.setVisibility(VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
@@ -600,7 +607,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		default:
 			loginText.setVisibility(GONE);
 			loginContainer.setVisibility(VISIBLE);
-			setStatusTextVisibility(View.VISIBLE);
+			mStatusMessageTv.setVisibility(GONE);
+			icon.setVisibility(VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
@@ -719,40 +727,19 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		setStatusText(str, false);
 	}
 
-	protected void setStatusTextVisibility(int visibility) {
-		mStatusMessageTv.setVisibility(visibility);
-	}
-
 	protected void setStatusText(final String text, final boolean isHeading) {
+		mStatusMessageTv.setVisibility(VISIBLE);
 		Runnable runner = new Runnable() {
 			@Override
 			public void run() {
 				if (mStatusMessageTv != null) {
 					mStatusMessageTv.setText(Html.fromHtml(text));
-					setStatusTextMode(isHeading);
 				}
 			}
 		};
 		mStatusText = text;
 		((Activity) getContext()).runOnUiThread(runner);
 		updateButtonState();
-	}
-
-	protected void setStatusTextMode(boolean heading) {
-		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mStatusMessageTv.getLayoutParams();
-		Resources resources = getResources();
-
-		if (heading) {
-			float textSize = resources.getDimensionPixelSize(R.dimen.login_header_text_size);
-			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
-		}
-		else {
-			float textSize = resources.getDimensionPixelSize(R.dimen.login_header_text_small_size);
-			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_REGULAR);
-		}
-		mStatusMessageTv.setLayoutParams(lp);
 	}
 
 	protected void setStatusText(int resId, boolean isHeading) {

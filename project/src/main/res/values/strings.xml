@@ -55,6 +55,8 @@
     <string name="car_auto_tran_text">Automatic Transmission</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Manual Transmission</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Log in with Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
