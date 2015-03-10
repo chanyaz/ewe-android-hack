@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.util.NetUtils;
@@ -41,6 +44,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 		else {
 			findLocation();
+			signalAirAttachState();
 		}
 	}
 
@@ -72,6 +76,17 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				Events.post(new Events.LaunchLocationFetchError());
 			}
 		});
+	}
+
+	private void signalAirAttachState() {
+		if (Db.getTripBucket().isUserAirAttachQualified()) {
+			final ItineraryManager itinMan = ItineraryManager.getInstance();
+			final HotelSearchParams hotelSearchParams = itinMan.getHotelSearchParamsForAirAttach();
+			Events.post(new Events.LaunchAirAttachBannerShow(hotelSearchParams));
+		}
+		else {
+			Events.post(new Events.LaunchAirAttachBannerHide());
+		}
 	}
 
 	// Listeners

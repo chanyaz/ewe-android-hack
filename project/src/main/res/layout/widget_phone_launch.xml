@@ -23,4 +23,12 @@
         android:layout_height="@dimen/launch_lob_container_height"
         android:layout_marginTop="?android:attr/actionBarSize" />
 
+    <include
+        android:id="@+id/air_attach_banner"
+        layout="@layout/widget_launch_air_attach_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone" />
+
 </com.expedia.bookings.widget.PhoneLaunchWidget>

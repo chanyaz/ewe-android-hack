@@ -10,6 +10,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONException;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -18,6 +20,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.CarActivity;
@@ -71,6 +75,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@InjectView(R.id.action_bar_space)
 	View actionBarSpace;
+
+	@InjectView(R.id.air_attach_banner)
+	ViewGroup airAttachBanner;
 
 	// Lifecycle
 
@@ -203,6 +210,19 @@ public class PhoneLaunchWidget extends FrameLayout {
 		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
 	}
 
+	@OnClick(R.id.air_attach_banner_close)
+	public void closeAirAttachBanner() {
+		airAttachBanner.animate()
+			.translationY(airAttachBanner.getHeight())
+			.setDuration(300)
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					airAttachBanner.setVisibility(View.GONE);
+				}
+			});
+	}
+
 	/*
 	 * Scrolling
 	 */
@@ -214,6 +234,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 
 		private float postSquashChange;
+		private float airAttachTranslation;
 
 		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -230,6 +251,12 @@ public class PhoneLaunchWidget extends FrameLayout {
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 			float currentPos = Math.abs(launchListWidget.getHeader().getTop());
+			if (airAttachTranslation >= 0 && airAttachTranslation <= airAttachBanner.getHeight()) {
+				airAttachTranslation += dy;
+				airAttachTranslation = Math.min(airAttachTranslation, airAttachBanner.getHeight());
+				airAttachTranslation = Math.max(0, airAttachTranslation);
+				airAttachBanner.setTranslationY(airAttachTranslation);
+			}
 			// between header starting point and the squashed height
 			if (currentPos < squashedHeaderHeight) {
 				float squashInput = 1 - (currentPos / lobHeight);
@@ -332,5 +359,54 @@ public class PhoneLaunchWidget extends FrameLayout {
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
 			.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
+	}
+
+	// Air attach
+
+	@Subscribe
+	public void onShowAirAttach(Events.LaunchAirAttachBannerShow event) {
+		final HotelSearchParams params = event.params;
+		if (params != null) {
+			if (airAttachBanner.getVisibility() == View.GONE) {
+				airAttachBanner.setVisibility(View.VISIBLE);
+				airAttachBanner.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						if (airAttachBanner.getHeight() == 0 || airAttachBanner.getVisibility() == View.GONE) {
+							return true;
+						}
+						airAttachBanner.getViewTreeObserver().removeOnPreDrawListener(this);
+						animateAirAttachBanner(params, true);
+						return false;
+					}
+				});
+			}
+			else {
+				animateAirAttachBanner(params, false);
+			}
+		}
+		// Add logics
+		// Animate in?
+		airAttachBanner.setVisibility(View.VISIBLE);
+	}
+
+	private void animateAirAttachBanner(final HotelSearchParams hotelSearchParams, boolean animate) {
+		airAttachBanner.setTranslationY(airAttachBanner.getHeight());
+		airAttachBanner.animate()
+			.translationY(0f)
+			.setDuration(animate ? 300 : 0);
+		airAttachBanner.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.goToHotels(getContext(), hotelSearchParams);
+				OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+			}
+		});
+		OmnitureTracking.trackPhoneAirAttachBanner(getContext());
+	}
+
+	@Subscribe
+	public void onHideAirAttach(Events.LaunchAirAttachBannerHide event) {
+		airAttachBanner.setVisibility(View.GONE);
 	}
 }
