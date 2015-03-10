@@ -20,13 +20,12 @@ import com.mobiata.android.LocationServices;
 
 import rx.Observer;
 import rx.Subscription;
-import rx.exceptions.OnErrorNotImplementedException;
 
 public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filterable {
 
 	// Implementing class decides how to use the suggestion service to provide suggestions
 	protected abstract Subscription suggest(SuggestionServices suggestionServices,
-			Observer<List<Suggestion>> suggestionsObserver, CharSequence query);
+		Observer<List<Suggestion>> suggestionsObserver, CharSequence query);
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 	List<Suggestion> recentHistory = new ArrayList<Suggestion>();
@@ -112,7 +111,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 		@Override
 		public void onError(Throwable e) {
-			throw new OnErrorNotImplementedException(e);
+			SuggestionBaseAdapter.this.suggestions = recentSuggestions;
 		}
 
 		@Override
