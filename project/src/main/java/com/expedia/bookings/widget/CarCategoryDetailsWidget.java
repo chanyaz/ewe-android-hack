@@ -32,6 +32,9 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	@InjectView(R.id.header_image)
 	ImageView headerImage;
 
+	@InjectView(R.id.price_container)
+	LinearLayout priceContainer;
+
 	@InjectView(R.id.offer_list)
 	public RecyclerView offerList;
 
@@ -62,14 +65,14 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
 		float toolbarSize = a.getDimension(0, 44f);
 
-		headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getContext().getResources().getDisplayMetrics());
+		headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getContext().getResources().getDisplayMetrics());
 
 		offerList.setLayoutManager(layoutManager);
 		offerList.addItemDecoration(
 			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, (int) toolbarSize, true));
 		offerList.setHasFixedSize(true);
 
-		adapter = new CarOffersAdapter();
+		adapter = new CarOffersAdapter(getContext());
 		offerList.setAdapter(adapter);
 
 	}
@@ -116,14 +119,17 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 
  	public float parallaxScrollHeader() {
 		View view = offerList.getChildAt(0);
-		float y = headerHeight - view.getTop();
+		int top = view.getTop();
+		float y = headerHeight - top;
 		backgroundHeader.setTranslationY(Math.min(-y * 0.5f, 0f));
+		priceContainer.setTranslationY(-y * 0.5f);
 		return y / headerHeight;
 	}
 
 	public void reset() {
 		offerList.getLayoutManager().scrollToPosition(0);
 		backgroundHeader.setTranslationY(0);
+		priceContainer.setTranslationY(0);
 	}
 
 }
