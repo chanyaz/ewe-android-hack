@@ -20,15 +20,15 @@
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="240dp"
                 tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="120dp"
                 android:background="@drawable/cars_details_gradient_top" />
 
-            <LinearLayout
+            <com.expedia.bookings.widget.LinearLayout
                 android:id="@+id/price_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,8 +47,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
                     android:src="@drawable/person"
-                    android:tint="@android:color/white" />
+                    android:tint="#D9D9D9" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/passenger_count"
@@ -58,16 +59,17 @@
                     android:layout_marginRight="4dp"
                     android:padding="2dp"
                     android:text="5"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textColor="#D9D9D9"
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
                     android:src="@drawable/baggage"
-                    android:tint="@android:color/white" />
+                    android:tint="#D9D9D9" />
 
 
                 <com.expedia.bookings.widget.TextView
@@ -78,16 +80,17 @@
                     android:layout_marginRight="4dp"
                     android:padding="2dp"
                     android:text="3"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textColor="#D9D9D9"
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
                     android:src="@drawable/doors"
-                    android:tint="@android:color/white" />
+                    android:tint="#D9D9D9" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/door_count"
@@ -97,10 +100,10 @@
                     android:layout_marginRight="4dp"
                     android:padding="2dp"
                     android:text="4"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textColor="#D9D9D9"
+                    android:textSize="12sp" />
 
-            </LinearLayout>
+            </com.expedia.bookings.widget.LinearLayout>
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView

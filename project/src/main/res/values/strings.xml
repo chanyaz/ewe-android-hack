@@ -39,6 +39,8 @@
     <string name="enter_payment_details">Enter payment details</string>
     <!-- Template for selected credit card-->
     <string name="selected_card_template">Expires %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s or similiar</string>
 
     <!-- car result -->
     <!-- car door range -->

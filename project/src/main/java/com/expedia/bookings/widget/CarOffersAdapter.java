@@ -7,9 +7,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -29,9 +31,29 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.ViewHolder> {
+	// Design stuff
+	int sideExpanded = 0;
+	int topExpanded = 0;
+	int sideCollapsed = 0;
+	int topCollapsed = 0;
+	int bottomCollapsed = 0;
+	int paddingExpanded = 0;
+	int toggleCollapsed = 0;
+	int toggleExpanded = 0;
 
 	private List<SearchCarOffer> offers = new ArrayList<>();
 	private int mLastExpanded = 0;
+
+	public CarOffersAdapter(Context context) {
+		sideExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+		topExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+		sideCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
+		topCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
+		bottomCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
+		paddingExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+		toggleCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
+		toggleExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -79,6 +101,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.map_text)
 		public TextView mapText;
 
+		@InjectView(R.id.collapsed_container)
+		public RelativeLayout collapsedContainer;
+
 		public Context mContext;
 
 		public ViewHolder(View view) {
@@ -92,7 +117,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			itemView.setTag(offer);
 
 			vendor.setText(offer.vendor.name);
-			carDetails.setText(offer.vehicleInfo.getMakesDescription());
+			carDetails.setText(mContext.getResources()
+				.getString(R.string.car_offer_template, offer.vehicleInfo.getMakesDescription()));
 			ratePrice.setText(
 				ratePrice.getContext().getString(R.string.cars_daily_template, offer.fare.rate.getFormattedMoney()));
 			totalPrice.setText(
@@ -121,9 +147,22 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		private void updateState(boolean isChecked) {
 			reserveNow.setChecked(isChecked);
 			cardView.setCardBackgroundColor(isChecked ? Color.WHITE : Color.TRANSPARENT);
+			ratePrice.setTextColor(isChecked ? mContext.getResources().getColor(R.color.cars_primary_color)
+				: mContext.getResources().getColor(R.color.cars_checkout_text_color));
+
+			collapsedContainer.setPadding(isChecked ? sideExpanded : sideCollapsed,
+				isChecked ? topExpanded : topCollapsed, isChecked ? sideExpanded : sideCollapsed,
+				isChecked ? topExpanded : bottomCollapsed);
+			address.setPadding(0, isChecked ? paddingExpanded : topCollapsed, 0,
+				isChecked ? paddingExpanded : topCollapsed);
+			reserveNow.setPadding(isChecked ? toggleExpanded : toggleCollapsed, 0,
+				isChecked ? toggleExpanded : toggleCollapsed, 0);
+
 			mapView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-			totalPrice.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 			mapText.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			totalPrice.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			reserveNow.setTextSize(TypedValue.COMPLEX_UNIT_SP, isChecked ? 17 : 15);
+
 			cardView.setCardElevation(isChecked ? 3f : 0f);
 			if (isChecked) {
 				mapView.onCreate(null);

@@ -98,7 +98,6 @@
         <item name="cardElevation">1dp</item>
     </style>
 
-
     <style name="CVVPromptBase">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:singleLine">true</item>
@@ -111,6 +110,20 @@
         <item name="android:shadowRadius">.1</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CarToggleButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textOff">@string/cars_view_details_text</item>
+        <item name="android:textOn">@string/cars_reserve_text</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/cars_toogle_background_selector</item>
+    </style>
+
+    <style name="CarOfferText">
+        <item name="android:textColor">@color/cars_checkout_text_color</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

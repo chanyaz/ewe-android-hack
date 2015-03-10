@@ -1,137 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#eaeaea"
-    android:layout_height="match_parent">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
-        android:layout_margin="12dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginTop="12dp"
         android:background="#FFF"
         card_view:cardCornerRadius="4dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/vendor"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/collapsed_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:textSize="22sp"
-                android:textColor="@color/cars_actionbar_text_color"
-                tools:text="" />
+                android:padding="14dp">
 
-            <TextView
-                android:id="@+id/car_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/cars_actionbar_text_color"
-                android:layout_below="@+id/vendor"
-                android:layout_toLeftOf="@+id/reserve_now"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="16dp"
-                android:textSize="14sp"
-                tools:text="" />
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:textColor="@color/cars_actionbar_text_color"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:gravity="bottom"
-                android:layout_alignBottom="@+id/reserve_now"
-                android:layout_below="@+id/car_details"
-                android:layout_toLeftOf="@+id/reserve_now"
-                android:layout_alignParentLeft="true"
-                android:textSize="12sp"
-                tools:text="" />
-
-            <LinearLayout
-                android:id="@+id/price_container"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/category_price_text"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/vendor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_gravity="right"
-                    android:textColor="@color/cars_primary_color"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:textColor="#3C3C3C"
+                    android:textSize="18sp"
+                    app:textStyle="medium"
+                    tools:text="" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/car_details"
+                    style="@style/CarOfferText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/vendor"
+                    android:layout_toLeftOf="@+id/reserve_now"
+                    app:textStyle="medium"
                     tools:text="" />
 
                 <TextView
-                    android:id="@+id/total_price_text"
+                    android:id="@+id/address"
+                    style="@style/CarOfferText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:textColor="@color/cars_actionbar_text_color"
-                    android:textSize="12sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/car_details"
+                    android:layout_toLeftOf="@+id/reserve_now"
+                    android:gravity="bottom"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     tools:text="" />
 
-            </LinearLayout>
+                <com.expedia.bookings.widget.LinearLayout
+                    android:id="@+id/price_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="vertical">
 
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:minWidth="115dp"
-                android:layout_height="43dp"
-                android:paddingTop="6dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="6dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@android:color/white"
-                android:layout_below="@+id/price_container"
-                android:id="@+id/reserve_now"
-                android:textAllCaps="false"
-                android:background="@drawable/cars_toogle_background_selector"
-                android:textOn="@string/cars_reserve_text"
-                android:textOff="@string/cars_view_details_text" />
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/category_price_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="right"
+                        android:textColor="#7D7D7D"
+                        android:textSize="14sp"
+                        app:textStyle="medium"
+                        tools:text="" />
+
+                    <TextView
+                        android:id="@+id/total_price_text"
+                        style="@style/CarOfferText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        tools:text="" />
+
+                </com.expedia.bookings.widget.LinearLayout>
+
+                <ToggleButton
+                    android:id="@+id/reserve_now"
+                    style="@style/CarToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/price_container"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp" />
+            </RelativeLayout>
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/map_view"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:paddingBottom="28dp"
+                android:layout_height="72dp"
                 app:liteMode="true"
-                android:layout_below="@+id/reserve_now"
                 app:mapType="normal" />
 
             <TextView
                 android:id="@+id/map_text"
+                style="@style/CarOfferText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/map_view"
-                android:alpha=".8"
                 android:background="@android:color/white"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp"
-                android:text=""
-                android:textColor="@color/cars_actionbar_text_color"
-                android:textSize="10dp" />
-        </RelativeLayout>
+                android:paddingBottom="6dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:paddingTop="6dp"
+                android:text="" />
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </FrameLayout>
