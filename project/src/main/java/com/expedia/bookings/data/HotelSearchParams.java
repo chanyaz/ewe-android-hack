@@ -455,17 +455,8 @@ public class HotelSearchParams implements JSONable {
 			// Round-trip flight
 			LocalDate checkOutDate = LocalDate.fromCalendarFields(secondLeg.getFirstWaypoint()
 					.getMostRelevantDateTime());
-
-			// Make sure the stay is no longer than 28 days
-			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
-			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
-			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
-			if (stayDuration == 0) {
-				hotelParams.setCheckOutDate(checkOutDate.plusDays(1));
-			}
-			else {
-				hotelParams.setCheckOutDate(checkOutDate);
-			}
+			hotelParams.setCheckOutDate(checkOutDate);
+			ensureMaxStayTwentyEightDays(hotelParams);
 		}
 
 		// Who //
@@ -493,12 +484,26 @@ public class HotelSearchParams implements JSONable {
 
 		hotelParams.setSearchLatLon(latitude, longitude);
 
-		LocalDate checkInDate = LocalDate.fromCalendarFields(offer.pickupTime.toCalendar(Locale.US));
-		hotelParams.setCheckInDate(checkInDate);
+		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.pickupTime.toCalendar(Locale.US)));
+		hotelParams.setCheckOutDate(LocalDate.fromCalendarFields(offer.dropOffTime.toCalendar(Locale.US)));
+		ensureMaxStayTwentyEightDays(hotelParams);
 
-		LocalDate checkOutDate = LocalDate.fromCalendarFields(offer.dropOffTime.toCalendar(Locale.US));
-		hotelParams.setCheckOutDate(checkOutDate);
 		return hotelParams;
+	}
+
+	private static void ensureMaxStayTwentyEightDays(HotelSearchParams params) {
+		// Make sure the stay is no longer than 28 days
+		LocalDate checkInDate = params.getCheckInDate();
+		LocalDate checkOutDate = params.getCheckOutDate();
+		LocalDate maxCheckOutDate = checkInDate.plusDays(28);
+		checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
+		int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
+		if (stayDuration == 0) {
+			params.setCheckOutDate(checkOutDate.plusDays(1));
+		}
+		else {
+			params.setCheckOutDate(checkOutDate);
+		}
 	}
 
 	public boolean fromJson(JSONObject obj) {
