@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cars_confirmation_background">
+    android:background="@color/cars_confirmation_action_background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <FrameLayout
@@ -75,6 +75,16 @@
                     android:gravity="center"
                     android:textColor="@color/itin_white_text"
                     android:textSize="15sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/itinerary_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:textColor="@color/itin_white_text"
+                    android:textSize="15sp" />
+
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
@@ -86,9 +96,9 @@
         </FrameLayout>
 
         <ScrollView
-            android:background="#3A424C"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,59 +106,64 @@
                 android:background="#4E555E"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/direction_action_button"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/direction_action_textView"
                     style="@style/CarsBookingButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="1dp"
                     android:drawableLeft="@drawable/car_directions"
-                    android:text="@string/directions"/>
+                    android:textColor="@color/cars_confirmation_action_text_color" />
 
-                <Button
-                    android:id="@+id/calendar_action_button"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/calendar_action_textView"
                     style="@style/CarsBookingButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="1dp"
                     android:drawableLeft="@drawable/add_to_calendar"
-                    android:text="@string/add_to_calendar" />
+                    android:text="@string/add_to_calendar"
+                    android:textColor="@color/cars_confirmation_action_text_color" />
 
-                <Button
-                    android:id="@+id/call_action_button"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/call_action_textView"
                     style="@style/CarsBookingButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="1dp"
                     android:drawableLeft="@drawable/car_call"
-                    android:text="@string/call_customer_support" />
+                    android:text="@string/call_customer_support"
+                    android:textColor="@color/cars_confirmation_action_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:background="#2B3036" />
 
-                <Button
-                    android:id="@+id/add_hotel_button"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/add_hotel_textView"
                     style="@style/CarsBookingButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:drawableLeft="@drawable/car_hotel" />
+                    android:layout_height="48dp"
+                    android:layout_marginTop="1dp"
+                    android:drawableLeft="@drawable/car_hotel"
+                    android:textColor="@color/cars_confirmation_action_text_color" />
 
-                <Button
-                    android:id="@+id/add_flight_button"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/add_flight_textView"
                     style="@style/CarsBookingButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
-                    android:drawableLeft="@drawable/car_flights"/>
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="1dp"
+                    android:drawableLeft="@drawable/car_flights"
+                    android:textColor="@color/cars_confirmation_action_text_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:background="#3A424C"
                     android:orientation="vertical"
                     android:padding="16dp">
