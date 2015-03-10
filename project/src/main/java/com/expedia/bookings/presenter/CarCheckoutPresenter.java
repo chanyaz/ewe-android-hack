@@ -10,11 +10,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CarCheckoutWidget;
 import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;
@@ -37,6 +39,9 @@ public class CarCheckoutPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	CarConfirmationWidget confirmation;
 
+	@InjectView(R.id.cvv)
+	CVVEntryWidget cvv;
+
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
 
@@ -45,8 +50,12 @@ public class CarCheckoutPresenter extends Presenter {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).carComponent().inject(this);
 
+		addTransition(checkoutToCvv);
+		addTransition(cvvToConfirmation);
 		addTransition(checkoutToConfirmation);
 		addDefaultTransition(defaultCheckoutTransition);
+
+		cvv.setCVVEntryListener(checkout);
 
 		checkoutDialog = new ProgressDialog(getContext());
 		checkoutDialog.setMessage(getResources().getString(R.string.booking_loading));
@@ -97,11 +106,15 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 
+	private Transition cvvToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CVVEntryWidget.class.getName());
+	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), CarConfirmationWidget.class.getName());
 	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CarConfirmationWidget.class.getName());
+
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
+			cvv.setVisibility(View.GONE);
 			confirmation.setVisibility(View.GONE);
 		}
 	};
@@ -113,6 +126,13 @@ public class CarCheckoutPresenter extends Presenter {
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
 		show(checkout);
+	}
+
+	@Subscribe
+	public void onShowCVV(Events.CarsShowCVV event) {
+		show(cvv);
+		BillingInfo billingInfo = event.billingInfo;
+		cvv.bind(billingInfo);
 	}
 
 	@Subscribe

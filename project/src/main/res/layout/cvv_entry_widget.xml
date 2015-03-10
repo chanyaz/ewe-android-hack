@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- This is a dummy center view, from which we can align things above/below -->
+        <View
+            android:id="@+id/center"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+
+        <!-- Credit card at top of screen -->
+
+        <FrameLayout
+            android:id="@+id/credit_card_section_holder"
+            android:layout_width="@dimen/credit_card_checkout_width"
+            android:layout_height="@dimen/credit_card_checkout_height"
+            android:layout_above="@id/center"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="55dp">
+
+            <!-- Credit card with logo and signature -->
+
+            <include
+                android:id="@+id/credit_card_section"
+                layout="@layout/section_credit_card_cars"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right" />
+
+            <!-- CVV text entry -->
+
+            <com.expedia.bookings.widget.CVVTextView
+                android:id="@+id/cvv_text_view"
+                android:layout_width="84dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/cvv_text_view_right_margin_other"
+                android:layout_marginTop="@dimen/cvv_text_view_top_margin_other"
+                android:background="@drawable/div_cvv"
+                android:freezesText="true"
+                android:gravity="center_horizontal"
+                android:maxLength="4"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/cvv_normal"
+                android:textSize="20dp" />
+        </FrameLayout>
+
+        <com.expedia.bookings.widget.MaskView
+            android:id="@+id/mask_cvv_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:exposedPadding="-4dp"
+            app:exposedView="@id/cvv_text_view" />
+
+        <!-- "Security Code for Doug's VISA" prompt -->
+
+        <com.mobiata.android.widget.AutoResizeTextView
+            android:id="@+id/cvv_prompt_text_view"
+            style="@style/CVVPromptBase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/credit_card_section_holder"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="80dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true" />
+
+        <!-- Input buttons at bottom -->
+
+        <com.expedia.bookings.section.CreditCardInputSection
+            android:id="@+id/credit_card_input_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/center"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="24dp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/cvv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
+
+</merge>

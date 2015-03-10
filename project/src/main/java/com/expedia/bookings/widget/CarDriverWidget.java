@@ -107,21 +107,18 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 				traveler = Db.getUser().getPrimaryTraveler();
 			}
 			traveler.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
-			sectionTravelerInfo.bind(traveler);
 			sectionTravelerInfo.refreshOnLoginStatusChange();
+			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
-			driverInfoText.setText(traveler.getFullName());
-			driverPhoneText.setText(traveler.getPhoneNumber());
-			driverPhoneText.setVisibility(VISIBLE);
 		}
 		else {
 			// Default
 			if (traveler == null) {
 				traveler = new Traveler();
-				sectionTravelerInfo.bind(traveler);
 			}
 			sectionTravelerInfo.refreshOnLoginStatusChange();
+			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(emailAddress.getId());
 			lastName.setNextFocusDownId(emailAddress.getId());
 		}
@@ -146,6 +143,7 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
 		driverCheckoutStatusRightImageView.setStatus(
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
+		Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
 	}
 
 	@Override
@@ -164,8 +162,12 @@ public class CarDriverWidget extends ExpandableCardView implements TravelerButto
 				travelerButton.setVisibility(GONE);
 			}
 			firstName.requestFocus();
+			bind();
 		}
-		bind();
+		else {
+			bind();
+			Db.getWorkingTravelerManager().commitWorkingTravelerToDB(0, getContext());
+		}
 	}
 
 	@Override

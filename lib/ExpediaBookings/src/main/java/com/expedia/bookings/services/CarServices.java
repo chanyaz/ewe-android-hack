@@ -157,9 +157,7 @@ public class CarServices {
 	}
 
 	public Subscription checkout(CarCheckoutParams params, Observer<CarCheckoutResponse> observer) {
-		return mApi.checkoutWithoutCreditCard(true, params.tripId, params.grandTotal.amount.toString(),
-			params.grandTotal.currencyCode, params.phoneCountryCode, params.phoneNumber, params.emailAddress,
-			params.firstName, params.lastName)
+		return mApi.checkout(params.toQueryMap())
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.subscribe(observer);

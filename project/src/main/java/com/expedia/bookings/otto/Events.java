@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -567,6 +568,14 @@ public class Events {
 
 		public CarsShowCheckout(CarCreateTripResponse createTripResponse) {
 			this.createTripResponse = createTripResponse;
+		}
+	}
+
+	public static class CarsShowCVV {
+		public BillingInfo billingInfo;
+
+		public CarsShowCVV(BillingInfo info) {
+			this.billingInfo = info;
 		}
 	}
 
