@@ -488,7 +488,9 @@ public class Ui extends com.mobiata.android.util.Ui {
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = ctx.obtainStyledAttributes(typedValue.data, textSizeAttr);
 		int toolbarSize = (int) a.getDimension(0, 44);
-		viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
+		if (viewGroup != null) {
+			viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
+		}
 
 		return v;
 	}

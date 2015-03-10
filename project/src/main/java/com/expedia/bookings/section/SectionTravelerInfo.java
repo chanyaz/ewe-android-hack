@@ -204,7 +204,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	public void refreshOnLoginStatusChange() {
-		removeFieldsForLoggedIn();
+		if (User.isLoggedIn(mContext)) {
+			mFields.removeField(mEditEmailAddress);
+		}
+		else {
+			mFields.setFieldEnabled(mEditEmailAddress, true);
+		}
 	}
 
 	private void setPhoneContainerVisibility(int visibility) {

@@ -16,11 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -39,7 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISlideToListener {
+public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISlideToListener,
+	CVVEntryWidget.CVVEntryFragmentListener {
 
 	public CarCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -227,31 +226,15 @@ public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISli
 
 	@Override
 	public void onSlideAllTheWay() {
-		CarCheckoutParamsBuilder builder =
-			new CarCheckoutParamsBuilder()
-				.firstName(driverInfoCardView.firstName.getText().toString())
-				.lastName(driverInfoCardView.lastName.getText().toString())
-				.emailAddress(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail() : driverInfoCardView.emailAddress.getText().toString())
-				.grandTotal(createTripResponse.carProduct.detailedFare.grandTotal)
-				.phoneCountryCode(Integer.toString(driverInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
-				.phoneNumber(driverInfoCardView.phoneNumber.getText().toString())
-				.tripId(createTripResponse.tripId);
-
-		if (createTripResponse.carProduct.checkoutRequiresCard && Db.getWorkingBillingInfoManager()
-			.getWorkingBillingInfo().hasStoredCard()) {
-			builder.storedCCID(Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()).cvv("376");
+		if (createTripResponse.carProduct.checkoutRequiresCard) {
+			BillingInfo billingInfo = Db.getBillingInfo();
+			Events.post(new Events.CarsShowCVV(billingInfo));
+			slideWidget.resetSlider();
 		}
-		else if (createTripResponse.carProduct.checkoutRequiresCard) {
-			BillingInfo info = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
-			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
-
-			//TODO: Set CVV
-			builder.ccNumber(info.getNumber()).expirationYear(expirationYear)
-				.expirationMonth(expirationMonth).ccPostalCode(info.getLocation().getPostalCode())
-				.ccName(info.getNameOnCard()).cvv("735");
+		else {
+			onBook(null);
 		}
-		Events.post(new Events.CarsKickOffCheckoutCall(builder));
+
 	}
 
 	@Override
@@ -367,6 +350,34 @@ public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISli
 		}
 	};
 
+	@Override
+	public void onBook(String cvv) {
+
+		CarCheckoutParamsBuilder builder =
+			new CarCheckoutParamsBuilder()
+				.firstName(driverInfoCardView.firstName.getText().toString())
+				.lastName(driverInfoCardView.lastName.getText().toString())
+				.emailAddress(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail() : driverInfoCardView.emailAddress.getText().toString())
+				.grandTotal(createTripResponse.carProduct.detailedFare.grandTotal)
+				.phoneCountryCode(Integer.toString(driverInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
+				.phoneNumber(driverInfoCardView.phoneNumber.getText().toString())
+				.tripId(createTripResponse.tripId);
+
+		if (createTripResponse.carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
+			builder.storedCCID(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
+		}
+		else if (createTripResponse.carProduct.checkoutRequiresCard) {
+			BillingInfo info = Db.getBillingInfo();
+			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
+			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
+
+			builder.ccNumber(info.getNumber()).expirationYear(expirationYear)
+				.expirationMonth(expirationMonth).ccPostalCode(info.getLocation().getPostalCode())
+				.ccName(info.getNameOnCard()).cvv(cvv);
+		}
+		Events.post(new Events.CarsKickOffCheckoutCall(builder));
+	}
+
 		/*
 	* States and stuff
 	*/
@@ -439,4 +450,5 @@ public class CarCheckoutWidget extends Presenter implements SlideToWidgetJB.ISli
 			}
 		}
 	};
+
 }

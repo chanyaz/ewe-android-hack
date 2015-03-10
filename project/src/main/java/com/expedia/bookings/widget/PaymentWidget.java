@@ -137,10 +137,7 @@ public class PaymentWidget extends ExpandableCardView {
 			bindCard(cardType, cardName, null);
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 			// let's bind sectionBillingInfo & sectionLocation to a new one. So next time around we start afresh.
-			sectionBillingInfo.bind(new BillingInfo());
-			Location location = new Location();
-			sectionBillingInfo.getBillingInfo().setLocation(location);
-			sectionLocation.bind(location);
+			reset();
 		}
 		// Card info user entered is valid
 		else if (isBillingInfoValid && isPostalCodeValid) {
@@ -151,7 +148,6 @@ public class PaymentWidget extends ExpandableCardView {
 			bindCard(cardType, cardNumber, expiration);
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info);
-
 		}
 		// Card info partially entered & not valid
 		else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
@@ -162,11 +158,15 @@ public class PaymentWidget extends ExpandableCardView {
 		else {
 			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
-			sectionBillingInfo.bind(new BillingInfo());
-			Location location = new Location();
-			sectionBillingInfo.getBillingInfo().setLocation(location);
-			sectionLocation.bind(location);
+			reset();
 		}
+	}
+
+	private void reset() {
+		sectionBillingInfo.bind(new BillingInfo());
+		Location location = new Location();
+		sectionBillingInfo.getBillingInfo().setLocation(location);
+		sectionLocation.bind(location);
 	}
 
 	private void bindCard(CreditCardType cardType, String cardNumber, String cardExpiration) {
@@ -217,13 +217,14 @@ public class PaymentWidget extends ExpandableCardView {
 				sectionBillingInfo.setVisibility(VISIBLE);
 			}
 			creditCardNumber.requestFocus();
+			bind();
 		}
 		else {
 			cardInfoContainer.setVisibility(VISIBLE);
 			billingInfoContainer.setVisibility(GONE);
+			bind();
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		}
-		bind();
 	}
 
 	@Override
@@ -253,6 +254,7 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@Override
 	public void onLogout() {
+		reset();
 		setExpanded(false);
 	}
 
