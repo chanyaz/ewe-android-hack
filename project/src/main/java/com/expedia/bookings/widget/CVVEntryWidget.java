@@ -32,7 +32,7 @@ import com.mobiata.android.util.AndroidUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CVVEntryWidget extends RelativeLayout implements CreditCardInputListener {
+public class CVVEntryWidget extends FrameLayout implements CreditCardInputListener {
 
 	public static final String TAG = CVVEntryWidget.class.getName();
 
@@ -63,6 +63,9 @@ public class CVVEntryWidget extends RelativeLayout implements CreditCardInputLis
 
 	@InjectView(R.id.cvv_toolbar)
 	Toolbar toolbar;
+
+	@InjectView(R.id.main_container)
+	RelativeLayout mainContainer;
 
 	public void setCVVEntryListener(CVVEntryFragmentListener listener) {
 		mListener = listener;
@@ -116,7 +119,7 @@ public class CVVEntryWidget extends RelativeLayout implements CreditCardInputLis
 			int color = getContext().getResources().getColor(R.color.cars_secondary_toolbar_color);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, null, color));
+			addView(Ui.setUpStatusBar(getContext(), toolbar, mainContainer, color));
 		}
 
 	}

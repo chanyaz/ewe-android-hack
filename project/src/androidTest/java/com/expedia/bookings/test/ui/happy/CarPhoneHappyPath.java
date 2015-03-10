@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
@@ -101,6 +102,12 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		screenshot("Car_Confirmation");
 	}
 
+	private void enterCVV(String cvv) throws Throwable {
+		CVVEntryScreen.parseAndEnterCVV(cvv);
+		CVVEntryScreen.clickBookButton();
+		screenshot("Car_CVV");
+	}
+
 	public void testCarPhoneHappyPath() throws Throwable {
 		goToCarDetails();
 		selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
@@ -108,6 +115,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		enterDriverInfo();
 
 		slideToPurchase();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
 	}
 
 	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
@@ -119,6 +127,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		enterPaymentInfo();
 
 		slideToPurchase();
+		enterCVV("111");
 	}
 
 	public void testCarPhoneLoggedInHappyPath() throws Throwable {
@@ -127,6 +136,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		doLogin();
 
 		slideToPurchase();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
 	}
 
 	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
@@ -138,6 +148,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		CarViewModel.clickStoredCardButton();
 		CarViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
 		slideToPurchase();
+		enterCVV("6286");
 	}
 
 
@@ -156,6 +167,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		CarViewModel.clickStoredCardButton();
 		CarViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
 		slideToPurchase();
+		enterCVV("6286");
 	}
 
 }
