@@ -108,11 +108,13 @@ public final class CarSearchPresenterTests {
 	}
 
 	@Test
-	public void testSelectTimeBeforeDates() {
+	public void testSelectTimeBeforeDates() throws Throwable {
 		// 24 == 12:00 PM
 		int noonProgress = 24;
 		// 26 == 01:00 PM
 		int onePmProgress = 26;
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
+		CarViewModel.pickupLocation().perform(clearText());
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.pickUpTimeBar().perform(ViewActions.setSeekbarTo(noonProgress));
 		CarViewModel.dropOffTimeBar().perform(ViewActions.setSeekbarTo(onePmProgress));
@@ -155,7 +157,6 @@ public final class CarSearchPresenterTests {
 		CarViewModel.searchButton().perform(click());
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
 		// Test with only pickup location
@@ -164,36 +165,36 @@ public final class CarSearchPresenterTests {
 		CarViewModel.searchButton().perform(click());
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_start_date_param)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
 		// Test with only start date selected
-		CarViewModel.pickupLocation().perform(click());
-		CarViewModel.selectDateButton().perform(click());
-		CarViewModel.selectDates(LocalDate.now().plusDays(3), null);
-		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
-		CarViewModel.alertDialogNeutralButton().perform(click());
-
-		//Test with only start and end date selected
-		CarViewModel.pickupLocation().perform(clearText());
-		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
-		CarViewModel.alertDialogNeutralButton().perform(click());
-
-		// Test with origin and start date selected
-		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarViewModel.searchButton().perform(click());
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_end_date_param)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarViewModel.alertDialogNeutralButton().perform(click());
+
+		// Test with origin and start date selected
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
+		CarViewModel.searchButton().perform(click());
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_end_date_param)));
+		CarViewModel.alertDialogNeutralButton().perform(click());
+
+	}
+
+	@Test
+	public void testSearchOnlyStartEndDateSelected() throws Throwable {
+		//Test with only start and end date selected
+		CarViewModel.dropOffLocation().perform(click());
+		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
+		CarViewModel.searchButton().perform(click());
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
+		CarViewModel.alertDialogNeutralButton().perform(click());
 	}
 
 	@Test
@@ -212,5 +213,4 @@ public final class CarSearchPresenterTests {
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.drop_off_same_as_pick_up)));
 		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
 	}
-
 }

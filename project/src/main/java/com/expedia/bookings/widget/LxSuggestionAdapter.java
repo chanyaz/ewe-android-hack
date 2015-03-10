@@ -49,8 +49,17 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
 		public void bind(Suggestion suggestion) {
 			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
-			dropdownImage.setImageResource(suggestion.isHistory ? R.drawable.recents : R.drawable.ic_suggest_current_location);
-			dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_secondary_color));
+			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
+				dropdownImage.setImageResource(R.drawable.recents);
+			}
+			else if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
+				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
+			}
+			else {
+				dropdownImage.setImageResource(R.drawable.search_type_icon);
+			}
+			dropdownImage
+				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_secondary_color));
 		}
 	}
 

@@ -41,6 +41,11 @@ public class Suggestion {
 
 	public boolean isMinorAirport;
 
-	public boolean isHistory = false;
+	public IconType iconType = IconType.SEARCH_TYPE_ICON;
 
+	public static enum IconType {
+		HISTORY_ICON,
+		CURRENT_LOCATION_ICON,
+		SEARCH_TYPE_ICON
+	}
 }

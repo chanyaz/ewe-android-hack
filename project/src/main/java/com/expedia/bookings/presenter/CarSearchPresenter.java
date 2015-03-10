@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -25,7 +24,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,6 +39,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
 import com.google.gson.Gson;
@@ -75,7 +74,7 @@ public class CarSearchPresenter extends Presenter
 	private CarSuggestionAdapter suggestionAdapter;
 
 	@InjectView(R.id.pickup_location)
-	AutoCompleteTextView pickUpLocation;
+	AlwaysFilterAutoCompleteTextView pickUpLocation;
 
 	@InjectView(R.id.search_container)
 	ViewGroup searchContainer;
@@ -182,13 +181,13 @@ public class CarSearchPresenter extends Presenter
 		menuItem.setActionView(tv);
 		return tv;
 	}
+
 	private void setPickUpLocation(final Suggestion suggestion) {
 		pickUpLocation.setText(StrUtils.formatCityName(suggestion.fullName));
 		searchParamsBuilder.origin(suggestion.airportCode);
 		searchParamsBuilder.originDescription(StrUtils.formatAirportName(suggestion.fullName));
 		paramsChanged();
-		suggestion.isHistory = true;
-
+		suggestion.iconType = Suggestion.IconType.HISTORY_ICON;
 		// Remove duplicates
 		Iterator<Suggestion> it = mRecentCarsLocationsSearches.iterator();
 		while (it.hasNext()) {
@@ -376,10 +375,11 @@ public class CarSearchPresenter extends Presenter
 			e.printStackTrace();
 		}
 
-		suggestionAdapter.addAll(mRecentCarsLocationsSearches);
-		new Handler().postDelayed(new Runnable() {
+		suggestionAdapter.addAll(mRecentCarsLocationsSearches, getContext());
+		postDelayed(new Runnable() {
 			public void run() {
-				pickUpLocation.showDropDown();
+				pickUpLocation.requestFocus();
+				Ui.showKeyboard(pickUpLocation, null);
 			}
 		}, 300);
 	}

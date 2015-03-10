@@ -24,19 +24,19 @@
             android:layout_alignParentTop="true"
             android:orientation="horizontal">
 
-            <AutoCompleteTextView
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                 android:id="@+id/pickup_location"
                 style="@style/CarAutocomplete"
                 android:layout_width="0dp"
                 android:layout_height="43dp"
-                android:inputType="textNoSuggestions"
                 android:layout_marginBottom="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:completionThreshold="1"
                 android:dropDownAnchor="@+id/location_container"
                 android:hint="@string/pick_up_location"
-                android:imeOptions="actionDone" />
+                android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/dropoff_location"
