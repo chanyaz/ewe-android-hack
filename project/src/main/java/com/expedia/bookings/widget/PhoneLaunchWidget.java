@@ -14,10 +14,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.CarActivity;
@@ -61,11 +61,16 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private HotelSearchParams searchParams;
 	private Subscription downloadSubscription;
 
+	private float squashedHeaderHeight;
+
 	@InjectView(R.id.lob_selector)
-	ViewGroup lobSelectorWidget;
+	LaunchLobWidget lobSelectorWidget;
 
 	@InjectView(R.id.launch_list_widget)
-	ViewGroup launchListWidget;
+	LaunchListWidget launchListWidget;
+
+	@InjectView(R.id.action_bar_space)
+	View actionBarSpace;
 
 	// Lifecycle
 
@@ -73,10 +78,15 @@ public class PhoneLaunchWidget extends FrameLayout {
 		super(context, attrs);
 	}
 
+	float lobHeight;
+
 	@Override
 	public void onFinishInflate() {
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).launchComponent().inject(this);
+		launchListWidget.setOnScrollListener(scrollListener);
+		lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
 	}
 
 	@Override
@@ -137,7 +147,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 		public void onError(Throwable e) {
 			Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.");
 			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-			downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, "default", defaultCollectionListener);
+			downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, "default",
+				defaultCollectionListener);
 		}
 
 		@Override
@@ -169,21 +180,21 @@ public class PhoneLaunchWidget extends FrameLayout {
 	// The onClick for the "SEE ALL" button in the list header is in
 	// LaunchListAdapter. See onSeeAllButtonPressed() below
 	// for the Otto event sent by that onClick()
-	@OnClick({R.id.hotels_button, R.id.flights_button, R.id.cars_button})
+	@OnClick({ R.id.hotels_button, R.id.flights_button, R.id.cars_button })
 	public void enterLob(View view) {
 		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 		switch (view.getId()) {
-			case R.id.hotels_button:
-				goToHotels(animOptions);
-				break;
-			case R.id.flights_button:
-				NavUtils.goToFlights(getContext(), animOptions);
-				OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
-				break;
-			case R.id.cars_button:
-				Intent carsIntent = new Intent(getContext(), CarActivity.class);
-				getContext().startActivity(carsIntent);
-				break;
+		case R.id.hotels_button:
+			goToHotels(animOptions);
+			break;
+		case R.id.flights_button:
+			NavUtils.goToFlights(getContext(), animOptions);
+			OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
+			break;
+		case R.id.cars_button:
+			Intent carsIntent = new Intent(getContext(), CarActivity.class);
+			getContext().startActivity(carsIntent);
+			break;
 		}
 	}
 
@@ -191,6 +202,66 @@ public class PhoneLaunchWidget extends FrameLayout {
 		NavUtils.goToHotels(getContext(), animOptions);
 		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
 	}
+
+	/*
+	 * Scrolling
+	 */
+
+	// If the current position pixels < 7, we want to adjust everything back to 0
+	// as a safety net.
+	private static final int SCROLL_SLOP = 7;
+
+	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+
+		private float postSquashChange;
+
+		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+				float pos = Math.abs(launchListWidget.getHeader().getTop());
+				if (pos <= SCROLL_SLOP) {
+					lobSelectorWidget.setTranslationY(0);
+				}
+			}
+		}
+
+		// Much of this logic attempts to restore the lob widget to an appropriate
+		// position in cases where it behaves erratically due to spotty scroll listening
+		// on the recycler view.
+		@Override
+		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+			float currentPos = Math.abs(launchListWidget.getHeader().getTop());
+			// between header starting point and the squashed height
+			if (currentPos < squashedHeaderHeight) {
+				float squashInput = 1 - (currentPos / lobHeight);
+				lobSelectorWidget.transformButtons(squashInput);
+			}
+			else {
+				// Make sure that the header is squashed.
+				if (currentPos > squashedHeaderHeight) {
+					lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				}
+				// if the widget translation exceeds upper bound, reset it.
+				if (lobSelectorWidget.getTranslationY() > 0) {
+					postSquashChange = 0;
+					lobSelectorWidget.setTranslationY(postSquashChange);
+				}
+				// Bring back lob widget when the user scrolls in a positive direction
+				if (dy < 0 && postSquashChange < 0) {
+					postSquashChange -= dy;
+					if (Math.abs(postSquashChange) <= SCROLL_SLOP) {
+						postSquashChange = 0;
+					}
+					lobSelectorWidget.setTranslationY(postSquashChange);
+				}
+				// Translate lob widget off screen when user scrolls in negative direction
+				// and it's not already off screen.
+				else if (dy > 0 && Math.abs(postSquashChange) <= squashedHeaderHeight) {
+					postSquashChange -= dy;
+					lobSelectorWidget.setTranslationY(postSquashChange);
+				}
+			}
+		}
+	};
 
 	/*
 	 * Otto events
@@ -244,8 +315,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 		String tomorrow = dtf.print(currentDate.plusDays(1));
 
 		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
-				String.valueOf(loc.getLongitude()), "1",
-				today, tomorrow, "MobileDeals");
+			String.valueOf(loc.getLongitude()), "1",
+			today, tomorrow, "MobileDeals");
 		searchParams = new HotelSearchParams();
 		searchParams.setCheckInDate(currentDate);
 		searchParams.setCheckOutDate(currentDate.plusDays(1));
@@ -259,6 +330,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start collection download");
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
-		downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
+		downloadSubscription = collectionServices
+			.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
 	}
 }

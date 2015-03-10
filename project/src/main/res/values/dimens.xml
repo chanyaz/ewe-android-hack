@@ -33,7 +33,9 @@
     <dimen name="launch_tile_hotel_sale_drawable_padding">3dp</dimen>
     <dimen name="launch_tile_hotel_sale_right_margin">12dp</dimen>
     <dimen name="launch_lob_tiles">110dp</dimen>
-    <dimen name="launch_lob_margin">4dp</dimen>
+    <dimen name="launch_lob_container_height">140dp</dimen>
+    <dimen name="launch_lob_squashed_height">80dp</dimen>
+    <dimen name="launch_lob_margin">8dp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>

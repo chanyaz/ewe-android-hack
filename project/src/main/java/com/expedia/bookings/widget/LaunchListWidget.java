@@ -16,16 +16,16 @@ import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-public class LaunchListWidget extends FrameLayout {
+public class LaunchListWidget extends RecyclerView {
 
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
-	@InjectView(R.id.launch_item_list)
-	RecyclerView launchList;
-
 	private LaunchListAdapter adapter;
+
+	private int headerPaddingTop;
+
+	private View header;
 
 	public LaunchListWidget(Context context) {
 		super(context);
@@ -42,7 +42,7 @@ public class LaunchListWidget extends FrameLayout {
 
 		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
 			StaggeredGridLayoutManager.VERTICAL);
-		launchList.setLayoutManager(layoutManager);
+		setLayoutManager(layoutManager);
 
 		// We don't draw rounded corners on <LOLLIPOP right now, so the item
 		// decoration spacing gets crazy. This is (hopefully) a temporary solution.
@@ -54,12 +54,13 @@ public class LaunchListWidget extends FrameLayout {
 		else {
 			margin = 24 / density;
 		}
-
-		launchList.addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
 		LayoutInflater li = LayoutInflater.from(getContext());
-		adapter = new LaunchListAdapter(li.inflate(R.layout.snippet_launch_list_header, null));
-		launchList.setAdapter(adapter);
-		launchList.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+		header = li.inflate(R.layout.snippet_launch_list_header, null);
+		headerPaddingTop = header.getPaddingTop();
+		addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
+		adapter = new LaunchListAdapter(header);
+		setAdapter(adapter);
+		setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 	}
 
 	@Override
@@ -87,6 +88,14 @@ public class LaunchListWidget extends FrameLayout {
 		String headerTitle = event.collection.title;
 		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
+	}
+
+	public View getHeader() {
+		return header;
+	}
+
+	public int getHeaderPaddingTop() {
+		return headerPaddingTop;
 	}
 
 	/**
