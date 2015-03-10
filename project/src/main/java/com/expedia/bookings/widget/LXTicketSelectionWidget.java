@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -99,7 +100,7 @@ public class LXTicketSelectionWidget extends CardView {
 		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
 			int ticketCount = ticketAndCount.getValue();
 			Ticket ticket = ticketAndCount.getKey();
-			ticketsSummaryList.add(String.format(ticketSummaryTemplate, ticketCount, ticket.code));
+			ticketsSummaryList.add(String.format(ticketSummaryTemplate, ticketCount, getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
 			total = total.add(ticket.amount.multiply(BigDecimal.valueOf(ticketCount)));
 		}
 

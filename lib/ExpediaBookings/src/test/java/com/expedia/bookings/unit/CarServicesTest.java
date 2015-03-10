@@ -83,7 +83,7 @@ public class CarServicesTest {
 		assertEquals(1, observer.getItems().size());
 
 		for (CarSearch search : observer.getItems()) {
-			assertEquals(24, search.categories.size());
+			assertEquals(1, search.categories.size());
 		}
 	}
 

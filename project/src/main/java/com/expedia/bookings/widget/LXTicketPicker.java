@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.LXDataUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -61,7 +62,7 @@ public class LXTicketPicker extends LinearLayout {
 		this.offerId = offerId;
 		String ticketDetailsText = String
 			.format(getResources().getString(R.string.ticket_details_template), ticket.price,
-				ticket.code, ticket.restrictionText);
+				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code)), ticket.restrictionText);
 		ticketDetails.setText(ticketDetailsText);
 		setTicketCount();
 	}

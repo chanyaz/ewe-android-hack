@@ -46,8 +46,8 @@ public class LXDetailsPresenterTests {
 		// To setup LXState
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "New York";
-		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-02-24");
-		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-03-09");
+		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
+		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 
@@ -73,7 +73,7 @@ public class LXDetailsPresenterTests {
 		ScreenActions.delay(2);
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
-		String expectedToolbarDateRange = "Feb 24 - Mar 09";
+		String expectedToolbarDateRange = "Mar 25 - Apr 08";
 		ViewInteraction toolbar = LXViewModel.toolbar();
 		toolbar.check(matches(isDisplayed()));
 		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
@@ -181,7 +181,8 @@ public class LXDetailsPresenterTests {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
 		ScreenActions.delay(2);
 
-		LXViewModel.detailsDate("25").check(matches(not(isEnabled())));
-		LXViewModel.detailsDate("24").check(matches(isEnabled()));
+		LXViewModel.detailsDate("25").check(matches(isEnabled()));
+		// TODO Update mocks for no offer scenario.
+		//LXViewModel.detailsDate("26").check(matches(not(isEnabled())));
 	}
 }

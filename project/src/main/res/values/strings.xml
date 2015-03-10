@@ -179,8 +179,102 @@
     <string name="offer_book_now_TEMPLATE">Book Now %1$s%2$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
-    <!-- Activity search results per ticket type e.g. per traveller -->
-    <string name="per_ticket_type_TEMPLATE">per %1$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Traveler</string>
+    <string name="ticket_type_adult">Adult</string>
+    <string name="ticket_type_child">Child</string>
+    <string name="ticket_type_infant">Infant</string>
+    <string name="ticket_type_youth">Youth</string>
+    <string name="ticket_type_senior">Senior</string>
+    <string name="ticket_type_group">Group</string>
+    <string name="ticket_type_couple">Couple</string>
+    <string name="ticket_type_two_adults">2 adults</string>
+    <string name="ticket_type_military">Military</string>
+    <string name="ticket_type_student">Student</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">Minivan</string>
+    <string name="ticket_type_water_taxi">Water taxi</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Executive car</string>
+    <string name="ticket_type_luxury_car">Luxury car</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">TownCar</string>
+    <string name="ticket_type_vehicle_parking_spot">Vehicle Parking Spot</string>
+    <string name="ticket_type_book">Book</string>
+    <string name="ticket_type_guide">Guide</string>
+    <string name="ticket_type_travel_card">Travel Card</string>
+    <string name="ticket_type_boat">Boat</string>
+    <string name="ticket_type_motorcycle">Motorcycle</string>
+    <string name="ticket_type_ceremony">Ceremony</string>
+    <string name="ticket_type_calling_card">Calling Card</string>
+    <string name="ticket_type_pass">Pass</string>
+    <string name="ticket_type_minibus">Minibus</string>
+    <string name="ticket_type_helicopter">Helicopter</string>
+    <string name="ticket_type_device">Device</string>
+    <string name="ticket_type_room">Room</string>
+    <string name="ticket_type_carriage">Carriage</string>
+    <string name="ticket_type_buggy">Buggy</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jet Ski</string>
+    <string name="ticket_type_scooter">Scooter</string>
+    <string name="ticket_type_scooter_car">Scooter Car</string>
+    <string name="ticket_type_snowmobile">Snowmobile</string>
+    <string name="ticket_type_day">Day</string>
+    <string name="ticket_type_bike">Bike</string>
+    <string name="ticket_type_week">week</string>
+    <string name="ticket_type_subscription">subscription</string>
+    <string name="ticket_type_electric_bike">electric bike</string>
+    <string name="ticket_type_segway">segway</string>
+    <string name="ticket_type_vehicle">vehicle</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">per traveler</string>
+    <string name="per_ticket_type_adult">per adult</string>
+    <string name="per_ticket_type_child">per child</string>
+    <string name="per_ticket_type_infant">per infant</string>
+    <string name="per_ticket_type_youth">per youth</string>
+    <string name="per_ticket_type_senior">per senior</string>
+    <string name="per_ticket_type_group">per group</string>
+    <string name="per_ticket_type_couple">per couple</string>
+    <string name="per_ticket_type_two_adults">per 2 adults</string>
+    <string name="per_ticket_type_military">per military</string>
+    <string name="per_ticket_type_student">per student</string>
+    <string name="per_ticket_type_sedan">per sedan</string>
+    <string name="per_ticket_type_minivan">per minivan</string>
+    <string name="per_ticket_type_water_taxi">per water taxi</string>
+    <string name="per_ticket_type_suv">per SUV</string>
+    <string name="per_ticket_type_executive_car">per executive car</string>
+    <string name="per_ticket_type_luxury_car">per luxury car</string>
+    <string name="per_ticket_type_limousine">per limousine</string>
+    <string name="per_ticket_type_towncar">per TownCar</string>
+    <string name="per_ticket_type_vehicle_parking_spot">per vehicle parking spot</string>
+    <string name="per_ticket_type_book">per book</string>
+    <string name="per_ticket_type_guide">per guide</string>
+    <string name="per_ticket_type_travel_card">per travel card</string>
+    <string name="per_ticket_type_boat">per boat</string>
+    <string name="per_ticket_type_motorcycle">per motorcycle</string>
+    <string name="per_ticket_type_ceremony">per ceremony</string>
+    <string name="per_ticket_type_calling_card">per calling card</string>
+    <string name="per_ticket_type_pass">per pass</string>
+    <string name="per_ticket_type_minibus">per minibus</string>
+    <string name="per_ticket_type_helicopter">per helicopter</string>
+    <string name="per_ticket_type_device">per device</string>
+    <string name="per_ticket_type_room">per room</string>
+    <string name="per_ticket_type_carriage">per carriage</string>
+    <string name="per_ticket_type_buggy">per buggy</string>
+    <string name="per_ticket_type_atv">per ATV</string>
+    <string name="per_ticket_type_jet_ski">per jet ski</string>
+    <string name="per_ticket_type_scooter">per scooter</string>
+    <string name="per_ticket_type_scooter_car">per scooter car</string>
+    <string name="per_ticket_type_snowmobile">per snowmobile</string>
+    <string name="per_ticket_type_day">per day</string>
+    <string name="per_ticket_type_bike">per bike</string>
+    <string name="per_ticket_type_week">per week</string>
+    <string name="per_ticket_type_subscription">per subscription</string>
+    <string name="per_ticket_type_electric_bike">per electric bike</string>
+    <string name="per_ticket_type_segway">per segway</string>
+    <string name="per_ticket_type_vehicle">per vehicle</string>
+
+
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

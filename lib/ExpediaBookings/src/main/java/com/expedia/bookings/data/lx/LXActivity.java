@@ -8,6 +8,6 @@ public class LXActivity {
 	public String title;
 	public String imageUrl;
 	public String fromPrice;
-	public String fromPriceTicketType;
+	public LXTicketType fromPriceTicketCode;
 	public List<String> categories;
 }
