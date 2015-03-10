@@ -42,6 +42,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 	private TextView mCVVPromptTextView;
 	private TextView mCVVSubpromptTextView;
 	private View mBookButton;
+	private MaskView mCVVMaskView;
 
 	private CreditCardInputSection mCreditCardInputSection;
 
@@ -100,6 +101,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		mCVVPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
 		mCVVSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
 		mBookButton = Ui.findView(v, R.id.finish_booking_button);
+		mCVVMaskView = Ui.findView(v, R.id.mask_cvv_widget);
 
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
@@ -239,6 +241,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		mMinCvvLen = amex ? 4 : 3;
 
 		syncBookButtonState();
+		mCVVMaskView.invalidate();
 	}
 
 	private String getFirstCharacter(String input) {
