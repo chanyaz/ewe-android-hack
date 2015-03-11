@@ -26,6 +26,7 @@ import rx.Subscription;
 public class LXCheckoutPresenter extends Presenter {
 	public LXCheckoutPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.lx_checkout_presenter, this);
 	}
 
 	@Inject

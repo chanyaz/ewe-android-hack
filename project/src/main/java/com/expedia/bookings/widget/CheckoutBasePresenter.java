@@ -21,6 +21,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public CheckoutBasePresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.widget_checkout_base, this);
 	}
 
 	@InjectView(R.id.checkout_scroll)

@@ -26,8 +26,10 @@ import rx.Observer;
 import rx.Subscription;
 
 public class CarCheckoutPresenter extends Presenter {
+
 	public CarCheckoutPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.car_checkout_presenter, this);
 	}
 
 	@Inject
