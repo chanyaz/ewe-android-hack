@@ -120,7 +120,7 @@
     <!--Adding hotel from Car Confirmation -->
     <string name="successful_checkout_cross_sell_hotel">Hotels in %1$s</string>
     <!--Adding flight from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_flight">Flights in %1$s</string>
+    <string name="successful_checkout_cross_sell_flight">Flights to %1$s</string>
     <!-- Car confirmation screen label -->
     <string name="successful_checkout_pickup_label">Pick-up at</string>
     <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
