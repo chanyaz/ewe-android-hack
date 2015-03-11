@@ -8,6 +8,7 @@
         android:background="@drawable/bg_search_box"
         android:gravity="center"
         android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="@dimen/tablet_search_bar_top_margin"
         android:orientation="horizontal" >
 
         <com.expedia.bookings.widget.TextView
