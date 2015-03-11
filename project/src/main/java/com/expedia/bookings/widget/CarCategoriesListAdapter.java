@@ -42,10 +42,9 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 
 		String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(holder.backgroundImageView)
+			.setPlaceholder(R.drawable.cars_placeholder)
 			.fade()
 			.setTag(ROW_PICASSO_TAG)
-			.fit()
-			.centerCrop()
 			.build()
 			.load(url);
 	}

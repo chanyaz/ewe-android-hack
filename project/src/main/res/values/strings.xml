@@ -41,10 +41,20 @@
     <string name="selected_card_template">Expires %s</string>
     <!-- Template for car offer detail-->
     <string name="car_offer_template">%s or similiar</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Doors</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Bags</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Automatic Transmission</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Manual Transmission</string>
 
     <!-- car result -->
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->

@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -80,6 +82,18 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.car_details)
 		public TextView carDetails;
 
+		@InjectView(R.id.passengers)
+		public TextView passengers;
+
+		@InjectView(R.id.bags)
+		public TextView bags;
+
+		@InjectView(R.id.doors)
+		public TextView doors;
+
+		@InjectView(R.id.transmission)
+		public TextView transmission;
+
 		@InjectView(R.id.address)
 		public TextView address;
 
@@ -119,6 +133,22 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			vendor.setText(offer.vendor.name);
 			carDetails.setText(mContext.getResources()
 				.getString(R.string.car_offer_template, offer.vehicleInfo.getMakesDescription()));
+
+			CarInfo vehicleInfo = offer.vehicleInfo;
+			passengers.setText(mContext.getString(R.string.car_details_TEMPLATE,
+				String.valueOf(offer.vehicleInfo.adultCapacity + vehicleInfo.childCapacity),
+				mContext.getString(R.string.passengers_label)));
+			bags.setText(mContext.getString(R.string.car_details_TEMPLATE,
+				String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity),
+				mContext.getString(R.string.car_bags_text)));
+			doors.setText(
+				mContext.getString(R.string.car_details_TEMPLATE,
+					vehicleInfo.minDoors != vehicleInfo.maxDoors ? mContext
+						.getString(R.string.car_door_range_TEMPLATE, vehicleInfo.minDoors, vehicleInfo.maxDoors)
+						: String.valueOf(vehicleInfo.maxDoors),
+					mContext.getString(R.string.car_doors_text)));
+			transmission.setText(CarDataUtils.getStringForTransmission(mContext, vehicleInfo.transmission));
+
 			ratePrice.setText(
 				ratePrice.getContext().getString(R.string.cars_daily_template, offer.fare.rate.getFormattedMoney()));
 			totalPrice.setText(
@@ -157,6 +187,11 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				isChecked ? paddingExpanded : topCollapsed);
 			reserveNow.setPadding(isChecked ? toggleExpanded : toggleCollapsed, 0,
 				isChecked ? toggleExpanded : toggleCollapsed, 0);
+
+			passengers.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			bags.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			doors.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			transmission.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 
 			mapView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 			mapText.setVisibility(isChecked ? View.VISIBLE : View.GONE);

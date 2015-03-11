@@ -9,6 +9,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
+import com.expedia.bookings.data.cars.Transmission;
 
 /*
  * Connecting lib-ExpediaBookings car data stuctures to Android-based
@@ -143,6 +144,17 @@ public class CarDataUtils {
 
 	public static String getTypeStringForResults(Context c, CarType type) {
 		return c.getResources().getString(CAR_TYPE_DESCRIPTION_MAP_FOR_RESULTS.get(type));
+	}
+
+	public static String getStringForTransmission(Context c, Transmission transmission) {
+		switch (transmission) {
+		case AUTOMATIC_TRANSMISSION:
+			return c.getString(R.string.car_auto_tran_text);
+		case MANUAL_TRANSMISSION:
+			return c.getString(R.string.car_man_tran_text);
+		default:
+			return c.getString(R.string.unknown);
+		}
 	}
 
 }
