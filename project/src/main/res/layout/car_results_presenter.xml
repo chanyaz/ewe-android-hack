@@ -169,13 +169,6 @@
 
     </com.expedia.bookings.widget.CarCategoryListWidget>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
 
     <View
         android:id="@+id/toolbar_background"

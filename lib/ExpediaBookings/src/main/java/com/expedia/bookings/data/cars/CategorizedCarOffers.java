@@ -10,6 +10,9 @@ public class CategorizedCarOffers {
 
 	private SearchCarOffer lowestTotalPriceOffer;
 
+	public CategorizedCarOffers() {
+	}
+
 	public CategorizedCarOffers(CarCategory category, CarType type) {
 		this.category = category;
 		this.type = type;

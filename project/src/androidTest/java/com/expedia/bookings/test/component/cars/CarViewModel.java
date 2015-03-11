@@ -94,10 +94,6 @@ public final class CarViewModel {
 
 	// Results
 
-	public static ViewInteraction resultsLoadingView() {
-		return onView(withId(R.id.loading));
-	}
-
 	public static ViewInteraction carCategoryList() {
 		return onView(withId(R.id.category_list));
 	}

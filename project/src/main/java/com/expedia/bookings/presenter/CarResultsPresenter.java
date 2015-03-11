@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -45,9 +44,6 @@ public class CarResultsPresenter extends Presenter {
 	@Inject
 	CarServices carServices;
 
-	@InjectView(R.id.loading)
-	ProgressBar loading;
-
 	@InjectView(R.id.categories)
 	CarCategoryListWidget categories;
 
@@ -72,9 +68,7 @@ public class CarResultsPresenter extends Presenter {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).carComponent().inject(this);
 
-		addTransition(loadingToCategories);
 		addTransition(categoriesToDetails);
-		addTransition(loadingToDetails);
 		addDefaultTransition(setUpLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
@@ -152,18 +146,6 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
-	Transition loadingToCategories = new VisibilityTransition(this, ProgressBar.class.getName(),
-		CarCategoryListWidget.class.getName());
-	Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(),
-		CarCategoryDetailsWidget.class.getName()) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
-			toolbarBackground.setVisibility(View.VISIBLE);
-			toolbarBackground.setTranslationX(0);
-		}
-	};
-
 	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class,
 		CarCategoryDetailsWidget.class) {
 
@@ -236,11 +218,11 @@ public class CarResultsPresenter extends Presenter {
 		}
 	}
 
-	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
+	DefaultTransition setUpLoading = new DefaultTransition(CarCategoryListWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
-			loading.setVisibility(View.VISIBLE);
-			categories.setVisibility(View.GONE);
+			Events.post(new Events.CarsShowLoadingAnimation());
+			categories.setVisibility(View.VISIBLE);
 			details.setVisibility(View.GONE);
 		}
 	};
@@ -270,7 +252,8 @@ public class CarResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		show(loading, FLAG_CLEAR_BACKSTACK);
+		Events.post(new Events.CarsShowLoadingAnimation());
+		show(categories, FLAG_CLEAR_BACKSTACK);
 		cleanup();
 		mParams = event.carSearchParams;
 		searchSubscription = carServices
