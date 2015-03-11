@@ -138,6 +138,10 @@ public class LXViewModel {
 		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(endsWith(dateText))));
 	}
 
+	public static ViewInteraction detailsDateContainer() {
+		return onView(withId(R.id.offer_dates_container));
+	}
+
 	public static ViewAction setLXActivities(final List<LXActivity> activities) {
 		return new ViewAction() {
 			@Override
