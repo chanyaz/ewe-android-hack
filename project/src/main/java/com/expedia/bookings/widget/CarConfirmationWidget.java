@@ -6,6 +6,7 @@ import org.joda.time.format.DateTimeFormatter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -43,6 +44,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class CarConfirmationWidget extends FrameLayout {
+
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("MMM dd, hh:mm aa");
 
 	private CarCheckoutParamsBuilder builder;
 	private CategorizedCarOffers bucket;
@@ -160,26 +163,29 @@ public class CarConfirmationWidget extends FrameLayout {
 	public void onDoCheckoutCall(Events.CarsKickOffCheckoutCall event) {
 		builder = event.checkoutParamsBuilder;
 	}
+
 	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		bucket = event.categorizedCarOffers;
 
 	}
+
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
 		createTrip = event.createTripResponse;
 	}
 
 	public void bind(CarCheckoutResponse response) {
+		final Resources res = getResources();
 		String text;
 		if (response.hasErrors()) {
 			text = response.errorsToString();
 		}
 		else {
 			itineraryNumber = response.newTrip.itineraryNumber;
-			text = getResources().getString(R.string.successful_checkout_TEMPLATE, itineraryNumber);
+			text = res.getString(R.string.successful_checkout_TEMPLATE, itineraryNumber);
 		}
-		confirmationText.setText(getResources().getString(R.string.successful_checkout_email_label));
+		confirmationText.setText(res.getString(R.string.successful_checkout_email_label));
 		emailText.setText(builder.getEmailAddress());
 		itinText.setText(text);
 
@@ -194,51 +200,27 @@ public class CarConfirmationWidget extends FrameLayout {
 		offer = createTrip.carProduct;
 		vendorText.setText(offer.vendor.name);
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);
-		directionsTextView.setText(getResources().getString(R.string.car_confirmation_directions, offer.vendor.name));
+		directionsTextView.setText(res.getString(R.string.car_confirmation_directions, offer.vendor.name));
 
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("MMM dd, hh:mm aa");
-		pickupDateText.setText(dtf.print(offer.pickupTime) + " to");
-		dropofDateText.setText(dtf.print(offer.dropOffTime));
-		addHotelTextView.setText(getResources()
-			.getString(R.string.successful_checkout_cross_sell_hotel, offer.pickUpLocation.locationDescription));
-		addFlightTextView.setText(getResources()
-			.getString(R.string.successful_checkout_cross_sell_flight, offer.pickUpLocation.locationDescription));
-		localPhoneNumber.setText(
-			getResources().getString(R.string.car_confirmation_local_support_TEMPLATE, offer.vendor.localPhoneNumber));
-		tollFreePhoneNumber.setText(
-			getResources().getString(R.string.car_confirmation_toll_free_support_TEMPLATE, offer.vendor.phoneNumber));
+		pickupDateText.setText(res.getString(R.string.car_confirmation_pickup_time_TEMPLATE,
+			DATE_TIME_FORMATTER.print(offer.pickupTime)));
+		dropofDateText.setText(DATE_TIME_FORMATTER.print(offer.dropOffTime));
+		addHotelTextView.setText(res.getString(R.string.successful_checkout_cross_sell_hotel,
+			offer.pickUpLocation.locationDescription));
+		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
+			offer.pickUpLocation.locationDescription));
+		localPhoneNumber.setText(res.getString(R.string.car_confirmation_local_support_TEMPLATE,
+			offer.vendor.localPhoneNumber));
+		tollFreePhoneNumber.setText(res.getString(R.string.car_confirmation_toll_free_support_TEMPLATE,
+			offer.vendor.phoneNumber));
 
 		vendorText.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
 
-		Drawable drawableDirection = getResources().getDrawable(R.drawable.car_directions);
-		drawableDirection
-			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		directionsTextView.setCompoundDrawablesWithIntrinsicBounds(drawableDirection, null, null, null);
-		FontCache.setTypeface(directionsTextView, FontCache.Font.ROBOTO_REGULAR);
-
-		Drawable drawableCalendar = getResources().getDrawable(R.drawable.add_to_calendar);
-		drawableCalendar
-			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		calendarTextView.setCompoundDrawablesWithIntrinsicBounds(drawableCalendar, null, null, null);
-		FontCache.setTypeface(calendarTextView, FontCache.Font.ROBOTO_REGULAR);
-
-		Drawable drawableCustomerSupport = getResources().getDrawable(R.drawable.car_call);
-		drawableCustomerSupport
-			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		callTextView.setCompoundDrawablesWithIntrinsicBounds(drawableCustomerSupport, null, null, null);
-		FontCache.setTypeface(callTextView, FontCache.Font.ROBOTO_REGULAR);
-
-		Drawable drawableHotel = getResources().getDrawable(R.drawable.car_hotel);
-		drawableHotel
-			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		addHotelTextView.setCompoundDrawablesWithIntrinsicBounds(drawableHotel, null, null, null);
-		FontCache.setTypeface(addHotelTextView, FontCache.Font.ROBOTO_REGULAR);
-
-		Drawable drawableFlight = getResources().getDrawable(R.drawable.car_flights);
-		drawableFlight
-			.setColorFilter(getResources().getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
-		addFlightTextView.setCompoundDrawablesWithIntrinsicBounds(drawableFlight, null, null, null);
-		FontCache.setTypeface(addFlightTextView, FontCache.Font.ROBOTO_REGULAR);
+		dressAction(res, directionsTextView, R.drawable.car_directions);
+		dressAction(res, calendarTextView, R.drawable.add_to_calendar);
+		dressAction(res, callTextView, R.drawable.car_call);
+		dressAction(res, addHotelTextView, R.drawable.car_hotel);
+		dressAction(res, addFlightTextView, R.drawable.car_flights);
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
@@ -291,6 +273,13 @@ public class CarConfirmationWidget extends FrameLayout {
 	public void callTollFreeNumber() {
 		SocialUtils.call(getContext(), tollFreePhoneNumber.getText().toString()
 			.substring(tollFreePhoneNumber.getText().toString().indexOf(":")));
+	}
+
+	private static void dressAction(Resources res, TextView textView, int drawableResId) {
+		Drawable drawable = res.getDrawable(drawableResId);
+		drawable.setColorFilter(res.getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
+		textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_REGULAR);
 	}
 
 	private void searchForFlights() {
