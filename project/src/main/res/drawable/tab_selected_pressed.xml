@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:top="-15dp"
+        android:left="-15dp"
+        android:right="-15dp"
+        android:bottom="1dp">
+        <shape android:shape="rectangle">
+            <stroke
+                android:color="#FFED18"
+                android:width="5dp" />
+            <solid android:color="@color/cars_selected_tab_color"/>
+        </shape>
+    </item>
+</layer-list>

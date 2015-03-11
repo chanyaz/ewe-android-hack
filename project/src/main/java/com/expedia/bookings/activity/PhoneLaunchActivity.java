@@ -5,19 +5,19 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -46,8 +46,8 @@ import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
-public class PhoneLaunchActivity extends FragmentActivity implements OnListModeChangedListener,
-		ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
+public class PhoneLaunchActivity extends ActionBarActivity implements OnListModeChangedListener,
+	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
@@ -74,6 +74,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 
 	/**
 	 * Create intent to open this activity and jump straight to a particular itin item.
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -105,7 +106,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 		super.onCreate(savedInstanceState);
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
-		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+		supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
 		setContentView(R.layout.activity_phone_launch);
 		getWindow().setBackgroundDrawable(null);
@@ -119,7 +120,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 			public void onPageScrollStateChanged(int state) {
 				super.onPageScrollStateChanged(state);
 				if (mLaunchFragment != null
-						&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
+					&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
 					mLaunchFragment.startMarquee();
 				}
 			}
@@ -138,15 +139,18 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 		});
 
 		// Tabs
-		Tab shopTab = getActionBar().newTab().setText(R.string.shop_travel).setTabListener(mShopTabListener);
-		Tab itineraryTab = getActionBar().newTab().setText(R.string.Your_Trips).setTabListener(mItineraryTabListener);
+		ActionBar.Tab shopTab = getSupportActionBar().newTab().setText(R.string.shop_travel)
+			.setTabListener(mShopTabListener);
+		ActionBar.Tab itineraryTab = getSupportActionBar().newTab().setText(R.string.Your_Trips)
+			.setTabListener(mItineraryTabListener);
 
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.getThemedContext();
 		enableEmbeddedTabs(actionBar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.addTab(shopTab, PAGER_POS_WATERFALL);
-		actionBar.addTab(itineraryTab, PAGER_POS_ITIN);
+		actionBar.addTab(shopTab);
+		actionBar.addTab(itineraryTab);
 
 		Intent intent = getIntent();
 		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
@@ -227,7 +231,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
-				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			mLaunchFragment.reset();
 			Db.getHotelSearch().resetSearchData();
 		}
@@ -353,6 +357,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 
 	/**
 	 * Returns true if the user has an in progress or upcoming trip, as of the current time.
+	 *
 	 * @return
 	 */
 	private boolean haveTimelyItinItem() {
@@ -381,7 +386,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 	 * rely on that assumption:
 	 * 1. Tracks this incoming intent in Omniture.
 	 * 2. Updates the Notifications table that this notification is dismissed.
-	 *
+	 * <p/>
 	 * *** This is duplicated in ItineraryActivity ***
 	 *
 	 * @param intent
@@ -404,7 +409,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 
 	private synchronized void gotoWaterfall() {
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
-			ActionBar actionBar = getActionBar();
+			ActionBar actionBar = getSupportActionBar();
 
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
@@ -427,7 +432,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 
 	private synchronized void gotoItineraries() {
 		if (mPagerPosition != PAGER_POS_ITIN) {
-			ActionBar actionBar = getActionBar();
+			ActionBar actionBar = getSupportActionBar();
 
 			if (mItinListFragment != null) {
 				mItinListFragment.resetTrackingState();
@@ -452,7 +457,7 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 	private void enableEmbeddedTabs(Object actionBar) {
 		try {
 			Method setHasEmbeddedTabsMethod = actionBar.getClass().getDeclaredMethod("setHasEmbeddedTabs",
-					boolean.class);
+				boolean.class);
 			setHasEmbeddedTabsMethod.setAccessible(true);
 			setHasEmbeddedTabsMethod.invoke(actionBar, true);
 		}
@@ -490,36 +495,36 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 		}
 	}
 
-	private TabListener mShopTabListener = new TabListener() {
+	private ActionBar.TabListener mShopTabListener = new ActionBar.TabListener() {
 		@Override
-		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 			gotoWaterfall();
 		}
 
 		@Override
-		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 			// ignore
 		}
 
 		@Override
-		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 			// ignore
 		}
 	};
 
-	private TabListener mItineraryTabListener = new TabListener() {
+	private ActionBar.TabListener mItineraryTabListener = new ActionBar.TabListener() {
 		@Override
-		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 			gotoItineraries();
 		}
 
 		@Override
-		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 			// ignore
 		}
 
 		@Override
-		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 			// ignore
 		}
 	};
@@ -528,8 +533,8 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		mViewPager.setPageSwipingEnabled(!isInDetailMode);
 		if (isInDetailMode) {
-			if (getActionBar().isShowing()) {
-				getActionBar().hide();
+			if (getSupportActionBar().isShowing()) {
+				getSupportActionBar().hide();
 			}
 		}
 		else {
@@ -539,8 +544,8 @@ public class PhoneLaunchActivity extends FragmentActivity implements OnListModeC
 			// mode change in between)
 			mViewPager.postDelayed(new Runnable() {
 				public void run() {
-					if (!mItinListFragment.isInDetailMode() && !getActionBar().isShowing()) {
-						getActionBar().show();
+					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
+						getSupportActionBar().show();
 					}
 				}
 			}, 200); // 400ms - 200ms

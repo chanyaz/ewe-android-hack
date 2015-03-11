@@ -252,13 +252,23 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
+    <style name="LaunchTheme" parent="Theme.AppCompat">
         <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
-        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
+        <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
+        <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
+        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
+        <item name="actionBarStyle">@style/LaunchActionBar</item>
+
         <item name="android:actionBarDivider">@null</item>
+        <item name="actionBarDivider">@null</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:colorPrimaryDark">#3A464F</item>
+        <item name="android:colorPrimary">#495863</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -308,13 +318,26 @@
         <item name="skin_itineraryNumberString">@string/expedia_itinerary</item>
     </style>
 
-    <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <style name="LaunchActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="android:background">@color/cars_launch_actionbar_color</item>
+        <item name="background">@color/cars_launch_actionbar_color</item>
     </style>
 
-    <style name="LaunchActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@drawable/tab_indicator_ab_launch</item>
+    </style>
+
+    <style name="LaunchActionBarTabBarStyle" parent="@style/Widget.AppCompat.ActionBar.TabBar">
+    </style>
+
+    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@drawable/tab_text_selector</item>
     </style>
 
     <!-- Temporary theme for flights -->
