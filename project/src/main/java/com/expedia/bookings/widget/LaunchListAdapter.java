@@ -21,6 +21,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
 
@@ -47,7 +48,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 		}
 		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
-		seeAllButton.setOnClickListener(SEE_ALL_LISTENER);
+		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
 	}
 
 	private static boolean isHeader(int position) {
@@ -75,6 +76,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 			headerParams.setFullSpan(true);
 			headerView.setLayoutParams(headerParams);
 			return;
+		}
+
+		if (listData.get(0).getClass() == Hotel.class) {
+			headerView.setOnClickListener(SEE_ALL_LISTENER);
 		}
 
 		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
@@ -145,8 +150,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 	 * A Viewholder for the case where our data are hotels.
 	 */
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		private static final int FULL_TILE_TEXT_SIZE = 19;
-		private static final int HALF_TILE_TEXT_SIZE = 17;
+		private static final int FULL_TILE_TEXT_SIZE = 18;
+		private static final int HALF_TILE_TEXT_SIZE = 15;
 		private final int green;
 		private final int orange;
 		private final int purple;

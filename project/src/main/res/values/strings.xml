@@ -605,7 +605,7 @@
     <!-- Shop travel label -->
     <string name="shop_travel">Shop travel</string>
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Top deals tonight</string>
+    <string name="nearby_deals_title">Popular Hotels Tonight</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">See all</string>
     <!-- Percent off template, e.g. 50% off -->

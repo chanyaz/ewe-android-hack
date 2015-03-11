@@ -20,6 +20,8 @@
     <color name="hotel_lob_btn">#028F87</color>
     <color name="flight_lob_btn">#204A8E</color>
     <color name="car_lob_btn">#89366A</color>
+    <color name="launch_list_bg">#ECEFF1</color>
+    <color name="launch_lob_bg">#FFFFFF</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>

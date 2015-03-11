@@ -23,8 +23,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	private LaunchListAdapter adapter;
 
-	private int headerPaddingTop;
-
 	private View header;
 
 	public LaunchListWidget(Context context) {
@@ -56,7 +54,6 @@ public class LaunchListWidget extends RecyclerView {
 		}
 		LayoutInflater li = LayoutInflater.from(getContext());
 		header = li.inflate(R.layout.snippet_launch_list_header, null);
-		headerPaddingTop = header.getPaddingTop();
 		addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
 		adapter = new LaunchListAdapter(header);
 		setAdapter(adapter);
@@ -94,10 +91,6 @@ public class LaunchListWidget extends RecyclerView {
 		return header;
 	}
 
-	public int getHeaderPaddingTop() {
-		return headerPaddingTop;
-	}
-
 	/**
 	 An ItemDecoration that accomplishes this pattern:
 	 | |____0____| |
@@ -125,16 +118,16 @@ public class LaunchListWidget extends RecyclerView {
 
 			shouldDrawDivider = drawDivider;
 
-			mTop = (int) context.getResources().getDisplayMetrics().density * margin / 2;
-			mBottom = (int) context.getResources().getDisplayMetrics().density * margin / 2;
+			mTop = 0;
+			mBottom = (int) context.getResources().getDisplayMetrics().density * margin;
+			mLeft = mBottom;
+			mRight = mBottom;
+
 			// Because of way the height computation works with the lack of rounded corners on
 			// <LOLLIPOP, we are shaving off some of the margin temporarily.
 			if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
-				mBottom -= 4;
+				mBottom -= (int) context.getResources().getDisplayMetrics().density * 4;
 			}
-
-			mLeft = mTop * 2;
-			mRight = mTop * 2;
 		}
 
 		@Override
