@@ -142,7 +142,11 @@
     <string name="car_confirmation_directions">Directions to %1$s</string>
     <!-- Button label for calling customer support -->
     <string name="call_customer_support">Call Customer Support</string>
-    <!-- Error message for some missing checkout params -->
+
+    <!-- Car error strings -->
+    <string name="oops">Oops! Something happened, please search again.</string>
+
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Enter your destination</string>
