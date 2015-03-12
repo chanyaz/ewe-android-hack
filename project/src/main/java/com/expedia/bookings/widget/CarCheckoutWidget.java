@@ -83,7 +83,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	public void onSlideAllTheWay() {
 		if (createTripResponse.carProduct.checkoutRequiresCard) {
 			BillingInfo billingInfo = Db.getBillingInfo();
-			Events.post(new Events.CarsShowCVV(billingInfo));
+			Events.post(new Events.ShowCVV(billingInfo));
 			slideWidget.resetSlider();
 		}
 		else {

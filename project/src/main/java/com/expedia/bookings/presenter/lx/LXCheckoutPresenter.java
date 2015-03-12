@@ -10,11 +10,14 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
 import com.squareup.otto.Subscribe;
 
@@ -35,6 +38,9 @@ public class LXCheckoutPresenter extends Presenter {
 	@InjectView(R.id.checkout)
 	LXCheckoutWidget checkout;
 
+	@InjectView(R.id.cvv)
+	CVVEntryWidget cvv;
+
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
 
@@ -45,6 +51,9 @@ public class LXCheckoutPresenter extends Presenter {
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		addDefaultTransition(defaultCheckoutTransition);
+		addTransition(checkoutToCvv);
+
+		cvv.setCVVEntryListener(checkout);
 
 		checkoutDialog = new ProgressDialog(getContext());
 		checkoutDialog.setMessage(getResources().getString(R.string.booking_loading));
@@ -99,8 +108,10 @@ public class LXCheckoutPresenter extends Presenter {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
+			cvv.setVisibility(View.GONE);
 		}
 	};
+	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXCheckoutWidget.class.getName());
 
 	/**
 	 * Events
@@ -109,6 +120,13 @@ public class LXCheckoutPresenter extends Presenter {
 	@Subscribe
 	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
 		show(checkout);
+	}
+
+	@Subscribe
+	public void onShowCVV(Events.ShowCVV event) {
+		show(cvv);
+		BillingInfo billingInfo = event.billingInfo;
+		cvv.bind(billingInfo);
 	}
 
 	@Subscribe

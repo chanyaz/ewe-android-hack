@@ -578,10 +578,10 @@ public class Events {
 		}
 	}
 
-	public static class CarsShowCVV {
+	public static class ShowCVV {
 		public BillingInfo billingInfo;
 
-		public CarsShowCVV(BillingInfo info) {
+		public ShowCVV(BillingInfo info) {
 			this.billingInfo = info;
 		}
 	}

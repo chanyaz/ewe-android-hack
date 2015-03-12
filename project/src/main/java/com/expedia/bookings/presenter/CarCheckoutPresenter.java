@@ -131,7 +131,7 @@ public class CarCheckoutPresenter extends Presenter {
 	}
 
 	@Subscribe
-	public void onShowCVV(Events.CarsShowCVV event) {
+	public void onShowCVV(Events.ShowCVV event) {
 		show(cvv);
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
