@@ -27,8 +27,10 @@
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
 
-        <item name="calendar_month_tint_color">@color/cars_primary_color</item>
-
+        <item name="primary_color">@color/cars_primary_color</item>
+        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="checkout_slider_text">@string/cars_slider_text</item>
+        <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>

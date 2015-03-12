@@ -1,8 +1,11 @@
 package com.expedia.bookings.presenter.lx;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.inject.Inject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
@@ -28,6 +32,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
+import rx.exceptions.OnErrorNotImplementedException;
 
 public class LXDetailsPresenter extends Presenter {
 
@@ -51,7 +56,10 @@ public class LXDetailsPresenter extends Presenter {
 	@Inject
 	LXState lxState;
 
+	private ProgressDialog createTripDialog;
+
 	private Subscription detailsSubscription;
+	private Subscription createTripSubscription;
 
 	@Inject
 	LXServices lxServices;
@@ -73,6 +81,11 @@ public class LXDetailsPresenter extends Presenter {
 
 		addTransition(loadingToDetails);
 		addDefaultTransition(setUpLoading);
+
+		createTripDialog = new ProgressDialog(getContext());
+		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
+		createTripDialog.setIndeterminate(true);
+
 		setupToolbar();
 	}
 
@@ -83,6 +96,10 @@ public class LXDetailsPresenter extends Presenter {
 	}
 
 	public void cleanup() {
+		if (createTripSubscription != null) {
+			createTripSubscription.unsubscribe();
+			createTripSubscription = null;
+		}
 		if (detailsSubscription != null) {
 			detailsSubscription.unsubscribe();
 			detailsSubscription = null;
@@ -156,5 +173,31 @@ public class LXDetailsPresenter extends Presenter {
 			DateUtils.localDateToMMMdd(searchParams.startDate), DateUtils.localDateToMMMdd(searchParams.endDate));
 		toolbar.setSubtitle(dateRange);
 	}
+
+	@Subscribe
+	public void onOfferBooked(Events.LXOfferBooked event) throws UnsupportedEncodingException {
+		createTripDialog.show();
+		cleanup();
+
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+	}
+
+	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			throw new OnErrorNotImplementedException(e);
+		}
+
+		@Override
+		public void onNext(LXCreateTripResponse response) {
+			createTripDialog.dismiss();
+			Events.post(new Events.LXCreateTripSucceeded(response));
+		}
+	};
 
 }

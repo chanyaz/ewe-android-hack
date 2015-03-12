@@ -43,7 +43,7 @@ public class LXTicketSelectionWidget extends CardView {
 	@InjectView(R.id.offer_title)
 	TextView title;
 
-	private Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
+	private Map<Ticket, Integer> tickets = new LinkedHashMap<>();
 
 	private String offerId;
 	private String offerTitle;
@@ -54,6 +54,10 @@ public class LXTicketSelectionWidget extends CardView {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		Events.register(this);
+	}
+
+	public Map<Ticket, Integer> getTickets() {
+		return tickets;
 	}
 
 	public void setOfferId(String offerId) {
@@ -79,7 +83,7 @@ public class LXTicketSelectionWidget extends CardView {
 			ticketPicker.bind(ticket, offerId);
 
 			// Initialize all ticket types with 0 count.
-			selectedTickets.put(ticket, 0);
+			tickets.put(ticket, 0);
 		}
 	}
 
@@ -87,7 +91,7 @@ public class LXTicketSelectionWidget extends CardView {
 	public void onTicketCountChanged(Events.LXTicketCountChanged event) {
 		// Update only if the event was done by TicketPicker of belonging to this widget.
 		if (Strings.isNotEmpty(offerId) && offerId.equals(event.offerId)) {
-			selectedTickets.put(event.ticket, event.count);
+			tickets.put(event.ticket, event.count);
 			updateTicketSelection();
 		}
 	}
@@ -97,7 +101,7 @@ public class LXTicketSelectionWidget extends CardView {
 		List<String> ticketsSummaryList = new ArrayList<>();
 		String ticketSummaryTemplate = getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
 
-		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
+		for (Map.Entry<Ticket, Integer> ticketAndCount : tickets.entrySet()) {
 			int ticketCount = ticketAndCount.getValue();
 			Ticket ticket = ticketAndCount.getKey();
 			ticketsSummaryList.add(String.format(ticketSummaryTemplate, ticketCount, getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));

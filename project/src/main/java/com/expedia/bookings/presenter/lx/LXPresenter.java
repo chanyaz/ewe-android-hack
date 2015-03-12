@@ -32,6 +32,9 @@ public class LXPresenter extends Presenter {
 		// ignore
 	}
 
+	@InjectView(R.id.lx_checkout_presenter)
+	LXCheckoutPresenter checkoutPresenter;
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -39,6 +42,7 @@ public class LXPresenter extends Presenter {
 		addTransition(resultsToDetails);
 		addTransition(searchOverlayOnResults);
 		addTransition(searchOverlayOnDetails);
+		addTransition(detailsToCheckout);
 		show(searchParamsWidget);
 		searchParamsWidget.setVisibility(View.VISIBLE);
 	}
@@ -57,6 +61,9 @@ public class LXPresenter extends Presenter {
 			}
 		}
 	};
+
+	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
+		LXCheckoutPresenter.class);
 
 	private Transition resultsToDetails = new VisibilityTransition(this, LXResultsPresenter.class.getName(),
 		LXDetailsPresenter.class.getName()) {
@@ -138,4 +145,8 @@ public class LXPresenter extends Presenter {
 		show(new LXParamsOverlay());
 	}
 
+	@Subscribe
+	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
+		show(checkoutPresenter);
+	}
 }

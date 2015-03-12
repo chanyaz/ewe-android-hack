@@ -295,8 +295,6 @@
         <attr name="state_incomplete" format="boolean" />
     </declare-styleable>
 
-    <attr name="calendar_month_tint_color" format="reference" />
-
     <declare-styleable name="PhoneLaunchButton">
         <!-- Button text -->
         <attr name="btn_text" format="string" />
@@ -305,4 +303,9 @@
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
     </declare-styleable>
+
+    <attr name="checkout_card_view_style" format="reference" />
+    <attr name="primary_color" format="reference" />
+    <attr name="checkout_slider_text" format="reference" />
+    <attr name="toolbar_title_style" format="reference" />
 </resources>

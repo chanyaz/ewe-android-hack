@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.CarCheckoutPresenter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
+    <com.expedia.bookings.widget.CarCheckoutWidget
         android:id="@+id/checkout"
-        layout="@layout/widget_car_checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -18,8 +15,8 @@
 
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"
-        android:background="#3A424C"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="#3A424C" />
 
-</com.expedia.bookings.presenter.CarCheckoutPresenter>
+</merge>

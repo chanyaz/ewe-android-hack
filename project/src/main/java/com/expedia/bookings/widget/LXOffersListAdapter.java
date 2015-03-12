@@ -23,6 +23,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class LXOffersListAdapter extends BaseAdapter {
+	//List of Offers for an Activity
 	private List<Offer> offers = new ArrayList<>();
 
 	public void setOffers(List<Offer> offers) {
@@ -68,7 +69,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 	public static class ViewHolder {
 
-		private String offerId;
+		private Offer offer;
 
 		private View itemView;
 
@@ -93,16 +94,24 @@ public class LXOffersListAdapter extends BaseAdapter {
 		@InjectView(R.id.offer_tickets_picker)
 		LXTicketSelectionWidget ticketSelectionWidget;
 
+		@InjectView(R.id.lx_book_now)
+		Button bookNow;
+
 		@OnClick(R.id.select_tickets)
-		public void offerSelected() {
-			Events.post(new Events.LXOfferExpanded(offerId));
+		public void offerExpanded() {
+			Events.post(new Events.LXOfferExpanded(offer));
 		}
 
-		public void bind(Offer offer) {
-			this.offerId = offer.id;
+		@OnClick(R.id.lx_book_now)
+		public void offerBooked() {
+			Events.post(new Events.LXOfferBooked(offer, ticketSelectionWidget.getTickets()));
+		}
+
+		public void bind(final Offer offer) {
+			this.offer = offer;
 
 			List<String> priceSummaries = new ArrayList<String>();
-			ticketSelectionWidget.setOfferId(offerId);
+			ticketSelectionWidget.setOfferId(offer.id);
 			ticketSelectionWidget.setOfferTitle(offer.title);
 			ticketSelectionWidget.setCurrencySymbol(offer.currencySymbol);
 
@@ -121,7 +130,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		@Subscribe
 		public void onOfferExpanded(Events.LXOfferExpanded event) {
-			if (offerId.equals(event.offerId)) {
+			if (this.offer.id.equals(event.offer.id)) {
 				offerRow.setVisibility(View.GONE);
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
 			}

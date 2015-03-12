@@ -4,25 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
+    <com.expedia.bookings.presenter.CarCheckoutPresenter
         android:id="@+id/car_checkout_presenter"
-        layout="@layout/car_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <include
         android:id="@+id/car_results_presenter"
         layout="@layout/car_results_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <include
         android:id="@+id/widget_car_params"
         layout="@layout/widget_car_search_params"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </com.expedia.bookings.presenter.CarPresenter>

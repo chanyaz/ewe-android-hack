@@ -18,6 +18,11 @@ public class LXCheckoutParams {
 	public String creditCardNumber;
 	public String expirationDateYear;
 	public String expirationDateMonth;
-	public int cvv;
+	public String cvv;
 	public String email;
+
+	public boolean areRequiredParamsFilled() {
+		//TODO - needs to be hooked up
+		return false;
+	}
 }

@@ -9,5 +9,6 @@ public class LXActivity {
 	public String imageUrl;
 	public String fromPrice;
 	public LXTicketType fromPriceTicketCode;
+	public String location;
 	public List<String> categories;
 }
