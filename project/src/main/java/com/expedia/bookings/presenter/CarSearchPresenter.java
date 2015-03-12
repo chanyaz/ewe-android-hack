@@ -375,7 +375,7 @@ public class CarSearchPresenter extends Presenter
 			e.printStackTrace();
 		}
 
-		suggestionAdapter.addAll(mRecentCarsLocationsSearches, getContext());
+		suggestionAdapter.addNearbyAndRecents(mRecentCarsLocationsSearches, getContext());
 		postDelayed(new Runnable() {
 			public void run() {
 				pickUpLocation.requestFocus();
