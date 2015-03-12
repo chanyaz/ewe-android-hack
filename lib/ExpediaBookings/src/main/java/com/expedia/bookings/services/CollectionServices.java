@@ -45,6 +45,7 @@ public class CollectionServices {
 		mCollectionApi = adapter.create(CollectionApi.class);
 	}
 
+	// Keeping for future use with launch screen collections
 	public Subscription getCollection(final String collectionId, String twoLetterCountryCode, String localeCode, Observer<Collection> observer) {
 		return mCollectionApi.collections(twoLetterCountryCode, localeCode)
 			.observeOn(mObserveOn)
@@ -56,6 +57,13 @@ public class CollectionServices {
 					return Strings.equals(collection.id, collectionId);
 				}
 			})
+			.subscribe(observer);
+	}
+
+	public Subscription getPhoneCollection(String twoLetterCountryCode, String localeCode, Observer<Collection> observer) {
+		return mCollectionApi.phoneCollection(twoLetterCountryCode, localeCode)
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
 			.subscribe(observer);
 	}
 

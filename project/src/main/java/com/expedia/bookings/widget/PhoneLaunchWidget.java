@@ -154,7 +154,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		public void onError(Throwable e) {
 			Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.");
 			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-			downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, "default",
+			downloadSubscription = collectionServices.getPhoneCollection(country, "default",
 				defaultCollectionListener);
 		}
 
@@ -320,7 +320,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
-			.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
+			.getPhoneCollection(country, localeCode, collectionDownloadListener);
 	}
 
 	// Air attach
