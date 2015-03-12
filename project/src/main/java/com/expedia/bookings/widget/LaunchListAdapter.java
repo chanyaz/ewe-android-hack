@@ -15,10 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -44,7 +43,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 	public LaunchListAdapter(View header) {
 		headerView = header;
 		if (header == null) {
-			throw new IllegalArgumentException("Don't pass a null View into NearbyHotelsListAdapter");
+			throw new IllegalArgumentException("Don't pass a null View into LaunchListAdapter");
 		}
 		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
@@ -93,25 +92,25 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 			layoutParams.setFullSpan(false);
 		}
 
+		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth()/2;
+
 		if (listData.get(actualPosition).getClass() == Hotel.class) {
 			Hotel hotel = (Hotel) listData.get(actualPosition);
-			String url = Images.getNearbyHotelImage(hotel);
-			new HotelMedia(url).fillImageView(holder.backgroundImage, parentView.getWidth(),
-				R.drawable.bg_tablet_hotel_results_placeholder, null, PICASSO_TAG);
+
+			final String url = Images.getNearbyHotelImage(hotel);
+			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), width, url, PICASSO_TAG);
+			holder.backgroundImage.setImageDrawable(drawable);
+
 			holder.bindListData(hotel, fullWidthTile);
 		}
 
 		else if (listData.get(actualPosition).getClass() == CollectionLocation.class) {
 			CollectionLocation location = (CollectionLocation) listData.get(actualPosition);
-			final String url = Images.getResizedImageUrl(parentView.getContext(), location, layoutParams.width);
 
-			new PicassoHelper.Builder(holder.backgroundImage)
-				.fade()
-				.setTag(PICASSO_TAG)
-				.fit()
-				.centerCrop()
-				.build()
-				.load(url);
+			final String url = Images.getCollectionImageUrl(location, width);
+			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), url, PICASSO_TAG);
+			holder.backgroundImage.setImageDrawable(drawable);
+
 			holder.bindListData(location, fullWidthTile);
 		}
 	}
