@@ -3,6 +3,9 @@ package com.expedia.bookings.widget;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -79,7 +82,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public void setupToolbar() {
-		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+		Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
+		nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+		toolbar.setNavigationIcon(nav);
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -87,9 +92,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		});
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-		//toolbar.setTitleTextColor(Color.WHITE);
-		//toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		//toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
 		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
@@ -207,7 +209,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
-			toolbar.setNavigationIcon(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp);
+			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
+			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+			toolbar.setNavigationIcon(nav);
 			menuNext.setVisible(forward ? true : false);
 			menuDone.setVisible(false);
 		}
