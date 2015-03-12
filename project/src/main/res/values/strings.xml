@@ -135,7 +135,7 @@
     <!-- Car confirmation screen label -->
     <string name="successful_checkout_pickup_label">Pick-up at</string>
     <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
-    <string name="car_confirmation_pickup_time_TEMPLATE">$s to</string>
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s to</string>
     <!-- Car confirmation itin text -->
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
