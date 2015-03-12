@@ -149,7 +149,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		offerDatesContainer.setVisibility(View.VISIBLE);
 		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 
-		for (int i = 0; i < noOfDaysToDisplay; i++) {
+		for (int i = 0; i <= noOfDaysToDisplay; i++) {
 			LXOfferDatesButton dateButton = Ui.inflate(R.layout.lx_offer_date_button, offerDatesContainer, false);
 			dateButton.bind(offersDetail, startDate.plusDays(i));
 			offerDatesContainer.addView(dateButton);
