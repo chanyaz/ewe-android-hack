@@ -92,6 +92,7 @@
                 android:id="@+id/legal_information_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:linksClickable="true"
                 android:padding="16dp"
                 android:textSize="10sp" />
 

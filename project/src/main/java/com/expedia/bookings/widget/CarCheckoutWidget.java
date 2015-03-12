@@ -1,6 +1,15 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
@@ -59,8 +68,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 
-		// TODO Make this cars specific
-		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
+		generateLegalClickableLink(legalInformationText);
 		isCheckoutComplete();
 		show(new CheckoutDefault());
 	}
@@ -91,6 +99,38 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			onBook(null);
 		}
 
+	}
+
+	public void generateLegalClickableLink(TextView tv) {
+		SpannableStringBuilder sb = new SpannableStringBuilder();
+
+		String spannedRules = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			createTripResponse.carProduct.rulesAndRestrictionsURL,
+			getResources().getString(R.string.rules_and_restrictions));
+		String spannedTerms = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), getResources().getString(R.string.privacy_policy));
+		String statement = getResources()
+			.getString(R.string.car_legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
+
+		sb.append(Html.fromHtml(statement));
+		URLSpan[] spans = sb.getSpans(0, statement.length(), URLSpan.class);
+		int start = 0;
+		for (URLSpan o : spans) {
+			start = sb.getSpanStart(o);
+			break;
+		}
+
+		int end = sb.length();
+		sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+		sb.setSpan(new UnderlineSpan(), start, end, 0);
+		sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), start, end,
+			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		tv.setText(sb);
+		tv.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override
