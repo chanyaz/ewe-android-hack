@@ -21,6 +21,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
+import retrofit.RequestInterceptor;
 import retrofit.RetrofitError;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
@@ -247,16 +248,11 @@ public class LXServicesTest {
 
 	private LXCheckoutParams checkoutParams() {
 		LXCheckoutParams params = new LXCheckoutParams();
-		params.streetAddress = "Address";
 		params.firstName = "FirstName";
 		params.lastName = "LastName";
 		params.phone = "415-111-111";
-		params.checkInDate = "2015-03-27";
-		params.phoneCountryCode = 1;
+		params.phoneCountryCode = "1";
 		params.tripId = "happypath_trip_id";
-		params.state = "del";
-		params.city = "del";
-		params.country = "USA";
 		params.postalCode = "94123";
 		params.expectedFareCurrencyCode = "USD";
 		params.expectedTotalFare = "139.40";
@@ -269,7 +265,14 @@ public class LXServicesTest {
 	}
 
 	private LXServices getLXServices() {
-		return new LXServices("http://localhost:" + mockServer.getPort(), new OkHttpClient(), Schedulers.immediate(),
+		return new LXServices("http://localhost:" + mockServer.getPort(), new OkHttpClient(), sEmptyInterceptor, Schedulers.immediate(),
 			Schedulers.immediate());
 	}
+
+	private static final RequestInterceptor sEmptyInterceptor = new RequestInterceptor() {
+		@Override
+		public void intercept(RequestFacade request) {
+			// ignore
+		}
+	};
 }

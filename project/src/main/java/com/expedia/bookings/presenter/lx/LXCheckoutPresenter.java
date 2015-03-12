@@ -101,6 +101,7 @@ public class LXCheckoutPresenter extends Presenter {
 			checkoutDialog.dismiss();
 			Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
 			//TODO - display confirmation
+			Ui.showToast(getContext(), "Done booking - " + lxCheckoutResponse.newTrip.itineraryNumber);
 		}
 	};
 
@@ -131,8 +132,8 @@ public class LXCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void onDoCheckoutCall(Events.LXKickOffCheckoutCall event) {
-		if (event.checkoutParams.areRequiredParamsFilled()) {
-			checkoutSubscription = lxServices.lxCheckout(event.checkoutParams, checkoutObserver);
+		if (event.checkoutParamsBuilder.areRequiredParamsFilled()) {
+			checkoutSubscription = lxServices.lxCheckout(event.checkoutParamsBuilder.build(), checkoutObserver);
 			checkoutDialog.show();
 		}
 		else {

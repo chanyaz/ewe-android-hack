@@ -11,10 +11,12 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.lx.LXCheckoutParams;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -30,6 +32,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	LXState lxState;
 
 	LXCheckoutSummaryWidget summaryWidget;
+
+	LXCreateTripResponse createTripResponse;
 
 	@Override
 	protected void onFinishInflate() {
@@ -49,6 +53,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	}
 
 	private void bind(LXCreateTripResponse createTripResponse) {
+		this.createTripResponse = createTripResponse;
 		summaryWidget.bind();
 		paymentInfoCardView.setCreditCardRequired(true);
 		slideWidget.resetSlider();
@@ -87,8 +92,32 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	@Override
 	public void onBook(String cvv) {
-		LXCheckoutParams checkoutParams = new LXCheckoutParams();
-		//TODO - Use fluent interface to fill all required params
-		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
+		LXCheckoutParamsBuilder checkoutParamsBuilder = new LXCheckoutParamsBuilder()
+			.firstName(mainContactInfoCardView.firstName.getText().toString())
+			.lastName(mainContactInfoCardView.lastName.getText().toString())
+			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
+				: mainContactInfoCardView.emailAddress.getText().toString())
+			.expectedTotalFare(lxState.offerSelected.amount.toString())
+			.phoneCountryCode(
+				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
+			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
+			.expectedFareCurrencyCode(lxState.activity.currencyCode)
+			.tripId(createTripResponse.tripId);
+
+		if (Db.getBillingInfo().hasStoredCard()) {
+			checkoutParamsBuilder.storedCreditCardId(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
+		}
+		else {
+			BillingInfo info = Db.getBillingInfo();
+			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
+			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
+
+			checkoutParamsBuilder.creditCardNumber(info.getNumber())
+				.expirationDateYear(expirationYear)
+				.expirationDateMonth(expirationMonth)
+				.postalCode(info.getLocation().getPostalCode())
+				.nameOnCard(info.getNameOnCard()).cvv(cvv);
+		}
+		Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
 	}
 }
