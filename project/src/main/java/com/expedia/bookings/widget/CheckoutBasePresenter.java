@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -17,7 +18,7 @@ import com.expedia.bookings.utils.Ui;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetJB.ISlideToListener {
+public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener {
 
 	public CheckoutBasePresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -52,7 +53,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	TextView legalInformationText;
 
 	@InjectView(R.id.slide_to_purchase_widget)
-	SlideToWidgetJB slideWidget;
+	SlideToWidgetLL slideWidget;
 
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;
@@ -155,10 +156,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	void isCheckoutComplete() {
 		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
-			slideToContainer.setVisibility(VISIBLE);
+			animateInSlideTo(true);
 		}
 		else {
-			slideToContainer.setVisibility(GONE);
+			animateInSlideTo(false);
 		}
 	}
 
@@ -224,7 +225,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void finalizeTransition(boolean forward) {
 			if (forward) {
-				slideToContainer.setVisibility(GONE);
+				slideToContainer.setVisibility(INVISIBLE);
 			}
 			else {
 				isCheckoutComplete();
@@ -257,4 +258,18 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			isCheckoutComplete();
 		}
 	};
+
+	private void animateInSlideTo(boolean visible) {
+		// If its already in position, don't do it again
+		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
+			return;
+		}
+
+		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
+		slideToContainer.setVisibility(VISIBLE);
+		ObjectAnimator animator = ObjectAnimator
+			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
+		animator.setDuration(300);
+		animator.start();
+	}
 }

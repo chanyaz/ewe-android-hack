@@ -273,4 +273,8 @@
     <dimen name="car_time_slider_text_size">12dp</dimen>
     <dimen name="car_time_slider_text_container">110dp</dimen>
     <dimen name="car_checkout_scrollview_padding">200dp</dimen>
+
+    <!-- Car Confirmation Slide to reserve -->
+    <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>
+    <dimen name="car_slide_to_purchase_padding">50dp</dimen>
 </resources>
