@@ -132,6 +132,13 @@ public class TripBucket implements JSONable {
 		checkForMismatchedItems();
 	}
 
+	public void add(TripBucketItemLX lx) {
+		mLastLOBAdded = LineOfBusiness.LX;
+		mRefreshCount++;
+		mItems.add(lx);
+
+		checkForMismatchedItems();
+	}
 	/**
 	 * Adds a Flight to the trip bucket.
 	 */
@@ -164,6 +171,16 @@ public class TripBucket implements JSONable {
 	public TripBucketItemCar getCar() {
 		int index = getIndexOf(LineOfBusiness.CARS);
 		return index == -1 ? null : (TripBucketItemCar) mItems.get(index);
+	}
+
+	/**
+	 * Returns the first LX found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemLX getLX() {
+		int index = getIndexOf(LineOfBusiness.LX);
+		return index == -1 ? null : (TripBucketItemLX) mItems.get(index);
 	}
 
 

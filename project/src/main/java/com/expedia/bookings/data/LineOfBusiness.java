@@ -12,5 +12,6 @@ public enum LineOfBusiness {
 	FLIGHTS,
 	HOTELS,
 	CARS,
-	ITIN;
+	ITIN,
+	LX;
 }

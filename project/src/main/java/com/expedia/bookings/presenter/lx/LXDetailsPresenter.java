@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -196,6 +198,7 @@ public class LXDetailsPresenter extends Presenter {
 		@Override
 		public void onNext(LXCreateTripResponse response) {
 			createTripDialog.dismiss();
+			Db.getTripBucket().add(new TripBucketItemLX(response));
 			Events.post(new Events.LXCreateTripSucceeded(response));
 		}
 	};

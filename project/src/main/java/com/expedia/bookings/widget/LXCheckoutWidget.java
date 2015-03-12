@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -38,6 +39,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter {
 		summaryWidget = Ui.inflate(R.layout.lx_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
+		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
 	}
 
 	@Subscribe

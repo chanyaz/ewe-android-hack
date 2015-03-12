@@ -122,8 +122,11 @@ public class PaymentWidget extends ExpandableCardView {
 		creditCardName.setOnFocusChangeListener(this);
 		creditCardPostalCode.setOnFocusChangeListener(this);
 		paymentButton.setPaymentButtonListener(paymentButtonListener);
-		sectionBillingInfo.setLineOfBusiness(LineOfBusiness.CARS);
-		sectionLocation.setLineOfBusiness(LineOfBusiness.CARS);
+	}
+
+	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
+		sectionBillingInfo.setLineOfBusiness(lineOfBusiness);
+		sectionLocation.setLineOfBusiness(lineOfBusiness);
 	}
 
 	public void bind() {

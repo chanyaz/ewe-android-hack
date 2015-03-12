@@ -7,6 +7,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -36,6 +37,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		summaryWidget = Ui.inflate(R.layout.car_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
+		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.CARS);
 	}
 
 	@Subscribe
