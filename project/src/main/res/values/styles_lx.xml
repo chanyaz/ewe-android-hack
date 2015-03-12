@@ -30,6 +30,10 @@
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
+
+        <!-- CVV attrs -->
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">

@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
@@ -19,7 +21,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 
-public class LXCheckoutWidget extends CheckoutBasePresenter {
+public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
 	public LXCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -75,12 +77,19 @@ public class LXCheckoutWidget extends CheckoutBasePresenter {
 
 	@Override
 	public void onSlideAllTheWay() {
-		LXCheckoutParams checkoutParams = new LXCheckoutParams();
-		//TODO - Use fluent interface to fill all required params
-		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
+		BillingInfo billingInfo = Db.getBillingInfo();
+		Events.post(new Events.ShowCVV(billingInfo));
+		slideWidget.resetSlider();
 	}
 
 	@Override
 	public void onSlideAbort() {
+	}
+
+	@Override
+	public void onBook(String cvv) {
+		LXCheckoutParams checkoutParams = new LXCheckoutParams();
+		//TODO - Use fluent interface to fill all required params
+		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
 	}
 }
