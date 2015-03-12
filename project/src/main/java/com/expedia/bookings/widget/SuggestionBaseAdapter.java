@@ -89,7 +89,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 				showRecentSearch = false;
 			}
 			else {
-				suggestions = recentSuggestions;
+				suggestions.addAll(recentSuggestions);
 			}
 			results.count = suggestions.size();
 			results.values = suggestions;
