@@ -34,6 +34,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
@@ -45,6 +46,7 @@ import com.expedia.bookings.widget.CarSuggestionAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
+import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.util.IoUtils;
 
 import butterknife.ButterKnife;
@@ -87,6 +89,9 @@ public class CarSearchPresenter extends Presenter
 
 	@InjectView(R.id.calendar_container)
 	CarDateTimeWidget calendarContainer;
+
+	@InjectView(R.id.calendar)
+	CalendarPicker calendar;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -223,6 +228,11 @@ public class CarSearchPresenter extends Presenter
 
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
+		if (!searchParamsBuilder.hasOrigin()) {
+			AnimUtils.doTheHarlemShake(pickUpLocation);
+			selectDateButton.setChecked(false);
+			return;
+		}
 		show(new CarParamsCalendar());
 	}
 
@@ -246,7 +256,12 @@ public class CarSearchPresenter extends Presenter
 	private boolean isSearchFormFilled() {
 		boolean areRequiredParamsFilled = searchParamsBuilder.areRequiredParamsFilled();
 		if (!areRequiredParamsFilled) {
-			showParamMissingToast();
+			if (!searchParamsBuilder.hasOrigin()) {
+				AnimUtils.doTheHarlemShake(pickUpLocation);
+			}
+			else if (!searchParamsBuilder.hasStartAndEndDates()) {
+				AnimUtils.doTheHarlemShake(calendar);
+			}
 		}
 		return areRequiredParamsFilled;
 	}

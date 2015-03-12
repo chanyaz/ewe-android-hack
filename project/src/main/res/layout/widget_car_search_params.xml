@@ -11,10 +11,14 @@
         android:orientation="vertical"
         android:background="#D9FFFFFF"
         android:paddingTop="?attr/actionBarSize"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/location_container"
+            android:clipToPadding="false"
+            android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
