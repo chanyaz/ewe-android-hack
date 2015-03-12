@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,9 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -36,7 +33,6 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.SocialUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -91,26 +87,11 @@ public class CarConfirmationWidget extends FrameLayout {
 	@InjectView(R.id.add_flight_textView)
 	TextView addFlightTextView;
 
-	@InjectView(R.id.call_parent)
-	ViewGroup callParent;
-
-	@InjectView(R.id.call_container)
-	ViewGroup callContainer;
-
-	@InjectView(R.id.local_phone_number_text_view)
-	TextView localPhoneNumber;
-
-	@InjectView(R.id.toll_free_phone_number_text_view)
-	TextView tollFreePhoneNumber;
-
 	@InjectView(R.id.direction_action_textView)
 	TextView directionsTextView;
 
 	@InjectView(R.id.calendar_action_textView)
 	TextView calendarTextView;
-
-	@InjectView(R.id.call_action_textView)
-	TextView callTextView;
 
 	private CreateTripCarOffer offer;
 	private String itineraryNumber;
@@ -127,17 +108,6 @@ public class CarConfirmationWidget extends FrameLayout {
 			@Override
 			public void onClick(View v) {
 				NavUtils.goToItin(getContext());
-			}
-		});
-
-		callContainer.setVisibility(INVISIBLE);
-		toolbar.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
-		callParent.setVisibility(INVISIBLE);
-		callParent.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				showPhoneNumbers(false);
-				return true;
 			}
 		});
 	}
@@ -209,16 +179,11 @@ public class CarConfirmationWidget extends FrameLayout {
 			offer.pickUpLocation.locationDescription));
 		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
 			offer.pickUpLocation.locationDescription));
-		localPhoneNumber.setText(res.getString(R.string.car_confirmation_local_support_TEMPLATE,
-			offer.vendor.localPhoneNumber));
-		tollFreePhoneNumber.setText(res.getString(R.string.car_confirmation_toll_free_support_TEMPLATE,
-			offer.vendor.phoneNumber));
 
 		vendorText.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
 
 		dressAction(res, directionsTextView, R.drawable.car_directions);
 		dressAction(res, calendarTextView, R.drawable.add_to_calendar);
-		dressAction(res, callTextView, R.drawable.car_call);
 		dressAction(res, addHotelTextView, R.drawable.car_hotel);
 		dressAction(res, addFlightTextView, R.drawable.car_flights);
 
@@ -252,29 +217,6 @@ public class CarConfirmationWidget extends FrameLayout {
 		getContext().startActivity(intent);
 	}
 
-	@OnClick(R.id.call_action_textView)
-	public void callSupport() {
-		if (offer.vendor.phoneNumber != null && offer.vendor.localPhoneNumber
-			.equalsIgnoreCase(offer.vendor.phoneNumber)) {
-			SocialUtils.call(getContext(), offer.vendor.localPhoneNumber);
-		}
-		else {
-			showPhoneNumbers(true);
-		}
-	}
-
-	@OnClick(R.id.local_phone_number_text_view)
-	public void callLocalNumber() {
-		SocialUtils.call(getContext(),
-			localPhoneNumber.getText().toString().substring(localPhoneNumber.getText().toString().indexOf(":")));
-	}
-
-	@OnClick(R.id.toll_free_phone_number_text_view)
-	public void callTollFreeNumber() {
-		SocialUtils.call(getContext(), tollFreePhoneNumber.getText().toString()
-			.substring(tollFreePhoneNumber.getText().toString().indexOf(":")));
-	}
-
 	private static void dressAction(Resources res, TextView textView, int drawableResId) {
 		Drawable drawable = res.getDrawable(drawableResId);
 		drawable.setColorFilter(res.getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN);
@@ -298,16 +240,5 @@ public class CarConfirmationWidget extends FrameLayout {
 
 		// Go to flights
 		NavUtils.goToFlightsUsingSearchParams(getContext());
-	}
-
-	public void showPhoneNumbers(boolean show) {
-		callParent.setVisibility(show ? VISIBLE : GONE);
-		callContainer.setTranslationY(show ? callContainer.getHeight() : 0);
-		callContainer.setVisibility(VISIBLE);
-
-		ObjectAnimator animator = ObjectAnimator
-			.ofFloat(callContainer, "translationY", show ? 0 : callContainer.getHeight());
-		animator.setDuration(200);
-		animator.start();
 	}
 }
