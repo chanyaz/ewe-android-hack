@@ -2,7 +2,7 @@ package com.expedia.bookings.data.cars;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Suggestion {
+public class Suggestion implements Cloneable {
 	@SerializedName("f")
 	public String fullName;
 
@@ -47,5 +47,15 @@ public class Suggestion {
 		HISTORY_ICON,
 		CURRENT_LOCATION_ICON,
 		SEARCH_TYPE_ICON
+	}
+
+	@Override
+	public Suggestion clone() {
+		try {
+			return (Suggestion) super.clone();
+		}
+		catch (CloneNotSupportedException e) {
+			return null;
+		}
 	}
 }

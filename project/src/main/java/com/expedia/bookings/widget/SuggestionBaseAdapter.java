@@ -50,6 +50,14 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		getNearbyAirport(ctx);
 	}
 
+	public void updateRecentHistory(List<Suggestion> list) {
+		suggestions.removeAll(recentHistory);
+		recentHistory.clear();
+		recentHistory.addAll(list);
+		suggestions.addAll(recentHistory);
+		filter.publishResults("", null);
+	}
+
 	public void getNearbyAirport(Context ctx) {
 		long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
 		android.location.Location loc = LocationServices.getLastBestLocation(ctx, minTime);
