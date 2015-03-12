@@ -173,7 +173,8 @@ public class LXDetailsPresenterTests {
 
 		RadioGroup container = (RadioGroup) playground.getRoot().findViewById(R.id.offer_dates_container);
 		int count = container.getChildCount();
-		Assert.assertEquals(playground.get().getResources().getInteger(R.integer.lx_default_search_range), count);
+		int range = playground.get().getResources().getInteger(R.integer.lx_default_search_range) + 1;
+		Assert.assertEquals(range, count);
 	}
 
 	@Test
