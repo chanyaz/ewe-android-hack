@@ -15,6 +15,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
@@ -764,6 +765,18 @@ public class Events {
 		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions) {
 			this.collectionLocation = location;
 			this.animOptions = animOptions;
+		}
+	}
+
+	// Launch screen -- air attach
+
+	public static class LaunchAirAttachBannerHide {
+	}
+
+	public static class LaunchAirAttachBannerShow {
+		public HotelSearchParams params;
+		public LaunchAirAttachBannerShow(HotelSearchParams params) {
+			this.params = params;
 		}
 	}
 }
