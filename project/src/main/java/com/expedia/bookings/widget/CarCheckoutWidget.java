@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -53,11 +52,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		slideWidget.resetSlider();
 		sliderTotalText.setText(getResources()
-			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.detailedFare.grandTotal.formattedPrice));
+			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.detailedFare.totalDueToday.formattedPrice));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
-		slideToContainer.setVisibility(View.GONE);
+		slideToContainer.setVisibility(INVISIBLE);
 
 		// TODO Make this cars specific
 		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
