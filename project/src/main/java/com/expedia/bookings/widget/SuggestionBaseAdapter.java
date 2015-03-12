@@ -28,13 +28,14 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		Observer<List<Suggestion>> suggestionsObserver, CharSequence query);
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
-	List<Suggestion> recentHistory = new ArrayList<Suggestion>();
-	List<Suggestion> recentSuggestions = new ArrayList<Suggestion>();
 	private boolean showRecentSearch = true;
+	private boolean showNearby = false;
 
 	@Inject
 	SuggestionServices suggestionServices;
 
+	private List<Suggestion> recentHistory = new ArrayList<>();
+	private List<Suggestion> nearbySuggestions = new ArrayList<>();
 	private List<Suggestion> suggestions = new ArrayList<>();
 	private Subscription suggestSubscription;
 	private final SuggestFilter filter = new SuggestFilter();
@@ -44,8 +45,8 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		return suggestions.size();
 	}
 
-	public void addAll(List<Suggestion> list, Context ctx) {
-		recentHistory = list;
+	public void addNearbyAndRecents(List<Suggestion> list, Context ctx) {
+		recentHistory.addAll(list);
 		getNearbyAirport(ctx);
 	}
 
@@ -55,6 +56,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 		// just show the recent history items when there's no current loc
 		if (loc != null) {
+			showNearby = true;
 			String query = loc.getLatitude() + "|" + loc.getLongitude();
 			suggestionServices.getNearbyAirportSuggestions(query, suggestionsObserver);
 		}
@@ -87,10 +89,15 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 				cleanup();
 				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query);
 				showRecentSearch = false;
+				showNearby = false;
 			}
 			else {
-				suggestions.addAll(recentSuggestions);
+				// Default to show nearby and recent history
+				suggestions.clear();
+				suggestions.addAll(nearbySuggestions);
+				suggestions.addAll(recentHistory);
 			}
+
 			results.count = suggestions.size();
 			results.values = suggestions;
 			return results;
@@ -111,16 +118,20 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 		@Override
 		public void onError(Throwable e) {
-			SuggestionBaseAdapter.this.suggestions = recentSuggestions;
 		}
 
 		@Override
-		public void onNext(List<Suggestion> suggestions) {
+		public void onNext(List<Suggestion> suggests) {
+			// Cache nearby
+			if (showNearby) {
+				nearbySuggestions.addAll(suggests);
+			}
+
+			suggestions.clear();
+			suggestions.addAll(suggests);
 			if (showRecentSearch) {
 				suggestions.addAll(recentHistory);
-				recentSuggestions = suggestions;
 			}
-			SuggestionBaseAdapter.this.suggestions = suggestions;
 		}
 	};
 
