@@ -160,7 +160,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 		CarViewModel.clickDriverInfo();
 		CarViewModel.clickStoredTravelerButton();
-		CarViewModel.selectStoredTraveler(getInstrumentation(), "Public Enemy Number Cat");
+		CarViewModel.selectStoredTraveler(getInstrumentation(), "Expedia Automation First");
 		CarViewModel.pressClose();
 		screenshot("Car_Checkout_Driver_Entered");
 
