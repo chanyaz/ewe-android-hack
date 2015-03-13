@@ -8,14 +8,14 @@
     <View
         android:id="@+id/action_bar_space"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize" />
+        android:layout_height="?attr/actionBarSize" />
 
     <include
         android:id="@+id/launch_list_widget"
         layout="@layout/widget_launch_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize" />
 
     <include android:id="@+id/launch_error"
         layout="@layout/section_launch_error"
@@ -28,7 +28,7 @@
         android:id="@+id/lob_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_lob_container_height"
-        android:layout_marginTop="?android:attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize" />
 
     <include
         android:id="@+id/air_attach_banner"
