@@ -4,13 +4,14 @@ import java.util.Collection;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -481,7 +482,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private ActionBar getSupportActionBar() {
-		return ((FragmentActivity) getActivity()).getActionBar();
+		return ((ActionBarActivity) getActivity()).getSupportActionBar();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
