@@ -1,5 +1,6 @@
 package com.expedia.bookings.featureconfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -131,7 +132,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
-		return null;
+		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		return additionalParamsForReviewsRequest;
 	}
 
 	public boolean shouldUseDotlessDomain(EndPoint endpoint) {

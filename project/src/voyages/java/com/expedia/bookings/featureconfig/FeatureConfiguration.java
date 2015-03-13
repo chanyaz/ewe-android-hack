@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutActivity;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.AboutUtils;
@@ -40,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppSupportUrl(Context context) {
-		return "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html";
+		return PointOfSale.getPointOfSale().getAppSupportUrl();
 	}
 
 	public int getCrossSellStringResourceIdForShareEmail() {
