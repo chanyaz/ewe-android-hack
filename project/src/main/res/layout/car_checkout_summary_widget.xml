@@ -84,7 +84,7 @@
                 android:drawableLeft="@drawable/check"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:text="Free Cancellation"
+                android:text="@string/free_cancellation"
                 android:textColor="@color/cars_checkout_text_color"
                 android:textSize="12sp" />
 
@@ -95,7 +95,7 @@
                 android:drawableLeft="@drawable/check"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:text="Free Mileage"
+                android:text="@string/unlimited_mileage"
                 android:textColor="@color/cars_checkout_text_color"
                 android:textSize="12sp" />
 
