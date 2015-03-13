@@ -51,7 +51,6 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	private LocalDate lastStart;
 	private LocalDate lastEnd;
 
-	private static final String TOOLTIP_PATTERN = "hh:mm aa";
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
 	private DateTimeFormatter df = DateTimeFormat.forPattern(TOOLTIP_DATE_PATTERN);
 
@@ -237,7 +236,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	public void drawSliderTooltip(SeekBar seekBar) {
 
-		String title = ((CarTimeSlider) seekBar).calculateProgress(seekBar.getProgress(), TOOLTIP_PATTERN);
+		String title = ((CarTimeSlider) seekBar).calculateProgress(seekBar.getProgress());
 		String subtitle = seekBar.getId() == R.id.pickup_time_seek_bar ? getContext().getResources()
 				.getString(R.string.cars_time_slider_pick_up_label)
 				: getContext().getResources().getString(R.string.cars_time_slider_drop_off_label);

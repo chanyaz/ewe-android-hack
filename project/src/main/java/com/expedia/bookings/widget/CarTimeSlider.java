@@ -3,8 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,13 +18,12 @@ import android.util.AttributeSet;
 import android.widget.SeekBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.DateFormatUtils;
 
 /**
  * Created by mohsharma on 2/9/15.
  */
 public class CarTimeSlider extends SeekBar {
-	private static final String TOOLTIP_PATTERN = "hh:mm aa";
-	private static final String SLIDER_PATTERN = "h:mmaa";
 
 	private Drawable mThumb;
 	private ArrayList<OnSeekBarChangeListener> onSeekBarChangeListeners = new ArrayList<>();
@@ -65,7 +62,7 @@ public class CarTimeSlider extends SeekBar {
 
 	public void init() {
 		setupThumbnail();
-		setThumb(getThumbnail(calculateProgress(getProgress(), SLIDER_PATTERN), false));
+		setThumb(getThumbnail(calculateProgress(getProgress()), false));
 		thumbPadding = getThumb().getIntrinsicWidth() / 2;
 		setPadding(thumbPadding, 0, thumbPadding, 0);
 		setOnSeekBarChangeListener(onSeekBarChangeListener);
@@ -82,13 +79,13 @@ public class CarTimeSlider extends SeekBar {
 				listener.onProgressChanged(seekBar, progress, fromUser);
 			}
 			if (!fromUser) {
-				setThumb(getThumbnail(calculateProgress(getProgress(), SLIDER_PATTERN), false));
+				setThumb(getThumbnail(calculateProgress(getProgress()), false));
 			}
 		}
 
 		@Override
 		public void onStartTrackingTouch(SeekBar seekBar) {
-			setThumb(getThumbnail(calculateProgress(getProgress(), SLIDER_PATTERN), true));
+			setThumb(getThumbnail(calculateProgress(getProgress()), true));
 			for (OnSeekBarChangeListener listener : onSeekBarChangeListeners) {
 				listener.onStartTrackingTouch(seekBar);
 			}
@@ -96,7 +93,7 @@ public class CarTimeSlider extends SeekBar {
 
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
-			setThumb(getThumbnail(calculateProgress(getProgress(), SLIDER_PATTERN), false));
+			setThumb(getThumbnail(calculateProgress(getProgress()), false));
 			for (OnSeekBarChangeListener listener : onSeekBarChangeListeners) {
 				listener.onStopTrackingTouch(seekBar);
 			}
@@ -146,9 +143,9 @@ public class CarTimeSlider extends SeekBar {
 		return new BitmapDrawable(getResources(), canvasBitmap);
 	}
 
-	public String calculateProgress(int progress, String pattern) {
-		DateTimeFormatter sdf = DateTimeFormat.forPattern(pattern);
-		return sdf.print(getDateTime(progress));
+	public String calculateProgress(int progress) {
+		return DateFormatUtils.formatDateTimeRange(getContext(), getDateTime(progress), getDateTime(progress),
+			DateFormatUtils.FLAGS_TIME_FORMAT);
 	}
 
 	public DateTime getDateTime(int progress) {
