@@ -15,6 +15,7 @@ import com.expedia.bookings.presenter.CarSearchPresenter;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -68,10 +69,9 @@ public final class CarSearchPresenterTests {
 	}
 
 	@Test
-	public void testDateButtonTextPopulation() {
+	public void testDateButtonTextPopulation() throws Throwable {
 		// Open calendar
-		CarViewModel.dropOffLocation().perform(click());
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 		CarViewModel.selectDateButton().perform(click());
 
@@ -155,32 +155,24 @@ public final class CarSearchPresenterTests {
 	public void testSearchButtonErrorMessageForIncompleteParams() throws Throwable {
 		// Test with all params missing
 		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.didNotGoToResults();
 
 		// Test with only pickup location
 		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_start_date_param)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.didNotGoToResults();
 
 		// Test with only start date selected
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.selectDates(LocalDate.now().plusDays(3), null);
 		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_end_date_param)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.didNotGoToResults();
 
 		// Test with origin and start date selected
 		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
 		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_end_date_param)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.didNotGoToResults();
 
 	}
 
@@ -190,11 +182,8 @@ public final class CarSearchPresenterTests {
 		CarViewModel.dropOffLocation().perform(click());
 		CarViewModel.alertDialogNeutralButton().perform(click());
 		CarViewModel.selectDateButton().perform(click());
-		CarViewModel.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		CarViewModel.searchButton().perform(click());
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_missing_origin_param)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.didNotGoToResults();
+		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
 	}
 
 	@Test

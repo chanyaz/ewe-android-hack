@@ -11,6 +11,10 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import com.expedia.bookings.R;
 
 public class AnimUtils {
 
@@ -84,6 +88,11 @@ public class AnimUtils {
 	 */
 	public static Bundle createActivityScaleBundle(View v) {
 		return ActivityOptionsCompat.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight()).toBundle();
+	}
+
+	public static void doTheHarlemShake(View v) {
+		Animation shake = AnimationUtils.loadAnimation(v.getContext(), R.anim.wiggle);
+		v.startAnimation(shake);
 	}
 
 }

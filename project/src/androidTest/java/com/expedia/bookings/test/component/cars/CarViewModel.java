@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -28,6 +29,10 @@ import static org.hamcrest.Matchers.not;
 public final class CarViewModel {
 
 	// Search
+
+	public static void didNotGoToResults() {
+		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
+	}
 
 	public static ViewInteraction calendar() {
 		return onView(withId(R.id.calendar));

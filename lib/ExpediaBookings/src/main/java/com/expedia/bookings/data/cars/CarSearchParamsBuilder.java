@@ -85,6 +85,14 @@ public class CarSearchParamsBuilder {
 	}
 
 	public boolean areRequiredParamsFilled() {
-		return Strings.isNotEmpty(mOrigin) && mDateTimeBuilder != null && mDateTimeBuilder.areRequiredParamsFilled();
+		return hasOrigin() && hasStartAndEndDates();
+	}
+
+	public boolean hasStartAndEndDates() {
+		return mDateTimeBuilder != null && mDateTimeBuilder.areRequiredParamsFilled();
+	}
+
+	public boolean hasOrigin() {
+		return Strings.isNotEmpty(mOrigin);
 	}
 }
