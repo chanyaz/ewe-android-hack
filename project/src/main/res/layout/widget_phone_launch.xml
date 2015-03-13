@@ -17,6 +17,13 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize" />
 
+    <include android:id="@+id/launch_error"
+        layout="@layout/section_launch_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/launch_lob_height"
+        android:visibility="gone"/>
+
     <com.expedia.bookings.widget.LaunchLobWidget
         android:id="@+id/lob_selector"
         android:layout_width="match_parent"

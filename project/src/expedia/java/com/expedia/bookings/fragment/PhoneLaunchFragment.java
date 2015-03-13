@@ -1,7 +1,12 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +19,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.otto.Events;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
 import butterknife.ButterKnife;
@@ -22,6 +28,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment locationFragment;
+
+	private boolean wasOffline;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -38,19 +46,21 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		// TODO no internet state
-		if (!NetUtils.isOnline(getActivity())) {
-			Events.post(new Events.LaunchLocationFetchError());
+		if (!checkConnection()) {
+			Events.post(new Events.LaunchOfflineState());
 		}
 		else {
-			findLocation();
-			signalAirAttachState();
+			onReactToUserActive();
 		}
+
+		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+		getActivity().registerReceiver(broadcastReceiver, filter);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
 	}
 
@@ -58,6 +68,54 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void onDestroy() {
 		super.onDestroy();
 		ButterKnife.reset(this);
+	}
+
+
+	private void onReactToUserActive() {
+		if (!checkConnection()) {
+			return;
+		}
+		else {
+			findLocation();
+			signalAirAttachState();
+		}
+	}
+
+	// Connectivity
+
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.i("Detected connectivity change, checking connection...");
+
+			// If we changed state, react
+			boolean isOffline = !checkConnection();
+
+			if (isOffline != wasOffline) {
+				Log.i("Connectivity changed from " + wasOffline + " to " + isOffline);
+			}
+			if (isOffline) {
+				cleanUp();
+			}
+			else {
+				// Only react to user being active if we are active
+				if (isAdded()) {
+					onReactToUserActive();
+				}
+			}
+		}
+	};
+
+	private boolean checkConnection() {
+		Context context = getActivity();
+		if (context != null && !NetUtils.isOnline(context)) {
+			wasOffline = true;
+			return false;
+		}
+		else {
+			wasOffline = false;
+			return true;
+		}
 	}
 
 	// Location finder

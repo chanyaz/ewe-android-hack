@@ -79,6 +79,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@InjectView(R.id.air_attach_banner)
 	ViewGroup airAttachBanner;
 
+	@InjectView(R.id.launch_error)
+	ViewGroup launchError;
+
 	// Lifecycle
 
 	public PhoneLaunchWidget(Context context, AttributeSet attrs) {
@@ -297,6 +300,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	public void onLocationFound(Events.LaunchLocationFetchComplete event) {
 		Location loc = event.location;
 		Log.i(TAG, "Start hotel search");
+		launchListWidget.setVisibility(VISIBLE);
+		launchError.setVisibility(View.GONE);
+
 		LocalDate currentDate = new LocalDate();
 		DateTimeFormatter dtf = ISODateTimeFormat.date();
 
@@ -317,10 +323,20 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onLocationNotAvailable(Events.LaunchLocationFetchError event) {
 		Log.i(TAG, "Start collection download");
+		launchListWidget.setVisibility(VISIBLE);
+		launchError.setVisibility(View.GONE);
+
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
 			.getPhoneCollection(country, localeCode, collectionDownloadListener);
+	}
+
+	@Subscribe
+	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
+		Log.i(TAG, "Launch page is offline");
+		launchListWidget.setVisibility(GONE);
+		launchError.setVisibility(View.VISIBLE);
 	}
 
 	// Air attach
