@@ -551,6 +551,9 @@ public class Events {
 		}
 	}
 
+	public static class CarsShowLoadingAnimation {
+	}
+
 	public static class CarsShowSearchResults {
 		public CarSearch results;
 

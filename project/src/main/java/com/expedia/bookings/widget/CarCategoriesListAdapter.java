@@ -3,6 +3,9 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,30 +26,88 @@ import com.expedia.bookings.utils.Images;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategoriesListAdapter.ViewHolder> {
-	private List<CategorizedCarOffers> categories = new ArrayList<>();
+public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+	private static final int LOADING_VIEW = 0;
+	private static final int DATA_VIEW = 1;
+	private List<CategorizedCarOffers> categories = new ArrayList<>();
 	private static final String ROW_PICASSO_TAG = "CAR_CATEGORY_LIST";
+	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
+	private int mLoadingColorDark = Color.DKGRAY;
+	private int mLoadingColorLight = Color.LTGRAY;
+	public static boolean loadingState = false;
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.section_car_category_summary, parent, false);
-		return new ViewHolder(view);
+	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		if (viewType == LOADING_VIEW) {
+			View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.car_loading_animation_widget, parent, false);
+			return new LoadingViewHolder(view);
+		}
+		else {
+			View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.section_car_category_summary, parent, false);
+			return new ViewHolder(view);
+		}
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		CategorizedCarOffers cco = categories.get(position);
-		holder.bindCategorizedOffers(cco);
+	public int getItemViewType(int position) {
+		return loadingState ? LOADING_VIEW : DATA_VIEW;
+	}
 
-		String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
-		new PicassoHelper.Builder(holder.backgroundImageView)
-			.setPlaceholder(R.drawable.cars_placeholder)
-			.fade()
-			.setTag(ROW_PICASSO_TAG)
-			.build()
-			.load(url);
+	@Override
+	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+		if (holder.getItemViewType() != LOADING_VIEW) {
+			CategorizedCarOffers cco = categories.get(position);
+			((ViewHolder) holder).bindCategorizedOffers(cco);
+			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
+			new PicassoHelper.Builder(((ViewHolder) holder).backgroundImageView)
+				.setPlaceholder(R.drawable.cars_placeholder)
+				.fade()
+				.setTag(ROW_PICASSO_TAG)
+				.build()
+				.load(url);
+		}
+		else {
+			setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
+			LoadingViewHolder.index++;
+		}
+	}
+
+	public void setupLoadingAnimation(View v, int i) {
+		mLoadingColorLight = Color.parseColor("#D3D4D4");
+		mLoadingColorDark = Color.parseColor("#848F94");
+		if (LoadingViewHolder.index % 2 == 0) {
+			animateBackground(v, mLoadingColorDark, mLoadingColorLight);
+		}
+		else {
+			animateBackground(v, mLoadingColorLight, mLoadingColorDark);
+		}
+
+	}
+
+	private void animateBackground(final View view, int startColor, int endColor) {
+		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				view.setBackgroundColor((Integer) animator.getAnimatedValue());
+			}
+
+		});
+		animation.setRepeatMode(ValueAnimator.REVERSE);
+		animation.setRepeatCount(ValueAnimator.INFINITE);
+		animation.setDuration(600);
+		animation.start();
+		mAnimations.add(animation);
+	}
+
+	public void cleanup() {
+		for (ValueAnimator animation : mAnimations) {
+			animation.cancel();
+		}
+		mAnimations.clear();
 	}
 
 	@Override
@@ -122,7 +183,24 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<CarCategories
 		}
 	}
 
+	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
+		private static int index = 0;
+
+		@InjectView(R.id.background_image_view)
+		public ImageView backgroundImageView;
+
+		@InjectView(R.id.card_view)
+		public CardView cardView;
+
+		public LoadingViewHolder(View view) {
+			super(view);
+			ButterKnife.inject(this, itemView);
+		}
+
+	}
+
 	public void setCategories(List<CategorizedCarOffers> categories) {
 		this.categories = categories;
 	}
+
 }

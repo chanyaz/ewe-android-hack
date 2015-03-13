@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
 
@@ -34,6 +38,7 @@ public class CarCategoryListWidget extends FrameLayout {
 
 	private static final String PICASSO_TAG = "CAR_CATEGORY_LIST";
 	private static final int LIST_DIVIDER_HEIGHT = 12;
+	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
 	@Override
 	protected void onFinishInflate() {
@@ -51,7 +56,8 @@ public class CarCategoryListWidget extends FrameLayout {
 		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
 		int toolbarSize = (int) a.getDimension(0, 44);
 
-		recyclerView.addItemDecoration(new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, toolbarSize, toolbarSize, false));
+		recyclerView.addItemDecoration(
+			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, toolbarSize, toolbarSize, false));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 
@@ -78,9 +84,21 @@ public class CarCategoryListWidget extends FrameLayout {
 
 	@Subscribe
 	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
+		adapter.cleanup();
 		recyclerView.setVisibility(View.VISIBLE);
 		categoriesErrorContainer.setVisibility(View.GONE);
 		adapter.setCategories(event.results.categories);
+		adapter.loadingState = false;
+		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void onCarShowLoadingAnimation(Events.CarsShowLoadingAnimation event) {
+		recyclerView.setVisibility(View.VISIBLE);
+		List<CategorizedCarOffers> elements = createDummyListForAnimation();
+		adapter.loadingState = true;
+		categoriesErrorContainer.setVisibility(View.GONE);
+		adapter.setCategories(elements);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -89,4 +107,14 @@ public class CarCategoryListWidget extends FrameLayout {
 		recyclerView.setVisibility(View.GONE);
 		categoriesErrorContainer.setVisibility(View.VISIBLE);
 	}
+
+	// Create list to show cards for loading animation
+	public List<CategorizedCarOffers> createDummyListForAnimation() {
+		List<CategorizedCarOffers> elements = new ArrayList<CategorizedCarOffers>(CARDS_FOR_LOADING_ANIMATION);
+		for (int i = 0; i < CARDS_FOR_LOADING_ANIMATION; i++) {
+			elements.add(new CategorizedCarOffers());
+		}
+		return elements;
+	}
+
 }
