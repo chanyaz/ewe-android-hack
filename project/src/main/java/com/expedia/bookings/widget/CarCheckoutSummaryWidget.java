@@ -87,16 +87,19 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		View view = LayoutInflater.from(context).inflate(R.layout.car_cost_summary_alert, null);
 		LinearLayout ll = Ui.findView(view, R.id.parent);
 
-		for (RateBreakdownItem item : rateBreakdownDueAtPickup) {
-			ll.addView(
-				addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+		if (rateBreakdownDueAtPickup != null && rateBreakdownDueAtPickup.size() > 0) {
+			for (RateBreakdownItem item : rateBreakdownDueAtPickup) {
+				ll.addView(
+					addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+			}
 		}
 
-		for (RateBreakdownItem item : rateBreakdownDueToday) {
-			ll.addView(
-				addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+		if (rateBreakdownDueToday != null && rateBreakdownDueToday.size() > 0) {
+			for (RateBreakdownItem item : rateBreakdownDueToday) {
+				ll.addView(
+					addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+			}
 		}
-
 		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_due_today),
 			offer.detailedFare.totalDueToday.formattedPrice));
 		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
