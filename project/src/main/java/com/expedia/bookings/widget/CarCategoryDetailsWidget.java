@@ -110,9 +110,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(headerImage)
 			.fade()
-			.setTag("Car Details")
-			.fit()
-			.centerCrop()
 			.build()
 			.load(url);
 	}

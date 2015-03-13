@@ -52,7 +52,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		slideWidget.resetSlider();
 		sliderTotalText.setText(getResources()
-			.getString(R.string.your_card_will_be_charged_TEMPLATE, offer.detailedFare.totalDueToday.formattedPrice));
+			.getString(offer.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
+				: R.string.amount_due_today_TEMPLATE, offer.detailedFare.totalDueToday.formattedPrice));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);

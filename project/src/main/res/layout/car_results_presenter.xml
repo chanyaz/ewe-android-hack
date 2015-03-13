@@ -21,6 +21,7 @@
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
+                android:scaleType="centerCrop"
                 tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
             <View

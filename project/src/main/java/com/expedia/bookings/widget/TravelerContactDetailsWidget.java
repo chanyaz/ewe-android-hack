@@ -141,7 +141,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		// Validate
-		boolean isValid = sectionTravelerInfo.performValidation();
+		boolean isValid = isFilled() && sectionTravelerInfo.performValidation();
 		enterDetailsText.setText(traveler.getFullName());
 		travelerPhoneText.setText(traveler.getPhoneNumber());
 		travelerPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
@@ -221,7 +221,11 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public boolean isComplete() {
-		return sectionTravelerInfo.performValidation();
+		return isFilled() && sectionTravelerInfo.performValidation();
+	}
+
+	public boolean isFilled() {
+		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty() ;
 	}
 
 }

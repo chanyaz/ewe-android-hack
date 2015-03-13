@@ -130,8 +130,10 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	public void bind() {
-		boolean isBillingInfoValid = sectionBillingInfo.performValidation();
-		boolean isPostalCodeValid = sectionLocation.performValidation();
+		// Should not perform validation unless the form has information in it
+		boolean isFilled = isFilled();
+		boolean isBillingInfoValid = isFilled && sectionBillingInfo.performValidation();
+		boolean isPostalCodeValid = isFilled && sectionLocation.performValidation();
 		// User is logged in and has a stored card
 		if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
 			StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
@@ -245,7 +247,10 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@Override
 	public void onDonePressed() {
-		if (isComplete()) {
+		boolean hasStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard();
+		boolean billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation();
+		boolean postalIsValid = !hasStoredCard && sectionLocation.performValidation();
+		if (hasStoredCard || (billingIsValid && postalIsValid)) {
 			setExpanded(false);
 		}
 	}
@@ -289,7 +294,7 @@ public class PaymentWidget extends ExpandableCardView {
 		else if (isCreditCardRequired && (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard())) {
 			return true;
 		}
-		else if (isCreditCardRequired && (sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
+		else if (isCreditCardRequired && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
 			return true;
 		}
 

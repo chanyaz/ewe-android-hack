@@ -10,6 +10,7 @@
         <item name="android:colorButtonNormal">@color/cars_primary_color</item>
         <item name="colorControlNormal">#C3C3C3</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
@@ -30,7 +31,7 @@
         <item name="primary_color">@color/cars_primary_color</item>
         <item name="checkout_card_view_style">@style/CarsCardView</item>
         <item name="checkout_slider_text">@string/cars_slider_text</item>
-        <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
+        <item name="toolbar_title_style">@style/CarsToolbarTitleTextAppearance</item>
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
