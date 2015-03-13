@@ -188,16 +188,17 @@ public class CarSearchPresenter extends Presenter
 	}
 
 	private void setPickUpLocation(final Suggestion suggestion) {
-		pickUpLocation.setText(StrUtils.formatCityName(suggestion.fullName));
-		searchParamsBuilder.origin(suggestion.airportCode);
-		searchParamsBuilder.originDescription(StrUtils.formatAirportName(suggestion.fullName));
+		Suggestion suggest = suggestion.clone();
+		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName));
+		searchParamsBuilder.origin(suggest.airportCode);
+		searchParamsBuilder.originDescription(StrUtils.formatAirportName(suggest.fullName));
 		paramsChanged();
-		suggestion.iconType = Suggestion.IconType.HISTORY_ICON;
+		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
 		// Remove duplicates
 		Iterator<Suggestion> it = mRecentCarsLocationsSearches.iterator();
 		while (it.hasNext()) {
-			Suggestion suggest = it.next();
-			if (suggest.airportCode.equalsIgnoreCase(suggestion.airportCode)) {
+			Suggestion s = it.next();
+			if (s.airportCode.equalsIgnoreCase(suggest.airportCode)) {
 				it.remove();
 			}
 		}
@@ -206,11 +207,12 @@ public class CarSearchPresenter extends Presenter
 			mRecentCarsLocationsSearches.remove(RECENT_MAX_SIZE - 1);
 		}
 
-		mRecentCarsLocationsSearches.add(0, suggestion);
+		mRecentCarsLocationsSearches.add(0, suggest);
 		//Have to remove the bold tag in display name so text for last search is normal
-		suggestion.displayName = Html.fromHtml(suggestion.displayName).toString();
+		suggest.displayName = Html.fromHtml(suggest.displayName).toString();
 		// Save
 		saveHistory();
+		suggestionAdapter.updateRecentHistory(mRecentCarsLocationsSearches);
 
 		selectDateButton.setChecked(true);
 		show(new CarParamsCalendar());
