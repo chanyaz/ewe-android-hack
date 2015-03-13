@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,8 +13,8 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
-import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.utils.LXUtils;
+import com.expedia.bookings.data.lx.LXOfferSelected;
+import com.expedia.bookings.data.lx.LXTicketSelected;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
@@ -58,12 +57,12 @@ public class LXCheckoutSummaryWidget extends RelativeLayout {
 
 	public void bind() {
 		lxOfferTitleText.setText(lxState.offer.title);
-		lxGroupText.setText(offerGroupText(lxState.selectedTickets));
+		lxGroupText.setText(offerGroupText(lxState.offerSelected));
 		lxOfferDate.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		lxOfferLocation.setText(lxState.activity.location);
 
 		String grandTotal = String.format(getResources().getString(R.string.lx_total_price_with_currency_TEMPLATE),
-			lxState.offer.currencySymbol, LXUtils.getTotalAmount(lxState.selectedTickets));
+			lxState.offer.currencySymbol, lxState.offerSelected.amount);
 		tripTotalText.setText(grandTotal);
 
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.ic_action_bar_checkmark_white);
@@ -71,12 +70,12 @@ public class LXCheckoutSummaryWidget extends RelativeLayout {
 		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 	}
 
-	private String offerGroupText(Map<Ticket, Integer> selectedTickets) {
+	private String offerGroupText(LXOfferSelected offerSelected) {
 		List<String> ageCategories = new ArrayList<String>();
-		if (selectedTickets != null) {
-			for (Map.Entry<Ticket, Integer> entry : selectedTickets.entrySet()) {
+		if (offerSelected != null) {
+			for (LXTicketSelected ticketSelected : offerSelected.tickets) {
 				//TODO - Need to localize
-				ageCategories.add(String.format("%d %s", entry.getValue(), entry.getKey().code));
+				ageCategories.add(String.format("%d %s", ticketSelected.count, ticketSelected.code));
 			}
 			return Strings.joinWithoutEmpties(", ", ageCategories);
 		}

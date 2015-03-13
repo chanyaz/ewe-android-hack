@@ -15,7 +15,6 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -55,7 +54,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		slideWidget.resetSlider();
 
 		String grandTotal = String.format(getResources().getString(R.string.lx_total_price_with_currency_TEMPLATE),
-			lxState.offer.currencySymbol, LXUtils.getTotalAmount(lxState.selectedTickets));
+			lxState.offer.currencySymbol, lxState.offerSelected.amount);
 		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, grandTotal));
 
 		mainContactInfoCardView.setExpanded(false);

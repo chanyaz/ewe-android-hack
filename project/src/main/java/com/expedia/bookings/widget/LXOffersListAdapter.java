@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -104,7 +106,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		@OnClick(R.id.lx_book_now)
 		public void offerBooked() {
-			Events.post(new Events.LXOfferBooked(offer, ticketSelectionWidget.getTickets()));
+			Map<Ticket, Integer> selectedTickets = ticketSelectionWidget.getTickets();
+			LXOfferSelected offerSelected = new LXOfferSelected(offer, selectedTickets);
+			Events.post(new Events.LXOfferBooked(offer, offerSelected));
 		}
 
 		public void bind(final Offer offer) {
