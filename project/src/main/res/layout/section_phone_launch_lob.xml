@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:btn_color="@color/hotel_lob_btn"
+                app:btn_bg="@drawable/bg_lob_hotels"
                 app:btn_icon="@drawable/lob_hotel"
                 app:btn_text="@string/nav_hotels" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:btn_color="@color/flight_lob_btn"
+                app:btn_bg="@drawable/bg_lob_flights"
                 app:btn_icon="@drawable/lob_flight"
                 app:btn_text="@string/nav_flights" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:btn_color="@color/car_lob_btn"
+                app:btn_bg="@drawable/bg_lob_cars"
                 app:btn_icon="@drawable/lob_car"
                 app:btn_text="@string/nav_cars" />
         </com.expedia.bookings.widget.LinearLayout>
@@ -63,12 +63,12 @@
         android:id="@+id/shadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-1dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="9dp"
+            android:layout_height="8dp"
             android:background="@color/launch_lob_bg" />
 
         <View

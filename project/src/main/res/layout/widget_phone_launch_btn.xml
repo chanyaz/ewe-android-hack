@@ -6,7 +6,6 @@
         android:id="@+id/lob_btn_bg"
         android:layout_width="@dimen/launch_lob_width"
         android:layout_height="@dimen/launch_lob_height"
-        android:background="@drawable/bg_launch_lob_button"
         android:foreground="?android:attr/selectableItemBackground" />
 
     <ImageView

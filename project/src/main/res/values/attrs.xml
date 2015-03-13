@@ -299,7 +299,7 @@
         <!-- Button text -->
         <attr name="btn_text" format="string" />
         <!-- Button color -->
-        <attr name="btn_color" format="color" />
+        <attr name="btn_bg" format="reference" />
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
     </declare-styleable>
