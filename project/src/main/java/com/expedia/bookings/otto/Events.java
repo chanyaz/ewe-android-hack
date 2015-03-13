@@ -771,6 +771,9 @@ public class Events {
 		}
 	}
 
+	public static class LaunchOfflineState {
+	}
+
 	// Launch screen -- air attach
 
 	public static class LaunchAirAttachBannerHide {

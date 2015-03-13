@@ -8,7 +8,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="#FFF" />
+        android:background="@color/launch_lob_bg" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
         <View
             android:id="@+id/lob_bg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/launch_lob_tiles"
-            android:background="#fff" />
+            android:layout_height="@dimen/launch_lob_height"
+            android:background="@color/launch_lob_bg" />
 
         <com.expedia.bookings.widget.LinearLayout
             android:id="@+id/lob_btn_container"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:btn_color="@color/hotel_lob_btn"
-                app:btn_icon="@drawable/ic_lob_hotels"
+                app:btn_icon="@drawable/lob_hotel"
                 app:btn_text="@string/nav_hotels" />
 
             <com.expedia.bookings.widget.PhoneLaunchButton
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:btn_color="@color/flight_lob_btn"
-                app:btn_icon="@drawable/ic_lob_flights"
+                app:btn_icon="@drawable/lob_flight"
                 app:btn_text="@string/nav_flights" />
 
             <com.expedia.bookings.widget.PhoneLaunchButton
@@ -54,15 +54,32 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:btn_color="@color/car_lob_btn"
-                app:btn_icon="@drawable/ic_lob_cars"
+                app:btn_icon="@drawable/lob_car"
                 app:btn_text="@string/nav_cars" />
         </com.expedia.bookings.widget.LinearLayout>
     </FrameLayout>
 
-    <View
+    <LinearLayout
         android:id="@+id/shadow"
         android:layout_width="match_parent"
-        android:layout_height="9dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="-1dp"
-        android:background="#FFF" />
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="9dp"
+            android:background="@color/launch_lob_bg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#C3C3C3" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/lob_widget_shadow" />
+    </LinearLayout>
+
 </LinearLayout>

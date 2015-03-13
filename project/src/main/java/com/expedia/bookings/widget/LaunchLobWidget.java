@@ -51,6 +51,6 @@ public class LaunchLobWidget extends RelativeLayout {
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
 		bg.setPivotY(-bg.getTop());
-		origHeight = getResources().getDimension(R.dimen.launch_lob_tiles);
+		origHeight = getResources().getDimension(R.dimen.launch_lob_height);
 	}
 }

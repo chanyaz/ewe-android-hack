@@ -79,6 +79,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@InjectView(R.id.air_attach_banner)
 	ViewGroup airAttachBanner;
 
+	@InjectView(R.id.launch_error)
+	ViewGroup launchError;
+
 	// Lifecycle
 
 	public PhoneLaunchWidget(Context context, AttributeSet attrs) {
@@ -154,7 +157,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		public void onError(Throwable e) {
 			Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.");
 			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-			downloadSubscription = collectionServices.getCollection(COLLECTION_TITLE, country, "default",
+			downloadSubscription = collectionServices.getPhoneCollection(country, "default",
 				defaultCollectionListener);
 		}
 
@@ -227,27 +230,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 	 * Scrolling
 	 */
 
-	// If the current position pixels < 7, we want to adjust everything back to 0
-	// as a safety net.
-	private static final int SCROLL_SLOP = 7;
-
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 
-		private float postSquashChange;
 		private float airAttachTranslation;
 
-		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-				float pos = Math.abs(launchListWidget.getHeader().getTop());
-				if (pos <= SCROLL_SLOP) {
-					lobSelectorWidget.setTranslationY(0);
-				}
-			}
-		}
-
-		// Much of this logic attempts to restore the lob widget to an appropriate
-		// position in cases where it behaves erratically due to spotty scroll listening
-		// on the recycler view.
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 			float currentPos = Math.abs(launchListWidget.getHeader().getTop());
@@ -262,30 +248,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 				float squashInput = 1 - (currentPos / lobHeight);
 				lobSelectorWidget.transformButtons(squashInput);
 			}
-			else {
-				// Make sure that the header is squashed.
-				if (currentPos > squashedHeaderHeight) {
-					lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
-				}
-				// if the widget translation exceeds upper bound, reset it.
-				if (lobSelectorWidget.getTranslationY() > 0) {
-					postSquashChange = 0;
-					lobSelectorWidget.setTranslationY(postSquashChange);
-				}
-				// Bring back lob widget when the user scrolls in a positive direction
-				if (dy < 0 && postSquashChange < 0) {
-					postSquashChange -= dy;
-					if (Math.abs(postSquashChange) <= SCROLL_SLOP) {
-						postSquashChange = 0;
-					}
-					lobSelectorWidget.setTranslationY(postSquashChange);
-				}
-				// Translate lob widget off screen when user scrolls in negative direction
-				// and it's not already off screen.
-				else if (dy > 0 && Math.abs(postSquashChange) <= squashedHeaderHeight) {
-					postSquashChange -= dy;
-					lobSelectorWidget.setTranslationY(postSquashChange);
-				}
+			// Make sure that the header is squashed.
+			else if (currentPos > squashedHeaderHeight) {
+				lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
 			}
 		}
 	};
@@ -335,6 +300,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	public void onLocationFound(Events.LaunchLocationFetchComplete event) {
 		Location loc = event.location;
 		Log.i(TAG, "Start hotel search");
+		launchListWidget.setVisibility(VISIBLE);
+		launchError.setVisibility(View.GONE);
+
 		LocalDate currentDate = new LocalDate();
 		DateTimeFormatter dtf = ISODateTimeFormat.date();
 
@@ -355,10 +323,20 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onLocationNotAvailable(Events.LaunchLocationFetchError event) {
 		Log.i(TAG, "Start collection download");
+		launchListWidget.setVisibility(VISIBLE);
+		launchError.setVisibility(View.GONE);
+
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
-			.getCollection(COLLECTION_TITLE, country, localeCode, collectionDownloadListener);
+			.getPhoneCollection(country, localeCode, collectionDownloadListener);
+	}
+
+	@Subscribe
+	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
+		Log.i(TAG, "Launch page is offline");
+		launchListWidget.setVisibility(GONE);
+		launchError.setVisibility(View.VISIBLE);
 	}
 
 	// Air attach

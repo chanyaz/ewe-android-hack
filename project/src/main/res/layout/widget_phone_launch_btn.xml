@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal">
 
-    <com.expedia.bookings.widget.RoundedCornerFrameLayout
-        android:id="@+id/lob_bg_to_scale"
-        android:layout_width="@dimen/launch_lob_tiles"
-        android:layout_height="@dimen/launch_lob_tiles"
-        app:radius="4dp">
-
-        <FrameLayout
-            android:id="@+id/lob_btn_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:foreground="?android:attr/selectableItemBackground" />
-    </com.expedia.bookings.widget.RoundedCornerFrameLayout>
+    <FrameLayout
+        android:id="@+id/lob_btn_bg"
+        android:layout_width="@dimen/launch_lob_width"
+        android:layout_height="@dimen/launch_lob_height"
+        android:background="@drawable/bg_launch_lob_button"
+        android:foreground="?android:attr/selectableItemBackground" />
 
     <ImageView
         android:id="@+id/icon"
@@ -22,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:alpha="0.3"
-        android:paddingTop="10dp" />
+        android:paddingTop="5dp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/text"

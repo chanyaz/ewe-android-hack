@@ -3,12 +3,14 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.FontCache;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -18,9 +20,6 @@ public class PhoneLaunchButton extends FrameLayout {
 	private String text;
 	private Drawable icon;
 	private int color;
-
-	@InjectView(R.id.lob_bg_to_scale)
-	public ViewGroup scaleBg;
 
 	@InjectView(R.id.lob_btn_bg)
 	public ViewGroup bgView;
@@ -57,10 +56,13 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	@Override
 	public void onFinishInflate() {
-		bgView.setBackgroundColor(color);
+		GradientDrawable drawable = (GradientDrawable) bgView.getBackground();
+		drawable.setColor(color);
+		bgView.setBackground(drawable);
 		textView.setText(text);
 		iconView.setImageDrawable(icon);
-		scaleBg.setPivotY(getBottom());
+		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
+		bgView.setPivotY(getBottom());
 		float squashedHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
 		float fullHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
 		squashedRatio =  squashedHeight / fullHeight;
@@ -75,34 +77,48 @@ public class PhoneLaunchButton extends FrameLayout {
 		textView.setPivotY(-textView.getTop());
 	}
 
-	private static final float minIconSize = 0.3f;
-	private static final float maxIconSize = 0.6f;
+	private static final float minIconAlpha = 0.3f;
+	private static final float maxIconAlpha = 0.6f;
+	private static final float minIconSize = 0.5f;
+	private static final float maxIconSize = 1.0f;
 
 	public void scaleTo(float f) {
 		float normalized = (float) ((f - squashedRatio) / (1.0 - squashedRatio));
 
 		// bound text scale between 0 and 1
-		float boundedText = normalized < 0.0f ? 0.0f : (normalized > 1.0f ? 1.0f : normalized);
+		float textAlpha = normalized < 0.0f ? 0.0f : (normalized > 1.0f ? 1.0f : normalized);
 
-		float boundedIcon;
-		// Bound icon scale between minIconSize and maxIconSize
-		if (1 - f < minIconSize) {
-			boundedIcon = minIconSize;
+		float iconAlpha;
+		float iconSize;
+
+		// Bound icon alpha scale between minIconAlpha and maxIconAlpha
+		if (1 - f < minIconAlpha) {
+			iconAlpha = minIconAlpha;
 		}
-		else if (1 - f > maxIconSize) {
-			boundedIcon = maxIconSize;
+		else if (1 - f > maxIconAlpha) {
+			iconAlpha = maxIconAlpha;
 		}
 		else {
-			boundedIcon = 1 - f;
+			iconAlpha = 1 - f;
+		}
+		// Bound icon size scale between minIconSize and maxIconSize
+		if (f < minIconSize) {
+			iconSize = minIconSize;
+		}
+		else if (f > maxIconSize) {
+			iconSize = maxIconSize;
+		}
+		else {
+			iconSize = f;
 		}
 
-		iconView.setScaleX(f);
-		iconView.setScaleY(f);
-		iconView.setAlpha(boundedIcon);
+		iconView.setScaleX(iconSize);
+		iconView.setScaleY(iconSize);
+		iconView.setAlpha(iconAlpha);
 		textView.setScaleX(f);
 		textView.setScaleY(f);
-		textView.setAlpha(boundedText);
-		scaleBg.setScaleY(f);
+		textView.setAlpha(textAlpha);
+		bgView.setScaleY(f);
 	}
 
 }
