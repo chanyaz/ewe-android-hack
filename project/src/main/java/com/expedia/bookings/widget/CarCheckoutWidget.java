@@ -10,7 +10,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
@@ -46,14 +45,15 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	private void bind(CarCreateTripResponse createTrip) {
 		createTripResponse = createTrip;
-		CreateTripCarOffer offer = createTripResponse.carProduct;
-		summaryWidget.bind(offer);
-		paymentInfoCardView.setCreditCardRequired(offer.checkoutRequiresCard);
+		summaryWidget.bind(createTripResponse);
+		paymentInfoCardView.setCreditCardRequired(createTripResponse.carProduct.checkoutRequiresCard);
 
 		slideWidget.resetSlider();
+
+		int sliderMessage = createTrip.carProduct.checkoutRequiresCard ? R.string.amount_due_today_TEMPLATE
+			: R.string.your_card_will_be_charged_TEMPLATE;
 		sliderTotalText.setText(getResources()
-			.getString(offer.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
-				: R.string.amount_due_today_TEMPLATE, offer.detailedFare.totalDueToday.formattedPrice));
+			.getString(sliderMessage, createTripResponse.carProduct.detailedFare.totalDueToday.formattedPrice));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);

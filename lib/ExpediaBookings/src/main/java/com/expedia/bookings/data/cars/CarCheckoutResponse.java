@@ -1,12 +1,9 @@
 package com.expedia.bookings.data.cars;
 
-import java.util.List;
-
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripInfo;
-import com.google.gson.Gson;
 
-public class CarCheckoutResponse {
+public class CarCheckoutResponse extends BaseCarResponse {
 	public String activityId;
 	public TripInfo newTrip;
 	public String orderId;
@@ -15,15 +12,5 @@ public class CarCheckoutResponse {
 	//TODO: nuke these when the comment above is addressed.
 	public String currencyCode;
 	public String totalCharges;
-
-	public List<CarApiError> errors;
-
-	public boolean hasErrors() {
-		return errors != null && errors.size() > 0;
-	}
-
-	public String errorsToString() {
-		return new Gson().toJson(errors);
-	}
 
 }

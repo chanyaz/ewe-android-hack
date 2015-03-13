@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.utils.CarDataUtils;
@@ -54,6 +55,9 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;
 
+	@InjectView(R.id.price_change_text)
+	TextView priceChangeText;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -62,8 +66,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 
 	CreateTripCarOffer offer;
 
-	public void bind(CreateTripCarOffer offer) {
-		this.offer = offer;
+	public void bind(CarCreateTripResponse createTripResponse) {
+		offer = createTripResponse.carProduct;
 		locationDescriptionText.setText(offer.pickUpLocation.airportInstructions);
 		carCompanyText.setText(offer.vendor.name);
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
@@ -73,6 +77,11 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		dateTimeText.setText(DateFormatUtils
 			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
+		if (createTripResponse.hasPriceChange()) {
+			priceChangeText.setVisibility(View.VISIBLE);
+			priceChangeText.setText(getResources().getString(R.string.price_changed_from_TEMPLATE,
+				createTripResponse.searchCarOffer.fare.total.formattedPrice));
+		}
 	}
 
 	@OnClick(R.id.price_text)

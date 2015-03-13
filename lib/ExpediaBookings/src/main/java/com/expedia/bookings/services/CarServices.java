@@ -148,12 +148,29 @@ public class CarServices {
 		}
 	};
 
-	public Subscription createTrip(String productKey, String expectedTotalFare,
-		Observer<CarCreateTripResponse> observer) {
-		return mApi.createTrip(productKey, expectedTotalFare)
+	public Subscription createTrip(SearchCarOffer offer, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(offer.productKey, offer.fare.total.amount.toString())
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
+			.map(new SearchOfferInjector(offer))
 			.subscribe(observer);
+	}
+
+	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
+
+		SearchCarOffer searchCarOffer;
+
+		public SearchOfferInjector(SearchCarOffer offer) {
+			searchCarOffer = offer;
+		}
+
+		@Override
+		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
+			if (carCreateTripResponse.hasPriceChange()) {
+				carCreateTripResponse.searchCarOffer = searchCarOffer;
+			}
+			return carCreateTripResponse;
+		}
 	}
 
 	public Subscription checkout(CarCheckoutParams params, Observer<CarCheckoutResponse> observer) {

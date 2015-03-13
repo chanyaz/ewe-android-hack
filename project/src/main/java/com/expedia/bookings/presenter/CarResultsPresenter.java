@@ -3,8 +3,10 @@ package com.expedia.bookings.presenter;
 import javax.inject.Inject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -17,6 +19,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemCar;
+import com.expedia.bookings.data.cars.CarApiError;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -33,7 +36,6 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
-import rx.exceptions.OnErrorNotImplementedException;
 
 public class CarResultsPresenter extends Presenter {
 
@@ -89,7 +91,7 @@ public class CarResultsPresenter extends Presenter {
 				switch (menuItem.getItemId()) {
 				case R.id.menu_search:
 					Events.post(new Events.CarsGoToOverlay());
-					break;
+					return true;
 				}
 				return false;
 			}
@@ -227,6 +229,8 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
+	// Create Trip network handling
+
 	private Observer<CarCreateTripResponse> createTripObserver = new Observer<CarCreateTripResponse>() {
 		@Override
 		public void onCompleted() {
@@ -235,16 +239,50 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			throw new OnErrorNotImplementedException(e);
+			createTripDialog.dismiss();
+			showCreateTripErrorDialog();
 		}
 
 		@Override
 		public void onNext(CarCreateTripResponse response) {
 			createTripDialog.dismiss();
-			Db.getTripBucket().add(new TripBucketItemCar(response));
-			Events.post(new Events.CarsShowCheckout(response));
+
+			if (response == null) {
+				showCreateTripErrorDialog();
+			}
+			else if (response.hasErrors()) {
+				CarApiError error = response.getFirstError();
+				if (error.errorCode == CarApiError.Code.PRICE_CHANGE) {
+					showCheckout(response);
+				}
+				else {
+					showCreateTripErrorDialog();
+				}
+			}
+			else {
+				showCheckout(response);
+			}
 		}
 	};
+
+	private void showCreateTripErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(R.string.oops))
+			.setNeutralButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showCheckout(CarCreateTripResponse response) {
+		Db.getTripBucket().add(new TripBucketItemCar(response));
+		Events.post(new Events.CarsShowCheckout(response));
+	}
 
 	/**
 	 * Events
@@ -273,7 +311,7 @@ public class CarResultsPresenter extends Presenter {
 		createTripDialog.show();
 		cleanup();
 		createTripSubscription = carServices
-			.createTrip(event.offer.productKey, event.offer.fare.total.amount.toString(), createTripObserver);
+			.createTrip(event.offer, createTripObserver);
 	}
 
 	public void animationStart(boolean forward) {
