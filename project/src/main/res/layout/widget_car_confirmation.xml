@@ -125,17 +125,6 @@
                     android:text="@string/add_to_calendar"
                     android:textColor="@color/cars_confirmation_action_text_color" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/call_action_textView"
-                    style="@style/CarsBookingButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginTop="1dp"
-                    android:drawableLeft="@drawable/car_call"
-                    android:text="@string/call_customer_support"
-                    android:textColor="@color/cars_confirmation_action_text_color" />
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
@@ -190,43 +179,5 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/call_parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:background="#60000000"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:id="@+id/call_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="vertical">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/local_phone_number_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/toll_free_phone_number_text_view"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:textColor="@color/text_black"
-                android:textSize="18dp" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/toll_free_phone_number_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:textColor="@color/text_black"
-                android:textSize="18dp" />
-        </LinearLayout>
-    </FrameLayout>
 
 </com.expedia.bookings.widget.CarConfirmationWidget>
