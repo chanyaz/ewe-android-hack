@@ -14,8 +14,10 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -32,6 +34,10 @@ public class Checkout {
 
 	public static void clickOnTravelerDetails() {
 		onView(withId(R.id.traveler_section_container)).perform(click());
+	}
+
+	public static void clickOnTravelerEditDetails() {
+		onView(withId(R.id.edit_traveler_button)).perform(click());
 	}
 
 	public static ViewInteraction nameMustMatchTextView() {
@@ -159,8 +165,22 @@ public class Checkout {
 		onView(withId(R.id.remove_stored_card_button)).perform(click());
 	}
 
+	public static void clickOnEmptyStoredTravelerSpinnerButton() {
+		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
+	}
+
+	public static void clickOnStoredTravelerSpinnerButton() {
+		onView(allOf(withId(R.id.saved_traveler_fake_spinner), hasSibling(withChild(withId(R.id.display_full_name))))).perform(click());
+	}
 	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
 		onView(withText(cardname))
+			.inRoot(withDecorView(
+				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+			.perform(click());
+	}
+
+	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
+		onView(withText(travelername))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
 			.perform(click());
@@ -324,6 +344,10 @@ public class Checkout {
 
 	public static void clickOKButton() {
 		onView(withId(android.R.id.button3)).perform(click());
+	}
+
+	public static void clickNegativeButton() {
+		onView(withId(android.R.id.button2)).perform(click());
 	}
 
 	public static ViewInteraction tripDateRange() {
