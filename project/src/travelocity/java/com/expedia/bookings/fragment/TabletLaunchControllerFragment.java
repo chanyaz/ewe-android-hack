@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,15 +14,22 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.LaunchState;
+import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.util.LaunchScreenAnimationUtil;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
+/**
+ * Created by dmelton on 6/6/14.
+ */
 public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFragment implements
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
-
+	protected static final String FRAG_TAG_LIST = "FRAG_TAG_LIST";
+	private TabletLaunchDestinationListFragment mListFragment;
 	private TabletLaunchDestinationTilesFragment mTilesFragment;
+	private View mListDetailContainer;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,15 +37,34 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 
 		if (savedInstanceState != null) {
 			FragmentManager fm = getChildFragmentManager();
+			mListFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_LIST);
 			mTilesFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_TILES);
 		}
-
 		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSearchBarC.getLayoutParams();
-		params.topMargin = LayoutUtils.getActionBarSize(getActivity()) + getResources()
-			.getDimensionPixelSize(R.dimen.tablet_launch_search_bar_top_margin);
+		params.topMargin = LaunchScreenAnimationUtil.getActionBarNavBarSize(getActivity());
 		mSearchBarC.setLayoutParams(params);
+		mListDetailContainer = Ui.findView(mRootC, R.id.list_detail_container);
 
+		applyMarginBottom(mRootC);
 		return mRootC;
+	}
+
+	private void applyMarginBottom(ViewGroup mRootC) {
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			//Calculate marginBottom
+			int marginBottom = LaunchScreenAnimationUtil.getMarginBottom(getActivity());
+
+			View tilesContainer = Ui.findView(mRootC, R.id.tiles_container);
+
+			FrameLayout.LayoutParams tilesContainerParams = (FrameLayout.LayoutParams) tilesContainer.getLayoutParams();
+			tilesContainerParams.bottomMargin = marginBottom;
+			tilesContainer.setLayoutParams(tilesContainerParams);
+
+			FrameLayout.LayoutParams mListDetailContainerParams = (FrameLayout.LayoutParams) mListDetailContainer
+				.getLayoutParams();
+			mListDetailContainerParams.bottomMargin = marginBottom;
+			tilesContainer.setLayoutParams(mListDetailContainerParams);
+		}
 	}
 
 	//IFragmentAvailabilityProvider
@@ -45,6 +72,8 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		switch (tag) {
+		case FRAG_TAG_LIST:
+			return mListFragment;
 		case FRAG_TAG_TILES:
 			return mTilesFragment;
 		case FRAG_TAG_WAYPOINT:
@@ -57,10 +86,13 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		switch (tag) {
+		case FRAG_TAG_LIST:
+			return TabletLaunchDestinationListFragment.newInstance();
 		case FRAG_TAG_TILES:
 			return TabletLaunchDestinationTilesFragment.newInstance();
 		case FRAG_TAG_WAYPOINT:
 			return TabletWaypointFragment.newInstance(true);
+
 		default:
 			return null;
 		}
@@ -71,6 +103,26 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 		// Ignore
 	}
 
+	@Override
+	public BackManager getBackManager() {
+		if (getLaunchState() == LaunchState.DESTINATION_LIST) {
+			return mBackManager;
+		}
+		return super.getBackManager();
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			if (getLaunchState() == LaunchState.DESTINATION_LIST) {
+				switchListFragment();
+				return true;
+			}
+			return false;
+		}
+	};
+
 	protected void setFragmentState(LaunchState state) {
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
@@ -80,6 +132,9 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 			showFrags = false;
 		}
 
+		mListFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(showFrags, FRAG_TAG_LIST, manager, transaction, this, R.id.list_detail_container,
+				false);
 		mTilesFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(showFrags, FRAG_TAG_TILES, manager, transaction, this, R.id.tiles_container,
 				false);
@@ -91,7 +146,8 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 
 	@Override
 	public boolean isMeasurable() {
-		return mTilesFragment != null && mTilesFragment.isMeasurable();
+
+		return mListFragment != null && mTilesFragment != null && mTilesFragment.isMeasurable();
 	}
 
 	/*
@@ -117,4 +173,20 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 		}
 	}
 
+
+	public void switchListFragment() {
+		if (mTilesFragment.getView().getVisibility() == View.VISIBLE) {
+			mListDetailContainer.setVisibility(View.VISIBLE);
+			mTilesFragment.getView().setVisibility(View.GONE);
+			mSearchBarC.setVisibility(View.GONE);
+
+			setLaunchState(LaunchState.DESTINATION_LIST, false);
+		}
+		else {
+			mListDetailContainer.setVisibility(View.GONE);
+			mTilesFragment.getView().setVisibility(View.VISIBLE);
+			mSearchBarC.setVisibility(View.VISIBLE);
+			setLaunchState(LaunchState.OVERVIEW, false);
+		}
+	}
 }
