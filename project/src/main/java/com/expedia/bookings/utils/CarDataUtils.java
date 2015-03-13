@@ -8,6 +8,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
 
@@ -157,4 +158,19 @@ public class CarDataUtils {
 		}
 	}
 
+
+	public static String getStringTemplateForRateTerm(Context c, RateTerm term) {
+		switch (term) {
+		case HOURLY:
+			return c.getString(R.string.cars_hourly_text);
+		case DAILY:
+			return c.getString(R.string.cars_daily_text);
+		case WEEKLY:
+			return c.getString(R.string.cars_weekly_text);
+		case MONTHLY:
+			return c.getString(R.string.cars_monthly_text);
+		default:
+			return c.getString(R.string.cars_daily_text);
+		}
+	}
 }

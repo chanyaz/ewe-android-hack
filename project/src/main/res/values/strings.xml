@@ -12,7 +12,13 @@
     <!-- SeekBar tooltip description for drop off time-->
     <string name="cars_time_slider_drop_off_label">Drop off time</string>
     <!-- Cars price templates-->
-    <string name="cars_daily_template">Daily %s</string>
+    <string name="cars_hourly_text">Hourly</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">Daily</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">Weekly</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">Monthly</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">Total %s</string>
     <!-- Text for cars promo codes-->
