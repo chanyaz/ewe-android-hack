@@ -19,6 +19,7 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
+import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -41,6 +42,9 @@ public class LXCheckoutPresenter extends Presenter {
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
+	@InjectView(R.id.confirmation)
+	LXConfirmationWidget confirmationWidget;
+
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
 
@@ -52,6 +56,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 		addDefaultTransition(defaultCheckoutTransition);
 		addTransition(checkoutToCvv);
+		addTransition(cvvToConfirmation);
 
 		cvv.setCVVEntryListener(checkout);
 
@@ -100,8 +105,7 @@ public class LXCheckoutPresenter extends Presenter {
 		public void onNext(LXCheckoutResponse lxCheckoutResponse) {
 			checkoutDialog.dismiss();
 			Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
-			//TODO - display confirmation
-			Ui.showToast(getContext(), "Done booking - " + lxCheckoutResponse.newTrip.itineraryNumber);
+			show(confirmationWidget);
 		}
 	};
 
@@ -110,9 +114,20 @@ public class LXCheckoutPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
+			confirmationWidget.setVisibility(View.GONE);
 		}
 	};
 	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXCheckoutWidget.class.getName());
+
+	private Transition cvvToConfirmation = new Transition(CVVEntryWidget.class.getName(),
+		LXConfirmationWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			checkout.setVisibility(View.GONE);
+			cvv.setVisibility(View.GONE);
+			confirmationWidget.setVisibility(View.VISIBLE);
+		}
+	};
 
 	/**
 	 * Events
