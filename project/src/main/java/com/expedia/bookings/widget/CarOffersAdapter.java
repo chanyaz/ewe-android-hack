@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -109,8 +107,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.total_price_text)
 		public TextView totalPrice;
 
-		@InjectView(R.id.card_view)
-		public CardView cardView;
+		@InjectView(R.id.root)
+		public LinearLayout root;
 
 		@InjectView(R.id.map_text)
 		public TextView mapText;
@@ -178,7 +176,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 		private void updateState(boolean isChecked) {
 			reserveNow.setChecked(isChecked);
-			cardView.setCardBackgroundColor(isChecked ? Color.WHITE : Color.TRANSPARENT);
+
+			root.setBackground(isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
+
 			ratePrice.setTextColor(isChecked ? mContext.getResources().getColor(R.color.cars_primary_color)
 				: mContext.getResources().getColor(R.color.cars_checkout_text_color));
 
@@ -200,7 +200,6 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			totalPrice.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 			reserveNow.setTextSize(TypedValue.COMPLEX_UNIT_SP, isChecked ? 17 : 15);
 
-			cardView.setCardElevation(isChecked ? 3f : 0f);
 			if (isChecked) {
 				mapView.onCreate(null);
 				mapView.getMapAsync(this);
