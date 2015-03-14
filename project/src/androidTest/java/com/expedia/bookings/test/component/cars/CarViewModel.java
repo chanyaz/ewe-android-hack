@@ -18,6 +18,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -100,6 +101,10 @@ public final class CarViewModel {
 
 	public static void selectCarCategory(int position) {
 		carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
+	}
+
+	public static void selectCarCategory(String name) {
+		carCategoryList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
 	}
 
 	public static void clickDriverInfo() {
@@ -203,13 +208,13 @@ public final class CarViewModel {
 	}
 
 	public static void clickStoredCardButton() {
-		 onView(withId(R.id.select_payment_button)).perform(click());
+		onView(withId(R.id.select_payment_button)).perform(click());
 	}
 
 	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
 		onView(withText(cardname))
 			.inRoot(withDecorView(
-		not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
 			.perform(click());
 	}
 

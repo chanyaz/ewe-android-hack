@@ -17,6 +17,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class CarCreateTripErrorTests extends PhoneTestCase {
 
+	private static final String CATEGORY = "Economy Two Door Car";
+
 	public void testCarCreateTripWithPriceChange() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.launchCars();
@@ -30,7 +32,7 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 		CarViewModel.searchButton().perform(click());
 
 		screenshot("Car Results");
-		CarViewModel.selectCarCategory(1);
+		CarViewModel.selectCarCategory(CATEGORY);
 		selectCarOffer(0);
 
 		screenshot("Car Checkout With Price Change");
@@ -50,7 +52,7 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 		CarViewModel.searchButton().perform(click());
 
 		screenshot("Car Results");
-		CarViewModel.selectCarCategory(1);
+		CarViewModel.selectCarCategory(CATEGORY);
 		selectCarOffer(1);
 
 		screenshot("Car Create Trip Failure Dialog");
