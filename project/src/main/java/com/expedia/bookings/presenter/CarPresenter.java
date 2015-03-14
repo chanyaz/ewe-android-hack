@@ -12,6 +12,8 @@ import butterknife.InjectView;
 
 public class CarPresenter extends Presenter {
 
+	private static final int ANIMATION_DURATION = 400;
+
 	public CarPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -45,7 +47,7 @@ public class CarPresenter extends Presenter {
 		CarSearchPresenter.class);
 
 	private Transition showParamsOverlay = new Transition(CarResultsPresenter.class,
-		ParamsOverlayState.class, new DecelerateInterpolator(), 700) {
+		ParamsOverlayState.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
@@ -74,7 +76,7 @@ public class CarPresenter extends Presenter {
 	};
 
 	private Transition searchToResults = new Transition(CarSearchPresenter.class,
-		CarResultsPresenter.class, new DecelerateInterpolator(), 700) {
+		CarResultsPresenter.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);

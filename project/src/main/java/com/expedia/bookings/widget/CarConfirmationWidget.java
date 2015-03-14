@@ -180,7 +180,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
 			offer.pickUpLocation.locationDescription));
 
-		vendorText.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
+		toolbar.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
 
 		dressAction(res, directionsTextView, R.drawable.car_directions);
 		dressAction(res, calendarTextView, R.drawable.add_to_calendar);
