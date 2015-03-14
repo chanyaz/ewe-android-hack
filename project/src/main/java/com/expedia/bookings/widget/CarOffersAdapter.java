@@ -150,7 +150,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			transmission.setText(CarDataUtils.getStringForTransmission(mContext, vehicleInfo.transmission));
 
 			ratePrice.setText(
-				ratePrice.getContext().getString(R.string.cars_daily_template, offer.fare.rate.getFormattedMoney()));
+				mContext.getString(R.string.car_details_TEMPLATE,
+					CarDataUtils.getStringTemplateForRateTerm(mContext, offer.fare.rateTerm),
+					offer.fare.rate.getFormattedMoney()));
 			totalPrice.setText(
 				totalPrice.getContext().getString(R.string.cars_total_template, offer.fare.total.getFormattedMoney()));
 			address.setText(offer.pickUpLocation.locationDescription);

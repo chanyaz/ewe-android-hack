@@ -163,7 +163,9 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			}
 			cardView.setPreventCornerOverlap(false);
 			bestPriceTextView.setText(totalTextView.getContext()
-				.getString(R.string.cars_daily_template, lowestFare.rate.getFormattedMoney()));
+				.getString(R.string.car_details_TEMPLATE,
+					CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
+					lowestFare.rate.getFormattedMoney()));
 			totalTextView.setText(totalTextView.getContext()
 				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
 		}
