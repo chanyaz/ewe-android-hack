@@ -17,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class CarPhoneHappyPath extends PhoneTestCase {
 
+	private final static String CATEGORY = "Standard Two Door Car";
 	private final static int CREDIT_CARD_NOT_REQUIRED = 0;
 	private final static int CREDIT_CARD_REQUIRED = 1;
 
@@ -37,7 +38,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		ScreenActions.delay(1);
 
 		screenshot("Car_Search_Results");
-		CarViewModel.selectCarCategory(0);
+		CarViewModel.selectCarCategory(CATEGORY);
 		ScreenActions.delay(1);
 	}
 
