@@ -148,7 +148,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void onWidgetClosed() {
-			((Activity) getContext()).onBackPressed();
+			back();
 		}
 
 		@Override
