@@ -174,6 +174,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		else {
 			bind();
 			Db.getWorkingTravelerManager().commitWorkingTravelerToDB(0, getContext());
+			travelerButton.dismissPopup();
 		}
 	}
 
