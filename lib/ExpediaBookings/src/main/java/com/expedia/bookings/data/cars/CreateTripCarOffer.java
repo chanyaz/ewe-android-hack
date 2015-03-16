@@ -7,4 +7,5 @@ public class CreateTripCarOffer extends BaseCarOffer {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
 	public CreateTripCarFare detailedFare;
+	public String rulesAndRestrictionsURL;
 }
