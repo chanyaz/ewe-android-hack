@@ -191,7 +191,7 @@ public class CarSearchPresenter extends Presenter
 		Suggestion suggest = suggestion.clone();
 		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName));
 		searchParamsBuilder.origin(suggest.airportCode);
-		searchParamsBuilder.originDescription(StrUtils.formatAirportName(suggest.fullName));
+		searchParamsBuilder.originDescription(StrUtils.formatAirport(suggest));
 		paramsChanged();
 		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
 		// Remove duplicates
