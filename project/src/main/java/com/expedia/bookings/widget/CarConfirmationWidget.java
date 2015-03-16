@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -92,6 +93,9 @@ public class CarConfirmationWidget extends FrameLayout {
 
 	@InjectView(R.id.calendar_action_textView)
 	TextView calendarTextView;
+
+	@InjectView(R.id.text_container)
+	ViewGroup textContainer;
 
 	private CreateTripCarOffer offer;
 	private String itineraryNumber;
@@ -180,7 +184,9 @@ public class CarConfirmationWidget extends FrameLayout {
 		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
 			offer.pickUpLocation.locationDescription));
 
-		toolbar.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		textContainer.setPadding(0, statusBarHeight, 0, 0);
 
 		dressAction(res, directionsTextView, R.drawable.car_directions);
 		dressAction(res, calendarTextView, R.drawable.add_to_calendar);
