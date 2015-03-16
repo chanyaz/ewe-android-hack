@@ -99,7 +99,7 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Drop-off</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Drop-off location must be the same as pick-up location</string>
+    <string name="drop_off_same_as_pick_up">Coming soon! We\'re working hard to add one way bookings in an upcoming version.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Origin missing</string>
     <!-- Error messge for missing Start date in search form -->
