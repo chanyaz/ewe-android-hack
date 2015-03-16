@@ -35,7 +35,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCheckoutParams;
+import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
@@ -692,10 +692,10 @@ public class Events {
 	}
 
 	public static class LXKickOffCheckoutCall {
-		public LXCheckoutParams checkoutParams;
+		public LXCheckoutParamsBuilder checkoutParamsBuilder;
 
-		public LXKickOffCheckoutCall(LXCheckoutParams checkoutParams) {
-			this.checkoutParams = checkoutParams;
+		public LXKickOffCheckoutCall(LXCheckoutParamsBuilder checkoutParamsBuilder) {
+			this.checkoutParamsBuilder = checkoutParamsBuilder;
 		}
 	}
 

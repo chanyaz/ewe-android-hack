@@ -9,6 +9,8 @@ public class LXActivity {
 	public String imageUrl;
 	public String fromPrice;
 	public LXTicketType fromPriceTicketCode;
-	public String location;
 	public List<String> categories;
+	// Currency code and location do not come from the search response and taken from the activity details.
+	public String currencyCode;
+	public String location;
 }

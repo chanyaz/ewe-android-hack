@@ -19,7 +19,7 @@ public class LXModule {
 	@LXScope
 	LXServices provideLXServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
-		return new LXServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new LXServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
