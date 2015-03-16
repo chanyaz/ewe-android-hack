@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.ui.espresso;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,6 +26,8 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -460,6 +463,88 @@ public final class ViewActions {
 			}
 		};
 
+	}
+
+
+	public static ViewAction getDataFromTheTileView(
+		final AtomicReference<HashMap<String, String>> srpTileDataContainerHolder) {
+		return new ViewAction() {
+			final static String ACTIVITY_TITLE = "Activity Title";
+			final static String ACTIVITY_CATEGORIES = "Activity Categories";
+			final static String ACTIVITY_PRICE = "Activity Price";
+			final static String ACTIVITY_PRICE_TICKET_TYPE = "Activity Price Ticket Type";
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(TextView.class));
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				HashMap<String, String> dataContainer = srpTileDataContainerHolder.get();
+				TextView activityTitle = (TextView) view.findViewById(R.id.activity_title);
+				dataContainer.put(ACTIVITY_TITLE, activityTitle.getText().toString());
+				TextView activityCategory = (TextView) view.findViewById(R.id.activity_categories);
+				dataContainer.put(ACTIVITY_CATEGORIES, activityCategory.getText().toString());
+				TextView activityPrice = (TextView) view.findViewById(R.id.activity_price);
+				dataContainer.put(ACTIVITY_PRICE, activityPrice.getText().toString());
+				TextView activityPriceTicketType = (TextView) view.findViewById(R.id.activity_from_price_ticket_type);
+				dataContainer.put(ACTIVITY_PRICE_TICKET_TYPE, activityPriceTicketType.getText().toString());
+				srpTileDataContainerHolder.set(dataContainer);
+			}
+		};
+	}
+
+
+	public static ViewAction validateDateButtonAtIndex(final int index, final String weekDay, final String dayOfMonth) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return isAssignableFrom(RadioGroup.class);
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				RadioGroup group = (RadioGroup) view;
+				RadioButton currentButton = (RadioButton) group.getChildAt(index);
+				String text = currentButton.getText().toString();
+				assertTrue("The button at index" + index + " must have the weekday as " + weekDay,
+					text.startsWith(weekDay));
+				assertTrue("The button at index" + index + " must have the day of the month as " + dayOfMonth,
+					text.endsWith(
+						dayOfMonth));
+			}
+		};
+	}
+
+	public static ViewAction isEnabled(final AtomicReference<Boolean> enabledContainer) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return isAssignableFrom(RadioButton.class);
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				RadioButton button = (RadioButton) view;
+				enabledContainer.set(button.isEnabled());
+			}
+		};
 	}
 
 }
