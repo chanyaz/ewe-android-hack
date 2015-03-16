@@ -106,4 +106,11 @@ public class PaymentButton extends LinearLayout {
 		mStoredCardPopup.setAdapter(mStoredCreditCardAdapter);
 		mStoredCardPopup.show();
 	}
+
+	public void dismissPopup() {
+		if (mStoredCardPopup != null) {
+			mStoredCardPopup.dismiss();
+		}
+	}
+
 }

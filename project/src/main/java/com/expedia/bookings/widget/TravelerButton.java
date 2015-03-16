@@ -171,4 +171,10 @@ public class TravelerButton extends LinearLayout {
 	private String getTravelerDownloadKey() {
 		return DL_FETCH_TRAVELER_INFO + (mTraveler != null ? mTraveler.getTuid().toString() : "");
 	}
+
+	public void dismissPopup() {
+		if (mStoredTravelerPopup != null) {
+			mStoredTravelerPopup.dismiss();
+		}
+	}
 }

@@ -229,6 +229,7 @@ public class PaymentWidget extends ExpandableCardView {
 			billingInfoContainer.setVisibility(GONE);
 			bind();
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+			paymentButton.dismissPopup();
 		}
 	}
 
