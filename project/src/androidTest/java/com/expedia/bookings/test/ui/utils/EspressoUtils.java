@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getCount;
@@ -57,6 +58,10 @@ public class EspressoUtils {
 
 	public static void assertContains(ViewInteraction view, String str) {
 		view.check(matches(withText(containsString(str))));
+	}
+
+	public static void assertTextWithChildrenIsDisplayed(int id, String text) {
+		onView(allOf(withId(id), withChild(withText(text)))).check(matches(isDisplayed()));
 	}
 
 	public static String getText(int id) {
