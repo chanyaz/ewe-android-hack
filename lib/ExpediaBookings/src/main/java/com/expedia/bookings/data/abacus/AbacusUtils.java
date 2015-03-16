@@ -13,6 +13,7 @@ public class AbacusUtils {
 	public static final String EBAndroidETPTest = "ExpediaAndroidAppETPDefaultNow";
 	public static final String EBAndroidAppHISBookAboveFoldTest = "EBAndroidAppHISBookAboveFold";
 	public static final String EBAndroidAppHISFreeCancellationTest = "EBAndroidAppHISFreeCancellation";
+	public static final String EBAndroidAppHISSwipablePhotosTest = "ExpediaAndroidAppSwipablePhotos";
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
