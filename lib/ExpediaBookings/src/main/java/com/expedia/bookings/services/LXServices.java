@@ -1,6 +1,5 @@
 package com.expedia.bookings.services;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
@@ -79,8 +79,7 @@ public class LXServices {
 			.subscribe(observer);
 	}
 
-	public Subscription createTrip(Map<String, Object> createTripParams, Observer<LXCreateTripResponse> observer)
-		throws UnsupportedEncodingException {
+	public Subscription createTrip(LXCreateTripParams createTripParams, Observer<LXCreateTripResponse> observer) {
 		return lxApi.
 			createTrip(createTripParams)
 			.observeOn(this.observeOn)
