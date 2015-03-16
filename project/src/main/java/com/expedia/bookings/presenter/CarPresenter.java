@@ -44,7 +44,13 @@ public class CarPresenter extends Presenter {
 	private Transition resultsToCheckout = new VisibilityTransition(this, CarResultsPresenter.class,
 		CarCheckoutPresenter.class);
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class,
-		CarSearchPresenter.class);
+		CarSearchPresenter.class) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			carSearchPresenter.animationFinalize(forward);
+		}
+	};
 
 	private Transition showParamsOverlay = new Transition(CarResultsPresenter.class,
 		ParamsOverlayState.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
