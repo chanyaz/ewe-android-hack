@@ -39,6 +39,7 @@
                 android:layout_weight="1"
                 android:completionThreshold="1"
                 android:dropDownAnchor="@+id/location_container"
+                android:dropDownSelector="#FFFFFF"
                 android:hint="@string/pick_up_location"
                 android:imeOptions="actionDone"
                 android:inputType="textNoSuggestions" />
