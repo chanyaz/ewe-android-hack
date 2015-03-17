@@ -27,6 +27,7 @@ public class CarLocation {
 	public String cityName;
 	public String provinceStateName;
 	public String countryCode;
+	public String regionId;
 
 	public String toAddress() {
 		return addressLine1 + " " + cityName + " " + provinceStateName + " " + countryCode;

@@ -19,6 +19,7 @@ import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -472,16 +473,19 @@ public class HotelSearchParams implements JSONable {
 		HotelSearchParams hotelParams = new HotelSearchParams();
 
 		// Where //
-		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
+		hotelParams.setSearchType(SearchType.CITY);
 
 		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
 		String cityStr = offer.pickUpLocation.cityName;
 		hotelParams.setUserQuery(cityStr);
 		hotelParams.setQuery(cityStr);
 
+		if (Strings.isNotEmpty(offer.pickUpLocation.regionId)) {
+			hotelParams.setRegionId(offer.pickUpLocation.regionId);
+		}
+
 		double latitude = offer.pickUpLocation.latitude;
 		double longitude = offer.pickUpLocation.longitude;
-
 		hotelParams.setSearchLatLon(latitude, longitude);
 
 		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.pickupTime.toCalendar(Locale.US)));
