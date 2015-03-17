@@ -173,9 +173,6 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	}
 
 	private ArrayList<Traveler> getAvailableTravelers() {
-		boolean removeWorkingTraveler = true;
-		boolean removeDbTravelers = true;
-
 		if (User.isLoggedIn(getContext()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
 			availableTravelers.add(Db.getUser().getPrimaryTraveler());
@@ -183,27 +180,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				Traveler trav = availableTravelers.get(i);
 
 				//Remove the working traveler from the list of available travelers
-				if (removeWorkingTraveler && Db.getWorkingTravelerManager() != null
+				if (Db.getWorkingTravelerManager() != null
 					&& Db.getWorkingTravelerManager().getWorkingTraveler() != null) {
 					Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 					if (trav.compareNameTo(workingTraveler) == 0) {
 						availableTravelers.get(i).setIsSelectable(false);
-						continue;
-					}
-				}
-
-				//Remove the travelers already in Db from the list of available travelers
-				if (removeDbTravelers && Db.getTravelers() != null) {
-					boolean removed = false;
-					for (int j = 0; j < Db.getTravelers().size(); j++) {
-						Traveler dbTrav = Db.getTravelers().get(j);
-						if ((!removeWorkingTraveler || j != mTravelerNumber) && dbTrav.compareNameTo(trav) == 0) {
-							availableTravelers.get(i).setIsSelectable(false);
-							removed = true;
-							break;
-						}
-					}
-					if (removed) {
 						continue;
 					}
 				}

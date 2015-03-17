@@ -111,6 +111,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			if (traveler == null) {
 				traveler = Db.getUser().getPrimaryTraveler();
 			}
+			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			traveler.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 			sectionTravelerInfo.refreshOnLoginStatusChange();
 			sectionTravelerInfo.bind(traveler);

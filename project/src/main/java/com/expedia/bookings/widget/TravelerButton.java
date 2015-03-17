@@ -11,12 +11,14 @@ import android.widget.Button;
 import android.widget.ListPopupWindow;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.TravelerUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -159,10 +161,13 @@ public class TravelerButton extends LinearLayout {
 				}
 			}
 			else {
-				Traveler trav = results.getTraveler();
-				selectTraveler.setText(trav.getFullName());
+				Traveler selectedTraveler = results.getTraveler();
+				Traveler previousTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+				Db.getWorkingTravelerManager().shiftWorkingTraveler(selectedTraveler);
+				TravelerUtils.resetPreviousTravelerSelectState(previousTraveler);
+				selectTraveler.setText(selectedTraveler.getFullName());
 				if (mTravelerButtonListener != null) {
-					mTravelerButtonListener.onTravelerChosen(trav);
+					mTravelerButtonListener.onTravelerChosen(selectedTraveler);
 				}
 			}
 		}
