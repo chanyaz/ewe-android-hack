@@ -189,6 +189,8 @@
     <string name="missing_flight_info_button_prompt">Select Airport</string>
 
     <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
     <string name="search_widget_heading">Search For Things To Do</string>
     <!-- Search widget location hint -->
@@ -210,7 +212,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Book Now %1$s%2$s</string>
+    <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- LX Ticket type names -->
@@ -313,8 +315,6 @@
     <string name="lx_slider_text">Slide to book</string>
     <!-- Text for checkout toolbar-->
     <string name="lx_checkout_text">Checkout</string>
-    <!-- Total Price with currency -->
-    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
     <!-- Free cancellation -->
     <string name="lx_free_cancellation">Free cancellation</string>
     <!-- Total with tax -->

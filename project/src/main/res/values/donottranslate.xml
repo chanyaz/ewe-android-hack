@@ -443,8 +443,4 @@
     <string name="cd_nine_btn">Nine</string>
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
-
-
-    <!-- LX toolbar -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
 </resources>

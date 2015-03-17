@@ -1,11 +1,11 @@
 package com.expedia.bookings.data.lx;
 
-import java.math.BigDecimal;
+import com.expedia.bookings.data.Money;
 
 public class Ticket {
 	public String ticketId;
 	public LXTicketType code;
 	public String restrictionText;
-	public String price;
-	public BigDecimal amount;
+	public String amount;
+	public Money money;
 }

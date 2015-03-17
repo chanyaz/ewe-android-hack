@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
@@ -65,7 +66,6 @@ public class LXTicketSelectionWidgetTest {
 		AvailabilityInfo availabilityInfo = singleTicketAvailability();
 
 		widget.setOfferId("offerId");
-		widget.setCurrencySymbol("$");
 		widget.setOfferTitle("One Day Tour");
 
 		widget.buildTicketPickers(availabilityInfo);
@@ -82,13 +82,14 @@ public class LXTicketSelectionWidgetTest {
 
 		int expectedCount = 0;
 		String expectedDetails = String
-			.format(activity.getResources().getString(R.string.ticket_details_template), testTicket.price,
+			.format(activity.getResources().getString(R.string.ticket_details_template), testTicket.money.getFormattedMoney(),
 				testTicket.code, testTicket.restrictionText);
 		String expectedSummary = expectedCount + " " + testTicket.code;
-		String expectedCurrencySymbol = "$";
+		String expectedCurrencyCode = "USD";
 		String expectedTitleText = "One Day Tour";
 		String bookButtonTemplate = activity.getResources().getString(R.string.offer_book_now_TEMPLATE);
-		String expectedBookText = String.format(bookButtonTemplate, expectedCurrencySymbol, BigDecimal.ZERO);
+		String expectedAmountWithCurrency = new Money(BigDecimal.ZERO, expectedCurrencyCode).getFormattedMoney();
+		String expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
 		assertEquals(expectedDetails, ticketDetails.getText());
@@ -99,7 +100,8 @@ public class LXTicketSelectionWidgetTest {
 		addTicketView.performClick();
 		expectedCount++;
 		expectedSummary = expectedCount + " " + testTicket.code;
-		expectedBookText = String.format(bookButtonTemplate, expectedCurrencySymbol, testTicket.amount);
+		expectedAmountWithCurrency = testTicket.money.getFormattedMoney();
+		expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
 		assertEquals(expectedDetails, ticketDetails.getText());
@@ -110,7 +112,8 @@ public class LXTicketSelectionWidgetTest {
 		removeTicketView.performClick();
 		expectedCount--;
 		expectedSummary = expectedCount + " " + testTicket.code;
-		expectedBookText = String.format(bookButtonTemplate, expectedCurrencySymbol, BigDecimal.ZERO);
+		expectedAmountWithCurrency = new Money(BigDecimal.ZERO, expectedCurrencyCode).getFormattedMoney();
+		expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
 		assertEquals(expectedDetails, ticketDetails.getText());
@@ -127,7 +130,6 @@ public class LXTicketSelectionWidgetTest {
 		AvailabilityInfo availabilityInfo = multipleTicketAvailability();
 
 		widget.setOfferId("offerId");
-		widget.setCurrencySymbol("$");
 		widget.setOfferTitle("One Day Tour");
 
 		widget.buildTicketPickers(availabilityInfo);
@@ -142,7 +144,7 @@ public class LXTicketSelectionWidgetTest {
 			if (child instanceof LXTicketPicker) {
 				String expectedDetails = String
 					.format(activity.getResources().getString(R.string.ticket_details_template),
-						tickets.get(ticketPickerIndex).price,
+						tickets.get(ticketPickerIndex).money.getFormattedMoney(),
 						tickets.get(ticketPickerIndex).code, tickets.get(ticketPickerIndex).restrictionText);
 
 				TextView ticketDetails = (TextView) child.findViewById(R.id.ticket_details);
@@ -157,11 +159,11 @@ public class LXTicketSelectionWidgetTest {
 			}
 		}
 
-		BigDecimal expectedTotalAmount = tickets.get(0).amount.add(tickets.get(1).amount);
-		String expectedCurrencySymbol = "$";
+		BigDecimal expectedTotalAmount = tickets.get(0).money.getAmount().add(tickets.get(1).money.getAmount());
 		String expectedTitleText = "One Day Tour";
+		String expectedAmountWithCurrency = new Money(expectedTotalAmount, tickets.get(0).money.getCurrency()).getFormattedMoney();
 		String expectedBookText = String
-			.format(activity.getResources().getString(R.string.offer_book_now_TEMPLATE), expectedCurrencySymbol, expectedTotalAmount);
+			.format(activity.getResources().getString(R.string.offer_book_now_TEMPLATE), expectedAmountWithCurrency);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
 
@@ -178,9 +180,8 @@ public class LXTicketSelectionWidgetTest {
 		AvailabilityInfo availabilityInfo = new AvailabilityInfo();
 		List<Ticket> tickets = new ArrayList<>();
 		Ticket testTicket = new Ticket();
-		testTicket.amount = new BigDecimal(40);
 		testTicket.code = LXTicketType.Adult;
-		testTicket.price = "$40";
+		testTicket.money = new Money("40", "USD");
 		testTicket.restrictionText = "13+ years";
 		tickets.add(testTicket);
 		availabilityInfo.tickets = tickets;
@@ -191,21 +192,18 @@ public class LXTicketSelectionWidgetTest {
 		AvailabilityInfo availabilityInfo = new AvailabilityInfo();
 		List<Ticket> tickets = new ArrayList<>();
 		Ticket adultTicket = new Ticket();
-		adultTicket.amount = new BigDecimal(40);
 		adultTicket.code = LXTicketType.Adult;
-		adultTicket.price = "$40";
+		adultTicket.money = new Money("40", "USD");
 		adultTicket.restrictionText = "13+ years";
 		tickets.add(adultTicket);
 
 		Ticket childTicket = new Ticket();
-		childTicket.amount = new BigDecimal(30);
 		childTicket.code = LXTicketType.Adult;
-		childTicket.price = "$30";
+		childTicket.money = new Money("30", "USD");
 		childTicket.restrictionText = "4-12 years";
 		tickets.add(childTicket);
 
 		availabilityInfo.tickets = tickets;
 		return availabilityInfo;
 	}
-
 }

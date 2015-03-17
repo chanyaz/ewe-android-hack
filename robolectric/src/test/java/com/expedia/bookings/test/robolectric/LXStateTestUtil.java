@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
@@ -37,6 +38,9 @@ public class LXStateTestUtil {
 			Ticket.class);
 		selectedTickets.put(adultTicket, 3);
 		selectedTickets.put(childTicket, 1);
+		for (Ticket ticket : selectedTickets.keySet()) {
+			ticket.money = new Money(ticket.amount, "USD");
+		}
 		lxOffer.getAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 		LXOfferSelected offerSelected = new LXOfferSelected(lxOffer, selectedTickets);
 		Events.post(new Events.LXOfferBooked(lxOffer, offerSelected));

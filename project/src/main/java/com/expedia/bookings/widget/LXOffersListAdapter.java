@@ -117,11 +117,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 			List<String> priceSummaries = new ArrayList<String>();
 			ticketSelectionWidget.setOfferId(offer.id);
 			ticketSelectionWidget.setOfferTitle(offer.title);
-			ticketSelectionWidget.setCurrencySymbol(offer.currencySymbol);
-
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
-				priceSummaries.add(String.format("%s %s", ticket.price, itemView.getResources().getString(
+				priceSummaries.add(String.format("%s %s", ticket.money.getFormattedMoney(), itemView.getResources().getString(
 					LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
 			}
 			String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
