@@ -227,4 +227,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getClientShortName() {
 		return "aag";
 	}
+
+	public boolean isHomeScreenEnabled() {
+		return true;
+	}
 }

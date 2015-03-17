@@ -230,4 +230,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getClientShortName() {
 		return "expedia";
 	}
+
+	public boolean isHomeScreenEnabled() {
+		return true;
+	}
 }

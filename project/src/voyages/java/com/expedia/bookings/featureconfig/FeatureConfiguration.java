@@ -288,4 +288,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getClientShortName() {
 		return "vsc";
 	}
+
+	public boolean isHomeScreenEnabled() {
+		return false;
+	}
 }

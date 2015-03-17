@@ -235,4 +235,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getClientShortName() {
 		return "tvly";
 	}
+
+	public boolean isHomeScreenEnabled() {
+		return true;
+	}
 }

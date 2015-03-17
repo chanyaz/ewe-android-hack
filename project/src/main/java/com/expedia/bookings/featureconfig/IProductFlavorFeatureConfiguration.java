@@ -108,4 +108,7 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isETPEnabled();
 
 	String getClientShortName();
+
+	boolean isHomeScreenEnabled();
+
 }
