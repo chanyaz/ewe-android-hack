@@ -387,4 +387,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	public void onHideAirAttach(Events.LaunchAirAttachBannerHide event) {
 		airAttachBanner.setVisibility(View.GONE);
 	}
+
+	@Subscribe
+	public void onLobWidgetRefresh(Events.LaunchLobRefresh event) {
+		lobSelectorWidget.updateVisibilities();
+	}
 }

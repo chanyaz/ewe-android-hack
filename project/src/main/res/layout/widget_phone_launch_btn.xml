@@ -4,7 +4,7 @@
 
     <FrameLayout
         android:id="@+id/lob_btn_bg"
-        android:layout_width="@dimen/launch_lob_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/launch_lob_height"
         android:foreground="?android:attr/selectableItemBackground" />
 

@@ -784,4 +784,7 @@ public class Events {
 			this.params = params;
 		}
 	}
+
+	public static class LaunchLobRefresh {
+	}
 }
