@@ -624,7 +624,7 @@
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">See all</string>
     <!-- Percent off template, e.g. 50% off -->
-    <string name="percent_off_TEMPLATE">%2.0f%% off</string>
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
 
 
     <!-- Launch screen -->
