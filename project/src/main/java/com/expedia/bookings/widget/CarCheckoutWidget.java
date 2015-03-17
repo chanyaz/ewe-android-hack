@@ -22,6 +22,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -59,8 +60,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		slideWidget.resetSlider();
 
-		int sliderMessage = createTrip.carProduct.checkoutRequiresCard ? R.string.amount_due_today_TEMPLATE
-			: R.string.your_card_will_be_charged_TEMPLATE;
+		int sliderMessage = createTrip.carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
+			: R.string.amount_due_today_TEMPLATE;
 		sliderTotalText.setText(getResources()
 			.getString(sliderMessage, createTripResponse.carProduct.detailedFare.totalDueToday.formattedPrice));
 
@@ -117,16 +118,20 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		sb.append(Html.fromHtml(statement));
 		URLSpan[] spans = sb.getSpans(0, statement.length(), URLSpan.class);
-		int start = 0;
-		for (URLSpan o : spans) {
-			start = sb.getSpanStart(o);
-			break;
+		int begin = sb.getSpanStart(spans[0]);
+		int length = sb.length();
+		for (final URLSpan o : spans) {
+			int start = sb.getSpanStart(o);
+			int end = sb.getSpanEnd(o);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			sb.removeSpan(o);
+			sb.setSpan(new LegalClickableSpan(getContext(), o.getURL(), sb.subSequence(start, end).toString()), start,
+				end, 0);
 		}
 
-		int end = sb.length();
-		sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-		sb.setSpan(new UnderlineSpan(), start, end, 0);
-		sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), start, end,
+		sb.setSpan(new StyleSpan(Typeface.BOLD), begin, length, 0);
+		sb.setSpan(new UnderlineSpan(), begin, length, 0);
+		sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), begin, length,
 			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		tv.setText(sb);

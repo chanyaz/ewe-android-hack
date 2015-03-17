@@ -94,6 +94,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	private LoginExtender mLoginExtender;
 	private LogInStatusListener mLogInStatusListener;
+	private TextWatcher usernameWatcher;
 
 	//UI ELEMENTS
 	private ViewGroup mExpediaSigninContainer;
@@ -253,7 +254,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			if (!mDoLoginExtenderWork && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
-				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
+				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.CARS);
 				mVisibilityState = VisibilityState.LOGGED_IN;
 			}
 		}
@@ -332,7 +333,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			}
 		});
 
-		final TextWatcher usernameWatcher = new TextWatcher() {
+		usernameWatcher = new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// Do nothing
@@ -512,10 +513,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		}
 
 		if (User.isLoggedIn(getContext())) {
-			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
+			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.CARS);
 		}
 		else {
-			mAccountButton.bind(false, false, null, LineOfBusiness.FLIGHTS);
+			mAccountButton.bind(false, false, null, LineOfBusiness.CARS);
 		}
 	}
 
@@ -594,14 +595,14 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			loginText.setVisibility(VISIBLE);
 			loginContainer.setVisibility(GONE);
 			mStatusMessageTv.setVisibility(GONE);
-			icon.setVisibility(VISIBLE);
-			mExpediaSigninContainer.setVisibility(View.VISIBLE);
-			mOrFacebookContainer.setVisibility(View.VISIBLE);
-			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
+			icon.setVisibility(GONE);
+			mExpediaSigninContainer.setVisibility(View.GONE);
+			mOrFacebookContainer.setVisibility(View.GONE);
+			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
 		default:
@@ -945,8 +946,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		mFacebookExpectingClose = true;
 		User.signOut(getContext());
 		// Let's clear expedia username and password on logout.
+		mExpediaUserName.removeTextChangedListener(usernameWatcher);
 		mExpediaUserName.setText("");
 		mExpediaPassword.setText("");
+		mExpediaUserName.addTextChangedListener(usernameWatcher);
 		if (mLogInStatusListener != null) {
 			mLogInStatusListener.onLogout();
 		}
@@ -1369,7 +1372,12 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			else {
 				setVisibilityState(VisibilityState.SIGN_IN, animate);
 			}
+			Ui.hideKeyboard((Activity) getContext());
 			return;
+		}
+		else {
+			mExpediaUserName.requestFocus();
+			Ui.showKeyboard(mExpediaUserName, null);
 		}
 		if (mToolbarListener != null) {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());

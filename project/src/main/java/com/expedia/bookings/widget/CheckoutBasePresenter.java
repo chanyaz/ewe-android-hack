@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.utils.Ui;
@@ -79,6 +80,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		loginWidget.setLoginStatusListener(mLoginStatusListener);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
+		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
 	}
 
 	public void setupToolbar() {
@@ -192,13 +194,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
-				Ui.showKeyboard(CheckoutBasePresenter.this, null);
 			}
 			else {
 				currentExpandedCard.setExpanded(false, false);
 				summaryContainer.setVisibility(VISIBLE);
 				loginWidget.setVisibility(VISIBLE);
-				hintContainer.setVisibility(VISIBLE);
+				hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
 				mainContactInfoCardView.setVisibility(VISIBLE);
 				if (paymentInfoCardView.isCreditCardRequired()) {
 					paymentInfoCardView.setVisibility(VISIBLE);
@@ -248,6 +249,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.onLogin();
 			paymentInfoCardView.onLogin();
 			isCheckoutComplete();
+			hintContainer.setVisibility(GONE);
 		}
 
 		@Override
@@ -260,6 +262,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.onLogout();
 			paymentInfoCardView.onLogout();
 			isCheckoutComplete();
+			hintContainer.setVisibility(VISIBLE);
 		}
 	};
 

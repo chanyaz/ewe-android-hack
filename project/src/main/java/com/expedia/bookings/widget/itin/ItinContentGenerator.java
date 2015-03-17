@@ -229,7 +229,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	private Bitmap fetchIconBitmap(String displayName) {
-		return TravelerIconUtils.generateInitialIcon(mContext, displayName, getSharedItinIconBackground(), true);
+		return TravelerIconUtils.generateInitialIcon(mContext, displayName, getSharedItinIconBackground(), true, true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

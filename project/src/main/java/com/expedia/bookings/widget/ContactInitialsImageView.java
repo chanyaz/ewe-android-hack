@@ -85,7 +85,7 @@ public class ContactInitialsImageView extends ImageView {
 			Drawable drawable = Strings.isEmpty(travelerName)
 				? res.getDrawable(R.drawable.driver_large)
 				: new BitmapDrawable(res, TravelerIconUtils.generateInitialIcon(context,
-					travelerName, getResources().getColor(R.color.cars_primary_color), true));
+					travelerName, getResources().getColor(R.color.cars_primary_color), true, false));
 			addState(STATE_COMPLETE, drawable );
 		}
 	}

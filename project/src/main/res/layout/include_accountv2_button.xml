@@ -2,7 +2,8 @@
 <com.expedia.bookings.widget.AccountButtonV2 xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="64dp"
+    android:layout_gravity="center_horizontal"
     android:orientation="vertical">
 
     <LinearLayout
@@ -99,51 +100,62 @@
     <LinearLayout
         android:id="@+id/account_logout_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/card_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/account_button_padding"
-            android:paddingLeft="@dimen/login_button_icon_padding_left"
-            android:paddingRight="@dimen/login_button_icon_padding_right"
-            android:src="?attr/skin_phoneCheckoutLoginLogoDrawable" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_log_in"
+            android:scaleType="center"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="@style/HorizontalOnTablet">
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
 
-            <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.TextView
                 android:id="@+id/account_top_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/LoginButtonTopTextStyle" />
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:textStyle="medium"/>
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                style="@style/LoginButtonBottomTextStyle" />
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:textSize="13sp"/>
         </LinearLayout>
 
         <ImageView
             android:id="@+id/account_logout_logout_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_log_out"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/widget_close"
+            android:scaleType="center"
             android:background="?android:attr/selectableItemBackground"
-            style="@style/LoginButtonLogoutImageStyle" />
+            android:layout_marginLeft="8dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/account_rewards_container"
         android:layout_width="match_parent"
+        android:layout_gravity="bottom"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/account_rewards_container_height_for_empty_message"
         android:visibility="gone">
