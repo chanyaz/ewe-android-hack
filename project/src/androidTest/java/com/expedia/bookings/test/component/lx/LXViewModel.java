@@ -219,4 +219,8 @@ public class LXViewModel {
 	public static ViewInteraction checkoutContactInfoCard() {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}
+
+	public static ViewInteraction checkoutSlideToPurchase() {
+		return onView(withId(R.id.slide_to_purchase_widget));
+	}
 }

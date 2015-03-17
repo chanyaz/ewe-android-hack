@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -64,7 +63,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
-		slideToContainer.setVisibility(View.GONE);
+		slideToContainer.setVisibility(INVISIBLE);
 		// TODO Make this LX specific
 		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 		isCheckoutComplete();

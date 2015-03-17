@@ -29,11 +29,12 @@ import com.google.gson.GsonBuilder;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class LXCheckoutPresenterTests {
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_checkout_presenter);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_checkout_presenter);
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
@@ -90,5 +91,7 @@ public class LXCheckoutPresenterTests {
 		LXViewModel.checkoutSignInCard().check(matches(isDisplayed()));
 		LXViewModel.checkoutContactInfoCard().check(matches(isDisplayed()));
 		LXViewModel.checkoutPaymentInfoCard().check(matches(isDisplayed()));
+		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 	}
+
 }
