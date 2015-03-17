@@ -10,18 +10,16 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
+import android.support.test.espresso.matcher.BoundedMatcher;
 
 import static com.android.support.test.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
@@ -161,34 +159,4 @@ public class CustomMatchers {
 			}
 		};
 	}
-
-	public static TypeSafeMatcher<View> hasOptionsCount(final int expectedOptionsCount) {
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public boolean matchesSafely(View view) {
-				if (!(view instanceof RadioGroup)) {
-					return false;
-				}
-				return expectedOptionsCount == ((RadioGroup) view).getChildCount();
-			}
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("The radio group must have " + expectedOptionsCount + " options");
-			}
-		};
-	}
-
-	public static TypeSafeMatcher<View> hasAtLeastOneChild() {
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public boolean matchesSafely(View view) {
-				return ((ViewGroup) view).getChildCount() > 0 && ((ViewGroup) view).getVisibility() == View.VISIBLE;
-			}
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("View must have at least one child.");
-			}
-		};
-	}
-
 }
