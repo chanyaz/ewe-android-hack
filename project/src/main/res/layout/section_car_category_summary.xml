@@ -54,7 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="right"
+                android:layout_gravity="bottom|right"
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="#FFF"
@@ -76,56 +76,44 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/person" />
-
         <TextView
             android:id="@+id/passenger_count"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
             android:layout_marginRight="4dp"
             android:paddingLeft="4dp"
+            android:drawableLeft="@drawable/person"
+            android:drawablePadding="4dp"
             android:text="5"
             android:textColor="#888888"
             android:textSize="10sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            android:src="@drawable/baggage" />
-
 
         <TextView
             android:id="@+id/bag_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
             android:layout_marginRight="4dp"
             android:paddingLeft="4dp"
+            android:drawableLeft="@drawable/baggage"
+            android:drawablePadding="4dp"
             android:text="3"
             android:textColor="#888888"
             android:textSize="10sp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            android:src="@drawable/doors" />
-
         <TextView
             android:id="@+id/door_count"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
             android:layout_marginRight="4dp"
             android:paddingLeft="4dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:drawableLeft="@drawable/doors"
+            android:drawablePadding="4dp"
             android:text="4"
             android:textColor="#888888"
             android:textSize="10sp" />
