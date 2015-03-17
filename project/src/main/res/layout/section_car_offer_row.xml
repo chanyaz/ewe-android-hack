@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eaeaea"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:id="@+id/main_container"
+    android:background="#eaeaea">
 
         <com.expedia.bookings.widget.LinearLayout
             android:id="@+id/root"
@@ -99,7 +99,6 @@
                         style="@style/CarOfferText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="6dp"
                         android:ellipsize="end"
                         android:singleLine="true"
                         tools:text="" />

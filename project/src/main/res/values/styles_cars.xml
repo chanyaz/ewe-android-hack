@@ -126,7 +126,7 @@
 
     <style name="CarOfferText">
         <item name="android:textColor">@color/cars_checkout_text_color</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="CarsLoginEditText" parent="V2.Theme.Cars">
