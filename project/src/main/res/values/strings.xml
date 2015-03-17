@@ -46,7 +46,7 @@
     <!-- Template for selected credit card-->
     <string name="selected_card_template">Expires %s</string>
     <!-- Template for car offer detail-->
-    <string name="car_offer_template">%s or similiar</string>
+    <string name="car_offer_template">%s or similar</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Doors</string>
     <!-- Car bags text-->
