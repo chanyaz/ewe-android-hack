@@ -43,6 +43,35 @@ public class CarSearchParamsBuilder {
 		public boolean areRequiredParamsFilled() {
 			return mStartDate != null && mEndDate != null;
 		}
+
+		public boolean isStartDateEqualToToday() {
+			if (mStartDate != null) {
+				return mStartDate.isEqual(LocalDate.now());
+			}
+			return false;
+		}
+
+		public boolean isEndDateEqualToToday() {
+			if (mEndDate != null) {
+				return mEndDate.isEqual(LocalDate.now());
+			}
+			return false;
+		}
+
+		public boolean isStartEqualToEnd() {
+			if (mStartDate != null && mEndDate != null) {
+				return mStartDate.isEqual(mEndDate);
+			}
+			return false;
+		}
+
+		public long getStartMillis() {
+			return mStartMillis;
+		}
+
+		public long getEndMillis() {
+			return mEndMillis;
+		}
 	}
 
 	public CarSearchParamsBuilder dateTimeBuilder(DateTimeBuilder dtb) {

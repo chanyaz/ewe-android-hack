@@ -30,6 +30,8 @@ import static org.junit.Assert.assertNull;
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchPresenterTests {
 	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
+	private static final String START_DATE_TIME_PATTERN = "MMM d, h:mm";
+	private static final String END_DATE_TIME_PATTERN = "h:mm a";
 
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
@@ -201,5 +203,56 @@ public final class CarSearchPresenterTests {
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.drop_off_same_as_pick_up)));
 		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testStartTimeBeforeCurrentTime() throws Throwable {
+		final DateTime today = DateTime.now();
+		int currentTime = ((today.getHourOfDay() + 1) * 2) + (today.getMinuteOfHour() > 30 ? 1 : 0);
+		int startTime = today.minusHours(2).getHourOfDay() * 2;
+
+		int ninePmProgress = 42;
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
+		CarViewModel.pickupLocation().perform(clearText());
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.pickUpTimeBar().perform(ViewActions.setSeekbarTo(startTime));
+		CarViewModel.dropOffTimeBar().perform(ViewActions.setSeekbarTo(ninePmProgress));
+		CarViewModel.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
+
+		//Select dates from calendar
+		final DateTime tomorrow = today.plusDays(1);
+		CarViewModel.selectDates(today.toLocalDate(), tomorrow.toLocalDate());
+		int minutesToMillis = 30 * 60 * 1000;
+		String expected = JodaUtils
+			.format(today.withTimeAtStartOfDay().plusMillis(currentTime * minutesToMillis), DATE_TIME_PATTERN)
+			+ " – " + JodaUtils
+			.format(tomorrow.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
+				DATE_TIME_PATTERN);
+		CarViewModel.selectDateButton().check(matches(withText(expected)));
+	}
+
+	@Test
+	public void testEndTimeBeforeStartTimeSameDay() throws Throwable {
+		// 28 == 02:00 PM
+		int twoPmProgress = 28;
+		// 42 == 09:00 PM
+		int ninePmProgress = 42;
+		CarViewModel.selectAirport(playground.instrumentation(), "SFO", "San Francisco, CA");
+		CarViewModel.pickupLocation().perform(clearText());
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.pickUpTimeBar().perform(ViewActions.setSeekbarTo(ninePmProgress));
+		CarViewModel.dropOffTimeBar().perform(ViewActions.setSeekbarTo(twoPmProgress));
+		CarViewModel.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
+
+		//Select dates from calendar
+		final DateTime date = DateTime.now().plusDays(1);
+		CarViewModel.selectDates(date.toLocalDate(), date.toLocalDate());
+		int minutesToMillis = 30 * 60 * 1000;
+		String expected = JodaUtils
+			.format(date.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis), START_DATE_TIME_PATTERN)
+			+ " – " + JodaUtils
+			.format(date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4)  * minutesToMillis),
+				END_DATE_TIME_PATTERN);
+		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 }
