@@ -20,6 +20,7 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.OffersDetail;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXFormatUtils;
@@ -87,6 +88,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
+		//  Track Product Information on load of this Local Expert Information screen.
+		OmnitureTracking.trackAppLXProductInformation(getContext(), event.activityDetails, lxState.searchParams);
 		activityDetails = event.activityDetails;
 
 		buildGallery(activityDetails);
@@ -97,6 +100,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	@Subscribe
 	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+		//  Track Link to track Change of dates.
+		OmnitureTracking.trackLinkLXChangeDate(getContext());
 		buildOffersSection(event.dateSelected);
 	}
 

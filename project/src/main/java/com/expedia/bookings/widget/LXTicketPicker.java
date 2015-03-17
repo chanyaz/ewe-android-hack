@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXDataUtils;
 
 import butterknife.ButterKnife;
@@ -37,14 +38,24 @@ public class LXTicketPicker extends LinearLayout {
 
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
+		trackAddOrRemove("Add.");
 		count++;
 		setTicketCount();
 	}
 
 	@OnClick(R.id.ticket_remove)
 	public void onRemoveTicket() {
+		trackAddOrRemove("Remove.");
 		count--;
 		setTicketCount();
+	}
+
+	public void trackAddOrRemove(String type) {
+		//  Track Link to track Add/Remove Ticket.
+		StringBuilder sb = new StringBuilder();
+		sb.append(type);
+		sb.append(ticket.code.toString());
+		OmnitureTracking.trackLinkLXAddRemoveTicket(getContext(), sb.toString());
 	}
 
 	public LXTicketPicker(Context context, AttributeSet attrs) {

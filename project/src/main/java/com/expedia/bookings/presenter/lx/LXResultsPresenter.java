@@ -19,6 +19,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
@@ -98,6 +99,8 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
+			// Search Results Omniture Tracking on load of search screen.
+			OmnitureTracking.trackAppLXSearch(getContext(), lxState.searchParams, lxSearchResponse);
 			Events.post(new Events.LXShowSearchResults(lxSearchResponse));
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}

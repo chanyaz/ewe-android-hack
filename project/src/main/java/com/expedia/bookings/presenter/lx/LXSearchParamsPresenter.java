@@ -31,6 +31,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -88,6 +89,8 @@ public class LXSearchParamsPresenter extends Presenter
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		// Search Box Omniture Tracking on load of search param screen.
+		OmnitureTracking.trackAppLXSearchBox(getContext());
 		ButterKnife.inject(this);
 
 		setupCalendar();
