@@ -31,6 +31,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mBaggageFeesUrl;
 
+	private String mFareType;
+
 	public String getLegId() {
 		return mLegId;
 	}
@@ -53,6 +55,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public List<Flight> getSegments() {
 		return mSegments;
+	}
+
+	public String getFareType() {
+		return mFareType;
+	}
+
+	public void setFareType(String fareType) {
+		mFareType = fareType;
 	}
 
 	public String getBaggageFeesUrl() {
@@ -187,6 +197,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 		return false;
 	}
 
+	public boolean isLCC() {
+		return mFareType.equals("LOW_COST_CARRIER");
+	}
+
+	public boolean isCharter() {
+		return mFareType.equals("CHARTER") || mFareType.equals("CHARTER_NET");
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -198,6 +216,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
 			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
+			obj.putOpt("fareType", mFareType);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -212,6 +231,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
+		mFareType = obj.optString("fareType", "");
 		return true;
 	}
 
