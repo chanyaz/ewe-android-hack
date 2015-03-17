@@ -149,12 +149,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_container"
-        android:background="#F9F9F9"
+        android:background="#f2f2f2"
         android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#D5D5D5" />
 
         <com.expedia.bookings.widget.TextView
