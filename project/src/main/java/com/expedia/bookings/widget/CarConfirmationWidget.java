@@ -30,6 +30,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
@@ -175,10 +176,11 @@ public class CarConfirmationWidget extends FrameLayout {
 		vendorText.setText(offer.vendor.name);
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);
 		directionsTextView.setText(res.getString(R.string.car_confirmation_directions, offer.vendor.name));
-
 		pickupDateText.setText(res.getString(R.string.car_confirmation_pickup_time_TEMPLATE,
-			DATE_TIME_FORMATTER.print(offer.pickupTime)));
-		dropofDateText.setText(DATE_TIME_FORMATTER.print(offer.dropOffTime));
+			DateFormatUtils.formatDateTimeRange(getContext(), offer.pickupTime, offer.pickupTime,
+				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT)));
+		dropofDateText.setText(DateFormatUtils.formatDateTimeRange(getContext(), offer.dropOffTime, offer.dropOffTime,
+			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 		addHotelTextView.setText(res.getString(R.string.successful_checkout_cross_sell_hotel,
 			offer.pickUpLocation.locationDescription));
 		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
