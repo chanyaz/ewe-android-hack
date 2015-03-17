@@ -1,7 +1,5 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import android.app.Activity;
@@ -15,8 +13,8 @@ import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -86,7 +84,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private Observer<List<LXActivity>> searchResultObserver = new Observer<List<LXActivity>>() {
+	private Observer<LXSearchResponse> searchResultObserver = new Observer<LXSearchResponse>() {
 		@Override
 		public void onCompleted() {
 			cleanup();
@@ -99,8 +97,8 @@ public class LXResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void onNext(List<LXActivity> lxActivities) {
-			Events.post(new Events.LXShowSearchResults(lxActivities));
+		public void onNext(LXSearchResponse lxSearchResponse) {
+			Events.post(new Events.LXShowSearchResults(lxSearchResponse));
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
 	};

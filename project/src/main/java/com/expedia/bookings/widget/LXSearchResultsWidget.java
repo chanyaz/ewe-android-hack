@@ -63,9 +63,10 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLXSearchAvailable(Events.LXShowSearchResults event) {
+
 		recyclerView.setVisibility(View.VISIBLE);
 		searchFailure.setVisibility(View.GONE);
-		adapter.setActivities(event.activities);
+		adapter.setActivities(event.lxSearchResponse.activities);
 	}
 
 	@Subscribe

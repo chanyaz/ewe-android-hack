@@ -40,6 +40,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -625,11 +626,10 @@ public class Events {
 	}
 
 	public static class LXShowSearchResults {
-		public List<LXActivity> activities;
+		public LXSearchResponse lxSearchResponse;
 
-		public LXShowSearchResults(List<LXActivity> activities) {
-			this.activities = activities;
-
+		public LXShowSearchResults(LXSearchResponse lxSearchResponse) {
+			this.lxSearchResponse = lxSearchResponse;
 		}
 	}
 

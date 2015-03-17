@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXApiError;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.services.LXServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -42,7 +42,7 @@ public class LXServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
+		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "happy";
 		searchParams.startDate = LocalDate.now();
@@ -54,14 +54,14 @@ public class LXServicesTest {
 
 		assertEquals(0, blockingObserver.getErrors().size());
 		assertEquals(1, blockingObserver.getItems().size());
-		assertEquals(114, blockingObserver.getItems().get(0).size());
+		assertEquals(114, blockingObserver.getItems().get(0).activities.size());
 
 	}
 
 	@Test
 	public void testEmptySearchResponse() throws Throwable {
 		mockServer.enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
-		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
+		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
 		LXSearchParams searchParams = new LXSearchParams();
 
 		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
@@ -69,13 +69,13 @@ public class LXServicesTest {
 		subscription.unsubscribe();
 		assertEquals(0, blockingObserver.getErrors().size());
 		assertEquals(1, blockingObserver.getItems().size());
-		assertEquals(0, blockingObserver.getItems().get(0).size());
+		assertEquals(0, blockingObserver.getItems().get(0).activities.size());
 	}
 
 	@Test(expected = RetrofitError.class)
 	public void testUnexpectedSearchResponseThrowsError() throws Throwable {
 		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
-		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
+		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
 		LXSearchParams searchParams = new LXSearchParams();
 
 		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
@@ -89,7 +89,7 @@ public class LXServicesTest {
 	@Test(expected = RuntimeException.class)
 	public void testSearchFailure() throws Throwable {
 		mockServer.enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
-		BlockingObserver<List<LXActivity>> blockingObserver = new BlockingObserver<>(1);
+		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
 		LXSearchParams searchParams = new LXSearchParams();
 
 		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
