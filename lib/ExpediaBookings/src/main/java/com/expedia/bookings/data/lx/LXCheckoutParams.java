@@ -37,6 +37,7 @@ public class LXCheckoutParams {
 		params.put("expirationDateMonth", expirationDateMonth);
 		params.put("cvv", cvv);
 		params.put("email", email);
+		params.put("storedCreditCardId", storedCreditCardId);
 		return params;
 	}
 }

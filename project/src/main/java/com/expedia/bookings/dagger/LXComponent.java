@@ -7,6 +7,7 @@ import com.expedia.bookings.presenter.lx.LXResultsPresenter;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
+import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LxSuggestionAdapter;
 
 import dagger.Component;
@@ -21,4 +22,5 @@ public interface LXComponent {
 	void inject(LXCheckoutPresenter lxCheckoutPresenter);
 	void inject(LXCheckoutWidget lxCheckoutWidget);
 	void inject(LXCheckoutSummaryWidget lxCheckoutSummaryWidget);
+	void inject(LXConfirmationWidget lxConfirmationWidget);
 }

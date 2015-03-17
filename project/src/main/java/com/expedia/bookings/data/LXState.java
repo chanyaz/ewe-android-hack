@@ -15,6 +15,7 @@ public class LXState {
 	public LXSearchParams searchParams;
 	public LXActivity activity;
 	public Offer offer;
+	// This contains the details to be sent in create trip post body.
 	public LXOfferSelected offerSelected;
 
 	public LXState() {
@@ -50,7 +51,8 @@ public class LXState {
 		offerSelected.activityId = activity.id;
 		offersSelected.add(offerSelected);
 
-		return new LXCreateTripParams().tripName(offer.title).offersSelected(offersSelected);
+		return new LXCreateTripParams().tripName(activity.location)
+			.offersSelected(offersSelected);
 	}
 
 }
