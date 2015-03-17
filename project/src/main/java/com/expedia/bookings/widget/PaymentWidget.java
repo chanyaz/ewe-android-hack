@@ -22,6 +22,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -214,14 +215,17 @@ public class PaymentWidget extends ExpandableCardView {
 				else {
 					storedCardContainer.setVisibility(GONE);
 					sectionBillingInfo.setVisibility(VISIBLE);
+					creditCardNumber.requestFocus();
+					Ui.showKeyboard(creditCardNumber, null);
 				}
 			}
 			else {
 				paymentButton.setVisibility(GONE);
 				storedCardContainer.setVisibility(GONE);
 				sectionBillingInfo.setVisibility(VISIBLE);
+				creditCardNumber.requestFocus();
+				Ui.showKeyboard(creditCardNumber, null);
 			}
-			creditCardNumber.requestFocus();
 			bind();
 		}
 		else {

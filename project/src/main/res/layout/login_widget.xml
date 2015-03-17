@@ -253,11 +253,8 @@
 
     <!-- If we are already logged in we show the logout button -->
     <include
-        android:id="@+id/account_button_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
         layout="@layout/include_accountv2_button"
+        android:id="@+id/account_button_root"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.TextView

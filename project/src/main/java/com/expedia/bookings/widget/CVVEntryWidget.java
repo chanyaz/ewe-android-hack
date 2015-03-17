@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
@@ -79,7 +80,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		ButterKnife.inject(this);
 
 		Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
-		drawable.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(drawable);
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
@@ -87,12 +88,10 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 				((Activity) getContext()).onBackPressed();
 			}
 		});
-		toolbar.setTitle(getContext().getString(R.string.title_complete_booking));
+		toolbar.setTitle(getContext().getString(R.string.Finish_Booking));
 		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
 		toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance);
-		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_secondary_toolbar_color));
-		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
-		toolbar.setSubtitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
 
 		// Cache views
 		mCreditCardSection = Ui.findView(v, R.id.credit_card_section);
@@ -118,7 +117,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_secondary_toolbar_color);
+			int color = getContext().getResources().getColor(R.color.cars_primary_color);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 			addView(Ui.setUpStatusBar(getContext(), toolbar, mainContainer, color));
@@ -212,7 +211,6 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			);
 		}
 
-		updateActionBar();
 		StringBuilder signatureNameBuilder = new StringBuilder();
 		if (!TextUtils.isEmpty(personFirstInitial)) {
 			signatureNameBuilder.append(personFirstInitial);

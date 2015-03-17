@@ -237,7 +237,9 @@ public class AccountButton extends LinearLayout {
 			setRewardsContainerBackground(mRewardsContainer, traveler.getLoyaltyMembershipTier());
 			mRewardsTextView.setText(pointsText);
 			mRewardsTextView.setTextColor(getResources().getColor(textColorResId));
-			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
+			if (lob != LineOfBusiness.CARS) {
+				mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
+			}
 		}
 		else {
 			bottom.setVisibility(View.GONE);

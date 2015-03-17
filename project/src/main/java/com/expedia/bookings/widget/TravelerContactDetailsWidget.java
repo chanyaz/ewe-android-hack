@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -169,6 +170,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				travelerButton.setVisibility(GONE);
 			}
 			firstName.requestFocus();
+			Ui.showKeyboard(firstName, null);
 			bind();
 		}
 		else {
