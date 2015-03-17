@@ -113,6 +113,7 @@
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s or similar</string>
+    <string name="car_model_unknown_template">Exact model N/A</string>
 
     <string name="preparing_checkout_message">Preparing checkout&#8230;</string>
     <!-- Desk & vehicle at terminal -->

@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
@@ -171,6 +172,15 @@ public class CarDataUtils {
 			return c.getString(R.string.cars_monthly_text);
 		default:
 			return c.getString(R.string.cars_daily_text);
+		}
+	}
+
+	public static String getMakeName(Context ctx, List<String> makes) {
+		if (makes.isEmpty()) {
+			return ctx.getString(R.string.car_model_unknown_template);
+		}
+		else {
+			return ctx.getString(R.string.car_model_name_template, makes.get(0));
 		}
 	}
 }

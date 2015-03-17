@@ -75,7 +75,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		locationDescriptionText.setText(offer.pickUpLocation.airportInstructions);
 		carCompanyText.setText(offer.vendor.name);
 		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
-		carModelText.setText(getContext().getString(R.string.car_model_name_template, offer.vehicleInfo.makes.get(0)));
+		carModelText.setText(CarDataUtils.getMakeName(getContext(), offer.vehicleInfo.makes));
 		airportText.setText(offer.pickUpLocation.locationDescription);
 		tripTotalText.setText(offer.detailedFare.grandTotal.formattedPrice);
 		dateTimeText.setText(DateFormatUtils
