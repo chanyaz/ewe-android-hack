@@ -93,7 +93,6 @@ public class LXActivityDetailsWidget extends ScrollView {
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
-		buildOffersSection(lxState.searchParams.startDate);
 	}
 
 	@Subscribe
@@ -154,8 +153,15 @@ public class LXActivityDetailsWidget extends ScrollView {
 			dateButton.bind(offersDetail, startDate.plusDays(i));
 			offerDatesContainer.addView(dateButton);
 		}
-		// Set first date as selected.
-		((RadioButton) offerDatesContainer.getChildAt(0)).setChecked(true);
+		// Set first enabled date as selected.
+		for (int i = 0; i <= offerDatesContainer.getChildCount(); i++) {
+			if (offerDatesContainer.getChildAt(i).isEnabled()) {
+				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(i);
+				child.setChecked(true);
+				buildOffersSection(startDate.plusDays(i));
+				break;
+			}
+		}
 	}
 }
 
