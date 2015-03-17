@@ -25,6 +25,8 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -271,23 +273,23 @@ public final class ViewActions {
 			mLowerLayoutIndex = lowerIndex;
 			mValue = value;
 		}
-			@SuppressWarnings("unchecked")
-			@Override
-			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
-			}
+		@SuppressWarnings("unchecked")
+		@Override
+		public Matcher<View> getConstraints() {
+			return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+		}
 
-			@Override
-			public void perform(UiController uiController, View view) {
-				View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
-				View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
-				mValue.set(((TextView) textView).getText().toString());
-			}
+		@Override
+		public void perform(UiController uiController, View view) {
+			View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
+			View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
+			mValue.set(((TextView) textView).getText().toString());
+		}
 
-			@Override
-			public String getDescription() {
-				return "Get the empty travelers container text on checkout";
-			}
+		@Override
+		public String getDescription() {
+			return "Get the empty travelers container text on checkout";
+		}
 	}
 
 	// View action to get the name match warning's sibling text view
@@ -462,6 +464,32 @@ public final class ViewActions {
 
 	}
 
+	public static ViewAction clickOnFirstEnabled() {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return isAssignableFrom(RadioGroup.class);
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+					RadioButton button = (RadioButton) (((ViewGroup) view).getChildAt(i));
+					if (button.isEnabled()) {
+						button.setChecked(true);
+						button.performClick();
+						uiController.loopMainThreadUntilIdle();
+						break;
+					}
+				}
+				return;
+			}
+		};
+	}
+
 }
-
-
