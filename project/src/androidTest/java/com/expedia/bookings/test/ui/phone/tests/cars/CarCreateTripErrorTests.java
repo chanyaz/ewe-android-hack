@@ -17,7 +17,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class CarCreateTripErrorTests extends PhoneTestCase {
 
-	private static final String CATEGORY = "Economy Two Door Car";
+	private static final String CATEGORY = "Economy";
 
 	public void testCarCreateTripWithPriceChange() throws Throwable {
 		screenshot("Launch");
