@@ -16,6 +16,7 @@ import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
@@ -101,6 +102,8 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		@OnClick(R.id.select_tickets)
 		public void offerExpanded() {
+			//  Track Link to track Ticket Selected.
+			OmnitureTracking.trackLinkLXSelectTicket(itemView.getContext());
 			Events.post(new Events.LXOfferExpanded(offer));
 		}
 

@@ -4,11 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowTelephonyManager;
 
 import android.app.Activity;
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +31,20 @@ import butterknife.ButterKnife;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.robolectric.Robolectric.shadowOf;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class LXTicketSelectionWidgetTest {
+
+
+	 // This test hits Omniture which in turn throws NPE because of unavailability of operator information.
+	@Before
+	public void before() {
+		TelephonyManager telephonyManager = (TelephonyManager) Robolectric.application.getSystemService(Context.TELEPHONY_SERVICE);
+		ShadowTelephonyManager shadowTelephonyManager = shadowOf(telephonyManager);
+		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
+	}
+
 	@Test
 	public void testTicketSelectionWidgetViews() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
@@ -48,8 +63,8 @@ public class LXTicketSelectionWidgetTest {
 
 		TextView ticketDetails = (TextView) ticketSelector.findViewById(R.id.ticket_details);
 		TextView ticketCount = (TextView) ticketSelector.findViewById(R.id.ticket_count);
-		TextView addTicketView = (TextView) ticketSelector.findViewById(R.id.ticket_add);
-		TextView removeTicketView = (TextView) ticketSelector.findViewById(R.id.ticket_remove);
+		Button addTicketView = (Button) ticketSelector.findViewById(R.id.ticket_add);
+		Button removeTicketView = (Button) ticketSelector.findViewById(R.id.ticket_remove);
 
 		assertNotNull(ticketDetails);
 		assertNotNull(ticketCount);
@@ -74,8 +89,8 @@ public class LXTicketSelectionWidgetTest {
 
 		TextView ticketDetails = (TextView) widget.findViewById(R.id.ticket_details);
 		TextView ticketCount = (TextView) widget.findViewById(R.id.ticket_count);
-		TextView addTicketView = (TextView) widget.findViewById(R.id.ticket_add);
-		TextView removeTicketView = (TextView) widget.findViewById(R.id.ticket_remove);
+		Button addTicketView = (Button) widget.findViewById(R.id.ticket_add);
+		Button removeTicketView = (Button) widget.findViewById(R.id.ticket_remove);
 		TextView ticketsSummary = (TextView) widget.findViewById(R.id.selected_ticket_summary);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
@@ -149,7 +164,7 @@ public class LXTicketSelectionWidgetTest {
 
 				TextView ticketDetails = (TextView) child.findViewById(R.id.ticket_details);
 				TextView ticketCount = (TextView) child.findViewById(R.id.ticket_count);
-				TextView addTicketView = (TextView) child.findViewById(R.id.ticket_add);
+				Button addTicketView = (Button) child.findViewById(R.id.ticket_add);
 
 				assertEquals(String.valueOf(0), ticketCount.getText());
 				assertEquals(expectedDetails, ticketDetails.getText());

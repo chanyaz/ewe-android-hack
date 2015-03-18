@@ -53,6 +53,9 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -1158,6 +1161,123 @@ public class OmnitureTracking {
 
 	public static void trackFlightInfantDialog(Context context) {
 		createTrackLinkEvent(context, FLIGHT_INFANT_ALERT).track();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// LX tracking
+	//
+	// Official Spec : https://confluence/display/Omniture/Mobile+App%3A+Local+Expert
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final String LX_LOB = "local expert";
+	public static final String LX_SEARCH = "App.LX.Search";
+	public static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
+	public static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
+	public static final String LX_CHECKOUT = "App.LX.Checkout.Payment";
+	public static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
+	public static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
+	public static final String LX_INFO = "LX_INFO";
+	public static final String LX_TICKET = "App.LX.Ticket.";
+
+	public static void trackAppLXSearch(Context context, LXSearchParams lxSearchParams, LXSearchResponse lxSearchResponse) {
+		// Start actually tracking the search result change
+		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_SEARCH);
+
+		// Destination
+		s.setProp(4, lxSearchResponse.regionId);
+		s.setEvar(4, "D=c4");
+
+		// Success event for Product Search, Local Expert Search
+		s.setEvents("event30,event56");
+
+		// prop and evar 5, 6
+		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+
+		// Freeform location
+		if (!TextUtils.isEmpty(lxSearchParams.location)) {
+			s.setEvar(48, lxSearchParams.location);
+		}
+
+		// Number of search results
+		if (lxSearchResponse.activities.size() > 0) {
+			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXSearchBox(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_DESTINATION_SEARCH + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_DESTINATION_SEARCH);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXProductInformation(Context context, ActivityDetailsResponse activityDetailsResponse, LXSearchParams lxSearchParams) {
+		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_INFOSITE_INFORMATION);
+
+		s.setEvents("event32");
+
+		s.setProducts("LX;Merchant LX:" + activityDetailsResponse.id);
+
+		// Destination
+		s.setProp(4, activityDetailsResponse.regionId);
+		s.setEvar(4, "D=c4");
+
+		// prop and evar 5, 6
+		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLinkLXChangeDate(Context context) {
+		trackLinkLX(context, LX_CHANGE_DATE);
+	}
+
+	public static void trackLinkLXSelectTicket(Context context) {
+		trackLinkLX(context, LX_TICKET_SELECT);
+	}
+
+	public static void trackLinkLXAddRemoveTicket(Context context, String rffr) {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_TICKET);
+		sb.append(rffr);
+		trackLinkLX(context, sb.toString());
+	}
+
+	public static void trackLinkLX(Context context, String rffr) {
+		Log.d(TAG, "Tracking \"" + LX_CHANGE_DATE + "\" Link..." + "RFFR : " + rffr);
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.setEvar(28, rffr);
+		s.setProp(16, rffr);
+		s.trackLink(null, "o", LX_INFO, null, null);
+	}
+
+	public static ADMS_Measurement internalTrackAppLX(Context context, String pageName) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setAppState(pageName);
+		s.setEvar(17, pageName);
+
+		// LOB Search
+		s.setEvar(2, LX_LOB);
+		s.setProp(2, "D=c2");
+		return s;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,9 @@
 package com.expedia.bookings.services;
 
-import java.util.List;
-
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -48,13 +45,12 @@ public class LXServices {
 		lxApi = adapter.create(LXApi.class);
 	}
 
-	public Subscription lxSearch(LXSearchParams searchParams, Observer<List<LXActivity>> observer) {
+	public Subscription lxSearch(LXSearchParams searchParams, Observer<LXSearchResponse> observer) {
 		return lxApi
 			.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.map(HANDLE_SEARCH_ERROR)
-			.map(sToList)
 			.subscribe(observer);
 	}
 
@@ -65,13 +61,6 @@ public class LXServices {
 				throw new RuntimeException();
 			}
 			return lxSearchResponse;
-		}
-	};
-
-	private Func1<LXSearchResponse, List<LXActivity>> sToList = new Func1<LXSearchResponse, List<LXActivity>>() {
-		@Override
-		public List<LXActivity> call(LXSearchResponse lxSearchResponse) {
-			return lxSearchResponse.activities;
 		}
 	};
 
