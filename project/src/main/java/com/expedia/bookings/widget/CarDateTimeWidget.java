@@ -118,9 +118,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 		pickupTimePopupContainerText.setBackground(drawablePopUp);
 
-		pickupTimeSeekBar.setProgress(new DateTime().withHourOfDay(9).getHourOfDay());
+		pickupTimeSeekBar.setProgress(new DateTime().withHourOfDay(9).withMinuteOfHour(0));
 		pickupTimeSeekBar.addOnSeekBarChangeListener(this);
-		dropoffTimeSeekBar.setProgress(new DateTime().withHourOfDay(18).getHourOfDay());
+		dropoffTimeSeekBar.setProgress(new DateTime().withHourOfDay(18).withMinuteOfHour(0));
 		dropoffTimeSeekBar.addOnSeekBarChangeListener(this);
 
 		calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
@@ -172,7 +172,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		// Logic to change the time slider value when user selects current date
 		DateTime now = DateTime.now();
 		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8) {
-			dropoffTimeSeekBar.setProgress(now.plusHours(1));
+			pickupTimeSeekBar.setProgress(now.plusHours(1));
 		}
 		if (end != null && end.equals(LocalDate.now()) && now.getHourOfDay() >= 16) {
 			dropoffTimeSeekBar.setProgress(now.plusHours(3));
