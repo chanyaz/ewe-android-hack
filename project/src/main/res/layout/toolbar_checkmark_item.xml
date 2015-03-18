@@ -7,4 +7,4 @@
     android:paddingRight="8dp"
     android:textAllCaps="false"
     android:text="@string/search"
-    android:textColor="@color/cars_primary_color" />
+    android:textColor="?attr/primary_color" />

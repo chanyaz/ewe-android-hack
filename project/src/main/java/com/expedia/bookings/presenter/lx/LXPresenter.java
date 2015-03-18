@@ -8,7 +8,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
-import com.expedia.bookings.widget.LXSearchParamsWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -20,7 +19,7 @@ public class LXPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.search_params_widget)
-	LXSearchParamsWidget searchParamsWidget;
+	LXSearchParamsPresenter searchParamsWidget;
 
 	@InjectView(R.id.search_list_presenter)
 	LXResultsPresenter resultsPresenter;
@@ -47,7 +46,7 @@ public class LXPresenter extends Presenter {
 		searchParamsWidget.setVisibility(View.VISIBLE);
 	}
 
-	private Transition searchParamsToResults = new VisibilityTransition(this, LXSearchParamsWidget.class.getName(),
+	private Transition searchParamsToResults = new VisibilityTransition(this, LXSearchParamsPresenter.class.getName(),
 		LXResultsPresenter.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {

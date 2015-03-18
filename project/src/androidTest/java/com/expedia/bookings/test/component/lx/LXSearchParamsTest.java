@@ -6,14 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.presenter.lx.LXSearchParamsPresenter;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.widget.LXSearchParamsWidget;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -29,20 +29,22 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class LXSearchParamsTest {
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_lx_search_params);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_search_presenter);
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
 
 	@Test
-	public void testViewVisibilities() {
+	public void testViewVisibilities() throws Throwable {
 		LXViewModel.toolbar().check(matches(isDisplayed()));
-		LXViewModel.toolbar().check(matches(hasDescendant(isAssignableFrom(ImageButton.class))));
+		LXViewModel.toolbar().check(matches(hasDescendant(isAssignableFrom(Button.class))));
 		LXViewModel.searchButton().check(matches(isDisplayed()));
 		LXViewModel.toolbar().check(matches(hasDescendant(withText(R.string.search_widget_heading))));
 		LXViewModel.location().check(matches(isDisplayed()));
 		LXViewModel.selectDateButton().check(matches(isDisplayed()));
 		LXViewModel.calendar().check(matches(not(isDisplayed())));
+		LXViewModel.location().perform(typeText("San"));
+		LXViewModel.selectLocation(playground.instrumentation(), "San Francisco, CA");
 		LXViewModel.selectDateButton().perform(click());
 		LXViewModel.calendar().check(matches(isDisplayed()));
 	}
@@ -59,7 +61,7 @@ public class LXSearchParamsTest {
 		expected.startDate = start;
 		expected.location = expectedLocationFullName;
 
-		LXSearchParamsWidget searchParamsWidget = (LXSearchParamsWidget) playground.getRoot();
+		LXSearchParamsPresenter searchParamsWidget = (LXSearchParamsPresenter) playground.getRoot();
 
 		LXViewModel.location().perform(typeText(typedLocationText));
 		LXViewModel.selectLocation(playground.instrumentation(), expectedLocationDisplayName);
@@ -78,23 +80,16 @@ public class LXSearchParamsTest {
 	}
 
 	@Test
-	public void testRequiredParamsFilled() {
+	public void testRequiredParamsFilled() throws Throwable {
 		// Nothing entered
 		LXViewModel.searchButton().perform(click());
-		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_location)));
-		LXViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
-		LXViewModel.alertDialogNeutralButton().perform(click());
+		LXViewModel.didNotGoToResults();
 
-		LXViewModel.location().perform(typeText("New York"));
-		LXViewModel.searchButton().perform(click());
-		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_start_date)));
-		LXViewModel.alertDialogNeutralButton().perform(click());
+		LXViewModel.location().perform(typeText("San"));
+		LXViewModel.selectLocation(playground.instrumentation(), "San Francisco, CA");
+		LXViewModel.didNotGoToResults();
 
 		LXViewModel.location().perform(clearText());
-		LXViewModel.selectDateButton().perform(click());
-		LXViewModel.selectDates(LocalDate.now(), null);
-		LXViewModel.searchButton().perform(click());
-		LXViewModel.alertDialogMessage().check(matches(withText(R.string.lx_error_missing_location)));
-
+		LXViewModel.didNotGoToResults();
 	}
 }

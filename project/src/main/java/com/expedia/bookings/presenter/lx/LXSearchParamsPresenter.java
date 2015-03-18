@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.presenter.lx;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -6,23 +6,23 @@ import java.util.Locale;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
@@ -30,11 +30,14 @@ import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LxSuggestionAdapter;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
@@ -43,8 +46,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class LXSearchParamsWidget extends FrameLayout
-	implements TextWatcher, CalendarPicker.DateSelectionChangedListener, DaysOfWeekView.DayOfWeekRenderer {
+public class LXSearchParamsPresenter extends Presenter
+	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
 	@InjectView(R.id.search_calendar)
 	CalendarPicker calendarPicker;
@@ -70,13 +73,16 @@ public class LXSearchParamsWidget extends FrameLayout
 	@InjectView(R.id.month)
 	MonthView monthView;
 
+	Button searchButton;
+
 	LXSearchParams searchParams;
 	private LxSuggestionAdapter suggestionAdapter;
 
 	private LXSearchParamsBuilder searchParamsBuilder = new LXSearchParamsBuilder();
 
-	public LXSearchParamsWidget(Context context, AttributeSet attrs) {
+	public LXSearchParamsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.lx_search_params_presenter, this);
 	}
 
 	@Override
@@ -88,22 +94,43 @@ public class LXSearchParamsWidget extends FrameLayout
 		suggestionAdapter = new LxSuggestionAdapter();
 		Ui.getApplication(getContext()).lxComponent().inject(suggestionAdapter);
 
-		location.addTextChangedListener(this);
 		setupToolbar();
+		setUpSearchButton();
 		location.setAdapter(suggestionAdapter);
 		location.setOnItemClickListener(mLocationListListener);
+		location.setOnEditorActionListener(this);
+		location.setOnFocusChangeListener(mLocationFocusListener);
 		Drawable locationDrawable = getResources().getDrawable(R.drawable.location);
 		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_secondary_color), PorterDuff.Mode.SRC_IN);
 		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
+		addTransition(defaultToCal);
+		show(new LXParamsDefault());
 	}
 
 	private AdapterView.OnItemClickListener mLocationListListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Ui.hideKeyboard(LXSearchParamsWidget.this);
+			Ui.hideKeyboard(LXSearchParamsPresenter.this);
 			clearFocus();
 			Suggestion suggestion = suggestionAdapter.getItem(position);
 			setSearchLocation(suggestion);
+			setUpSearchButton();
+		}
+	};
+
+	private OnFocusChangeListener mLocationFocusListener = new OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus) {
+				if (!getCurrentState().equals(LXParamsDefault.class.getName())) {
+					back();
+				}
+				selectDates.setChecked(false);
+				selectDates.setEnabled(true);
+				location.setText("");
+				searchParamsBuilder.location("");
+				searchParamsChanged();
+			}
 		}
 	};
 
@@ -111,6 +138,9 @@ public class LXSearchParamsWidget extends FrameLayout
 		location.setText(StrUtils.formatCityName(suggestion.fullName));
 		searchParamsBuilder.location(suggestion.fullName);
 		searchParamsChanged();
+
+		selectDates.setChecked(true);
+		show(new LXParamsCalendar());
 	}
 
 	@Override
@@ -125,50 +155,46 @@ public class LXSearchParamsWidget extends FrameLayout
 
 	@OnClick(R.id.select_dates)
 	public void showCalendar() {
-		calendarContainer.setVisibility(View.VISIBLE);
+		if (!searchParamsBuilder.hasLocation()) {
+			AnimUtils.doTheHarlemShake(location);
+			selectDates.setChecked(false);
+			return;
+		}
+		show(new LXParamsCalendar());
+		//calendarContainer.setVisibility(View.VISIBLE);
 	}
 
 	private boolean validateSearchInput() {
-		if (Strings.isEmpty(searchParams.location)) {
-			showAlertMessage(R.string.lx_error_missing_location, R.string.ok);
+		if (!searchParamsBuilder.hasLocation()) {
+			AnimUtils.doTheHarlemShake(location);
 			return false;
 		}
-		else if (searchParams.startDate == null) {
-			showAlertMessage(R.string.lx_error_missing_start_date, R.string.ok);
+		else if (!searchParamsBuilder.hasStartDate()) {
+			AnimUtils.doTheHarlemShake(calendarContainer);
 			return false;
 		}
 		return true;
 	}
 
-	public void showAlertMessage(int messageResourceId, int confirmButtonResourceId) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(messageResourceId)
-			.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
-	}
-
-	// Edit textwatcher
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		// ignore
-	}
+	/*
+	 * OnEditorActionListener
+	 */
 
 	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		// ignore
+	public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
+		if (actionId == EditorInfo.IME_ACTION_DONE && !Strings.isEmpty(v.getText())) {
+			calendarContainer.setVisibility(View.VISIBLE);
+			clearLocationFocus();
+		}
+		return false;
 	}
 
-	@Override
-	public void afterTextChanged(Editable s) {
-		searchParamsBuilder.location = s.toString();
+	public void clearLocationFocus() {
+		location.clearFocus();
+		InputMethodManager imm = (InputMethodManager) location.getContext()
+			.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
 	}
-
 	// Calendar
 
 	@Override
@@ -176,9 +202,11 @@ public class LXSearchParamsWidget extends FrameLayout
 		searchParamsBuilder.startDate(start);
 		searchParamsBuilder.endDate(start.plusDays(getResources().getInteger(R.integer.lx_default_search_range)));
 		searchParamsChanged();
+		setUpSearchButton();
 	}
 
 	private void searchParamsChanged() {
+		searchParams = searchParamsBuilder.build();
 		if (searchParamsBuilder.startDate != null) {
 			String dateText = DateUtils.localDateToMMMdd(searchParamsBuilder.startDate);
 
@@ -205,31 +233,18 @@ public class LXSearchParamsWidget extends FrameLayout
 	}
 
 	private void setupToolbar() {
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
+		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.inflateMenu(R.menu.lx_search_menu);
-		toolbar.setTitle(getResources().getString(R.string.search_widget_heading));
+		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
+		setupToolBarCheckmark(item);
 
+		toolbar.setTitle(getResources().getString(R.string.search_widget_heading));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				((Activity) getContext()).onBackPressed();
-			}
-		});
-		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem menuItem) {
-				switch (menuItem.getItemId()) {
-				case R.id.menu_search:
-					searchParams = searchParamsBuilder.build();
-					// Validate input
-					if (validateSearchInput()) {
-						Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-						Ui.hideKeyboard(LXSearchParamsWidget.this);
-					}
-					return true;
-				}
-				return false;
 			}
 		});
 
@@ -238,6 +253,23 @@ public class LXSearchParamsWidget extends FrameLayout
 			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
 			addView(Ui.setUpStatusBar(getContext(), toolbar, searchParamContainer, toolbarColor));
 		}
+	}
+
+	private void setupToolBarCheckmark(final MenuItem menuItem) {
+		searchButton = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		searchButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (validateSearchInput()) {
+					Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+					Ui.hideKeyboard(LXSearchParamsPresenter.this);
+				}
+			}
+		});
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		navIcon.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		searchButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		menuItem.setActionView(searchButton);
 	}
 
 	private void setupCalendar() {
@@ -255,4 +287,56 @@ public class LXSearchParamsWidget extends FrameLayout
 		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
 	}
 
+	// States and transitions
+	public static class LXParamsDefault {
+	}
+
+	public static class LXParamsCalendar {
+	}
+
+	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class,
+		LXParamsCalendar.class) {
+		private int calendarHeight;
+
+		@Override
+		public void startTransition(boolean forward) {
+			int parentHeight = getHeight();
+			calendarHeight = calendarContainer.getHeight();
+			selectDates.setEnabled(!forward);
+			selectDates.setChecked(forward);
+			float pos = forward ? parentHeight + calendarHeight : calendarHeight;
+			calendarContainer.setTranslationY(pos);
+			calendarContainer.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float pos = forward ? calendarHeight + (-f * calendarHeight) : (f * calendarHeight);
+			calendarContainer.setTranslationY(pos);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
+			if (forward) {
+				Ui.hideKeyboard(LXSearchParamsPresenter.this);
+				location.clearFocus();
+			}
+			calendarContainer.setVisibility(View.VISIBLE);
+		}
+	};
+
+	public void setUpSearchButton() {
+		if (searchParamsBuilder.hasLocation() && searchParamsBuilder.hasStartDate()) {
+			searchButton.setAlpha(1f);
+		}
+		else {
+			searchButton.setAlpha(.7f);
+		}
+	}
 }

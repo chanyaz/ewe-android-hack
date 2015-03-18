@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.LXSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:orientation="vertical">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/search_params_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#D9FFFFFF"
+        android:background="#F2FFFFFF"
         android:paddingTop="?attr/actionBarSize" >
 
         <LinearLayout
@@ -100,9 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@color/lx_primary_color"
         android:minHeight="?attr/actionBarSize"
-        app:subtitleTextAppearance="@style/LXToolbarSubtitleTextAppearance"
-        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/LXSearchToolbarTitleTextAppearance" />
 
-</com.expedia.bookings.widget.LXSearchParamsWidget>
+</merge>
