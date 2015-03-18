@@ -127,7 +127,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testEmptyDetailsResponse() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{\"id\": \"183615\"}"));
+		mockServer.enqueue(new MockResponse().setBody("{\"id\": \"183615\", \"offersDetail\": { \"offers\": [] }}"));
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
 
 		ActivityDetailsParams activityDetailsParams = new ActivityDetailsParams();

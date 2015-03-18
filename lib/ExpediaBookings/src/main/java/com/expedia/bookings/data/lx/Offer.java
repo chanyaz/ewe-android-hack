@@ -9,7 +9,6 @@ import com.expedia.bookings.utils.DateUtils;
 public class Offer {
 	public String id;
 	public String title;
-	public String currencySymbol;
 	public List<AvailabilityInfo> availabilityInfo;
 
 	// Utility for available info on selected date - not coming from the API

@@ -56,9 +56,8 @@ public class LXCheckoutSummaryWidget extends RelativeLayout {
 		lxOfferDate.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		lxOfferLocation.setText(lxState.activity.location);
 
-		String grandTotal = String.format(getResources().getString(R.string.lx_total_price_with_currency_TEMPLATE),
-			lxState.offer.currencySymbol, lxState.offerSelected.amount);
-		tripTotalText.setText(grandTotal);
+		String totalMoney = lxState.offerSelected.money.getFormattedMoney();
+		tripTotalText.setText(totalMoney);
 
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.ic_action_bar_checkmark_white);
 		drawableEnabled.setColorFilter(getResources().getColor(R.color.lx_checkmark_color), PorterDuff.Mode.SRC_IN);

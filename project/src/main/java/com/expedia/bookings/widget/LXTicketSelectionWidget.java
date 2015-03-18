@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,6 +17,7 @@ import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -47,7 +47,6 @@ public class LXTicketSelectionWidget extends CardView {
 
 	private String offerId;
 	private String offerTitle;
-	private String currencySymbol;
 
 	@Override
 	protected void onFinishInflate() {
@@ -66,10 +65,6 @@ public class LXTicketSelectionWidget extends CardView {
 
 	public void setOfferTitle(String offerTitle) {
 		this.offerTitle = offerTitle;
-	}
-
-	public void setCurrencySymbol(String currencySymbol) {
-		this.currencySymbol = currencySymbol;
 	}
 
 	public void buildTicketPickers(AvailabilityInfo availabilityInfo) {
@@ -92,23 +87,23 @@ public class LXTicketSelectionWidget extends CardView {
 		// Update only if the event was done by TicketPicker of belonging to this widget.
 		if (Strings.isNotEmpty(offerId) && offerId.equals(event.offerId)) {
 			tickets.put(event.ticket, event.count);
-			updateTicketSelection();
+
+			ticketSummary.setText(Strings.joinWithoutEmpties(", ", getTicketSummaries()));
+			bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE), LXUtils.getTotalAmount(tickets).getFormattedMoney()));
 		}
 	}
 
-	private void updateTicketSelection() {
-		BigDecimal total = BigDecimal.ZERO;
-		List<String> ticketsSummaryList = new ArrayList<>();
+	private List<String> getTicketSummaries() {
+		List<String> ticketsSummaries = new ArrayList<>();
 		String ticketSummaryTemplate = getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
 
 		for (Map.Entry<Ticket, Integer> ticketAndCount : tickets.entrySet()) {
 			int ticketCount = ticketAndCount.getValue();
 			Ticket ticket = ticketAndCount.getKey();
-			ticketsSummaryList.add(String.format(ticketSummaryTemplate, ticketCount, getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
-			total = total.add(ticket.amount.multiply(BigDecimal.valueOf(ticketCount)));
+			ticketsSummaries.add(String.format(ticketSummaryTemplate, ticketCount,
+				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
 		}
 
-		ticketSummary.setText(Strings.joinWithoutEmpties(", ", ticketsSummaryList));
-		bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE), currencySymbol, total));
+		return ticketsSummaries;
 	}
 }

@@ -57,9 +57,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		paymentInfoCardView.setCreditCardRequired(true);
 		slideWidget.resetSlider();
 
-		String grandTotal = String.format(getResources().getString(R.string.lx_total_price_with_currency_TEMPLATE),
-			lxState.offer.currencySymbol, lxState.offerSelected.amount);
-		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, grandTotal));
+		String totalMoney = lxState.offerSelected.money.getFormattedMoney();
+		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, totalMoney));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
@@ -96,7 +95,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
 			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
 				: mainContactInfoCardView.emailAddress.getText().toString())
-			.expectedTotalFare(lxState.offerSelected.amount.toString())
+			.expectedTotalFare(lxState.offerSelected.money.getAmount().toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
