@@ -302,6 +302,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start hotel search");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
+		Events.post(new Events.LaunchShowLoadingAnimation());
 
 		LocalDate currentDate = new LocalDate();
 		DateTimeFormatter dtf = ISODateTimeFormat.date();
@@ -325,6 +326,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start collection download");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
+		Events.post(new Events.LaunchShowLoadingAnimation());
 
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();

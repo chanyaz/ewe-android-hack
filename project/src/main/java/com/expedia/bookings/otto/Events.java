@@ -787,4 +787,7 @@ public class Events {
 
 	public static class LaunchLobRefresh {
 	}
+
+	public static class LaunchShowLoadingAnimation {
+	}
 }
