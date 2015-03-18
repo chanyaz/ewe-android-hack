@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -40,9 +42,11 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	int paddingExpanded = 0;
 	int toggleCollapsed = 0;
 	int toggleExpanded = 0;
+	int bottomExpanded = 0;
 
 	private List<SearchCarOffer> offers = new ArrayList<>();
 	private int mLastExpanded = 0;
+	private static final float MAP_ZOOM_LEVEL = 12;
 
 	public CarOffersAdapter(Context context) {
 		sideExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
@@ -53,6 +57,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		paddingExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
 		toggleCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
 		toggleExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+		bottomExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 9, context.getResources().getDisplayMetrics());
 	}
 
 	@Override
@@ -116,11 +121,16 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.collapsed_container)
 		public RelativeLayout collapsedContainer;
 
+		@InjectView(R.id.main_container)
+		public android.widget.FrameLayout mainContainer;
+
 		public Context mContext;
+		public Drawable selectedItemDrawable;
 
 		public ViewHolder(View view) {
 			super(view);
 			mContext = view.getContext();
+			selectedItemDrawable = getSelectedItemDrawable();
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 		}
@@ -173,6 +183,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		}
 
 		private void updateState(boolean isChecked) {
+			mainContainer.setForeground(isChecked ? null : selectedItemDrawable);
 			reserveNow.setChecked(isChecked);
 
 			root.setBackground(isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
@@ -182,9 +193,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 			collapsedContainer.setPadding(isChecked ? sideExpanded : sideCollapsed,
 				isChecked ? topExpanded : topCollapsed, isChecked ? sideExpanded : sideCollapsed,
-				isChecked ? topExpanded : bottomCollapsed);
+				isChecked ? bottomExpanded : bottomCollapsed);
 			address.setPadding(0, isChecked ? paddingExpanded : topCollapsed, 0,
-				isChecked ? paddingExpanded : topCollapsed);
+				isChecked ? 0 : topCollapsed);
 			reserveNow.setPadding(isChecked ? toggleExpanded : toggleCollapsed, 0,
 				isChecked ? toggleExpanded : toggleCollapsed, 0);
 
@@ -204,6 +215,14 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			}
 		}
 
+		public Drawable getSelectedItemDrawable() {
+			int[] attrs = new int[] { R.attr.selectableItemBackground };
+			TypedArray ta = mContext.obtainStyledAttributes(attrs);
+			Drawable selectedItemDrawable = ta.getDrawable(0);
+			ta.recycle();
+			return selectedItemDrawable;
+		}
+
 		@Override
 		public void onClick(View view) {
 			onItemExpanded(getPosition());
@@ -219,7 +238,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			googleMap.getUiSettings().setZoomControlsEnabled(false);
 			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
 				new LatLng(offer.pickUpLocation.latitude, offer.pickUpLocation.longitude),
-				18));
+				MAP_ZOOM_LEVEL));
 		}
 
 		public void addMarker(SearchCarOffer offer, GoogleMap googleMap) {
