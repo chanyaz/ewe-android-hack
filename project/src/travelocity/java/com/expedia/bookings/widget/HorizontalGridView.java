@@ -3,72 +3,69 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.content.res.Configuration;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.expedia.bookings.util.LaunchScreenAnimationUtil;
-import com.mobiata.android.util.AndroidUtils;
+import com.expedia.bookings.R;
 
-public class HorizontalGridView extends HorizontalScrollView {
+public class HorizontalGridView extends ScrollView {
 	private BaseAdapter adapter;
 	private LinearLayout rootLinearLayout;
-	private ColumnProvider columnProvider;
-	private List<View> childViews;
-
-	public HorizontalGridView(Context context) {
-		super(context);
-	}
-
-	public HorizontalGridView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(attrs);
-	}
-
-	public HorizontalGridView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init(attrs);
-	}
-
-	private void init(AttributeSet attrs) {
-		childViews = new ArrayList<>();
-		rootLinearLayout = new LinearLayout(getContext());
-		rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-		LayoutParams rootLinearLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
-			LayoutParams.MATCH_PARENT);
-		rootLinearLayout.setLayoutParams(rootLinearLayoutParams);
-
-		TypedArray ta = getContext().obtainStyledAttributes(attrs, new int[] { android.R.attr.rowHeight });
-		int rowHeight = ta.getDimensionPixelSize(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-		ta.recycle();
-
-		int containerHeight =
-			AndroidUtils.getDisplaySize(getContext()).y - LaunchScreenAnimationUtil.getActionBarNavBarSize(
-				(Activity) getContext()) - LaunchScreenAnimationUtil.getMarginBottom((Activity) getContext());
-		columnProvider = new ColumnProvider(rootLinearLayout, containerHeight / rowHeight);
-	}
-
 	private DataSetObserver dataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
 			super.onChanged();
 
-			removeAllViews();
+			horizontalScrollView.removeAllViews();
 			rootLinearLayout.removeAllViews();
 			childViews.clear();
+			lineProvider.addDummyExtraSpace();
 			for (int index = 0; index < adapter.getCount(); index++) {
 				View newView = adapter.getView(index, null, rootLinearLayout);
 				childViews.add(newView);
-				columnProvider.addViewInLayout(newView);
+				lineProvider.addViewInLayout(newView);
 			}
-			addView(rootLinearLayout);
+			horizontalScrollView.addView(rootLinearLayout);
 		}
 	};
+	private LineProvider lineProvider;
+	private List<View> childViews;
+	private HorizontalScrollView horizontalScrollView;
+
+	public HorizontalGridView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init();
+	}
+
+	private void init() {
+		childViews = new ArrayList<>();
+
+		LayoutParams rootLinearLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+			LayoutParams.MATCH_PARENT);
+
+		horizontalScrollView = new HorizontalScrollView(getContext());
+		horizontalScrollView.setLayoutParams(rootLinearLayoutParams);
+		horizontalScrollView.setHorizontalScrollBarEnabled(false);
+		horizontalScrollView.setOverScrollMode(OVER_SCROLL_NEVER);
+		addView(horizontalScrollView);
+
+		rootLinearLayout = new LinearLayout(getContext());
+		rootLinearLayout.setLayoutParams(rootLinearLayoutParams);
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			rootLinearLayout.setOrientation(LinearLayout.VERTICAL);
+			lineProvider = new RowProvider(rootLinearLayout);
+		}
+		else {
+			rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+			lineProvider = new ColumnProvider(rootLinearLayout);
+		}
+	}
 
 	public void setAdapter(BaseAdapter adapter) {
 		this.adapter = adapter;
@@ -79,34 +76,79 @@ public class HorizontalGridView extends HorizontalScrollView {
 		return childViews;
 	}
 
-	private class ColumnProvider {
-		private final ViewGroup parentViewGroup;
-		private final int rowCount;
-		private final LayoutParams newColumnLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
-			LayoutParams.MATCH_PARENT);
+	/**
+	 * Rows and columns both can be considered as lines
+	 */
+	private abstract class LineProvider {
+		private static final int ROW_OR_COLUMN_COUNT = 2;
+		protected final ViewGroup parentViewGroup;
+		protected LayoutParams newColumnLayoutParams;
 
-
-		private LinearLayout currentColumnToAddChildrenTo;
+		private LinearLayout currentViewToAddChildrenTo;
 		private int childCount = 0;
 
-		protected ColumnProvider(ViewGroup parentViewGroup, int rowCount) {
+		protected LineProvider(ViewGroup parentViewGroup) {
 			this.parentViewGroup = parentViewGroup;
-			this.rowCount = rowCount;
 		}
 
 		protected void addViewInLayout(View view) {
 			if (view != null) {
-				if (childCount++ % rowCount == 0) {
-					currentColumnToAddChildrenTo = createNewColumn();
-					parentViewGroup.addView(currentColumnToAddChildrenTo);
+				if (childCount++ % ROW_OR_COLUMN_COUNT == 0) {
+					currentViewToAddChildrenTo = createNewView();
+					parentViewGroup.addView(currentViewToAddChildrenTo);
 				}
-				currentColumnToAddChildrenTo.addView(view);
+				currentViewToAddChildrenTo.addView(view);
 			}
 		}
 
-		private LinearLayout createNewColumn() {
+
+		protected abstract void addDummyExtraSpace();
+
+		protected abstract LinearLayout createNewView();
+	}
+
+	private class ColumnProvider extends LineProvider {
+
+		protected ColumnProvider(ViewGroup parentViewGroup) {
+			super(parentViewGroup);
+			newColumnLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.MATCH_PARENT);
+		}
+
+		protected void addDummyExtraSpace() {
+			View dummyExtraSpaceColumn = new View(getContext());
+			final LayoutParams dummyExtraSpaceColumnLayoutParams = new LayoutParams(
+				getResources().getDimensionPixelSize(
+					R.dimen.destination_list_bg_title_overlay_width),
+				LayoutParams.MATCH_PARENT);
+			dummyExtraSpaceColumn.setLayoutParams(dummyExtraSpaceColumnLayoutParams);
+			parentViewGroup.addView(dummyExtraSpaceColumn);
+		}
+
+		protected LinearLayout createNewView() {
 			LinearLayout column = new LinearLayout(getContext());
 			column.setOrientation(LinearLayout.VERTICAL);
+			column.setLayoutParams(newColumnLayoutParams);
+			return column;
+		}
+	}
+
+
+	private class RowProvider extends LineProvider {
+
+		protected RowProvider(ViewGroup parentViewGroup) {
+			super(parentViewGroup);
+			newColumnLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		}
+
+		@Override
+		protected void addDummyExtraSpace() {
+		}
+
+		protected LinearLayout createNewView() {
+			LinearLayout column = new LinearLayout(getContext());
+			column.setOrientation(LinearLayout.HORIZONTAL);
 			column.setLayoutParams(newColumnLayoutParams);
 			return column;
 		}

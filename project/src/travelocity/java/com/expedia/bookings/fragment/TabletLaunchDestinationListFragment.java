@@ -7,7 +7,7 @@ import java.util.Random;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Point;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,12 +16,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.util.LaunchScreenAnimationUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.DestinationCollection;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HorizontalGridView;
 import com.expedia.bookings.widget.OptimizedImageView;
 import com.expedia.bookings.widget.TabletLaunchDestinationListAdapter;
@@ -38,7 +41,6 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 	private TextView launchDestinationTitle;
 	private TabletLaunchDestinationListAdapter destinationListAdapter;
 	private HorizontalGridView launchListContainer;
-	private ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback> picassoTargetCallbacks = new ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback>();
 
 	public static TabletLaunchDestinationListFragment newInstance() {
 		TabletLaunchDestinationListFragment frag = new TabletLaunchDestinationListFragment();
@@ -60,22 +62,22 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 		FontCache.setTypeface(launchDestinationTitle, FontCache.Font.ROBOTO_LIGHT);
 
 		LaunchScreenAnimationUtil
-			.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay));
-		centerAlignGridView(launchListContainer);
+			.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay),
+				Ui.findView(rootC, R.id.destination_title_bg_overlay));
+		updateTitleLayoutParams();
 		return rootC;
 	}
 
-	private void centerAlignGridView(HorizontalGridView launchListContainer) {
-		Point screenSize = AndroidUtils.getDisplaySize(getParentFragment().getActivity());
-
-		ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) launchListContainer
+	private void updateTitleLayoutParams() {
+		int screenWidth = AndroidUtils.getDisplaySize(getActivity()).x;
+		int destinationTitleWidth = (int) (screenWidth / DestinationCollection.NO_OF_TILES_LANDSCAPE);
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			destinationTitleWidth = (int) (screenWidth / DestinationCollection.NO_OF_TILES_PORTRAIT);
+		}
+		FrameLayout.LayoutParams destinationTitleLayoutParams = (android.widget.FrameLayout.LayoutParams) launchDestinationTitle
 			.getLayoutParams();
-		final int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getParentFragment().getActivity());
-		final int marginBottom = LaunchScreenAnimationUtil.getMarginBottom(getParentFragment().getActivity());
-
-		lp.topMargin = ((screenSize.y - marginTop - marginBottom) % getResources()
-			.getDimensionPixelSize(R.dimen.tablet_destination_tile_size)) / 2;
-		launchListContainer.setLayoutParams(lp);
+		destinationTitleLayoutParams.width = destinationTitleWidth;
+		launchDestinationTitle.setLayoutParams(destinationTitleLayoutParams);
 	}
 
 	@Override
@@ -91,12 +93,21 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 	}
 
 	@Subscribe
+	public void onLaunchCollectionsAvailable(Events.LaunchCollectionsAvailable event) {
+		updateDestinationListView(event.selectedCollection);
+	}
+
+	@Subscribe
 	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
-		if (event.launchCollection != null) {
-			replaceAllPins(event.launchCollection.locations);
-			launchLocationsBackgroundImageView.setImageDrawable(event.launchCollection.imageDrawable);
-			launchDestinationTitle.setText(event.launchCollection.title);
-			startTilesPopinAnimation();
+		updateDestinationListView(event.launchCollection);
+		startTilesPopinAnimation();
+	}
+
+	private void updateDestinationListView(LaunchCollection launchCollection) {
+		if (launchCollection != null) {
+			replaceAllPins(launchCollection.locations);
+			launchLocationsBackgroundImageView.setImageDrawable(launchCollection.imageDrawable);
+			launchDestinationTitle.setText(launchCollection.title);
 		}
 	}
 

@@ -91,4 +91,6 @@
     <string name="total_due_to_our_brand_today">Total Due to Travelocity Today:</string>
     <!-- Launch screen destination list, launch card title text -->
     <string name="destination_list_launch_card_title_text">%1$s,\n%2$s</string>
+    <!-- Menu option for going to see my trips/itineraries -->
+    <string name="my_trips">My Trips</string>
 </resources>

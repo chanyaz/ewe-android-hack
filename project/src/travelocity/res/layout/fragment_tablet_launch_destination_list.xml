@@ -15,11 +15,29 @@
     <View
         android:id="@+id/bg_overlay"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/destination_list_bg_title_overlay_width" />
+
+
+    <com.expedia.bookings.widget.HorizontalGridView
+        android:id="@+id/launch_destinations_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/destination_list_horizontal_grid_margin_vertical"
+        android:layout_marginLeft="@dimen/destination_list_horizontal_grid_margin_left"
+        android:layout_marginTop="@dimen/destination_list_horizontal_grid_margin_vertical"
+        android:background="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <View
+        android:id="@+id/destination_title_bg_overlay"
+        android:layout_width="@dimen/destination_list_bg_title_overlay_width"
         android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/launch_destination_title"
-        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/destination_text_container_height"
         android:layout_marginTop="@dimen/tablet_launch_destination_title_margin_top"
         android:background="@android:color/transparent"
@@ -32,14 +50,4 @@
         android:paddingTop="@dimen/destination_text_padding_vertical"
         android:textColor="#ffffff"
         android:textSize="@dimen/tablet_launch_destination_list_text_size" />
-
-    <com.expedia.bookings.widget.HorizontalGridView
-        android:id="@+id/launch_destinations_list_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="300dp"
-        android:background="@android:color/transparent"
-        android:overScrollMode="never"
-        android:rowHeight="@dimen/tablet_destination_tile_size"
-        android:scrollbars="none" />
 </FrameLayout>

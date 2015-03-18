@@ -5,8 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -14,10 +17,12 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.util.LaunchScreenAnimationUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.TextView;
+import com.mobiata.android.util.AndroidUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,8 +31,11 @@ import butterknife.OnClick;
 public class LaunchCard extends FrameLayout {
 
 	private static final int FLIP_ANIMATION_TIME = 300;
-	private static LaunchCard currentToggledCard = null;
+	private static final int ROW_COLUMN_COUNT = 2;
+	private static final float ASPECT_WIDTH = 550;
+	private static final float ASPECT_HEIGHT = 685;
 
+	private static LaunchCard currentToggledCard = null;
 	@InjectView(R.id.launch_title_front_text_view)
 	TextView frontTextView;
 	@InjectView(R.id.launch_title_front_container)
@@ -43,19 +51,15 @@ public class LaunchCard extends FrameLayout {
 	@InjectView(R.id.button_explore_now)
 	TextView backExploreNow;
 	private LaunchLocation launchLocation;
-	private int launchCardSize;
+	private Point launchCardSize;
 	private AnimatorSet animatorSet;
 
 	public LaunchCard(Context context) {
 		super(context);
 	}
 
-	public LaunchCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public LaunchCard(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
+	public LaunchCard(Context context, AttributeSet attributeSet) {
+		super(context, attributeSet);
 	}
 
 	@Override
@@ -63,11 +67,41 @@ public class LaunchCard extends FrameLayout {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		launchCardSize = getResources().getDimensionPixelSize(R.dimen.tablet_destination_tile_size);
+		updateLayoutParams();
 
 		FontCache.setTypeface(frontTextView, FontCache.Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(backTextTitle, FontCache.Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(backTextDescription, FontCache.Font.ROBOTO_REGULAR);
+	}
+
+	private void updateLayoutParams() {
+		int launchCardWidth = -2;
+		int launchCardHeight = -2;
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			int screenWidth = AndroidUtils.getDisplaySize(getContext()).x;
+			int marginLeft = getResources().getDimensionPixelSize(R.dimen.destination_list_horizontal_grid_margin_left);
+			float aspectRatio = ASPECT_HEIGHT / ASPECT_WIDTH;
+
+			launchCardWidth = (screenWidth - marginLeft) / ROW_COLUMN_COUNT;
+			launchCardHeight = (int) (launchCardWidth * aspectRatio);
+		}
+		else {
+			int screenHeight = AndroidUtils.getDisplaySize(getContext()).y;
+			int verticalMargin = getResources().getDimensionPixelSize(R.dimen.destination_list_horizontal_grid_margin_vertical) * 2;
+			int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
+			float aspectRatio = ASPECT_WIDTH / ASPECT_HEIGHT;
+
+			launchCardHeight = (screenHeight - verticalMargin - marginTop) / ROW_COLUMN_COUNT;
+			launchCardWidth = (int) (launchCardHeight * aspectRatio);
+		}
+		launchCardSize = new Point();
+		launchCardSize.x = launchCardWidth;
+		launchCardSize.y = launchCardHeight;
+		ViewGroup.LayoutParams cardLayoutParams = getLayoutParams();
+		cardLayoutParams.width = launchCardWidth;
+		cardLayoutParams.height = launchCardHeight;
+		setLayoutParams(cardLayoutParams);
 	}
 
 	public void bind(final LaunchLocation launchLocation) {
@@ -144,13 +178,13 @@ public class LaunchCard extends FrameLayout {
 			backView = frontContainer;
 		}
 		frontView.setPivotX(0f);
-		frontView.setPivotY(launchCardSize / 2);
-		backView.setPivotX(launchCardSize);
-		backView.setPivotY(launchCardSize / 2);
+		frontView.setPivotY(launchCardSize.y / 2);
+		backView.setPivotX(launchCardSize.x);
+		backView.setPivotY(launchCardSize.y / 2);
 		backView.setRotationY(-90);
 
 		ObjectAnimator translateFrontAnimation = ObjectAnimator
-			.ofFloat(frontView, "translationX", launchCardSize / 2);
+			.ofFloat(frontView, "translationX", launchCardSize.x / 2);
 		ObjectAnimator flipFrontAnimation = ObjectAnimator.ofFloat(frontView, "rotationY", 90);
 		flipFrontAnimation.addListener(new AnimatorListenerAdapter() {
 			@Override
@@ -163,7 +197,7 @@ public class LaunchCard extends FrameLayout {
 		});
 
 		ObjectAnimator translateBackAnimation = ObjectAnimator
-			.ofFloat(backView, "translationX", -launchCardSize / 2, 0);
+			.ofFloat(backView, "translationX", -launchCardSize.x / 2, 0);
 		ObjectAnimator flipBackAnimation = ObjectAnimator.ofFloat(backView, "rotationY", 0);
 		translateBackAnimation.setStartDelay(FLIP_ANIMATION_TIME);
 		flipBackAnimation.setStartDelay(FLIP_ANIMATION_TIME);
