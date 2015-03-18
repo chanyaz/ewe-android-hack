@@ -26,7 +26,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 
 	public static final String ARG_FROM_LAUNCH = "ARG_FROM_LAUNCH";
 
-	private RecyclerGallery.GalleryItemClickListner mListener;
+	private RecyclerGallery.GalleryItemListener mListener;
 
 	private RecyclerGallery mGallery;
 	private ImageView mLeftArrow;
@@ -34,6 +34,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 
 	private boolean mGalleryFlipping = true;
 	private int mGalleryPosition = 0;
+	boolean isUserBucketedForTest = false;
 
 	public static HotelDetailsMiniGalleryFragment newInstance(boolean fromLaunch) {
 		HotelDetailsMiniGalleryFragment fragment = new HotelDetailsMiniGalleryFragment();
@@ -49,7 +50,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, RecyclerGallery.GalleryItemClickListner.class);
+		mListener = Ui.findFragmentListener(this, RecyclerGallery.GalleryItemListener.class);
 	}
 
 	@Override
@@ -103,9 +104,27 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	}
 
 	private void setUpPhotoAbTest() {
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
-		mLeftArrow.setVisibility(isUserBucketedForTest ? View.VISIBLE : View.GONE);
-		mRightArrow.setVisibility(isUserBucketedForTest ? View.VISIBLE : View.GONE);
+		isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
+		mLeftArrow.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mGallery.stopFlipping();
+				mGallery.showPrevious();
+			}
+		});
+		mRightArrow.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mGallery.stopFlipping();
+				mGallery.showNext();
+			}
+		});
+		toggleSwipeIndicators(0);
+	}
+
+	public void toggleSwipeIndicators(int position) {
+		mLeftArrow.setVisibility(position == 0 || !isUserBucketedForTest ? View.GONE : View.VISIBLE);
+		mRightArrow.setVisibility(position == mGallery.getAdapter().getItemCount() - 1 || !isUserBucketedForTest ? View.GONE : View.VISIBLE);
 	}
 
 }

@@ -44,7 +44,7 @@ public class RecyclerGallery extends RecyclerView {
 
 	private static final int DEFAULT_FLIP_INTERVAL = 4000;
 
-	private RecyclerGallery.GalleryItemClickListner mListener;
+	private GalleryItemListener mListener;
 	private RecyclerAdapter mAdapter;
 	private SpaceDecoration mDecoration;
 	private LinearLayoutManager mLayoutManager;
@@ -413,14 +413,18 @@ public class RecyclerGallery extends RecyclerView {
 			+ ", mRunning=" + mRunning + ", mScrolling=" + mScrolling);
 	}
 
-	private void showNext() {
-		int position = mLayoutManager.findFirstVisibleItemPosition();
-		View v = mLayoutManager.findViewByPosition(position);
-		if (v == null) {
-			return;
+	public void showNext() {
+		int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
+		if (position >= 0 && position < mAdapter.getItemCount()) {
+			smoothScrollToPosition(position);
 		}
-		int offset = mLayoutManager.getRightDecorationWidth(v) * 2;
-		smoothScrollBy(v.getMeasuredWidth() + offset, 0);
+	}
+
+	public void showPrevious() {
+		int position = mLayoutManager.findFirstVisibleItemPosition() - 1;
+		if (position >= 0 && position < mAdapter.getItemCount()) {
+			smoothScrollToPosition(position);
+		}
 	}
 
 	private static final int FLIP_MSG = 1;
@@ -451,11 +455,36 @@ public class RecyclerGallery extends RecyclerView {
 
 	private final Handler mHandler = new LeakSafeHandler(this);
 
-	public interface GalleryItemClickListner {
+	public interface GalleryItemListener {
 		public void onGalleryItemClicked(Object item);
+		public void onGallerySwiped(int position);
 	}
 
-	public void setOnItemClickListener(GalleryItemClickListner listener) {
+	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
+	}
+
+	@Override
+	public void smoothScrollToPosition(int position) {
+		super.smoothScrollToPosition(position);
+		if (mListener != null) {
+			mListener.onGallerySwiped(position);
+		}
+	}
+
+	@Override
+	public void smoothScrollBy(int dx, int dy) {
+		super.smoothScrollBy(dx, dy);
+		if (mListener != null) {
+			mListener.onGallerySwiped(dx > 0 ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition());
+		}
+	}
+
+	@Override
+	public void scrollToPosition(int position) {
+		super.scrollToPosition(position);
+		if (mListener != null) {
+			mListener.onGallerySwiped(position);
+		}
 	}
 }

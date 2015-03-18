@@ -52,7 +52,7 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
-	RecyclerGallery.GalleryItemClickListner {
+	RecyclerGallery.GalleryItemListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
@@ -549,6 +549,11 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		if (details != null) {
 			toggleFullScreenGalleryLandscape();
 		}
+	}
+
+	@Override
+	public void onGallerySwiped(int position) {
+		mGalleryFragment.toggleSwipeIndicators(position);
 	}
 
 	private void toggleFullScreenGalleryLandscape() {

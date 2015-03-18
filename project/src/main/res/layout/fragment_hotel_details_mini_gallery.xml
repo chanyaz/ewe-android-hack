@@ -14,18 +14,20 @@
         android:unselectedAlpha="1.0"
         mobiata:placeholder="@null" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/left_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
-        android:src="@drawable/left_arrow"/>
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/left_arrow" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/right_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:src="@drawable/right_arrow"/>
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/right_arrow" />
 
 </FrameLayout>
