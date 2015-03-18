@@ -10,4 +10,5 @@ public class LXSearchResponse {
 	public List<LXActivity> activities;
 	public Map<String, LXCategoryMetadata> filterCategories;
 	public boolean searchFailure;
+	public String currencyCode;
 }

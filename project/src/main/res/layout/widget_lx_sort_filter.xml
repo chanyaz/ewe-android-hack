@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LXSortFilterWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sort_filter_widget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEFEF"
+    android:clickable="true"
+    android:padding="12dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/sort_filter_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:text="@string/lx_sort_filter"
+            android:textColor="#6a6a6a"
+            android:textSize="16dp"
+            android:gravity="left"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/sort_filter_done_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:background="@drawable/ic_action_bar_checkmark_disabled"
+            android:gravity="right|center" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Options"
+        android:textColor="@color/lx_secondary_color" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/price_sort_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/lx_sort_button_selector"
+            android:text="Price"
+            android:textColor="@drawable/lx_sort_button_text_selector" />
+
+        <Button
+            android:id="@+id/popularity_sort_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/lx_sort_button_selector"
+            android:text="Popularity"
+            android:textColor="@drawable/lx_sort_button_text_selector" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Categories"
+        android:textColor="@color/lx_secondary_color" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/filter_categories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </ScrollView>
+</com.expedia.bookings.widget.LXSortFilterWidget>

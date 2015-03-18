@@ -113,7 +113,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
-			.expectedFareCurrencyCode(lxState.activity.currencyCode)
+			.expectedFareCurrencyCode(lxState.activity.price.currencyCode)
 			.tripId(createTripResponse.tripId)
 			.suppressFinalBooking(suppressFinalBooking);
 

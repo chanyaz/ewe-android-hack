@@ -132,7 +132,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			// Remove the extra margin that card view adds for pre-L devices.
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
-			activityPrice.setText(activity.fromPrice);
+			activityPrice.setText(activity.price.getFormattedMoney());
 			category.setText(activity.bestApplicableCategoryLocalized);
 			fromPriceTicketType.setText(
 				itemView.getContext().getString(LXDataUtils.LX_PER_TICKET_TYPE_MAP.get(activity.fromPriceTicketCode)));

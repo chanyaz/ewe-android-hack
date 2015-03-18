@@ -36,7 +36,6 @@ public class LXState {
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
 		activity.location = event.activityDetails.location;
-		activity.currencyCode = event.activityDetails.currencyCode;
 	}
 
 	@Subscribe
