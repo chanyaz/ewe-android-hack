@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
@@ -32,20 +31,8 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	@InjectView(R.id.header_image)
 	ImageView headerImage;
 
-	@InjectView(R.id.price_container)
-	LinearLayout priceContainer;
-
 	@InjectView(R.id.offer_list)
 	public RecyclerView offerList;
-
-	@InjectView(R.id.passenger_count)
-	public TextView passengerCount;
-
-	@InjectView(R.id.bag_count)
-	public TextView bagCount;
-
-	@InjectView(R.id.door_count)
-	public TextView doorCount;
 
 	private CarOffersAdapter adapter;
 	private static final int LIST_DIVIDER_HEIGHT = 0;
@@ -93,17 +80,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		CategorizedCarOffers bucket = event.categorizedCarOffers;
 
-		CarInfo vehicleInfo = bucket.getLowestTotalPriceOffer().vehicleInfo;
-		passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
-		bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
-		if (vehicleInfo.minDoors != vehicleInfo.maxDoors) {
-			doorCount.setText(doorCount.getContext()
-				.getString(R.string.car_door_range_TEMPLATE, vehicleInfo.minDoors, vehicleInfo.maxDoors));
-		}
-		else {
-			doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
-		}
-
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
 
@@ -119,14 +95,12 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		int top = view.getTop();
 		float y = headerHeight - top;
 		backgroundHeader.setTranslationY(Math.min(-y * 0.5f, 0f));
-		priceContainer.setTranslationY(-y * 0.5f);
 		return y / headerHeight;
 	}
 
 	public void reset() {
 		offerList.getLayoutManager().scrollToPosition(0);
 		backgroundHeader.setTranslationY(0);
-		priceContainer.setTranslationY(0);
 	}
 
 }
