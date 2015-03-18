@@ -13,4 +13,6 @@ public class LXActivity {
 	// Currency code and location do not come from the search response and taken from the activity details.
 	public String currencyCode;
 	public String location;
+	public String bestApplicableCategoryEN;
+	public String bestApplicableCategoryLocalized;
 }

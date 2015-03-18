@@ -7,8 +7,8 @@ import org.joda.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXApiError;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
@@ -110,11 +110,9 @@ public class LXServicesTest {
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
-		ActivityDetailsParams activityDetailsParams = new ActivityDetailsParams();
-		activityDetailsParams.activityId = "183615";
-		activityDetailsParams.startDate = LocalDate.now();
-		activityDetailsParams.endDate = LocalDate.now().plusDays(1);
-		Subscription subscription = getLXServices().lxDetails(activityDetailsParams, blockingObserver);
+		LXActivity lxActivity = new LXActivity();
+		lxActivity.id = "183615";
+		Subscription subscription = getLXServices().lxDetails(lxActivity, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
 		assertEquals(0, blockingObserver.getErrors().size());
@@ -130,11 +128,9 @@ public class LXServicesTest {
 		mockServer.enqueue(new MockResponse().setBody("{\"id\": \"183615\", \"offersDetail\": { \"offers\": [] }}"));
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
 
-		ActivityDetailsParams activityDetailsParams = new ActivityDetailsParams();
-		activityDetailsParams.activityId = "183615";
-		activityDetailsParams.startDate = LocalDate.now();
-		activityDetailsParams.endDate = LocalDate.now().plusDays(1);
-		Subscription subscription = getLXServices().lxDetails(activityDetailsParams, blockingObserver);
+		LXActivity lxActivity = new LXActivity();
+		lxActivity.id = "183615";
+		Subscription subscription = getLXServices().lxDetails(lxActivity, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
 
 		blockingObserver.await();
 		subscription.unsubscribe();
@@ -147,9 +143,8 @@ public class LXServicesTest {
 	public void testUnexpectedDetailsResponseThrowsError() throws Throwable {
 		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
-		ActivityDetailsParams activityDetailsParams = new ActivityDetailsParams();
 
-		Subscription subscription = getLXServices().lxDetails(activityDetailsParams, blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(new LXActivity(), null, null, blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
 		assertEquals(1, blockingObserver.getErrors().size());

@@ -9,7 +9,8 @@ public class ActivityDetailsResponse {
 	public List<ActivityImages> images;
 	public String fromPrice;
 	public LXTicketType fromPriceTicketCode;
-	public String category;
+	public String bestApplicableCategoryEN;
+	public String bestApplicableCategoryLocalized;
 	public String location;
 	public List<String> highlights;
 	public OffersDetail offersDetail;

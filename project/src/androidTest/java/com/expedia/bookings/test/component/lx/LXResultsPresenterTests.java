@@ -60,7 +60,7 @@ public class LXResultsPresenterTests {
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_price))));
-		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_categories))));
+		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_category))));
 	}
 
 	@Test

@@ -124,7 +124,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 	private void buildInfo(ActivityDetailsResponse activityDetails) {
 		title.setText(activityDetails.title);
 		price.setText(activityDetails.fromPrice);
-		category.setText(activityDetails.category);
+		category.setText(activityDetails.bestApplicableCategoryLocalized);
 		perTicketType.setText(getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(activityDetails.fromPriceTicketCode)));
 	}
 

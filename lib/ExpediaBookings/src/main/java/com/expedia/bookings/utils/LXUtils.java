@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import com.expedia.bookings.data.Money;
@@ -27,5 +28,35 @@ public class LXUtils {
 		totalMoney.setCurrency(currencyCode);
 
 		return totalMoney;
+	}
+
+	public static String bestApplicableCategory(List<String> activitiesEN) {
+		//We are comparing English Category Strings with English Prioritized Strings!
+		final String[] prioritizedCategoriesEN = {
+			"Hop-on Hop-off",
+			"Attractions",
+			"Adventures",
+			"Tours & Sightseeing",
+			"Food & Drink",
+			"Show & Sport Tickets",
+			"Theme Parks",
+			"Private Tours",
+			"Cruises & Water Tours",
+			"Multi-day & Extended Tours",
+		};
+
+		if (activitiesEN == null || activitiesEN.size() == 0) {
+			return "";
+		}
+
+		//Choose the first category in the prioritized list which exists in the activities list passed
+		for (int iCategory = 0; iCategory < prioritizedCategoriesEN.length; iCategory++) {
+			if (activitiesEN.contains(prioritizedCategoriesEN[iCategory])) {
+				return prioritizedCategoriesEN[iCategory];
+			}
+		}
+
+		//None from the prioritized list found. Simply return the first category!
+		return activitiesEN.iterator().next();
 	}
 }
