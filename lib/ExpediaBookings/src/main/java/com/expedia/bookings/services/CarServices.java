@@ -1,7 +1,6 @@
 package com.expedia.bookings.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +15,9 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
-import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,6 +30,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
+import rx.exceptions.OnErrorNotImplementedException;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
@@ -82,46 +82,21 @@ public class CarServices {
 		}
 	};
 
-	// Custom classed required only by BUCKET_OFFERS for storing Categorized offers uniquely
-	private static class CarBucket {
-		CarCategory category;
-		CarType type;
-
-		public CarBucket(CarCategory category, CarType type) {
-			this.category = category;
-			this.type = type;
-		}
-
-		@Override
-		public int hashCode() {
-			return Arrays.hashCode(new Object[] {
-				category,
-				type
-			});
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof CarBucket) {
-				CarBucket ob = (CarBucket) obj;
-				return category == ob.category && type == ob.type;
-			}
-			return false;
-		}
-	}
-
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
 		public Observable<CategorizedCarOffers> call(CarSearchResponse carSearchResponse) {
-			Map<CarBucket, CategorizedCarOffers> buckets = new HashMap<>();
+			Map<String, CategorizedCarOffers> buckets = new HashMap<>();
 			for (SearchCarOffer offer : carSearchResponse.offers) {
+				String label = offer.vehicleInfo.carCategoryDisplayLabel;
 				CarCategory category = offer.vehicleInfo.category;
-				CarType type = offer.vehicleInfo.type;
-				CarBucket combo = new CarBucket(category, type);
-				CategorizedCarOffers bucket = buckets.get(combo);
+				if (Strings.isEmpty(label)) {
+					throw new OnErrorNotImplementedException(new RuntimeException("offer.vehicle.carCategoryDisplayLabel is empty for productKey=" + offer.productKey));
+				}
+
+				CategorizedCarOffers bucket = buckets.get(label);
 				if (bucket == null) {
-					bucket = new CategorizedCarOffers(category, type);
-					buckets.put(combo, bucket);
+					bucket = new CategorizedCarOffers(label, category);
+					buckets.put(label, bucket);
 				}
 				bucket.add(offer);
 			}
