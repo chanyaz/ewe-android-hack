@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.LXResultsListAdapter;
@@ -45,6 +46,10 @@ public class LXViewModel {
 
 	public static ViewInteraction location() {
 		return onView(withId(R.id.search_location));
+	}
+
+	public static void didNotGoToResults() {
+		EspressoUtils.assertViewIsDisplayed(R.id.search_params_container);
 	}
 
 	public static void selectLocation(Instrumentation instrumentation, String location) throws Throwable {

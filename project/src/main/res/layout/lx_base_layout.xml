@@ -14,9 +14,11 @@
         layout="@layout/lx_result_presenter"
         android:visibility="gone" />
 
-    <include
+    <com.expedia.bookings.presenter.lx.LXSearchParamsPresenter
         android:id="@+id/search_params_widget"
-        layout="@layout/widget_lx_search_params"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.lx.LXCheckoutPresenter
