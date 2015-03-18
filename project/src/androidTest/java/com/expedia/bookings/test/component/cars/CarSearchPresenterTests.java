@@ -16,6 +16,7 @@ import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -30,8 +31,6 @@ import static org.junit.Assert.assertNull;
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchPresenterTests {
 	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
-	private static final String START_DATE_TIME_PATTERN = "MMM d, h:mm";
-	private static final String END_DATE_TIME_PATTERN = "h:mm a";
 
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
@@ -127,11 +126,10 @@ public final class CarSearchPresenterTests {
 		final DateTime tomorrowsTomorrow = tomorrow.plusDays(1);
 		CarViewModel.selectDates(tomorrow.toLocalDate(), tomorrowsTomorrow.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = JodaUtils
-			.format(tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis), DATE_TIME_PATTERN)
-			+ " – " + JodaUtils
-			.format(tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis),
-				DATE_TIME_PATTERN);
+		String expected = DateFormatUtils.formatDateTimeRange(playground.get(),
+		tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis),
+		tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis),
+		DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -223,11 +221,10 @@ public final class CarSearchPresenterTests {
 		final DateTime tomorrow = today.plusDays(1);
 		CarViewModel.selectDates(today.toLocalDate(), tomorrow.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = JodaUtils
-			.format(today.withTimeAtStartOfDay().plusMillis(currentTime * minutesToMillis), DATE_TIME_PATTERN)
-			+ " – " + JodaUtils
-			.format(tomorrow.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
-				DATE_TIME_PATTERN);
+		String expected =  DateFormatUtils.formatDateTimeRange(playground.get(),
+			today.withTimeAtStartOfDay().plusMillis(currentTime * minutesToMillis),
+			tomorrow.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
+			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -248,11 +245,12 @@ public final class CarSearchPresenterTests {
 		final DateTime date = DateTime.now().plusDays(1);
 		CarViewModel.selectDates(date.toLocalDate(), date.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = JodaUtils
-			.format(date.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis), START_DATE_TIME_PATTERN)
-			+ " – " + JodaUtils
-			.format(date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4)  * minutesToMillis),
-				END_DATE_TIME_PATTERN);
+		String expected = DateFormatUtils.formatDateTimeRange(playground.get(),
+			date.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
+			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis),
+			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
+
 	}
+
 }
