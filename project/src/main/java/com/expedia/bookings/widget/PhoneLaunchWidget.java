@@ -346,27 +346,24 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onShowAirAttach(Events.LaunchAirAttachBannerShow event) {
 		final HotelSearchParams params = event.params;
-		if (params != null) {
-			if (airAttachBanner.getVisibility() == View.GONE) {
-				airAttachBanner.setVisibility(View.VISIBLE);
-				airAttachBanner.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-					@Override
-					public boolean onPreDraw() {
-						if (airAttachBanner.getHeight() == 0 || airAttachBanner.getVisibility() == View.GONE) {
-							return true;
-						}
-						airAttachBanner.getViewTreeObserver().removeOnPreDrawListener(this);
-						animateAirAttachBanner(params, true);
-						return false;
+		if (airAttachBanner.getVisibility() == View.GONE) {
+			airAttachBanner.setVisibility(View.VISIBLE);
+			airAttachBanner.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+				@Override
+				public boolean onPreDraw() {
+					if (airAttachBanner.getHeight() == 0 || airAttachBanner.getVisibility() == View.GONE) {
+						return true;
 					}
-				});
-			}
-			else {
-				animateAirAttachBanner(params, false);
-			}
+					airAttachBanner.getViewTreeObserver().removeOnPreDrawListener(this);
+					animateAirAttachBanner(params, true);
+					return false;
+				}
+			});
 		}
-		// Add logics
-		// Animate in?
+		else {
+			animateAirAttachBanner(params, false);
+		}
+
 		airAttachBanner.setVisibility(View.VISIBLE);
 	}
 
@@ -375,14 +372,28 @@ public class PhoneLaunchWidget extends FrameLayout {
 		airAttachBanner.animate()
 			.translationY(0f)
 			.setDuration(animate ? 300 : 0);
-		airAttachBanner.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				NavUtils.goToHotels(getContext(), hotelSearchParams);
-				OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
-			}
-		});
-		OmnitureTracking.trackPhoneAirAttachBanner(getContext());
+		// In the absence of search params from user's itin info,
+		// launch into hotels mode.
+		if (hotelSearchParams == null) {
+			airAttachBanner.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Bundle animOptions = AnimUtils.createActivityScaleBundle(airAttachBanner);
+					goToHotels(animOptions);
+					OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+				}
+			});
+		}
+		else {
+			airAttachBanner.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					NavUtils.goToHotels(getContext(), hotelSearchParams);
+					OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+				}
+			});
+			OmnitureTracking.trackPhoneAirAttachBanner(getContext());
+		}
 	}
 
 	@Subscribe

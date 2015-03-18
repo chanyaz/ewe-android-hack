@@ -1769,6 +1769,11 @@ public class ItineraryManager implements JSONable {
 			DateTime start = data.getStartDate();
 			DateTime currentDate = DateTime.now(start.getZone());
 
+			// Ignore fallback cards
+			if (data instanceof ItinCardDataFallback) {
+				continue;
+			}
+
 			// Ignore past itineraries
 			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
 				continue;
@@ -1807,6 +1812,11 @@ public class ItineraryManager implements JSONable {
 				ItinCardData nextData = itinCardDatas.get(i + 1);
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
+
+				// Ignore fallback cards
+				if (nextData instanceof ItinCardDataFallback) {
+					continue;
+				}
 
 				// If the next itin is a flight
 				if (nextType == Type.FLIGHT) {
