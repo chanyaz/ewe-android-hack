@@ -119,9 +119,9 @@
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
     <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">Total due today</string>
+    <string name="car_cost_breakdown_due_today">Due today</string>
     <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">Total amount due at pick-up</string>
+    <string name="car_cost_breakdown_total_due">Due at pick-up</string>
     <!-- Car checkout cost breakdown for alert button -->
     <string name="car_cost_breakdown_button_text">Done</string>
     <!-- Car checkout rental fare breakdown types -->
