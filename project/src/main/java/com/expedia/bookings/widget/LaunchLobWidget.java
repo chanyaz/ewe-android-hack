@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -45,6 +46,15 @@ public class LaunchLobWidget extends RelativeLayout {
 		carsBtn.scaleTo(f);
 		bg.setScaleY(f);
 		shadow.setTranslationY((f * origHeight) - origHeight);
+	}
+
+	public void updateVisibilities() {
+		if (PointOfSale.getPointOfSale().supportsCars()) {
+			carsBtn.setVisibility(View.VISIBLE);
+		}
+		else {
+			carsBtn.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

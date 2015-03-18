@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	private String text;
 	private Drawable icon;
-	private int color;
+	private Drawable bg;
 
 	@InjectView(R.id.lob_btn_bg)
 	public ViewGroup bgView;
@@ -45,7 +44,7 @@ public class PhoneLaunchButton extends FrameLayout {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PhoneLaunchButton);
 			text = ta.getString(R.styleable.PhoneLaunchButton_btn_text);
 			icon = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_icon);
-			color = ta.getColor(R.styleable.PhoneLaunchButton_btn_color, 0);
+			bg = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_bg);
 			ta.recycle();
 		}
 	}
@@ -56,9 +55,7 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	@Override
 	public void onFinishInflate() {
-		GradientDrawable drawable = (GradientDrawable) bgView.getBackground();
-		drawable.setColor(color);
-		bgView.setBackground(drawable);
+		bgView.setBackground(bg);
 		textView.setText(text);
 		iconView.setImageDrawable(icon);
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);

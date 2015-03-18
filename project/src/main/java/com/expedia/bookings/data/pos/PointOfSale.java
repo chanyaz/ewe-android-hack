@@ -118,6 +118,9 @@ public class PointOfSale {
 	// Flag for whether GDE is enabled
 	private boolean mSupportsGDE;
 
+	// Whether to show cars on this POS
+	private boolean mSupportsCars;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -330,6 +333,10 @@ public class PointOfSale {
 
 	public boolean supportsGDE() {
 		return mSupportsGDE;
+	}
+
+	public boolean supportsCars() {
+		return mSupportsCars;
 	}
 
 	/**
@@ -803,6 +810,7 @@ public class PointOfSale {
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
+		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);

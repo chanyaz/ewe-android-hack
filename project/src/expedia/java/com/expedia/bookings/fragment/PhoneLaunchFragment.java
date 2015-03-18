@@ -46,6 +46,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
+		Events.post(new Events.LaunchLobRefresh());
 		if (!checkConnection()) {
 			Events.post(new Events.LaunchOfflineState());
 		}
