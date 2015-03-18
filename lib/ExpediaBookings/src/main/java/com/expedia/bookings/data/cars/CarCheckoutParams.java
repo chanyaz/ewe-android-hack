@@ -23,6 +23,8 @@ public class CarCheckoutParams {
 
 	public String storedCCID;
 
+	public boolean suppressFinalBooking;
+
 	@Override
 	public CarCheckoutParams clone() {
 		CarCheckoutParams clone = new CarCheckoutParams();
@@ -47,7 +49,7 @@ public class CarCheckoutParams {
 
 	public Map<String, Object> toQueryMap() {
 		Map<String, Object> map = new HashMap<>();
-		map.put("suppressFinalBooking", true);
+		map.put("suppressFinalBooking", suppressFinalBooking);
 		map.put("tripId", tripId);
 		map.put("expectedTotalFare", grandTotal.amount.toString());
 		map.put("expectedFareCurrencyCode", grandTotal.currencyCode);

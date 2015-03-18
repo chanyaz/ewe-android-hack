@@ -12,6 +12,7 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -24,6 +25,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -144,7 +146,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Override
 	public void onBook(String cvv) {
-
+		final boolean suppressFinalBooking = BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_car_bookings, true);
 		CarCheckoutParamsBuilder builder =
 			new CarCheckoutParamsBuilder()
 				.firstName(mainContactInfoCardView.firstName.getText().toString())
@@ -155,7 +157,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 				.phoneCountryCode(
 					Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(mainContactInfoCardView.phoneNumber.getText().toString())
-				.tripId(createTripResponse.tripId);
+				.tripId(createTripResponse.tripId)
+				.suppressFinalBooking(suppressFinalBooking);
 
 		if (createTripResponse.carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
 			builder.storedCCID(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
