@@ -22,9 +22,6 @@ public class LaunchScreenTest extends PhoneTestCase {
 	public void testGeneralUIElements() {
 		setPOS(PointOfSaleId.UNITED_STATES);
 
-		EspressoUtils.assertViewIsDisplayed(android.R.id.home);
-		Common.enterLog(TAG, "Expedia logo on Launch screen is displayed");
-
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.nav_hotels));
 		LaunchScreen.launchHotels();
 		EspressoUtils.assertViewIsDisplayed(R.id.hotel_list_container);
