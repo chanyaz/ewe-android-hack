@@ -77,6 +77,7 @@
     <string name="preference_filter_merchant_properties">filter_merchant_properties</string>
     <string name="preference_marketing_date">preference_amobee_marketing_date</string> <!-- Originally for amobee, cannot be renamed now -->
     <string name="preference_suppress_flight_bookings">suppress_flight_bookings</string>
+    <string name="preference_suppress_car_bookings">suppress_car_bookings</string>
     <string name="preference_suppress_hotel_bookings">suppress_hotel_bookings</string>
     <string name="preference_fake_current_location">preference_fake_current_location</string>
     <string name="preference_force_new_location">preference_force_new_location</string>

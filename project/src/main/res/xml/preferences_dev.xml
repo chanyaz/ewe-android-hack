@@ -97,6 +97,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Cars" >
+
+        <com.expedia.bookings.widget.CheckBoxPreference
+            app:id="@id/preference_suppress_car_booking_checkbox"
+            android:defaultValue="true"
+            android:key="@string/preference_suppress_car_bookings"
+            android:summary="Do car bookings, but suppress any actual booking from going through"
+            android:title="Suppress Car Bookings" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Flights" >
 
         <com.expedia.bookings.widget.CheckBoxPreference

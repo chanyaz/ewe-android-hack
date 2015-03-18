@@ -18,6 +18,7 @@ public class CarCheckoutParamsBuilder {
 	private String mCCName;
 	private String mCCCVV;
 	private String mStoredCCID;
+	private boolean mSuppressFinalBooking;
 
 	public CarCheckoutParamsBuilder tripId(String tripId) {
 		mTripId = tripId;
@@ -89,6 +90,11 @@ public class CarCheckoutParamsBuilder {
 		return this;
 	}
 
+	public CarCheckoutParamsBuilder suppressFinalBooking(boolean suppress) {
+		mSuppressFinalBooking = suppress;
+		return this;
+	}
+
 	public CarCheckoutParams build() {
 		CarCheckoutParams params = new CarCheckoutParams();
 		params.tripId = mTripId;
@@ -105,6 +111,7 @@ public class CarCheckoutParamsBuilder {
 		params.ccName = mCCName;
 		params.ccCVV = mCCCVV;
 		params.storedCCID = mStoredCCID;
+		params.suppressFinalBooking = mSuppressFinalBooking;
 
 		return params;
 	}
