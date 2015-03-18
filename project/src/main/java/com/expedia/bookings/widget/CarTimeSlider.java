@@ -154,4 +154,9 @@ public class CarTimeSlider extends SeekBar {
 		DateTime newTime = startTime.plusMinutes(progress * 30);
 		return newTime;
 	}
+
+	public void setProgress(DateTime time) {
+		int progress = (time.getHourOfDay() * 2) + (time.getMinuteOfHour() > 30 ? 1 : 0);
+		setProgress(progress);
+	}
 }
