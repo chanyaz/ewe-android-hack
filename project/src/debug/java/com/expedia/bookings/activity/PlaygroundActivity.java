@@ -1,15 +1,15 @@
 package com.expedia.bookings.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 
-public class PlaygroundActivity extends Activity {
+public class PlaygroundActivity extends ActionBarActivity {
 
 	private static final String KEY_LAYOUT_RES = "KEY_LAYOUT_RES";
 

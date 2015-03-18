@@ -5,10 +5,9 @@ import org.joda.time.DateTime;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
@@ -56,48 +55,25 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 	private void doLogin() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
-		CarViewModel.clickCarLogin();
-		CarViewModel.enterUsername("username");
-		CarViewModel.enterPassword("password");
+		CheckoutViewModel.enterLoginDetails();
 		ScreenActions.delay(1);
 		screenshot("Car_LoginScreen");
-		CarViewModel.pressDoLogin();
+		CheckoutViewModel.pressDoLogin();
 		ScreenActions.delay(1);
 		screenshot("Car_Login_Success");
 	}
 
-	private void enterDriverInfo() {
-		CarViewModel.clickDriverInfo();
-		CarViewModel.enterFirstName("FiveStar");
-		CarViewModel.enterLastName("Bear");
-		Common.closeSoftKeyboard(CarViewModel.lastName());
-		ScreenActions.delay(1);
-		CarViewModel.enterEmail("noah@mobiata.com");
-		Common.closeSoftKeyboard(CarViewModel.email());
-		ScreenActions.delay(1);
-		CarViewModel.enterPhoneNumber("4158675309");
-		CarViewModel.pressClose();
-	}
 
-	private void enterPaymentInfo() throws Throwable {
+	private void enterPaymentInfoWithScreenshot() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
-		CarViewModel.clickPaymentInfo();
-
-		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
-		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
-		CardInfoScreen.clickOnExpirationDateButton();
-		CardInfoScreen.clickMonthUpButton();
-		CardInfoScreen.clickYearUpButton();
-		CardInfoScreen.clickSetButton();
-		CardInfoScreen.typeTextPostalCode("666");
-		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CheckoutViewModel.enterPaymentInfo();
 		screenshot("Car_Checkout_Payment_Entered");
-		CarViewModel.pressClose();
+		CheckoutViewModel.pressClose();
 	}
 
 	private void slideToPurchase() throws Throwable {
 		screenshot("Car_Checkout_Ready_To_Purchase");
-		CarViewModel.performSlideToPurchase();
+		CheckoutViewModel.performSlideToPurchase();
 		ScreenActions.delay(1);
 
 		screenshot("Car_Confirmation");
@@ -113,7 +89,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		goToCarDetails();
 		selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
-		enterDriverInfo();
+		CheckoutViewModel.enterTravelerInfo();
 
 		slideToPurchase();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
@@ -122,10 +98,10 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
 		selectCarOffer(CREDIT_CARD_REQUIRED);
-		enterDriverInfo();
+		CheckoutViewModel.enterTravelerInfo();
 		screenshot("Car_Checkout_Driver_Entered");
 
-		enterPaymentInfo();
+		enterPaymentInfoWithScreenshot();
 
 		slideToPurchase();
 		enterCVV("111");
@@ -145,9 +121,9 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		selectCarOffer(CREDIT_CARD_REQUIRED);
 		doLogin();
 
-		CarViewModel.clickPaymentInfo();
-		CarViewModel.clickStoredCardButton();
-		CarViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.clickStoredCardButton();
+		CheckoutViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
 		slideToPurchase();
 		enterCVV("6286");
 	}
@@ -158,15 +134,15 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		selectCarOffer(CREDIT_CARD_REQUIRED);
 		doLogin();
 
-		CarViewModel.clickDriverInfo();
-		CarViewModel.clickStoredTravelerButton();
-		CarViewModel.selectStoredTraveler(getInstrumentation(), "Expedia Automation First");
-		CarViewModel.pressClose();
+		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler(getInstrumentation(), "Expedia Automation First");
+		CheckoutViewModel.pressClose();
 		screenshot("Car_Checkout_Driver_Entered");
 
-		CarViewModel.clickPaymentInfo();
-		CarViewModel.clickStoredCardButton();
-		CarViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.clickStoredCardButton();
+		CheckoutViewModel.selectStoredCard(getInstrumentation(), "AmexTesting");
 		slideToPurchase();
 		enterCVV("6286");
 	}

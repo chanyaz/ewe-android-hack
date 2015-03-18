@@ -13,6 +13,7 @@ OUTPUT_DIR="spoon/lx"
 add_test "com.expedia.bookings.test.component.lx.LXDetailsPresenterTests"
 add_test "com.expedia.bookings.test.component.lx.LXResultsPresenterTests"
 add_test "com.expedia.bookings.test.component.lx.LXSearchParamsTest"
+add_test "com.expedia.bookings.test.component.lx.LXCheckoutPresenterTests"
 add_test "com.expedia.bookings.test.ui.happy.LxPhoneHappyPath"
 
 rm -rf "spoon"

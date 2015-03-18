@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
@@ -21,6 +23,7 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.utils.DateUtils;
 import com.google.gson.Gson;
@@ -74,6 +77,7 @@ public class LXCheckoutPresenterTests {
 		//Make Create Trip Succeed
 		LXCreateTripResponse lxCreateTripResponse = gson.fromJson("{tripId:\"c0eb37f7-9553-441b-975a-877eff95e8fa\", itineraryNumber:11528775160, activityId:\"0c0af1cb-f721-4cbf-8b99-e4f753cb6caa\", validFormsOfPayment:[{name:\"AmericanExpress\"}, {name:\"Diner's Club International\"}, {name:\"Discover\"}, {name:\"JCB\"}, {name:\"MasterCard\"}, {name:\"Visa\"} ] }", LXCreateTripResponse.class);
 		Events.post(new Events.LXCreateTripSucceeded(lxCreateTripResponse));
+		Db.getTripBucket().add(new TripBucketItemLX(lxCreateTripResponse));
 		ScreenActions.delay(2);
 	}
 
@@ -94,4 +98,13 @@ public class LXCheckoutPresenterTests {
 		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 	}
 
+	@Test
+	public void testSliderVisibility() {
+		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
+		CheckoutViewModel.enterTravelerInfo();
+		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
+		CheckoutViewModel.enterPaymentInfo();
+		CheckoutViewModel.clickDone();
+		LXViewModel.checkoutSlideToPurchase().check(matches(isDisplayed()));
+	}
 }
