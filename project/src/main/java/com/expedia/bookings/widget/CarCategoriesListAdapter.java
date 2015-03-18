@@ -151,7 +151,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 
 			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
-			categoryTextView.setText(getCategoryText(cco));
+			categoryTextView.setText(vehicleInfo.carCategoryDisplayLabel);
 			passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
 			bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
 			if (vehicleInfo.minDoors != vehicleInfo.maxDoors) {
@@ -174,14 +174,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
-		}
-
-		public String getCategoryText(CategorizedCarOffers cco) {
-			String category = CarDataUtils.getCategoryStringForResults(categoryTextView.getContext(),
-				cco.category);
-			String type = CarDataUtils.getTypeStringForResults(categoryTextView.getContext(),
-				cco.type);
-			return (category + " " + type);
 		}
 	}
 

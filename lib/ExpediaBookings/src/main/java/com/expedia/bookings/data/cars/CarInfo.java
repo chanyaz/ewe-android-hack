@@ -20,6 +20,7 @@ public class CarInfo {
 	public int childCapacity;
 	public int largeLuggageCapacity;
 	public int smallLuggageCapacity;
+	public String carCategoryDisplayLabel;
 
 	/**
 	 * makes usually contains an array of car make descriptions, although, is
