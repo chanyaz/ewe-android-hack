@@ -1,11 +1,13 @@
 package com.expedia.bookings.fragment;
 
+import android.app.ActionBar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -68,7 +70,6 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 	}
 
 	//IFragmentAvailabilityProvider
-
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		switch (tag) {
@@ -179,14 +180,38 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 			mListDetailContainer.setVisibility(View.VISIBLE);
 			mTilesFragment.getView().setVisibility(View.GONE);
 			mSearchBarC.setVisibility(View.GONE);
-
+			switchActionbar(true);
 			setLaunchState(LaunchState.DESTINATION_LIST, false);
 		}
 		else {
 			mListDetailContainer.setVisibility(View.GONE);
 			mTilesFragment.getView().setVisibility(View.VISIBLE);
 			mSearchBarC.setVisibility(View.VISIBLE);
+			switchActionbar(false);
 			setLaunchState(LaunchState.OVERVIEW, false);
 		}
+	}
+
+	private void switchActionbar(boolean isDestinationList) {
+		ActionBar actionBar = getActivity().getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(isDestinationList);
+		actionBar.setHomeButtonEnabled(isDestinationList);
+
+		if (isDestinationList) {
+			mAbText1.setAlpha(0f);
+			mAbText2.setAlpha(1f);
+		}
+		else {
+			mAbText1.setAlpha(1f);
+			mAbText2.setAlpha(0f);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (android.R.id.home == item.getItemId()) {
+			((TabletLaunchControllerFragment) getParentFragment()).switchListFragment();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
