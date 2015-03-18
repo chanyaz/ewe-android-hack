@@ -189,6 +189,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("baggageFeesUrl")) {
 				leg.setBaggageFeesUrl(reader.nextString());
 			}
+			else if (name.equals("fareType")) {
+				leg.setFareType(reader.nextString());
+			}
 			else {
 				reader.skipValue();
 			}

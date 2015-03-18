@@ -99,6 +99,7 @@
     <string name="preference_book_above_fold">EBAndroidAppHISBookAboveFold</string>
     <string name="preference_hotel_free_cancellation">EBAndroidAppHISFreeCancellation</string>
     <string name="preference_hotel_photo_treatment">ExpediaAndroidAppSwipablePhotos</string>
+    <string name="preference_flight_free_cancellation">ExpediaAndroidAppFlightCKOFreeCancelation</string>
 
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>

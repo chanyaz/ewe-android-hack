@@ -88,7 +88,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference photoPreference = (ListPreference) findPreference(
 				getString(R.string.preference_hotel_photo_treatment));
 			photoPreference.setOnPreferenceChangeListener(abacusPrefListener);
-
+			ListPreference flightFreeCancellationPreference = (ListPreference) findPreference(
+				getString(R.string.preference_flight_free_cancellation));
+			flightFreeCancellationPreference.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);

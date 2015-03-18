@@ -1550,6 +1550,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the remaining cost of your booking (in the hotel\'s local currency) during your stay.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Free cancellation within 24 hours</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
