@@ -21,6 +21,9 @@
     <!-- The maximum days range for a two way flight search -->
     <integer name="calendar_max_days_flight_search">330</integer>
 
+    <!-- The maximum days range for a car search -->
+    <integer name="calendar_max_days_car_search">330</integer>
+
     <!-- weights -->
     <integer name="login_or_lines_weight">1</integer>
     <integer name="login_or_spacers_weight">1</integer>
