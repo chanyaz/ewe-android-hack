@@ -246,7 +246,7 @@ public class CarSearchPresenter extends Presenter
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
 			.setMessage(messageResourceId)
-			.setNeutralButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+			.setPositiveButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
