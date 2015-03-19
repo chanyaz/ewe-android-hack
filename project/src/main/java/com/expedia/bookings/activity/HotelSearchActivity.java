@@ -40,6 +40,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -89,6 +90,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
@@ -233,6 +235,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private View mProgressBarDimmer;
 	private GLTagProgressBar mProgressBar;
 	private TextView mProgressText;
+
+	/**
+	 * AB test - Changing hotel search influence messaging text
+	 * {@link AbacusUtils.HSearchInfluenceMessagingVariate}
+	 */
+	private int searchInfluenceTextResId = 0;
 
 	//----------------------------------
 	// OTHERS
@@ -513,6 +521,25 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
+		// AB test - Changing hotel search influence messaging text
+		// AbacusUtils.HSearchInfluenceMessagingVariate
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
+		if (isUserBucketedForTest) {
+			if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.WORKING_HARD.ordinal()) {
+				searchInfluenceTextResId = R.string.progress_searching_hotels_working_hard;
+			}
+			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.SEARCHING_HUNDREDS.ordinal()) {
+				searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
+			}
+			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.NO_TEXT.ordinal()) {
+				searchInfluenceTextResId = 0;
+			}
+		}
+		else {
+			searchInfluenceTextResId = R.string.progress_searching_hotels;
+		}
+
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
 		boolean hasExternalSearchParams = getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 
@@ -557,6 +584,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				startSearch();
 			}
 		}
+
+
 
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
@@ -655,6 +684,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
 
+
+
+
 		if (mStartSearchOnResume) {
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 			startSearch();
@@ -685,13 +717,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				Log.d("Already geocoding, resuming the search...");
 				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
-				showLoading(true, R.string.progress_searching_hotels);
+				showLoading(true, searchInfluenceTextResId);
 			}
 			else if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Already searching, resuming the search...");
 				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
-				showLoading(true, R.string.progress_searching_hotels);
+				showLoading(true, searchInfluenceTextResId);
 			}
 			else if (downloader.isDownloading(KEY_HOTEL_SEARCH)) {
 				Log.d("Already searching, resuming the hotel name search...");
@@ -1511,7 +1543,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void startGeocode() {
-		showLoading(true, R.string.progress_searching_hotels);
+		showLoading(true, searchInfluenceTextResId);
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 
@@ -1597,7 +1629,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			showLoading(true, R.string.progress_searching_selected_hotel);
 		}
 		else {
-			showLoading(true, R.string.progress_searching_hotels);
+			showLoading(true, searchInfluenceTextResId);
 		}
 
 		commitEditedSearchParams();
@@ -2127,7 +2159,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void showLoading(boolean showProgress, int resId) {
-		showLoading(showProgress, getString(resId));
+		showLoading(showProgress, resId == 0 ? null : getString(resId));
 	}
 
 	private void showLoading(boolean showProgress, String text) {
@@ -2171,7 +2203,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
 		}
 
-		mProgressText.setText(text);
+		if (TextUtils.isEmpty(text)) {
+			mProgressText.setVisibility(View.GONE);
+		}
+		else {
+			mProgressText.setText(text);
+		}
 	}
 
 	@Override

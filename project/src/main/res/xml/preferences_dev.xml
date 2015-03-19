@@ -189,6 +189,14 @@
             android:summary="Select a test group"
             android:title="Flight Free Cancellation Messaging" />
 
+        <ListPreference
+            android:entries="@array/abacus_search_influence_choices"
+            android:entryValues="@array/abacus_search_influence_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_search_influence_messaging"
+            android:summary="Select a test group"
+            android:title="Hotel Search Influence Messaging" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
