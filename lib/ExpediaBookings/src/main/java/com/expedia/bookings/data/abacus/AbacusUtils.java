@@ -15,6 +15,7 @@ public class AbacusUtils {
 	public static final String EBAndroidAppHISFreeCancellationTest = "EBAndroidAppHISFreeCancellation";
 	public static final String EBAndroidAppHISSwipablePhotosTest = "ExpediaAndroidAppSwipablePhotos";
 	public static final String EBAndroidAppFlightCKOFreeCancelationTest = "ExpediaAndroidAppFlightCKOFreeCancelation";
+	public static final String EBAndroidAppHSearchInfluenceMessagingTest = "ExpediaAndroidAppHSRLoadMessaging";
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -32,6 +33,13 @@ public class AbacusUtils {
 	public static enum HISFreeCancellationVariate {
 		CONTROL,
 		BUCKETED
+	}
+
+	public static enum HSearchInfluenceMessagingVariate {
+		CONTROL,
+		WORKING_HARD,
+		SEARCHING_HUNDREDS,
+		NO_TEXT
 	}
 
 }
