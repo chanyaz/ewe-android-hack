@@ -44,11 +44,13 @@
     <style name="CarsBookingButton" parent="V2.Theme.Cars">   
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:background">@drawable/itin_button</item>
-        <item name="android:height">60dp</item>
         <item name="android:textColor">@color/cars_confirmation_action_text_color</item>     
         <item name="android:textSize">15sp</item>     
-        <item name="android:paddingLeft">20dp</item>      
-        <item name="android:drawablePadding">15dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>     
+        <item name="android:drawablePadding">12dp</item>
     </style>
 
     <style name="CarsLoginFormButton">
