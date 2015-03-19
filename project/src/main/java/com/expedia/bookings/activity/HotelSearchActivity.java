@@ -40,10 +40,10 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,7 +66,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -113,6 +112,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -235,6 +235,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private View mProgressBarDimmer;
 	private GLTagProgressBar mProgressBar;
 	private TextView mProgressText;
+	private TextView mProgressSearchingABText;
 
 	/**
 	 * AB test - Changing hotel search influence messaging text
@@ -280,6 +281,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private boolean mIsSearchEditTextTextWatcherEnabled = false;
 	private boolean mGLProgressBarStarted = false;
 	private boolean mHasShownCalendar = false;
+	private boolean mIsProgressSearchABTextVisible = false;
 
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
@@ -528,6 +530,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		if (isUserBucketedForTest) {
 			if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.WORKING_HARD.ordinal()) {
 				searchInfluenceTextResId = R.string.progress_searching_hotels_working_hard;
+				mProgressSearchingABText.setVisibility(View.VISIBLE);
+				mIsProgressSearchABTextVisible = true;
 			}
 			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.SEARCHING_HUNDREDS.ordinal()) {
 				searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
@@ -535,9 +539,11 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.NO_TEXT.ordinal()) {
 				searchInfluenceTextResId = 0;
 			}
+			mProgressText.setGravity(Gravity.TOP | Gravity.CENTER);
 		}
 		else {
 			searchInfluenceTextResId = R.string.progress_searching_hotels;
+			mProgressText.setGravity(Gravity.BOTTOM | Gravity.CENTER);
 		}
 
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
@@ -1247,6 +1253,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
+		mProgressSearchingABText = (TextView) findViewById(R.id.ab_searching_text);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
@@ -1280,17 +1287,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled()) {
 			mProgressBar.addOnDrawStartedListener(this);
-		}
-
-		// mProgressText is positioned differently based on orientation
-		// Could do this in XML, but more difficult due to include rules
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mProgressText.getLayoutParams();
-		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		if (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) {
-			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		}
-		else {
-			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		}
 
 		//===================================================================
@@ -1543,7 +1539,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void startGeocode() {
-		showLoading(true, searchInfluenceTextResId);
+		showLoading(true /*showProgress*/, searchInfluenceTextResId);
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 
@@ -1805,17 +1801,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "OutdatedVersion");
 
-				showLoading(false, errorOne.getExtra("message"));
+				showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, errorOne.getExtra("message"));
 			}
 			else {
-				showLoading(false, errorOne.getPresentableMessage(HotelSearchActivity.this));
+				showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, errorOne.getPresentableMessage(HotelSearchActivity.this));
 			}
 			handledError = true;
 		}
 
 		if (!handledError) {
 			OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "HotelListRequestFailed");
-			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
+			showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 	}
 
@@ -2163,6 +2159,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void showLoading(boolean showProgress, String text) {
+		showLoading(false /*isNotErrorMsg*/, showProgress, text);
+	}
+
+	private void showLoading(boolean isErrorMsg, boolean showProgress, String text) {
+		if (isErrorMsg) {
+			mProgressSearchingABText.setVisibility(View.GONE);
+		}
+		else if (mIsProgressSearchABTextVisible) {
+			mProgressSearchingABText.setVisibility(View.VISIBLE);
+		}
+
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
 		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
@@ -2189,6 +2196,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 			// Dark text on light background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
+			mProgressSearchingABText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
 		}
 		else {
 			// Map
@@ -2201,15 +2209,18 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			// Light text on dark background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
+			mProgressSearchingABText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
 		}
 
-		if (TextUtils.isEmpty(text)) {
+		if (Strings.isEmpty(text)) {
 			mProgressText.setVisibility(View.GONE);
 		}
 		else {
 			mProgressText.setText(text);
 		}
 	}
+
+
 
 	@Override
 	public void onDrawStarted() {
