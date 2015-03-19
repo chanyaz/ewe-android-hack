@@ -170,6 +170,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
 			listener.onChange();

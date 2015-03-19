@@ -114,6 +114,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	@Override
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
