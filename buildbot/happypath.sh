@@ -26,6 +26,7 @@ add_test "com.expedia.bookings.test.ui.happy.LxPhoneHappyPath"
 add_test "com.expedia.bookings.test.component.cars.CarSearchPresenterTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarSearchErrorTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCreateTripErrorTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCheckoutErrorTests"
 
 # LX
 add_test "com.expedia.bookings.test.component.lx.LXSearchParamsTest"

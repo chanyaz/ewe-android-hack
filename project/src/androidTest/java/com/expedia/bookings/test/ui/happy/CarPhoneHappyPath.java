@@ -41,18 +41,6 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		ScreenActions.delay(1);
 	}
 
-	private void selectCarOffer(int carOfferNum) throws Throwable {
-		screenshot("Car_Offers");
-		//Selecting an already expanded offer opens google maps
-		if (carOfferNum != 0) {
-			CarViewModel.expandCarOffer(carOfferNum);
-		}
-		CarViewModel.selectCarOffer();
-		ScreenActions.delay(1);
-
-		screenshot("Car_Checkout");
-	}
-
 	private void doLogin() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
 		CheckoutViewModel.enterLoginDetails();
@@ -87,7 +75,9 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 	public void testCarPhoneHappyPath() throws Throwable {
 		goToCarDetails();
-		selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		screenshot("Car Checkout");
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterTravelerInfo();
 
@@ -97,7 +87,9 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
-		selectCarOffer(CREDIT_CARD_REQUIRED);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(CREDIT_CARD_REQUIRED);
+		screenshot("Car Checkout");
 		CheckoutViewModel.enterTravelerInfo();
 		screenshot("Car_Checkout_Driver_Entered");
 
@@ -109,7 +101,9 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 	public void testCarPhoneLoggedInHappyPath() throws Throwable {
 		goToCarDetails();
-		selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		screenshot("Car Checkout");
 		doLogin();
 
 		slideToPurchase();
@@ -118,7 +112,9 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
-		selectCarOffer(CREDIT_CARD_REQUIRED);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(CREDIT_CARD_REQUIRED);
+		screenshot("Car Checkout");
 		doLogin();
 
 		CheckoutViewModel.clickPaymentInfo();
@@ -131,7 +127,9 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 
 	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
 		goToCarDetails();
-		selectCarOffer(CREDIT_CARD_REQUIRED);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(CREDIT_CARD_REQUIRED);
+		screenshot("Car Checkout");
 		doLogin();
 
 		CheckoutViewModel.clickDriverInfo();

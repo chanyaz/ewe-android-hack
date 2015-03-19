@@ -152,17 +152,10 @@ public class CarConfirmationWidget extends FrameLayout {
 
 	public void bind(CarCheckoutResponse response) {
 		final Resources res = getResources();
-		String text;
-		if (response.hasErrors()) {
-			text = response.errorsToString();
-		}
-		else {
-			itineraryNumber = response.newTrip.itineraryNumber;
-			text = res.getString(R.string.successful_checkout_TEMPLATE, itineraryNumber);
-		}
+		itineraryNumber = response.newTrip.itineraryNumber;
 		confirmationText.setText(res.getString(R.string.successful_checkout_email_label));
 		emailText.setText(builder.getEmailAddress());
-		itinText.setText(text);
+		itinText.setText(res.getString(R.string.successful_checkout_TEMPLATE, itineraryNumber));
 
 		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
 		new PicassoHelper.Builder(backgroundImageView)

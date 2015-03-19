@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -70,8 +70,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 
 	CreateTripCarOffer offer;
 
-	public void bind(CarCreateTripResponse createTripResponse) {
-		offer = createTripResponse.carProduct;
+	public void bind(CreateTripCarOffer createTripOffer, String originalFormattedPrice) {
+		offer = createTripOffer;
 		locationDescriptionText.setText(offer.pickUpLocation.airportInstructions);
 		carCompanyText.setText(offer.vendor.name);
 		categoryTitleText.setText(offer.vehicleInfo.carCategoryDisplayLabel);
@@ -83,10 +83,11 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 
 		// Price change
-		priceChangeContainer.setVisibility(createTripResponse.hasPriceChange() ? View.VISIBLE : View.GONE);
-		if (createTripResponse.hasPriceChange()) {
+		final boolean hasPriceChange = Strings.isNotEmpty(originalFormattedPrice);
+		priceChangeContainer.setVisibility(hasPriceChange ? View.VISIBLE : View.GONE);
+		if (hasPriceChange) {
 			priceChangeText.setText(getResources().getString(R.string.price_changed_from_TEMPLATE,
-				createTripResponse.searchCarOffer.fare.total.formattedPrice));
+				originalFormattedPrice));
 		}
 	}
 

@@ -87,6 +87,10 @@ public final class CarViewModel {
 		return onView(withId(android.R.id.button1));
 	}
 
+	public static ViewInteraction alertDialogNeutralButton() {
+		return onView(withId(android.R.id.button3));
+	}
+
 	public static ViewInteraction searchButton() {
 		return onView(withId(R.id.menu_check));
 	}
@@ -115,9 +119,48 @@ public final class CarViewModel {
 		carOfferList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
-	public static void selectCarOffer() {
-		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve"))).perform(
-			click());
+	public static void selectCarOffer(int carOfferNum) throws Throwable {
+		//Selecting an already expanded offer opens google maps
+		if (carOfferNum != 0) {
+			CarViewModel.expandCarOffer(carOfferNum);
+		}
+		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve")))
+			.perform(click());
+		ScreenActions.delay(1);
+	}
+
+	// Checkout
+
+	public static ViewInteraction travelerWidget() {
+		return onView(withId(R.id.main_contact_info_card_view));
+	}
+
+	public static ViewInteraction firstName() {
+		return onView(withId(R.id.edit_first_name));
+	}
+
+	public static ViewInteraction lastName() {
+		return onView(withId(R.id.edit_last_name));
+	}
+
+	public static ViewInteraction email() {
+		return onView(withId(R.id.edit_email_address));
+	}
+
+	public static ViewInteraction phoneNumber() {
+		return onView(withId(R.id.edit_phone_number));
+	}
+
+	public static ViewInteraction checkoutToolbarNext() {
+		return onView(withId(R.id.menu_next));
+	}
+
+	public static ViewInteraction checkoutToolbarDone() {
+		return onView(withId(R.id.menu_done));
+	}
+
+	public static ViewInteraction checkoutTotalPrice() {
+		return onView(withId(R.id.price_text));
 	}
 
 	// Confirmation

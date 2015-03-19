@@ -39,7 +39,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	TravelerContactDetailsWidget mainContactInfoCardView;
 
 	@InjectView(R.id.payment_info_card_view)
-	PaymentWidget paymentInfoCardView;
+	public PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.slide_to_purchase_layout)
 	ViewGroup slideToContainer;
@@ -57,7 +57,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	TextView legalInformationText;
 
 	@InjectView(R.id.slide_to_purchase_widget)
-	SlideToWidgetLL slideWidget;
+	public SlideToWidgetLL slideWidget;
 
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;

@@ -76,7 +76,7 @@ public class CarCheckoutSummaryWidgetTest {
 		CarCheckoutSummaryWidget checkoutSummaryWidget = (CarCheckoutSummaryWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.car_checkout_summary_widget, null);
 
-		checkoutSummaryWidget.bind(carCreateTripResponse);
+		checkoutSummaryWidget.bind(carCreateTripResponse.carProduct, "");
 
 		TextView carCompany = (TextView) checkoutSummaryWidget.findViewById(R.id.car_vendor_text);
 		TextView categoryTitle = (TextView) checkoutSummaryWidget.findViewById(R.id.category_title_text);
@@ -112,6 +112,7 @@ public class CarCheckoutSummaryWidgetTest {
 		SearchCarOffer searchCarOffer = new SearchCarOffer();
 		SearchCarFare searchFare = new SearchCarFare();
 		Money money = new Money();
+		money.formattedPrice = "8";
 		searchFare.total = money;
 		searchCarOffer.fare = searchFare;
 		carCreateTripResponse.searchCarOffer = searchCarOffer;
@@ -120,7 +121,8 @@ public class CarCheckoutSummaryWidgetTest {
 		CarCheckoutSummaryWidget checkoutSummaryWidget = (CarCheckoutSummaryWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.car_checkout_summary_widget, null);
 
-		checkoutSummaryWidget.bind(carCreateTripResponse);
+		checkoutSummaryWidget.bind(carCreateTripResponse.carProduct,
+			carCreateTripResponse.searchCarOffer.fare.total.formattedPrice);
 
 		ViewGroup priceChangeContainer = (ViewGroup) checkoutSummaryWidget.findViewById(R.id.price_change_container);
 		TextView priceChange = (TextView) checkoutSummaryWidget.findViewById(R.id.price_change_text);
