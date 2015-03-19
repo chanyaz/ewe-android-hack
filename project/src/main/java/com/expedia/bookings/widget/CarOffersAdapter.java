@@ -43,6 +43,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	int toggleCollapsed = 0;
 	int toggleExpanded = 0;
 	int bottomExpanded = 0;
+	int reserveExpanded = 0;
+
 
 	private List<SearchCarOffer> offers = new ArrayList<>();
 	private int mLastExpanded = 0;
@@ -58,6 +60,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		toggleCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
 		toggleExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
 		bottomExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 9, context.getResources().getDisplayMetrics());
+		reserveExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
 	}
 
 	@Override
@@ -196,8 +199,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				isChecked ? bottomExpanded : bottomCollapsed);
 			address.setPadding(0, isChecked ? paddingExpanded : topCollapsed, 0,
 				isChecked ? 0 : topCollapsed);
-			reserveNow.setPadding(isChecked ? toggleExpanded : toggleCollapsed, 0,
-				isChecked ? toggleExpanded : toggleCollapsed, 0);
+			reserveNow.setPadding(isChecked ? reserveExpanded : toggleCollapsed, 0,
+				isChecked ? reserveExpanded : toggleCollapsed, 0);
 
 			passengers.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 			bags.setVisibility(isChecked ? View.VISIBLE : View.GONE);

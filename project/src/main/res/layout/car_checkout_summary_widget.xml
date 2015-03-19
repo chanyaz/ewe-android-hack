@@ -10,10 +10,10 @@
         android:id="@+id/top_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="14dp">
+        android:paddingBottom="16dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="16dp"
+        android:paddingTop="14dp">
 
         <LinearLayout
             android:id="@+id/info_block"

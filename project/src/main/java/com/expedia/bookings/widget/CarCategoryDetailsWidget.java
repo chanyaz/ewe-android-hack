@@ -14,6 +14,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -37,6 +38,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	private CarOffersAdapter adapter;
 	private static final int LIST_DIVIDER_HEIGHT = 0;
 	private float headerHeight;
+	private float offset;
 
 	@Override
 	public void onFinishInflate() {
@@ -51,7 +53,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
 		float toolbarSize = a.getDimension(0, 44f);
-
+		offset = toolbarSize + Ui.getStatusBarHeight(getContext());
 		headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getContext().getResources().getDisplayMetrics());
 
 		offerList.setLayoutManager(layoutManager);
@@ -95,7 +97,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		int top = view.getTop();
 		float y = headerHeight - top;
 		backgroundHeader.setTranslationY(Math.min(-y * 0.5f, 0f));
-		return y / headerHeight;
+		return y  / (headerHeight - offset);
 	}
 
 	public void reset() {

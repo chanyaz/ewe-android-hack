@@ -445,7 +445,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public static void showTransparentStatusBar(Context ctx) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window w = ((Activity) ctx).getWindow();
 			w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -454,7 +454,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public static int getStatusBarHeight(Context ctx) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			return 0;
 		}
 		int result = 0;
