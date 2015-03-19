@@ -23,7 +23,7 @@ public class LXOffersListWidget extends LinearLayout {
 
 		availableOffers = new ArrayList<>();
 		for (Offer offer : offers) {
-			if (offer.getAvailabilityInfoOfSelectedDate(dateSelected) != null) {
+			if (offer.updateAvailabilityInfoOfSelectedDate(dateSelected) != null) {
 				availableOffers.add(offer);
 			}
 		}

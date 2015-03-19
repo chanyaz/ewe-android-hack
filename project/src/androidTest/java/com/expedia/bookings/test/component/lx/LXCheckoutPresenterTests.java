@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
@@ -74,10 +73,9 @@ public class LXCheckoutPresenterTests {
 
 		selectedTickets.put(adultTicket, 3);
 		selectedTickets.put(childTicket, 1);
-		lxOffer.getAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
+		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 
-		LXOfferSelected offerSelected = new LXOfferSelected(lxOffer, selectedTickets);
-		Events.post(new Events.LXOfferBooked(lxOffer, offerSelected));
+		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
 
 		//Make Create Trip Succeed
 		LXCreateTripResponse lxCreateTripResponse = gson.fromJson("{tripId:\"c0eb37f7-9553-441b-975a-877eff95e8fa\", itineraryNumber:11528775160, activityId:\"0c0af1cb-f721-4cbf-8b99-e4f753cb6caa\", validFormsOfPayment:[{name:\"AmericanExpress\"}, {name:\"Diner's Club International\"}, {name:\"Discover\"}, {name:\"JCB\"}, {name:\"MasterCard\"}, {name:\"Visa\"} ] }", LXCreateTripResponse.class);

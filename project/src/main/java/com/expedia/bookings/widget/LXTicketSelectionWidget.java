@@ -55,8 +55,18 @@ public class LXTicketSelectionWidget extends CardView {
 		Events.register(this);
 	}
 
-	public Map<Ticket, Integer> getTickets() {
-		return tickets;
+	public Map<Ticket, Integer> getSelectedTickets() {
+		Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
+		for (Map.Entry<Ticket, Integer> ticketAndCount : tickets.entrySet()) {
+			int ticketCount = ticketAndCount.getValue();
+			Ticket ticket = ticketAndCount.getKey();
+
+			if (ticketCount > 0) {
+				selectedTickets.put(ticket, ticketCount);
+			}
+		}
+
+		return selectedTickets;
 	}
 
 	public void setOfferId(String offerId) {

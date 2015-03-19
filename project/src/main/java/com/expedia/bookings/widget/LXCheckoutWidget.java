@@ -16,6 +16,7 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -57,7 +58,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		paymentInfoCardView.setCreditCardRequired(true);
 		slideWidget.resetSlider();
 
-		String totalMoney = lxState.offerSelected.money.getFormattedMoney();
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
 		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, totalMoney));
 
 		mainContactInfoCardView.setExpanded(false);
@@ -95,7 +96,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
 			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
 				: mainContactInfoCardView.emailAddress.getText().toString())
-			.expectedTotalFare(lxState.offerSelected.money.getAmount().toString())
+			.expectedTotalFare(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())

@@ -15,7 +15,7 @@ public class Offer {
 	public AvailabilityInfo availabilityInfoOfSelectedDate;
 
 
-	public AvailabilityInfo getAvailabilityInfoOfSelectedDate(LocalDate dateSelected) {
+	public AvailabilityInfo updateAvailabilityInfoOfSelectedDate(LocalDate dateSelected) {
 		for (AvailabilityInfo activityAvailabilityInfo : availabilityInfo) {
 			LocalDate availabilityDate = DateUtils
 				.yyyyMMddHHmmssToLocalDate(activityAvailabilityInfo.availabilities.valueDate);

@@ -6,7 +6,6 @@ import java.util.Map;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -41,9 +40,8 @@ public class LXStateTestUtil {
 		for (Ticket ticket : selectedTickets.keySet()) {
 			ticket.money = new Money(ticket.amount, "USD");
 		}
-		lxOffer.getAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
-		LXOfferSelected offerSelected = new LXOfferSelected(lxOffer, selectedTickets);
-		Events.post(new Events.LXOfferBooked(lxOffer, offerSelected));
+		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
+		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
 	}
 
 	public static void checkoutSuccessState() {
@@ -52,6 +50,4 @@ public class LXStateTestUtil {
 			LXCheckoutResponse.class);
 		Events.post(new Events.LXCheckoutSucceeded(checkoutResponse));
 	}
-
-
 }
