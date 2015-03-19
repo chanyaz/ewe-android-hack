@@ -9,15 +9,38 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Offer;
 
-public class LXOffersListWidget extends LinearLayout {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class LXOffersListWidget extends android.widget.LinearLayout {
 	public LXOffersListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
+	@InjectView(R.id.offer_show_more_container)
+	android.widget.LinearLayout showMoreContainer;
+
+	@InjectView(R.id.offers_container)
+	android.widget.LinearLayout offerContainer;
+
+	@InjectView(R.id.show_more_widget)
+	ShowMoreWithCountWidget showMoreWithCountWidget;
+
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
 	private List<Offer> availableOffers;
+
+	private int offersListInitialCount;
+
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+		ButterKnife.inject(this);
+		offersListInitialCount = this.getResources().getInteger(R.integer.lx_offers_list_initial_size);
+	}
 
 	public void setOffers(List<Offer> offers, LocalDate dateSelected) {
 
@@ -30,10 +53,28 @@ public class LXOffersListWidget extends LinearLayout {
 
 		adapter.setOffers(availableOffers);
 
-		this.removeAllViews();
-		for (int position = 0; position < availableOffers.size(); position++) {
+		offerContainer.removeAllViews();
+
+		for (int position = 0; position < offersListInitialCount; position++) {
 			View offerRow = adapter.getView(position, null, this);
-			this.addView(offerRow);
+			offerContainer.addView(offerRow);
 		}
+		setShowMore();
+	}
+
+	private void setShowMore() {
+		if (availableOffers.size() > offersListInitialCount) {
+			showMoreContainer.setVisibility(VISIBLE);
+			showMoreWithCountWidget.setCount(String.valueOf(availableOffers.size() - offersListInitialCount));
+		}
+	}
+
+	@OnClick((R.id.show_more_widget))
+	public void onShowMoreClicked() {
+		for (int position = offersListInitialCount; position < availableOffers.size(); position++) {
+			View offerRow = adapter.getView(position, null, this);
+			offerContainer.addView(offerRow);
+		}
+		showMoreContainer.setVisibility(GONE);
 	}
 }

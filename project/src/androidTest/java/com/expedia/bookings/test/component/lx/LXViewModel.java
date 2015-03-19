@@ -68,14 +68,6 @@ public class LXViewModel {
 		calendar().perform(TabletViewActions.clickDates(start, end));
 	}
 
-	public static ViewInteraction alertDialogMessage() {
-		return onView(withId(android.R.id.message));
-	}
-
-	public static ViewInteraction alertDialogNeutralButton() {
-		return onView(withId(android.R.id.button3));
-	}
-
 	public static ViewInteraction progress() {
 		return onView(withId(R.id.loading_results));
 	}
@@ -129,6 +121,10 @@ public class LXViewModel {
 	public static ViewInteraction ticketPicker(String offerText) {
 		return onView(allOf(withId(R.id.offer_tickets_picker),
 			hasSibling(withChild(withChild(withText(startsWith(offerText)))))));
+	}
+
+	public static ViewInteraction showMore() {
+		return onView(withId(R.id.show_more_widget));
 	}
 
 	public static ViewInteraction toolbar() {
