@@ -50,8 +50,6 @@
                         android:layout_toLeftOf="@+id/reserve_now"
                         android:paddingBottom="6dp"
                         app:textStyle="medium"
-                        android:ellipsize="end"
-                        android:singleLine="true"
                         tools:text="" />
 
                     <TextView
@@ -99,8 +97,6 @@
                         style="@style/CarOfferText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:singleLine="true"
                         tools:text="" />
                 </LinearLayout>
 
