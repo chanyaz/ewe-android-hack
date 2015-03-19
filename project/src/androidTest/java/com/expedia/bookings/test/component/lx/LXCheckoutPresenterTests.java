@@ -13,6 +13,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -67,6 +68,10 @@ public class LXCheckoutPresenterTests {
 		Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
 		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
 		Ticket childTicket = gson.fromJson("{\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }", Ticket.class);
+
+		adultTicket.money = new Money(adultTicket.amount, "USD");
+		childTicket.money = new Money(childTicket.amount, "USD");
+
 		selectedTickets.put(adultTicket, 3);
 		selectedTickets.put(childTicket, 1);
 		lxOffer.getAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
