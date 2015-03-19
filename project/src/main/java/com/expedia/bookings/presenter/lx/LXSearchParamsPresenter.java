@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.lx;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 import org.joda.time.LocalDate;
@@ -12,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -20,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ToggleButton;
@@ -37,7 +39,9 @@ import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.SuggestionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.LxSuggestionAdapter;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
@@ -50,11 +54,14 @@ import butterknife.OnClick;
 public class LXSearchParamsPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
+	private static final int RECENT_MAX_SIZE = 3;
+	private static final String RECENT_ROUTES_LX_LOCATION_FILE = "recent-lx-city-list.dat";
+
 	@InjectView(R.id.search_calendar)
 	CalendarPicker calendarPicker;
 
 	@InjectView(R.id.search_location)
-	AutoCompleteTextView location;
+	AlwaysFilterAutoCompleteTextView location;
 
 	@InjectView(R.id.select_dates)
 	ToggleButton selectDates;
@@ -80,6 +87,7 @@ public class LXSearchParamsPresenter extends Presenter
 	private LxSuggestionAdapter suggestionAdapter;
 
 	private LXSearchParamsBuilder searchParamsBuilder = new LXSearchParamsBuilder();
+	private ArrayList<Suggestion> mRecentLXLocationsSearches;
 
 	public LXSearchParamsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -108,6 +116,8 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
+
+		loadHistory();
 	}
 
 	private AdapterView.OnItemClickListener mLocationListListener = new AdapterView.OnItemClickListener() {
@@ -144,6 +154,39 @@ public class LXSearchParamsPresenter extends Presenter
 
 		selectDates.setChecked(true);
 		show(new LXParamsCalendar());
+		Suggestion suggest = suggestion.clone();
+		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
+		// Remove duplicates
+		Iterator<Suggestion> it = mRecentLXLocationsSearches.iterator();
+		while (it.hasNext()) {
+			Suggestion s = it.next();
+			if (s.fullName.equalsIgnoreCase(suggest.fullName)) {
+				it.remove();
+			}
+		}
+
+		if (mRecentLXLocationsSearches.size() >= RECENT_MAX_SIZE) {
+			mRecentLXLocationsSearches.remove(RECENT_MAX_SIZE - 1);
+		}
+
+		mRecentLXLocationsSearches.add(0, suggest);
+		//Have to remove the bold tag in display name so text for last search is normal
+		suggest.displayName = Html.fromHtml(suggest.displayName).toString();
+		// Save
+		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentLXLocationsSearches, RECENT_ROUTES_LX_LOCATION_FILE);
+		suggestionAdapter.updateRecentHistory(mRecentLXLocationsSearches);
+
+	}
+
+	private void loadHistory() {
+		mRecentLXLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(), RECENT_ROUTES_LX_LOCATION_FILE);
+		suggestionAdapter.addNearbyAndRecents(mRecentLXLocationsSearches, getContext());
+		postDelayed(new Runnable() {
+			public void run() {
+				location.requestFocus();
+				Ui.showKeyboard(location, null);
+			}
+		}, 300);
 	}
 
 	@Override

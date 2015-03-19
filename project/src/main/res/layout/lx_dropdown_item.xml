@@ -22,4 +22,15 @@
         android:layout_toRightOf="@+id/lx_dropdown_imageView"
         android:paddingLeft="5dp"
         android:textColor="@color/lx_secondary_color"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/city_name_textView"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lx_secondary_color"
+        android:textSize="12sp"
+        android:layout_alignLeft="@+id/display_name_textView"
+        android:layout_below="@+id/display_name_textView"/>
+
 </RelativeLayout>

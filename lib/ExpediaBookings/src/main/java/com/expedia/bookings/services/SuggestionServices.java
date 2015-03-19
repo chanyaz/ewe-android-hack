@@ -88,14 +88,6 @@ public class SuggestionServices {
 		}
 	};
 
-	public Subscription getNearbyAirportSuggestions(String query, Observer<List<Suggestion>> observer) {
-		return mSuggestApi.suggestNearbyAirport(query)
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
-			.map(sToListNearby)
-			.subscribe(observer);
-	}
-
 	private static Func1<SuggestionResponse, List<Suggestion>> sToListNearby = new Func1<SuggestionResponse, List<Suggestion>>() {
 		@Override
 		public List<Suggestion> call(SuggestionResponse suggestionResponse) {
@@ -110,4 +102,20 @@ public class SuggestionServices {
 		}
 	};
 
+	public Subscription getNearbyAirportSuggestions(String locale, String latlong, int siteId, Observer<List<Suggestion>> observer) {
+		return mSuggestApi.suggestNearbyV1(locale, latlong, siteId, SuggestionResultType.AIRPORT, "p")
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.map(sToListNearby)
+			.subscribe(observer);
+	}
+
+	public Subscription getNearbyLxSuggestions(String locale, String latlong, int siteId, Observer<List<Suggestion>> observer) {
+		return mSuggestApi.suggestNearbyV1(locale, latlong, siteId,
+			SuggestionResultType.CITY | SuggestionResultType.MULTI_CITY | SuggestionResultType.NEIGHBORHOOD, "d")
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.map(sToListNearby)
+			.subscribe(observer);
+	}
 }
