@@ -6,6 +6,7 @@ import java.util.List;
 public class CategorizedCarOffers {
 	public CarCategory category;
 	public CarType type;
+	public String carCategoryDisplayLabel;
 	public List<SearchCarOffer> offers = new ArrayList<>();
 
 	private SearchCarOffer lowestTotalPriceOffer;
@@ -13,9 +14,9 @@ public class CategorizedCarOffers {
 	public CategorizedCarOffers() {
 	}
 
-	public CategorizedCarOffers(CarCategory category, CarType type) {
+	public CategorizedCarOffers(String carCategoryDisplayLabel, CarCategory category) {
+		this.carCategoryDisplayLabel = carCategoryDisplayLabel;
 		this.category = category;
-		this.type = type;
 	}
 
 	public void add(SearchCarOffer offer) {
