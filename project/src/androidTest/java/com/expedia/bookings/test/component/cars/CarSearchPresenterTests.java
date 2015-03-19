@@ -180,7 +180,7 @@ public final class CarSearchPresenterTests {
 	public void testSearchOnlyStartEndDateSelected() throws Throwable {
 		//Test with only start and end date selected
 		CarViewModel.dropOffLocation().perform(click());
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.alertDialogPositiveButton().perform(click());
 		CarViewModel.selectDateButton().perform(click());
 		CarViewModel.didNotGoToResults();
 		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
@@ -200,7 +200,7 @@ public final class CarSearchPresenterTests {
 		CarViewModel.dropOffLocation().perform(click());
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.drop_off_same_as_pick_up)));
-		CarViewModel.alertDialogNeutralButton().check(matches(isDisplayed()));
+		CarViewModel.alertDialogPositiveButton().check(matches(isDisplayed()));
 	}
 
 	@Test

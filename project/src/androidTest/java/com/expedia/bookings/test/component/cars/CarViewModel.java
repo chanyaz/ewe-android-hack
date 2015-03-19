@@ -76,15 +76,15 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction alertDialog() {
-		return onView(withChild(withId(android.R.id.button3)));
+		return onView(withChild(withId(android.R.id.button1)));
 	}
 
 	public static ViewInteraction alertDialogMessage() {
 		return onView(withId(android.R.id.message));
 	}
 
-	public static ViewInteraction alertDialogNeutralButton() {
-		return onView(withId(android.R.id.button3));
+	public static ViewInteraction alertDialogPositiveButton() {
+		return onView(withId(android.R.id.button1));
 	}
 
 	public static ViewInteraction searchButton() {
