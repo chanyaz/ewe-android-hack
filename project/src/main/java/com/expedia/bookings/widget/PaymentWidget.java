@@ -173,6 +173,8 @@ public class PaymentWidget extends ExpandableCardView {
 		Location location = new Location();
 		sectionBillingInfo.getBillingInfo().setLocation(location);
 		sectionLocation.bind(location);
+		sectionBillingInfo.resetValidation();
+		sectionLocation.resetValidation();
 	}
 
 	private void bindCard(CreditCardType cardType, String cardNumber, String cardExpiration) {

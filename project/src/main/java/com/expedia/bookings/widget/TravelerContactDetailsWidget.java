@@ -139,6 +139,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			driverCheckoutStatusLeftImageView.setTraveler(null);
 			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
+			sectionTravelerInfo.resetValidation();
 			return;
 		}
 
