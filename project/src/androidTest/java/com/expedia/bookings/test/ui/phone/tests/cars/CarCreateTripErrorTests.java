@@ -58,7 +58,7 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 		screenshot("Car Create Trip Failure Dialog");
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
 		CarViewModel.alertDialogMessage().check(matches(withText(R.string.oops)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.alertDialogPositiveButton().perform(click());
 
 		screenshot("Car Search");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dates_and_location));
