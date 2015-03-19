@@ -3,7 +3,10 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -28,17 +31,21 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
 
-public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.ViewHolder> {
+public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 	private static final int HEADER_VIEW = 0;
 	public static final int CARD_VIEW = 1;
+	public static final int LOADING_VIEW = 2;
 	private static final String HEADER_TAG = "HEADER_TAG";
 	private List<?> listData = new ArrayList<>();
+	private ArrayList<ValueAnimator> animations = new ArrayList<ValueAnimator>();
 
 	private ViewGroup parentView;
 	private View headerView;
 	private TextView seeAllButton;
 	private TextView launchListTitle;
+
+	public static boolean loadingState = false;
 
 	public LaunchListAdapter(View header) {
 		headerView = header;
@@ -55,18 +62,27 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == HEADER_VIEW) {
 			return new ViewHolder(headerView);
 		}
 		parentView = parent;
-		View view = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.section_launch_list_card, parent, false);
-		return new ViewHolder(view);
+
+		if (loadingState) {
+			View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.launch_tile_loading_widget, parent, false);
+			return new LoadingViewHolder(view);
+		}
+
+		else {
+			View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.section_launch_list_card, parent, false);
+			return new ViewHolder(view);
+		}
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
 
 		if (isHeader(position)) {
@@ -94,14 +110,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 
 		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth()/2;
 
-		if (listData.get(actualPosition).getClass() == Hotel.class) {
+		if (holder.getItemViewType() == LOADING_VIEW) {
+			setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView);
+			LoadingViewHolder.index++;
+		}
+
+		else if (listData.get(actualPosition).getClass() == Hotel.class) {
 			Hotel hotel = (Hotel) listData.get(actualPosition);
 
 			final String url = Images.getNearbyHotelImage(hotel);
 			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), width, url, PICASSO_TAG);
-			holder.backgroundImage.setImageDrawable(drawable);
+			((ViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
-			holder.bindListData(hotel, fullWidthTile);
+			((ViewHolder) holder).bindListData(hotel, fullWidthTile);
 		}
 
 		else if (listData.get(actualPosition).getClass() == CollectionLocation.class) {
@@ -109,15 +130,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 
 			final String url = Images.getCollectionImageUrl(location, width);
 			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), url, PICASSO_TAG);
-			holder.backgroundImage.setImageDrawable(drawable);
+			((ViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
-			holder.bindListData(location, fullWidthTile);
+			((ViewHolder) holder).bindListData(location, fullWidthTile);
 		}
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		return isHeader(position) ? HEADER_VIEW : CARD_VIEW;
+		return isHeader(position) ? HEADER_VIEW : loadingState ? LOADING_VIEW : CARD_VIEW;
 	}
 
 	@Override
@@ -126,16 +147,75 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 	}
 
 	public void setListData(List<?> listData, String headerTitle) {
-		this.listData = listData;
+
 		Class clz = listData.get(0).getClass();
 		launchListTitle.setText(headerTitle);
-		if (clz == Hotel.class) {
+		if (clz == Integer.class) {
+			seeAllButton.setVisibility(View.GONE);
+			loadingState = true;
+		}
+		else if (clz == Hotel.class) {
 			seeAllButton.setVisibility(View.VISIBLE);
-
+			loadingState = false;
 		}
 		else if (clz == CollectionLocation.class) {
 			seeAllButton.setVisibility(View.GONE);
+			loadingState = false;
 		}
+
+		this.listData = listData;
+	}
+
+	/**
+	 Loading animation that alternates between rows
+
+	 | |____*____| |
+	 | |_ _| |_ _| |
+	 | |_*_| |_*_| |
+	 | |____ ____| |
+	 | |_*_| |_*_| |
+	 | |_ _| |_ _| |
+	 | etc etc etc |
+
+	 **/
+
+	public void setupLoadingAnimation(View v) {
+		int loadingColorLight = Color.parseColor("#D3D4D4");
+		int loadingColorDark = Color.parseColor("#848F94");
+		switch (LoadingViewHolder.index % 10) {
+		case 0:
+		case 3:
+		case 4:
+		case 6:
+		case 7:
+			animateBackground(v, loadingColorDark, loadingColorLight);
+			break;
+		default:
+			animateBackground(v, loadingColorLight, loadingColorDark);
+			break;
+		}
+	}
+
+	private void animateBackground(final View view, int startColor, int endColor) {
+		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				view.setBackgroundColor((Integer) animator.getAnimatedValue());
+			}
+		});
+		animation.setRepeatMode(ValueAnimator.REVERSE);
+		animation.setRepeatCount(ValueAnimator.INFINITE);
+		animation.setDuration(600);
+		animation.start();
+		animations.add(animation);
+	}
+
+	public void cleanup() {
+		for (ValueAnimator animation : animations) {
+			animation.cancel();
+		}
+		animations.clear();
 	}
 
 	private static final View.OnClickListener SEE_ALL_LISTENER = new View.OnClickListener() {
@@ -265,5 +345,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 				Events.post(new Events.LaunchCollectionItemSelected(location, animOptions));
 			}
 		}
+	}
+
+	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
+		private static int index = 0;
+
+		@InjectView(R.id.background_image_view)
+		public ImageView backgroundImageView;
+
+		public LoadingViewHolder(View view) {
+			super(view);
+			ButterKnife.inject(this, itemView);
+		}
+
 	}
 }

@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
@@ -75,6 +78,7 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
+		adapter.cleanup();
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		adapter.setListData(event.topTen, headerTitle);
 		adapter.notifyDataSetChanged();
@@ -82,9 +86,27 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onCollectionDownloadComplete(Events.CollectionDownloadComplete event) {
+		adapter.cleanup();
 		String headerTitle = event.collection.title;
 		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void onShowListLoadingAnimation(Events.LaunchShowLoadingAnimation event) {
+		List<Integer> elements = createDummyListForAnimation();
+		String headerTitle = getResources().getString(R.string.loading_header);
+		adapter.setListData(elements, headerTitle);
+		adapter.notifyDataSetChanged();
+	}
+
+	// Create list to show cards for loading animation
+	public List<Integer> createDummyListForAnimation() {
+		List<Integer> elements = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			elements.add(0);
+		}
+		return elements;
 	}
 
 	public View getHeader() {
