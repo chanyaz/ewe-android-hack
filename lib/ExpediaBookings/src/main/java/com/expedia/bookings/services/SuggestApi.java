@@ -11,7 +11,8 @@ public interface SuggestApi {
 
 	//TODO support other POS
 	@GET("/hint/es/v3/ac/en_US/{query}")
-	public Observable<SuggestionResponse> suggestV3(@Path("query") String query, @Query("type") int suggestionResultType);
+	public Observable<SuggestionResponse> suggestV3(@Path("query") String query,
+		@Query("type") int suggestionResultType, @Query("lob") String lineOfBusiness);
 
 	@GET("/hint/es/v1/nearby/en_US?siteid=1&type=1&sort=p")
 	public Observable<SuggestionResponse> suggestNearbyAirport(@Query("latlong") String query);

@@ -58,7 +58,7 @@ public class SuggestionServices {
 	private static final int MAX_AIRPORTS_RETURNED = 3;
 
 	public Subscription getAirportSuggestions(String query, Observer<List<Suggestion>> observer) {
-		return mSuggestApi.suggestV3(query, SuggestionResultType.AIRPORT)
+		return mSuggestApi.suggestV3(query, SuggestionResultType.AIRPORT, null)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.concatMap(FLATTEN_SUGGESTIONS)
@@ -70,8 +70,9 @@ public class SuggestionServices {
 	private static final int MAX_LX_SUGGESTIONS_RETURNED = 3;
 
 	public Subscription getLxSuggestions(String query, Observer<List<Suggestion>> observer) {
-		int lxSuggestionsType = SuggestionResultType.CITY | SuggestionResultType.MULTI_CITY | SuggestionResultType.NEIGHBORHOOD;
-		return mSuggestApi.suggestV3(query, lxSuggestionsType)
+		return mSuggestApi.suggestV3(query,
+			SuggestionResultType.CITY | SuggestionResultType.MULTI_CITY | SuggestionResultType.NEIGHBORHOOD,
+			"ACTIVITIES")
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.flatMap(FLATTEN_SUGGESTIONS)
