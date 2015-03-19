@@ -16,6 +16,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -148,11 +149,30 @@ public class CarServices {
 		}
 	}
 
-	public Subscription checkout(CarCheckoutParams params, Observer<CarCheckoutResponse> observer) {
+	public Subscription checkout(CreateTripCarOffer offer, CarCheckoutParams params,
+		Observer<CarCheckoutResponse> observer) {
 		return mApi.checkout(params.toQueryMap())
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
+			.map(new CreateTripOfferInjector(offer))
 			.subscribe(observer);
+	}
+
+	private class CreateTripOfferInjector implements Func1<CarCheckoutResponse, CarCheckoutResponse> {
+
+		CreateTripCarOffer createTripCarOffer;
+
+		public CreateTripOfferInjector(CreateTripCarOffer offer) {
+			createTripCarOffer = offer;
+		}
+
+		@Override
+		public CarCheckoutResponse call(CarCheckoutResponse carCheckoutResponse) {
+			if (carCheckoutResponse.hasPriceChange()) {
+				carCheckoutResponse.originalCarProduct = createTripCarOffer;
+			}
+			return carCheckoutResponse;
+		}
 	}
 
 }

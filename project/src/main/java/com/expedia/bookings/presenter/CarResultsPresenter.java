@@ -31,6 +31,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -239,6 +240,7 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
+			Log.e("CarCreateTrip - onError", e);
 			createTripDialog.dismiss();
 			showCreateTripErrorDialog();
 		}

@@ -3,9 +3,8 @@ package com.expedia.bookings.data;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 
-public class
-	TripBucketItemCar extends TripBucketItem {
-	CarCreateTripResponse mCarTripResponse;
+public class TripBucketItemCar extends TripBucketItem {
+	public CarCreateTripResponse mCarTripResponse;
 
 	public TripBucketItemCar(CarCreateTripResponse carTripResponse) {
 		this.mCarTripResponse = carTripResponse;

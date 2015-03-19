@@ -19,7 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
@@ -36,7 +36,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		super(context, attr);
 	}
 
-	CarCreateTripResponse createTripResponse;
+	CreateTripCarOffer carProduct;
+	String tripId;
 
 	CarCheckoutSummaryWidget summaryWidget;
 
@@ -52,20 +53,31 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		bind(event.createTripResponse);
+		String ogPriceForPriceChange = event.createTripResponse.searchCarOffer == null ?
+			"" : event.createTripResponse.searchCarOffer.fare.total.formattedPrice;
+		bind(event.createTripResponse.carProduct, ogPriceForPriceChange, event.createTripResponse.tripId);
 	}
 
-	private void bind(CarCreateTripResponse createTrip) {
-		createTripResponse = createTrip;
-		summaryWidget.bind(createTripResponse);
-		paymentInfoCardView.setCreditCardRequired(createTripResponse.carProduct.checkoutRequiresCard);
+	@Subscribe
+	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
+		bind(event.newCreateTripOffer,
+			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice,
+			null);
+		slideWidget.resetSlider();
+	}
+
+	private void bind(CreateTripCarOffer createTripOffer, String originalOfferFormattedPrice, String tripId) {
+		this.tripId = tripId;
+		this.carProduct = createTripOffer;
+		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
+		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
 
 		slideWidget.resetSlider();
 
-		int sliderMessage = createTrip.carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
+		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
 			: R.string.amount_due_today_TEMPLATE;
 		sliderTotalText.setText(getResources()
-			.getString(sliderMessage, createTripResponse.carProduct.detailedFare.totalDueToday.formattedPrice));
+			.getString(sliderMessage, carProduct.detailedFare.totalDueToday.formattedPrice));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
@@ -93,7 +105,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Override
 	public void onSlideAllTheWay() {
-		if (createTripResponse.carProduct.checkoutRequiresCard) {
+		if (carProduct.checkoutRequiresCard) {
 			BillingInfo billingInfo = Db.getBillingInfo();
 			Events.post(new Events.ShowCVV(billingInfo));
 			slideWidget.resetSlider();
@@ -108,8 +120,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		SpannableStringBuilder sb = new SpannableStringBuilder();
 
 		String spannedRules = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			createTripResponse.carProduct.rulesAndRestrictionsURL,
-			getResources().getString(R.string.rules_and_restrictions));
+			carProduct.rulesAndRestrictionsURL, getResources().getString(R.string.rules_and_restrictions));
 		String spannedTerms = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
 			getResources().getString(R.string.info_label_terms_conditions));
@@ -146,24 +157,25 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Override
 	public void onBook(String cvv) {
-		final boolean suppressFinalBooking = BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_car_bookings, true);
+		final boolean suppressFinalBooking =
+			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_car_bookings, true);
 		CarCheckoutParamsBuilder builder =
 			new CarCheckoutParamsBuilder()
 				.firstName(mainContactInfoCardView.firstName.getText().toString())
 				.lastName(mainContactInfoCardView.lastName.getText().toString())
 				.emailAddress(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
 					: mainContactInfoCardView.emailAddress.getText().toString())
-				.grandTotal(createTripResponse.carProduct.detailedFare.grandTotal)
+				.grandTotal(carProduct.detailedFare.grandTotal)
 				.phoneCountryCode(
 					Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(mainContactInfoCardView.phoneNumber.getText().toString())
-				.tripId(createTripResponse.tripId)
+				.tripId(tripId)
 				.suppressFinalBooking(suppressFinalBooking);
 
-		if (createTripResponse.carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
+		if (carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
 			builder.storedCCID(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
 		}
-		else if (createTripResponse.carProduct.checkoutRequiresCard) {
+		else if (carProduct.checkoutRequiresCard) {
 			BillingInfo info = Db.getBillingInfo();
 			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
 			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");

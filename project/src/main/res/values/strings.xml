@@ -155,7 +155,14 @@
     <string name="call_customer_support">Call Customer Support</string>
 
     <!-- Car error strings -->
+    <!-- Message for user that something went wrong -->
     <string name="oops">Oops! Something happened, please search again.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">A similar reservation already exists. Please check your Trips or email for booked itinerary.</string>
+    <!-- TODO verify -->
+    <string name="reservation_price_change">Your price has changed.</string>
+    <!-- TODO verify -->
+    <string name="payment_failed">Payment failed.</string>
 
 
     <!-- Tablet search strings -->

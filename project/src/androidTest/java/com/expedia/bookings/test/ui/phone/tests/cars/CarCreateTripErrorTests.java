@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
@@ -33,7 +32,8 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 
 		screenshot("Car Results");
 		CarViewModel.selectCarCategory(CATEGORY);
-		selectCarOffer(0);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(0);
 
 		screenshot("Car Checkout With Price Change");
 		EspressoUtils.assertViewWithTextIsDisplayed("Price changed from $32.50");
@@ -53,7 +53,8 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 
 		screenshot("Car Results");
 		CarViewModel.selectCarCategory(CATEGORY);
-		selectCarOffer(1);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(1);
 
 		screenshot("Car Create Trip Failure Dialog");
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
@@ -62,16 +63,6 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 
 		screenshot("Car Search");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dates_and_location));
-	}
-
-	private void selectCarOffer(int carOfferNum) throws Throwable {
-		screenshot("Car Offers");
-		//Selecting an already expanded offer opens google maps
-		if (carOfferNum != 0) {
-			CarViewModel.expandCarOffer(carOfferNum);
-		}
-		CarViewModel.selectCarOffer();
-		ScreenActions.delay(1);
 	}
 
 }

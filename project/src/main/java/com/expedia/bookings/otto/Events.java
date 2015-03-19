@@ -29,6 +29,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
@@ -570,6 +571,18 @@ public class Events {
 
 		public CarsShowDetails(CategorizedCarOffers offers) {
 			categorizedCarOffers = offers;
+		}
+	}
+
+	public static class CarsShowCheckoutAfterPriceChange {
+		public CreateTripCarOffer originalCreateTripOffer;
+		public CreateTripCarOffer newCreateTripOffer;
+		public String tripId;
+
+		public CarsShowCheckoutAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer, String tripId) {
+			this.originalCreateTripOffer = originalOffer;
+			this.newCreateTripOffer = newOffer;
+			this.tripId = tripId;
 		}
 	}
 

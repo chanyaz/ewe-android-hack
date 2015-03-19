@@ -9,18 +9,20 @@ public class CarApiError {
 		PRICE_CHANGE,
 
 		// Airport search errors
-		CARPRODUCTNOT_AVAILABLE, // No cars available at this location
-		CARSERVICEERROR,
-		CARSEARCHERROR,
+		CAR_PRODUCT_NOT_AVAILABLE, // No cars available at this location
+		CAR_SERVICE_ERROR,
+		CAR_SEARCH_ERROR,
 
 		// Create trip errors
 		INVALID_CAR_PRODUCT_KEY, // Most likely invalid dates
 		TRIP_SERVICE_ERROR, // retry candidate
 
 		// Checkout errors
+		OMS_ERROR, // downstream payment service failed, behaves as UNKNOWN_ERROR
 		PAYMENT_FAILED, // Tell user to double-check payment info; more granular if so desired?
 		SESSION_TIMEOUT, // do a fresh create trip ... time passed or cookies got messed up
-		MOBILE_USER_CREATION_FAILED_DURING_CHECKOUT // account already created
+		MOBILE_USER_CREATION_FAILED_DURING_CHECKOUT, // account already created
+		TRIP_ALREADY_BOOKED // a similar reservation exists on our backend
 		;
 	}
 
