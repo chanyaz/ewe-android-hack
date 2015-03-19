@@ -101,8 +101,8 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		ButterKnife.inject(this);
 
 		calendar.setSelectableDateRange(LocalDate.now(),
-				LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
-		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
+				LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
+		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_car_search));
 		calendar.setDateChangedListener(this);
 		calendar.setYearMonthDisplayedChangedListener(this);
 
