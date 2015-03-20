@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -41,6 +42,7 @@ import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -65,6 +67,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	private HotelSearchParams searchParams;
 	private Subscription downloadSubscription;
+
+	private DateTime launchDataTimeStamp;
 
 	private float squashedHeaderHeight;
 
@@ -201,6 +205,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 			});
 	}
 
+	private boolean isExpired() {
+		return JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || Db.getLaunchListHotelData() == null;
+	}
+
 	/*
 	 * Scrolling
 	 */
@@ -285,13 +293,15 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start hotel search");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
-		Events.post(new Events.LaunchShowLoadingAnimation());
 
-		LocalDate currentDate = new LocalDate();
-		DateTimeFormatter dtf = ISODateTimeFormat.date();
+		if (isExpired()) {
+			Events.post(new Events.LaunchShowLoadingAnimation());
 
-		String today = dtf.print(currentDate);
-		String tomorrow = dtf.print(currentDate.plusDays(1));
+			LocalDate currentDate = new LocalDate();
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			String today = dtf.print(currentDate);
+			String tomorrow = dtf.print(currentDate.plusDays(1));
 
 			NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
 				String.valueOf(loc.getLongitude()), "1",
@@ -301,7 +311,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 			searchParams.setCheckOutDate(currentDate.plusDays(1));
 			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
-		downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			launchDataTimeStamp = DateTime.now();
+		}
 	}
 
 	@Subscribe
