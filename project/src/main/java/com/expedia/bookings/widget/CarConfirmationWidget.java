@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,9 +171,9 @@ public class CarConfirmationWidget extends FrameLayout {
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);
 		directionsTextView.setText(res.getString(R.string.car_confirmation_directions, offer.vendor.name));
 		pickupDateText.setText(res.getString(R.string.car_confirmation_pickup_time_TEMPLATE,
-			DateFormatUtils.formatDateTimeRange(getContext(), offer.pickupTime, offer.pickupTime,
+			DateUtils.formatDateTime(getContext(), offer.pickupTime.getMillis(),
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT)));
-		dropofDateText.setText(DateFormatUtils.formatDateTimeRange(getContext(), offer.dropOffTime, offer.dropOffTime,
+		dropofDateText.setText(DateUtils.formatDateTime(getContext(), offer.dropOffTime.getMillis(),
 			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 		addHotelTextView.setText(res.getString(R.string.successful_checkout_cross_sell_hotel,
 			offer.pickUpLocation.locationDescription));
