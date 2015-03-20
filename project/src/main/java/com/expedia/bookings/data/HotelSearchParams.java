@@ -488,8 +488,8 @@ public class HotelSearchParams implements JSONable {
 		double longitude = offer.pickUpLocation.longitude;
 		hotelParams.setSearchLatLon(latitude, longitude);
 
-		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.pickupTime.toCalendar(Locale.US)));
-		hotelParams.setCheckOutDate(LocalDate.fromCalendarFields(offer.dropOffTime.toCalendar(Locale.US)));
+		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.getPickupTime().toCalendar(Locale.US)));
+		hotelParams.setCheckOutDate(LocalDate.fromCalendarFields(offer.getDropOffTime().toCalendar(Locale.US)));
 		ensureMaxStayTwentyEightDays(hotelParams);
 
 		return hotelParams;

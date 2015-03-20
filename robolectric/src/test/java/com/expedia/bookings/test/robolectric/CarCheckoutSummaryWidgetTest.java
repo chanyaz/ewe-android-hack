@@ -63,8 +63,8 @@ public class CarCheckoutSummaryWidgetTest {
 		carProduct.vendor = vendor;
 		carProduct.vehicleInfo = carInfo;
 		carProduct.detailedFare = fare;
-		carProduct.pickupTime = DateTime.now();
-		carProduct.dropOffTime = DateTime.now().plusHours(2);
+		carProduct.setPickupTime(DateTime.now());
+		carProduct.setDropOffTime(DateTime.now().plusHours(2));
 
 		carCreateTripResponse = new CarCreateTripResponse();
 		carCreateTripResponse.carProduct = carProduct;
@@ -98,8 +98,8 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals("$50", tripTotal.getText());
 		assertEquals(View.GONE, priceChangeContainer.getVisibility());
 		String expedtedDate = DateFormatUtils
-			.formatDateTimeRange(activity, carCreateTripResponse.carProduct.pickupTime,
-				carCreateTripResponse.carProduct.dropOffTime,
+			.formatDateTimeRange(activity, carCreateTripResponse.carProduct.getPickupTime(),
+				carCreateTripResponse.carProduct.getDropOffTime(),
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
 		assertEquals(expedtedDate, dateTime.getText());
 	}
