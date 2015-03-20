@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
@@ -25,7 +25,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 	RecyclerView recyclerView;
 
 	@InjectView(R.id.lx_search_failure)
-	LinearLayout searchFailure;
+	FrameLayout searchFailure;
 
 	private LXResultsListAdapter adapter;
 
