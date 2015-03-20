@@ -7,10 +7,12 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
+import com.mobiata.android.text.StrikethroughTagHandler;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -119,7 +122,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Hotel hotel = (Hotel) listData.get(actualPosition);
 
 			final String url = Images.getNearbyHotelImage(hotel);
-			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), width, url, PICASSO_TAG);
+			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), width, url,
+				PICASSO_TAG);
 			((ViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
 			((ViewHolder) holder).bindListData(hotel, fullWidthTile);
@@ -234,6 +238,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		private final int green;
 		private final int orange;
 		private final int purple;
+		private final int blue;
+		private Drawable mobileOnly;
+		private Drawable tonightOnly;
 
 		@Optional
 		@InjectView(R.id.card_view)
@@ -248,8 +255,40 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public TextView subtitle;
 
 		@Optional
-		@InjectView(R.id.price)
-		public TextView price;
+		@InjectView(R.id.rating_info)
+		public View ratingInfo;
+
+		@Optional
+		@InjectView(R.id.rating)
+		public TextView rating;
+
+		@Optional
+		@InjectView(R.id.rating_text)
+		public TextView ratingText;
+
+		@Optional
+		@InjectView(R.id.full_tile_price_container)
+		public View fullTilePriceContainer;
+
+		@Optional
+		@InjectView(R.id.full_tile_strikethrough_price)
+		public TextView fullTileStrikethroughPrice;
+
+		@Optional
+		@InjectView(R.id.full_tile_price)
+		public TextView fullTilePrice;
+
+		@Optional
+		@InjectView(R.id.half_tile_price_container)
+		public View halfTilePriceContainer;
+
+		@Optional
+		@InjectView(R.id.half_tile_strikethrough_price)
+		public TextView halfTileStrikethroughPrice;
+
+		@Optional
+		@InjectView(R.id.half_tile_price)
+		public TextView halfTilePrice;
 
 		@Optional
 		@InjectView(R.id.background_image)
@@ -264,6 +303,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			green = view.getResources().getColor(R.color.launch_discount);
 			orange = view.getResources().getColor(R.color.launch_air_attach);
 			purple = view.getResources().getColor(R.color.launch_mobile_exclusive);
+			blue = view.getResources().getColor(R.color.launch_tonight_only);
+			mobileOnly = view.getResources().getDrawable(R.drawable.ic_mobile_only);
+			tonightOnly = view.getResources().getDrawable(R.drawable.ic_tonight_only);
+
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 		}
@@ -275,17 +318,21 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			if (fullWidthTile) {
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
-				price.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
+				fullTilePriceContainer.setVisibility(View.VISIBLE);
+				halfTilePriceContainer.setVisibility(View.GONE);
+				fullTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
 			}
 			else {
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
-				price.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
+				fullTilePriceContainer.setVisibility(View.GONE);
+				halfTilePriceContainer.setVisibility(View.VISIBLE);
+				halfTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
 			}
 
 			// Bind nearby hotel data
 			if (data.getClass() == Hotel.class) {
 				Hotel hotel = (Hotel) data;
-				bindHotelData(hotel, context);
+				bindHotelData(hotel, context, fullWidthTile);
 			}
 
 			// Bind collection location data
@@ -295,37 +342,96 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 		}
 
-		public void bindHotelData(Hotel hotel, Context context) {
+		public void bindHotelData(Hotel hotel, Context context, boolean fullWidth) {
 			title.setText(hotel.name);
-			subtitle.setText(HotelUtils.formatDistanceForNearby(context, hotel, true));
-			price.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+			subtitle.setVisibility(View.GONE);
+			ratingInfo.setVisibility(View.VISIBLE);
 
-			if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
-				saleTextView.setText(context.getString(R.string.percent_off_TEMPLATE,
-					HotelUtils.getDiscountPercent(hotel.lowRateInfo)));
-				if (hotel.lowRateInfo.airAttached) {
-					saleTextView.setBackgroundColor(orange);
+			rating.setText(Float.toString(hotel.hotelGuestRating));
+			if (fullWidth) {
+				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
+					fullTileStrikethroughPrice.setVisibility(View.VISIBLE);
+					fullTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
+							hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)),
+						null,
+						new StrikethroughTagHandler()));
 				}
 				else {
-					saleTextView.setBackgroundColor(green);
+					fullTileStrikethroughPrice.setVisibility(View.GONE);
 				}
+				fullTilePrice.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+				ratingText.setVisibility(View.VISIBLE);
+			}
+			else {
+				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
+					halfTileStrikethroughPrice.setVisibility(View.VISIBLE);
+					halfTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
+							hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)),
+						null,
+						new StrikethroughTagHandler()));
+				}
+				else {
+					halfTileStrikethroughPrice.setVisibility(View.GONE);
+				}
+				halfTilePrice.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+				ratingText.setVisibility(View.GONE);
+			}
+			setHotelDiscountBanner(hotel, context, fullWidth);
+		}
+
+		// Set appropriate discount and / or DRR message
+		public void setHotelDiscountBanner(Hotel hotel, Context context, boolean fullWidth) {
+			if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 				saleTextView.setVisibility(View.VISIBLE);
+				// Mobile exclusive case
+				if (hotel.isDiscountRestrictedToCurrentSourceType) {
+					saleTextView.setBackgroundColor(purple);
+					saleTextView.setCompoundDrawablesWithIntrinsicBounds(mobileOnly, null, null, null);
+					if (fullWidth) {
+						saleTextView.setText(R.string.launch_mobile_exclusive);
+					}
+					else {
+						saleTextView.setText(context.getString(R.string.percent_off_TEMPLATE,
+							HotelUtils.getDiscountPercent(hotel.lowRateInfo)));
+					}
+				}
+				// Tonight only case
+				else if (hotel.isSameDayDRR) {
+					saleTextView.setBackgroundColor(blue);
+					saleTextView.setCompoundDrawablesWithIntrinsicBounds(tonightOnly, null, null, null);
+					if (fullWidth) {
+						saleTextView.setText(R.string.launch_tonight_only);
+					}
+					else {
+						saleTextView.setText(context.getString(R.string.percent_off_TEMPLATE,
+							HotelUtils.getDiscountPercent(hotel.lowRateInfo)));
+					}
+				}
+				// Default discount case
+				else {
+					saleTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+					saleTextView.setText(context.getString(R.string.percent_off_TEMPLATE,
+						HotelUtils.getDiscountPercent(hotel.lowRateInfo)));
+					if (hotel.lowRateInfo.airAttached) {
+						saleTextView.setBackgroundColor(orange);
+					}
+					else {
+						saleTextView.setBackgroundColor(green);
+					}
+				}
 			}
 			else {
 				saleTextView.setVisibility(View.GONE);
 			}
-			//TODO: resolve mobile exclusive string length localization issue
-//			else if (HotelUtils.getDiscountPercent(offer.lowRateInfo) > 0 && offer.isDiscountRestrictedToCurrentSourceType) {
-//				saleTextView.setText(R.string.mobile_exclusive);
-//				saleTextView.setBackgroundColor(purple);
-//				saleTextView.setVisibility(View.VISIBLE);
-//			}
 		}
 
 		public void bindLocationData(CollectionLocation location) {
 			title.setText(location.title);
+			FontCache.setTypeface(title, FontCache.Font.ROBOTO_MEDIUM);
 			subtitle.setText(location.subtitle);
-			price.setVisibility(View.GONE);
+			ratingInfo.setVisibility(View.GONE);
+			fullTilePriceContainer.setVisibility(View.GONE);
+			halfTilePriceContainer.setVisibility(View.GONE);
 			saleTextView.setVisibility(View.GONE);
 		}
 
