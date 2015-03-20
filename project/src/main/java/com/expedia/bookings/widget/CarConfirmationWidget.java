@@ -171,9 +171,9 @@ public class CarConfirmationWidget extends FrameLayout {
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);
 		directionsTextView.setText(res.getString(R.string.car_confirmation_directions, offer.vendor.name));
 		pickupDateText.setText(res.getString(R.string.car_confirmation_pickup_time_TEMPLATE,
-			DateUtils.formatDateTime(getContext(), offer.pickupTime.getMillis(),
+			DateUtils.formatDateTime(getContext(), offer.getPickupTime().getMillis(),
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT)));
-		dropofDateText.setText(DateUtils.formatDateTime(getContext(), offer.dropOffTime.getMillis(),
+		dropofDateText.setText(DateUtils.formatDateTime(getContext(), offer.getDropOffTime().getMillis(),
 			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 		addHotelTextView.setText(res.getString(R.string.successful_checkout_cross_sell_hotel,
 			offer.pickUpLocation.locationDescription));
@@ -237,8 +237,8 @@ public class CarConfirmationWidget extends FrameLayout {
 		loc.setDestinationId(offer.pickUpLocation.locationCode);
 		flightSearchParams.setArrivalLocation(loc);
 
-		flightSearchParams.setDepartureDate(offer.pickupTime.toLocalDate());
-		flightSearchParams.setReturnDate(offer.dropOffTime.toLocalDate());
+		flightSearchParams.setDepartureDate(offer.getPickupTime().toLocalDate());
+		flightSearchParams.setReturnDate(offer.getDropOffTime().toLocalDate());
 
 		// Go to flights
 		NavUtils.goToFlightsUsingSearchParams(getContext());

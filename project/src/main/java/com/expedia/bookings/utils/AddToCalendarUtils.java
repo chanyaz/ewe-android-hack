@@ -84,8 +84,8 @@ public class AddToCalendarUtils {
 		intent.setData(CalendarContract.Events.CONTENT_URI);
 		intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.calendar_car_title_TEMPLATE,
 			offer.pickUpLocation.locationCode));
-		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, offer.pickupTime.getMillis());
-		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, offer.dropOffTime.getMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, offer.getPickupTime().getMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, offer.getDropOffTime().getMillis());
 		intent.putExtra(
 			CalendarContract.Events.EVENT_LOCATION,
 			context.getString(R.string.calendar_car_location_TEMPLATE, offer.pickUpLocation.toAddress()));
