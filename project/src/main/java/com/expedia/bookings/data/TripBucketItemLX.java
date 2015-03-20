@@ -20,4 +20,8 @@ public class TripBucketItemLX extends TripBucketItem {
 	public LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.LX;
 	}
+
+	public LXCreateTripResponse getCreateTripResponse() {
+		return createTripResponse;
+	}
 }

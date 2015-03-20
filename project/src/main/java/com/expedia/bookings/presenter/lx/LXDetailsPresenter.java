@@ -192,6 +192,7 @@ public class LXDetailsPresenter extends Presenter {
 		@Override
 		public void onNext(LXCreateTripResponse response) {
 			createTripDialog.dismiss();
+			Db.getTripBucket().clearLX();
 			Db.getTripBucket().add(new TripBucketItemLX(response));
 			Events.post(new Events.LXCreateTripSucceeded(response));
 		}

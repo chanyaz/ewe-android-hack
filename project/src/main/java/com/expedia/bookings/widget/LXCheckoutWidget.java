@@ -37,6 +37,10 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	LXCreateTripResponse createTripResponse;
 
+	protected LineOfBusiness getLineOfBusiness() {
+		return LineOfBusiness.LX;
+	}
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -69,6 +73,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		// TODO Make this LX specific
 		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 		isCheckoutComplete();
+		loginWidget.updateView();
 		show(new CheckoutDefault());
 	}
 
