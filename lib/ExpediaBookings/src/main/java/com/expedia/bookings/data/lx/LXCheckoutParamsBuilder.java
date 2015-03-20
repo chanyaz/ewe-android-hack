@@ -18,6 +18,7 @@ public class LXCheckoutParamsBuilder {
 	private String cvv;
 	private String email;
 	private String storedCreditCardId;
+	private boolean suppressFinalBooking;
 
 	public LXCheckoutParamsBuilder firstName(String firstName) {
 		this.firstName = firstName;
@@ -94,6 +95,11 @@ public class LXCheckoutParamsBuilder {
 		return this;
 	}
 
+	public LXCheckoutParamsBuilder suppressFinalBooking(boolean suppressFinalBooking) {
+		this.suppressFinalBooking = suppressFinalBooking;
+		return this;
+	}
+
 	public LXCheckoutParams build() {
 		LXCheckoutParams checkoutParams = new LXCheckoutParams();
 		checkoutParams.firstName = firstName;
@@ -111,6 +117,7 @@ public class LXCheckoutParamsBuilder {
 		checkoutParams.cvv = cvv;
 		checkoutParams.email = email;
 		checkoutParams.storedCreditCardId = storedCreditCardId;
+		checkoutParams.suppressFinalBooking = suppressFinalBooking;
 		return checkoutParams;
 	}
 	public boolean areRequiredParamsFilled() {
