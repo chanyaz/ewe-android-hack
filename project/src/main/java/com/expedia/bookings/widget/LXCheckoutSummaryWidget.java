@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.utils.LXFormatter;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -52,16 +53,15 @@ public class LXCheckoutSummaryWidget extends RelativeLayout {
 
 	public void bind() {
 		lxOfferTitleText.setText(lxState.offer.title);
-		lxGroupText.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.offerSelected));
+		lxGroupText.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
 		lxOfferDate.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		lxOfferLocation.setText(lxState.activity.location);
 
-		String totalMoney = lxState.offerSelected.money.getFormattedMoney();
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
 		tripTotalText.setText(totalMoney);
 
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.ic_action_bar_checkmark_white);
 		drawableEnabled.setColorFilter(getResources().getColor(R.color.lx_checkmark_color), PorterDuff.Mode.SRC_IN);
 		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 	}
-
 }

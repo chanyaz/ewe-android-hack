@@ -82,7 +82,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			.build()
 			.load(url);
 		title.setText(lxState.offer.title);
-		tickets.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.offerSelected));
+		tickets.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
 		location.setText(lxState.activity.location);
 		date.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		itineraryNumber.setText(event.checkoutResponse.newTrip.itineraryNumber);

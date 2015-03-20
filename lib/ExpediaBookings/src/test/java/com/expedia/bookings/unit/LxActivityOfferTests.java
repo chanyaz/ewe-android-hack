@@ -35,10 +35,10 @@ public class LxActivityOfferTests {
 
 		Offer parsedOffer = gson.fromJson(rawOfferJson, Offer.class);
 
-		AvailabilityInfo activityAvailabilityInfo = parsedOffer.getAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddToLocalDate("2015-02-24"));
+		AvailabilityInfo activityAvailabilityInfo = parsedOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddToLocalDate("2015-02-24"));
 		assertTrue(activityAvailabilityInfo.tickets.size() == 2);
 
-		activityAvailabilityInfo = parsedOffer.getAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddToLocalDate("2015-02-23"));
+		activityAvailabilityInfo = parsedOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddToLocalDate("2015-02-23"));
 		assertTrue(activityAvailabilityInfo == null);
 	}
 }

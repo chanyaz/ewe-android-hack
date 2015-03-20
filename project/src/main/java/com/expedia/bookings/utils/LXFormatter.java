@@ -2,24 +2,27 @@ package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.lx.LXOfferSelected;
-import com.expedia.bookings.data.lx.LXTicketSelected;
+import com.expedia.bookings.data.lx.Ticket;
 
 public class LXFormatter {
-	public static String selectedTicketsSummaryText(Context context, LXOfferSelected offerSelected) {
+	public static String selectedTicketsSummaryText(Context context, Map<Ticket, Integer> tickets) {
 		String ticketSummaryTemplate = context.getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
-		List<String> tickets = new ArrayList<String>();
+		List<String> ticketSummaries = new ArrayList<String>();
 
-		if (offerSelected != null) {
-			for (LXTicketSelected ticketSelected : offerSelected.tickets) {
-				tickets.add(String.format(ticketSummaryTemplate, ticketSelected.count,
-					context.getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticketSelected.code))));
+		if (tickets != null) {
+			for (Map.Entry<Ticket, Integer> ticketAndCount : tickets.entrySet()) {
+				Ticket ticket = ticketAndCount.getKey();
+				int ticketCount = ticketAndCount.getValue();
+
+				ticketSummaries.add(String.format(ticketSummaryTemplate, ticketCount,
+					context.getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
 			}
-			return Strings.joinWithoutEmpties(", ", tickets);
+			return Strings.joinWithoutEmpties(", ", ticketSummaries);
 		}
 
 		return "";

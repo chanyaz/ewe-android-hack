@@ -1,6 +1,7 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 
@@ -39,7 +40,6 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
@@ -696,11 +696,11 @@ public class Events {
 
 	public static class LXOfferBooked {
 		public Offer offer;
-		public LXOfferSelected offerSelected;
+		public Map<Ticket, Integer> selectedTickets;
 
-		public LXOfferBooked(Offer offer , LXOfferSelected offerSelected) {
+		public LXOfferBooked(Offer offer, Map<Ticket, Integer> selectedTickets) {
 			this.offer = offer;
-			this.offerSelected = offerSelected;
+			this.selectedTickets = selectedTickets;
 		}
 	}
 
