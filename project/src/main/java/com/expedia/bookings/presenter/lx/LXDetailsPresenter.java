@@ -18,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.TripBucketItemLX;
-import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -130,12 +129,7 @@ public class LXDetailsPresenter extends Presenter {
 	public void onActivitySelected(Events.LXActivitySelected event) {
 		show(loadingProgress);
 		setToolbarTitles();
-		LXSearchParams searchParams = lxState.searchParams;
-		ActivityDetailsParams activityDetailsParams = new ActivityDetailsParams();
-		activityDetailsParams.activityId = event.lxActivity.id;
-		activityDetailsParams.startDate = searchParams.startDate;
-		activityDetailsParams.endDate = searchParams.endDate;
-		detailsSubscription = lxServices.lxDetails(activityDetailsParams, detailsObserver);
+		detailsSubscription = lxServices.lxDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate, detailsObserver);
 	}
 
 	private void setupToolbar() {

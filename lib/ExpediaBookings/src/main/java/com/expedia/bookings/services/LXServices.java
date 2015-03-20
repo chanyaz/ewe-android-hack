@@ -1,9 +1,9 @@
 package com.expedia.bookings.services;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.ActivityDetailsParams;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -12,8 +12,11 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXUtils;
 import com.squareup.okhttp.OkHttpClient;
 
+import org.joda.time.LocalDate;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -51,8 +54,20 @@ public class LXServices {
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.map(HANDLE_SEARCH_ERROR)
+			.map(PUT_BEST_APPLICABLE_CATEGORY)
 			.subscribe(observer);
 	}
+
+	private static final Func1<LXSearchResponse, LXSearchResponse> PUT_BEST_APPLICABLE_CATEGORY = new Func1<LXSearchResponse, LXSearchResponse>() {
+		@Override
+		public LXSearchResponse call(LXSearchResponse lxSearchResponse) {
+			for (LXActivity activity : lxSearchResponse.activities) {
+				activity.bestApplicableCategoryEN = LXUtils.bestApplicableCategory(activity.categories);
+				activity.bestApplicableCategoryLocalized = lxSearchResponse.filterCategories.get(activity.bestApplicableCategoryEN).displayValue;
+			}
+			return lxSearchResponse;
+		}
+	};
 
 	private static final Func1<LXSearchResponse, LXSearchResponse> HANDLE_SEARCH_ERROR = new Func1<LXSearchResponse, LXSearchResponse>() {
 		@Override
@@ -64,13 +79,21 @@ public class LXServices {
 		}
 	};
 
-	public Subscription lxDetails(ActivityDetailsParams searchParams, Observer<ActivityDetailsResponse> observer) {
+	public Subscription lxDetails(final LXActivity lxActivity, LocalDate startDate, LocalDate endDate, Observer<ActivityDetailsResponse> observer) {
 		return lxApi
-			.activityDetails(searchParams.activityId, searchParams.toServerStartDate(), searchParams.toServerEndDate())
+			.activityDetails(lxActivity.id, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.map(HANDLE_ACTIVITY_DETAILS_ERROR)
 			.map(PUT_MONEY_IN_TICKETS)
+			.map(new Func1<ActivityDetailsResponse, ActivityDetailsResponse>() {
+				@Override
+				public ActivityDetailsResponse call(ActivityDetailsResponse response) {
+					response.bestApplicableCategoryEN = lxActivity.bestApplicableCategoryEN;
+					response.bestApplicableCategoryLocalized = lxActivity.bestApplicableCategoryLocalized;
+					return response;
+				}
+			})
 			.subscribe(observer);
 	}
 

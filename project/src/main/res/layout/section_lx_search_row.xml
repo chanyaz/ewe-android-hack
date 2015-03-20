@@ -65,7 +65,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/activity_categories"
+            android:id="@+id/activity_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

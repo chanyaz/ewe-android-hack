@@ -17,7 +17,6 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.Strings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -77,8 +76,8 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<LXResultsListAdap
 		@InjectView(R.id.activity_from_price_ticket_type)
 		TextView fromPriceTicketType;
 
-		@InjectView(R.id.activity_categories)
-		TextView categories;
+		@InjectView(R.id.activity_category)
+		TextView category;
 
 		@InjectView(R.id.activity_price)
 		TextView activityPrice;
@@ -98,7 +97,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<LXResultsListAdap
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
 			activityPrice.setText(activity.fromPrice);
-			categories.setText(Strings.joinWithoutEmpties(",", activity.categories));
+			category.setText(activity.bestApplicableCategoryLocalized);
 			fromPriceTicketType.setText(itemView.getContext().getString(LXDataUtils.LX_PER_TICKET_TYPE_MAP.get(activity.fromPriceTicketCode)));
 		}
 	}

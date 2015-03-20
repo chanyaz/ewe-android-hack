@@ -180,11 +180,11 @@ public class LXViewModel {
 			public void perform(UiController uiController, View viewHolder) {
 				TextView titleText = (TextView) viewHolder.findViewById(R.id.activity_title);
 				TextView priceText = (TextView) viewHolder.findViewById(R.id.activity_price);
-				TextView categoriesText = (TextView) viewHolder.findViewById(R.id.activity_categories);
+				TextView categoryText = (TextView) viewHolder.findViewById(R.id.activity_category);
 
 				Assert.assertEquals(title, titleText.getText());
 				Assert.assertEquals(price, priceText.getText());
-				Assert.assertEquals(Strings.joinWithoutEmpties(",", categoriesList), categoriesText.getText());
+				Assert.assertEquals(Strings.joinWithoutEmpties(",", categoriesList), categoryText.getText());
 			}
 		};
 	}

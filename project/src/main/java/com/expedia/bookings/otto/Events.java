@@ -638,10 +638,10 @@ public class Events {
 		}
 	}
 
-	public static class LXShowSearchResults {
+	public static class LXSearchResultsAvailable {
 		public LXSearchResponse lxSearchResponse;
 
-		public LXShowSearchResults(LXSearchResponse lxSearchResponse) {
+		public LXSearchResultsAvailable (LXSearchResponse lxSearchResponse) {
 			this.lxSearchResponse = lxSearchResponse;
 		}
 	}
