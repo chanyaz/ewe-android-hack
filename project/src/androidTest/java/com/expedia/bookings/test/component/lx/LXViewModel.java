@@ -21,7 +21,7 @@ import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
-import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -184,7 +184,7 @@ public class LXViewModel {
 
 				Assert.assertEquals(title, titleText.getText());
 				Assert.assertEquals(price, priceText.getText());
-				Assert.assertEquals(Strings.joinWithoutEmpties(",", categoriesList), categoryText.getText());
+				Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesList), categoryText.getText());
 			}
 		};
 	}

@@ -98,6 +98,8 @@ public class LXResultsPresenterTests {
 		a.title = title;
 		a.fromPrice = price;
 		a.categories = categoriesList;
+		a.bestApplicableCategoryEN = "tour";
+		a.bestApplicableCategoryLocalized = "tour";
 		a.fromPriceTicketCode = code;
 		activities.add(a);
 
