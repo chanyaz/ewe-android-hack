@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -44,8 +41,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class CarConfirmationWidget extends FrameLayout {
-
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("MMM dd, hh:mm aa");
 
 	private CarCheckoutParamsBuilder builder;
 	private CategorizedCarOffers bucket;
@@ -116,6 +111,7 @@ public class CarConfirmationWidget extends FrameLayout {
 			@Override
 			public void onClick(View v) {
 				NavUtils.goToItin(getContext());
+				Events.post(new Events.FinishActivity());
 			}
 		});
 	}
@@ -209,11 +205,13 @@ public class CarConfirmationWidget extends FrameLayout {
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
 		NavUtils.goToHotels(getContext(), sp);
+		Events.post(new Events.FinishActivity());
 	}
 
 	@OnClick(R.id.add_flight_textView)
 	public void searchFlight() {
 		searchForFlights();
+		Events.post(new Events.FinishActivity());
 	}
 
 	@OnClick(R.id.direction_action_textView)
@@ -255,4 +253,5 @@ public class CarConfirmationWidget extends FrameLayout {
 		// Go to flights
 		NavUtils.goToFlightsUsingSearchParams(getContext());
 	}
+
 }

@@ -626,6 +626,10 @@ public class Events {
 		}
 	}
 
+	public static class FinishActivity {
+
+	}
+
 	public static class LXShowSearchWidget {
 		// ignore
 	}
