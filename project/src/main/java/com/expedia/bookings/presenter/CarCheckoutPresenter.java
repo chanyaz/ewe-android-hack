@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBarActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -159,6 +160,9 @@ public class CarCheckoutPresenter extends Presenter {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					if (cvv.getVisibility() == VISIBLE) {
+						((ActionBarActivity) getContext()).onBackPressed();
+					}
 					Events.post(
 						new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct, response.newCarProduct,
 							response.tripId));
@@ -175,10 +179,11 @@ public class CarCheckoutPresenter extends Presenter {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					if (cvv.getVisibility() == VISIBLE) {
+						((ActionBarActivity) getContext()).onBackPressed();
+					}
 					checkout.slideWidget.resetSlider();
-
-					// TODO better payment error handling
-					//checkout.paymentInfoCardView.setExpanded(true, true);
+					checkout.paymentInfoCardView.setExpanded(true, true);
 				}
 			})
 			.show();
