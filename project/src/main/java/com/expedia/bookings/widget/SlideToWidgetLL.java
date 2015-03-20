@@ -80,7 +80,7 @@ public class SlideToWidgetLL extends RelativeLayout {
 		mCheckMask = BitmapFactory.decodeResource(getResources(), R.drawable.slide_check_cars);
 		mPaintBackground.setStyle(Paint.Style.FILL);
 		mPaintBackground.setAntiAlias(true);
-		mPaintBackground.setColor(getResources().getColor(R.color.cars_primary_color));
+		mPaintBackground.setColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
 		mGreenPaint.setStyle(Paint.Style.FILL);
 		mGreenPaint.setAntiAlias(true);
 		mGreenPaint.setColor(getResources().getColor(R.color.cars_checkmark_color));
