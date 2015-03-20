@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"
+        android:layout_marginTop="@dimen/extra_status_bar_padding"
         android:background="@drawable/bg_tablet_bottom_fade"
         android:gravity="top|center_horizontal"
         android:paddingTop="?android:actionBarSize" />
