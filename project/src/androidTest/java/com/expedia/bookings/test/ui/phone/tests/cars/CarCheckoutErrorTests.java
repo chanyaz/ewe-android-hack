@@ -66,8 +66,7 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 	}
 
 	public void testPaymentFailed() throws Throwable {
-		// TODO use CC_REQUIRED, send user to Payment entry screen
-		performCarCheckout(CC_NOT_REQUIRED, "PaymentFailed");
+		performCarCheckout(CC_REQUIRED, "PaymentFailed");
 
 		// Payment failed dialog
 		screenshot("Payment Failed Dialog");
@@ -76,6 +75,10 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		CarViewModel.alertDialogNeutralButton().perform(click());
 
 		screenshot("Payment Failed Messaging");
+		// Should take you back to payment entry
+		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
+		CheckoutViewModel.pressClose();
+
 		// TODO better assertions once error is handled better
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
@@ -104,14 +107,14 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		CarViewModel.email().perform(typeText(EMAIL));
 		CarViewModel.phoneNumber().perform(typeText("4151234567"));
 		screenshot("Car Checkout - traveler details entered");
+		CarViewModel.checkoutToolbarDone().perform(click());
 
 		if (offer == CC_REQUIRED) {
-			CarViewModel.checkoutToolbarNext().perform(click());
 			enterPaymentInfoWithScreenshot();
+			CheckoutViewModel.performSlideToPurchase();
 			enterCVV("111");
 		}
 		else {
-			CarViewModel.checkoutToolbarDone().perform(click());
 			screenshot("Car Checkout - ready to purchase");
 			ScreenActions.delay(1);
 			CheckoutViewModel.performSlideToPurchase();
@@ -128,7 +131,7 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterPaymentInfo();
 		screenshot("Car_Checkout_Payment_Entered");
-		CheckoutViewModel.pressClose();
+		CheckoutViewModel.clickDone();
 	}
 
 }

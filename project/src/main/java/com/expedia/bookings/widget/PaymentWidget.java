@@ -200,6 +200,9 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@Override
 	public void setExpanded(boolean expand, boolean animate) {
+		if (!isCreditCardRequired) {
+			return;
+		}
 		super.setExpanded(expand, animate);
 		if (expand && mToolbarListener != null) {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());
