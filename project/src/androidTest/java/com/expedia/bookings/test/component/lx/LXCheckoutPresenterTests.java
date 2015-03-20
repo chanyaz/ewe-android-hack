@@ -108,6 +108,7 @@ public class LXCheckoutPresenterTests {
 		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
+		ScreenActions.delay(1);
 		LXViewModel.checkoutSlideToPurchase().check(matches(isDisplayed()));
 	}
 }

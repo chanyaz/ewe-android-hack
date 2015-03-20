@@ -82,7 +82,10 @@ public class LXDetailsPresenterTests {
 
 	@Test
 	public void testActivityInfo() {
-		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		LXActivity lxActivity = new LXActivity();
+		lxActivity.bestApplicableCategoryEN = "Attractions";
+		lxActivity.bestApplicableCategoryLocalized = "Attractions";
+		Events.post(new Events.LXActivitySelected(lxActivity));
 		ScreenActions.delay(2);
 
 		ViewInteraction info = LXViewModel.infoContainer();
