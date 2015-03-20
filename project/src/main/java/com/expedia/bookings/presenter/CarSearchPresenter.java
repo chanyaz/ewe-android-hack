@@ -120,6 +120,7 @@ public class CarSearchPresenter extends Presenter
 		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.setTitle(getResources().getString(R.string.dates_and_location));
+		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
 		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
 

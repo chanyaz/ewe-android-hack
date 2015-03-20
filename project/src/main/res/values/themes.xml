@@ -262,6 +262,8 @@
         <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="actionBarStyle">@style/LaunchActionBar</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_item_background</item>
+        <item name="selectableItemBackground">@drawable/selectable_item_background</item>
 
         <item name="android:actionBarDivider">@null</item>
         <item name="actionBarDivider">@null</item>
@@ -338,6 +340,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@drawable/tab_text_selector</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
     <!-- Temporary theme for flights -->

@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
 
@@ -144,8 +145,7 @@ public class CarTimeSlider extends SeekBar {
 	}
 
 	public String calculateProgress(int progress) {
-		return DateFormatUtils.formatDateTimeRange(getContext(), getDateTime(progress), getDateTime(progress),
-			DateFormatUtils.FLAGS_TIME_FORMAT);
+		return DateUtils.formatDateTime(getContext(), getDateTime(progress).getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 	}
 
 	public DateTime getDateTime(int progress) {
