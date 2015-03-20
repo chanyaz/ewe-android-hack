@@ -28,6 +28,7 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -100,6 +101,7 @@ public class CarConfirmationWidget extends FrameLayout {
 	ViewGroup textContainer;
 
 	private CreateTripCarOffer offer;
+	private SearchCarOffer searchOffer;
 	private String itineraryNumber;
 
 	@Override
@@ -143,7 +145,11 @@ public class CarConfirmationWidget extends FrameLayout {
 	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		bucket = event.categorizedCarOffers;
+	}
 
+	@Subscribe
+	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
+		searchOffer = event.offer;
 	}
 
 	@Subscribe
@@ -191,6 +197,12 @@ public class CarConfirmationWidget extends FrameLayout {
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
+
+		// Fallback lat long in case we don't get it from create trip call.
+		if (offer.pickUpLocation.latitude == null || offer.dropOffLocation.longitude == null) {
+			offer.pickUpLocation.latitude = searchOffer.pickUpLocation.latitude;
+			offer.pickUpLocation.longitude = searchOffer.pickUpLocation.longitude;
+		}
 	}
 
 	@OnClick(R.id.add_hotel_textView)
