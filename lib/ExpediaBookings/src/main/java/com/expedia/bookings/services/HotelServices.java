@@ -52,7 +52,7 @@ public class HotelServices {
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.flatMap(NEARBY_RESPONSE_TO_OFFERS)
-			.take(10)
+			.take(25)
 			.toList()
 			.subscribe(observer);
 	}

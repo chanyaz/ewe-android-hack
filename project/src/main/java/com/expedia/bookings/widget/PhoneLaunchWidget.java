@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -53,7 +54,8 @@ import rx.Subscription;
 public class PhoneLaunchWidget extends FrameLayout {
 
 	private static final String TAG = "PhoneLaunchWidget";
-	private static final String COLLECTION_TITLE = "staff-picks";
+	private static final String HOTEL_SORT = "ExpertPicks";
+	private static final long MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS; // 15 minutes ago
 
 	@Inject
 	public HotelServices hotelServices;
@@ -291,13 +293,13 @@ public class PhoneLaunchWidget extends FrameLayout {
 		String today = dtf.print(currentDate);
 		String tomorrow = dtf.print(currentDate.plusDays(1));
 
-		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
-			String.valueOf(loc.getLongitude()), "1",
-			today, tomorrow, "MobileDeals");
-		searchParams = new HotelSearchParams();
-		searchParams.setCheckInDate(currentDate);
-		searchParams.setCheckOutDate(currentDate.plusDays(1));
-		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+			NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
+				String.valueOf(loc.getLongitude()), "1",
+				today, tomorrow, HOTEL_SORT);
+			searchParams = new HotelSearchParams();
+			searchParams.setCheckInDate(currentDate);
+			searchParams.setCheckOutDate(currentDate.plusDays(1));
+			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
 		downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
 	}

@@ -771,10 +771,10 @@ public class Events {
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {
-		public List<Hotel> topTen;
+		public List<Hotel> topHotels;
 
-		public LaunchHotelSearchResponse(List<Hotel> topTen) {
-			this.topTen = topTen;
+		public LaunchHotelSearchResponse(List<Hotel> topHotels) {
+			this.topHotels = topHotels;
 		}
 	}
 
