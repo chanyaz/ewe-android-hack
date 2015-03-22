@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
@@ -18,7 +19,6 @@ import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.utils.DateUtils;
-import com.expedia.bookings.widget.LXOffersListWidget;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -100,9 +100,10 @@ public class LXDetailsPresenterTests {
 		ScreenActions.delay(2);
 
 		//Ensure that we have 4 offers!
-		LXOffersListWidget offersListWidget = (LXOffersListWidget) playground.getRoot().findViewById(R.id.offers);
-		int offersCount = offersListWidget.getChildCount();
-		assertTrue(offersCount == 4);
+		LinearLayout offersContainer = (LinearLayout) playground.getRoot().findViewById(R.id.offers_container);
+		int offersCount = offersContainer.getChildCount();
+		int offersToShow = playground.get().getResources().getInteger(R.integer.lx_offers_list_initial_size);
+		assertTrue(offersCount == offersToShow);
 
 		//Check 1st offer
 		ViewInteraction firstOffer = LXViewModel.withOfferText("2-Day New York Pass");
@@ -121,6 +122,9 @@ public class LXDetailsPresenterTests {
 		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("5-Day New York Pass"))))));
 		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
 		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
+
+		//Scroll to show more
+		LXViewModel.showMore().perform(scrollTo(), click());
 
 		//Check 4th offer
 		ViewInteraction fourthOffer = LXViewModel.withOfferText("7-Day New York Pass");
