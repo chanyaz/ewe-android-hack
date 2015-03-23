@@ -34,6 +34,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -83,13 +84,20 @@ public class NavUtils {
 			context.startActivity(intent);
 		}
 		else {
-			Intent intent = new Intent(context, PhoneLaunchActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			Intent intent = null;
 
-			if (forceShowWaterfall) {
-				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			if (ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+				intent = new Intent(context, PhoneLaunchActivity.class);
+
+				if (forceShowWaterfall) {
+					intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+				}
+			}
+			else {
+				intent = new Intent(context, HotelSearchActivity.class);
 			}
 
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
 		}

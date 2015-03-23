@@ -103,6 +103,7 @@ import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.HotelUtils;
@@ -561,7 +562,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
 
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		if (ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+		// For VSC app the hotelListing is the launch screen.
+		else {
+			actionBar.setHomeButtonEnabled(false);
+		}
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
@@ -887,6 +894,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
+		if (!ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+			getMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
+			DebugMenu.onCreateOptionsMenu(this, menu);
+		}
 
 		boolean ret = super.onCreateOptionsMenu(menu);
 
@@ -950,6 +961,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
+
+		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
+		if (!ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled() && AndroidUtils.isRelease(this)) {
+			MenuItem settingsBtn = menu.findItem(R.id.settings);
+			if (settingsBtn != null) {
+				settingsBtn.setVisible(false);
+			}
+
+			DebugMenu.onPrepareOptionsMenu(this, menu);
+		}
+
 
 		return super.onPrepareOptionsMenu(menu);
 	}
