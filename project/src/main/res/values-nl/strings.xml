@@ -2,6 +2,74 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Selecteer nu de inleverdatum</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Sleep om te wijzigen</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Ophaaltijd</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Inlevertijd</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_template">%s / dag</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">%s in totaal</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Promocode</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sorteer &amp; Filter</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Swipe om te reserveren</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Betaling</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Reserveren</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">Details bekijken</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Bestuurdersinfo</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Betalingsinfo</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Bestuurdersinfo invoeren</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Kies uit opgeslagen contacten</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Betalingsinfo invoeren</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Vervaldatum: %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s of soortgelijk</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Deuren</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Stuks bagage</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Automaat</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Handgeschakeld</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Ophaallocatie %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia reisplannr.: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Expedia klantenservice: %1$s en %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Lokaal nummer: %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Gratis nummer: %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Ophaaltijd</string>
     <!-- Car search label for drop-off time-->
@@ -11,7 +79,7 @@
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
     <string name="same_as_pick_up">Zelfde als ophaallocatie</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Datums en locatie</string>
+    <string name="dates_and_location">Datums &amp; Locatie</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Selecteer ophaal- en inleverdatums</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -30,15 +98,51 @@
     <string name="error_missing_end_date_param">Einddatum ontbreekt</string>
     <!-- Temporary String for general error message -->
     <string name="error_car">Er deed zich een fout voor. Controleer de zoekparameters.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Jouw zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
     <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s of soortgelijk</string>
+
+    <string name="preparing_checkout_message">Boeking aan het samenstellen …</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Balie &amp; voertuig bij terminal</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Totaal nu te betalen</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Totaal te betalen bij het ophalen</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Gereed</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Autoverhuur</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Geschatte belastingen en toeslagen</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Verzekering</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Inleverkosten</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Onbeperkt aantal km</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">Reservering voltooid! Reisplannr: %1$s</string>
+    <string name="successful_checkout_TEMPLATE">Reisplannr. %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Ontbrekende betalingsparameters.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hotels in %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Vluchten naar %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Ophalen om</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s tot</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Reisplan gestuurd naar</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Route naar %1$s</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Bel de klantenservice</string>
+    <!-- Error message for some missing checkout params -->
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Voer je bestemming in</string>
@@ -68,6 +172,142 @@
     <string name="trip_end_optional">Optioneel</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Kies luchthaven</string>
+
+    <!-- LX -->
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Activiteiten zoeken</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Locatie invoeren</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Ontbrekende locatie</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Ontbrekende datum</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Selecteer datum</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Hoogtepunten</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Beschrijving</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Locatie</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Gratis annulering</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Boek nu %1$s%2$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Reiziger</string>
+    <string name="ticket_type_adult">Volwassene</string>
+    <string name="ticket_type_child">Kind</string>
+    <string name="ticket_type_infant">Baby</string>
+    <string name="ticket_type_youth">Jongere</string>
+    <string name="ticket_type_senior">Senior</string>
+    <string name="ticket_type_group">Groep</string>
+    <string name="ticket_type_couple">Stel</string>
+    <string name="ticket_type_two_adults">2 volwassenen</string>
+    <string name="ticket_type_military">Militair</string>
+    <string name="ticket_type_student">Student</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">MPV</string>
+    <string name="ticket_type_water_taxi">Watertaxi</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Executive auto</string>
+    <string name="ticket_type_luxury_car">Luxury auto</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">Town car</string>
+    <string name="ticket_type_vehicle_parking_spot">Parkeerplaats</string>
+    <string name="ticket_type_book">Boek</string>
+    <string name="ticket_type_guide">Gids</string>
+    <string name="ticket_type_travel_card">Vervoerspas</string>
+    <string name="ticket_type_boat">Boot</string>
+    <string name="ticket_type_motorcycle">Motor</string>
+    <string name="ticket_type_ceremony">Ceremonie</string>
+    <string name="ticket_type_calling_card">Belkaart</string>
+    <string name="ticket_type_pass">Pas</string>
+    <string name="ticket_type_minibus">Personenbus</string>
+    <string name="ticket_type_helicopter">Helikopter</string>
+    <string name="ticket_type_device">Toestel</string>
+    <string name="ticket_type_room">Kamer</string>
+    <string name="ticket_type_carriage">Koets</string>
+    <string name="ticket_type_buggy">Buggy</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jetski</string>
+    <string name="ticket_type_scooter">Scooter</string>
+    <string name="ticket_type_scooter_car">Scooter car</string>
+    <string name="ticket_type_snowmobile">Sneeuwscooter</string>
+    <string name="ticket_type_day">dag</string>
+    <string name="ticket_type_bike">Fiets</string>
+    <string name="ticket_type_week">week</string>
+    <string name="ticket_type_subscription">abonnement</string>
+    <string name="ticket_type_electric_bike">elektrische fiets</string>
+    <string name="ticket_type_segway">segway</string>
+    <string name="ticket_type_vehicle">voertuig</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">per reiziger</string>
+    <string name="per_ticket_type_adult">per volwassene</string>
+    <string name="per_ticket_type_child">per kind</string>
+    <string name="per_ticket_type_infant">per baby</string>
+    <string name="per_ticket_type_youth">per jongere</string>
+    <string name="per_ticket_type_senior">per senior</string>
+    <string name="per_ticket_type_group">per groep</string>
+    <string name="per_ticket_type_couple">per stel</string>
+    <string name="per_ticket_type_two_adults">per 2 volwassenen</string>
+    <string name="per_ticket_type_military">per miltair</string>
+    <string name="per_ticket_type_student">per student</string>
+    <string name="per_ticket_type_sedan">per sedan</string>
+    <string name="per_ticket_type_minivan">per MPV</string>
+    <string name="per_ticket_type_water_taxi">per watertaxi</string>
+    <string name="per_ticket_type_suv">per SUV</string>
+    <string name="per_ticket_type_executive_car">per executive car</string>
+    <string name="per_ticket_type_luxury_car">per luxury car</string>
+    <string name="per_ticket_type_limousine">per limousine</string>
+    <string name="per_ticket_type_towncar">per town car</string>
+    <string name="per_ticket_type_vehicle_parking_spot">per parkeerplaats</string>
+    <string name="per_ticket_type_book">per boek</string>
+    <string name="per_ticket_type_guide">per gids</string>
+    <string name="per_ticket_type_travel_card">per vervoerspas</string>
+    <string name="per_ticket_type_boat">per boot</string>
+    <string name="per_ticket_type_motorcycle">per motor</string>
+    <string name="per_ticket_type_ceremony">per ceremonie</string>
+    <string name="per_ticket_type_calling_card">per belkaart</string>
+    <string name="per_ticket_type_pass">per pas</string>
+    <string name="per_ticket_type_minibus">per personenbus</string>
+    <string name="per_ticket_type_helicopter">per helikopter</string>
+    <string name="per_ticket_type_device">per toestel</string>
+    <string name="per_ticket_type_room">per kamer</string>
+    <string name="per_ticket_type_carriage">per koets</string>
+    <string name="per_ticket_type_buggy">per buggy</string>
+    <string name="per_ticket_type_atv">per ATV</string>
+    <string name="per_ticket_type_jet_ski">per jetski</string>
+    <string name="per_ticket_type_scooter">per scooter</string>
+    <string name="per_ticket_type_scooter_car">per scooter car</string>
+    <string name="per_ticket_type_snowmobile">per sneeuwscooter</string>
+    <string name="per_ticket_type_day">per dag</string>
+    <string name="per_ticket_type_bike">per fiets</string>
+    <string name="per_ticket_type_week">per week</string>
+    <string name="per_ticket_type_subscription">per abonnement</string>
+    <string name="per_ticket_type_electric_bike">per elektrische fiets</string>
+    <string name="per_ticket_type_segway">per segway</string>
+    <string name="per_ticket_type_vehicle">per voertuig</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Swipe om te boeken</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Betaling</string>
+    <!-- Total Price with currency -->
+    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Gratis annulering</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Totaal incl. belastingen</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Contactinfo</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Contactinfo invoeren</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -325,7 +565,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Aanmelding mislukt. Bevestig of de Landinstellingen van je app kloppen als je e-mail en wachtwoord correct zijn.</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Expedia-sites te creëren.\nStel je wachtwoord opnieuw in via de onderstaande link \&apos;Je wachtwoord vergeten?\&apos;.</string>
+    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Expedia-sites te creëren.&lt;br&gt;Stel je wachtwoord opnieuw in via de onderstaande link \&apos;Je wachtwoord vergeten?\&apos;.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-wachtwoord</string>
     <!-- Link accounts -->
@@ -358,6 +598,19 @@
     <string name="nav_flights">Vluchten</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
+    <!-- Cars -->
+    <string name="nav_cars">Auto\&apos;s</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Plan &amp; Boek</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Topdeals voor vandaag</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">Alle deals zien</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">%2.0f%% korting</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -427,6 +680,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Je ticket voor %s kan vanaf morgen gebruikt worden.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Reisplan klaar</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -703,6 +957,44 @@
     <string name="car_category_special">Speciale auto</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Oversize auto</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Economy</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Compact</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Midsize</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standaard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Fullsize</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Luxury</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Mini Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Economy Elite</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Compact Elite</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Midsize Elite</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Standaard Elite</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Fullsize Elite</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Premium Elite</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Luxury Elite</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Speciaal</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Oversize</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">2-deurs Auto</string>
@@ -1182,7 +1474,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Ik ga akkoord</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Sleep om te boeken.</string>
+    <string name="slide_to_purchase">Swipe om te boeken.</string>
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">sleep om hotel te boeken</string>
     <!-- Slide-to-book widget prompt for flights -->
@@ -1527,6 +1819,8 @@
     <string name="air_attach_expires">Aanbieding verloopt over</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d dagen</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Aanbieding verloopt vandaag</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Hotel toevoegen</string>
     <!-- Air attach add hotel button subtitle -->
@@ -2817,9 +3111,9 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Je bagage komt aan op bagageband %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
-    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, je boeking is bevestigd! Bekijk het in de app.</string>
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, je boeking is bevestigd! Bekijk deze in de app.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Je boeking is bevestigd! Bekijk het in de app.</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Je boeking is bevestigd! Bekijk deze in de app.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
