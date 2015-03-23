@@ -19,6 +19,7 @@ public class LXCheckoutParams {
 	public String cvv;
 	public String email;
 	public String storedCreditCardId;
+	public boolean suppressFinalBooking;
 
 	public Map<String, Object> toQueryMap() {
 		Map<String, Object> params = new HashMap<>();
@@ -38,6 +39,7 @@ public class LXCheckoutParams {
 		params.put("cvv", cvv);
 		params.put("email", email);
 		params.put("storedCreditCardId", storedCreditCardId);
+		params.put("suppressFinalBooking", suppressFinalBooking);
 		return params;
 	}
 }

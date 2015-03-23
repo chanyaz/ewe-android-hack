@@ -108,6 +108,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="LX" >
+
+        <com.expedia.bookings.widget.CheckBoxPreference
+            app:id="@id/preference_suppress_lx_booking_checkbox"
+            android:defaultValue="true"
+            android:key="@string/preference_suppress_lx_bookings"
+            android:summary="Do LX bookings, but suppress any actual booking from going through"
+            android:title="Suppress LX Bookings" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Flights" >
 
         <com.expedia.bookings.widget.CheckBoxPreference
