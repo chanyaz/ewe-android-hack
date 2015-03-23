@@ -2,6 +2,74 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Næste trin: Vælg afleveringsdato</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Træk for at ændre</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Afhentningstidspunkt</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Afleveringstidspunkt</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_template">%s pr. dag</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">I alt %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Kampagnekode</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sorter og filtrer</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Skub for at reservere</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Betaling</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Reserver</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">Se oplysninger</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Oplysninger om fører</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Betalingsoplysninger</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Indtast oplysninger om fører</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Vælg gemte kontakter</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Indtast betalingsoplysninger</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Udløber %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s eller lignende</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Døre</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Stykker bagage</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Automatgear</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Manuelt gear</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Afhentningssted %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia-rejseplansnummer: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Expedias kundeservice: %1$s og %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Lokalt nummer: %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Afgiftsfrit nummer: %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Afhentningstidspunkt</string>
     <!-- Car search label for drop-off time-->
@@ -15,7 +83,7 @@
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Vælg afhentnings- og afleveringsdatoer</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – Vælg returdato</string>
+    <string name="select_return_date_TEMPLATE">%1$s – Vælg afleveringsdato</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Afhentning</string>
     <!-- Label for drop-up time picker -->
@@ -30,15 +98,51 @@
     <string name="error_missing_end_date_param">Slutdato mangler</string>
     <!-- Temporary String for general error message -->
     <string name="error_car">Der opstod en fejl. Kontroller søgeparametre.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s eller lignende</string>
+
+    <string name="preparing_checkout_message">Forbereder betaling…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Skranke samt køretøj i terminalen</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Samlet beløb til betaling i dag</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Samlet beløb til betaling på afhentningstidspunkt</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Afslut</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Biludlejning</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Anslåede skatter og gebyrer</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Forsikring</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Afleveringsgebyr</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Ubegrænset antal kilometer</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">Reservationen er gennemført! Rejseplansnummer: %1$s</string>
+    <string name="successful_checkout_TEMPLATE">Rejseplansnummer %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Betalingsparametre mangler.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hoteller i %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Fly til %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Afhentning:</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s til</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Rejseplan sendt til</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Rutevejledning til %1$s</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Ring til kundeservice</string>
+    <!-- Error message for some missing checkout params -->
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Angiv din destination</string>
@@ -68,6 +172,142 @@
     <string name="trip_end_optional">Valgfrit</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Vælg lufthavn</string>
+
+    <!-- LX -->
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Søg efter aktiviteter</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Angiv sted</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Sted mangler</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Dato mangler</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Vælg dato</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Højdepunkter</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Beskrivelse</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Beliggenhed</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Gratis afbestilling</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Reserver nu %1$s%2$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Rejsende</string>
+    <string name="ticket_type_adult">Voksen</string>
+    <string name="ticket_type_child">Barn</string>
+    <string name="ticket_type_infant">Spædbarn</string>
+    <string name="ticket_type_youth">Ung</string>
+    <string name="ticket_type_senior">Pensionist</string>
+    <string name="ticket_type_group">Gruppe</string>
+    <string name="ticket_type_couple">Par</string>
+    <string name="ticket_type_two_adults">2 voksne</string>
+    <string name="ticket_type_military">Militær</string>
+    <string name="ticket_type_student">Studerende</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">MPV</string>
+    <string name="ticket_type_water_taxi">Vandtaxi</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Øvre mellemklassebil</string>
+    <string name="ticket_type_luxury_car">Luksusbil</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">Town car</string>
+    <string name="ticket_type_vehicle_parking_spot">Parkeringsplads til bil</string>
+    <string name="ticket_type_book">Reservation</string>
+    <string name="ticket_type_guide">Guide</string>
+    <string name="ticket_type_travel_card">Rejsekort</string>
+    <string name="ticket_type_boat">Båd</string>
+    <string name="ticket_type_motorcycle">Motorcykel</string>
+    <string name="ticket_type_ceremony">Ceremoni</string>
+    <string name="ticket_type_calling_card">Telefonkort</string>
+    <string name="ticket_type_pass">Adgangskort</string>
+    <string name="ticket_type_minibus">Minibus</string>
+    <string name="ticket_type_helicopter">Helikopter</string>
+    <string name="ticket_type_device">Enhed</string>
+    <string name="ticket_type_room">Værelse</string>
+    <string name="ticket_type_carriage">Vogn</string>
+    <string name="ticket_type_buggy">Buggy</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jetski</string>
+    <string name="ticket_type_scooter">Scooter</string>
+    <string name="ticket_type_scooter_car">Scooterbil</string>
+    <string name="ticket_type_snowmobile">Snescooter</string>
+    <string name="ticket_type_day">Dag</string>
+    <string name="ticket_type_bike">Cykel</string>
+    <string name="ticket_type_week">uge</string>
+    <string name="ticket_type_subscription">abonnement</string>
+    <string name="ticket_type_electric_bike">elcykel</string>
+    <string name="ticket_type_segway">segway</string>
+    <string name="ticket_type_vehicle">køretøj</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">pr. rejsende</string>
+    <string name="per_ticket_type_adult">pr. voksen</string>
+    <string name="per_ticket_type_child">pr. barn</string>
+    <string name="per_ticket_type_infant">pr. spædbarn</string>
+    <string name="per_ticket_type_youth">pr. ung</string>
+    <string name="per_ticket_type_senior">pr. pensionist</string>
+    <string name="per_ticket_type_group">pr. gruppe</string>
+    <string name="per_ticket_type_couple">pr. par</string>
+    <string name="per_ticket_type_two_adults">pr. 2 voksne</string>
+    <string name="per_ticket_type_military">pr. militær</string>
+    <string name="per_ticket_type_student">pr. studerende</string>
+    <string name="per_ticket_type_sedan">pr. sedan</string>
+    <string name="per_ticket_type_minivan">pr. MPV</string>
+    <string name="per_ticket_type_water_taxi">pr. vandtaxi</string>
+    <string name="per_ticket_type_suv">pr. SUV</string>
+    <string name="per_ticket_type_executive_car">pr. øvre mellemklassebil</string>
+    <string name="per_ticket_type_luxury_car">pr. luksusbil</string>
+    <string name="per_ticket_type_limousine">pr. limousine</string>
+    <string name="per_ticket_type_towncar">pr. town car</string>
+    <string name="per_ticket_type_vehicle_parking_spot">pr. parkeringsplads til bil</string>
+    <string name="per_ticket_type_book">pr. reservation</string>
+    <string name="per_ticket_type_guide">pr. guide</string>
+    <string name="per_ticket_type_travel_card">pr. rejsekort</string>
+    <string name="per_ticket_type_boat">pr. båd</string>
+    <string name="per_ticket_type_motorcycle">pr. motorcykel</string>
+    <string name="per_ticket_type_ceremony">pr. ceremoni</string>
+    <string name="per_ticket_type_calling_card">pr. telefonkort</string>
+    <string name="per_ticket_type_pass">pr. adgangskort</string>
+    <string name="per_ticket_type_minibus">pr. minibus</string>
+    <string name="per_ticket_type_helicopter">pr. helikopter</string>
+    <string name="per_ticket_type_device">pr. enhed</string>
+    <string name="per_ticket_type_room">pr. værelse</string>
+    <string name="per_ticket_type_carriage">pr. vogn</string>
+    <string name="per_ticket_type_buggy">pr. buggy</string>
+    <string name="per_ticket_type_atv">pr. ATV</string>
+    <string name="per_ticket_type_jet_ski">pr. jetski</string>
+    <string name="per_ticket_type_scooter">pr. scooter</string>
+    <string name="per_ticket_type_scooter_car">pr. scooterbil</string>
+    <string name="per_ticket_type_snowmobile">per snescooter</string>
+    <string name="per_ticket_type_day">pr. dag</string>
+    <string name="per_ticket_type_bike">pr. cykel</string>
+    <string name="per_ticket_type_week">pr. uge</string>
+    <string name="per_ticket_type_subscription">pr. abonnement</string>
+    <string name="per_ticket_type_electric_bike">pr. elcykel</string>
+    <string name="per_ticket_type_segway">pr. segway</string>
+    <string name="per_ticket_type_vehicle">pr. køretøj</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Skub for at reservere</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Betaling</string>
+    <!-- Total Price with currency -->
+    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Gratis afbestilling</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Samlet pris inkl. skat</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Kontaktoplysninger</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Indtast kontaktoplysninger</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -325,7 +565,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Login mislykkedes. Hvis din e-mail og adgangskode er korrekte, så kontroller, at indstillingen for land i din app er korrekt.</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Expedias hjemmesider.\nNulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?\&apos; nedenfor.</string>
+    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Expedias hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?\&apos; nedenfor.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-adgangskode</string>
     <!-- Link accounts -->
@@ -358,6 +598,19 @@
     <string name="nav_flights">Flyrejser</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hoteller</string>
+    <!-- Cars -->
+    <string name="nav_cars">Biler</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Reserver rejser</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Toptilbud i aften</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">Se alle</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">%2.0f%% rabat</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -427,6 +680,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din billet til %s kan indløses fra i morgen.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Rejseplan er klar</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -703,6 +957,44 @@
     <string name="car_category_special">Specialbil</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Ekstra stor bil</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Økonomi</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Kompakt</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Mellemstor</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Stor</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Luksus</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Elite, mini</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Elite, økonomi</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Elite, kompakt</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Elite, mellemstor</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Elite, standard</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Elite, stor</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Elite, premium</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Elite, luksus</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Special</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Ekstra stor</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">Bil med to døre</string>
@@ -1527,6 +1819,8 @@
     <string name="air_attach_expires">Tilbuddet udløber om</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d dage</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Tilbuddet udløber i dag</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Tilføj hotel</string>
     <!-- Air attach add hotel button subtitle -->
@@ -2442,7 +2736,7 @@
     <string name="country_aw">Aruba</string>
     <string name="country_au">Australien</string>
     <string name="country_at">Østrig</string>
-    <string name="country_az">Azerbaijan</string>
+    <string name="country_az">Aserbajdsjan</string>
     <string name="country_bs">Bahamas</string>
     <string name="country_bh">Bahrain</string>
     <string name="country_bd">Bangladesh</string>
@@ -2463,12 +2757,12 @@
     <string name="country_bf">Burkina Faso</string>
     <string name="country_bi">Burundi</string>
     <string name="country_kh">Cambodja</string>
-    <string name="country_cm">Cameroon</string>
+    <string name="country_cm">Cameroun</string>
     <string name="country_ca">Canada</string>
     <string name="country_cv">Kap Verde</string>
     <string name="country_ky">Caymanøerne</string>
     <string name="country_cf">Den centralafrikanske republik</string>
-    <string name="country_td">Chad</string>
+    <string name="country_td">Tchad</string>
     <string name="country_cl">Chile</string>
     <string name="country_cn">Kina</string>
     <string name="country_cx">Christmas Island</string>
@@ -2476,7 +2770,7 @@
     <string name="country_co">Colombia</string>
     <string name="country_km">Comorerne</string>
     <string name="country_cg">Congo</string>
-    <string name="country_cd">Congo</string>
+    <string name="country_cd">Den Demokratiske Republik Congo</string>
     <string name="country_ck">Cookøerne</string>
     <string name="country_cr">Costa Rica</string>
     <string name="country_hr">Kroatien</string>
@@ -2494,7 +2788,7 @@
     <string name="country_er">Eritrea</string>
     <string name="country_ee">Estland</string>
     <string name="country_et">Etiopien</string>
-    <string name="country_fk">Falklandsøerne (Malvinas)</string>
+    <string name="country_fk">Falklandsøerne</string>
     <string name="country_fo">Færøerne</string>
     <string name="country_fj">Fiji</string>
     <string name="country_fi">Finland</string>
@@ -2503,7 +2797,7 @@
     <string name="country_pf">Fransk Polynesien</string>
     <string name="country_ga">Gabon</string>
     <string name="country_gm">Gambia</string>
-    <string name="country_ge">Georgia</string>
+    <string name="country_ge">Georgien</string>
     <string name="country_de">Tyskland</string>
     <string name="country_gh">Ghana</string>
     <string name="country_gi">Gibraltar</string>
@@ -2520,7 +2814,7 @@
     <string name="country_ht">Haiti</string>
     <string name="country_va">Vatikanstaten</string>
     <string name="country_hn">Honduras</string>
-    <string name="country_hk">Hong Kong</string>
+    <string name="country_hk">Hongkong</string>
     <string name="country_hu">Ungarn</string>
     <string name="country_is">Island</string>
     <string name="country_in">Indien</string>
@@ -2535,7 +2829,7 @@
     <string name="country_jp">Japan</string>
     <string name="country_je">Jersey</string>
     <string name="country_jo">Jordan</string>
-    <string name="country_kz">Kazakhstan</string>
+    <string name="country_kz">Kasakhstan</string>
     <string name="country_ke">Kenya</string>
     <string name="country_ki">Kiribati</string>
     <string name="country_kp">Den demokratiske folkerepublik Korea</string>
@@ -2579,7 +2873,7 @@
     <string name="country_np">Nepal</string>
     <string name="country_nl">Holland</string>
     <string name="country_an">Nederlandske Antiller</string>
-    <string name="country_nc">Ny Caledonien</string>
+    <string name="country_nc">Ny Kaledonien</string>
     <string name="country_nz">New Zealand</string>
     <string name="country_ni">Nicaragua</string>
     <string name="country_ne">Niger</string>
@@ -2593,7 +2887,7 @@
     <string name="country_pw">Palau</string>
     <string name="country_ps">Palæstina</string>
     <string name="country_pa">Panama</string>
-    <string name="country_pg">Papua New Guinea</string>
+    <string name="country_pg">Papua Ny Guinea</string>
     <string name="country_py">Paraguay</string>
     <string name="country_pe">Peru</string>
     <string name="country_ph">Filippinerne</string>
@@ -2638,7 +2932,7 @@
     <string name="country_ch">Schweiz</string>
     <string name="country_sy">Syrien</string>
     <string name="country_tw">Taiwan</string>
-    <string name="country_tj">Tajikistan</string>
+    <string name="country_tj">Tadsjikistan</string>
     <string name="country_tz">Tanzania</string>
     <string name="country_th">Thailand</string>
     <string name="country_tl">Østtimor</string>
@@ -2653,7 +2947,7 @@
     <string name="country_tv">Tuvalu</string>
     <string name="country_ug">Uganda</string>
     <string name="country_ua">Ukraine</string>
-    <string name="country_ae">Forenede arabiske emirater</string>
+    <string name="country_ae">De Forenede Arabiske Emirater</string>
     <string name="country_gb">Storbritannien</string>
     <string name="country_us">USA</string>
     <string name="country_um">USA\&apos;s ydre småøer</string>
@@ -2662,8 +2956,8 @@
     <string name="country_vu">Vanuatu</string>
     <string name="country_ve">Venezuela</string>
     <string name="country_vn">Vietnam</string>
-    <string name="country_vg">Jomfruøerne, Storbritannien</string>
-    <string name="country_vi">Jomfruøerne, USA</string>
+    <string name="country_vg">De Britiske Jomfruøer</string>
+    <string name="country_vi">De Amerikanske Jomfruøer</string>
     <string name="country_wf">Wallis og Futuna</string>
     <string name="country_eh">Vestsahara</string>
     <string name="country_ye">Yemen</string>

@@ -2,6 +2,74 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">次に、返却日を選択</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">ドラッグして変更</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">借出時間</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">返却時間</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_template">1 日 : %s</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">合計 : %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">プロモーション コード</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">並び替え &amp; 絞り込み</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">スライドして予約</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">購入手続き</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">予約する</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">詳細を表示</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">ドライバーの情報</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">支払い情報の詳細</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">ドライバーの情報を入力</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">保存済みの連絡先から選択</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">支払い情報を入力</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">有効期限 : %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s または同等のもの</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">ドア</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">バッグ</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">オートマチック トランスミッション</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">マニュアル トランスミッション</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d - %2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">借出場所 : %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">エクスペディア旅程番号 : %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">エクスペディア カスタマー サポート : %1$s および %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">市内通話 : %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">フリーダイヤル : %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">借出時刻</string>
     <!-- Car search label for drop-off time-->
@@ -11,7 +79,7 @@
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
     <string name="same_as_pick_up">借出場所と同じ</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">日時と場所</string>
+    <string name="dates_and_location">日付と場所</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">借出日および返却日を選択</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -30,15 +98,51 @@
     <string name="error_missing_end_date_param">終了日が指定されていません</string>
     <!-- Temporary String for general error message -->
     <string name="error_car">エラーが発生しました。検索パラメーターを確認してください。</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">検索結果はありません。条件を変更して再検索してください。</string>
     <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$sまたは同等のもの</string>
+
+    <string name="preparing_checkout_message">支払い手続き中の準備中…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">空港内にカウンター &amp; 車両あり</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">本日お支払いの合計金額</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">借出時にお支払いの合計金額</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">完了</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">レンタカー</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">税およびサービス料 (概算)</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">保険</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">乗り捨て料金</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">走行距離無制限</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">予約が完了しました !旅程番号 : %1$s</string>
+    <string name="successful_checkout_TEMPLATE">旅程番号 : %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">チェックアウト パラメーターが見つかりません。</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">%1$s のホテル</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">%1$sへのフライト</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">借出</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s ～</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">旅程送信先 :</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">カスタマー サポートに電話する</string>
+    <!-- Error message for some missing checkout params -->
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">目的地を入力してください</string>
@@ -68,6 +172,142 @@
     <string name="trip_end_optional">オプション</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">空港を選択</string>
+
+    <!-- LX -->
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">オプショナル ツアーを検索</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">場所を入力</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">場所が入力されていません</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">日付が選択されていません</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">日付を選択</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">ハイライト</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">概要</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">ロケーション</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">キャンセル手数料無料</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">今すぐ予約 %1$s%2$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">旅行者名</string>
+    <string name="ticket_type_adult">大人</string>
+    <string name="ticket_type_child">お子様</string>
+    <string name="ticket_type_infant">乳幼児</string>
+    <string name="ticket_type_youth">中人</string>
+    <string name="ticket_type_senior">シニア</string>
+    <string name="ticket_type_group">グループ</string>
+    <string name="ticket_type_couple">カップル</string>
+    <string name="ticket_type_two_adults">大人 2 名</string>
+    <string name="ticket_type_military">軍関係者</string>
+    <string name="ticket_type_student">学生</string>
+    <string name="ticket_type_sedan">セダン</string>
+    <string name="ticket_type_minivan">ミニバン</string>
+    <string name="ticket_type_water_taxi">水上タクシー</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">エグゼクティブ カー</string>
+    <string name="ticket_type_luxury_car">ラグジュアリー カー</string>
+    <string name="ticket_type_limousine">リムジン</string>
+    <string name="ticket_type_towncar">タウンカー</string>
+    <string name="ticket_type_vehicle_parking_spot">駐車場</string>
+    <string name="ticket_type_book">予約</string>
+    <string name="ticket_type_guide">ガイド</string>
+    <string name="ticket_type_travel_card">トラベルカード</string>
+    <string name="ticket_type_boat">ボート</string>
+    <string name="ticket_type_motorcycle">バイク</string>
+    <string name="ticket_type_ceremony">セレモニー</string>
+    <string name="ticket_type_calling_card">コーリングカード</string>
+    <string name="ticket_type_pass">パス</string>
+    <string name="ticket_type_minibus">ミニバス</string>
+    <string name="ticket_type_helicopter">ヘリコプター</string>
+    <string name="ticket_type_device">デバイス</string>
+    <string name="ticket_type_room">部屋</string>
+    <string name="ticket_type_carriage">馬車</string>
+    <string name="ticket_type_buggy">バギー</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">ジェットスキー</string>
+    <string name="ticket_type_scooter">スクーター</string>
+    <string name="ticket_type_scooter_car">スクーター カー</string>
+    <string name="ticket_type_snowmobile">スノーモービル</string>
+    <string name="ticket_type_day">デイ</string>
+    <string name="ticket_type_bike">自転車</string>
+    <string name="ticket_type_week">ウィーク</string>
+    <string name="ticket_type_subscription">予約</string>
+    <string name="ticket_type_electric_bike">電動自転車</string>
+    <string name="ticket_type_segway">セグウェイ</string>
+    <string name="ticket_type_vehicle">車両</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">/ 旅行者</string>
+    <string name="per_ticket_type_adult">/ 大人</string>
+    <string name="per_ticket_type_child">/ お子様</string>
+    <string name="per_ticket_type_infant">/ 乳幼児</string>
+    <string name="per_ticket_type_youth">/ 中人</string>
+    <string name="per_ticket_type_senior">/ シニア</string>
+    <string name="per_ticket_type_group">/ グループ</string>
+    <string name="per_ticket_type_couple">/ カップル</string>
+    <string name="per_ticket_type_two_adults">/ 大人 2 名</string>
+    <string name="per_ticket_type_military">/ 軍関係者</string>
+    <string name="per_ticket_type_student">/ 学生</string>
+    <string name="per_ticket_type_sedan">/ セダン</string>
+    <string name="per_ticket_type_minivan">/ ミニバン</string>
+    <string name="per_ticket_type_water_taxi">/ 水上タクシー</string>
+    <string name="per_ticket_type_suv">/ SUV</string>
+    <string name="per_ticket_type_executive_car">/ エグゼクティブ カー</string>
+    <string name="per_ticket_type_luxury_car">/ ラグジュアリー カー</string>
+    <string name="per_ticket_type_limousine">/ リムジン</string>
+    <string name="per_ticket_type_towncar">/ タウンカー</string>
+    <string name="per_ticket_type_vehicle_parking_spot">/ パーキング</string>
+    <string name="per_ticket_type_book">/ 予約</string>
+    <string name="per_ticket_type_guide">/ ガイド</string>
+    <string name="per_ticket_type_travel_card">/ トラベル カード</string>
+    <string name="per_ticket_type_boat">/ ボート</string>
+    <string name="per_ticket_type_motorcycle">/ バイク</string>
+    <string name="per_ticket_type_ceremony">/ セレモニー</string>
+    <string name="per_ticket_type_calling_card">/ 通話カード</string>
+    <string name="per_ticket_type_pass">/ パス</string>
+    <string name="per_ticket_type_minibus">/ ミニバス</string>
+    <string name="per_ticket_type_helicopter">/ ヘリコプター</string>
+    <string name="per_ticket_type_device">/ デバイス</string>
+    <string name="per_ticket_type_room">/ 部屋</string>
+    <string name="per_ticket_type_carriage">/ 馬車</string>
+    <string name="per_ticket_type_buggy">/ バギー</string>
+    <string name="per_ticket_type_atv">/ ATV</string>
+    <string name="per_ticket_type_jet_ski">/ ジェットスキー</string>
+    <string name="per_ticket_type_scooter">/ スクーター</string>
+    <string name="per_ticket_type_scooter_car">/ スクーター カー</string>
+    <string name="per_ticket_type_snowmobile">/ スノーモービル</string>
+    <string name="per_ticket_type_day">/ 日</string>
+    <string name="per_ticket_type_bike">/ バイク</string>
+    <string name="per_ticket_type_week">/ 週</string>
+    <string name="per_ticket_type_subscription">/ 予約</string>
+    <string name="per_ticket_type_electric_bike">/ 電動自転車</string>
+    <string name="per_ticket_type_segway">/ セグウェイ</string>
+    <string name="per_ticket_type_vehicle">/ 車両</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">スライドして予約</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">購入手続き</string>
+    <!-- Total Price with currency -->
+    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">キャンセル手数料無料</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">税込合計</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">連絡先情報</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">連絡先情報を入力</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -325,7 +565,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">ログインに失敗しました。メールアドレスとパスワードに間違いがない場合は、アプリの国の設定が正しいことを確認してください。</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">すべてのエクスペディアのサイトにログインできる、グローバル アカウントの作成が必要なため、パスワードをリセットしてください。\n以下の「パスワードをお忘れですか ?」リンクをクリックして、パスワードをリセットしてください。</string>
+    <string name="login_reset_password">すべてのエクスペディアのサイトにログインできる、グローバル アカウントの作成が必要なため、パスワードをリセットしてください。&lt;br&gt;以下の「パスワードをお忘れですか ?」リンクをクリックして、パスワードをリセットしてください。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">エクスペディア パスワード</string>
     <!-- Link accounts -->
@@ -358,6 +598,19 @@
     <string name="nav_flights">フライト</string>
     <!-- Hotels -->
     <string name="nav_hotels">ホテル</string>
+    <!-- Cars -->
+    <string name="nav_cars">レンタカー</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">旅行を予約</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">今晩のお得情報</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">すべて見る</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">%2.0f %% OFF</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -427,6 +680,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">%sのチケットは明日から使用できます。</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">旅程番号のお知らせ</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -703,6 +957,44 @@
     <string name="car_category_special">スペシャルカー</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">オーバーサイズカー</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">ミニ</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">エコノミー</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">コンパクト</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">ミドルサイズ</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">スタンダード</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">フルサイズ</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">プレミアム</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">ラグジュアリー</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">ミニ エリート</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">エコノミー エリート</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">コンパクト エリート</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">ミドルサイズ エリート</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">スタンダード エリート</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">フルサイズ エリート</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">プレミアム エリート</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">ラグジュアリー エリート</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">スペシャル</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">2 ドア 自動車</string>
@@ -1527,6 +1819,8 @@
     <string name="air_attach_expires">有効期限まで残り :</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d 日</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">本日終了</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">ホテルを追加する</string>
     <!-- Air attach add hotel button subtitle -->
@@ -2365,7 +2659,7 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">km</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">現在地から %1$s%2$s</string>
+    <string name="distance_template">現在地から %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
 
