@@ -26,6 +26,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Ui;
@@ -140,12 +141,14 @@ public class CarResultsPresenter extends Presenter {
 		public void onError(Throwable e) {
 			Events.post(new Events.CarsShowSearchResultsError());
 			show(categories, FLAG_CLEAR_BACKSTACK);
+			OmnitureTracking.trackAppCarNoResults(getContext(), e.getMessage());
 		}
 
 		@Override
 		public void onNext(CarSearch carSearch) {
 			Events.post(new Events.CarsShowSearchResults(carSearch));
 			show(categories, FLAG_CLEAR_BACKSTACK);
+			OmnitureTracking.trackAppCarSearch(getContext(), mParams, carSearch.categories.size());
 		}
 	};
 

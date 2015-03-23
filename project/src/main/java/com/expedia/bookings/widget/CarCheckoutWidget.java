@@ -22,6 +22,7 @@ import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.Ui;
@@ -60,6 +61,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		String ogPriceForPriceChange = event.createTripResponse.searchCarOffer == null ?
 			"" : event.createTripResponse.searchCarOffer.fare.total.formattedPrice;
 		bind(event.createTripResponse.carProduct, ogPriceForPriceChange, event.createTripResponse.tripId);
+		OmnitureTracking.trackAppCarCheckoutPage(getContext(), event.createTripResponse.carProduct);
 	}
 
 	@Subscribe

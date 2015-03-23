@@ -18,6 +18,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -253,6 +254,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			paymentInfoCardView.onLogin();
 			isCheckoutComplete();
 			hintContainer.setVisibility(GONE);
+			OmnitureTracking.trackAppCarCheckoutLoginSuccess(getContext());
 		}
 
 		@Override
