@@ -41,10 +41,19 @@ public class AbacusResponse {
 	}
 
 	public String getAnalyticsString(String key) {
-		String analyticsString = "";
+		String analyticsString;
 		AbacusTest test = testForKey(key);
-		if (test != null) {
+		if (test == null) {
+			// User is not bucketed at all, log ExperimentID.NIT
+			analyticsString =  String.format("%s.NIT", AbacusUtils.experimentIDForKey(key));
+		}
+		else if (test.isLive) {
+			// User is bucketed and the test is live, log ex: 7143.23456.1
 			analyticsString = String.format("%s.%s.%s", test.experimentId, test.instanceId, test.treatmentId);
+		}
+		else {
+			// User is bucketed but the test is not live so do not track
+			analyticsString = "";
 		}
 		return analyticsString;
 	}
