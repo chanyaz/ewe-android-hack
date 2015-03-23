@@ -10,7 +10,7 @@
         <item name="checkout_card_view_style">@style/LXCardView</item>
         <item name="checkout_slider_text">@string/lx_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
         <item name="android:colorPrimaryDark">#532C45</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
         <item name="colorControlNormal">#C3C3C3</item>
@@ -24,12 +24,13 @@
         <item name="skin_passwordHint">@string/expedia_password_hint</item>
         <item name="skin_loadingAccount">@string/loading_expedia_account</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
+        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
 
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>

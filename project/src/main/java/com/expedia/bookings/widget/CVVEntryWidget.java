@@ -91,7 +91,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		toolbar.setTitle(getContext().getString(R.string.Finish_Booking));
 		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
 		toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance);
-		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
+		toolbar.setBackgroundColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
 
 		// Cache views
 		mCreditCardSection = Ui.findView(v, R.id.credit_card_section);
@@ -117,7 +117,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			int color = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 			addView(Ui.setUpStatusBar(getContext(), toolbar, mainContainer, color));
