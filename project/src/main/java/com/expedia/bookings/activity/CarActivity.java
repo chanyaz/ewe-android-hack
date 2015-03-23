@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.CarPresenter;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,5 +39,10 @@ public class CarActivity extends ActionBarActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(CarActivity.this, requestCode, resultCode, data);
+	}
+
+	@Subscribe
+	public void onFinishActivity(Events.FinishActivity event) {
+		finish();
 	}
 }
