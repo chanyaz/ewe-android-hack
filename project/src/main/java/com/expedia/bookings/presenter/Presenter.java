@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -187,6 +188,14 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		}
 	}
 
+	/**
+	 * Note: This can be null if a transition has not explicitly been kicked off. In particular,
+	 * when using the CLEAR flags, especially from one leaf state back to another leaf state, we
+	 * do not keep track of "currentState", and this can be null. I would consider this a piece of
+	 * the code that could me improved.
+	 * @return tag for the current state
+	 */
+	@Nullable
 	public String getCurrentState() {
 		return currentState;
 	}

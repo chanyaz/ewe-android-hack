@@ -301,7 +301,7 @@ public class CarSearchPresenter extends Presenter
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
-				if (!getCurrentState().equals(CarParamsDefault.class.getName())) {
+				if (getCurrentState() != null && !getCurrentState().equals(CarParamsDefault.class.getName())) {
 					back();
 				}
 				selectDateButton.setChecked(false);
