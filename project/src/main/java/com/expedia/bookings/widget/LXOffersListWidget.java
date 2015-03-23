@@ -33,13 +33,13 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
 	private List<Offer> availableOffers;
 
-	private int offersListInitialCount;
+	private int offersListInitialMaxCount;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		offersListInitialCount = this.getResources().getInteger(R.integer.lx_offers_list_initial_size);
+		offersListInitialMaxCount = this.getResources().getInteger(R.integer.lx_offers_list_initial_size);
 	}
 
 	public void setOffers(List<Offer> offers, LocalDate dateSelected) {
@@ -55,7 +55,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 
 		offerContainer.removeAllViews();
 
-		for (int position = 0; position < offersListInitialCount; position++) {
+		for (int position = 0; position < Math.min(offersListInitialMaxCount, availableOffers.size()); position++) {
 			View offerRow = adapter.getView(position, null, this);
 			offerContainer.addView(offerRow);
 		}
@@ -63,15 +63,15 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	}
 
 	private void setShowMore() {
-		if (availableOffers.size() > offersListInitialCount) {
+		if (availableOffers.size() > offersListInitialMaxCount) {
 			showMoreContainer.setVisibility(VISIBLE);
-			showMoreWithCountWidget.setCount(String.valueOf(availableOffers.size() - offersListInitialCount));
+			showMoreWithCountWidget.setCount(String.valueOf(availableOffers.size() - offersListInitialMaxCount));
 		}
 	}
 
 	@OnClick((R.id.show_more_widget))
 	public void onShowMoreClicked() {
-		for (int position = offersListInitialCount; position < availableOffers.size(); position++) {
+		for (int position = offersListInitialMaxCount; position < availableOffers.size(); position++) {
 			View offerRow = adapter.getView(position, null, this);
 			offerContainer.addView(offerRow);
 		}
