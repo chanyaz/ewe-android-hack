@@ -34,6 +34,9 @@
         <item name="checkout_card_view_style">@style/CarsCardView</item>
         <item name="checkout_slider_text">@string/cars_slider_text</item>
         <item name="toolbar_title_style">@style/CarsToolbarTitleTextAppearance</item>
+
+        <item name="traveler_toolbar_text">@string/cars_driver_details_text</item>
+        <item name="traveler_details_text">@string/enter_driver_details</item>
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>

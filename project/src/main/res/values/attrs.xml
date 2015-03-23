@@ -304,8 +304,4 @@
         <attr name="btn_icon" format="reference"/>
     </declare-styleable>
 
-    <attr name="checkout_card_view_style" format="reference" />
-    <attr name="primary_color" format="reference" />
-    <attr name="checkout_slider_text" format="reference" />
-    <attr name="toolbar_title_style" format="reference" />
 </resources>
