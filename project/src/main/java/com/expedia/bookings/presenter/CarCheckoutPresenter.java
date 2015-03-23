@@ -14,17 +14,17 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.cars.CarApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CarCheckoutWidget;
 import com.expedia.bookings.widget.CarConfirmationWidget;
+import com.expedia.bookings.widget.ErrorWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -51,6 +51,9 @@ public class CarCheckoutPresenter extends Presenter {
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
+	@InjectView(R.id.error_widget)
+	ErrorWidget errorScreen;
+
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
 
@@ -59,9 +62,11 @@ public class CarCheckoutPresenter extends Presenter {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).carComponent().inject(this);
 
-		addTransition(checkoutToCvv);
 		addTransition(cvvToConfirmation);
+		addTransition(checkoutToCvv);
 		addTransition(checkoutToConfirmation);
+		addTransition(checkoutToError);
+		addTransition(cvvToError);
 		addDefaultTransition(defaultCheckoutTransition);
 
 		cvv.setCVVEntryListener(checkout);
@@ -107,12 +112,14 @@ public class CarCheckoutPresenter extends Presenter {
 		public void onError(Throwable e) {
 			Log.e("CarCheckout - onError", e);
 			checkoutDialog.dismiss();
+
 			if (RetrofitUtils.isNetworkError(e)) {
 				showCheckoutErrorDialog(R.string.error_no_internet);
 			}
 			else {
-				showDefaultErrorDialog();
+				showErrorScreen(null);
 			}
+
 		}
 
 		@Override
@@ -120,10 +127,10 @@ public class CarCheckoutPresenter extends Presenter {
 			checkoutDialog.dismiss();
 
 			if (response == null) {
-				showDefaultErrorDialog();
+				showErrorScreen(null);
 			}
 			else if (response.hasErrors()) {
-				handleErrors(response);
+				showErrorScreen(response);
 			}
 			else {
 				showConfirmation(response);
@@ -131,82 +138,14 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 
-	private void handleErrors(CarCheckoutResponse response) {
-		CarApiError error = response.getFirstError();
-		switch (error.errorCode) {
-		case PAYMENT_FAILED:
-			showPaymentFailedDialog(response);
-			break;
-		case PRICE_CHANGE:
-			showPriceChangeDialog(response);
-			break;
-		case SESSION_TIMEOUT:
-			// TODO perform new create trip
-			break;
-		case TRIP_ALREADY_BOOKED:
-			showTripAlreadyBooked(response);
-			break;
-		case UNKNOWN_ERROR:
-		case OMS_ERROR:
-		default:
-			showDefaultErrorDialog();
-			break;
-		}
+	private void showErrorScreen(CarCheckoutResponse response) {
+		errorScreen.bind(response);
+		show(errorScreen);
 	}
 
-	private void showDefaultErrorDialog() {
-		showCheckoutErrorDialog(R.string.oops);
-	}
-
-	private void showPriceChangeDialog(final CarCheckoutResponse response) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.reservation_price_change))
-			.setNeutralButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					if (cvv.getVisibility() == VISIBLE) {
-						((ActionBarActivity) getContext()).onBackPressed();
-					}
-					Events.post(
-						new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct, response.newCarProduct,
-							response.tripId));
-				}
-			})
-			.show();
-	}
-
-	private void showPaymentFailedDialog(final CarCheckoutResponse response) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.payment_failed))
-			.setNeutralButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					if (cvv.getVisibility() == VISIBLE) {
-						((ActionBarActivity) getContext()).onBackPressed();
-					}
-					checkout.slideWidget.resetSlider();
-					checkout.paymentInfoCardView.setExpanded(true, true);
-				}
-			})
-			.show();
-	}
-
-	private void showTripAlreadyBooked(final CarCheckoutResponse response) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.reservation_already_exists))
-			.setNeutralButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					showConfirmation(response);
-				}
-			})
-			.show();
+	private void showConfirmation(CarCheckoutResponse response) {
+		Events.post(new Events.CarsShowConfirmation(response));
+		show(confirmation, FLAG_CLEAR_BACKSTACK);
 	}
 
 	private void showCheckoutErrorDialog(@StringRes int message) {
@@ -220,7 +159,7 @@ public class CarCheckoutPresenter extends Presenter {
 					Events.post(new Events.CarsKickOffCheckoutCall(checkoutParamsBuilder));
 				}
 			})
-			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
@@ -230,13 +169,18 @@ public class CarCheckoutPresenter extends Presenter {
 			.show();
 	}
 
-	private void showConfirmation(CarCheckoutResponse response) {
-		Events.post(new Events.CarsShowConfirmation(response));
-		show(confirmation, FLAG_CLEAR_BACKSTACK);
-	}
-
-	private Transition cvvToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CVVEntryWidget.class.getName());
-	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), CarConfirmationWidget.class.getName());
+	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CVVEntryWidget.class.getName());
+	private Transition cvvToConfirmation = new VisibilityTransition(this, CVVEntryWidget.class.getName(), CarConfirmationWidget.class.getName());
+	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), ErrorWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			if (!forward) {
+				checkout.slideWidget.resetSlider();
+			}
+		}
+	};
+	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class.getName(), ErrorWidget.class.getName());
 	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CarConfirmationWidget.class.getName());
 
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
@@ -245,12 +189,34 @@ public class CarCheckoutPresenter extends Presenter {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
 			confirmation.setVisibility(View.GONE);
+			errorScreen.setVisibility(View.GONE);
 		}
 	};
 
 	/**
 	 * Events
 	 */
+
+	@Subscribe
+	public void showPriceChange(Events.CarsPriceChange event) {
+		show(checkout, FLAG_CLEAR_TOP);
+		Events.post(
+			new Events.CarsShowCheckoutAfterPriceChange(event.response.originalCarProduct, event.response.newCarProduct,
+				event.response.tripId));
+	}
+
+	@Subscribe
+	public void showSessionTimeout(Events.CarsSessionTimeout event) {
+		clearBackStack();
+		((ActionBarActivity) getContext()).onBackPressed();
+	}
+
+	@Subscribe
+	public void showPaymentFailed(Events.CarsPaymentFailed event) {
+		show(checkout, FLAG_CLEAR_TOP);
+		checkout.slideWidget.resetSlider();
+		checkout.paymentInfoCardView.setExpanded(true, true);
+	}
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {

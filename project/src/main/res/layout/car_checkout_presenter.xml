@@ -19,4 +19,9 @@
         android:layout_height="match_parent"
         android:background="#3A424C" />
 
+    <com.expedia.bookings.widget.ErrorWidget
+        android:id="@+id/error_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </merge>
