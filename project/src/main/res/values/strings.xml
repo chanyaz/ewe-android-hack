@@ -156,14 +156,23 @@
 
     <!-- Car error strings -->
     <!-- Message for user that something went wrong -->
-    <string name="oops">Oops! Something happened, please search again.</string>
+    <string name="oops">Oops! Something happened, please try again.</string>
     <!-- Shown to user when they try to book something already booked -->
-    <string name="reservation_already_exists">A similar reservation already exists. Please check your Trips or email for booked itinerary.</string>
-    <!-- TODO verify -->
-    <string name="reservation_price_change">Your price has changed.</string>
-    <!-- TODO verify -->
+    <string name="reservation_time_out">Still there? Your session has expired. Please try your search again.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Hmm. Looks like you already booked this trip. Please check your trips or email.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">The price of your car has changed. Please confirm the new price to continue.</string>
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
     <string name="payment_failed">Payment failed.</string>
-
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">View Price Change</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">My Trips</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Edit Payment</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
