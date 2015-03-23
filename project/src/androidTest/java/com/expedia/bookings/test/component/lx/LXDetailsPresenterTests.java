@@ -136,17 +136,15 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testOffersExpandCollapse() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		ScreenActions.delay(2);
+		ScreenActions.delay(1);
 
 		ViewInteraction firstOfferTicketPicker = LXViewModel.ticketPicker("2-Day New York Pass");
 		ViewInteraction secondOfferTicketPicker = LXViewModel.ticketPicker("3-Day New York Pass");
 		ViewInteraction thirdOfferTicketPicker = LXViewModel.ticketPicker("5-Day New York Pass");
-		ViewInteraction fourthOfferTicketPicker = LXViewModel.ticketPicker("7-Day New York Pass");
 
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
-		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
 
 		ViewInteraction firstOfferSelectTicket = LXViewModel.selectTicketsButton("2-Day New York Pass");
 		firstOfferSelectTicket.perform(scrollTo(), click());
@@ -154,7 +152,6 @@ public class LXDetailsPresenterTests {
 		firstOfferTicketPicker.check(matches(isDisplayed()));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
-		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
 
 		ViewInteraction secondOfferSelectTicket = LXViewModel.selectTicketsButton("3-Day New York Pass");
 		secondOfferSelectTicket.perform(scrollTo(), click());
@@ -162,7 +159,6 @@ public class LXDetailsPresenterTests {
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(isDisplayed()));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
-		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
 
 		ViewInteraction thirdOfferSelectTicket = LXViewModel.selectTicketsButton("5-Day New York Pass");
 		thirdOfferSelectTicket.perform(scrollTo(), click());
@@ -170,7 +166,20 @@ public class LXDetailsPresenterTests {
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(isDisplayed()));
+
+		//Scroll to show more and display all the offers.
+		LXViewModel.showMore().perform(scrollTo(), click());
+		ViewInteraction fourthOfferTicketPicker = LXViewModel.ticketPicker("7-Day New York Pass");
+
 		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
+
+		ViewInteraction fourthOfferSelectTicket = LXViewModel.selectTicketsButton("7-Day New York Pass");
+		fourthOfferSelectTicket.perform(scrollTo(), click());
+
+		firstOfferTicketPicker.check(matches(not(isDisplayed())));
+		secondOfferTicketPicker.check(matches(not(isDisplayed())));
+		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+		fourthOfferTicketPicker.check(matches(isDisplayed()));
 	}
 
 	@Test
