@@ -3,16 +3,22 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.NavUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class PhoneLaunchButton extends FrameLayout {
 
@@ -73,6 +79,28 @@ public class PhoneLaunchButton extends FrameLayout {
 		textView.setPivotX(textView.getWidth() / 2);
 		textView.setPivotY(-textView.getTop());
 	}
+
+	@OnClick(R.id.lob_btn_bg)
+	public void onBgClick(View v) {
+		Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
+		switch (getId()) {
+		case R.id.hotels_button:
+			OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
+			NavUtils.goToHotels(getContext(), animOptions);
+			break;
+		case R.id.flights_button:
+			OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
+			NavUtils.goToFlights(getContext(), animOptions);
+			break;
+		case R.id.cars_button:
+			// TODO Cars omniture
+			NavUtils.goToCars(getContext(), animOptions);
+			break;
+		default:
+			throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
+		}
+	}
+
 
 	private static final float minIconAlpha = 0.3f;
 	private static final float maxIconAlpha = 0.6f;
