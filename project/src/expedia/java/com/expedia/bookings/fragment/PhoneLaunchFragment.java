@@ -47,10 +47,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		super.onResume();
 		Events.register(this);
 		Events.post(new Events.LaunchLobRefresh());
-		if (!checkConnection()) {
-			Events.post(new Events.LaunchOfflineState());
-		}
-		else {
+		if (checkConnection()) {
 			onReactToUserActive();
 		}
 
@@ -111,10 +108,12 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Context context = getActivity();
 		if (context != null && !NetUtils.isOnline(context)) {
 			wasOffline = true;
+			Events.post(new Events.LaunchOfflineState());
 			return false;
 		}
 		else {
 			wasOffline = false;
+			Events.post(new Events.LaunchOnlineState());
 			return true;
 		}
 	}
