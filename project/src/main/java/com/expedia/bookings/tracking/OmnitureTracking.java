@@ -1353,10 +1353,9 @@ public class OmnitureTracking {
 	}
 
 	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
-		boolean isTestLive = Db.getAbacusResponse().isTestLive(testKey);
 		// Adds piping for multivariate AB Tests.
 		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
-		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
+		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
 		}
