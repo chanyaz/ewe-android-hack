@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.CarActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -187,32 +186,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	// Clicking
 
-	// The onClick for the "SEE ALL" button in the list header is in
-	// LaunchListAdapter. See onSeeAllButtonPressed() below
-	// for the Otto event sent by that onClick()
-	@OnClick({ R.id.hotels_button, R.id.flights_button, R.id.cars_button })
-	public void enterLob(View view) {
-		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
-		switch (view.getId()) {
-		case R.id.hotels_button:
-			goToHotels(animOptions);
-			break;
-		case R.id.flights_button:
-			NavUtils.goToFlights(getContext(), animOptions);
-			OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
-			break;
-		case R.id.cars_button:
-			Intent carsIntent = new Intent(getContext(), CarActivity.class);
-			getContext().startActivity(carsIntent);
-			break;
-		}
-	}
-
-	public void goToHotels(Bundle animOptions) {
-		NavUtils.goToHotels(getContext(), animOptions);
-		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
-	}
-
 	@OnClick(R.id.air_attach_banner_close)
 	public void closeAirAttachBanner() {
 		airAttachBanner.animate()
@@ -255,11 +228,19 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	};
 
+	private void goToHotels(Bundle animOptions) {
+		NavUtils.goToHotels(getContext(), animOptions);
+		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
+	}
+
 	/*
 	 * Otto events
 	 */
 
-	// "SEE ALL" button's onClick
+	// The onClick for the "SEE ALL" button in the list header is in
+	// LaunchListAdapter. See onSeeAllButtonPressed() below
+	// for the Otto event sent by that onClick()
+
 	@Subscribe
 	public void onSeeAllButtonPressed(Events.LaunchSeeAllButtonPressed event) {
 		goToHotels(event.animOptions);
