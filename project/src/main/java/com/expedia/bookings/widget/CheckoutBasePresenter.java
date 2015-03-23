@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
@@ -23,6 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener {
+
+	protected abstract LineOfBusiness getLineOfBusiness();
 
 	public CheckoutBasePresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -76,6 +79,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		addTransition(defaultToExpanded);
 		slideWidget.addSlideToListener(this);
 
+		loginWidget.setLineOfBusiness(getLineOfBusiness());
 		loginWidget.setToolbarListener(toolbarListener);
 		loginWidget.setLoginStatusListener(mLoginStatusListener);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
@@ -130,7 +134,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			addView(Ui.setUpStatusBar(getContext(), toolbar, scrollView, color));
 		}
 	}
-
 
 	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
 	ToolbarListener toolbarListener = new ToolbarListener() {

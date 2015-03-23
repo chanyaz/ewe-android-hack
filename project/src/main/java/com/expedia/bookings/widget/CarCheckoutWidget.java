@@ -41,6 +41,10 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	CarCheckoutSummaryWidget summaryWidget;
 
+	protected LineOfBusiness getLineOfBusiness() {
+		return LineOfBusiness.CARS;
+	}
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -85,6 +89,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		generateLegalClickableLink(legalInformationText);
 		isCheckoutComplete();
+		loginWidget.updateView();
 		show(new CheckoutDefault());
 	}
 

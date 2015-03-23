@@ -72,6 +72,13 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Convenience method to remove all LX Activities from this TripBucket.
+	 */
+	public void clearLX() {
+		clear(LineOfBusiness.LX);
+	}
+
+	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
 	 * @return
 	 */

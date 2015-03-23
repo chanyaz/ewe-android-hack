@@ -254,7 +254,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			if (!mDoLoginExtenderWork && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
-				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.CARS);
+				mAccountButton.bind(false, true, Db.getUser(), mLob);
 				mVisibilityState = VisibilityState.LOGGED_IN;
 			}
 		}
@@ -262,6 +262,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		setVisibilityState(mVisibilityState, false);
 	}
 
+	public void setLineOfBusiness(LineOfBusiness lob) {
+		mLob = lob;
+	}
 
 	private void loginWorkComplete() {
 		User.addUserToAccountManager(getContext(), Db.getUser());
@@ -513,10 +516,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		}
 
 		if (User.isLoggedIn(getContext())) {
-			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.CARS);
+			mAccountButton.bind(false, true, Db.getUser(), mLob);
 		}
 		else {
-			mAccountButton.bind(false, false, null, LineOfBusiness.CARS);
+			mAccountButton.bind(false, false, null, mLob);
 		}
 	}
 
@@ -1360,6 +1363,15 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	public void setLoginStatusListener(LogInStatusListener listener) {
 		mLogInStatusListener = listener;
+	}
+
+	public void updateView() {
+		if (User.isLoggedIn(getContext())) {
+			mAccountButton.bind(false, true, Db.getUser(), mLob);
+		}
+		else {
+			mAccountButton.bind(false, false, null, mLob);
+		}
 	}
 
 	@Override
