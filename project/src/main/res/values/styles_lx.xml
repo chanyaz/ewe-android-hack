@@ -35,6 +35,9 @@
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
+
+        <item name="traveler_toolbar_text">@string/lx_traveler_details_text</item>
+        <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">

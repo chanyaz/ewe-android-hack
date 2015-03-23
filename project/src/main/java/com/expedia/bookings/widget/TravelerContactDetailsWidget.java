@@ -133,7 +133,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			enterDetailsText.setText(R.string.enter_driver_details);
+			enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
 			travelerPhoneText.setText("");
 			travelerPhoneText.setVisibility(GONE);
 			driverCheckoutStatusLeftImageView.setTraveler(null);
@@ -202,7 +202,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public String getActionBarTitle() {
-		return getResources().getString(R.string.cars_driver_details_text);
+		return getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.traveler_toolbar_text));
 	}
 
 	@Override

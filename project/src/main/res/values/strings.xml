@@ -333,6 +333,10 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string> 	<!-- Offers show more string -->
     <string name="lx_show_more_offers">Show More</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Traveler details</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Enter traveler details</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
