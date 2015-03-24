@@ -7,6 +7,7 @@ import android.support.test.espresso.action.ViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -56,15 +57,20 @@ public class Common {
 		}
 	}
 
-	public static void pressBackOutOfApp() {
+	public static void pressBackOutOfApp(Instrumentation inst) {
 		try {
+			if (!SpoonScreenshotUtils.hasActiveActivity(inst)) {
+				Log.v("No activity to back out of");
+				return;
+			}
+
 			for (int i = 0; i < 30; i++) {
 				Espresso.pressBack();
 			}
 
 			throw new RuntimeException("Backed out 30 times but app didn't close!");
 		}
-		catch (Exception e) {
+		catch (Throwable e) {
 			Log.v("Pressed back a bunch of times: ", e);
 		}
 	}

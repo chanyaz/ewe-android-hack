@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -299,7 +300,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchError.setVisibility(View.GONE);
 
 		if (isExpired()) {
-			Events.post(new Events.LaunchShowLoadingAnimation());
+			if (!ExpediaBookingApp.sIsAutomation) {
+				Events.post(new Events.LaunchShowLoadingAnimation());
+			}
 
 			LocalDate currentDate = new LocalDate();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
@@ -325,7 +328,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start collection download");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
-		Events.post(new Events.LaunchShowLoadingAnimation());
+		if (!ExpediaBookingApp.sIsAutomation) {
+			Events.post(new Events.LaunchShowLoadingAnimation());
+		}
 
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.cars.CarApiError;
@@ -307,7 +308,9 @@ public class CarResultsPresenter extends Presenter {
 	DefaultTransition setUpLoading = new DefaultTransition(CarCategoryListWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
-			Events.post(new Events.CarsShowLoadingAnimation());
+			if (!ExpediaBookingApp.sIsAutomation) {
+				Events.post(new Events.CarsShowLoadingAnimation());
+			}
 			categories.setVisibility(View.VISIBLE);
 			details.setVisibility(View.GONE);
 		}
@@ -402,7 +405,9 @@ public class CarResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		Events.post(new Events.CarsShowLoadingAnimation());
+		if (!ExpediaBookingApp.sIsAutomation) {
+			Events.post(new Events.CarsShowLoadingAnimation());
+		}
 		show(categories, FLAG_CLEAR_BACKSTACK);
 		cleanup();
 		mParams = event.carSearchParams;
