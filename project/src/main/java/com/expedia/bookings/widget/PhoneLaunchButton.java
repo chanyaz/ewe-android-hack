@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +27,7 @@ public class PhoneLaunchButton extends FrameLayout {
 	private String text;
 	private Drawable icon;
 	private Drawable bg;
+	private Drawable disabledBg;
 
 	@InjectView(R.id.lob_btn_bg)
 	public ViewGroup bgView;
@@ -36,6 +39,7 @@ public class PhoneLaunchButton extends FrameLayout {
 	public TextView textView;
 
 	private float squashedRatio;
+	private boolean isNetworkAvailable;
 
 	public PhoneLaunchButton(Context context) {
 		this(context, null);
@@ -51,6 +55,7 @@ public class PhoneLaunchButton extends FrameLayout {
 			text = ta.getString(R.styleable.PhoneLaunchButton_btn_text);
 			icon = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_icon);
 			bg = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_bg);
+			disabledBg = getResources().getDrawable(R.drawable.bg_lob_disabled);
 			ta.recycle();
 		}
 	}
@@ -72,6 +77,18 @@ public class PhoneLaunchButton extends FrameLayout {
 	}
 
 	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
+	}
+
+	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
 		iconView.setPivotX(iconView.getWidth() / 2);
@@ -82,25 +99,43 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	@OnClick(R.id.lob_btn_bg)
 	public void onBgClick(View v) {
-		Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
-		switch (getId()) {
-		case R.id.hotels_button:
-			OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
-			NavUtils.goToHotels(getContext(), animOptions);
-			break;
-		case R.id.flights_button:
-			OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
-			NavUtils.goToFlights(getContext(), animOptions);
-			break;
-		case R.id.cars_button:
-			// TODO Cars omniture
-			NavUtils.goToCars(getContext(), animOptions);
-			break;
-		default:
-			throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
+		if (isNetworkAvailable) {
+			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
+			switch (getId()) {
+			case R.id.hotels_button:
+				OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
+				NavUtils.goToHotels(getContext(), animOptions);
+				break;
+			case R.id.flights_button:
+				OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
+				NavUtils.goToFlights(getContext(), animOptions);
+				break;
+			case R.id.cars_button:
+				// TODO Cars omniture
+				NavUtils.goToCars(getContext(), animOptions);
+				break;
+			default:
+				throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
+			}
+		}
+		else {
+			AnimUtils.doTheHarlemShake(this);
 		}
 	}
 
+	@Subscribe
+	public void onNetworkAvailable(Events.LaunchOnlineState event) {
+		isNetworkAvailable = true;
+		bgView.setBackground(bg);
+		textView.setAlpha(1.0f);
+	}
+
+	@Subscribe
+	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
+		isNetworkAvailable = false;
+		bgView.setBackground(disabledBg);
+		textView.setAlpha(0.5f);
+	}
 
 	private static final float minIconAlpha = 0.3f;
 	private static final float maxIconAlpha = 0.6f;

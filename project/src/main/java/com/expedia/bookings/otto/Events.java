@@ -819,6 +819,9 @@ public class Events {
 		}
 	}
 
+	public static class LaunchOnlineState {
+	}
+
 	public static class LaunchOfflineState {
 	}
 
