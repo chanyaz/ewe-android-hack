@@ -3,6 +3,7 @@ package com.expedia.bookings.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.View;
@@ -24,6 +25,14 @@ public class LaunchScreenAnimationUtil {
 			.getDimensionPixelSize(R.dimen.extra_status_bar_padding);
 	}
 
+	public static int getNavigationBarHeight(Context context) {
+		Resources resources = context.getResources();
+		int id = resources.getIdentifier(
+			context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+				? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
+		return id > 0 ? resources.getDimensionPixelSize(id) : 0;
+	}
+
 	public static int getMarginBottom(Context context) {
 		return (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? context
 			.getResources().getDimensionPixelSize(R.dimen.destination_tile_extra_bottom_padding) : 0;
@@ -37,7 +46,6 @@ public class LaunchScreenAnimationUtil {
 			.darkenBy(0.9f)
 			.setAlpha(225)
 			.build();
-
 		GradientDrawable textViewBackground = new GradientDrawable();
 		textViewBackground.setColor(textColor);
 		if (Build.VERSION.SDK_INT < 16) {

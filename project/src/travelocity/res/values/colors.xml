@@ -24,5 +24,6 @@
 
     <color name="launch_card_back_container_color">#393939</color>
     <color name="launch_card_explore_now_background_color">#4791C0</color>
-    <color name="launch_card_title_text_color">#003E6F</color>
+    <color name="destination_list_launch_card_title_text_color">#003E6F</color>
+    <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
 </resources>

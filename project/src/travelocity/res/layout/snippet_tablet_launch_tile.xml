@@ -22,11 +22,28 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#ccffffff"
+            android:ellipsize="end"
             android:gravity="top|left"
-            android:padding="10dp"
-            android:textAllCaps="true"
-            android:textColor="@color/launch_card_title_text_color"
-            android:textSize="16sp" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:textColor="@color/destination_list_launch_card_title_text_color"
+            android:textSize="20sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/launch_title_country_front_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
+            android:ellipsize="end"
+            android:gravity="top|left"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/destination_list_launch_card_country_text_color"
+            android:textSize="12sp" />
     </com.expedia.bookings.widget.FrameLayout>
 
     <com.expedia.bookings.widget.FrameLayout
@@ -43,13 +60,28 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/launch_card_back_text_title"
+                android:id="@+id/launch_title_back_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textAllCaps="true"
+                android:ellipsize="end"
+                android:lineSpacingExtra="-5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/launch_title_country_back_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/launch_card_back_text_description"

@@ -8,9 +8,18 @@
     android:orientation="horizontal">
 
     <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/image_view_reflection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rotationX="180"
+        android:scaleType="matrix"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/launch_destination_background_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/destination_image_margin_bottom" />
 
     <View
         android:id="@+id/bg_overlay"
