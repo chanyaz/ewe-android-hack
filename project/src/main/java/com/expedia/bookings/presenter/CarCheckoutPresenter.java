@@ -28,6 +28,7 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import rx.Observer;
 import rx.Subscription;
 
@@ -106,7 +107,12 @@ public class CarCheckoutPresenter extends Presenter {
 		public void onError(Throwable e) {
 			Log.e("CarCheckout - onError", e);
 			checkoutDialog.dismiss();
-			showDefaultErrorDialog();
+			if (((RetrofitError) e).getKind().equals(RetrofitError.Kind.NETWORK)) {
+				showCheckoutErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				showDefaultErrorDialog();
+			}
 		}
 
 		@Override

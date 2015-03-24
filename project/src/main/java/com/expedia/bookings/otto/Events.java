@@ -602,6 +602,14 @@ public class Events {
 		}
 	}
 
+	public static class CarsKickOffSearchCall {
+		public CarSearchParams carSearchParams;
+
+		public CarsKickOffSearchCall(CarSearchParams params) {
+			this.carSearchParams = params;
+		}
+	}
+
 	public static class CarsKickOffCreateTrip {
 		public SearchCarOffer offer;
 

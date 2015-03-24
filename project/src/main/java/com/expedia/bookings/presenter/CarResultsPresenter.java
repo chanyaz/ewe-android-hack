@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -24,6 +25,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -36,6 +38,7 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import rx.Observer;
 import rx.Subscription;
 
@@ -66,6 +69,7 @@ public class CarResultsPresenter extends Presenter {
 	private Subscription createTripSubscription;
 	private CarSearchParams mParams;
 	private CategorizedCarOffers mOffer;
+	private SearchCarOffer offer;
 
 	@Override
 	protected void onFinishInflate() {
@@ -142,6 +146,13 @@ public class CarResultsPresenter extends Presenter {
 			Events.post(new Events.CarsShowSearchResultsError());
 			show(categories, FLAG_CLEAR_BACKSTACK);
 			OmnitureTracking.trackAppCarNoResults(getContext(), e.getMessage());
+			if (((RetrofitError) e).getKind().equals(RetrofitError.Kind.NETWORK)) {
+				showSearchErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				Events.post(new Events.CarsShowSearchResultsError());
+				show(categories, FLAG_CLEAR_BACKSTACK);
+			}
 		}
 
 		@Override
@@ -245,7 +256,12 @@ public class CarResultsPresenter extends Presenter {
 		public void onError(Throwable e) {
 			Log.e("CarCreateTrip - onError", e);
 			createTripDialog.dismiss();
-			showCreateTripErrorDialog();
+			if (((RetrofitError) e).getKind().equals(RetrofitError.Kind.NETWORK)) {
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				showCreateTripErrorDialog();
+			}
 		}
 
 		@Override
@@ -275,6 +291,47 @@ public class CarResultsPresenter extends Presenter {
 		b.setCancelable(false)
 			.setMessage(getResources().getString(R.string.oops))
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsKickOffCreateTrip(offer));
+				}
+			})
+			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	private void showSearchErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsKickOffSearchCall(mParams));
+				}
+			})
+			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
@@ -315,9 +372,19 @@ public class CarResultsPresenter extends Presenter {
 	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
 		createTripDialog.show();
 		cleanup();
+		offer = event.offer;
 		createTripSubscription = carServices
-			.createTrip(event.offer, createTripObserver);
+			.createTrip(offer, createTripObserver);
 	}
+
+	@Subscribe
+	public void onCarSearchParams(Events.CarsKickOffSearchCall event) {
+		cleanup();
+		searchSubscription = carServices
+			.carSearch(event.carSearchParams, searchObserver);
+		setToolBarResultsText();
+	}
+
 
 	public void animationStart(boolean forward) {
 		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
