@@ -499,6 +499,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		@Override
 		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 			gotoWaterfall();
+			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
 		}
 
 		@Override
@@ -516,6 +517,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		@Override
 		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 			gotoItineraries();
+			OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
 		}
 
 		@Override

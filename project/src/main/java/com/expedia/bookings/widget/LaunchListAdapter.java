@@ -24,6 +24,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
@@ -226,6 +227,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@Override
 		public void onClick(View v) {
 			Events.post(new Events.LaunchSeeAllButtonPressed(AnimUtils.createActivityScaleBundle(v)));
+			OmnitureTracking.trackNewLaunchScreenSeeAllClick(v.getContext());
 		}
 	};
 
@@ -444,11 +446,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (view.getTag().getClass() == Hotel.class) {
 				Hotel selectedHotel = (Hotel) view.getTag();
 				Events.post(new Events.LaunchListItemSelected(selectedHotel));
+				OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), false);
 			}
 			else if (view.getTag().getClass() == CollectionLocation.class) {
 				Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 				CollectionLocation location = (CollectionLocation) view.getTag();
 				Events.post(new Events.LaunchCollectionItemSelected(location, animOptions));
+				OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), true);
 			}
 		}
 	}
