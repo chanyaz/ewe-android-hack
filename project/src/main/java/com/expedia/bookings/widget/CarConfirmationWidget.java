@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -27,6 +28,7 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -199,6 +201,14 @@ public class CarConfirmationWidget extends FrameLayout {
 			offer.pickUpLocation.latitude = searchOffer.pickUpLocation.latitude;
 			offer.pickUpLocation.longitude = searchOffer.pickUpLocation.longitude;
 		}
+
+		// Add guest itin to itin manager
+		if (Db.getBillingInfo() != null && !User.isLoggedIn(getContext())) {
+			String email = builder.getEmailAddress();
+			String tripId = response.newTrip.itineraryNumber;
+			ItineraryManager.getInstance().addGuestTrip(email, tripId);
+		}
+
 	}
 
 	@OnClick(R.id.add_hotel_textView)
