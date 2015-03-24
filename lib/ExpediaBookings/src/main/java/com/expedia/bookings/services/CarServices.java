@@ -172,6 +172,9 @@ public class CarServices {
 			if (carCheckoutResponse.hasPriceChange()) {
 				carCheckoutResponse.originalCarProduct = createTripCarOffer;
 			}
+			else if (carCheckoutResponse.hasErrors()) {
+				throw new CarApiException(carCheckoutResponse.getFirstError());
+			}
 			return carCheckoutResponse;
 		}
 	}

@@ -541,24 +541,30 @@ public class Events {
 	public static class CarsPriceChange {
 		public CarCheckoutResponse response;
 
-		public CarsPriceChange(CarCheckoutResponse response) {
-			this.response = response;
+		public CarsPriceChange() {
+
 		}
 	}
 
 	public static class CarsSessionTimeout {
-		public CarCheckoutResponse response;
+		public CarsSessionTimeout() {
 
-		public CarsSessionTimeout(CarCheckoutResponse response) {
-			this.response = response;
 		}
 	}
 
 	public static class CarsPaymentFailed {
 		public CarCheckoutResponse response;
 
-		public CarsPaymentFailed(CarCheckoutResponse response) {
-			this.response = response;
+		public CarsPaymentFailed() {
+
+		}
+	}
+
+	public static class CarsInvalidInput {
+		public String field;
+
+		public CarsInvalidInput(String field) {
+			this.field = field;
 		}
 	}
 

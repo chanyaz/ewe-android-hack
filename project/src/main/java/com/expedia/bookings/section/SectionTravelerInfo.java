@@ -1434,6 +1434,22 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
+
 	};
 
+	public void setFirstNameValid(boolean valid) {
+		setFieldValid(mValidFirstName, valid);
+	}
+
+	public void setLastNameValid(boolean valid) {
+		setFieldValid(mValidLastName, valid);
+	}
+
+	public void setPhoneValid(boolean valid) {
+		setFieldValid(mValidPhoneNumber, valid);
+	}
+
+	private void setFieldValid(SectionFieldValidIndicator mValidFirstName,boolean isValid) {
+		mValidFirstName.onPostValidate(mValidFirstName.getField(), isValid, true);
+	}
 }

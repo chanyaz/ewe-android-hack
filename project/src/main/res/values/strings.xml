@@ -37,6 +37,8 @@
     <string name="cars_price_change_text">Price Changed</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Payment Failed</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Invalid Info</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">Error</string>
     <!-- Text for reserving car-->
@@ -181,6 +183,11 @@
     <string name="reservation_already_exists">Hmm. Looks like you already booked this trip. Please check your trips or email.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
     <string name="reservation_price_change">The price of your car has changed. Please confirm the new price to continue.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Names must not contain numbers or special characters.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Phone number length must be between 1 and 20.</string>
+
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
     <!-- Payment failed button text that takes you back to checkout -->
@@ -191,6 +198,8 @@
     <string name="my_trips">My Trips</string>
     <!-- Button text that takes you back to the payment widget to edit your payment -->
     <string name="edit_payment">Edit Payment</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Edit Info</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
