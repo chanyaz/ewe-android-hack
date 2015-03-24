@@ -138,8 +138,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		sb.append(Html.fromHtml(statement));
 		URLSpan[] spans = sb.getSpans(0, statement.length(), URLSpan.class);
-		int begin = sb.getSpanStart(spans[0]);
-		int length = sb.length();
+
 		for (final URLSpan o : spans) {
 			int start = sb.getSpanStart(o);
 			int end = sb.getSpanEnd(o);
@@ -147,12 +146,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			sb.removeSpan(o);
 			sb.setSpan(new LegalClickableSpan(getContext(), o.getURL(), sb.subSequence(start, end).toString()), start,
 				end, 0);
+			sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			sb.setSpan(new UnderlineSpan(), start, end, 0);
+			sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), start, end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
-
-		sb.setSpan(new StyleSpan(Typeface.BOLD), begin, length, 0);
-		sb.setSpan(new UnderlineSpan(), begin, length, 0);
-		sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), begin, length,
-			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		tv.setText(sb);
 		tv.setMovementMethod(LinkMovementMethod.getInstance());
