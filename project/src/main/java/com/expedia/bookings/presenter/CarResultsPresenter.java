@@ -438,7 +438,6 @@ public class CarResultsPresenter extends Presenter {
 
 	public void animationStart(boolean forward) {
 		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
-		toolbarBackground.setAlpha(1f);
 		toolbar.setTranslationY(forward ? 0 : 50);
 		toolbar.setVisibility(VISIBLE);
 	}
