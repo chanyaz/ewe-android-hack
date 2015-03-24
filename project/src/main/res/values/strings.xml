@@ -663,11 +663,17 @@
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Popular Hotels Tonight</string>
     <!-- See all nearby deals -->
-    <string name="nearby_deals_expand">See all</string>
+    <string name="nearby_deals_expand">See more</string>
     <!-- Percent off template, e.g. 50% off -->
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Loading&#8230;</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">of 5 &#8211; guest rating</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">mobile only!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">tonight only!</string>
 
 
     <!-- Launch screen -->

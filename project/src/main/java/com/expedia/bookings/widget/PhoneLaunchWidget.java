@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +42,7 @@ import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -53,7 +56,8 @@ import rx.Subscription;
 public class PhoneLaunchWidget extends FrameLayout {
 
 	private static final String TAG = "PhoneLaunchWidget";
-	private static final String COLLECTION_TITLE = "staff-picks";
+	private static final String HOTEL_SORT = "ExpertPicks";
+	private static final long MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS; // 15 minutes ago
 
 	@Inject
 	public HotelServices hotelServices;
@@ -63,6 +67,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	private HotelSearchParams searchParams;
 	private Subscription downloadSubscription;
+
+	private DateTime launchDataTimeStamp;
 
 	private float squashedHeaderHeight;
 
@@ -199,6 +205,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 			});
 	}
 
+	private boolean isExpired() {
+		return JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || Db.getLaunchListHotelData() == null;
+	}
+
 	/*
 	 * Scrolling
 	 */
@@ -283,23 +293,27 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start hotel search");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
-		Events.post(new Events.LaunchShowLoadingAnimation());
 
-		LocalDate currentDate = new LocalDate();
-		DateTimeFormatter dtf = ISODateTimeFormat.date();
+		if (isExpired()) {
+			Events.post(new Events.LaunchShowLoadingAnimation());
 
-		String today = dtf.print(currentDate);
-		String tomorrow = dtf.print(currentDate.plusDays(1));
+			LocalDate currentDate = new LocalDate();
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
-		NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
-			String.valueOf(loc.getLongitude()), "1",
-			today, tomorrow, "MobileDeals");
-		searchParams = new HotelSearchParams();
-		searchParams.setCheckInDate(currentDate);
-		searchParams.setCheckOutDate(currentDate.plusDays(1));
-		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+			String today = dtf.print(currentDate);
+			String tomorrow = dtf.print(currentDate.plusDays(1));
 
-		downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
+				String.valueOf(loc.getLongitude()), "1",
+				today, tomorrow, HOTEL_SORT);
+			searchParams = new HotelSearchParams();
+			searchParams.setCheckInDate(currentDate);
+			searchParams.setCheckOutDate(currentDate.plusDays(1));
+			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+
+			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			launchDataTimeStamp = DateTime.now();
+		}
 	}
 
 	@Subscribe

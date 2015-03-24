@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.hotels;
 
+import java.util.Comparator;
+
 public class Hotel {
 
 	public int sortIndex;
@@ -48,4 +50,22 @@ public class Hotel {
 	public boolean isPaymentChoiceAvailable;
 	public boolean isShowEtpChoice;
 	public String shortDistanceMessage;
+
+	/**
+	 * Used to compare two hotels based on guest rating.
+	 */
+	public static final Comparator<Hotel> GUEST_RATING_COMPARATOR = new Comparator<Hotel>() {
+		@Override
+		public int compare(Hotel hotel1, Hotel hotel2) {
+			float rating1 = hotel1.hotelGuestRating;
+			float rating2 = hotel2.hotelGuestRating;
+
+			if (rating1 >= rating2) {
+				return -1;
+			}
+			else {
+				return 1;
+			}
+		}
+	};
 }
