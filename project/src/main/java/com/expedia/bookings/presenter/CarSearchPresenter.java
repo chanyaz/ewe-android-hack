@@ -101,7 +101,7 @@ public class CarSearchPresenter extends Presenter
 
 	@OnClick(R.id.pickup_location)
 	public void onPickupEditClicked() {
-		if (!getCurrentState().equals(CarParamsDefault.class.getName())) {
+		if (getCurrentState() != null && !getCurrentState().equals(CarParamsDefault.class.getName())) {
 			back();
 		}
 	}
