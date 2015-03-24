@@ -1011,6 +1011,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 				mExpediaPassword.setText("");
 				setStatusText(R.string.login_failed_try_again, false);
+				trackLoginError(response);
 			}
 			else {
 				User user = response.getUser();
@@ -1189,6 +1190,17 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		}
 	};
 
+	public void trackLoginError(SignInResponse response) {
+		String errorMessage = "";
+		if (response == null) {
+			errorMessage = "response is null";
+		}
+		else {
+			errorMessage = response.gatherErrorMessage(getContext());
+		}
+		OmnitureTracking.trackAppCarCheckoutLoginError(getContext(), errorMessage);
+	}
+
 	private final OnDownloadComplete<SignInResponse> mLoginHandler = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
@@ -1198,6 +1210,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				Ui.showToast(getContext(), R.string.failure_to_update_user);
 				setIsLoading(false);
 				loginWorkComplete();
+				trackLoginError(response);
 			}
 			else {
 				User user = response.getUser();
@@ -1390,6 +1403,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		else {
 			mExpediaUserName.requestFocus();
 			Ui.showKeyboard(mExpediaUserName, null);
+			OmnitureTracking.trackAppCarLoginPage(getContext());
 		}
 		if (mToolbarListener != null) {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());

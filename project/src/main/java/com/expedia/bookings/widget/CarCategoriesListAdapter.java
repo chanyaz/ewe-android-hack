@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
 
@@ -140,8 +142,11 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		@InjectView(R.id.card_view)
 		public CardView cardView;
 
+		public Context mContext;
+
 		public ViewHolder(View view) {
 			super(view);
+			mContext = view.getContext();
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 		}
@@ -174,6 +179,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
+			OmnitureTracking.trackAppCarRateDetails(mContext, offers);
 		}
 	}
 

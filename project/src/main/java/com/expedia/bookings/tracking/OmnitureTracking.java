@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -53,6 +54,9 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
@@ -2885,4 +2889,174 @@ public class OmnitureTracking {
 
 		return "Unknown";
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Car Tracking
+	//
+	// Spec: https://confluence/display/Omniture/Mobile+App%3A+Cars
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String CAR_LOB = "cars";
+	private static final String CAR_DATE_FORMAT = "HHmm";
+
+	private static final String CAR_DEST_SEARCH = "App.Cars.Dest-Search";
+	private static final String CAR_NO_RESULT = "App.Cars.NoResults";
+	private static final String CAR_SEARCH = "App.Cars.Search";
+	private static final String CAR_RATE_DETAIL = "App.Cars.RateDetails";
+	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
+	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
+	private static final String CAR_CHECKOUT_PAGE = "App.Cars.Checkout.Info";
+	private static final String CAR_CHECKOUT_LOGIN = "App.Cars.Checkout.Login";
+	private static final String CAR_CHECKOUT_LOGIN_SUCCESS = "App.Cars.Checkout.Login.Success";
+	private static final String CAR_CHECKOUT_LOGIN_ERROR = "App.Cars.Checkout.Login.Error";
+
+
+	public static void trackAppCarSearchBox(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_DEST_SEARCH + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_DEST_SEARCH);
+		s.track();
+	}
+
+	public static void trackAppCarNoResults(Context context, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + CAR_NO_RESULT + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_NO_RESULT);
+		s.setProp(36, errorMessage);
+		s.track();
+	}
+
+	public static void trackAppCarSearch(Context context, CarSearchParams carSearchParams, int resultSize) {
+		Log.d(TAG, "Tracking \"" + CAR_SEARCH + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_SEARCH);
+
+		// Success event for Product Search, Local Expert Search
+		s.setEvents("event30,event54");
+
+		//Number of results
+		s.setProp(1, Integer.toString(resultSize));
+
+		//Search Origin
+		s.setEvar(3, "D=c3");
+		s.setProp(3, "CAR:" + carSearchParams.origin);
+
+		//Search Destination
+		s.setProp(4, "CAR:" + carSearchParams.origin);
+		s.setEvar(4, "D=c4");
+
+		setDateValues(s, carSearchParams.startDateTime.toLocalDate(), carSearchParams.endDateTime.toLocalDate());
+
+		s.setEvar(47, getEvar47String(carSearchParams));
+		s.setEvar(48, carSearchParams.originDescription);
+
+		s.track();
+	}
+
+	public static void trackAppCarRateDetails(Context context, CategorizedCarOffers mOffer) {
+		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_RATE_DETAIL);
+
+		s.setEvents("event4");
+		s.setEvar(38, mOffer.carCategoryDisplayLabel);
+
+		s.track();
+	}
+
+	public static void trackAppCarViewDetails(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(28, CAR_VIEW_DETAILS);
+		s.setProp(16, CAR_VIEW_DETAILS);
+		s.trackLink(null, "o", "Car Details", null, null);
+
+		s.track();
+	}
+
+	public static void trackAppCarMapClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(28, CAR_VIEW_MAP);
+		s.setProp(16, CAR_VIEW_MAP);
+		s.trackLink(null, "o", "Car Details", null, null);
+
+		s.track();
+	}
+
+	public static void trackAppCarCheckoutPage(Context context, CreateTripCarOffer carOffer) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_PAGE + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_CHECKOUT_PAGE);
+
+		s.setEvents("event73");
+		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
+		addProducts(s, carOffer);
+		s.track();
+	}
+
+	public static void trackAppCarLoginPage(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.setAppState(CAR_CHECKOUT_LOGIN);
+		s.setEvar(18, "D=" + CAR_CHECKOUT_LOGIN);
+		s.track();
+	}
+
+	public static void trackAppCarCheckoutLoginSuccess(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.trackLink(null, "o", "User Login", null, null);
+
+		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
+		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
+		s.setEvents("event26");
+
+		s.track();
+
+	}
+
+	public static void trackAppCarCheckoutLoginError(Context context, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.trackLink(null, "o", "User Login", null, null);
+
+		s.setEvar(28, CAR_CHECKOUT_LOGIN_ERROR);
+		s.setProp(16, CAR_CHECKOUT_LOGIN_ERROR);
+		s.setProp(36, "error");
+
+		s.track();
+
+	}
+
+	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer) {
+		s.setProducts(
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carOffer.vehicleInfo.category + ";1;"
+				+ carOffer.detailedFare.grandTotal.formattedPrice);
+	}
+
+	private static String getEvar47String(CarSearchParams params) {
+		StringBuilder sb = new StringBuilder("CAR|RT|");
+		SimpleDateFormat sdf = new SimpleDateFormat(CAR_DATE_FORMAT, Locale.US);
+		sb.append(sdf.format(params.startDateTime.toDate()));
+		sb.append("|");
+		sb.append(sdf.format(params.endDateTime.toDate()));
+		return sb.toString();
+	}
+
+	private static ADMS_Measurement internalTrackAppCar(Context context, String pageName) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setAppState(pageName);
+		s.setEvar(18, "D=" + pageName);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, CAR_LOB);
+		return s;
+	}
+
 }

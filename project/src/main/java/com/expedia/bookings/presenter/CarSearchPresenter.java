@@ -34,6 +34,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -114,6 +115,7 @@ public class CarSearchPresenter extends Presenter
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		OmnitureTracking.trackAppCarSearchBox(getContext());
 		calendarContainer.setCarDateTimeListener(this);
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);

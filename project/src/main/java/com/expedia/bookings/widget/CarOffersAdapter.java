@@ -2,10 +2,13 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -179,6 +183,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					else {
 						offer.isToggled = false;
 						onItemExpanded(getPosition());
+						OmnitureTracking.trackAppCarViewDetails(mContext);
 					}
 				}
 			});
@@ -234,7 +239,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@Override
 		public void onMapReady(GoogleMap googleMap) {
 			MapsInitializer.initialize(mContext);
-			SearchCarOffer offer = (SearchCarOffer) itemView.getTag();
+			final SearchCarOffer offer = (SearchCarOffer) itemView.getTag();
 			addMarker(offer, googleMap);
 			googleMap.getUiSettings().setMapToolbarEnabled(false);
 			googleMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -242,6 +247,16 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
 				new LatLng(offer.pickUpLocation.latitude, offer.pickUpLocation.longitude),
 				MAP_ZOOM_LEVEL));
+			googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+				@Override
+				public void onMapClick(LatLng latLng) {
+					String uri = String.format(Locale.ENGLISH, "geo:%f,%f", offer.pickUpLocation.latitude,
+						offer.pickUpLocation.longitude);
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+					mContext.startActivity(intent);
+					OmnitureTracking.trackAppCarMapClick(mContext);
+				}
+			});
 		}
 
 		public void addMarker(SearchCarOffer offer, GoogleMap googleMap) {

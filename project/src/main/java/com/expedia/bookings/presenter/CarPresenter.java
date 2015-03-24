@@ -6,6 +6,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -128,6 +129,7 @@ public class CarPresenter extends Presenter {
 	@Subscribe
 	public void onShowParamsOverlay(Events.CarsGoToOverlay event) {
 		show(new ParamsOverlayState());
+		OmnitureTracking.trackAppCarSearchBox(getContext());
 	}
 
 	@Subscribe
