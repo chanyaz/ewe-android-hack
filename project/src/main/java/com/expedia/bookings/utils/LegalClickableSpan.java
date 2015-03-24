@@ -26,6 +26,7 @@ public class LegalClickableSpan extends ClickableSpan {
 		builder.setAllowMobileRedirects(true);
 		builder.setAttemptForceMobileSite(true);
 		builder.setLoginEnabled(true);
+		builder.setInjectExpediaCookies(true);
 		context.startActivity(builder.getIntent());
 	}
 
