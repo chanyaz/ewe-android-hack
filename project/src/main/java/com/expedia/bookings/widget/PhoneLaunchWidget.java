@@ -71,6 +71,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private DateTime launchDataTimeStamp;
 
 	private float squashedHeaderHeight;
+	private boolean isAirAttachDismissed;
 
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
@@ -102,6 +103,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchListWidget.setOnScrollListener(scrollListener);
 		lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
 		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
+		isAirAttachDismissed = false;
 	}
 
 	@Override
@@ -194,6 +196,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@OnClick(R.id.air_attach_banner_close)
 	public void closeAirAttachBanner() {
+		isAirAttachDismissed = true;
 		airAttachBanner.animate()
 			.translationY(airAttachBanner.getHeight())
 			.setDuration(300)
@@ -340,6 +343,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onShowAirAttach(Events.LaunchAirAttachBannerShow event) {
+		if (isAirAttachDismissed) {
+			airAttachBanner.setVisibility(View.GONE);
+			return;
+		}
 		final HotelSearchParams params = event.params;
 		if (airAttachBanner.getVisibility() == View.GONE) {
 			airAttachBanner.setVisibility(View.VISIBLE);
