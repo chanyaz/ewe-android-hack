@@ -10,4 +10,6 @@ public class BaseCarOffer {
 	public CarLocation pickUpLocation;
 	public CarLocation dropOffLocation;
 	public CarInfo vehicleInfo;
+	public boolean hasFreeCancellation;
+	public boolean hasUnlimitedMileage;
 }

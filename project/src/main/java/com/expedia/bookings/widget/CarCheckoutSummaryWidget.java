@@ -89,6 +89,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 			priceChangeText.setText(getResources().getString(R.string.price_changed_from_TEMPLATE,
 				originalFormattedPrice));
 		}
+		freeCancellationText.setVisibility(offer.hasFreeCancellation ? VISIBLE : GONE);
+		unlimitedMileageText.setVisibility(offer.hasUnlimitedMileage ? VISIBLE : GONE);
 	}
 
 	@OnClick(R.id.price_text)
