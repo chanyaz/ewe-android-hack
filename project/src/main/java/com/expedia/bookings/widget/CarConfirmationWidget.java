@@ -19,6 +19,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -209,18 +211,21 @@ public class CarConfirmationWidget extends FrameLayout {
 			ItineraryManager.getInstance().addGuestTrip(email, tripId);
 		}
 
+		OmnitureTracking.trackAppCarCheckoutConfirmation(getContext(), response);
 	}
 
 	@OnClick(R.id.add_hotel_textView)
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
 		NavUtils.goToHotels(getContext(), sp);
+		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(getContext(), LineOfBusiness.HOTELS);
 		Events.post(new Events.FinishActivity());
 	}
 
 	@OnClick(R.id.add_flight_textView)
 	public void searchFlight() {
 		searchForFlights();
+		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(getContext(), LineOfBusiness.FLIGHTS);
 		Events.post(new Events.FinishActivity());
 	}
 

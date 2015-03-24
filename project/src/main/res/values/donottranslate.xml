@@ -446,4 +446,7 @@
     <string name="cd_nine_btn">Nine</string>
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
+
+    <!-- Car Omniture tracking string when user see the slider -->
+    <string name="car_omniture_checkout_no_credit_card">no card required</string>
 </resources>

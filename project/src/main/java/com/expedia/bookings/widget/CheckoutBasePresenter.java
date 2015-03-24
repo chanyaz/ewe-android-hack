@@ -165,6 +165,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	void isCheckoutComplete() {
 		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
 			animateInSlideTo(true);
+			OmnitureTracking.trackAppCarCheckoutSlideToPurchase(getContext(), paymentInfoCardView.getCardType());
 		}
 		else {
 			animateInSlideTo(false);

@@ -19,6 +19,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
@@ -232,6 +233,7 @@ public class PaymentWidget extends ExpandableCardView {
 				Ui.showKeyboard(creditCardNumber, null);
 			}
 			bind();
+			OmnitureTracking.trackAppCarCheckoutPayment(getContext());
 		}
 		else {
 			cardInfoContainer.setVisibility(VISIBLE);
@@ -309,6 +311,18 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 
 		return false;
+	}
+
+	public CreditCardType getCardType() {
+		if (isCreditCardRequired && (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard())) {
+			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getType();
+		}
+		else if (isCreditCardRequired && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation
+			.performValidation())) {
+			return sectionBillingInfo.getBillingInfo().getCardType();
+		}
+
+		return CreditCardType.UNKNOWN;
 	}
 
 }
