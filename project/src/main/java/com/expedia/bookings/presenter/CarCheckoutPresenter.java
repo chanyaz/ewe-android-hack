@@ -20,6 +20,7 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CarCheckoutWidget;
@@ -28,7 +29,6 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.Subscription;
 
@@ -107,7 +107,7 @@ public class CarCheckoutPresenter extends Presenter {
 		public void onError(Throwable e) {
 			Log.e("CarCheckout - onError", e);
 			checkoutDialog.dismiss();
-			if (((RetrofitError) e).getKind().equals(RetrofitError.Kind.NETWORK)) {
+			if (RetrofitUtils.isNetworkError(e)) {
 				showCheckoutErrorDialog(R.string.error_no_internet);
 			}
 			else {

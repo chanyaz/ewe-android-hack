@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.CarApiException;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -31,6 +32,7 @@ import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
@@ -38,7 +40,6 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.Subscription;
 
@@ -143,16 +144,21 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			Events.post(new Events.CarsShowSearchResultsError());
-			show(categories, FLAG_CLEAR_BACKSTACK);
 			OmnitureTracking.trackAppCarNoResults(getContext(), e.getMessage());
-			if (((RetrofitError) e).getKind().equals(RetrofitError.Kind.NETWORK)) {
+			Log.e("CarSearch - onError", e);
+			show(categories, FLAG_CLEAR_BACKSTACK);
+
+			if (RetrofitUtils.isNetworkError(e)) {
 				showSearchErrorDialog(R.string.error_no_internet);
+				return;
 			}
-			else {
-				Events.post(new Events.CarsShowSearchResultsError());
-				show(categories, FLAG_CLEAR_BACKSTACK);
+
+			if (e instanceof CarApiException) {
+				CarApiException carSearchException = (CarApiException) e;
+				handleInputValidationErrors(carSearchException.getApiError());
+				return;
 			}
+			showDefaultErrorDialog();
 		}
 
 		@Override
@@ -162,6 +168,69 @@ public class CarResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppCarSearch(getContext(), mParams, carSearch.categories.size());
 		}
 	};
+
+	//handle CAR_SEARCH_WINDOW_VIOLATION detail errors
+	private void handleInputValidationErrors(CarApiError apiError) {
+		switch (apiError.errorDetailCode) {
+		case DROP_OFF_DATE_TOO_LATE:
+			showInvalidInputErrorDialog(R.string.drop_off_date_error);
+			break;
+		case SEARCH_DURATION_TOO_SMALL:
+			showInvalidInputErrorDialog(R.string.reservation_time_too_short);
+			break;
+		case SEARCH_DURATION_TOO_LARGE:
+			showInvalidInputErrorDialog(R.string.date_out_of_range);
+			break;
+		case PICKUP_DATE_TOO_EARLY:
+			showInvalidInputErrorDialog(R.string.pick_up_date_error);
+			break;
+		case PICKUP_DATE_IN_THE_PAST:
+			showInvalidInputErrorDialog(R.string.pick_up_date_error);
+			break;
+		default:
+			showDefaultErrorDialog();
+			break;
+		}
+	}
+
+	private void showDefaultErrorDialog() {
+		showSearchErrorDialog(R.string.oops);
+	}
+
+	private void showSearchErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsKickOffSearchCall(mParams));
+				}
+			})
+			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showInvalidInputErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
 
 	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class,
 		CarCategoryDetailsWidget.class) {
@@ -256,8 +325,10 @@ public class CarResultsPresenter extends Presenter {
 		public void onError(Throwable e) {
 			Log.e("CarCreateTrip - onError", e);
 			createTripDialog.dismiss();
-			if (((RetrofitError) e).getKind().equals(RetrofitError.Kind.NETWORK)) {
+
+			if (RetrofitUtils.isNetworkError(e)) {
 				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+
 			}
 			else {
 				showCreateTripErrorDialog();
@@ -315,27 +386,6 @@ public class CarResultsPresenter extends Presenter {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-				}
-			})
-			.show();
-	}
-
-	private void showSearchErrorDialog(@StringRes int message) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(message))
-			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.CarsKickOffSearchCall(mParams));
-				}
-			})
-			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.CarsGoToSearch());
 				}
 			})
 			.show();
