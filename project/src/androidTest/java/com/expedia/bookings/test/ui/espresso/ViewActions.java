@@ -7,6 +7,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.CoordinatesProvider;
@@ -17,6 +18,7 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.util.HumanReadables;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -35,7 +37,6 @@ import com.expedia.bookings.R;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static junit.framework.Assert.assertTrue;
 
 public final class ViewActions {
 
@@ -423,42 +424,39 @@ public final class ViewActions {
 	}
 
 
-	public static ViewAction waitFor(final long timeOutSource, final TimeUnit timeUnit, final Class className) {
+	public static ViewAction waitFor(final long howLong, final TimeUnit timeUnit) {
 		return new ViewAction() {
-			final static int WAIT_ON_UI_THREAD = 50;
-			final long mWaitTimeMillis = TimeUnit.MILLISECONDS.convert(timeOutSource, timeUnit);
+			private static final int SLEEP_UI_MS = 100;
 
 			@Override
 			public Matcher<View> getConstraints() {
-				return isAssignableFrom(className);
+				return Matchers.allOf(isAssignableFrom(View.class));
 			}
 
 			@Override
 			public String getDescription() {
-				return "Wait for the view to disappear, max wait time is : " + TimeUnit.SECONDS
-					.convert(timeOutSource, TimeUnit.SECONDS)
-					+ " seconds.";
+				return String.format("Waiting for view to appear, max wait time is: %d seconds",
+						TimeUnit.SECONDS.convert(howLong, TimeUnit.SECONDS));
 			}
 
 			@Override
-			public void perform(final UiController uiController, final View myView) {
+			public void perform(final UiController uiController, final View view) {
 				uiController.loopMainThreadUntilIdle();
-				long startTime = System.currentTimeMillis();
-				final long endTime = startTime + mWaitTimeMillis;
+
+				final long endTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
 				do {
-					if (myView.getVisibility() == View.GONE || myView.getVisibility() == View.INVISIBLE) {
-						// we are done waiting
+					if (view.getVisibility() == View.GONE || view.getVisibility() == View.INVISIBLE) {
 						return;
 					}
-					// otherwise idle wait for defined time
-					uiController.loopMainThreadForAtLeast(WAIT_ON_UI_THREAD);
-					startTime = System.currentTimeMillis();
+
+					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 				}
-				while (startTime <= endTime);
-				//	Last try,if fail throw the exception
-				assertTrue("The View must disappear after " + TimeUnit.SECONDS.convert(timeOutSource, TimeUnit.SECONDS)
-						+ " seconds",
-					myView.getVisibility() == View.GONE || myView.getVisibility() == View.INVISIBLE);
+				while (System.currentTimeMillis() <= endTime);
+
+				throw new PerformException.Builder()
+					.withActionDescription(this.getDescription())
+					.withViewDescription(HumanReadables.describe(view))
+					.build();
 			}
 		};
 

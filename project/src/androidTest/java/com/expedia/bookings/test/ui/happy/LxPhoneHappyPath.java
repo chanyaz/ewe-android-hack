@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LXBaseActivity;
@@ -48,11 +47,11 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		LXViewModel.selectDates(LocalDate.now(), null);
 		screenshot("LX_Search_Params_Entered");
 		LXViewModel.searchButton().perform(click());
-		onView(withId(R.id.loading_results)).perform(waitFor(10L, TimeUnit.SECONDS, ProgressBar.class));
+		onView(withId(R.id.loading_results)).perform(waitFor(10L, TimeUnit.SECONDS));
 		onView(withId(R.id.lx_search_results_list)).perform(
 			RecyclerViewActions
 				.actionOnItemAtPosition(0, click()));
-		onView(withId(R.id.loading_details)).perform(waitFor(10L, TimeUnit.SECONDS, ProgressBar.class));
+		onView(withId(R.id.loading_details)).perform(waitFor(10L, TimeUnit.SECONDS));
 		LXViewModel.detailsDateContainer().perform(scrollTo(),clickOnFirstEnabled());
 		LXViewModel.selectTicketsButton("2-Day New York Pass").perform(scrollTo(),click());
 		getTicketAddButtonViewFromTicketName(ticketName, "Adult").perform(click());

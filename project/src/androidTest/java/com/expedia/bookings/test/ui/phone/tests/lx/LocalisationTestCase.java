@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LXBaseActivity;
@@ -38,7 +37,7 @@ public class LocalisationTestCase extends PhoneTestCase {
 		screenshot("AFTER_DATE_SELECTION");
 		LXViewModel.searchButton().perform(click());
 		screenshot("LOADING_SCREEN");
-		onView(withId(R.id.loading_results)).perform(waitFor(10L, TimeUnit.SECONDS, ProgressBar.class));
+		onView(withId(R.id.loading_results)).perform(waitFor(10L, TimeUnit.SECONDS));
 		screenshot("ACTIVITY_RESULT_SCREEN");
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		screenshot("INFO_SITE_PAGE");
