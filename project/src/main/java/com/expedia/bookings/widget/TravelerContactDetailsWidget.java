@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -174,6 +175,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			firstName.requestFocus();
 			Ui.showKeyboard(firstName, null);
 			bind();
+			OmnitureTracking.trackAppCarCheckoutTraveler(getContext());
 		}
 		else {
 			bind();

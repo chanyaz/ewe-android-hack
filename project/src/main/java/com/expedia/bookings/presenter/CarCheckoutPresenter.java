@@ -20,6 +20,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CarCheckoutWidget;
@@ -228,6 +229,7 @@ public class CarCheckoutPresenter extends Presenter {
 		show(cvv);
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
+		OmnitureTracking.trackAppCarCheckoutCvvScreen(getContext());
 	}
 
 	// Cached for checkout call failure retry purposes
