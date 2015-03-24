@@ -29,6 +29,16 @@
     <string name="cars_slider_text">Slide to reserve</string>
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">Checkout</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Duplicate Trip</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Session Timeout</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Price Changed</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Payment Failed</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Error</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Reserve</string>
     <!-- Text for viewing details-->

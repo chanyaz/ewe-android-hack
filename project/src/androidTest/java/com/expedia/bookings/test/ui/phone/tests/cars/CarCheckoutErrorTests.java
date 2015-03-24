@@ -29,9 +29,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Generic dialog
 		screenshot("Oops Error Dialog");
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.oops)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.errorScreen().check(matches(isDisplayed()));
+		CarViewModel.errorText().check(matches(withText(R.string.oops)));
+		CarViewModel.errorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 		// TODO add test to support the retry behavior
 		screenshot("Oops Error Dialog close");
@@ -42,9 +42,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Price change dialog
 		screenshot("Price Change Dialog");
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.reservation_price_change)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.errorScreen().check(matches(isDisplayed()));
+		CarViewModel.errorText().check(matches(withText(R.string.reservation_price_change)));
+		CarViewModel.errorButton().perform(click());
 
 		screenshot("Price Change Messaging");
 		CarViewModel.checkoutTotalPrice().check(matches(withText("$125.18")));
@@ -57,12 +57,11 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Payment failed dialog
 		screenshot("Trip Already Booked Dialog");
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.reservation_already_exists)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.errorScreen().check(matches(isDisplayed()));
+		CarViewModel.errorText().check(matches(withText(R.string.reservation_already_exists)));
+		CarViewModel.errorButton().perform(click());
 
 		screenshot("Car confirmation");
-		EspressoUtils.assertViewWithTextIsDisplayed("Itinerary sent to");
 	}
 
 	public void testPaymentFailed() throws Throwable {
@@ -70,9 +69,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Payment failed dialog
 		screenshot("Payment Failed Dialog");
-		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.payment_failed)));
-		CarViewModel.alertDialogNeutralButton().perform(click());
+		CarViewModel.errorScreen().check(matches(isDisplayed()));
+		CarViewModel.errorText().check(matches(withText(R.string.reservation_payment_failed)));
+		CarViewModel.errorButton().perform(click());
 
 		screenshot("Payment Failed Messaging");
 		// Should take you back to payment entry
@@ -81,6 +80,19 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// TODO better assertions once error is handled better
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
+	}
+
+	public void testSessionTimeout() throws Throwable {
+		performCarCheckout(CC_NOT_REQUIRED, "SessionTimeout");
+
+		// Payment failed dialog
+		screenshot("Trip Already Booked Dialog");
+		CarViewModel.errorScreen().check(matches(isDisplayed()));
+		CarViewModel.errorText().check(matches(withText(R.string.reservation_time_out)));
+		CarViewModel.errorButton().perform(click());
+
+		screenshot("Car Details");
+		EspressoUtils.assertViewIsDisplayed(R.id.details);
 	}
 
 	private void performCarCheckout(int offer, String firstName) throws Throwable {

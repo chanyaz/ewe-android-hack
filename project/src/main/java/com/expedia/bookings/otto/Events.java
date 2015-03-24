@@ -538,6 +538,30 @@ public class Events {
 	 * Cars cars cars
 	 */
 
+	public static class CarsPriceChange {
+		public CarCheckoutResponse response;
+
+		public CarsPriceChange(CarCheckoutResponse response) {
+			this.response = response;
+		}
+	}
+
+	public static class CarsSessionTimeout {
+		public CarCheckoutResponse response;
+
+		public CarsSessionTimeout(CarCheckoutResponse response) {
+			this.response = response;
+		}
+	}
+
+	public static class CarsPaymentFailed {
+		public CarCheckoutResponse response;
+
+		public CarsPaymentFailed(CarCheckoutResponse response) {
+			this.response = response;
+		}
+	}
+
 	public static class CarsGoToSearch {
 	}
 

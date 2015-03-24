@@ -163,6 +163,17 @@ public final class CarViewModel {
 		return onView(withId(R.id.price_text));
 	}
 
+	public static ViewInteraction errorText() {
+		return onView(withId(R.id.error_text));
+	}
+
+	public static ViewInteraction errorScreen() {
+		return onView(withId(R.id.error_widget));
+	}
+
+	public static ViewInteraction errorButton() {
+		return onView(withId(R.id.error_action_button));
+	}
 	// Confirmation
 
 	public static ViewInteraction confirmationNumber() {
