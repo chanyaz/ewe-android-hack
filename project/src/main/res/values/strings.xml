@@ -74,7 +74,7 @@
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
     <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="car_legal_TEMPLATE">By completing this booking I agree that I have read and accept the %1$s, the %2$s, and %3$s.</string>
+    <string name="car_legal_TEMPLATE">By completing this booking I agree that I have read and accept the %1$s, the %2$s, and the %3$s.</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
