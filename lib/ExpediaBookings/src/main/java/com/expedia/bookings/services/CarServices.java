@@ -8,6 +8,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.cars.CarApiException;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
@@ -32,6 +33,7 @@ import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.exceptions.OnErrorNotImplementedException;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
@@ -66,20 +68,19 @@ public class CarServices {
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.map(HANDLE_ERRORS)
+			.doOnNext(HANDLE_ERRORS)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
 			.map(PUT_IN_CAR_SEARCH)
 			.subscribe(observer);
 	}
 
-	private static final Func1<CarSearchResponse, CarSearchResponse> HANDLE_ERRORS = new Func1<CarSearchResponse, CarSearchResponse>() {
+	private static final Action1<CarSearchResponse> HANDLE_ERRORS = new Action1<CarSearchResponse>() {
 		@Override
-		public CarSearchResponse call(CarSearchResponse carSearchResponse) {
+		public void call(CarSearchResponse carSearchResponse) {
 			if (carSearchResponse.hasErrors()) {
-				throw new RuntimeException(carSearchResponse.errorsToString());
+				throw new CarApiException(carSearchResponse.getFirstError());
 			}
-			return carSearchResponse;
 		}
 	};
 

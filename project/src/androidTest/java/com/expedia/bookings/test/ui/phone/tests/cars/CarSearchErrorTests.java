@@ -5,11 +5,13 @@ import org.joda.time.DateTime;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class CarSearchErrorTests extends PhoneTestCase {
 
@@ -26,8 +28,10 @@ public class CarSearchErrorTests extends PhoneTestCase {
 		CarViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
 
-		screenshot("Car Search No Product");
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_car_search_message));
+		screenshot("Car Search No Product Dialog");
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.oops)));
+		CarViewModel.alertDialogNeutralButton().perform(click());
 	}
 
 	public void testSearchErrorInvalidInput() throws Throwable {
@@ -42,8 +46,9 @@ public class CarSearchErrorTests extends PhoneTestCase {
 		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
 
-		screenshot("Car Search Invalid Input");
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_car_search_message));
+		screenshot("Car Search Invalid Input Dialog");
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.oops)));
+		CarViewModel.alertDialogNeutralButton().perform(click());
 	}
-
 }

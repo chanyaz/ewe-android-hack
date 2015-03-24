@@ -12,6 +12,7 @@ public class CarApiError {
 		CAR_PRODUCT_NOT_AVAILABLE, // No cars available at this location
 		CAR_SERVICE_ERROR,
 		CAR_SEARCH_ERROR,
+		CAR_SEARCH_WINDOW_VIOLATION,
 
 		// Create trip errors
 		INVALID_CAR_PRODUCT_KEY, // Most likely invalid dates
@@ -26,6 +27,15 @@ public class CarApiError {
 		;
 	}
 
+	public enum DetailCode {
+		//CAR SEARCH WINDOW VIOLATION detail errors
+		DROP_OFF_DATE_TOO_LATE,
+		SEARCH_DURATION_TOO_SMALL,
+		PICKUP_DATE_TOO_EARLY,
+		SEARCH_DURATION_TOO_LARGE,
+		PICKUP_DATE_IN_THE_PAST
+	}
+
 	public static class ErrorInfo {
 		public String summary;
 		public String field;
@@ -33,6 +43,7 @@ public class CarApiError {
 	}
 
 	public Code errorCode;
+	public DetailCode errorDetailCode;
 	public int diagnosticId;
 	public String diagnosticFullText;
 	public ErrorInfo errorInfo;
