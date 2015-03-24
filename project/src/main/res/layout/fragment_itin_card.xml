@@ -52,7 +52,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="6dp"
-                android:src="@drawable/ic_action_overflow_white" />
+                android:src="@drawable/ic_itin_action_overflow_white" />
         </FrameLayout>
     </LinearLayout>
 
