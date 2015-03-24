@@ -28,7 +28,6 @@ import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListen
 import com.expedia.bookings.section.CreditCardSection;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -225,15 +224,22 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		// A few minor UI tweaks on phone, depending on if amex
 		boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
 
-		if (!AndroidUtils.isTablet(getContext())) {
-			mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
-			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mCVVTextView.getLayoutParams();
-			int right = amex ? R.dimen.cvv_text_view_right_margin_amex : R.dimen.cvv_text_view_right_margin_other;
-			int top = amex ? R.dimen.cvv_text_view_top_margin_amex : R.dimen.cvv_text_view_top_margin_other;
-			params.rightMargin = getResources().getDimensionPixelOffset(right);
-			params.topMargin = getResources().getDimensionPixelOffset(top);
-			mCVVTextView.setLayoutParams(params);
+		mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mCVVTextView.getLayoutParams();
+		if (amex) {
+			params.addRule(RelativeLayout.ALIGN_RIGHT, 0 );
+			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+			params.addRule(RelativeLayout.CENTER_VERTICAL);
 		}
+		else {
+			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+			params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.signature_strip_frame);
+			params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.signature_strip_frame);
+			params.addRule(RelativeLayout.ALIGN_TOP, R.id.signature_strip_frame);
+		}
+		int right = amex ? R.dimen.cvv_text_view_right_margin_amex : R.dimen.cvv_text_view_right_margin_other;
+		params.rightMargin = getResources().getDimensionPixelOffset(right);
+		mCVVTextView.setLayoutParams(params);
 
 		// Configuration vars that drive this fragment (on phone or tablet)
 		mMinCvvLen = amex ? 4 : 3;
