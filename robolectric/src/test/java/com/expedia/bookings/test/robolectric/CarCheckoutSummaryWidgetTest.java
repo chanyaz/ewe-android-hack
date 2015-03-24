@@ -63,6 +63,8 @@ public class CarCheckoutSummaryWidgetTest {
 		carProduct.vendor = vendor;
 		carProduct.vehicleInfo = carInfo;
 		carProduct.detailedFare = fare;
+		carProduct.hasFreeCancellation = true;
+		carProduct.hasUnlimitedMileage = false;
 		carProduct.setPickupTime(DateTime.now());
 		carProduct.setDropOffTime(DateTime.now().plusHours(2));
 
@@ -85,6 +87,7 @@ public class CarCheckoutSummaryWidgetTest {
 		TextView airportText = (TextView) checkoutSummaryWidget.findViewById(R.id.airport_text);
 		TextView dateTime = (TextView) checkoutSummaryWidget.findViewById(R.id.date_time_text);
 		TextView freeCancellation = (TextView) checkoutSummaryWidget.findViewById(R.id.free_cancellation_text);
+		TextView unlimitedMileage = (TextView) checkoutSummaryWidget.findViewById(R.id.unlimited_mileage_text);
 		TextView tripTotal = (TextView) checkoutSummaryWidget.findViewById(R.id.price_text);
 		ViewGroup priceChangeContainer = (ViewGroup) checkoutSummaryWidget.findViewById(R.id.price_change_container);
 
@@ -95,6 +98,7 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals("San Francisco (SFO)", airportText.getText());
 		assertEquals("Shuttle to counter and car", locationDescription.getText());
 		assertEquals(View.VISIBLE, freeCancellation.getVisibility());
+		assertEquals(View.GONE, unlimitedMileage.getVisibility());
 		assertEquals("$50", tripTotal.getText());
 		assertEquals(View.GONE, priceChangeContainer.getVisibility());
 		String expedtedDate = DateFormatUtils
