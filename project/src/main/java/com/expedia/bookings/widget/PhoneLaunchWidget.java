@@ -264,7 +264,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Hotel offer = event.offer;
 		Property property = new Property();
 		property.updateFrom(offer);
-		Db.getHotelSearch().setSearchParams(searchParams);
+		Db.getHotelSearch().resetSearchParams();
+		Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 		Db.getHotelSearch().setSelectedProperty(property);
 
 		Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
