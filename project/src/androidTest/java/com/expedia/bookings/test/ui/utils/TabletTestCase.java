@@ -24,7 +24,7 @@ public class TabletTestCase extends EspressoTestCase {
 			if (mSuggestionResource != null) {
 				IdlingResources.unregisterSuggestionResource(mSuggestionResource);
 			}
-			Common.pressBackOutOfApp();
+			Common.pressBackOutOfApp(getInstrumentation());
 		}
 	}
 }
