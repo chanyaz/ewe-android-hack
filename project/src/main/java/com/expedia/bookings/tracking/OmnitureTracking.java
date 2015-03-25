@@ -2313,6 +2313,97 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Tracking events for new launch screen
+	//
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String LAUNCH_SCREEN_LOB_NAVIGATION = "App.LS.Srch";
+	private static final String LAUNCH_SEARCH = "Launch.Search";
+	private static final String LAUNCH_DEALS_TILE = "App.LS.Promo";
+	private static final String LAUNCH_MESSAGING = "Launch.TopDeals.Hotel";
+	private static final String LAUNCH_GLOBAL = "App.Global";
+
+	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
+	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
+	private static final String CAR_LOB_NAVIGATION = "Car";
+
+	public static void trackNewLaunchScreenLobNavigation(Context context, LineOfBusiness lob) {
+		String lobString = "";
+		if (lob == LineOfBusiness.HOTELS) {
+			lobString = HOTEL_LOB_NAVIGATION;
+		}
+		else if (lob == LineOfBusiness.FLIGHTS) {
+			lobString = FLIGHT_LOB_NAVIGATION;
+		}
+		else if (lob == LineOfBusiness.CARS) {
+			lobString = CAR_LOB_NAVIGATION;
+		}
+		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.trackLink(null, "o", "App Landing", null, null);
+		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
+		s.setEvar(28, link);
+		s.setProp(16, link);
+
+		s.track();
+	}
+
+	public static void trackNewLaunchScreenSeeAllClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addCommonLaunchScreenFields(context, s, LAUNCH_MESSAGING, "SeeAll");
+
+		s.track();
+	}
+
+	public static void trackNewLaunchScreenTileClick(Context context, boolean isLaunchCollection) {
+		String launchMessage = "";
+		if (isLaunchCollection) {
+			launchMessage = "Launch.StaffPick.Hotel";
+		}
+		else {
+			launchMessage = "Launch.TopDeals.Hotel";
+		}
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addCommonLaunchScreenFields(context, s, launchMessage, "DealTile");
+
+		s.track();
+	}
+
+	public static void trackNewLaunchScreenShopClick(Context context) {
+		trackNewLaunchScreenGlobalNavigation(context, "Shop");
+	}
+
+	public static void trackNewLaunchScreenTripsClick(Context context) {
+		trackNewLaunchScreenGlobalNavigation(context, "Trips");
+	}
+
+	private static void trackNewLaunchScreenGlobalNavigation(Context context, String type) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.trackLink(null, "o", "App Landing", null, null);
+		s.setEvar(28, LAUNCH_GLOBAL + "." + type);
+		s.setProp(16, LAUNCH_GLOBAL + "." + type);
+
+		s.track();
+	}
+
+	private static void addCommonLaunchScreenFields(Context context, ADMS_Measurement s, String launchMessage, String tileType) {
+		addStandardFields(context, s);
+
+		s.trackLink(null, "o", "App Landing", null, null);
+		s.setEvar(28, LAUNCH_DEALS_TILE + "." + tileType);
+		s.setProp(16, LAUNCH_DEALS_TILE + "." + tileType);
+		s.setEvar(12, launchMessage);
+	}
+
 	public static void trackCrash(Context context, Throwable ex) {
 		// Log the crash
 		Log.d(TAG, "Tracking \"crash\" onClick");

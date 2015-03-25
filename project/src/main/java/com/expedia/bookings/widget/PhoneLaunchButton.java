@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -103,15 +104,15 @@ public class PhoneLaunchButton extends FrameLayout {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
 			switch (getId()) {
 			case R.id.hotels_button:
-				OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.HOTELS);
 				NavUtils.goToHotels(getContext(), animOptions);
 				break;
 			case R.id.flights_button:
-				OmnitureTracking.trackLinkLaunchScreenToFlights(getContext());
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.FLIGHTS);
 				NavUtils.goToFlights(getContext(), animOptions);
 				break;
 			case R.id.cars_button:
-				// TODO Cars omniture
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.CARS);
 				NavUtils.goToCars(getContext(), animOptions);
 				break;
 			default:
