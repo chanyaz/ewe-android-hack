@@ -23,6 +23,7 @@ import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
+import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
@@ -182,6 +183,28 @@ public class NavUtils {
 		}
 
 		// Launch activity based on routing selection
+		intent.setClass(context, routingTarget);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToLocalExpert(Context context, String location, String startDateStr, Bundle animOptions,
+		int flags) {
+
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent();
+
+		if (location != null) {
+			intent.putExtra("location", location);
+			intent.putExtra("startDateStr", startDateStr);
+			// Only used by phone search currently, but won't harm to put on tablet as well
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		Class<? extends Activity> routingTarget = LXBaseActivity.class;
 		intent.setClass(context, routingTarget);
 		startActivity(context, intent, animOptions);
 	}
