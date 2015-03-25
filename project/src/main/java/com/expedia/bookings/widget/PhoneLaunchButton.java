@@ -17,6 +17,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -67,7 +68,7 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	@Override
 	public void onFinishInflate() {
-		bgView.setBackground(bg);
+		Ui.setViewBackground(bgView, bg);
 		textView.setText(text);
 		iconView.setImageDrawable(icon);
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
@@ -127,14 +128,14 @@ public class PhoneLaunchButton extends FrameLayout {
 	@Subscribe
 	public void onNetworkAvailable(Events.LaunchOnlineState event) {
 		isNetworkAvailable = true;
-		bgView.setBackground(bg);
+		Ui.setViewBackground(bgView, bg);
 		textView.setAlpha(1.0f);
 	}
 
 	@Subscribe
 	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
 		isNetworkAvailable = false;
-		bgView.setBackground(disabledBg);
+		Ui.setViewBackground(bgView, disabledBg);
 		textView.setAlpha(0.5f);
 	}
 

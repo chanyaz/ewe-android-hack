@@ -32,6 +32,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
@@ -101,7 +102,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		ButterKnife.inject(this);
 
 		calendar.setSelectableDateRange(LocalDate.now(),
-				LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
 		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_car_search));
 		calendar.setDateChangedListener(this);
 		calendar.setYearMonthDisplayedChangedListener(this);
@@ -116,7 +117,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		drawablePopUp
 				.setColorFilter(getResources().getColor(R.color.cars_tooltip_color), PorterDuff.Mode.SRC_IN);
 
-		pickupTimePopupContainerText.setBackground(drawablePopUp);
+		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 
 		pickupTimeSeekBar.setProgress(new DateTime().withHourOfDay(9).withMinuteOfHour(0));
 		pickupTimeSeekBar.addOnSeekBarChangeListener(this);
