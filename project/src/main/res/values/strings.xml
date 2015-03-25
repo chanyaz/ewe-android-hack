@@ -148,7 +148,7 @@
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">Itinerary # %1$s</string>
+    <string name="successful_checkout_TEMPLATE">Itinerary #%1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Missing checkout params.</string>
     <!--Adding hotel from Car Confirmation -->
