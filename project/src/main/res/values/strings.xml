@@ -258,6 +258,9 @@
     <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- Template for multiple duration text on Search results Eg: 2d+ -->
+    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Traveler</string>
     <string name="ticket_type_adult">Adult</string>

@@ -19,6 +19,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Strings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -133,8 +134,20 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			activityTitle.setText(activity.title);
 			activityPrice.setText(activity.fromPrice);
 			category.setText(activity.bestApplicableCategoryLocalized);
-			fromPriceTicketType.setText(itemView.getContext().getString(LXDataUtils.LX_PER_TICKET_TYPE_MAP.get(activity.fromPriceTicketCode)));
+			fromPriceTicketType.setText(
+				itemView.getContext().getString(LXDataUtils.LX_PER_TICKET_TYPE_MAP.get(activity.fromPriceTicketCode)));
 
+			String activityDuration = activity.duration;
+			if (Strings.isNotEmpty(activityDuration)) {
+				if (activity.isMultiDuration) {
+					duration.setText(itemView.getResources()
+						.getString(R.string.search_result_multiple_duration_TEMPLATE, activityDuration));
+				}
+				else {
+					duration.setText(activityDuration);
+				}
+				duration.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 }

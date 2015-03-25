@@ -59,6 +59,7 @@ public class LXResultsPresenterTests {
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_price))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_category))));
+		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_duration))));
 	}
 
 	@Test
@@ -85,6 +86,7 @@ public class LXResultsPresenterTests {
 		String title = "test";
 		String price = "$10";
 		String category = "tour";
+		String duration = "2d";
 		LXTicketType code = LXTicketType.Adult;
 		List<String> categoriesList = new ArrayList<>();
 		for (int i = 0; i < 2; i++) {
@@ -99,10 +101,12 @@ public class LXResultsPresenterTests {
 		a.bestApplicableCategoryEN = "tour";
 		a.bestApplicableCategoryLocalized = "tour";
 		a.fromPriceTicketCode = code;
+		a.duration = duration;
 		activities.add(a);
 
 		onView(withId(R.id.lx_search_results_list)).perform(LXViewModel.setLXActivities(activities));
-		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, LXViewModel.performViewHolderComparison(title, price, categoriesList)));
+		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
+			LXViewModel.performViewHolderComparison(title, price, duration, categoriesList)));
 
 	}
 

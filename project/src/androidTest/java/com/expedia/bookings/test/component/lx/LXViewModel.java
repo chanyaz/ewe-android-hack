@@ -165,7 +165,8 @@ public class LXViewModel {
 		};
 	}
 
-	public static ViewAction performViewHolderComparison(final String title, final String price, final List<String> categoriesList) {
+	public static ViewAction performViewHolderComparison(final String title, final String price, final String duration,
+		final List<String> categoriesList) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -182,9 +183,11 @@ public class LXViewModel {
 				TextView titleText = (TextView) viewHolder.findViewById(R.id.activity_title);
 				TextView priceText = (TextView) viewHolder.findViewById(R.id.activity_price);
 				TextView categoryText = (TextView) viewHolder.findViewById(R.id.activity_category);
+				TextView durationText = (TextView) viewHolder.findViewById(R.id.activity_duration);
 
 				Assert.assertEquals(title, titleText.getText());
 				Assert.assertEquals(price, priceText.getText());
+				Assert.assertEquals(duration, durationText.getText());
 				Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesList), categoryText.getText());
 			}
 		};
