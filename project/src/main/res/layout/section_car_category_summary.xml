@@ -21,6 +21,7 @@
             android:layout_height="134dp" />
 
         <View
+            android:id="@+id/gradient_mask"
             android:layout_width="match_parent"
             android:layout_height="67dp"
             android:layout_gravity="bottom"
