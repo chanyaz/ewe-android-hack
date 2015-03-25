@@ -25,7 +25,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -46,14 +45,13 @@ public class LXResultsPresenterTests {
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		LXViewModel.progress().check(matches(isDisplayed()));
 		ScreenActions.delay(2);
 
 		LXViewModel.searchResultsWidget().check(matches(isDisplayed()));
 		LXViewModel.searchList().check(matches(isDisplayed()));
 		ViewInteraction searchResultItem = LXViewModel.recyclerItemView(allOf
-				(withChild(withChild(withText(startsWith("New York Pass")))),
-					withChild(withChild(withText("$130")))),
+				(hasDescendant(withText(startsWith("New York Pass"))),
+					hasDescendant(withText("$130"))),
 			R.id.lx_search_results_list);
 
 		searchResultItem.check(matches(isDisplayed()));

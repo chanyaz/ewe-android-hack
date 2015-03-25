@@ -776,6 +776,10 @@ public class Events {
 		// ignore
 	}
 
+	public static class LXShowLoadingAnimation {
+		// ignore
+	}
+
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {

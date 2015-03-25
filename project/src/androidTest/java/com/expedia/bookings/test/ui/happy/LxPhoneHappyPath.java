@@ -42,7 +42,6 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		screenshot("LX Search Params Entered");
 		LXViewModel.searchButton().perform(click());
 
-		onView(withId(R.id.loading_results)).perform(waitFor(10L, TimeUnit.SECONDS));
 		screenshot("LX Search Results");
 
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));

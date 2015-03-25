@@ -69,10 +69,6 @@ public class LXViewModel {
 		calendar().perform(TabletViewActions.clickDates(start, end));
 	}
 
-	public static ViewInteraction progress() {
-		return onView(withId(R.id.loading_results));
-	}
-
 	public static ViewInteraction itinNumberOnConfirmationScreen() {
 		return onView(withId(R.id.itinerary_text_view));
 	}

@@ -9,15 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
@@ -40,9 +39,6 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.lx_search_results_widget)
 	LXSearchResultsWidget searchResultsWidget;
 
-	@InjectView(R.id.loading_results)
-	ProgressBar loadingProgress;
-
 	Subscription searchSubscription;
 
 	@InjectView(R.id.toolbar)
@@ -53,13 +49,15 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	// Transitions
-	private Transition loadingToSearchResults = new VisibilityTransition(this, ProgressBar.class.getName(), LXSearchResultsWidget.class.getName());
 
-	private DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
+	private DefaultTransition setUpLoading = new DefaultTransition(LXSearchResultsWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
-			loadingProgress.setVisibility(View.VISIBLE);
-			searchResultsWidget.setVisibility(View.GONE);
+			// Do not show loading animation for automation builds.
+			if (!ExpediaBookingApp.sIsAutomation) {
+				Events.post(new Events.LXShowLoadingAnimation());
+			}
+			searchResultsWidget.setVisibility(View.VISIBLE);
 		}
 	};
 
@@ -68,7 +66,6 @@ public class LXResultsPresenter extends Presenter {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
-		addTransition(loadingToSearchResults);
 		addDefaultTransition(setUpLoading);
 		setupToolbar();
 	}
@@ -110,7 +107,7 @@ public class LXResultsPresenter extends Presenter {
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		cleanup();
 		setToolbarTitles();
-		show(loadingProgress, FLAG_CLEAR_BACKSTACK);
+		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
 	}
 
