@@ -54,7 +54,7 @@ public class CarCheckoutPresenter extends Presenter {
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
-	@InjectView(R.id.error_widget)
+	@InjectView(R.id.checkout_error_widget)
 	ErrorWidget errorScreen;
 
 	private ProgressDialog checkoutDialog;

@@ -30,7 +30,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	@InjectView(R.id.category_list)
 	public RecyclerView recyclerView;
 
-	@InjectView(R.id.error_widget)
+	@InjectView(R.id.search_error_widget)
 	ErrorWidget errorScreen;
 
 	CarCategoriesListAdapter adapter;
