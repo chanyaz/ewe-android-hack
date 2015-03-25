@@ -133,6 +133,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
+		buildParams(calendar.getStartDate(), calendar.getEndDate());
 	}
 
 	@Override
@@ -165,11 +166,18 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		pickupTimePopupContainer.setVisibility(View.GONE);
 	}
 
-	@Override
-	public void onDateSelectionChanged(final LocalDate start, final LocalDate end) {
+	public void buildParams(final LocalDate start, final LocalDate end) {
 		dateTimeBuilder.startDate(start);
 		dateTimeBuilder.endDate(end);
+		dateTimeBuilder.startMillis(convertProgressToMillis(pickupTimeSeekBar.getProgress()));
+		if (end != null) {
+			dateTimeBuilder.endMillis(convertProgressToMillis(dropoffTimeSeekBar.getProgress()));
+		}
+		listener.onDateTimeChanged(dateTimeBuilder);
+	}
 
+	@Override
+	public void onDateSelectionChanged(final LocalDate start, final LocalDate end) {
 		// Logic to change the time slider value when user selects current date
 		DateTime now = DateTime.now();
 		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8) {
@@ -179,12 +187,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 			dropoffTimeSeekBar.setProgress(now.plusHours(3));
 		}
 
-		dateTimeBuilder.startMillis(convertProgressToMillis(pickupTimeSeekBar.getProgress()));
-		if (end != null) {
-			dateTimeBuilder.endMillis(convertProgressToMillis(dropoffTimeSeekBar.getProgress()));
-		}
-
-		listener.onDateTimeChanged(dateTimeBuilder);
+		buildParams(start, end);
 
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
