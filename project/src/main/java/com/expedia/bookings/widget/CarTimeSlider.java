@@ -24,7 +24,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 /**
  * Created by mohsharma on 2/9/15.
  */
-public class CarTimeSlider extends SeekBar {
+public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 
 	private Drawable mThumb;
 	private ArrayList<OnSeekBarChangeListener> onSeekBarChangeListeners = new ArrayList<>();
