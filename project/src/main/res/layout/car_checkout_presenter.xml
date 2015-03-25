@@ -6,13 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
-        android:id="@+id/confirmation"
-        layout="@layout/widget_car_confirmation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"
         android:layout_width="match_parent"
