@@ -63,13 +63,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		if (holder.getItemViewType() != LOADING_VIEW) {
 			CategorizedCarOffers cco = categories.get(position);
 			((ViewHolder) holder).bindCategorizedOffers(cco);
-			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type);
-			new PicassoHelper.Builder(((ViewHolder) holder).backgroundImageView)
-				.setPlaceholder(R.drawable.cars_placeholder)
-				.fade()
-				.setTag(ROW_PICASSO_TAG)
-				.build()
-				.load(url);
 		}
 		else {
 			setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
@@ -173,6 +166,15 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 					lowestFare.rate.getFormattedMoney()));
 			totalTextView.setText(totalTextView.getContext()
 				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
+
+			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
+				mContext.getResources().getDimension(R.dimen.car_image_width));
+			new PicassoHelper.Builder(backgroundImageView)
+				.setPlaceholder(R.drawable.cars_placeholder)
+				.fade()
+				.setTag(ROW_PICASSO_TAG)
+				.build()
+				.load(url);
 		}
 
 		@Override

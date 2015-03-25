@@ -164,10 +164,10 @@ public class CarConfirmationWidget extends FrameLayout {
 		emailText.setText(builder.getEmailAddress());
 		itinText.setText(res.getString(R.string.successful_checkout_TEMPLATE, itineraryNumber));
 
-		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
+		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type,
+			getResources().getDimension(R.dimen.car_image_width));
 		new PicassoHelper.Builder(backgroundImageView)
 			.fade()
-			.setTag("Car Confirmation")
 			.fit()
 			.centerCrop()
 			.build()
