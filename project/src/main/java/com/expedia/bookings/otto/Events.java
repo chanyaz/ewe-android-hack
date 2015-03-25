@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
+import com.expedia.bookings.data.cars.CarApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -539,25 +540,19 @@ public class Events {
 	 */
 
 	public static class CarsPriceChange {
-		public CarCheckoutResponse response;
-
-		public CarsPriceChange() {
-
-		}
+		// ignore
 	}
 
 	public static class CarsSessionTimeout {
-		public CarsSessionTimeout() {
-
-		}
+		// ignore
 	}
 
 	public static class CarsPaymentFailed {
-		public CarCheckoutResponse response;
+		// ignore
+	}
 
-		public CarsPaymentFailed() {
-
-		}
+	public static class CarsSearchFailed {
+		// ignore
 	}
 
 	public static class CarsInvalidInput {
@@ -569,9 +564,11 @@ public class Events {
 	}
 
 	public static class CarsGoToSearch {
+		// ignore
 	}
 
 	public static class CarsGoToOverlay {
+		// ignore
 	}
 
 	public static class CarsNewSearchParams {
@@ -594,6 +591,11 @@ public class Events {
 	}
 
 	public static class CarsShowSearchResultsError {
+		public CarApiError error;
+
+		public CarsShowSearchResultsError(CarApiError error) {
+			this.error = error;
+		}
 	}
 
 	public static class CarsShowDetails {
@@ -683,7 +685,7 @@ public class Events {
 	public static class LXSearchResultsAvailable {
 		public LXSearchResponse lxSearchResponse;
 
-		public LXSearchResultsAvailable (LXSearchResponse lxSearchResponse) {
+		public LXSearchResultsAvailable(LXSearchResponse lxSearchResponse) {
 			this.lxSearchResponse = lxSearchResponse;
 		}
 	}
@@ -786,6 +788,7 @@ public class Events {
 
 	public static class LaunchListItemSelected {
 		public Hotel offer;
+
 		public LaunchListItemSelected(Hotel offer) {
 			this.offer = offer;
 		}
@@ -793,6 +796,7 @@ public class Events {
 
 	public static class LaunchSeeAllButtonPressed {
 		public Bundle animOptions;
+
 		public LaunchSeeAllButtonPressed(Bundle animOptions) {
 			this.animOptions = animOptions;
 		}
@@ -800,6 +804,7 @@ public class Events {
 
 	public static class LaunchLocationFetchComplete {
 		public final Location location;
+
 		public LaunchLocationFetchComplete(Location location) {
 			this.location = location;
 		}
@@ -819,6 +824,7 @@ public class Events {
 	public static class LaunchCollectionItemSelected {
 		public CollectionLocation collectionLocation;
 		public Bundle animOptions;
+
 		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions) {
 			this.collectionLocation = location;
 			this.animOptions = animOptions;
@@ -838,6 +844,7 @@ public class Events {
 
 	public static class LaunchAirAttachBannerShow {
 		public HotelSearchParams params;
+
 		public LaunchAirAttachBannerShow(HotelSearchParams params) {
 			this.params = params;
 		}

@@ -159,7 +159,6 @@ public class CarResultsPresenter extends Presenter {
 				handleInputValidationErrors(carSearchException.getApiError());
 				return;
 			}
-			showDefaultErrorDialog();
 		}
 
 		@Override
@@ -170,8 +169,15 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
-	//handle CAR_SEARCH_WINDOW_VIOLATION detail errors
+	/* handle CAR_SEARCH_WINDOW_VIOLATION detail errors and show default error screen
+	* for all the other search error codes.
+	*/
 	private void handleInputValidationErrors(CarApiError apiError) {
+		if (apiError.errorDetailCode == null) {
+			showDefaultError(apiError);
+			return;
+		}
+
 		switch (apiError.errorDetailCode) {
 		case DROP_OFF_DATE_TOO_LATE:
 			showInvalidInputErrorDialog(R.string.drop_off_date_error);
@@ -188,14 +194,17 @@ public class CarResultsPresenter extends Presenter {
 		case PICKUP_DATE_IN_THE_PAST:
 			showInvalidInputErrorDialog(R.string.pick_up_date_error);
 			break;
+		case PICKUP_DATE_AND_DROP_OFF_DATE_ARE_THE_SAME:
+			showInvalidInputErrorDialog(R.string.pick_up_date_error);
+			break;
 		default:
-			showDefaultErrorDialog();
+			showInvalidInputErrorDialog(R.string.oops);
 			break;
 		}
 	}
 
-	private void showDefaultErrorDialog() {
-		showSearchErrorDialog(R.string.oops);
+	private void showDefaultError(CarApiError apiError) {
+		Events.post(new Events.CarsShowSearchResultsError(apiError));
 	}
 
 	private void showSearchErrorDialog(@StringRes int message) {
@@ -209,7 +218,7 @@ public class CarResultsPresenter extends Presenter {
 					Events.post(new Events.CarsKickOffSearchCall(mParams));
 				}
 			})
-			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
@@ -385,7 +394,7 @@ public class CarResultsPresenter extends Presenter {
 					Events.post(new Events.CarsKickOffCreateTrip(offer));
 				}
 			})
-			.setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();

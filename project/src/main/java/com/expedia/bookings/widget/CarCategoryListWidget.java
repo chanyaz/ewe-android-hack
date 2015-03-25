@@ -10,17 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class CarCategoryListWidget extends FrameLayout {
 
@@ -31,14 +30,16 @@ public class CarCategoryListWidget extends FrameLayout {
 	@InjectView(R.id.category_list)
 	public RecyclerView recyclerView;
 
-	@InjectView(R.id.category_error_container)
-	ViewGroup categoriesErrorContainer;
+	@InjectView(R.id.error_widget)
+	ErrorWidget errorScreen;
 
 	CarCategoriesListAdapter adapter;
 
 	private static final String PICASSO_TAG = "CAR_CATEGORY_LIST";
 	private static final int LIST_DIVIDER_HEIGHT = 12;
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
+
+	private CarSearchParams mParams;
 
 	@Override
 	protected void onFinishInflate() {
@@ -77,16 +78,16 @@ public class CarCategoryListWidget extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
-	@OnClick(R.id.category_error_action_button)
-	public void onErrorActionButtonClick() {
-		Events.post(new Events.CarsGoToSearch());
+	@Subscribe
+	public void onCarsSearchFailed(Events.CarsSearchFailed event) {
+		Events.post(new Events.CarsKickOffSearchCall(mParams));
 	}
 
 	@Subscribe
 	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
 		adapter.cleanup();
 		recyclerView.setVisibility(View.VISIBLE);
-		categoriesErrorContainer.setVisibility(View.GONE);
+		errorScreen.setVisibility(View.GONE);
 		adapter.setCategories(event.results.categories);
 		adapter.loadingState = false;
 		adapter.notifyDataSetChanged();
@@ -97,7 +98,7 @@ public class CarCategoryListWidget extends FrameLayout {
 		recyclerView.setVisibility(View.VISIBLE);
 		List<CategorizedCarOffers> elements = createDummyListForAnimation();
 		adapter.loadingState = true;
-		categoriesErrorContainer.setVisibility(View.GONE);
+		errorScreen.setVisibility(View.GONE);
 		adapter.setCategories(elements);
 		adapter.notifyDataSetChanged();
 	}
@@ -105,7 +106,13 @@ public class CarCategoryListWidget extends FrameLayout {
 	@Subscribe
 	public void onCarsShowSearchResultsError(Events.CarsShowSearchResultsError event) {
 		recyclerView.setVisibility(View.GONE);
-		categoriesErrorContainer.setVisibility(View.VISIBLE);
+		errorScreen.bind(event.error);
+		errorScreen.setVisibility(View.VISIBLE);
+	}
+
+	@Subscribe
+	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
+		mParams = event.carSearchParams;
 	}
 
 	// Create list to show cards for loading animation
