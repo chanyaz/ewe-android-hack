@@ -5,8 +5,9 @@ import java.util.List;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarFare;
@@ -24,6 +26,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -135,11 +138,12 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		@InjectView(R.id.card_view)
 		public CardView cardView;
 
-		public Context mContext;
+		@InjectView(R.id.gradient_mask)
+		public View gradientMask;
+
 
 		public ViewHolder(View view) {
 			super(view);
-			mContext = view.getContext();
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 		}
@@ -166,13 +170,14 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 					lowestFare.rate.getFormattedMoney()));
 			totalTextView.setText(totalTextView.getContext()
 				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
-
+			gradientMask.setVisibility(View.GONE);
 			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
-				mContext.getResources().getDimension(R.dimen.car_image_width));
-			new PicassoHelper.Builder(backgroundImageView)
+				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
+			new PicassoHelper.Builder(itemView.getContext())
 				.setPlaceholder(R.drawable.cars_placeholder)
 				.fade()
 				.setTag(ROW_PICASSO_TAG)
+				.setTarget(target)
 				.build()
 				.load(url);
 		}
@@ -181,8 +186,30 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
-			OmnitureTracking.trackAppCarRateDetails(mContext, offers);
+			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers);
 		}
+
+		private PicassoTarget target = new PicassoTarget() {
+			@Override
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+				super.onBitmapLoaded(bitmap, from);
+				backgroundImageView.setImageBitmap(bitmap);
+				gradientMask.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onBitmapFailed(Drawable errorDrawable) {
+				super.onBitmapFailed(errorDrawable);
+			}
+
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+				super.onPrepareLoad(placeHolderDrawable);
+				backgroundImageView.setImageDrawable(placeHolderDrawable);
+				gradientMask.setVisibility(View.GONE);
+			}
+		};
+
 	}
 
 	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
