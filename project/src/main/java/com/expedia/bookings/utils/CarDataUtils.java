@@ -9,6 +9,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
@@ -182,5 +183,31 @@ public class CarDataUtils {
 		else {
 			return ctx.getString(R.string.car_model_name_template, makes.get(0));
 		}
+	}
+
+	public static String getDoorCount(CategorizedCarOffers cco) {
+		return getInfoCount(cco.doorSet);
+	}
+
+	public static String getPassengerCount(CategorizedCarOffers cco) {
+		return getInfoCount(cco.passengerSet);
+	}
+
+	public static String getBagCount(CategorizedCarOffers cco) {
+		return getInfoCount(cco.luggageSet);
+	}
+
+	public static String getInfoCount(Interval interval) {
+		String s = null;
+		int minVal = interval.getMin();
+		int maxVal = interval.getMax();
+
+		if (interval.different() && interval.bounded()) {
+			s = minVal + "-" + maxVal;
+		}
+		else if (!interval.different()) {
+			s = String.valueOf(maxVal);
+		}
+		return s;
 	}
 }

@@ -154,15 +154,11 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
 			categoryTextView.setText(vehicleInfo.carCategoryDisplayLabel);
-			passengerCount.setText(String.valueOf(vehicleInfo.adultCapacity + vehicleInfo.childCapacity));
-			bagCount.setText(String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity));
-			if (vehicleInfo.minDoors != vehicleInfo.maxDoors) {
-				doorCount.setText(doorCount.getContext()
-					.getString(R.string.car_door_range_TEMPLATE, vehicleInfo.minDoors, vehicleInfo.maxDoors));
-			}
-			else {
-				doorCount.setText(String.valueOf(vehicleInfo.maxDoors));
-			}
+
+			setTextAndVisibility(doorCount, CarDataUtils.getDoorCount(cco));
+			setTextAndVisibility(passengerCount, CarDataUtils.getPassengerCount(cco));
+			setTextAndVisibility(bagCount, CarDataUtils.getBagCount(cco));
+
 			cardView.setPreventCornerOverlap(false);
 			bestPriceTextView.setText(totalTextView.getContext()
 				.getString(R.string.car_details_TEMPLATE,
@@ -213,6 +209,15 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			}
 		};
 
+		private static void setTextAndVisibility(TextView textView, String text) {
+			if (text != null) {
+				textView.setText(text);
+				textView.setVisibility(View.VISIBLE);
+			}
+			else {
+				textView.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
