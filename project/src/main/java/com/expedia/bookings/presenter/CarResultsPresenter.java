@@ -31,7 +31,6 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
@@ -300,8 +299,7 @@ public class CarResultsPresenter extends Presenter {
 
 	private void setToolBarDetailsText() {
 		if (mOffer != null) {
-			toolbar.setTitle(CarDataUtils.getCategoryStringForResults(getContext(),
-				mOffer.category));
+			toolbar.setTitle(mOffer.carCategoryDisplayLabel);
 		}
 	}
 
