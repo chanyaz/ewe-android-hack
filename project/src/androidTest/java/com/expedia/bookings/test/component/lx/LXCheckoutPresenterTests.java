@@ -23,8 +23,10 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -86,6 +88,7 @@ public class LXCheckoutPresenterTests {
 
 	@Test
 	public void testVisibilitiesAndOfferDetailsOnCheckout() {
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		LXViewModel.checkoutWidget().check(matches(isDisplayed()));
 		LXViewModel.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));
 		LXViewModel.checkoutGroupText().check(matches(withText("3 Adult, 1 Child")));
@@ -103,8 +106,11 @@ public class LXCheckoutPresenterTests {
 
 	@Test
 	public void testSliderVisibility() {
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		ScreenActions.delay(1);
 		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 		CheckoutViewModel.enterTravelerInfo();
+		ScreenActions.delay(1);
 		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();

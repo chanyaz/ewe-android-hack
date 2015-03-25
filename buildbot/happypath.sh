@@ -32,6 +32,7 @@ add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCheckoutErrorTests"
 add_test "com.expedia.bookings.test.component.lx.LXSearchParamsTest"
 add_test "com.expedia.bookings.test.component.lx.LXDetailsPresenterTests"
 add_test "com.expedia.bookings.test.component.lx.LXResultsPresenterTests"
+add_test "com.expedia.bookings.test.component.lx.LXCheckoutPresenterTests"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
