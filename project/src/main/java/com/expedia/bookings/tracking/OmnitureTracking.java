@@ -72,6 +72,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -2386,6 +2387,9 @@ public class OmnitureTracking {
 	private static void trackNewLaunchScreenGlobalNavigation(Context context, String type) {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
+		s.setProp(2, "storefront");
+		s.setEvar(2, "storefront");
+
 		addStandardFields(context, s);
 
 		s.trackLink(null, "o", "App Landing", null, null);
@@ -3131,7 +3135,7 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutTraveler(Context context) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-
+		addStandardFields(context, s);
 		s.setAppState(CAR_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
@@ -3150,7 +3154,7 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-
+		addStandardFields(context, s);
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, creditCardType != CreditCardType.UNKNOWN ? creditCardType.toString()
@@ -3201,8 +3205,9 @@ public class OmnitureTracking {
 
 	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer) {
 		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + carOffer.vehicleInfo.category + ";1;"
-				+ carOffer.detailedFare.grandTotal.formattedPrice);
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + Strings
+				.capitalizeFirstLetter(carOffer.vehicleInfo.category.toString()) + ";1;"
+				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
 	private static String getEvar47String(CarSearchParams params) {
