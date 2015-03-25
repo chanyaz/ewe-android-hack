@@ -4,7 +4,7 @@ public class CarApiException extends RuntimeException {
 	private CarApiError apiError;
 
 	public CarApiException(CarApiError error) {
-		super(error.errorDetailCode.name());
+		super(error.errorCode.name());
 		apiError = error;
 	}
 

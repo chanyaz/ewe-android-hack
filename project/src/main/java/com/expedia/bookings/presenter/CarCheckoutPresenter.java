@@ -14,6 +14,8 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.CarApiException;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -117,6 +119,10 @@ public class CarCheckoutPresenter extends Presenter {
 			if (RetrofitUtils.isNetworkError(e)) {
 				showCheckoutErrorDialog(R.string.error_no_internet);
 			}
+			else if (e instanceof CarApiException) {
+				CarApiException carSearchException = (CarApiException) e;
+				showErrorScreen(carSearchException.getApiError());
+			}
 			else {
 				showErrorScreen(null);
 			}
@@ -130,8 +136,11 @@ public class CarCheckoutPresenter extends Presenter {
 			if (response == null) {
 				showErrorScreen(null);
 			}
-			else if (response.hasErrors()) {
-				showErrorScreen(response);
+			else if (response.hasPriceChange()) {
+				Events.post(
+					new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct, response.newCarProduct,
+						response.tripId));
+				showErrorScreen(response.getFirstError());
 			}
 			else {
 				showConfirmation(response);
@@ -139,8 +148,8 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 
-	private void showErrorScreen(CarCheckoutResponse response) {
-		errorScreen.bind(response);
+	private void showErrorScreen(CarApiError error) {
+		errorScreen.bind(error);
 		show(errorScreen);
 	}
 
@@ -201,9 +210,6 @@ public class CarCheckoutPresenter extends Presenter {
 	@Subscribe
 	public void showPriceChange(Events.CarsPriceChange event) {
 		show(checkout, FLAG_CLEAR_TOP);
-		Events.post(
-			new Events.CarsShowCheckoutAfterPriceChange(event.response.originalCarProduct, event.response.newCarProduct,
-				event.response.tripId));
 	}
 
 	@Subscribe
@@ -217,6 +223,14 @@ public class CarCheckoutPresenter extends Presenter {
 		show(checkout, FLAG_CLEAR_TOP);
 		checkout.slideWidget.resetSlider();
 		checkout.paymentInfoCardView.setExpanded(true, true);
+	}
+
+	@Subscribe
+	public void showInvalidInput(Events.CarsInvalidInput event) {
+		show(checkout, FLAG_CLEAR_TOP);
+		checkout.slideWidget.resetSlider();
+		checkout.mainContactInfoCardView.setExpanded(true, true);
+		checkout.mainContactInfoCardView.setInvalid(event.field);
 	}
 
 	@Subscribe

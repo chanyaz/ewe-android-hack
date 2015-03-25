@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarApiError;
-import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -27,16 +25,9 @@ import butterknife.InjectView;
 
 public class ErrorWidget extends FrameLayout {
 
-	public ErrorWidget(Context context) {
-		super(context);
-	}
-
 	public ErrorWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	}
-
-	public ErrorWidget(Context context, AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
+		inflate(context, R.layout.error_widget, this);
 	}
 
 	@InjectView(R.id.main_container)
@@ -57,8 +48,6 @@ public class ErrorWidget extends FrameLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.error_widget, this);
 		ButterKnife.inject(this);
 
 		Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
@@ -78,13 +67,12 @@ public class ErrorWidget extends FrameLayout {
 		}
 	}
 
-	public void bind(final CarCheckoutResponse response) {
-		if (response == null) {
+	public void bind(final CarApiError error) {
+		if (error == null) {
 			showDefaultError();
 			return;
 		}
 
-		CarApiError error = response.getFirstError();
 		switch (error.errorCode) {
 		case PAYMENT_FAILED:
 			bindText(R.drawable.error_payment,
@@ -94,7 +82,29 @@ public class ErrorWidget extends FrameLayout {
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Events.post(new Events.CarsPaymentFailed(response));
+					Events.post(new Events.CarsPaymentFailed());
+				}
+			});
+			break;
+		case INVALID_INPUT:
+			int resID = R.string.oops;
+			if (error.errorInfo.field.equals("mainMobileTraveler.lastName")) {
+				resID = R.string.reservation_invalid_name;
+			}
+			else if (error.errorInfo.field.equals("mainMobileTraveler.firstName")) {
+				resID = R.string.reservation_invalid_name;
+			}
+			else if (error.errorInfo.field.equals("mainMobileTraveler.phone")) {
+				resID = R.string.reservation_invalid_phone;
+			}
+			bindText(R.drawable.error_default,
+				resID,
+				R.string.cars_invalid_input_text,
+				R.string.edit_info);
+			errorButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.CarsInvalidInput(error.errorInfo.field));
 				}
 			});
 			break;
@@ -106,7 +116,7 @@ public class ErrorWidget extends FrameLayout {
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Events.post(new Events.CarsPriceChange(response));
+					Events.post(new Events.CarsPriceChange());
 				}
 			});
 			break;
@@ -118,7 +128,7 @@ public class ErrorWidget extends FrameLayout {
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Events.post(new Events.CarsSessionTimeout(response));
+					Events.post(new Events.CarsSessionTimeout());
 				}
 			});
 			break;
@@ -161,4 +171,5 @@ public class ErrorWidget extends FrameLayout {
 		toolbar.setTitle(toolbarTextId);
 		errorButton.setText(buttonTextId);
 	}
+
 }

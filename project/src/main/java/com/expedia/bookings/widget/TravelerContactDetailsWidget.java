@@ -235,4 +235,16 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty() ;
 	}
 
+	public void setInvalid(String field) {
+		if (field.equals("mainMobileTraveler.lastName")) {
+			sectionTravelerInfo.setLastNameValid(false);
+		}
+		else if (field.equals("mainMobileTraveler.firstName")) {
+			sectionTravelerInfo.setFirstNameValid(false);
+		}
+		else if (field.equals("mainMobileTraveler.phone")) {
+			sectionTravelerInfo.setPhoneValid(false);
+		}
+	}
+
 }

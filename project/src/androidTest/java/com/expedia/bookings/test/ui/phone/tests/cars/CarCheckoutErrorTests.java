@@ -52,6 +52,22 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
+	public void testInvalidInput() throws Throwable {
+		performCarCheckout(CC_NOT_REQUIRED, "InvalidInput");
+
+		// Invalid Input
+		screenshot("Invalid Input Screen");
+		CarViewModel.errorScreen().check(matches(isDisplayed()));
+		CarViewModel.errorText().check(matches(withText(R.string.reservation_invalid_name)));
+		CarViewModel.errorButton().perform(click());
+
+		EspressoUtils.assertViewIsDisplayed(R.id.main_contact_info_card_view);
+		CheckoutViewModel.pressClose();
+
+		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
+	}
+
+
 	public void testTripAlreadyBooked() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "AlreadyBooked");
 

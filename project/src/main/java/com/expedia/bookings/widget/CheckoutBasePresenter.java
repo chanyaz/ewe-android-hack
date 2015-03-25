@@ -40,7 +40,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	Toolbar toolbar;
 
 	@InjectView(R.id.main_contact_info_card_view)
-	TravelerContactDetailsWidget mainContactInfoCardView;
+	public TravelerContactDetailsWidget mainContactInfoCardView;
 
 	@InjectView(R.id.payment_info_card_view)
 	public PaymentWidget paymentInfoCardView;
