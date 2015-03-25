@@ -452,7 +452,7 @@
     </style>
 
     <style name="Widget.ActionBar.ActionButton.Overflow.White">
-        <item name="android:src">@drawable/ic_action_overflow_white</item>
+        <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
     <!-- Expedia Flights styles -->

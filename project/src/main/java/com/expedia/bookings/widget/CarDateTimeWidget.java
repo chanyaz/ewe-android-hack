@@ -32,6 +32,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
@@ -101,7 +102,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		ButterKnife.inject(this);
 
 		calendar.setSelectableDateRange(LocalDate.now(),
-				LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
 		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_car_search));
 		calendar.setDateChangedListener(this);
 		calendar.setYearMonthDisplayedChangedListener(this);
@@ -116,7 +117,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		drawablePopUp
 				.setColorFilter(getResources().getColor(R.color.cars_tooltip_color), PorterDuff.Mode.SRC_IN);
 
-		pickupTimePopupContainerText.setBackground(drawablePopUp);
+		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 
 		pickupTimeSeekBar.setProgress(new DateTime().withHourOfDay(9).withMinuteOfHour(0));
 		pickupTimeSeekBar.addOnSeekBarChangeListener(this);
@@ -214,7 +215,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 			throw new RuntimeException("You're using our seekbar listener on an unknown view.");
 		}
 		if (fromUser) {
-			drawSliderTooltip(seekBar);
+			drawSliderTooltip((CarTimeSlider) seekBar);
 		}
 		listener.onDateTimeChanged(dateTimeBuilder);
 	}
@@ -229,7 +230,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-		drawSliderTooltip(seekBar);
+		drawSliderTooltip((CarTimeSlider) seekBar);
 		animateToolTip(pickupTimePopupContainer);
 	}
 
@@ -264,13 +265,13 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
 		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color) : getResources().getColor(R.color.cars_tooltip_color);
 		drawablePopUp.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-		pickupTimePopupContainerText.setBackground(drawablePopUp);
+		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 		pickupTimePopupTail.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 	}
 
-	public void drawSliderTooltip(SeekBar seekBar) {
+	public void drawSliderTooltip(CarTimeSlider seekBar) {
 
-		String title = ((CarTimeSlider) seekBar).calculateProgress(seekBar.getProgress());
+		String title = seekBar.calculateProgress(seekBar.getProgress());
 		String subtitle = seekBar.getId() == R.id.pickup_time_seek_bar ? getContext().getResources()
 				.getString(R.string.cars_time_slider_pick_up_label)
 				: getContext().getResources().getString(R.string.cars_time_slider_drop_off_label);

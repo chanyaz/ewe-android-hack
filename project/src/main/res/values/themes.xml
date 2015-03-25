@@ -268,7 +268,7 @@
         <item name="android:actionBarDivider">@null</item>
         <item name="actionBarDivider">@null</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
         <item name="android:colorPrimaryDark">#3A464F</item>
         <item name="android:colorPrimary">#495863</item>
 
@@ -328,20 +328,18 @@
     </style>
 
     <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@drawable/tab_indicator_ab_launch</item>
     </style>
 
     <style name="LaunchActionBarTabBarStyle" parent="@style/Widget.AppCompat.ActionBar.TabBar">
+        <item name="android:paddingTop">8dp</item>
     </style>
 
     <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@drawable/tab_text_selector</item>
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <!-- Temporary theme for flights -->
