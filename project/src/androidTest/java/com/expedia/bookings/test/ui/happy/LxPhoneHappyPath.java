@@ -51,7 +51,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 
 		LXViewModel.detailsDateContainer().perform(scrollTo(),clickOnFirstEnabled());
 		LXViewModel.selectTicketsButton("2-Day New York Pass").perform(scrollTo(),click());
-		getTicketAddButtonViewFromTicketName(ticketName, "Adult").perform(click());
+		getTicketAddButtonViewFromTicketName(ticketName, "Adult").perform(scrollTo(), click());
 		getBookNowButtonFromTicketName(ticketName).perform(scrollTo());
 		screenshot("LX Ticket Selection");
 		getBookNowButtonFromTicketName(ticketName).perform(click());
