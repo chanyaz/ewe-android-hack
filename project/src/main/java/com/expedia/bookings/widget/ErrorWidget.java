@@ -67,6 +67,10 @@ public class ErrorWidget extends FrameLayout {
 		}
 	}
 
+	public void setToolbarVisibility(int visibility) {
+		toolbar.setVisibility(visibility);
+	}
+
 	public void bind(final CarApiError error) {
 		if (error == null) {
 			showDefaultError();

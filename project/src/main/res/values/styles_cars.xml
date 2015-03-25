@@ -13,6 +13,7 @@
         <item name="colorControlNormal">#C3C3C3</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
         <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="windowActionModeOverlay">true</item>
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
