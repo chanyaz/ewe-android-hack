@@ -42,48 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/category_error_container"
+        <com.expedia.bookings.widget.ErrorWidget
+            android:id="@+id/error_widget"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/car" />
-
-                <Button
-                    android:id="@+id/category_error_action_button"
-                    style="@style/CarButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/edit_search" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginRight="72dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/error_car_search_message"
-                    android:textSize="13sp"
-                    android:textColor="#7D7D7D" />
-
-            </LinearLayout>
-
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/category_list"

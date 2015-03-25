@@ -74,6 +74,15 @@ public class ErrorWidget extends FrameLayout {
 		}
 
 		switch (error.errorCode) {
+		case CAR_SEARCH_ERROR:
+			showDefaultSearchError();
+			break;
+		case CAR_PRODUCT_NOT_AVAILABLE:
+			showNoProductSearchError();
+			break;
+		case CAR_SERVICE_ERROR:
+			showDefaultSearchError();
+			break;
 		case PAYMENT_FAILED:
 			bindText(R.drawable.error_payment,
 				R.string.reservation_payment_failed,
@@ -161,6 +170,32 @@ public class ErrorWidget extends FrameLayout {
 			@Override
 			public void onClick(View v) {
 				((ActionBarActivity) getContext()).onBackPressed();
+			}
+		});
+	}
+
+	public void showDefaultSearchError() {
+		bindText(R.drawable.error_default,
+			R.string.oops,
+			R.string.cars_error_text,
+			R.string.retry);
+		errorButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.CarsSearchFailed());
+			}
+		});
+	}
+
+	public void showNoProductSearchError() {
+		bindText(R.drawable.car,
+			R.string.error_car_search_message,
+			R.string.cars_error_text,
+			R.string.edit_search);
+		errorButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.CarsGoToSearch());
 			}
 		});
 	}
