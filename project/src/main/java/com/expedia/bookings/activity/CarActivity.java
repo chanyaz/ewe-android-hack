@@ -36,6 +36,18 @@ public class CarActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(CarActivity.this, requestCode, resultCode, data);
