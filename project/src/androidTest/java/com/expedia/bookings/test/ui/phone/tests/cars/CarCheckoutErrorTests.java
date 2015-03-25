@@ -29,9 +29,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Generic dialog
 		screenshot("Oops Error Dialog");
-		CarViewModel.errorScreen().check(matches(isDisplayed()));
-		CarViewModel.errorText().check(matches(withText(R.string.oops)));
-		CarViewModel.errorButton().perform(click());
+		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.oops)));
+		CarViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 		// TODO add test to support the retry behavior
 		screenshot("Oops Error Dialog close");
@@ -42,9 +42,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Price change dialog
 		screenshot("Price Change Dialog");
-		CarViewModel.errorScreen().check(matches(isDisplayed()));
-		CarViewModel.errorText().check(matches(withText(R.string.reservation_price_change)));
-		CarViewModel.errorButton().perform(click());
+		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_price_change)));
+		CarViewModel.checkoutErrorButton().perform(click());
 
 		screenshot("Price Change Messaging");
 		CarViewModel.checkoutTotalPrice().check(matches(withText("$125.18")));
@@ -57,9 +57,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Invalid Input
 		screenshot("Invalid Input Screen");
-		CarViewModel.errorScreen().check(matches(isDisplayed()));
-		CarViewModel.errorText().check(matches(withText(R.string.reservation_invalid_name)));
-		CarViewModel.errorButton().perform(click());
+		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_invalid_name)));
+		CarViewModel.checkoutErrorButton().perform(click());
 
 		EspressoUtils.assertViewIsDisplayed(R.id.main_contact_info_card_view);
 		CheckoutViewModel.pressClose();
@@ -67,15 +67,14 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
-
 	public void testTripAlreadyBooked() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "AlreadyBooked");
 
 		// Payment failed dialog
 		screenshot("Trip Already Booked Dialog");
-		CarViewModel.errorScreen().check(matches(isDisplayed()));
-		CarViewModel.errorText().check(matches(withText(R.string.reservation_already_exists)));
-		CarViewModel.errorButton().perform(click());
+		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_already_exists)));
+		CarViewModel.checkoutErrorButton().perform(click());
 
 		screenshot("Car confirmation");
 	}
@@ -85,9 +84,9 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 		// Payment failed dialog
 		screenshot("Payment Failed Dialog");
-		CarViewModel.errorScreen().check(matches(isDisplayed()));
-		CarViewModel.errorText().check(matches(withText(R.string.reservation_payment_failed)));
-		CarViewModel.errorButton().perform(click());
+		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_payment_failed)));
+		CarViewModel.checkoutErrorButton().perform(click());
 
 		screenshot("Payment Failed Messaging");
 		// Should take you back to payment entry
@@ -102,10 +101,10 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		performCarCheckout(CC_NOT_REQUIRED, "SessionTimeout");
 
 		// Payment failed dialog
-		screenshot("Trip Already Booked Dialog");
-		CarViewModel.errorScreen().check(matches(isDisplayed()));
-		CarViewModel.errorText().check(matches(withText(R.string.reservation_time_out)));
-		CarViewModel.errorButton().perform(click());
+		screenshot("Session Timeout");
+		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_time_out)));
+		CarViewModel.checkoutErrorButton().perform(click());
 
 		screenshot("Car Details");
 		EspressoUtils.assertViewIsDisplayed(R.id.details);

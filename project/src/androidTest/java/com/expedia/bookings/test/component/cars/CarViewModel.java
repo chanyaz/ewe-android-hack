@@ -163,19 +163,19 @@ public final class CarViewModel {
 		return onView(withId(R.id.price_text));
 	}
 
-	public static ViewInteraction errorText() {
-		return onView(withId(R.id.error_text));
+	public static ViewInteraction checkoutErrorScreen() {
+		return onView(withId(R.id.checkout_error_widget));
 	}
 
-	public static ViewInteraction errorScreen() {
-		return onView(withId(R.id.error_widget));
+	public static ViewInteraction checkoutErrorText() {
+		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_text)));
 	}
 
-	public static ViewInteraction errorButton() {
-		return onView(withId(R.id.error_action_button));
+	public static ViewInteraction checkoutErrorButton() {
+		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_action_button)));
 	}
+
 	// Confirmation
-
 	public static ViewInteraction confirmationNumber() {
 		return onView(withId(R.id.confirmation_text));
 	}
