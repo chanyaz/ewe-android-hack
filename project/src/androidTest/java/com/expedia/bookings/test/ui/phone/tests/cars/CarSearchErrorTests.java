@@ -43,6 +43,6 @@ public class CarSearchErrorTests extends PhoneTestCase {
 		CarViewModel.searchButton().perform(click());
 
 		screenshot("Car Search Invalid Input");
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.oops));
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_server));
 	}
 }

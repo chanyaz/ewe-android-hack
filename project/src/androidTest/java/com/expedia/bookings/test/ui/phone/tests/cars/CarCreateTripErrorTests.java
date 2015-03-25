@@ -58,7 +58,7 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 
 		screenshot("Car Create Trip Failure Dialog");
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.oops)));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_server)));
 		CarViewModel.alertDialogPositiveButton().perform(click());
 
 		screenshot("Car Search");

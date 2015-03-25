@@ -167,12 +167,14 @@
     <string name="call_customer_support">Call Customer Support</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that something went wrong -->
-    <string name="oops">Oops! Something happened, please try again.</string>
     <!-- Message for user that to verify pick-up date."  -->
     <string name="pick_up_date_error">Please verify your pick-up date.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Please adjust your pick-up or drop-off times.</string>
     <!-- Message for user that to verify drop-off date."  -->
     <string name="drop_off_date_error">Please verify your drop-off date.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">This date is too far out, please choose a closer date.</string>
     <!-- Message for user that date is too far out."  -->
     <string name="date_out_of_range">This date is too far out, please choose a closer date.</string>
     <!-- Message for user that increase your reservation duration. -->

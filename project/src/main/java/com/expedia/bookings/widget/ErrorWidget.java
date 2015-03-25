@@ -100,7 +100,7 @@ public class ErrorWidget extends FrameLayout {
 			});
 			break;
 		case INVALID_INPUT:
-			int resID = R.string.oops;
+			int resID = R.string.error_server;
 			if (error.errorInfo.field.equals("mainMobileTraveler.lastName")) {
 				resID = R.string.reservation_invalid_name;
 			}
@@ -167,7 +167,7 @@ public class ErrorWidget extends FrameLayout {
 
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
-			R.string.oops,
+			R.string.error_server,
 			R.string.cars_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -180,7 +180,7 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showDefaultSearchError() {
 		bindText(R.drawable.error_default,
-			R.string.oops,
+			R.string.error_server,
 			R.string.cars_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
