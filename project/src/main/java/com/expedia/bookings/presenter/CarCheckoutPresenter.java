@@ -20,13 +20,12 @@ import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CarCheckoutWidget;
-import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.expedia.bookings.widget.ErrorWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -48,9 +47,6 @@ public class CarCheckoutPresenter extends Presenter {
 	@InjectView(R.id.checkout)
 	CarCheckoutWidget checkout;
 
-	@InjectView(R.id.confirmation)
-	CarConfirmationWidget confirmation;
-
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
@@ -65,9 +61,7 @@ public class CarCheckoutPresenter extends Presenter {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).carComponent().inject(this);
 
-		addTransition(cvvToConfirmation);
 		addTransition(checkoutToCvv);
-		addTransition(checkoutToConfirmation);
 		addTransition(checkoutToError);
 		addTransition(cvvToError);
 		addDefaultTransition(defaultCheckoutTransition);
@@ -143,7 +137,7 @@ public class CarCheckoutPresenter extends Presenter {
 				showErrorScreen(response.getFirstError());
 			}
 			else {
-				showConfirmation(response);
+				Events.post(new Events.CarsShowConfirmation(response));
 			}
 		}
 	};
@@ -151,11 +145,6 @@ public class CarCheckoutPresenter extends Presenter {
 	private void showErrorScreen(CarApiError error) {
 		errorScreen.bind(error);
 		show(errorScreen);
-	}
-
-	private void showConfirmation(CarCheckoutResponse response) {
-		Events.post(new Events.CarsShowConfirmation(response));
-		show(confirmation, FLAG_CLEAR_BACKSTACK);
 	}
 
 	private void showCheckoutErrorDialog(@StringRes int message) {
@@ -180,7 +169,6 @@ public class CarCheckoutPresenter extends Presenter {
 	}
 
 	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CVVEntryWidget.class.getName());
-	private Transition cvvToConfirmation = new VisibilityTransition(this, CVVEntryWidget.class.getName(), CarConfirmationWidget.class.getName());
 	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), ErrorWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
@@ -191,14 +179,11 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class.getName(), ErrorWidget.class.getName());
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CarConfirmationWidget.class.getName());
-
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
-			confirmation.setVisibility(View.GONE);
 			errorScreen.setVisibility(View.GONE);
 		}
 	};
