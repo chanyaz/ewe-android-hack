@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatter;
 import com.expedia.bookings.utils.NavUtils;
@@ -73,6 +74,9 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
+
+		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState);
+
 		String url = Images.getLXImageURL(lxState.activity.imageUrl);
 		new PicassoHelper.Builder(confirmationImageView)
 			.fade()
