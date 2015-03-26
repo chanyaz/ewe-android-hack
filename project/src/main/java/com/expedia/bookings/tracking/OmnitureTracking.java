@@ -2387,9 +2387,6 @@ public class OmnitureTracking {
 	private static void trackNewLaunchScreenGlobalNavigation(Context context, String type) {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
-		s.setProp(2, "storefront");
-		s.setEvar(2, "storefront");
-
 		addStandardFields(context, s);
 
 		s.trackLink(null, "o", "App Landing", null, null);
