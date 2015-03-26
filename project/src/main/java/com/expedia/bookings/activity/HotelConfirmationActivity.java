@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -132,7 +133,13 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_done:
-			NavUtils.goToItin(this);
+			if (!ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+				Db.getHotelSearch().resetSearchParams();
+				NavUtils.goToVSC(this);
+			}
+			else {
+				NavUtils.goToItin(this);
+			}
 			finish();
 			return true;
 		}
