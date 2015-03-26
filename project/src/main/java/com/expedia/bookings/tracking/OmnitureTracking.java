@@ -2347,19 +2347,18 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "App Landing", null, null);
 		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
 		s.setEvar(28, link);
 		s.setProp(16, link);
 
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackNewLaunchScreenSeeAllClick(Context context) {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addCommonLaunchScreenFields(context, s, LAUNCH_MESSAGING, "SeeAll");
 
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackNewLaunchScreenTileClick(Context context, boolean isLaunchCollection) {
@@ -2373,7 +2372,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addCommonLaunchScreenFields(context, s, launchMessage, "DealTile");
 
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackNewLaunchScreenShopClick(Context context) {
@@ -2389,17 +2388,15 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "App Landing", null, null);
 		s.setEvar(28, LAUNCH_GLOBAL + "." + type);
 		s.setProp(16, LAUNCH_GLOBAL + "." + type);
-
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
-	private static void addCommonLaunchScreenFields(Context context, ADMS_Measurement s, String launchMessage, String tileType) {
+	private static void addCommonLaunchScreenFields(Context context, ADMS_Measurement s, String launchMessage,
+		String tileType) {
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "App Landing", null, null);
 		s.setEvar(28, LAUNCH_DEALS_TILE + "." + tileType);
 		s.setProp(16, LAUNCH_DEALS_TILE + "." + tileType);
 		s.setEvar(12, launchMessage);
@@ -3066,8 +3063,6 @@ public class OmnitureTracking {
 		s.setEvar(28, CAR_VIEW_DETAILS);
 		s.setProp(16, CAR_VIEW_DETAILS);
 		s.trackLink(null, "o", "Car Details", null, null);
-
-		s.track();
 	}
 
 	public static void trackAppCarMapClick(Context context) {
@@ -3077,8 +3072,6 @@ public class OmnitureTracking {
 		s.setEvar(28, CAR_VIEW_MAP);
 		s.setProp(16, CAR_VIEW_MAP);
 		s.trackLink(null, "o", "Car Details", null, null);
-
-		s.track();
 	}
 
 	public static void trackAppCarCheckoutPage(Context context, CreateTripCarOffer carOffer) {
@@ -3103,13 +3096,12 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "User Login", null, null);
 
 		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
 		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
 		s.setEvents("event26");
 
-		s.track();
+		s.trackLink(null, "o", "User Login", null, null);
 
 	}
 
@@ -3118,13 +3110,12 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "User Login", null, null);
 
 		s.setEvar(28, CAR_CHECKOUT_LOGIN_ERROR);
 		s.setProp(16, CAR_CHECKOUT_LOGIN_ERROR);
 		s.setProp(36, "error");
 
-		s.track();
+		s.trackLink(null, "o", "User Login", null, null);
 
 	}
 
@@ -3191,12 +3182,11 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 		s.setEvar(12,
 			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
-		s.track();
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
 	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackinData) {
