@@ -41,7 +41,7 @@ public class PhoneLaunchButton extends FrameLayout {
 	public TextView textView;
 
 	private float squashedRatio;
-	private boolean isNetworkAvailable;
+	private boolean isNetworkAvailable = true;
 
 	public PhoneLaunchButton(Context context) {
 		this(context, null);
