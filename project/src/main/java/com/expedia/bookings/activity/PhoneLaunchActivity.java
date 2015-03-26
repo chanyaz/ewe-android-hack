@@ -148,7 +148,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		// Tabs
 		ActionBar.Tab shopTab = getSupportActionBar().newTab().setTabListener(mShopTabListener);
 		shopTab.setCustomView(R.layout.actionbar_tab_bg);
-		((TextView)shopTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.shop_travel);
+		((TextView)shopTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.shop);
 
 		ActionBar.Tab itineraryTab = getSupportActionBar().newTab().setTabListener(mItineraryTabListener);
 		itineraryTab.setCustomView(R.layout.actionbar_tab_bg);
