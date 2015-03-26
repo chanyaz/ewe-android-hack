@@ -6,6 +6,7 @@ import java.util.Map;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -50,4 +51,13 @@ public class LXStateTestUtil {
 			LXCheckoutResponse.class);
 		Events.post(new Events.LXCheckoutSucceeded(checkoutResponse));
 	}
+
+	public static void searchParamsState() {
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "New York";
+		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
+		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+	}
+
 }

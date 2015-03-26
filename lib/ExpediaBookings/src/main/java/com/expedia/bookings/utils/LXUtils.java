@@ -30,6 +30,21 @@ public class LXUtils {
 		return totalMoney;
 	}
 
+	public static int getTotalTicketCount(Map<Ticket, Integer> selectedTickets) {
+		int ticketCount = 0;
+
+		if (selectedTickets == null || selectedTickets.entrySet().size() == 0) {
+			//Should be invoked with at least 1 selected ticket!
+			return ticketCount;
+		}
+
+		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
+			ticketCount += ticketAndCount.getValue();
+		}
+
+		return ticketCount;
+	}
+
 	public static String bestApplicableCategory(List<String> activitiesEN) {
 		//We are comparing English Category Strings with English Prioritized Strings!
 		final String[] prioritizedCategoriesEN = {
