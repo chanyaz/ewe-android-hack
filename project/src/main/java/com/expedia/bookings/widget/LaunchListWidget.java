@@ -29,10 +29,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	private View header;
 
-	public LaunchListWidget(Context context) {
-		super(context);
-	}
-
 	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}

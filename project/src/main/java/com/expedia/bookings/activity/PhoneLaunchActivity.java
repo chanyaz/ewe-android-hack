@@ -201,6 +201,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Db.setLaunchListHotelData(null);
+	}
+
+	@Override
 	public void onBackPressed() {
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
