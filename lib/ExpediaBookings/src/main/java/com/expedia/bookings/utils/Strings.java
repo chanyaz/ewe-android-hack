@@ -2,7 +2,6 @@ package com.expedia.bookings.utils;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -140,15 +139,6 @@ public class Strings {
 	public static String toPrettyString(Object any) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		return gson.toJson(any);
-	}
-
-	public static String capitalizeFirstLetter(String word) {
-		if (Strings.isEmpty(word)) {
-			return word;
-		}
-		String upper = word.substring(0, 1).toUpperCase(Locale.US);
-		String lower = word.substring(1).toLowerCase(Locale.US);
-		return upper + lower;
 	}
 
 }

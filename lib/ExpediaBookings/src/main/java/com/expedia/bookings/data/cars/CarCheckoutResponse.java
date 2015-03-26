@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class CarCheckoutResponse extends BaseCarResponse {
 	public String activityId;
+	public CarTrackingData trackingData;
 	public TripInfo newTrip;
 	public String orderId;
 	public Money totalChargesPrice; // TODO: API needs to include currency code in this object.

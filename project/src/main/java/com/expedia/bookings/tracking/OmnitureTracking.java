@@ -56,6 +56,7 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
@@ -72,7 +73,6 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -3090,7 +3090,6 @@ public class OmnitureTracking {
 
 		s.setEvents("event73");
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
-		addProducts(s, carOffer);
 		s.track();
 	}
 
@@ -3182,7 +3181,7 @@ public class OmnitureTracking {
 		s.setEvents("purchase");
 		s.setCurrencyCode(carCheckoutResponse.currencyCode);
 		s.setPurchaseID("onum" + carCheckoutResponse.orderId);
-		addProducts(s, carCheckoutResponse.newCarProduct);
+		addProducts(s, carCheckoutResponse.newCarProduct, carCheckoutResponse.trackingData);
 		setEvar30(s, carCheckoutResponse);
 
 		s.setProp(71, carCheckoutResponse.newTrip.travelRecordLocator);
@@ -3203,10 +3202,9 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer) {
+	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackinData) {
 		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + Strings
-				.capitalizeFirstLetter(carOffer.vehicleInfo.category.toString()) + ";1;"
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackinData.sippCode + ";1;"
 				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
