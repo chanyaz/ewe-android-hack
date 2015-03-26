@@ -1197,6 +1197,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		}
 		else {
 			errorMessage = response.gatherErrorMessage(getContext());
+			if (errorMessage == null) {
+				errorMessage = "Unknown error";
+			}
 		}
 		OmnitureTracking.trackAppCarCheckoutLoginError(getContext(), errorMessage);
 	}
