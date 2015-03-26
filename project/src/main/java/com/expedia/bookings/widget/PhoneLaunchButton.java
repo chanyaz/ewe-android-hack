@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -93,10 +94,24 @@ public class PhoneLaunchButton extends FrameLayout {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
-		iconView.setPivotX(iconView.getWidth() / 2);
-		iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
-		textView.setPivotX(textView.getWidth() / 2);
-		textView.setPivotY(-textView.getTop());
+		iconView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				iconView.getViewTreeObserver().removeOnPreDrawListener(this);
+				iconView.setPivotX(iconView.getWidth() / 2);
+				iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
+				return true;
+			}
+		});
+		textView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				textView.getViewTreeObserver().removeOnPreDrawListener(this);
+				textView.setPivotX(textView.getWidth() / 2);
+				textView.setPivotY(-textView.getTop());
+				return true;
+			}
+		});
 	}
 
 	@OnClick(R.id.lob_btn_bg)
