@@ -438,7 +438,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 				supportInvalidateOptionsMenu();
 			}
 		}
-		OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
+		OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
 	}
 
 	private synchronized void gotoItineraries() {
@@ -463,7 +463,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			mItinListFragment.showItinCard(mJumpToItinId, false);
 			mJumpToItinId = null;
 		}
-		OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
 	}
 
 	private void enableEmbeddedTabs(Object actionBar) {
@@ -515,7 +514,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 		@Override
 		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			// ignore
+			//will be called if user click on trips tab
+			OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
 		}
 
 		@Override
@@ -532,7 +532,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 		@Override
 		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			// ignore
+			// will be called when user click on shop tab
+			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
 		}
 
 		@Override
