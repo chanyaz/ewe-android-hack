@@ -65,6 +65,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
+import retrofit.RestAdapter;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -494,10 +495,19 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-		new AbacusServices(AndroidUtils.isRelease(this) ? AbacusServices.PRODUCTION : AbacusServices.DEV,
+		String endPoint;
+		RestAdapter.LogLevel logLevel;
+		if (BuildConfig.DEBUG) {
+			endPoint = AbacusServices.DEV;
+			logLevel = RestAdapter.LogLevel.FULL;
+		}
+		else {
+			endPoint = AbacusServices.PRODUCTION;
+			logLevel = RestAdapter.LogLevel.NONE;
+		}
+		new AbacusServices(endPoint,
 			new File(getCacheDir(), "abacus"), AndroidSchedulers.mainThread(),
-			Schedulers
-				.io())
+			Schedulers.io(), logLevel)
 			.downloadBucket(idfa, String.valueOf(PointOfSale.getPointOfSale().getTpid()), abacusSubscriber);
 	}
 

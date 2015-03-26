@@ -13,6 +13,7 @@ import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
+import retrofit.RestAdapter;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 
@@ -70,6 +71,6 @@ public class SuggestionServicesTest {
 	private SuggestionServices getTestSuggestionServices() throws Throwable {
 		return new SuggestionServices("http://localhost:" + mServer.getPort(), new OkHttpClient(),
 			Schedulers.immediate(),
-			Schedulers.immediate());
+			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 	}
 }
