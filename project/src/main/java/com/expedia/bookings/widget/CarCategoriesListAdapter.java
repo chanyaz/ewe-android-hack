@@ -175,6 +175,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
 			new PicassoHelper.Builder(itemView.getContext())
 				.setPlaceholder(R.drawable.cars_placeholder)
+				.setError(R.drawable.cars_fallback)
 				.fade()
 				.setTag(ROW_PICASSO_TAG)
 				.setTarget(target)
@@ -200,6 +201,8 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			@Override
 			public void onBitmapFailed(Drawable errorDrawable) {
 				super.onBitmapFailed(errorDrawable);
+				backgroundImageView.setImageDrawable(errorDrawable);
+				gradientMask.setVisibility(View.VISIBLE);
 			}
 
 			@Override

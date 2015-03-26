@@ -97,8 +97,9 @@
                 android:textSize="10sp" />
 
             <Space
+                android:id="@+id/spacer"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="@dimen/car_unexpanded_space_height" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 

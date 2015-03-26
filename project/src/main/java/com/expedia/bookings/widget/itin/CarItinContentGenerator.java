@@ -93,8 +93,11 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 			.resizeExactly(width, height) //
 			.build();
 
-		new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId())
-			.setTarget(target.getCallBack()).build().load(url);
+		new PicassoHelper.Builder(getContext())
+			.setPlaceholder(getHeaderImagePlaceholderResId())
+			.setError(R.drawable.cars_fallback)
+			.setTarget(target.getCallBack())
+			.build().load(url);
 		setSharableImageURL(url);
 	}
 

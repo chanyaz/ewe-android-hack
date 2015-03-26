@@ -167,6 +167,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type,
 			getResources().getDimension(R.dimen.car_image_width));
 		new PicassoHelper.Builder(backgroundImageView)
+			.setError(R.drawable.cars_fallback)
 			.fade()
 			.fit()
 			.centerCrop()
