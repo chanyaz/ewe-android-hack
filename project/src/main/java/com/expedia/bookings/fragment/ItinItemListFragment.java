@@ -44,6 +44,7 @@ import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
+import com.mobiata.android.util.AndroidUtils;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
@@ -443,7 +444,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	// Animations
 
 	private AnimatorSet getCollapseAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
+		final int actionBarHeight = getSupportActionBarHeight();
 
 		mSpacerView.setVisibility(View.VISIBLE);
 
@@ -458,7 +459,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private AnimatorSet getExpandAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
+		final int actionBarHeight = getSupportActionBarHeight();
 
 		mSpacerView.setVisibility(View.GONE);
 
@@ -481,8 +482,17 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 	}
 
-	private ActionBar getSupportActionBar() {
-		return ((ActionBarActivity) getActivity()).getSupportActionBar();
+	private int getSupportActionBarHeight() {
+		int ret;
+		// Tablet's ItineraryActivity is not an ActionBarActivity yet.
+		if (AndroidUtils.isTablet(getActivity())) {
+			ret = getActivity().getActionBar() == null ? 0 : getActivity().getActionBar().getHeight();
+		}
+		else {
+			ActionBar ab = ((ActionBarActivity) getActivity()).getSupportActionBar();
+			ret = ab == null ? 0 : ab.getHeight();
+		}
+		return ret;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
