@@ -20,7 +20,7 @@ fi
 add_test "com.expedia.bookings.test.ui.happy.TabletHappyPath"
 add_test "com.expedia.bookings.test.ui.happy.PhoneHappyPath"
 add_test "com.expedia.bookings.test.ui.happy.CarPhoneHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.LxPhoneHappyPath"
+#add_test "com.expedia.bookings.test.ui.happy.LxPhoneHappyPath"
 
 # Cars
 add_test "com.expedia.bookings.test.component.cars.CarSearchPresenterTests"
