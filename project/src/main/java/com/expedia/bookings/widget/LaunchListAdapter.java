@@ -356,28 +356,28 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					fullTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					fullTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.strikethroughPriceToShowUsers), hotel.rateCurrencyCode)),
+								StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.rateCurrencyCode))),
 						null,
-						new StrikethroughTagHandler())));
+						new StrikethroughTagHandler()));
 				}
 				else {
 					fullTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				fullTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.priceToShowUsers), hotel.rateCurrencyCode)));
+				fullTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.rateCurrencyCode)));
 				ratingText.setVisibility(View.VISIBLE);
 			}
 			else {
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					halfTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					halfTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-						StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.strikethroughPriceToShowUsers), hotel.rateCurrencyCode)),
+						StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.rateCurrencyCode))),
 						null,
-						new StrikethroughTagHandler())));
+						new StrikethroughTagHandler()));
 				}
 				else {
 					halfTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.priceToShowUsers), hotel.rateCurrencyCode)));
+				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.rateCurrencyCode)));
 				ratingText.setVisibility(View.GONE);
 			}
 			setHotelDiscountBanner(hotel, context, fullWidth);
