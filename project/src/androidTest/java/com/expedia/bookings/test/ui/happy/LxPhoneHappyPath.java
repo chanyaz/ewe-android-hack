@@ -9,6 +9,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.test.component.lx.LXViewModel;
+import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
@@ -20,8 +21,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.component.lx.LXViewModel.getBookNowButtonFromTicketName;
-import static com.expedia.bookings.test.component.lx.LXViewModel.getTicketAddButtonViewFromTicketName;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.clickOnFirstEnabled;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 
@@ -42,10 +41,10 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 
 		LXViewModel.detailsDateContainer().perform(scrollTo(),clickOnFirstEnabled());
 		LXViewModel.selectTicketsButton("2-Day New York Pass").perform(scrollTo(),click());
-		getTicketAddButtonViewFromTicketName(ticketName, "Adult").perform(scrollTo(), click());
-		getBookNowButtonFromTicketName(ticketName).perform(scrollTo());
+		LXInfositePageModel.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
+		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo());
 		screenshot("LX Ticket Selection");
-		getBookNowButtonFromTicketName(ticketName).perform(click());
+		LXInfositePageModel.bookNowButton(ticketName).perform(click());
 
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.enterTravelerInfo();

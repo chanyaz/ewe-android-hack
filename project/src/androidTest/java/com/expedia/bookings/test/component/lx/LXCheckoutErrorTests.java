@@ -8,6 +8,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LXBaseActivity;
+import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
@@ -21,8 +22,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.component.lx.LXViewModel.getBookNowButtonFromTicketName;
-import static com.expedia.bookings.test.component.lx.LXViewModel.getTicketAddButtonViewFromTicketName;
+
 import static com.expedia.bookings.test.ui.espresso.ViewActions.clickOnFirstEnabled;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 
@@ -121,8 +121,8 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 
 		LXViewModel.detailsDateContainer().perform(scrollTo(),clickOnFirstEnabled());
 		LXViewModel.selectTicketsButton("2-Day New York Pass").perform(scrollTo(), click());
-		getTicketAddButtonViewFromTicketName(ticketName, "Adult").perform(scrollTo(), click());
-		getBookNowButtonFromTicketName(ticketName).perform(scrollTo(), click());
+		LXInfositePageModel.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
+		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo(), click());
 
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.driverInfo().perform(click());

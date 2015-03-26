@@ -35,7 +35,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -212,17 +211,6 @@ public class LXViewModel {
 			}
 		};
 	}
-
-	public static ViewInteraction getTicketAddButtonViewFromTicketName(String ticketName, String travellerType) {
-		Matcher<View> rowMatcher = allOf(withText(containsString(travellerType)),
-			withParent(withParent(hasSibling(withText(containsString(ticketName))))));
-		return onView(allOf(withId(R.id.ticket_add), hasSibling(rowMatcher)));
-	}
-
-	public static ViewInteraction getBookNowButtonFromTicketName(String ticketName) {
-		return onView(allOf(withId(R.id.lx_book_now), withParent(hasSibling(withText(containsString(ticketName))))));
-	}
-
 
 	//Checkout
 	public static ViewInteraction checkoutWidget() {
