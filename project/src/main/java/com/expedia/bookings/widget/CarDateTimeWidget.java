@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -52,6 +53,8 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	private LocalDate lastStart;
 	private LocalDate lastEnd;
 
+	//2 hours in millis
+	private static final long PICKUP_DROPOFF_MINIMUM_TIME_DIFFERECE = TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
 	private DateTimeFormatter df = DateTimeFormat.forPattern(TOOLTIP_DATE_PATTERN);
 
@@ -260,8 +263,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		return dateTimeBuilder.isStartDateEqualToToday() && dateTimeBuilder.getStartMillis() < now.getMillisOfDay();
 	}
 
+	//end time should always be at least 2 hours ahead of start time
 	private boolean isEndTimeBeforeStartTime() {
-		return dateTimeBuilder.isStartEqualToEnd() && dateTimeBuilder.getEndMillis() <= dateTimeBuilder.getStartMillis();
+		return dateTimeBuilder.isStartEqualToEnd() && dateTimeBuilder.getEndMillis() < dateTimeBuilder.getStartMillis() + PICKUP_DROPOFF_MINIMUM_TIME_DIFFERECE;
 	}
 
 	private void setUpTooltipColor(boolean isValid) {
