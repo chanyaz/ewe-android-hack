@@ -8,6 +8,10 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -17,27 +21,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.dialog.NoLocationServicesDialog;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.util.LaunchScreenAnimationUtil;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class DestinationCollection extends FrameLayout implements View.OnClickListener, View.OnLongClickListener {
 	private static final int EXPAND_ANIMATION_TIME = 300;
+	public static final float NO_OF_TILES_PORTRAIT = 3.25f;
+	public static final float NO_OF_TILES_LANDSCAPE = 4.25f;
 	@InjectView(R.id.front_image_view)
 	ImageView frontImageView;
+	@InjectView(R.id.front_image_view_reflection)
+	ImageView frontImageViewReflection;
 	@InjectView(R.id.text)
 	TextView textView;
 	@InjectView(R.id.text_bg)
@@ -45,8 +59,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 	@InjectView(R.id.bg_overlay)
 	View bgOverlay;
 	private boolean isNearbyDefaultImage = false;
-	private int customWidth;
-	private ArrayList<LaunchScreenAnimationUtil.PicassoTargetCallback> picassoTargetCallbacks = new ArrayList<>();
+	private PicassoTarget picassoTargetCallback;
 
 	public DestinationCollection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -71,6 +84,31 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
+
+		Point screenSize = AndroidUtils.getDisplaySize(getContext());
+		int destinationWidth = (int) (screenSize.x / NO_OF_TILES_LANDSCAPE);
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			int imageMarginBottom = getResources().getDimensionPixelSize(R.dimen.destination_image_margin_bottom);
+			int actionBarNavBarHeight = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
+			int imageHeight = screenSize.y - imageMarginBottom - actionBarNavBarHeight;
+
+			FrameLayout.LayoutParams frontImageViewReflectionLayoutParams = (LayoutParams) frontImageViewReflection
+				.getLayoutParams();
+			frontImageViewReflectionLayoutParams.height = imageHeight;
+			frontImageViewReflectionLayoutParams.topMargin = imageHeight;
+			frontImageViewReflection.setLayoutParams(frontImageViewReflectionLayoutParams);
+			frontImageViewReflection.setVisibility(VISIBLE);
+
+			destinationWidth = (int) (screenSize.x / NO_OF_TILES_PORTRAIT);
+		}
+		LinearLayout.LayoutParams destinationLayoutParams = (LinearLayout.LayoutParams) getLayoutParams();
+		destinationLayoutParams.width = destinationWidth;
+		setLayoutParams(destinationLayoutParams);
+
+		FrameLayout.LayoutParams textViewLayoutParams = (LayoutParams) textView.getLayoutParams();
+		textViewLayoutParams.width = destinationWidth;
+		textView.setLayoutParams(textViewLayoutParams);
 	}
 
 	public void cleanup() {
@@ -82,10 +120,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 
 	public void setDrawable(final String url) {
 		if (frontImageView != null) {
-			frontImageView
-				.setImageDrawable(
-					LaunchScreenAnimationUtil
-						.makeHeaderBitmapDrawable(getContext(), picassoTargetCallbacks, url, isNearByDefaultImage()));
+			frontImageView.setImageDrawable(createHeaderBitmapDrawable(url));
 			LaunchScreenAnimationUtil.applyColorToOverlay((Activity) getContext(), textBg, bgOverlay);
 		}
 	}
@@ -157,6 +192,8 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			ObjectAnimator textBgColorAnimation = ObjectAnimator.ofFloat(textBg, "alpha", 0f);
 
 			ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchContainer, "alpha", 0f);
+			ObjectAnimator frontImageViewReflectionAnimation = ObjectAnimator
+				.ofFloat(frontImageViewReflection, "alpha", 0f);
 
 			int[] destinationPosition = new int[2];
 			getLocationOnScreen(destinationPosition);
@@ -165,7 +202,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 				horizontalScrollView.getScrollX() + destinationPosition[0]);
 
 			animatorSet.playTogether(expandAnimation, overlayAnimation, searchAnimation,
-				scrollAnimation, textTranslateAnimation, textBgColorAnimation);
+				scrollAnimation, textTranslateAnimation, textBgColorAnimation, frontImageViewReflectionAnimation);
 			animatorSet.setDuration(EXPAND_ANIMATION_TIME);
 			animatorSet.addListener(new AnimatorListenerAdapter() {
 				@Override
@@ -180,6 +217,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 					bgOverlay.setAlpha(0);
 					textBg.setAlpha(1f);
 					searchContainer.setAlpha(1f);
+					frontImageViewReflection.setAlpha(1f);
 					textView.setTranslationX(0);
 					horizontalScrollView.setScrollX(horizontalScrollViewScrollX);
 				}
@@ -198,4 +236,68 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		onDestinationClick();
 		return false;
 	}
+
+	private HeaderBitmapDrawable createHeaderBitmapDrawable(String imageUrl) {
+		Point screenSize = AndroidUtils.getDisplaySize(getContext());
+
+		final int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
+		final int marginBottom = LaunchScreenAnimationUtil.getMarginBottom(getContext());
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			imageUrl = new Akeakamai(imageUrl)
+				.downsize(Akeakamai.preserve(), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
+				.build();
+		}
+		else {
+			imageUrl = new Akeakamai(imageUrl)
+				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
+				.build();
+		}
+
+		ArrayList<String> urls = new ArrayList<String>();
+		urls.add(imageUrl);
+		if (isNearByDefaultImage()) {
+			String defaultImage = Images.getTabletLaunch(LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE);
+			final String defaultImageUrl = new Akeakamai(defaultImage)
+				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
+				.build();
+			urls.add(defaultImageUrl);
+		}
+
+		HeaderBitmapDrawable frontImageHeaderBitmapDrawable = new HeaderBitmapDrawable();
+		frontImageHeaderBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.CENTER_CROP);
+
+		picassoTargetCallback = new PicassoTargetCallback(frontImageHeaderBitmapDrawable);
+		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
+			R.attr.skin_collection_placeholder)).setTarget(picassoTargetCallback).build().load(urls);
+		return frontImageHeaderBitmapDrawable;
+	}
+
+	private class PicassoTargetCallback extends PicassoTarget {
+		private final HeaderBitmapDrawable frontImageHeaderBitmapDrawable;
+
+		public PicassoTargetCallback(HeaderBitmapDrawable frontImageHeaderBitmapDrawable) {
+			this.frontImageHeaderBitmapDrawable = frontImageHeaderBitmapDrawable;
+		}
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
+			frontImageViewReflection.setImageDrawable(frontImageView.getDrawable());
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			frontImageHeaderBitmapDrawable.setPlaceholderDrawable(placeHolderDrawable);
+			frontImageViewReflection.setImageDrawable(placeHolderDrawable);
+		}
+	}
+
 }

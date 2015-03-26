@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.app.ActionBar;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,25 +43,14 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 		mSearchBarC.setLayoutParams(params);
 		mListDetailContainer = Ui.findView(mRootC, R.id.list_detail_container);
 
-		applyMarginBottom(mRootC);
 		return mRootC;
 	}
 
-	private void applyMarginBottom(ViewGroup mRootC) {
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-			//Calculate marginBottom
-			int marginBottom = LaunchScreenAnimationUtil.getMarginBottom(getActivity());
-
-			View tilesContainer = Ui.findView(mRootC, R.id.tiles_container);
-
-			FrameLayout.LayoutParams tilesContainerParams = (FrameLayout.LayoutParams) tilesContainer.getLayoutParams();
-			tilesContainerParams.bottomMargin = marginBottom;
-			tilesContainer.setLayoutParams(tilesContainerParams);
-
-			FrameLayout.LayoutParams mListDetailContainerParams = (FrameLayout.LayoutParams) mListDetailContainer
-				.getLayoutParams();
-			mListDetailContainerParams.bottomMargin = marginBottom;
-			tilesContainer.setLayoutParams(mListDetailContainerParams);
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mStateManager.getState() == LaunchState.DESTINATION_LIST) {
+			switchListFragment();
 		}
 	}
 

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.fragment.LaunchCard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/tablet_destination_tile_size"
-    android:layout_height="@dimen/tablet_destination_tile_size">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/destination_list_launch_card_spacing"
+    android:paddingRight="@dimen/destination_list_launch_card_spacing">
 
     <com.expedia.bookings.widget.FrameLayout
         android:id="@+id/launch_title_front_container"
@@ -20,7 +23,7 @@
             android:layout_height="50dp"
             android:background="#ccffffff"
             android:gravity="top|left"
-            android:padding="5dp"
+            android:padding="10dp"
             android:textAllCaps="true"
             android:textColor="@color/launch_card_title_text_color"
             android:textSize="16sp" />
@@ -43,7 +46,7 @@
                 android:id="@+id/launch_card_back_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
@@ -54,9 +57,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:includeFontPadding="false"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="13sp"
+                app:textStyle="light" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
