@@ -341,6 +341,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
 		Log.i(TAG, "Launch page is offline");
+		launchListWidget.scrollToPosition(0);
 		launchListWidget.setVisibility(GONE);
 		launchError.setVisibility(View.VISIBLE);
 	}

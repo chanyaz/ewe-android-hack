@@ -8,6 +8,8 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.otto.Events;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,6 +35,7 @@ public class LaunchLobWidget extends RelativeLayout {
 	View shadow;
 
 	float origHeight;
+	boolean wasNetworkUnavailable = false;
 
 	public LaunchLobWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -58,9 +61,43 @@ public class LaunchLobWidget extends RelativeLayout {
 	}
 
 	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
+	}
+
+	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
 		bg.setPivotY(-bg.getTop());
 		origHeight = getResources().getDimension(R.dimen.launch_lob_height);
+	}
+
+	@Subscribe
+	public void onNetworkAvailable(Events.LaunchOnlineState event) {
+		if (wasNetworkUnavailable) {
+			hotelsBtn.transformToDefaultState();
+			flightsBtn.transformToDefaultState();
+			carsBtn.transformToDefaultState();
+			bg.setScaleY(1.0f);
+			shadow.setTranslationY(0.0f);
+		}
+		wasNetworkUnavailable = false;
+	}
+
+	@Subscribe
+	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
+		wasNetworkUnavailable = true;
+		hotelsBtn.transformToNoDataState();
+		flightsBtn.transformToNoDataState();
+		carsBtn.transformToNoDataState();
+		bg.setScaleY(1.0f);
+		shadow.setTranslationY(0.0f);
 	}
 }
