@@ -8,6 +8,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Component;
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 
 @Component(modules = {AppModule.class})
 @Singleton
@@ -18,4 +19,5 @@ public interface AppComponent {
 	OkHttpClient okHttpClient();
 	RequestInterceptor requestInterceptor();
 	PersistentCookieManager persistentCookieManager();
+	RestAdapter.LogLevel logLevel();
 }

@@ -26,7 +26,7 @@ public class CollectionServices {
 	CollectionApi mCollectionApi;
 
 	public CollectionServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
-		Scheduler observeOn, Scheduler subscribeOn) {
+		Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
@@ -37,7 +37,7 @@ public class CollectionServices {
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setRequestInterceptor(requestInterceptor)
-			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setLogLevel(logLevel)
 			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(okHttpClient))
 			.build();

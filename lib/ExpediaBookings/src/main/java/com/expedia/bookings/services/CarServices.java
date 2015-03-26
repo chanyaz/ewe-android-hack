@@ -45,7 +45,7 @@ public class CarServices {
 	private Scheduler mSubscribeOn;
 
 	public CarServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
-		Scheduler observeOn, Scheduler subscribeOn) {
+		Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
@@ -56,7 +56,7 @@ public class CarServices {
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setRequestInterceptor(requestInterceptor)
-			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setLogLevel(logLevel)
 			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(okHttpClient))
 			.build();

@@ -23,6 +23,7 @@ import com.squareup.okhttp.OkHttpClient;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 
 @Module
 public class AppModule {
@@ -36,6 +37,15 @@ public class AppModule {
 	@Singleton
 	Context provideContext() {
 		return context;
+	}
+
+	@Provides
+	@Singleton
+	RestAdapter.LogLevel provideLogLevel() {
+		if (BuildConfig.DEBUG) {
+			return RestAdapter.LogLevel.FULL;
+		}
+		return RestAdapter.LogLevel.NONE;
 	}
 
 	@Provides
