@@ -13,13 +13,11 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -80,18 +78,6 @@ public class PhoneLaunchButton extends FrameLayout {
 	}
 
 	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		Events.register(this);
-	}
-
-	@Override
-	public void onDetachedFromWindow() {
-		Events.unregister(this);
-		super.onDetachedFromWindow();
-	}
-
-	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
 		iconView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -140,16 +126,16 @@ public class PhoneLaunchButton extends FrameLayout {
 		}
 	}
 
-	@Subscribe
-	public void onNetworkAvailable(Events.LaunchOnlineState event) {
+	public void transformToDefaultState() {
 		isNetworkAvailable = true;
+		scaleTo(1.0f);
 		Ui.setViewBackground(bgView, bg);
 		textView.setAlpha(1.0f);
 	}
 
-	@Subscribe
-	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
+	public void transformToNoDataState() {
 		isNetworkAvailable = false;
+		scaleTo(1.0f);
 		Ui.setViewBackground(bgView, disabledBg);
 		textView.setAlpha(0.5f);
 	}
