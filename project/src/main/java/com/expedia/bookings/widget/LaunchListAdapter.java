@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -29,6 +30,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
 import butterknife.ButterKnife;
@@ -354,28 +356,28 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					fullTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					fullTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-							hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)),
+								StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.strikethroughPriceToShowUsers), hotel.rateCurrencyCode)),
 						null,
-						new StrikethroughTagHandler()));
+						new StrikethroughTagHandler())));
 				}
 				else {
 					fullTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				fullTilePrice.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+				fullTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.priceToShowUsers), hotel.rateCurrencyCode)));
 				ratingText.setVisibility(View.VISIBLE);
 			}
 			else {
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					halfTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					halfTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-							hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)),
+						StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.strikethroughPriceToShowUsers), hotel.rateCurrencyCode)),
 						null,
-						new StrikethroughTagHandler()));
+						new StrikethroughTagHandler())));
 				}
 				else {
 					halfTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				halfTilePrice.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(hotel.lowRateInfo.priceToShowUsers), hotel.rateCurrencyCode)));
 				ratingText.setVisibility(View.GONE);
 			}
 			setHotelDiscountBanner(hotel, context, fullWidth);
