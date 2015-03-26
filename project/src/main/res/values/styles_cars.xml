@@ -15,7 +15,6 @@
         <item name="actionMenuTextColor">#FFFFFF</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorAccent">@color/cars_primary_color</item>
-        <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
@@ -151,12 +150,6 @@
     <style name="CarRobotoFont">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="Theme.AlertDialog" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/cars_primary_color</item>
-        <item name="android:colorPrimaryDark">@color/cars_primary_color</item>
-        <item name="android:colorAccent">@color/cars_primary_color</item>
     </style>
 
 </resources>
