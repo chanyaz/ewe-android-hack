@@ -113,10 +113,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String getOmnitureReportSuiteIds(Context context) {
 		if (AndroidUtils.isRelease(context)) {
-			return "tvlglobalapp";
+			return "expediaglobalapp,tvlglobalapp";
 		}
 		else {
-			return "tvlglobalappdev";
+			return "expediaglobalappdev";
 		}
 	}
 
