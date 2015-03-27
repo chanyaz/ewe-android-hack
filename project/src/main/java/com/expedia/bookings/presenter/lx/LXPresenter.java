@@ -37,6 +37,7 @@ public class LXPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
+		Events.register(this);
 		addTransition(searchParamsToResults);
 		addTransition(resultsToDetails);
 		addTransition(searchOverlayOnResults);

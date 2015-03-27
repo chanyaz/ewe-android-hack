@@ -103,6 +103,11 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
+		else if (dataString.contains("localexpert")) {
+			handleLocalExpert(data, queryData);
+			finish();
+			return;
+		}
 		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
@@ -139,6 +144,10 @@ public class DeepLinkRouterActivity extends Activity {
 			handleFlightSearch(data, queryData);
 			finish = true;
 			break;
+		case "localexpert":
+			handleLocalExpert(data, queryData);
+			finish = true;
+			break;
 		case "destination":
 			Log.i(TAG, "Launching destination search from deep link!");
 			handleDestination(data, queryData);
@@ -153,6 +162,29 @@ public class DeepLinkRouterActivity extends Activity {
 		if (finish) {
 			finish();
 		}
+	}
+
+	private boolean handleLocalExpert(Uri data, Set<String> queryData) {
+
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			String startDateStr = null;
+			// Add date (if supplied)
+			if (queryData.contains("startDate")) {
+				startDateStr = data.getQueryParameter("startDate");
+			}
+			String location = null;
+			// Determine the search location.  Defaults to "current location" if none supplied
+			// or the supplied variables could not be parsed.
+			if (queryData.contains("location")) {
+				location = (data.getQueryParameter("location"));
+				Log.d(TAG, "Setting activity search location: " + location);
+			}
+
+			// Launch activity search
+			Log.i(TAG, "Launching activity search from deep link!");
+			NavUtils.goToLocalExpert(this, location, startDateStr, null, NavUtils.FLAG_DEEPLINK);
+		}
+		return true;
 	}
 
 	/**
