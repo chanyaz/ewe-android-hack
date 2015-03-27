@@ -100,5 +100,7 @@
     <string name="not_currently_available_tvly_TEMPLATE">Non disponible sur Travelocity %s</string>
     <!-- User needs to reset password -->
     <string name="login_reset_password">Vous devez créer une nouvelle connexion internationale pour tous les sites Travelocity.\nVeuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Dû à Travelocity aujourd\&apos;hui</string>
 
 </resources>

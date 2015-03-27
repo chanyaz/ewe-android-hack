@@ -96,4 +96,6 @@
     <!-- User needs to reset password -->
     <string name="login_reset_password">We need you to create a new, international sign in for all Travelocity sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
 
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Due to Travelocity Today</string>
 </resources>
