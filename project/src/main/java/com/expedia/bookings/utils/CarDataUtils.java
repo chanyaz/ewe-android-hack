@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
@@ -181,7 +182,15 @@ public class CarDataUtils {
 			return ctx.getString(R.string.car_model_unknown_template);
 		}
 		else {
-			return ctx.getString(R.string.car_model_name_template, makes.get(0));
+			//TODO : This is a temporary ugly hack to fix the bad data coming from inventory #4226
+			String makeName = makes.get(0);
+			String makeNameLower = makeName.toLowerCase(Locale.US);
+			if (makeNameLower.contains("or similar") ||
+				makeNameLower.contains("we pick the car") ||
+				makeNameLower.contains("exact model n/a")) {
+				return makeName;
+			}
+			return ctx.getString(R.string.car_model_name_template, makeName);
 		}
 	}
 
