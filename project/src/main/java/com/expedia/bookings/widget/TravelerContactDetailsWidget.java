@@ -236,13 +236,14 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	public void setInvalid(String field) {
-		if (field.equals("mainMobileTraveler.lastName")) {
+		// Error field from Cars APi is mainMobileTraveler.lastname and for LX it is lastName.
+		if (field.contains("lastName")) {
 			sectionTravelerInfo.setLastNameValid(false);
 		}
-		else if (field.equals("mainMobileTraveler.firstName")) {
+		else if (field.contains("firstName")) {
 			sectionTravelerInfo.setFirstNameValid(false);
 		}
-		else if (field.equals("mainMobileTraveler.phone")) {
+		else if (field.contains("phone")) {
 			sectionTravelerInfo.setPhoneValid(false);
 		}
 	}

@@ -1,6 +1,11 @@
 package com.expedia.bookings.services;
 
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.ApiException;
+import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -16,13 +21,13 @@ import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.squareup.okhttp.OkHttpClient;
 
-import org.joda.time.LocalDate;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 public class LXServices {
@@ -73,7 +78,9 @@ public class LXServices {
 		@Override
 		public LXSearchResponse call(LXSearchResponse lxSearchResponse) {
 			if (lxSearchResponse.searchFailure) {
-				throw new RuntimeException();
+				ApiError apiError = new ApiError();
+				apiError.errorCode = ApiError.Code.LX_SEARCH_NO_RESULTS;
+				throw new ApiException(apiError);
 			}
 			return lxSearchResponse;
 		}
@@ -124,6 +131,7 @@ public class LXServices {
 	public Subscription createTrip(LXCreateTripParams createTripParams, Observer<LXCreateTripResponse> observer) {
 		return lxApi.
 			createTrip(createTripParams)
+			.doOnNext(HANDLE_ERRORS)
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.subscribe(observer);
@@ -132,8 +140,19 @@ public class LXServices {
 	public Subscription lxCheckout(LXCheckoutParams checkoutParams, Observer<LXCheckoutResponse> observer) {
 		return lxApi.
 			checkout(checkoutParams.toQueryMap())
+			.doOnNext(HANDLE_ERRORS)
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.subscribe(observer);
 	}
+
+	private static final Action1<BaseApiResponse> HANDLE_ERRORS = new Action1<BaseApiResponse>() {
+		@Override
+		public void call(BaseApiResponse response) {
+			if (response.hasErrors() && !response.hasPriceChange()) {
+				throw new ApiException(response.getFirstError());
+			}
+		}
+	};
+
 }

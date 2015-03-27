@@ -21,8 +21,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemCar;
-import com.expedia.bookings.data.cars.CarApiError;
-import com.expedia.bookings.data.cars.CarApiException;
+import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -154,9 +154,9 @@ public class CarResultsPresenter extends Presenter {
 				return;
 			}
 
-			if (e instanceof CarApiException) {
-				CarApiException carSearchException = (CarApiException) e;
-				handleInputValidationErrors(carSearchException.getApiError());
+			if (e instanceof ApiException) {
+				ApiException carSearchException = (ApiException) e;
+				handleInputValidationErrors(carSearchException.apiError);
 				return;
 			}
 		}
@@ -172,7 +172,7 @@ public class CarResultsPresenter extends Presenter {
 	/* handle CAR_SEARCH_WINDOW_VIOLATION detail errors and show default error screen
 	* for all the other search error codes.
 	*/
-	private void handleInputValidationErrors(CarApiError apiError) {
+	private void handleInputValidationErrors(ApiError apiError) {
 		if (apiError.errorDetailCode == null) {
 			showDefaultError(apiError);
 			return;
@@ -203,7 +203,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 	}
 
-	private void showDefaultError(CarApiError apiError) {
+	private void showDefaultError(ApiError apiError) {
 		Events.post(new Events.CarsShowSearchResultsError(apiError));
 	}
 

@@ -370,7 +370,12 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Enter contact details</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string> 	<!-- Offers show more string -->
+    <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string> 
+    <!-- Text for generic error toolbar-->
+    <string name="lx_error_text">Error</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_invalid_input_text">Invalid Info</string>
+    <!-- Offers show more string -->
     <string name="lx_show_more_offers">Show More</string>
     <!-- Text for traveler details toolbar-->
     <string name="lx_traveler_details_text">Traveler details</string>

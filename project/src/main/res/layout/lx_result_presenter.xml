@@ -9,47 +9,10 @@
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize">
 
-        <FrameLayout
-            android:id="@+id/lx_search_failure"
+        <com.expedia.bookings.widget.LXErrorWidget
+            android:id="@+id/lx_search_error_widget"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:visibility="gone" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_type_circle_activity" />
-
-                <Button
-                    android:id="@+id/edit_search"
-                    style="@style/LXButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/edit_search" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginRight="72dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/error_lx_search_message"
-                    android:textSize="13sp"
-                    android:textColor="#7D7D7D" />
-
-            </LinearLayout>
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lx_search_results_list"

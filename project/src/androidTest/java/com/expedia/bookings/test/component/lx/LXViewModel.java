@@ -29,6 +29,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -78,7 +79,7 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction searchFailed() {
-		return onView(withId(R.id.lx_search_failure));
+		return onView(withId(R.id.lx_search_error_widget));
 	}
 
 	public static ViewInteraction searchList() {
@@ -109,6 +110,10 @@ public class LXViewModel {
 
 	public static ViewInteraction infoContainer() {
 		return onView(withId(R.id.activity_info_container));
+	}
+
+	public static ViewInteraction alertDialogPositiveButton() {
+		return onView(withId(android.R.id.button1));
 	}
 
 	public static ViewInteraction withOfferText(String offerText) {
@@ -242,5 +247,17 @@ public class LXViewModel {
 
 	public static ViewInteraction checkoutSlideToPurchase() {
 		return onView(withId(R.id.slide_to_purchase_widget));
+	}
+
+	public static ViewInteraction checkoutErrorScreen() {
+		return onView(withId(R.id.lx_checkout_error_widget));
+	}
+
+	public static ViewInteraction checkoutErrorText() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_text)));
+	}
+
+	public static ViewInteraction checkoutErrorButton() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_action_button)));
 	}
 }
