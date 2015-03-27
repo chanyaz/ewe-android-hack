@@ -19,8 +19,8 @@ public class InvalidCharacterHelper {
 
 	//Matches only ascii characters (thus disallowing multibyte characters)
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ASCII = Pattern.compile("^(\\p{ASCII})*$");
-	//Matches ascii characters that are only letters, latin accents, apostrophe, dash(es), periods, or spaces.
-	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[a-zA-ZÀ-ÿ'-. ]*$");
+	//Matches ascii characters that are only letters, latin accents, apostrophe, dash(es), periods, commas or spaces.
+	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[a-zA-ZÀ-ÿ',. -]*$");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
