@@ -12,6 +12,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;

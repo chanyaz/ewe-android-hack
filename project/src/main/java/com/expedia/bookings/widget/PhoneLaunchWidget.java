@@ -149,7 +149,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 				p.updateFrom(offer);
 				response.addProperty(p);
 			}
-			Db.getHotelSearch().setSearchResponse(response);
 			Events.post(new Events.LaunchHotelSearchResponse(nearbyHotelResponse));
 		}
 	};
@@ -257,7 +256,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onSeeAllButtonPressed(Events.LaunchSeeAllButtonPressed event) {
-		NavUtils.goToHotels(getContext(), event.animOptions);
+		NavUtils.goToHotels(getContext(), searchParams, event.animOptions, 0);
+		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
 	}
 
 	@Subscribe
@@ -265,8 +265,17 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Hotel offer = event.offer;
 		Property property = new Property();
 		property.updateFrom(offer);
+
+		// Set search response to contain only the hotel that has been selected
+		HotelSearchResponse response = new HotelSearchResponse();
+		response.addProperty(property);
+		Db.getHotelSearch().setSearchResponse(response);
+
+		// Set search params to what we used for the launch list search
 		Db.getHotelSearch().resetSearchParams();
-		Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+		Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(),
+			searchParams.getSearchLongitude());
+		// Set selected property
 		Db.getHotelSearch().setSelectedProperty(property);
 
 		Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
