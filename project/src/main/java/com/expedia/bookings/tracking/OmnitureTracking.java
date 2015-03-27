@@ -57,8 +57,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
-import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
@@ -73,6 +73,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -3046,12 +3047,15 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarRateDetails(Context context, CategorizedCarOffers mOffer) {
+	public static void trackAppCarRateDetails(Context context, SearchCarOffer mOffer) {
 		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(context, CAR_RATE_DETAIL);
 
 		s.setEvents("event4");
-		s.setEvar(38, mOffer.carCategoryDisplayLabel);
+		String evar38String = Strings.capitalizeFirstLetter(mOffer.vehicleInfo.category.toString()) + ":" + Strings
+			.capitalizeFirstLetter(mOffer.vehicleInfo.type.toString().replaceAll("_"," "));
+
+		s.setEvar(38, evar38String);
 
 		s.track();
 	}
@@ -3144,8 +3148,9 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, creditCardType != CreditCardType.UNKNOWN ? creditCardType.toString()
-			: context.getString(R.string.car_omniture_checkout_no_credit_card));
+		s.setEvar(37,
+			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
+				: context.getString(R.string.car_omniture_checkout_no_credit_card));
 		s.track();
 
 	}

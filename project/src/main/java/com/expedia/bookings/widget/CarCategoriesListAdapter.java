@@ -183,7 +183,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
-			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers);
+			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers.offers.get(0));
 		}
 
 		private PicassoTarget target = new PicassoTarget() {

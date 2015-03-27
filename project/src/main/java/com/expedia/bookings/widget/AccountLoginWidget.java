@@ -1020,7 +1020,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				user.save(getContext());
 				loginWorkComplete();
 				setVisibilityState(VisibilityState.LOGGED_IN, true);
-				OmnitureTracking.trackLoginSuccess(getContext(), mLob, loginWithFacebook, user.isRewardsUser());
 				AdTracker.trackLogin();
 			}
 		}
@@ -1225,7 +1224,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				setVisibilityState(VisibilityState.LOGGED_IN, true);
 				Log.d("User saved!");
 
-				OmnitureTracking.trackLoginSuccess(getContext(), mLob, loginWithFacebook, user.isRewardsUser());
 				AdTracker.trackLogin();
 			}
 
