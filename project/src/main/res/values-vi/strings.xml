@@ -12,7 +12,13 @@
     <!-- SeekBar tooltip description for drop off time-->
     <string name="cars_time_slider_drop_off_label">Giờ trả xe</string>
     <!-- Cars price templates-->
-    <string name="cars_daily_template">%s mỗi ngày</string>
+    <string name="cars_hourly_text">mỗi giờ</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">mỗi ngày</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">mỗi tuần</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">mỗi tháng</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">Tổng cộng %s</string>
     <!-- Text for cars promo codes-->
@@ -23,6 +29,18 @@
     <string name="cars_slider_text">Kéo để đặt</string>
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">Thanh toán</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Chuyến đi trùng</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Hết hạn truy cập phiên</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Giá thay đổi</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Thanh toán không thành công</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Thông tin không hợp lệ</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Lỗi</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Đặt</string>
     <!-- Text for viewing details-->
@@ -42,19 +60,23 @@
     <!-- Template for car offer detail-->
     <string name="car_offer_template">%s hoặc tương tự</string>
     <!-- Car doors text-->
-    <string name="car_doors_text">Số cửa</string>
+    <string name="car_doors_text">Cửa</string>
     <!-- Car bags text-->
-    <string name="car_bags_text">Số hành lý</string>
+    <string name="car_bags_text">Túi</string>
     <!-- Car automatic transmission text-->
     <string name="car_auto_tran_text">Số tự động</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Số tay (số sàn)</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Đăng nhập Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -89,7 +111,7 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Trả xe</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Nơi trả xe phải cùng nơi nhận xe</string>
+    <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Thiếu bắt đầu</string>
     <!-- Error messge for missing Start date in search form -->
@@ -103,14 +125,15 @@
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s hoặc tương tự</string>
+    <string name="car_model_unknown_template">Không biết model xe chính xách</string>
 
     <string name="preparing_checkout_message">Chuẩn bị trang thanh toán…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Bàn &amp; xe trong ga</string>
     <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">Tổng thanh toán hôm nay</string>
+    <string name="car_cost_breakdown_due_today">Thanh toán hôm nay</string>
     <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">Tổng thanh toán khi nhận xe</string>
+    <string name="car_cost_breakdown_total_due">Thanh toán khi nhận xe</string>
     <!-- Car checkout cost breakdown for alert button -->
     <string name="car_cost_breakdown_button_text">Hoàn tất</string>
     <!-- Car checkout rental fare breakdown types -->
@@ -142,7 +165,44 @@
     <string name="car_confirmation_directions">Hướng dẫn đến %1$s</string>
     <!-- Button label for calling customer support -->
     <string name="call_customer_support">Gọi bộ phận Dịch vụ Khách hàng</string>
-    <!-- Error message for some missing checkout params -->
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">Vui lòng xác nhận ngày nhận xe.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Vui lòng điều chỉnh giờ nhận xe hoặc trả xe.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">Vui lòng xác nhận ngày trả xe.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Vui lòng tăng thời gian đặt của quý vị.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">Vẫn đang tìm? Phiên truy cập của quý vị đã hết hạn. Vui lòng tìm lại.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Hmm. Có vẻ quý vị đã đặt chuyến đi này. Vui lòng kiểm tra lại chuyến đi hoặc email.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">Giá xe thuê vừa thay đổi. Vui lòng xác nhận giá mới trước khi tiếp tục.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Không được nhập số hoặc ký tự vào trường tên.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Số điện thoại phải từ 1-20 chữ số.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Hmm…Thanh toán không thành công. Vui lòng kiểm tra thông tin thanh toán và thử lại.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">Thanh toán không thành công.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">Xem thay đổi giá</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">Chuyến đi của tôi</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Chỉnh sửa thanh toán</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Chỉnh sửa thông tin</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Nhập điểm đến của quý vị</string>
@@ -174,6 +234,8 @@
     <string name="missing_flight_info_button_prompt">Chọn sân bay</string>
 
     <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
     <string name="search_widget_heading">Tìm hoạt động giải trí</string>
     <!-- Search widget location hint -->
@@ -195,7 +257,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s%2$s</string>
+    <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- LX Ticket type names -->
@@ -298,8 +360,6 @@
     <string name="lx_slider_text">Trượt để đặt</string>
     <!-- Text for checkout toolbar-->
     <string name="lx_checkout_text">Thanh toán</string>
-    <!-- Total Price with currency -->
-    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
     <!-- Free cancellation -->
     <string name="lx_free_cancellation">Hủy miễn phí</string>
     <!-- Total with tax -->
@@ -308,6 +368,13 @@
     <string name="lx_contact_details">Chi tiết liên hệ</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Nhập chi tiết liên hệ</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">Hiển thị thêm</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Chi tiết khách</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Nhập thông tin khách</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -605,11 +672,19 @@
     <!-- Shop travel label -->
     <string name="shop_travel">Tìm và đặt</string>
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Ưu đãi tốt nhất đêm nay</string>
+    <string name="nearby_deals_title">Khách sạn nổi bật đêm nay</string>
     <!-- See all nearby deals -->
-    <string name="nearby_deals_expand">Xem tất cả</string>
+    <string name="nearby_deals_expand">Xem thêm</string>
     <!-- Percent off template, e.g. 50% off -->
-    <string name="percent_off_TEMPLATE">Giảm %2.0f%%</string>
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Đang tải…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">/5 – đánh giá của khách</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">Chỉ trên di động!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">Chỉ tối nay!</string>
 
 
     <!-- Launch screen -->
@@ -1481,6 +1556,8 @@
     <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Thanh toán hôm nay: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền cần thanh toán ngay: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1533,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Hủy miễn phí trong vòng 24 giờ sau khi đặt</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -2113,6 +2192,12 @@
     <string name="progress_finding_location">Đang tìm địa điểm hiện tại…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Đang tìm khách sạn…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">Đang tìm!</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">Chúng tôi đang nỗ lực tìm ưu đãi khách sạn tốt nhất cho quý vị.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">Đang tìm hàng trăm khách sạn cho quý vị!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Đang tìm khách sạn…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -3393,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Gửi email…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>
