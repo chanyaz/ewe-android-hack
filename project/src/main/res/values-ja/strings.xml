@@ -12,7 +12,13 @@
     <!-- SeekBar tooltip description for drop off time-->
     <string name="cars_time_slider_drop_off_label">返却時間</string>
     <!-- Cars price templates-->
-    <string name="cars_daily_template">1 日 : %s</string>
+    <string name="cars_hourly_text">1 時間 :</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">1 日 :</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">1 週間 :</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">1 ヶ月 :</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">合計 : %s</string>
     <!-- Text for cars promo codes-->
@@ -23,6 +29,18 @@
     <string name="cars_slider_text">スライドして予約</string>
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">購入手続き</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">重複した旅行</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">セッション タイムアウト</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">料金変更</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">支払い手続失敗</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">無効な情報</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">エラー</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">予約する</string>
     <!-- Text for viewing details-->
@@ -40,7 +58,7 @@
     <!-- Template for selected credit card-->
     <string name="selected_card_template">有効期限 : %s</string>
     <!-- Template for car offer detail-->
-    <string name="car_offer_template">%s または同等のもの</string>
+    <string name="car_offer_template">%sまたは同等のもの</string>
     <!-- Car doors text-->
     <string name="car_doors_text">ドア</string>
     <!-- Car bags text-->
@@ -49,12 +67,16 @@
     <string name="car_auto_tran_text">オートマチック トランスミッション</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">マニュアル トランスミッション</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">エクスペディアでログイン</string>
 
     <!-- car result -->
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d - %2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">この予約を完了することで、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -89,7 +111,7 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">返却</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">借出場所と同じ場所に返却する必要があります</string>
+    <string name="drop_off_same_as_pick_up">準備中…新バージョンでは、レンタカーのワンウェイ (乗り捨て) 予約を導入予定です。</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">出発地が指定されていません</string>
     <!-- Error messge for missing Start date in search form -->
@@ -103,6 +125,7 @@
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$sまたは同等のもの</string>
+    <string name="car_model_unknown_template">車種指定なし</string>
 
     <string name="preparing_checkout_message">支払い手続き中の準備中…</string>
     <!-- Desk & vehicle at terminal -->
@@ -110,7 +133,7 @@
     <!-- Car checkout cost breakdown total due today -->
     <string name="car_cost_breakdown_due_today">本日お支払いの合計金額</string>
     <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">借出時にお支払いの合計金額</string>
+    <string name="car_cost_breakdown_total_due">借出時のお支払い合計金額</string>
     <!-- Car checkout cost breakdown for alert button -->
     <string name="car_cost_breakdown_button_text">完了</string>
     <!-- Car checkout rental fare breakdown types -->
@@ -142,7 +165,44 @@
     <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
     <!-- Button label for calling customer support -->
     <string name="call_customer_support">カスタマー サポートに電話する</string>
-    <!-- Error message for some missing checkout params -->
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">借出日を確認してください。</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">借出時間または返却時間を調整してください。</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">返却日を確認してください。</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">指定できる期間を超えています。近い日にちを選択してください。</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">指定できる期間を超えています。近い日にちを選択してください。</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">予約期間を入力してください。</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">セッションがタイムアウトしました。もう一度検索してください。</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">この旅行はすでにご予約済みのようです。旅程または予約確認メールをご確認ください。</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">レンタカー料金が変更されました。新しい料金を確認してから、次に進んでください。</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">名前には数字や特殊文字は含めないでください。</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">電話番号は 1 ～ 20 桁以内で入力してください。</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">支払い処理ができませんでした。支払い情報をご確認の上、再度お試しください。</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">支払い手続ができませんでした。</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">料金の変更を表示</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">旅程</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">支払い情報を変更する</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">情報を変更する</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">目的地を入力してください</string>
@@ -174,6 +234,8 @@
     <string name="missing_flight_info_button_prompt">空港を選択</string>
 
     <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
     <string name="search_widget_heading">オプショナル ツアーを検索</string>
     <!-- Search widget location hint -->
@@ -195,7 +257,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">今すぐ予約 %1$s%2$s</string>
+    <string name="offer_book_now_TEMPLATE">今すぐ予約 %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- LX Ticket type names -->
@@ -298,8 +360,6 @@
     <string name="lx_slider_text">スライドして予約</string>
     <!-- Text for checkout toolbar-->
     <string name="lx_checkout_text">購入手続き</string>
-    <!-- Total Price with currency -->
-    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
     <!-- Free cancellation -->
     <string name="lx_free_cancellation">キャンセル手数料無料</string>
     <!-- Total with tax -->
@@ -308,6 +368,13 @@
     <string name="lx_contact_details">連絡先情報</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">連絡先情報を入力</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">検索結果はありません。条件を変更して再検索してください。</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">もっと見る</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">旅行者の詳細</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">旅行者情報を入力</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -605,11 +672,19 @@
     <!-- Shop travel label -->
     <string name="shop_travel">旅行を予約</string>
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">今晩のお得情報</string>
+    <string name="nearby_deals_title">今晩の人気ホテル</string>
     <!-- See all nearby deals -->
-    <string name="nearby_deals_expand">すべて見る</string>
+    <string name="nearby_deals_expand">もっと見る</string>
     <!-- Percent off template, e.g. 50% off -->
-    <string name="percent_off_TEMPLATE">%2.0f %% OFF</string>
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">読み込み中…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">(5 件中) – ゲスト評価</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">モバイル限定 !</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">今晩限定 !</string>
 
 
     <!-- Launch screen -->
@@ -1481,6 +1556,8 @@
     <string name="slide_to_book_flight">スライドして航空券を予約</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">カードに %1$s が課金されます</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">本日お支払いの合計金額 :%1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">いますぐ支払う金額 : %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1520,9 +1597,9 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">有効なメールアドレスを入力してください</string>
     <!-- Row header for when we show resort fees as its own line item -->
-    <string name="fees_paid_at_hotel">ホテルでのお支払い料金 : </string>
+    <string name="fees_paid_at_hotel">ホテルでのお支払い料金 :</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">本日エクスペディアにお支払いの金額 : </string>
+    <string name="total_due_to_expedia_today">本日エクスペディアにお支払いの金額 :</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1533,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。残額は滞在中にホテルの現地通貨でお支払いください。</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">予約後 24 時間以内ならキャンセル手数料無料 !</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -2113,6 +2192,12 @@
     <string name="progress_finding_location">現在地を検索中…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">ホテルを検索中…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">検索中 !</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">お得なセール情報を検索しています。</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">条件に合ったホテルを検索しています !</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">ホテルを検索中…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -3393,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">電子メールを送信…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

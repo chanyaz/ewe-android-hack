@@ -12,7 +12,13 @@
     <!-- SeekBar tooltip description for drop off time-->
     <string name="cars_time_slider_drop_off_label">Hora de entrega</string>
     <!-- Cars price templates-->
-    <string name="cars_daily_template">Por día: %s</string>
+    <string name="cars_hourly_text">Por hora</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">Por día</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">Por semana</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">Por mes</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">Total: %s</string>
     <!-- Text for cars promo codes-->
@@ -23,6 +29,18 @@
     <string name="cars_slider_text">Desliza para reservar</string>
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">Completar reserva</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Viaje duplicado</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">La sesión ha caducado</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">El precio ha cambiado</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">No se ha podido procesar el pago</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">La información no es válida</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Se ha producido un error</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Reservar</string>
     <!-- Text for viewing details-->
@@ -49,12 +67,16 @@
     <string name="car_auto_tran_text">Cambio automático</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Cambio manual</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Iniciar sesión con Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">Al completar esta reserva, declaro haber leído y aceptado las %1$s, los %2$s y la %3$s.</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -89,7 +111,7 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Entrega</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">La ubicación de entrega debe ser la misma que la de la recogida</string>
+    <string name="drop_off_same_as_pick_up">¡Próximamente! Estamos trabajando para añadir reservas de coche de alquiler con recogida y entrega en distintas ubicaciones a la próxima versión.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Falta el origen</string>
     <!-- Error messge for missing Start date in search form -->
@@ -103,14 +125,15 @@
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s o similar</string>
+    <string name="car_model_unknown_template">Modelo exacto desconocido</string>
 
     <string name="preparing_checkout_message">Preparando pago…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Mostrador y vehículo en la terminal</string>
     <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">Total a pagar hoy</string>
+    <string name="car_cost_breakdown_due_today">A pagar hoy</string>
     <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">Cantidad a abonar en la recogida</string>
+    <string name="car_cost_breakdown_total_due">A pagar en la recogida</string>
     <!-- Car checkout cost breakdown for alert button -->
     <string name="car_cost_breakdown_button_text">Listo</string>
     <!-- Car checkout rental fare breakdown types -->
@@ -142,7 +165,44 @@
     <string name="car_confirmation_directions">Instrucciones para llegar a %1$s</string>
     <!-- Button label for calling customer support -->
     <string name="call_customer_support">Llamar al servicio de asistencia</string>
-    <!-- Error message for some missing checkout params -->
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">Comprueba la fecha de recogida.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Modifica el horario de recogida o entrega.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">Comprueba la fecha de entrega.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Debes aumentar la duración de la reserva.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">¿Aún sigues ahí? La sesión ha caducado. Vuelve a realizar tu búsqueda.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Vaya, parece que ya hecho esta reserva antes. Comprueba tus itinerarios en línea o tu bandeja de correo electrónico.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">El precio de tu coche de alquiler ha cambiado. Confirma el nuevo precio para continuar.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Los nombres no pueden contener números o caracteres especiales.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">El número de teléfono debe contener entre 1 y 20 dígitos.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Vaya, parece que no se ha podido procesar el pago. Comprueba tus datos de pago e inténtalo de nuevo.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">No se ha podido procesar el pago.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">Ver nuevo precio</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">Mis viajes</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Editar pago</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Editar información</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Introduce tu destino</string>
@@ -174,6 +234,8 @@
     <string name="missing_flight_info_button_prompt">Seleccionar aeropuerto</string>
 
     <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
     <string name="search_widget_heading">Buscar actividades</string>
     <!-- Search widget location hint -->
@@ -195,7 +257,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Reserva ya por %1$s%2$s</string>
+    <string name="offer_book_now_TEMPLATE">Reserva ya por %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- LX Ticket type names -->
@@ -298,8 +360,6 @@
     <string name="lx_slider_text">Desliza para reservar</string>
     <!-- Text for checkout toolbar-->
     <string name="lx_checkout_text">Completar reserva</string>
-    <!-- Total Price with currency -->
-    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
     <!-- Free cancellation -->
     <string name="lx_free_cancellation">Cancelación gratuita</string>
     <!-- Total with tax -->
@@ -308,6 +368,13 @@
     <string name="lx_contact_details">Datos de contacto</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Introducir datos de contacto</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">No se han obtenido resultados. Cambia los criterios de búsqueda.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">Mostrar más</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Datos del viajero</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Introduce los datos del viajero</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -605,11 +672,19 @@
     <!-- Shop travel label -->
     <string name="shop_travel">Comprar viaje</string>
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Las mejores ofertas para esta noche</string>
+    <string name="nearby_deals_title">Hoteles más populares para esta noche</string>
     <!-- See all nearby deals -->
-    <string name="nearby_deals_expand">Ver todo</string>
+    <string name="nearby_deals_expand">Mostrar más</string>
     <!-- Percent off template, e.g. 50% off -->
-    <string name="percent_off_TEMPLATE">%2.0f%% menos</string>
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Cargando…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">de 5 - Puntuación de los huéspedes</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">Solo móvil</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">¡Solo durante esta noche!</string>
 
 
     <!-- Launch screen -->
@@ -1481,6 +1556,8 @@
     <string name="slide_to_book_flight">Desliza para reservar este vuelo</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Se cargarán %1$s en tu tarjeta</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Total a pagar hoy: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Importe a pagar ahora: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1533,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">El precio total de tu estancia, incluyendo la tasa de completo turístico (&lt;b&gt;%1$s&lt;/b&gt;), es de &lt;b&gt;%2$s&lt;/b&gt;. Pagarás al hotel el coste de la reserva (en la moneda local) durante tu estancia.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">El precio total de tu estancia, incluyendo la tasa de completo turístico (&lt;b&gt;%1$s&lt;/b&gt;), es de &lt;b&gt;%2$s&lt;/b&gt;. Pagarás al hotel la cantidad restante de la reserva (en la moneda local) durante tu estancia.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Cancelación gratuita durante las 24 horas posteriores a la reserva.</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -2113,6 +2192,12 @@
     <string name="progress_finding_location">Buscando ubicación actual…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Buscando hoteles…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">Buscando…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">Estamos buscando las mejores ofertas de hotel para ti.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">Buscando entre cientos de ofertas de hoteles…</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Buscando el hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -3393,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Enviar correo electrónico</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

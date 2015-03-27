@@ -208,7 +208,7 @@
     <string name="search_all_hint">Enter your destination</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Fly from %1$s</string>
-    <!-- Fly from... -->
+    <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Fly from…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Select dates</string>
@@ -632,7 +632,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Login failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
+    <string name="login_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br>Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
     <!-- Link accounts -->
@@ -2578,29 +2578,29 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Sorry, but this isn’t a valid coupon code.</string>
+    <string name="coupon_error_unrecognized">Sorry, but this isn\&apos;t a valid coupon code.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, but this coupon has expired.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Sorry, but we’re having a problem. Please try again.</string>
+    <string name="coupon_error_not_redeemed">Sorry, but we\&apos;re having a problem. Please try again.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Sorry, but this coupon code has already been used.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Sorry, but we’re having a problem. Please try again.</string>
+    <string name="coupon_error_fallback">Sorry, but we\&apos;re having a problem. Please try again.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">The booking cost changed, so we didn’t apply the coupon. Please review and try again.</string>
+    <string name="coupon_error_price_change">The booking cost changed, so we didn\&apos;t apply the coupon. Please review and try again.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Sorry, but this coupon code is for a different country.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met"> Sorry, but you didn’t select the minimum number of nights.</string>
+    <string name="coupon_error_min_stay_not_met">Sorry, but you didn\&apos;t select the minimum number of nights.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Sorry, but this coupon isn’t valid for these dates.</string>
+    <string name="coupon_error_invalid_travel_dates">Sorry, but this coupon isn\&apos;t valid for these dates.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Sorry, but this hotel doesn’t accept coupons.</string>
+    <string name="coupon_error_invalid_product">Sorry, but this hotel doesn\&apos;t accept coupons.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Sorry, but this doesn’t meet the minimum cost requirement.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Sorry, but this doesn\&apos;t meet the minimum cost requirement.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn’t accept coupons.</string>
+    <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn\&apos;t accept coupons.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Sorry, but the coupon cannot be applied to this hotel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
@@ -2612,7 +2612,7 @@
     <!-- Error when applying coupon - Exceeded Earn Limit -->
     <string name="coupon_error_exceeded_earn_limit">Sorry, this coupon has been used too many times and can no longer be applied.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
-    <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn’t meet the minimum for this coupon.</string>
+    <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn\&apos;t meet the minimum for this coupon.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3076,7 +3076,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 coupon discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google” to check out. Coupon must be redeemed in the Expedia Android app by 11:59 PM (Pacific Time) on December 31, 2014 for travel between now and March 31, 2015. Limited time offer: subject to change. Limit one (1) coupon per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia’s Travel Agent Affiliate Program are not eligible for offer. Coupon valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A coupon will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule. Terms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorized person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
+    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 coupon discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google” to check out. Coupon must be redeemed in the Expedia Android app by 11:59 PM (Pacific Time) on December 31, 2014 for travel between now and March 31, 2015. Limited time offer: subject to change. Limit one (1) coupon per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia\&apos;s Travel Agent Affiliate Program are not eligible for offer. Coupon valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A coupon will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule. Terms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorized person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
     <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
     <string name="wallet_coupon_not_applied_manually">This coupon may only be applied when selecting Google Wallet as your form of payment.</string>
 
