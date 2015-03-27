@@ -18,7 +18,7 @@
             android:id="@+id/background_image_view"
             android:layout_width="match_parent"
             android:scaleType="centerCrop"
-            android:layout_height="134dp" />
+            android:layout_height="?attr/card_list_image_container_height" />
 
         <View
             android:layout_width="match_parent"
@@ -68,10 +68,10 @@
     <LinearLayout
         android:id="@+id/price_container"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="?attr/card_details_container_height"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/background_image_view"
-        android:layout_marginTop="134dp"
+        android:layout_marginTop="?attr/card_list_image_container_height"
         android:background="@android:color/white"
         android:orientation="horizontal"
         android:padding="12dp">

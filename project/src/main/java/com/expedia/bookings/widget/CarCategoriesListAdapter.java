@@ -3,10 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +19,7 @@ import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
@@ -35,15 +34,13 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 	private List<CategorizedCarOffers> categories = new ArrayList<>();
 	private static final String ROW_PICASSO_TAG = "CAR_CATEGORY_LIST";
 	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
-	private int mLoadingColorDark = Color.DKGRAY;
-	private int mLoadingColorLight = Color.LTGRAY;
 	public static boolean loadingState = false;
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == LOADING_VIEW) {
 			View view = LayoutInflater.from(parent.getContext())
-				.inflate(R.layout.car_loading_animation_widget, parent, false);
+				.inflate(R.layout.car_lx_loading_animation_widget, parent, false);
 			return new LoadingViewHolder(view);
 		}
 		else {
@@ -72,37 +69,10 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 				.load(url);
 		}
 		else {
-			setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
+			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
+			mAnimations.add(animation);
 			LoadingViewHolder.index++;
 		}
-	}
-
-	public void setupLoadingAnimation(View v, int i) {
-		mLoadingColorLight = Color.parseColor("#D3D4D4");
-		mLoadingColorDark = Color.parseColor("#848F94");
-		if (LoadingViewHolder.index % 2 == 0) {
-			animateBackground(v, mLoadingColorDark, mLoadingColorLight);
-		}
-		else {
-			animateBackground(v, mLoadingColorLight, mLoadingColorDark);
-		}
-
-	}
-
-	private void animateBackground(final View view, int startColor, int endColor) {
-		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
-		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animator) {
-				view.setBackgroundColor((Integer) animator.getAnimatedValue());
-			}
-
-		});
-		animation.setRepeatMode(ValueAnimator.REVERSE);
-		animation.setRepeatCount(ValueAnimator.INFINITE);
-		animation.setDuration(600);
-		animation.start();
-		mAnimations.add(animation);
 	}
 
 	public void cleanup() {
@@ -181,22 +151,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			Events.post(new Events.CarsShowDetails(offers));
 			OmnitureTracking.trackAppCarRateDetails(mContext, offers);
 		}
-	}
-
-	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
-		private static int index = 0;
-
-		@InjectView(R.id.background_image_view)
-		public ImageView backgroundImageView;
-
-		@InjectView(R.id.card_view)
-		public CardView cardView;
-
-		public LoadingViewHolder(View view) {
-			super(view);
-			ButterKnife.inject(this, itemView);
-		}
-
 	}
 
 	public void setCategories(List<CategorizedCarOffers> categories) {

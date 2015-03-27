@@ -37,6 +37,8 @@
 
         <item name="traveler_toolbar_text">@string/cars_driver_details_text</item>
         <item name="traveler_details_text">@string/enter_driver_details</item>
+        <item name="card_list_image_container_height">@dimen/car_search_list_image_container_height</item>
+        <item name="card_details_container_height">@dimen/car_search_details_container_height</item>
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>

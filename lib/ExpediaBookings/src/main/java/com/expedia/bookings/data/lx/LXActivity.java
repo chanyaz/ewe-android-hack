@@ -10,6 +10,9 @@ public class LXActivity {
 	public String fromPrice;
 	public LXTicketType fromPriceTicketCode;
 	public List<String> categories;
+	public String duration;
+	// True if the offers have different durations.
+	public boolean isMultiDuration;
 	// Currency code and location do not come from the search response and taken from the activity details.
 	public String currencyCode;
 	public String location;
