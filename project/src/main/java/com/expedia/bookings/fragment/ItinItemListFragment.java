@@ -307,6 +307,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		syncItinManager(false, false);
 	}
 
+	public void disableLoadItins() {
+		mAllowLoadItins = false;
+	}
+
 	public synchronized void startAddGuestItinActivity() {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		OmnitureTracking.trackFindItin(getActivity());

@@ -257,7 +257,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onSeeAllButtonPressed(Events.LaunchSeeAllButtonPressed event) {
-		goToHotels(event.animOptions);
+		NavUtils.goToHotels(getContext(), event.animOptions);
 	}
 
 	@Subscribe

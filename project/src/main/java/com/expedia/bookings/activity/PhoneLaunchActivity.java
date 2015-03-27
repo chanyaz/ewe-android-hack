@@ -186,6 +186,10 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		supportInvalidateOptionsMenu();
 
 		OmnitureTracking.onResume(this);
+
+		if (getSupportActionBar().getSelectedTab().getPosition() == 0) {
+			OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
+		}
 		AdTracker.trackViewHomepage();
 	}
 
@@ -438,7 +442,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 				supportInvalidateOptionsMenu();
 			}
 		}
-		OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
 	}
 
 	private synchronized void gotoItineraries() {
@@ -534,6 +537,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 			// will be called when user click on shop tab
 			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
+			mItinListFragment.disableLoadItins();
 		}
 
 		@Override
