@@ -340,7 +340,6 @@ public class CarResultsPresenter extends Presenter {
 
 			if (RetrofitUtils.isNetworkError(e)) {
 				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
-
 			}
 			else {
 				showCreateTripErrorDialog();
@@ -350,22 +349,7 @@ public class CarResultsPresenter extends Presenter {
 		@Override
 		public void onNext(CarCreateTripResponse response) {
 			createTripDialog.dismiss();
-
-			if (response == null) {
-				showCreateTripErrorDialog();
-			}
-			else if (response.hasErrors()) {
-				CarApiError error = response.getFirstError();
-				if (error.errorCode == CarApiError.Code.PRICE_CHANGE) {
-					showCheckout(response);
-				}
-				else {
-					showCreateTripErrorDialog();
-				}
-			}
-			else {
-				showCheckout(response);
-			}
+			showCheckout(response);
 		}
 	};
 
