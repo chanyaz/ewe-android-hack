@@ -93,4 +93,7 @@
     <string name="destination_list_launch_card_title_text">%1$s,\n%2$s</string>
     <!-- Menu option for going to see my trips/itineraries -->
     <string name="my_trips">My Trips</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">We need you to create a new, international sign in for all Travelocity sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
+
 </resources>

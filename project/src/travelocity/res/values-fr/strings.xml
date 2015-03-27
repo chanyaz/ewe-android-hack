@@ -98,5 +98,7 @@
     <string name="sold_out_on_tvly">Complet sur Travelocity</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
     <string name="not_currently_available_tvly_TEMPLATE">Non disponible sur Travelocity %s</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vous devez créer une nouvelle connexion internationale pour tous les sites Travelocity.\nVeuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
 
 </resources>
