@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -43,6 +44,7 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -59,8 +61,11 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -72,6 +77,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -1181,7 +1187,9 @@ public class OmnitureTracking {
 	public static final String LX_SEARCH = "App.LX.Search";
 	public static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
 	public static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
-	public static final String LX_CHECKOUT = "App.LX.Checkout.Payment";
+	public static final String LX_CHECKOUT_PAYMENT = "App.LX.Checkout.Payment";
+	public static final String LX_CHECKOUT_CONFIRMATION = "App.LX.Checkout.Confirmation";
+
 	public static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
 	public static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
 	public static final String LX_INFO = "LX_INFO";
@@ -1246,6 +1254,62 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackAppLXCheckoutPayment(Context context, LXCreateTripResponse createTripResponse, LXState lxState) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_PAYMENT + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_PAYMENT);
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().toString();
+		int ticketCount = LXUtils.getTotalTicketCount(lxState.selectedTickets);
+		String activityId = createTripResponse.activityId;
+
+
+		s.setEvents("event75");
+
+		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
+
+		// prop and evar 5, 6
+		LXSearchParams searchParams = lxState.searchParams;
+		setDateValues(s, searchParams.startDate, searchParams.endDate);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXCheckoutConfirmation(Context context, LXCheckoutResponse checkoutResponse, LXState lxState) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_CONFIRMATION);
+		String activityId = checkoutResponse.activityId;
+		Map<Ticket, Integer> selectedTickets = lxState.selectedTickets;
+		String orderId = checkoutResponse.orderId;
+		String currencyCode = checkoutResponse.currencyCode;
+		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;
+		String totalMoney = LXUtils.getTotalAmount(selectedTickets).getAmount().toString();
+		int ticketCount = LXUtils.getTotalTicketCount(selectedTickets);
+
+		s.setEvents("purchase");
+
+		s.setPurchaseID("onum" + orderId);
+		s.setProp(72, orderId);
+
+		s.setProp(71, travelRecordLocator);
+
+		s.setCurrencyCode(currencyCode);
+
+		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
+
+		// prop and evar 5, 6
+		LXSearchParams searchParams = lxState.searchParams;
+		setDateValues(s, searchParams.startDate, searchParams.endDate);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static String addLXProducts(String activityId, String totalMoney, int ticketCount) {
+		return "LX;Merchant LX:" + activityId + ";" + ticketCount + ";" + totalMoney;
+	}
+
 	public static void trackLinkLXChangeDate(Context context) {
 		trackLinkLX(context, LX_CHANGE_DATE);
 	}
@@ -1278,11 +1342,11 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 
 		s.setAppState(pageName);
-		s.setEvar(17, pageName);
+		s.setEvar(18, pageName);
 
 		// LOB Search
-		s.setEvar(2, LX_LOB);
-		s.setProp(2, "D=c2");
+		s.setEvar(2, "D=c2");
+		s.setProp(2, LX_LOB);
 		return s;
 	}
 

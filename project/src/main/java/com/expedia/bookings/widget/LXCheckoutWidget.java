@@ -16,6 +16,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
@@ -55,6 +56,9 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	@Subscribe
 	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
+
+		OmnitureTracking.trackAppLXCheckoutPayment(getContext(), event.createTripResponse, lxState);
+
 		bind(event.createTripResponse);
 	}
 
