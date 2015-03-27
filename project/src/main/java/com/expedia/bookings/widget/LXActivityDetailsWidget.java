@@ -21,6 +21,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.OffersDetail;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXFormatUtils;
@@ -130,19 +131,18 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {
 
-		String descriptionContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.description);
-		String locationContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.location);
-		String highlightsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.highlights);
-
-		if (Strings.isNotEmpty(descriptionContent)) {
+		if (Strings.isNotEmpty(activityDetailsResponse.description)) {
+			String descriptionContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.description);
 			description.bindData(getResources().getString(R.string.description_activity_details), descriptionContent);
 			description.setVisibility(View.VISIBLE);
 		}
-		if (Strings.isNotEmpty(locationContent)) {
+		if (Strings.isNotEmpty(activityDetailsResponse.location)) {
+			String locationContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.location);
 			location.bindData(getResources().getString(R.string.location_activity_details), locationContent);
 			location.setVisibility(View.VISIBLE);
 		}
-		if (Strings.isNotEmpty(highlightsContent)) {
+		if (CollectionUtils.isNotEmpty(activityDetailsResponse.highlights)) {
+			String highlightsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.highlights);
 			highlights.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent);
 			highlights.setVisibility(View.VISIBLE);
 		}

@@ -303,11 +303,11 @@
     <string name="ticket_type_snowmobile">Snowmobile</string>
     <string name="ticket_type_day">Day</string>
     <string name="ticket_type_bike">Bike</string>
-    <string name="ticket_type_week">week</string>
-    <string name="ticket_type_subscription">subscription</string>
-    <string name="ticket_type_electric_bike">electric bike</string>
-    <string name="ticket_type_segway">segway</string>
-    <string name="ticket_type_vehicle">vehicle</string>
+    <string name="ticket_type_week">Week</string>
+    <string name="ticket_type_subscription">Subscription</string>
+    <string name="ticket_type_electric_bike">Electric Bike</string>
+    <string name="ticket_type_segway">Segway</string>
+    <string name="ticket_type_vehicle">Vehicle</string>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per traveler</string>
     <string name="per_ticket_type_adult">per adult</string>
