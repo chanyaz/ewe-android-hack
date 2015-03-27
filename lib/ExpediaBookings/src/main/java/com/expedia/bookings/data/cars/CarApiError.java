@@ -23,7 +23,7 @@ public class CarApiError {
 		PAYMENT_FAILED, // Tell user to double-check payment info; more granular if so desired?
 		SESSION_TIMEOUT, // do a fresh create trip ... time passed or cookies got messed up
 		MOBILE_USER_CREATION_FAILED_DURING_CHECKOUT, // account already created
-		TRIP_ALREADY_BOOKED // a similar reservation exists on our backend
+		TRIP_ALREADY_BOOKED, // a similar reservation exists on our backend
 		;
 	}
 
@@ -34,7 +34,7 @@ public class CarApiError {
 		PICKUP_DATE_TOO_EARLY,
 		SEARCH_DURATION_TOO_LARGE,
 		PICKUP_DATE_IN_THE_PAST,
-		PICKUP_DATE_AND_DROP_OFF_DATE_ARE_THE_SAME
+		PICKUP_DATE_AND_DROP_OFF_DATE_ARE_THE_SAME,
 	}
 
 	public static class ErrorInfo {
