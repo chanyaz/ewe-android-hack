@@ -64,6 +64,8 @@ public class LaunchLobWidget extends RelativeLayout {
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
+		// Otto events aren't being received so call updateVisibilities() here when ever the app crashes and restarts.
+		updateVisibilities();
 	}
 
 	@Override
