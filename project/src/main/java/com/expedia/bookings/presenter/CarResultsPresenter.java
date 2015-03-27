@@ -33,6 +33,7 @@ import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
@@ -464,6 +465,8 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
 		toolbar.setTranslationY(forward ? 50 : 0);
 		toolbar.setVisibility(forward ? GONE : VISIBLE);
+		toolbarBackground.setAlpha(
+			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
 	}
 
 	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {
