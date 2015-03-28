@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_toLeftOf="@+id/price_container"
+            android:layout_toLeftOf="@+id/full_tile_price_container"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/launch_list_txt"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:layout_toLeftOf="@+id/price_container"
+            android:layout_toLeftOf="@+id/full_tile_price_container"
             android:gravity="bottom">
 
             <com.expedia.bookings.widget.TextView
@@ -108,20 +108,35 @@
                     app:textStyle="light" />
             </LinearLayout>
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/half_tile_price"
+            <LinearLayout
+                android:id="@+id/half_tile_price_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
-                android:textColor="@color/launch_list_txt"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/half_tile_strikethrough_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/launch_list_strikethrough_txt"
+                    android:textSize="14sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/half_tile_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/launch_list_txt"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/price_container"
+            android:id="@+id/full_tile_price_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -130,7 +145,7 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/strikethrough_price"
+                android:id="@+id/full_tile_strikethrough_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -139,13 +154,13 @@
                 android:textSize="14sp" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/price"
+                android:id="@+id/full_tile_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
                 android:textColor="@color/launch_list_txt"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

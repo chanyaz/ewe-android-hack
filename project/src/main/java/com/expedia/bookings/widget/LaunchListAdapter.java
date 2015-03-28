@@ -271,16 +271,24 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public TextView ratingText;
 
 		@Optional
-		@InjectView(R.id.price_container)
-		public View priceContainer;
+		@InjectView(R.id.full_tile_price_container)
+		public View fullTilePriceContainer;
 
 		@Optional
-		@InjectView(R.id.strikethrough_price)
-		public TextView strikethroughPrice;
+		@InjectView(R.id.full_tile_strikethrough_price)
+		public TextView fullTileStrikethroughPrice;
 
 		@Optional
-		@InjectView(R.id.price)
-		public TextView price;
+		@InjectView(R.id.full_tile_price)
+		public TextView fullTilePrice;
+
+		@Optional
+		@InjectView(R.id.half_tile_price_container)
+		public View halfTilePriceContainer;
+
+		@Optional
+		@InjectView(R.id.half_tile_strikethrough_price)
+		public TextView halfTileStrikethroughPrice;
 
 		@Optional
 		@InjectView(R.id.half_tile_price)
@@ -314,13 +322,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			if (fullWidthTile) {
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
-				priceContainer.setVisibility(View.VISIBLE);
-				halfTilePrice.setVisibility(View.GONE);
+				fullTilePriceContainer.setVisibility(View.VISIBLE);
+				halfTilePriceContainer.setVisibility(View.GONE);
+				fullTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
 			}
 			else {
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
-				priceContainer.setVisibility(View.GONE);
-				halfTilePrice.setVisibility(View.VISIBLE);
+				fullTilePriceContainer.setVisibility(View.GONE);
+				halfTilePriceContainer.setVisibility(View.VISIBLE);
+				halfTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
 			}
 
 			// Bind nearby hotel data
@@ -344,19 +354,29 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			rating.setText(Float.toString(hotel.hotelGuestRating));
 			if (fullWidth) {
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
-					strikethroughPrice.setVisibility(View.VISIBLE);
-					strikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
+					fullTileStrikethroughPrice.setVisibility(View.VISIBLE);
+					fullTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
 								StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.lowRateInfo.currencyCode))),
 						null,
 						new StrikethroughTagHandler()));
 				}
 				else {
-					strikethroughPrice.setVisibility(View.GONE);
+					fullTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				price.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
+				fullTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				ratingText.setVisibility(View.VISIBLE);
 			}
 			else {
+				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
+					halfTileStrikethroughPrice.setVisibility(View.VISIBLE);
+					halfTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
+						StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.rateCurrencyCode))),
+						null,
+						new StrikethroughTagHandler()));
+				}
+				else {
+					halfTileStrikethroughPrice.setVisibility(View.GONE);
+				}
 				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				ratingText.setVisibility(View.GONE);
 			}
@@ -414,8 +434,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			FontCache.setTypeface(title, FontCache.Font.ROBOTO_MEDIUM);
 			subtitle.setText(location.subtitle);
 			ratingInfo.setVisibility(View.GONE);
-			priceContainer.setVisibility(View.GONE);
-			halfTilePrice.setVisibility(View.GONE);
+			fullTilePriceContainer.setVisibility(View.GONE);
+			halfTilePriceContainer.setVisibility(View.GONE);
 			saleTextView.setVisibility(View.GONE);
 		}
 
