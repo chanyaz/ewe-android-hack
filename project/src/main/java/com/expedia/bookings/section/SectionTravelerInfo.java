@@ -457,8 +457,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -496,8 +496,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -552,8 +552,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -584,8 +584,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.EMAIL);
 		}
 
 		@Override
