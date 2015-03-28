@@ -160,7 +160,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
                 android:textColor="@color/launch_list_txt"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

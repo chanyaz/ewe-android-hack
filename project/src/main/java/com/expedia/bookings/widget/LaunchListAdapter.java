@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -324,13 +325,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
 				fullTilePriceContainer.setVisibility(View.VISIBLE);
 				halfTilePriceContainer.setVisibility(View.GONE);
-				fullTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
 			}
 			else {
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
 				fullTilePriceContainer.setVisibility(View.GONE);
 				halfTilePriceContainer.setVisibility(View.VISIBLE);
-				halfTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
 			}
 
 			// Bind nearby hotel data
@@ -367,7 +366,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				ratingText.setVisibility(View.VISIBLE);
 			}
 			else {
-				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
+				if (PointOfSale.getPointOfSale().supportsStrikethroughPrice() && HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					halfTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					halfTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
 						StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.rateCurrencyCode))),
