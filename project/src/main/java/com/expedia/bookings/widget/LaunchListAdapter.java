@@ -346,18 +346,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					strikethroughPrice.setVisibility(View.VISIBLE);
 					strikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.rateCurrencyCode))),
+								StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.lowRateInfo.currencyCode))),
 						null,
 						new StrikethroughTagHandler()));
 				}
 				else {
 					strikethroughPrice.setVisibility(View.GONE);
 				}
-				price.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.rateCurrencyCode)));
+				price.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				ratingText.setVisibility(View.VISIBLE);
 			}
 			else {
-				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.rateCurrencyCode)));
+				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				ratingText.setVisibility(View.GONE);
 			}
 			setHotelDiscountBanner(hotel, context, fullWidth);
