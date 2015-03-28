@@ -432,6 +432,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			title.setText(location.title);
 			FontCache.setTypeface(title, FontCache.Font.ROBOTO_MEDIUM);
 			subtitle.setText(location.subtitle);
+			subtitle.setVisibility(View.VISIBLE);
 			ratingInfo.setVisibility(View.GONE);
 			fullTilePriceContainer.setVisibility(View.GONE);
 			halfTilePriceContainer.setVisibility(View.GONE);
