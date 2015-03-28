@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -124,6 +126,13 @@ public class PaymentWidget extends ExpandableCardView {
 		creditCardName.setOnFocusChangeListener(this);
 		creditCardPostalCode.setOnFocusChangeListener(this);
 		paymentButton.setPaymentButtonListener(paymentButtonListener);
+		sectionBillingInfo.addInvalidCharacterListener(new InvalidCharacterHelper.InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text, InvalidCharacterHelper.Mode mode) {
+				ActionBarActivity activity = (ActionBarActivity) getContext();
+				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
+			}
+		});
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
