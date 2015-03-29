@@ -443,8 +443,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				searchResponse.clearCache();
 			}
 
+			if (Db.getHotelSearch().getSearchParams().fromLaunchScreen()) {
+				mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+				buildFilter();
+			}
 			// #9773: Show distance sort initially, if user entered street address-level search params
-			if (mShowDistance) {
+			else if (mShowDistance) {
 				mSortOptionSelectedId = R.id.menu_select_sort_distance;
 				buildFilter();
 			}

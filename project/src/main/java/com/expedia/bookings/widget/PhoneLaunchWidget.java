@@ -326,6 +326,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 			searchParams.setCheckInDate(currentDate);
 			searchParams.setCheckOutDate(currentDate.plusDays(1));
 			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+			searchParams.setFromLaunchScreen(true);
 
 			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
 			launchDataTimeStamp = DateTime.now();
