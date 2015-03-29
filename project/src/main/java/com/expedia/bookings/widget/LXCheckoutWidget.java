@@ -104,12 +104,13 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	public void onBook(String cvv) {
 		final boolean suppressFinalBooking =
 			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_lx_bookings, true);
+
 		LXCheckoutParamsBuilder checkoutParamsBuilder = new LXCheckoutParamsBuilder()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
 			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
 				: mainContactInfoCardView.emailAddress.getText().toString())
-			.expectedTotalFare(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().toString())
+			.expectedTotalFare(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().setScale(2).toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())

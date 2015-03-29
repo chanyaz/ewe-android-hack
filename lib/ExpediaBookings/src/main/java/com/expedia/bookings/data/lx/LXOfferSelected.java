@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.lx;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ public class LXOfferSelected {
 	private String activityDate;
 	private List<LXTicketSelected> tickets = new ArrayList<>();
 	private boolean allDayActivity;
-	private BigDecimal amount;
+	private String amount;
 
 	public LXOfferSelected(String activityId, Offer offer, Map<Ticket, Integer> selectedTickets) {
 		DateTime activityDate = DateUtils
@@ -35,7 +34,7 @@ public class LXOfferSelected {
 		}
 
 		this.activityId = activityId;
-		this.amount = LXUtils.getTotalAmount(selectedTickets).getAmount();
+		this.amount = LXUtils.getTotalAmount(selectedTickets).getAmount().setScale(2).toString();
 		this.activityDate = DateUtils.toYYYYMMTddhhmmss(activityDate);
 		this.activityItemId = offer.id;
 		this.allDayActivity = offer.availabilityInfoOfSelectedDate.availabilities.allDayActivity;

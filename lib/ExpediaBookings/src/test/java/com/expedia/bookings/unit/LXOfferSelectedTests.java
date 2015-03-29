@@ -33,6 +33,6 @@ public class LXOfferSelectedTests {
 		LXOfferSelected a = new LXOfferSelected("123456", offer, tickets);
 
 		String expectedSerializedJson = gson.toJson(a);
-		assertEquals(expectedSerializedJson, "{\"activityId\":\"123456\",\"activityItemId\":\"183619\",\"activityDate\":\"2015-02-24T07:30:00\",\"tickets\":[{\"ticketId\":\"90042\",\"code\":\"Adult\",\"count\":2}],\"allDayActivity\":false,\"amount\":260}");
+		assertEquals(expectedSerializedJson, "{\"activityId\":\"123456\",\"activityItemId\":\"183619\",\"activityDate\":\"2015-02-24T07:30:00\",\"tickets\":[{\"ticketId\":\"90042\",\"code\":\"Adult\",\"count\":2}],\"allDayActivity\":false,\"amount\":\"260.00\"}");
 	}
 }
