@@ -4,7 +4,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripInfo;
 import com.google.gson.annotations.SerializedName;
 
-public class CarCheckoutResponse extends BaseCarResponse {
+public class CarCheckoutResponse extends BaseApiResponse {
 	public TripInfo newTrip;
 	public String orderId;
 	public Money totalChargesPrice; // TODO: API needs to include currency code in this object.
@@ -20,4 +20,5 @@ public class CarCheckoutResponse extends BaseCarResponse {
 	public CreateTripCarOffer originalCarProduct;
 	@SerializedName("carProduct")
 	public CreateTripCarOffer newCarProduct;
+
 }

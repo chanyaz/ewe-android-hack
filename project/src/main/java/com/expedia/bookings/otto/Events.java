@@ -24,7 +24,7 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
-import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -591,9 +591,9 @@ public class Events {
 	}
 
 	public static class CarsShowSearchResultsError {
-		public CarApiError error;
+		public ApiError error;
 
-		public CarsShowSearchResultsError(CarApiError error) {
+		public CarsShowSearchResultsError(ApiError error) {
 			this.error = error;
 		}
 	}
@@ -691,7 +691,11 @@ public class Events {
 	}
 
 	public static class LXShowSearchError {
-		// ignore
+		public ApiError error;
+
+		public LXShowSearchError(ApiError error) {
+			this.error = error;
+		}
 	}
 
 	public static class LXActivitySelected {
@@ -780,6 +784,13 @@ public class Events {
 		// ignore
 	}
 
+	public static class LXInvalidInput {
+		public String field;
+
+		public LXInvalidInput(String field) {
+			this.field = field;
+		}
+	}
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {

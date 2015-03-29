@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.expedia.bookings.data.ValidPayment;
 
-public class CarCreateTripResponse extends BaseCarResponse {
+public class CarCreateTripResponse extends BaseApiResponse {
 	public CreateTripCarOffer carProduct;
 
 	public String itineraryNumber;

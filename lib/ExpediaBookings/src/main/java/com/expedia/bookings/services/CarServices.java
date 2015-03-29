@@ -8,8 +8,8 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.BaseCarResponse;
-import com.expedia.bookings.data.cars.CarApiException;
+import com.expedia.bookings.data.cars.ApiException;
+import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
@@ -97,11 +97,11 @@ public class CarServices {
 
 	// Throw an error so the UI can handle it except for price changes.
 	// Let the remaining pipline handle those
-	private static final Action1<BaseCarResponse> HANDLE_ERRORS = new Action1<BaseCarResponse>() {
+	private static final Action1<BaseApiResponse> HANDLE_ERRORS = new Action1<BaseApiResponse>() {
 		@Override
-		public void call(BaseCarResponse response) {
+		public void call(BaseApiResponse response) {
 			if (response.hasErrors() && !response.hasPriceChange()) {
-				throw new CarApiException(response.getFirstError());
+				throw new ApiException(response.getFirstError());
 			}
 		}
 	};

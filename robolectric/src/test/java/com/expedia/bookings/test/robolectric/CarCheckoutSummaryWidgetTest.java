@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarInfo;
@@ -110,8 +110,8 @@ public class CarCheckoutSummaryWidgetTest {
 
 	@Test
 	public void testCheckoutSummaryWithPriceChange() {
-		CarApiError error = new CarApiError();
-		error.errorCode = CarApiError.Code.PRICE_CHANGE;
+		ApiError error = new ApiError();
+		error.errorCode = ApiError.Code.PRICE_CHANGE;
 		carCreateTripResponse.errors = Arrays.asList(error);
 		SearchCarOffer searchCarOffer = new SearchCarOffer();
 		SearchCarFare searchFare = new SearchCarFare();

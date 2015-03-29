@@ -6,20 +6,27 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.ApiException;
+import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
 import com.expedia.bookings.widget.LXConfirmationWidget;
+import com.expedia.bookings.widget.LXErrorWidget;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -45,8 +52,13 @@ public class LXCheckoutPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
+	@InjectView(R.id.lx_checkout_error_widget)
+	LXErrorWidget errorScreen;
+
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
+
+	private LXCheckoutParamsBuilder checkoutParamsBuilder;
 
 	@Override
 	protected void onFinishInflate() {
@@ -57,6 +69,8 @@ public class LXCheckoutPresenter extends Presenter {
 		addDefaultTransition(defaultCheckoutTransition);
 		addTransition(checkoutToCvv);
 		addTransition(cvvToConfirmation);
+		addTransition(cvvToError);
+		addTransition(checkoutToError);
 
 		cvv.setCVVEntryListener(checkout);
 
@@ -98,14 +112,28 @@ public class LXCheckoutPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
+			Log.e("LXCheckout - onError", e);
 			checkoutDialog.dismiss();
+
+			if (RetrofitUtils.isNetworkError(e)) {
+				showCheckoutErrorDialog(R.string.error_no_internet);
+			}
+			else if (e instanceof ApiException) {
+				ApiException checkoutApiException = (ApiException) e;
+				showErrorScreen(checkoutApiException.apiError);
+			}
 		}
 
 		@Override
 		public void onNext(LXCheckoutResponse lxCheckoutResponse) {
-			checkoutDialog.dismiss();
-			Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
-			show(confirmationWidget);
+			if (lxCheckoutResponse == null) {
+				showErrorScreen(null);
+			}
+			else {
+				checkoutDialog.dismiss();
+				Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
+				show(confirmationWidget);
+			}
 		}
 	};
 
@@ -115,6 +143,7 @@ public class LXCheckoutPresenter extends Presenter {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
 			confirmationWidget.setVisibility(View.GONE);
+			errorScreen.setVisibility(View.GONE);
 		}
 	};
 	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXCheckoutWidget.class.getName());
@@ -129,6 +158,17 @@ public class LXCheckoutPresenter extends Presenter {
 		}
 	};
 
+	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXErrorWidget.class.getName());
+
+	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutWidget.class.getName(), LXErrorWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			if (!forward) {
+				checkout.slideWidget.resetSlider();
+			}
+		}
+	};
 	/**
 	 * Events
 	 */
@@ -147,8 +187,9 @@ public class LXCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void onDoCheckoutCall(Events.LXKickOffCheckoutCall event) {
-		if (event.checkoutParamsBuilder.areRequiredParamsFilled()) {
-			checkoutSubscription = lxServices.lxCheckout(event.checkoutParamsBuilder.build(), checkoutObserver);
+		checkoutParamsBuilder = event.checkoutParamsBuilder;
+		if (checkoutParamsBuilder.areRequiredParamsFilled()) {
+			checkoutSubscription = lxServices.lxCheckout(checkoutParamsBuilder.build(), checkoutObserver);
 			checkoutDialog.show();
 		}
 		else {
@@ -156,5 +197,39 @@ public class LXCheckoutPresenter extends Presenter {
 			String btn = getResources().getString(R.string.ok);
 			showAlertMessage(msg, btn);
 		}
+	}
+
+	@Subscribe
+	public void showInvalidInput(Events.LXInvalidInput event) {
+		show(checkout, FLAG_CLEAR_TOP);
+		checkout.slideWidget.resetSlider();
+		checkout.mainContactInfoCardView.setExpanded(true, true);
+		checkout.mainContactInfoCardView.setInvalid(event.field);
+	}
+
+	private void showCheckoutErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					checkout.slideWidget.resetSlider();
+				}
+			})
+			.show();
+	}
+
+	private void showErrorScreen(ApiError error) {
+		errorScreen.bind(error);
+		show(errorScreen);
 	}
 }

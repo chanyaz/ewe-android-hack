@@ -17,20 +17,19 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ErrorWidget extends FrameLayout {
+public class LXErrorWidget extends FrameLayout {
 
-	public ErrorWidget(Context context, AttributeSet attrs) {
+	public LXErrorWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		inflate(context, R.layout.error_widget, this);
+		inflate(context, R.layout.lx_error_widget, this);
 	}
 
-	@InjectView(R.id.main_container)
+	@InjectView(R.id.error_main_container)
 	ViewGroup root;
 
 	@InjectView(R.id.error_image)
@@ -74,87 +73,34 @@ public class ErrorWidget extends FrameLayout {
 		}
 
 		switch (error.errorCode) {
-		case CAR_SEARCH_ERROR:
-			showDefaultSearchError();
-			break;
-		case CAR_PRODUCT_NOT_AVAILABLE:
-			showNoProductSearchError();
-			break;
-		case CAR_SERVICE_ERROR:
-			showDefaultSearchError();
-			break;
-		case PAYMENT_FAILED:
-			bindText(R.drawable.error_payment,
-				R.string.reservation_payment_failed,
-				R.string.cars_payment_failed_text,
-				R.string.edit_payment);
-			errorButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Events.post(new Events.CarsPaymentFailed());
-				}
-			});
-			break;
+
 		case INVALID_INPUT:
 			int resID = R.string.oops;
-			if (error.errorInfo.field.equals("mainMobileTraveler.lastName")) {
+			if (error.errorInfo.field.equals("lastName")) {
 				resID = R.string.reservation_invalid_name;
 			}
-			else if (error.errorInfo.field.equals("mainMobileTraveler.firstName")) {
+			else if (error.errorInfo.field.equals("firstName")) {
 				resID = R.string.reservation_invalid_name;
 			}
-			else if (error.errorInfo.field.equals("mainMobileTraveler.phone")) {
+			else if (error.errorInfo.field.equals("phone")) {
 				resID = R.string.reservation_invalid_phone;
 			}
 			bindText(R.drawable.error_default,
 				resID,
-				R.string.cars_invalid_input_text,
+				R.string.lx_invalid_input_text,
 				R.string.edit_info);
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Events.post(new Events.CarsInvalidInput(error.errorInfo.field));
+					Events.post(new Events.LXInvalidInput(error.errorInfo.field));
 				}
 			});
 			break;
-		case PRICE_CHANGE:
-			bindText(R.drawable.error_price,
-				R.string.reservation_price_change,
-				R.string.cars_price_change_text,
-				R.string.view_price_change);
-			errorButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Events.post(new Events.CarsPriceChange());
-				}
-			});
+
+		case LX_SEARCH_NO_RESULTS:
+			showNoProductSearchError();
 			break;
-		case SESSION_TIMEOUT:
-			bindText(R.drawable.error_timeout,
-				R.string.reservation_time_out,
-				R.string.cars_session_timeout_text,
-				R.string.edit_search);
-			errorButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Events.post(new Events.CarsSessionTimeout());
-				}
-			});
-			break;
-		case TRIP_ALREADY_BOOKED:
-			bindText(R.drawable.error_trip_booked,
-				R.string.reservation_already_exists,
-				R.string.cars_dupe_trip_text,
-				R.string.my_trips);
-			errorButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					NavUtils.goToItin(getContext());
-				}
-			});
-			break;
-		case UNKNOWN_ERROR:
-		case OMS_ERROR:
+
 		default:
 			showDefaultError();
 			break;
@@ -164,7 +110,7 @@ public class ErrorWidget extends FrameLayout {
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
 			R.string.oops,
-			R.string.cars_error_text,
+			R.string.lx_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -174,28 +120,15 @@ public class ErrorWidget extends FrameLayout {
 		});
 	}
 
-	public void showDefaultSearchError() {
-		bindText(R.drawable.error_default,
-			R.string.oops,
-			R.string.cars_error_text,
-			R.string.retry);
-		errorButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Events.post(new Events.CarsSearchFailed());
-			}
-		});
-	}
-
 	public void showNoProductSearchError() {
-		bindText(R.drawable.car,
-			R.string.error_car_search_message,
-			R.string.cars_error_text,
+		bindText(R.drawable.ic_type_circle_activity,
+			R.string.error_lx_search_message,
+			R.string.lx_error_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Events.post(new Events.CarsGoToSearch());
+				Events.post(new Events.LXShowSearchWidget());
 			}
 		});
 	}
@@ -205,6 +138,10 @@ public class ErrorWidget extends FrameLayout {
 		errorText.setText(textId);
 		toolbar.setTitle(toolbarTextId);
 		errorButton.setText(buttonTextId);
+	}
+
+	public void setToolbarVisibility(int visibility) {
+		toolbar.setVisibility(visibility);
 	}
 
 }

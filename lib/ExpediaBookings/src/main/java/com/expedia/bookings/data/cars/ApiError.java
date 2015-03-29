@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.cars;
 
-public class CarApiError {
+public class ApiError {
 
 	public enum Code {
 		// Common errors
@@ -24,6 +24,9 @@ public class CarApiError {
 		SESSION_TIMEOUT, // do a fresh create trip ... time passed or cookies got messed up
 		MOBILE_USER_CREATION_FAILED_DURING_CHECKOUT, // account already created
 		TRIP_ALREADY_BOOKED, // a similar reservation exists on our backend
+
+		// LX Api Errors
+		LX_SEARCH_NO_RESULTS,
 		;
 	}
 

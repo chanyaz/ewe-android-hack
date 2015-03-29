@@ -1,15 +1,15 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
-import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXApiError;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -206,15 +206,15 @@ public class LXServicesTest {
 		blockingObserver.await();
 		subscription.unsubscribe();
 
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		List<LXApiError> errors = blockingObserver.getItems().get(0).errors;
-		assertEquals(2, errors.size());
-		for (LXApiError error : errors) {
-			assertEquals(LXApiError.Code.INVALID_INPUT, error.errorCode);
-			assertNotNull(error.errorInfo.field);
-			assertNotNull(error.errorInfo.summary);
-		}
+		assertEquals(1, blockingObserver.getErrors().size());
+		assertEquals(0, blockingObserver.getItems().size());
+
+		ApiException apiException = (ApiException) blockingObserver.getErrors().get(0);
+		ApiError apiError = apiException.apiError;
+
+		assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode);
+		assertNotNull(apiError.errorInfo.field);
+		assertNotNull(apiError.errorInfo.summary);
 	}
 
 	@Test
@@ -232,13 +232,14 @@ public class LXServicesTest {
 		blockingObserver.await();
 		subscription.unsubscribe();
 
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		List<LXApiError> errors = blockingObserver.getItems().get(0).errors;
-		assertEquals(1, errors.size());
-		assertEquals(LXApiError.Code.PAYMENT_FAILED, errors.get(0).errorCode);
-		assertNotNull(errors.get(0).errorInfo.field);
-		assertNotNull(errors.get(0).errorInfo.summary);
+		assertEquals(1, blockingObserver.getErrors().size());
+		assertEquals(0, blockingObserver.getItems().size());
+
+		ApiException apiException = (ApiException) blockingObserver.getErrors().get(0);
+		ApiError apiError = apiException.apiError;
+		assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode);
+		assertNotNull(apiError.errorInfo.field);
+		assertNotNull(apiError.errorInfo.summary);
 	}
 
 	private LXCheckoutParams checkoutParams() {

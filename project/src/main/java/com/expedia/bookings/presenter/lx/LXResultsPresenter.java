@@ -3,8 +3,11 @@ package com.expedia.bookings.presenter.lx;
 import javax.inject.Inject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.otto.Events;
@@ -20,8 +24,10 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -91,8 +97,18 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			Events.post(new Events.LXShowSearchError());
+			Log.e("LXSearch - onError", e);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
+
+			if (RetrofitUtils.isNetworkError(e)) {
+				showSearchErrorDialog(R.string.error_no_internet);
+				return;
+			}
+			else if (e instanceof ApiException) {
+				ApiException apiException = (ApiException) e;
+				Events.post(new Events.LXShowSearchError(apiException.apiError));
+				return;
+			}
 		}
 
 		@Override
@@ -103,6 +119,27 @@ public class LXResultsPresenter extends Presenter {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
 	};
+
+	private void showSearchErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXNewSearchParamsAvailable(lxState.searchParams));
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXShowSearchWidget());
+				}
+			})
+			.show();
+	}
 
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {

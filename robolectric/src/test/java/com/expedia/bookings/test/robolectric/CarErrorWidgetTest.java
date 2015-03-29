@@ -12,25 +12,25 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.widget.ErrorWidget;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class CarErrorWidgetTest {
-	private CarApiError carApiError;
+	private ApiError apiError;
 
 	@Before
 	public void before() {
-		carApiError = new CarApiError();
-		carApiError.errorCode = CarApiError.Code.INVALID_INPUT;
+		apiError = new ApiError();
+		apiError.errorCode = ApiError.Code.INVALID_INPUT;
 
-		CarApiError.ErrorInfo info = new CarApiError.ErrorInfo();
+		ApiError.ErrorInfo info = new ApiError.ErrorInfo();
 		info.summary = "Invalid input error";
 		info.field = "mainMobileTraveler.lastName";
 		info.cause = "Please provide a name without numbers or special characters.";
-		carApiError.errorInfo = info;
+		apiError.errorInfo = info;
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class CarErrorWidgetTest {
 		ErrorWidget errorWidget = (ErrorWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.car_error_widget_test, null);
 
-		errorWidget.bind(carApiError);
+		errorWidget.bind(apiError);
 
 		Button errorButton = (Button) errorWidget.findViewById(R.id.error_action_button);
 		TextView errorText = (TextView) errorWidget.findViewById(R.id.error_text);
@@ -50,10 +50,10 @@ public class CarErrorWidgetTest {
 		assertEquals("Edit Info", errorButton.getText());
 
 		// testSessionTimeout
-		carApiError = new CarApiError();
-		carApiError.errorCode = CarApiError.Code.SESSION_TIMEOUT;
+		apiError = new ApiError();
+		apiError.errorCode = ApiError.Code.SESSION_TIMEOUT;
 
-		errorWidget.bind(carApiError);
+		errorWidget.bind(apiError);
 
 		assertEquals("Session Timeout", errorToolbar.getTitle());
 		assertEquals("Still there? Your session has expired. Please try your search again.", errorText.getText());

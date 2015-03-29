@@ -125,7 +125,7 @@ public class LXSearchParamsPresenter extends Presenter
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
-				if (!getCurrentState().equals(LXParamsDefault.class.getName())) {
+				if (getCurrentState() != null && !getCurrentState().equals(LXParamsDefault.class.getName())) {
 					back();
 				}
 				selectDates.setChecked(false);

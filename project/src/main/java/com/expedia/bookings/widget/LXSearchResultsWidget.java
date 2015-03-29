@@ -17,7 +17,6 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class LXSearchResultsWidget extends FrameLayout {
 
@@ -32,15 +31,10 @@ public class LXSearchResultsWidget extends FrameLayout {
 	@InjectView(R.id.lx_search_results_list)
 	RecyclerView recyclerView;
 
-	@InjectView(R.id.lx_search_failure)
-	FrameLayout searchFailure;
+	@InjectView(R.id.lx_search_error_widget)
+	LXErrorWidget errorScreen;
 
 	private LXResultsListAdapter adapter;
-
-	@OnClick(R.id.edit_search)
-	public void onEditSearch() {
-		Events.post(new Events.LXShowSearchWidget());
-	}
 
 	@Override
 	protected void onFinishInflate() {
@@ -60,7 +54,8 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 		adapter = new LXResultsListAdapter();
 		recyclerView.setAdapter(adapter);
-		searchFailure.setVisibility(View.GONE);
+		errorScreen.setVisibility(View.GONE);
+		errorScreen.setToolbarVisibility(GONE);
 	}
 
 	@Override
@@ -72,7 +67,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 	public void onLXSearchAvailable(Events.LXSearchResultsAvailable event) {
 		adapter.cleanup();
 		recyclerView.setVisibility(View.VISIBLE);
-		searchFailure.setVisibility(View.GONE);
+		errorScreen.setVisibility(View.GONE);
 		adapter.loadingState = false;
 		adapter.setActivities(event.lxSearchResponse.activities);
 	}
@@ -80,12 +75,14 @@ public class LXSearchResultsWidget extends FrameLayout {
 	@Subscribe
 	public void onLXSearchError(Events.LXShowSearchError event) {
 		recyclerView.setVisibility(View.GONE);
-		searchFailure.setVisibility(View.VISIBLE);
+		errorScreen.bind(event.error);
+		errorScreen.setVisibility(View.VISIBLE);
 	}
 
 	@Subscribe
 	public void onLXShowLoadingAnimation(Events.LXShowLoadingAnimation event) {
 		recyclerView.setVisibility(View.VISIBLE);
+		errorScreen.setVisibility(View.GONE);
 		List<LXActivity> elements = createDummyListForAnimation();
 		adapter.loadingState = true;
 		adapter.setActivities(elements);

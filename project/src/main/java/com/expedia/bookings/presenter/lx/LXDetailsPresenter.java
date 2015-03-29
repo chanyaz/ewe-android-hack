@@ -1,13 +1,14 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.inject.Inject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
@@ -26,14 +27,15 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
-import rx.exceptions.OnErrorNotImplementedException;
 
 public class LXDetailsPresenter extends Presenter {
 
@@ -171,7 +173,7 @@ public class LXDetailsPresenter extends Presenter {
 	}
 
 	@Subscribe
-	public void onOfferBooked(Events.LXOfferBooked event) throws UnsupportedEncodingException {
+	public void onOfferBooked(Events.LXOfferBooked event) {
 		createTripDialog.show();
 		cleanup();
 
@@ -186,7 +188,14 @@ public class LXDetailsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			throw new OnErrorNotImplementedException(e);
+			Log.e("LXCreateTrip - onError", e);
+			createTripDialog.dismiss();
+			if (RetrofitUtils.isNetworkError(e)) {
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				showCreateTripErrorDialog();
+			}
 		}
 
 		@Override
@@ -197,5 +206,39 @@ public class LXDetailsPresenter extends Presenter {
 			Events.post(new Events.LXCreateTripSucceeded(response));
 		}
 	};
+
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXOfferBooked(lxState.offer, lxState.selectedTickets));
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	private void showCreateTripErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(R.string.oops))
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXShowSearchWidget());
+				}
+			})
+			.show();
+	}
 
 }
