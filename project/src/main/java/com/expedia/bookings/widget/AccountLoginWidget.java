@@ -949,14 +949,18 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		mFacebookExpectingClose = true;
 		User.signOut(getContext());
 		// Let's clear expedia username and password on logout.
-		mExpediaUserName.removeTextChangedListener(usernameWatcher);
-		mExpediaUserName.setText("");
-		mExpediaPassword.setText("");
-		mExpediaUserName.addTextChangedListener(usernameWatcher);
+		clearLoginFields();
 		if (mLogInStatusListener != null) {
 			mLogInStatusListener.onLogout();
 		}
 		setVisibilityState(VisibilityState.SIGN_IN, true);
+	}
+
+	private void clearLoginFields() {
+		mExpediaUserName.removeTextChangedListener(usernameWatcher);
+		mExpediaUserName.setText("");
+		mExpediaPassword.setText("");
+		mExpediaUserName.addTextChangedListener(usernameWatcher);
 	}
 
 	//////////////////////////////////
@@ -1402,6 +1406,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			return;
 		}
 		else {
+			clearLoginFields();
 			mExpediaUserName.requestFocus();
 			Ui.showKeyboard(mExpediaUserName, null);
 			OmnitureTracking.trackAppCarLoginPage(getContext());
