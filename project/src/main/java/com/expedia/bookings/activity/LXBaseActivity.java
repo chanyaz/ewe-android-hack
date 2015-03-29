@@ -15,6 +15,7 @@ import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,7 +33,6 @@ public class LXBaseActivity extends ActionBarActivity {
 		Ui.getApplication(this).defaultLXComponents();
 		setContentView(R.layout.lx_base_layout);
 		ButterKnife.inject(this);
-		Events.register(this);
 		Ui.showTransparentStatusBar(this);
 		fromDeepLink();
 	}
@@ -67,6 +67,23 @@ public class LXBaseActivity extends ActionBarActivity {
 		if (!lxPresenter.back()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+	@Subscribe
+	public void onFinishActivity(Events.FinishActivity event) {
+		finish();
 	}
 
 }

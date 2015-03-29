@@ -128,4 +128,8 @@ public class LXCheckoutParamsBuilder {
 				.isNotEmpty(cvv);
 		return paramsFilled;
 	}
+
+	public String getEmailAddress() {
+		return email;
+	}
 }

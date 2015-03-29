@@ -68,6 +68,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			@Override
 			public void onClick(View v) {
 				NavUtils.goToItin(getContext());
+				Events.post(new Events.FinishActivity());
 			}
 		});
 	}

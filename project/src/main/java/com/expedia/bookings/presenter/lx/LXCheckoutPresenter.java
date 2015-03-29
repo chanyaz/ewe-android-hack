@@ -12,10 +12,12 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -133,6 +135,8 @@ public class LXCheckoutPresenter extends Presenter {
 				checkoutDialog.dismiss();
 				Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
 				show(confirmationWidget);
+				// Add guest itin to itin manager
+				refreshGuestTrip(lxCheckoutResponse);
 			}
 		}
 	};
@@ -231,5 +235,13 @@ public class LXCheckoutPresenter extends Presenter {
 	private void showErrorScreen(ApiError error) {
 		errorScreen.bind(error);
 		show(errorScreen);
+	}
+
+	private void refreshGuestTrip(LXCheckoutResponse checkoutResponse) {
+		if (!User.isLoggedIn(getContext())) {
+			String email = checkoutParamsBuilder.getEmailAddress();
+			String itineraryNumber = checkoutResponse.newTrip.itineraryNumber;
+			ItineraryManager.getInstance().addGuestTrip(email, itineraryNumber);
+		}
 	}
 }
