@@ -589,8 +589,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -634,8 +634,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -679,8 +679,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -719,8 +719,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.EMAIL);
 		}
 
 		@Override

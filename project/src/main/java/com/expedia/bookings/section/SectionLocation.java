@@ -264,8 +264,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -326,8 +326,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -394,8 +394,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -438,8 +438,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -520,8 +520,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field ,SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
