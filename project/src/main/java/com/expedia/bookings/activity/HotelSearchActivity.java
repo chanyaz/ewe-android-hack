@@ -283,6 +283,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private boolean mHasShownCalendar = false;
 	private boolean mIsProgressSearchABTextVisible = false;
 
+	// helps avoid hangtag visibility issue when coming from launch
+	// with external params for the search.
+	private boolean mFindingLocation = false;
+
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
 	private int mSearchTextSelectionEnd = -1;
@@ -439,8 +443,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				searchResponse.clearCache();
 			}
 
+			if (Db.getHotelSearch().getSearchParams().fromLaunchScreen()) {
+				mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+				buildFilter();
+			}
 			// #9773: Show distance sort initially, if user entered street address-level search params
-			if (mShowDistance) {
+			else if (mShowDistance) {
 				mSortOptionSelectedId = R.id.menu_select_sort_distance;
 				buildFilter();
 			}
@@ -743,6 +751,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_HOTEL_INFO, mHotelInfoCallback);
 				showLoading(true, R.string.progress_searching_selected_hotel);
+			}
+			else if (mFindingLocation) {
+				Log.d("Searching for location to use, letting it be.");
+				mActivityState = ActivityState.SEARCHING;
 			}
 			else {
 				hideLoading();
@@ -1182,17 +1194,20 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return;
 		}
 		else {
+			mFindingLocation = true;
 			showLoading(true, R.string.progress_finding_location);
 		}
 
 		mLocationFragment.find(new FusedLocationProviderListener() {
 			@Override
 			public void onFound(Location currentLocation) {
+				mFindingLocation = false;
 				HotelSearchActivity.this.onLocationFound(currentLocation);
 			}
 
 			@Override
 			public void onError() {
+				mFindingLocation = false;
 				simulateErrorResponse(R.string.ProviderDisabled);
 				OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
 			}
