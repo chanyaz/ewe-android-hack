@@ -14,16 +14,15 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.expedia.bookings.utils.LoggingInputStream;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -73,11 +72,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String contentEncoding = response.headers().get("Content-Encoding");
 		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
 			in = new GZIPInputStream(in);
-		}
-
-		if (!mIsRelease) {
-			// Only wire this up on debug builds
-			in = new LoggingInputStream(in);
 		}
 
 		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));

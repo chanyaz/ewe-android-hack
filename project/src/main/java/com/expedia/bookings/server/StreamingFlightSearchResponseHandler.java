@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.utils.LoggingInputStream;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -75,11 +74,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		String contentEncoding = response.headers().get("Content-Encoding");
 		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
 			in = new GZIPInputStream(in);
-		}
-
-		if (!mIsRelease) {
-			// Only wire this up on debug builds
-			in = new LoggingInputStream(in);
 		}
 
 		return handleResponse(in);
