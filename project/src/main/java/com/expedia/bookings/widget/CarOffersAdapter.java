@@ -271,9 +271,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	public void setCarOffers(List<SearchCarOffer> offers) {
 		mLastExpanded = 0;
 		this.offers = offers;
-		if (offers.size() >= 1) {
-			SearchCarOffer offer = offers.get(0);
-			offer.isToggled = true;
+		for (int i = 0; i < offers.size(); i++) {
+			SearchCarOffer offer = offers.get(i);
+			offer.isToggled = i == 0;
 		}
 	}
 
