@@ -121,7 +121,7 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	public void showNoProductSearchError() {
-		bindText(R.drawable.ic_type_circle_activity,
+		bindText(R.drawable.error_lx,
 			R.string.error_lx_search_message,
 			R.string.lx_error_text,
 			R.string.edit_search);
