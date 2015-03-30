@@ -39,7 +39,8 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 			mTilesFragment = FragmentAvailabilityUtils.getFrag(fm, FRAG_TAG_TILES);
 		}
 		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSearchBarC.getLayoutParams();
-		params.topMargin = LaunchScreenAnimationUtil.getActionBarNavBarSize(getActivity());
+		params.topMargin = LaunchScreenAnimationUtil.getActionBarNavBarSize(getActivity()) + getResources()
+			.getDimensionPixelSize(R.dimen.search_bar_margin_top);
 		mSearchBarC.setLayoutParams(params);
 		mListDetailContainer = Ui.findView(mRootC, R.id.list_detail_container);
 
@@ -195,5 +196,11 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 			((TabletLaunchControllerFragment) getParentFragment()).switchListFragment();
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean shouldDisplayMenu() {
+		return (mStateManager.getState() == LaunchState.OVERVIEW
+			|| mStateManager.getState() == LaunchState.DESTINATION_LIST) && !mStateManager.isAnimating();
 	}
 }

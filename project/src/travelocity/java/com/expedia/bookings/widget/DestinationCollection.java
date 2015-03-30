@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -44,10 +45,12 @@ import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DestinationCollection extends FrameLayout implements View.OnClickListener, View.OnLongClickListener {
-	private static final int EXPAND_ANIMATION_TIME = 300;
+public class DestinationCollection extends FrameLayout implements View.OnClickListener {
 	public static final float NO_OF_TILES_PORTRAIT = 3.25f;
 	public static final float NO_OF_TILES_LANDSCAPE = 4.25f;
+	private static final int EXPAND_ANIMATION_TIME = 300;
+	private static AnimatorSet animatorSet;
+	private static HashMap<String, Bitmap> bitmapCache = new HashMap();
 	@InjectView(R.id.front_image_view)
 	ImageView frontImageView;
 	@InjectView(R.id.front_image_view_reflection)
@@ -59,14 +62,13 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 	@InjectView(R.id.bg_overlay)
 	View bgOverlay;
 	private boolean isNearbyDefaultImage = false;
-	private PicassoTarget picassoTargetCallback;
+	private PicassoTargetCallback picassoTargetCallback;
 
 	public DestinationCollection(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setClipChildren(false);
 		Ui.inflate(getContext(), R.layout.widget_launch_destination_collection, this);
 		setOnClickListener(this);
-		setOnLongClickListener(this);
 	}
 
 	public int getCustomWidth() {
@@ -145,6 +147,9 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 	}
 
 	private void onDestinationClick() {
+		if (animatorSet != null && animatorSet.isRunning()) {
+			return;
+		}
 		final LaunchCollection collectionToAdd = (LaunchCollection) getTag();
 		OmnitureTracking.trackTabletLaunchTileSelect(getContext(), collectionToAdd.id);
 		if (collectionToAdd.id.equals(LaunchDb.YOUR_SEARCH_TILE_ID)) {
@@ -170,7 +175,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			final View searchContainer = Ui.findView(getRootView(), R.id.fake_search_bar_container);
 			int screenWidth = AndroidUtils.getDisplaySize(getContext()).x;
 
-			AnimatorSet animatorSet = new AnimatorSet();
+			animatorSet = new AnimatorSet();
 			horizontalScrollView.setEnabled(false);
 			horizontalScrollView.setOnTouchListener(new View.OnTouchListener() {
 				@Override
@@ -183,17 +188,12 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 
 			ObjectAnimator expandAnimation = ObjectAnimator.ofInt(this, "customWidth", screenWidth);
 
-			ObjectAnimator overlayAnimation = ObjectAnimator.ofFloat(bgOverlay, "alpha", 1f);
-
 			ObjectAnimator textTranslateAnimation = ObjectAnimator
 				.ofFloat(textView, "translationX", -(screenWidth - textView.getWidth())
 					/ 2);
 
 			ObjectAnimator textBgColorAnimation = ObjectAnimator.ofFloat(textBg, "alpha", 0f);
-
 			ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchContainer, "alpha", 0f);
-			ObjectAnimator frontImageViewReflectionAnimation = ObjectAnimator
-				.ofFloat(frontImageViewReflection, "alpha", 0f);
 
 			int[] destinationPosition = new int[2];
 			getLocationOnScreen(destinationPosition);
@@ -201,8 +201,8 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			ObjectAnimator scrollAnimation = ObjectAnimator.ofInt(horizontalScrollView, "scrollX",
 				horizontalScrollView.getScrollX() + destinationPosition[0]);
 
-			animatorSet.playTogether(expandAnimation, overlayAnimation, searchAnimation,
-				scrollAnimation, textTranslateAnimation, textBgColorAnimation, frontImageViewReflectionAnimation);
+			animatorSet.playTogether(expandAnimation, searchAnimation, scrollAnimation, textTranslateAnimation,
+				textBgColorAnimation);
 			animatorSet.setDuration(EXPAND_ANIMATION_TIME);
 			animatorSet.addListener(new AnimatorListenerAdapter() {
 				@Override
@@ -231,60 +231,70 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		onDestinationClick();
 	}
 
-	@Override
-	public boolean onLongClick(View v) {
-		onDestinationClick();
-		return false;
-	}
-
 	private HeaderBitmapDrawable createHeaderBitmapDrawable(String imageUrl) {
 		Point screenSize = AndroidUtils.getDisplaySize(getContext());
 
-		final int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
-		final int marginBottom = LaunchScreenAnimationUtil.getMarginBottom(getContext());
-
+		//Swapping values in portrait orientation to get actual device screen width and height
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-			imageUrl = new Akeakamai(imageUrl)
-				.downsize(Akeakamai.preserve(), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
-				.build();
+			int x = screenSize.x;
+			int y = screenSize.y;
+			screenSize.x = y;
+			screenSize.y = x;
 		}
-		else {
-			imageUrl = new Akeakamai(imageUrl)
-				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
-				.build();
-		}
+
+		final int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
+		final int marginBottom = getContext().getResources().getDimensionPixelSize(
+			R.dimen.destination_tile_extra_bottom_padding);
+
+		imageUrl = new Akeakamai(imageUrl)
+			.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.x - marginBottom - marginTop))
+			.build();
+		Bitmap bitmap = bitmapCache.get(imageUrl);
 
 		ArrayList<String> urls = new ArrayList<String>();
 		urls.add(imageUrl);
 		if (isNearByDefaultImage()) {
 			String defaultImage = Images.getTabletLaunch(LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE);
 			final String defaultImageUrl = new Akeakamai(defaultImage)
-				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.y - marginBottom - marginTop))
+				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.x - marginBottom - marginTop))
 				.build();
 			urls.add(defaultImageUrl);
+			bitmap = bitmapCache.get(defaultImage);
 		}
 
 		HeaderBitmapDrawable frontImageHeaderBitmapDrawable = new HeaderBitmapDrawable();
 		frontImageHeaderBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.CENTER_CROP);
 
-		picassoTargetCallback = new PicassoTargetCallback(frontImageHeaderBitmapDrawable);
-		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
-			R.attr.skin_collection_placeholder)).setTarget(picassoTargetCallback).build().load(urls);
+		picassoTargetCallback = new PicassoTargetCallback(frontImageHeaderBitmapDrawable, imageUrl);
+		if (bitmap == null) {
+			new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
+				R.attr.skin_collection_placeholder)).setTarget(picassoTargetCallback).build().load(urls);
+		}
+		else {
+			picassoTargetCallback.setBitmap(bitmap);
+		}
 		return frontImageHeaderBitmapDrawable;
 	}
 
 	private class PicassoTargetCallback extends PicassoTarget {
 		private final HeaderBitmapDrawable frontImageHeaderBitmapDrawable;
+		private final String url;
 
-		public PicassoTargetCallback(HeaderBitmapDrawable frontImageHeaderBitmapDrawable) {
+		public PicassoTargetCallback(HeaderBitmapDrawable frontImageHeaderBitmapDrawable, String url) {
 			this.frontImageHeaderBitmapDrawable = frontImageHeaderBitmapDrawable;
+			this.url = url;
 		}
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
+			setBitmap(bitmap);
+			bitmapCache.put(url, bitmap);
+		}
+
+		public void setBitmap(Bitmap bitmap) {
 			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
-			frontImageViewReflection.setImageDrawable(frontImageView.getDrawable());
+			frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
 		}
 
 		@Override

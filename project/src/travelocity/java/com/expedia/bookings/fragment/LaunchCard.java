@@ -30,7 +30,7 @@ import butterknife.OnClick;
 
 public class LaunchCard extends FrameLayout {
 
-	private static final int FLIP_ANIMATION_TIME = 300;
+	private static final int FLIP_ANIMATION_TIME = 150;
 	private static final int ROW_COLUMN_COUNT = 2;
 	private static final float ASPECT_WIDTH = 550;
 	private static final float ASPECT_HEIGHT = 685;
@@ -38,18 +38,20 @@ public class LaunchCard extends FrameLayout {
 	private static LaunchCard currentToggledCard = null;
 	@InjectView(R.id.launch_title_front_text_view)
 	TextView frontTextView;
+	@InjectView(R.id.launch_title_country_front_text_view)
+	TextView countryFrontTextView;
 	@InjectView(R.id.launch_title_front_container)
 	FrameLayout frontContainer;
 	@InjectView(R.id.launch_title_back_container)
 	FrameLayout backContainer;
 	@InjectView(R.id.launch_title_front_image_view)
 	ImageView frontImageView;
-	@InjectView(R.id.launch_card_back_text_title)
-	TextView backTextTitle;
+	@InjectView(R.id.launch_title_back_text_view)
+	TextView backTextView;
+	@InjectView(R.id.launch_title_country_back_text_view)
+	TextView countryBackTextView;
 	@InjectView(R.id.launch_card_back_text_description)
 	TextView backTextDescription;
-	@InjectView(R.id.button_explore_now)
-	TextView backExploreNow;
 	private LaunchLocation launchLocation;
 	private Point launchCardSize;
 	private AnimatorSet animatorSet;
@@ -70,7 +72,7 @@ public class LaunchCard extends FrameLayout {
 		updateLayoutParams();
 
 		FontCache.setTypeface(frontTextView, FontCache.Font.ROBOTO_REGULAR);
-		FontCache.setTypeface(backTextTitle, FontCache.Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(backTextView, FontCache.Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(backTextDescription, FontCache.Font.ROBOTO_REGULAR);
 	}
 
@@ -88,11 +90,12 @@ public class LaunchCard extends FrameLayout {
 		}
 		else {
 			int screenHeight = AndroidUtils.getDisplaySize(getContext()).y;
-			int verticalMargin = getResources().getDimensionPixelSize(R.dimen.destination_list_horizontal_grid_margin_vertical) * 2;
+			int verticalMargin =
+				getResources().getDimensionPixelSize(R.dimen.destination_list_horizontal_grid_margin_vertical) * 2;
 			int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
+			int navigationBarHeight = LaunchScreenAnimationUtil.getNavigationBarHeight(getContext());
 			float aspectRatio = ASPECT_WIDTH / ASPECT_HEIGHT;
-
-			launchCardHeight = (screenHeight - verticalMargin - marginTop) / ROW_COLUMN_COUNT;
+			launchCardHeight = (screenHeight - verticalMargin - marginTop - navigationBarHeight) / ROW_COLUMN_COUNT;
 			launchCardWidth = (int) (launchCardHeight * aspectRatio);
 		}
 		launchCardSize = new Point();
@@ -107,22 +110,21 @@ public class LaunchCard extends FrameLayout {
 	public void bind(final LaunchLocation launchLocation) {
 		if (launchLocation != null) {
 			this.launchLocation = launchLocation;
-			String cardText = "";
-			if (Strings.isEmpty(launchLocation.subtitle)) {
-				cardText = launchLocation.title;
+
+			frontTextView.setText(launchLocation.title);
+			backTextView.setText(launchLocation.title);
+
+			if (!Strings.isEmpty(launchLocation.subtitle)) {
+				countryFrontTextView.setText(launchLocation.subtitle);
+				countryBackTextView.setText(launchLocation.subtitle);
 			}
-			else {
-				cardText = String.format(getResources().getString(R.string.destination_list_launch_card_title_text),
-					launchLocation.title, launchLocation.subtitle);
-			}
-			frontTextView.setText(cardText);
-			backTextTitle.setText(cardText);
 
 			backTextDescription.setText(launchLocation.description);
 
 			final String imageUrl = TabletLaunchPinDetailFragment.getResizedImageUrl(getContext(), launchLocation);
-			new PicassoHelper.Builder(frontImageView).fit().setPlaceholder(R.drawable.bg_launch_link_tile)
-				.build().load(imageUrl);
+			new PicassoHelper.Builder(frontImageView).fit()
+				.setPlaceholder(R.drawable.bg_launch_card_placeholder_travelocity).build()
+				.load(imageUrl);
 		}
 	}
 

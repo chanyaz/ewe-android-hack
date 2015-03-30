@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -33,14 +34,18 @@ import com.squareup.otto.Subscribe;
 
 public class TabletLaunchDestinationListFragment extends Fragment {
 
-	private static final int TILE_ANIMATION_TIME = 300;
+	private static final int L_SHAPE_ANIMATION_TIME = 300;
 	private static final int POPIN_ANIMATION_TIME = 200;
 	private static final int POPIN_ANIMATION_DELAY = 50;
+	private static final int POP_IN_AND_OVERLAY_ANIMATION_DELAY = 1000;
 	private View rootC;
 	private OptimizedImageView launchLocationsBackgroundImageView;
+	private OptimizedImageView launchLocationsBackgroundImageViewReflection;
 	private TextView launchDestinationTitle;
 	private TabletLaunchDestinationListAdapter destinationListAdapter;
 	private HorizontalGridView launchListContainer;
+	private AnimatorSet lShapeAnimatorSet;
+	private AnimatorSet tilesPopInAnimatorSet;
 
 	public static TabletLaunchDestinationListFragment newInstance() {
 		TabletLaunchDestinationListFragment frag = new TabletLaunchDestinationListFragment();
@@ -53,6 +58,7 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 		rootC = Ui.inflate(R.layout.fragment_tablet_launch_destination_list, container, false);
 
 		launchLocationsBackgroundImageView = Ui.findView(rootC, R.id.launch_destination_background_image);
+		launchLocationsBackgroundImageViewReflection = Ui.findView(rootC, R.id.image_view_reflection);
 		launchDestinationTitle = Ui.findView(rootC, R.id.launch_destination_title);
 		launchListContainer = Ui.findView(rootC, R.id.launch_destinations_list_container);
 
@@ -61,23 +67,40 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 
 		FontCache.setTypeface(launchDestinationTitle, FontCache.Font.ROBOTO_LIGHT);
 
-		LaunchScreenAnimationUtil
-			.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay),
-				Ui.findView(rootC, R.id.destination_title_bg_overlay));
-		updateTitleLayoutParams();
+		LaunchScreenAnimationUtil.applyColorToOverlay(getParentFragment().getActivity(),
+			Ui.findView(rootC, R.id.destination_title_bg_overlay));
+		updateViewsLayoutParams();
 		return rootC;
 	}
 
-	private void updateTitleLayoutParams() {
+	private void updateViewsLayoutParams() {
 		int screenWidth = AndroidUtils.getDisplaySize(getActivity()).x;
 		int destinationTitleWidth = (int) (screenWidth / DestinationCollection.NO_OF_TILES_LANDSCAPE);
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 			destinationTitleWidth = (int) (screenWidth / DestinationCollection.NO_OF_TILES_PORTRAIT);
 		}
-		FrameLayout.LayoutParams destinationTitleLayoutParams = (android.widget.FrameLayout.LayoutParams) launchDestinationTitle
+		FrameLayout.LayoutParams destinationTitleLayoutParams = (FrameLayout.LayoutParams) launchDestinationTitle
 			.getLayoutParams();
 		destinationTitleLayoutParams.width = destinationTitleWidth;
 		launchDestinationTitle.setLayoutParams(destinationTitleLayoutParams);
+
+		updateReflectionImageLayoutParams();
+	}
+
+	private void updateReflectionImageLayoutParams() {
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			Point screenSize = AndroidUtils.getDisplaySize(getParentFragment().getActivity());
+			int imageMarginBottom = getResources().getDimensionPixelSize(R.dimen.destination_image_margin_bottom);
+			int actionBarNavBarHeight = LaunchScreenAnimationUtil
+				.getActionBarNavBarSize(getParentFragment().getActivity());
+			int imageHeight = screenSize.y - imageMarginBottom - actionBarNavBarHeight;
+			FrameLayout.LayoutParams imageViewReflectionLayoutParams = (FrameLayout.LayoutParams) launchLocationsBackgroundImageViewReflection
+				.getLayoutParams();
+			imageViewReflectionLayoutParams.height = imageHeight;
+			imageViewReflectionLayoutParams.topMargin = imageHeight;
+			launchLocationsBackgroundImageViewReflection.setLayoutParams(imageViewReflectionLayoutParams);
+			launchLocationsBackgroundImageViewReflection.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
@@ -106,7 +129,10 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 	private void updateDestinationListView(LaunchCollection launchCollection) {
 		if (launchCollection != null) {
 			replaceAllPins(launchCollection.locations);
+			LaunchScreenAnimationUtil
+				.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay));
 			launchLocationsBackgroundImageView.setImageDrawable(launchCollection.imageDrawable);
+			launchLocationsBackgroundImageViewReflection.setImageDrawable(launchCollection.imageDrawable);
 			launchDestinationTitle.setText(launchCollection.title);
 		}
 	}
@@ -116,7 +142,51 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 	}
 
 	public void startTilesPopinAnimation() {
-		launchListContainer.setAlpha(0);
+		setupInitialValues();
+
+		final List<Animator> tilesPopInAnimatorList = new ArrayList<>();
+		tilesPopInAnimatorSet = new AnimatorSet();
+		Random rand = new Random();
+
+		for (View destination : launchListContainer.getChildViews()) {
+			destination.setAlpha(0);
+			ObjectAnimator tileAnimator = ObjectAnimator.ofFloat(destination, "alpha", 1f);
+			tileAnimator.setStartDelay(POPIN_ANIMATION_DELAY * rand.nextInt(7));
+			tilesPopInAnimatorList.add(tileAnimator);
+		}
+
+		ObjectAnimator titleAnimator = ObjectAnimator.ofFloat(launchDestinationTitle, "translationY", 0);
+
+		ObjectAnimator bgOverlayAnimator = ObjectAnimator.ofFloat(Ui.findView(rootC, R.id.destination_title_bg_overlay),
+			"alpha", 0f, 1f);
+		bgOverlayAnimator.setStartDelay(POP_IN_AND_OVERLAY_ANIMATION_DELAY);
+
+		ObjectAnimator destinationTitleBgOverlayAnimator = ObjectAnimator.ofFloat(Ui.findView(rootC, R.id.bg_overlay),
+			"alpha", 0f, 1f);
+		destinationTitleBgOverlayAnimator.setStartDelay(POP_IN_AND_OVERLAY_ANIMATION_DELAY);
+
+		lShapeAnimatorSet = new AnimatorSet();
+		lShapeAnimatorSet.setDuration(L_SHAPE_ANIMATION_TIME);
+		lShapeAnimatorSet.playTogether(titleAnimator, bgOverlayAnimator, destinationTitleBgOverlayAnimator);
+		lShapeAnimatorSet.start();
+
+		tilesPopInAnimatorSet.setDuration(POPIN_ANIMATION_TIME);
+		tilesPopInAnimatorSet.setStartDelay(POP_IN_AND_OVERLAY_ANIMATION_DELAY);
+		tilesPopInAnimatorSet.playTogether(tilesPopInAnimatorList);
+		tilesPopInAnimatorSet.start();
+	}
+
+	private void setupInitialValues() {
+		if (lShapeAnimatorSet != null && lShapeAnimatorSet.isRunning()) {
+			lShapeAnimatorSet.end();
+		}
+		if (tilesPopInAnimatorSet != null && tilesPopInAnimatorSet.isRunning()) {
+			tilesPopInAnimatorSet.end();
+		}
+		launchListContainer.setScrollY(0);
+		launchListContainer.getChildAt(0).setScrollX(0);
+		Ui.findView(rootC, R.id.destination_title_bg_overlay).setAlpha(0f);
+		Ui.findView(rootC, R.id.bg_overlay).setAlpha(0f);
 
 		int screenHeight = AndroidUtils.getDisplaySize(getActivity()).y;
 		int actionBarNavBarSize = LaunchScreenAnimationUtil.getActionBarNavBarSize(getActivity());
@@ -125,29 +195,10 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 		int collectionTitleTextContainerHeight = getResources().getDimensionPixelSize(
 			R.dimen.destination_text_container_height);
 		int extraMarginBottom = LaunchScreenAnimationUtil.getMarginBottom(getActivity());
+		int navigationBarHeight = LaunchScreenAnimationUtil.getNavigationBarHeight(getActivity());
 
-		launchDestinationTitle
-			.setTranslationY(screenHeight - actionBarNavBarSize - destinationListTitleTextMarginTop
-				- collectionTitleTextContainerHeight
-				- extraMarginBottom);
-
-		final List<Animator> tilesPopInAnimatorList = new ArrayList<>();
-		final AnimatorSet animatorSet = new AnimatorSet();
-		Random rand = new Random();
-
-		for (View destination : launchListContainer.getChildViews()) {
-			destination.setAlpha(0);
-			ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(destination, "alpha", 1f)
-				.setDuration(POPIN_ANIMATION_TIME);
-			objectAnimator.setStartDelay(POPIN_ANIMATION_DELAY * rand.nextInt(7));
-			tilesPopInAnimatorList.add(objectAnimator);
-		}
-
-		animatorSet.playTogether(tilesPopInAnimatorList);
-		launchListContainer.setAlpha(1f);
-		launchListContainer.setScrollX(0);
-		animatorSet.start();
-		ObjectAnimator.ofFloat(launchDestinationTitle, "translationY", 0)
-			.setDuration(TILE_ANIMATION_TIME).start();
+		launchDestinationTitle.setTranslationY(
+			screenHeight - actionBarNavBarSize - destinationListTitleTextMarginTop - collectionTitleTextContainerHeight
+				- extraMarginBottom - navigationBarHeight);
 	}
 }
