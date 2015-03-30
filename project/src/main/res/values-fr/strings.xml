@@ -672,9 +672,9 @@
     <!-- Shop travel label -->
     <string name="shop_travel">Réserver un voyage</string>
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Hôtels très recherchés pour ce soir</string>
+    <string name="nearby_deals_title">Hôtels prisés ce soir</string>
     <!-- See all nearby deals -->
-    <string name="nearby_deals_expand">Voir plus d\&apos;offres</string>
+    <string name="nearby_deals_expand">Voir plus</string>
     <!-- Percent off template, e.g. 50% off -->
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
