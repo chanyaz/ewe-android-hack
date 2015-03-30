@@ -3195,7 +3195,8 @@ public class OmnitureTracking {
 	}
 
 	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {
-		String duration = Integer.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()));
+		String duration = Integer
+			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
 		s.setProducts(
 			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
 				+ carOffer.detailedFare.grandTotal.amount);
