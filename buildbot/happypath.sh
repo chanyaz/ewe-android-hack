@@ -53,6 +53,14 @@ if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then
     ## Cleanup locally
     rm -rf "spoon"
     rm -f spoon-happy-*.tar.gz
+
+    # Uninstall
+    if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
+        APPLICATION_ID_SUFFIX="latest"
+    fi
+    echo "APPLICATION_ID_SUFFIX=${APPLICATION_ID_SUFFIX}"
+    TERM=dumb
+    ./gradlew --no-daemon "-Pid=${APPLICATION_ID_SUFFIX}" uninstallExpediaDebug
 fi
 
 exit "$SPOON_RESULT"
