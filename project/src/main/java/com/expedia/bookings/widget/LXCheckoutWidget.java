@@ -14,11 +14,11 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
@@ -31,6 +31,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		super(context, attr);
 	}
 
+	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
 	@Inject
 	LXState lxState;
 
@@ -74,8 +75,9 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
-		// TODO Make this LX specific
-		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
+
+		String rulesAndRestrictionsURL = getRulesRestrictionsUrl(createTripResponse.activityId);
+		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		loginWidget.updateView();
 		show(new CheckoutDefault());
@@ -133,5 +135,10 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 				.nameOnCard(info.getNameOnCard()).cvv(cvv);
 		}
 		Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
+	}
+
+	private String getRulesRestrictionsUrl(String tripId) {
+		String endpoint = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl(true);
+		return endpoint + RULES_RESTRICTIONS_URL_PATH + tripId;
 	}
 }

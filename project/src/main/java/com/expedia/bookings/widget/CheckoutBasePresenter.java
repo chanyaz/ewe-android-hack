@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,6 +87,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	public void setupToolbar() {
