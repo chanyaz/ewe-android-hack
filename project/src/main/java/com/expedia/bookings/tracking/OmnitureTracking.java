@@ -3194,9 +3194,10 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
-	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackinData) {
+	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {
+		String duration = Integer.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()));
 		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackinData.sippCode + ";1;"
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
 				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
