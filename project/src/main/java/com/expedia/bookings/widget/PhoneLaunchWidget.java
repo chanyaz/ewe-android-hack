@@ -257,7 +257,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onSeeAllButtonPressed(Events.LaunchSeeAllButtonPressed event) {
 		NavUtils.goToHotels(getContext(), searchParams, event.animOptions, 0);
-		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
 	}
 
 	@Subscribe
