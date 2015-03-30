@@ -18,7 +18,7 @@
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
     <string name="cars_checkout_breakdown_us_text">Rates quoted in %s dollars.</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s dollars. All taxes or fees due at pick-up (%2$s %3$s) will be settled in the local currency.</string>
+    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s dollars. All taxes or fees due at pick-up will be settled in the local currency (%2$s).</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">Weekly</string>
     <!-- Cars weekly price templates-->

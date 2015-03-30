@@ -124,8 +124,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 			offer.detailedFare.totalDueToday.formattedPrice));
 		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
 			offer.detailedFare.totalDueAtPickup.formattedPrice));
-		ll.addView(addDisclaimerRow(context, offer.pickUpLocation.countryCode,
-			String.valueOf(offer.detailedFare.totalDueAtPickup.amount.floatValue())));
+		ll.addView(addDisclaimerRow(context, offer.pickUpLocation.countryCode));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
@@ -148,14 +147,14 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		return row;
 	}
 
-	public static View addDisclaimerRow(Context context, String country, String price) {
+	public static View addDisclaimerRow(Context context, String country) {
 		View row = LayoutInflater.from(context).inflate(R.layout.car_price_disclaimer, null);
 		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
 		String pos = PointOfSale.getPointOfSale().getThreeLetterCountryCode();
 		boolean isCountrySameAsPOS = Strings.equals(country, pos);
 		disclaimer.setText(isCountrySameAsPOS ? context.getResources()
 			.getString(R.string.cars_checkout_breakdown_us_text, CurrencyUtils.currencyForLocale(pos))
-			: context.getResources().getString(R.string.cars_checkout_breakdown_non_us_text, CurrencyUtils.currencyForLocale(pos), CurrencyUtils.currencyForLocale(country), price));
+			: context.getResources().getString(R.string.cars_checkout_breakdown_non_us_text, CurrencyUtils.currencyForLocale(pos), CurrencyUtils.currencyForLocale(country)));
 		return row;
 	}
 }
