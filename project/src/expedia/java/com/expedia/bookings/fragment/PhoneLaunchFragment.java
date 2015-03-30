@@ -86,12 +86,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			if (isOffline) {
 				cleanUp();
 			}
-			else {
-				// Only react to user being active if we are active
-				if (isAdded()) {
-					onReactToUserActive();
-				}
-			}
 		}
 	};
 
