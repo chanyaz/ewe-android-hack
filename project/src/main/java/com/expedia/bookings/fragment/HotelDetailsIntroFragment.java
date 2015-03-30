@@ -134,7 +134,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		boolean isUserBucketedFreeCancellationABTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISFreeCancellationTest);
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
-		boolean hasAtleastOneFreeCancellationRate = infoResponse.hasAtLeastOnFreeCancellationRate();
+		boolean hasAtleastOneFreeCancellationRate = infoResponse != null && infoResponse.hasAtLeastOnFreeCancellationRate();
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
