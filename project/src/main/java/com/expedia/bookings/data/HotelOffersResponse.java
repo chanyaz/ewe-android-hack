@@ -53,6 +53,18 @@ public class HotelOffersResponse extends Response {
 		return false;
 	}
 
+	public boolean hasAtLeastOnFreeCancellationRate() {
+		if (isHotelUnavailable() || getRates().size() == 0) {
+			return false;
+		}
+		for (Rate rate : getRates()) {
+			if (rate.hasFreeCancellation()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void addRate(Rate rate) {
 		mRates.add(rate);
 	}

@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
@@ -131,6 +132,9 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		boolean isUserBucketedFreeCancellationABTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISFreeCancellationTest);
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+		HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		boolean hasAtleastOneFreeCancellationRate = infoResponse.hasAtLeastOnFreeCancellationRate();
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -154,7 +158,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 				bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 			}
 		}
-		else if (isUserBucketedFreeCancellationABTest) {
+		else if (isUserBucketedFreeCancellationABTest && hasAtleastOneFreeCancellationRate) {
 			bannerTextView.setText(getString(R.string.free_cancellation));
 			bannerTextView.setVisibility(View.VISIBLE);
 			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
