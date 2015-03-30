@@ -73,6 +73,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	private float squashedHeaderHeight;
 	private boolean isAirAttachDismissed;
+	private boolean wasHotelsDownloadEmpty;
 
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
@@ -130,7 +131,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
 		@Override
 		public void onCompleted() {
-			cleanup();
+			if (!wasHotelsDownloadEmpty) {
+				cleanup();
+			}
 			Log.d(TAG, "Hotel download completed.");
 		}
 
@@ -149,7 +152,14 @@ public class PhoneLaunchWidget extends FrameLayout {
 				p.updateFrom(offer);
 				response.addProperty(p);
 			}
-			Events.post(new Events.LaunchHotelSearchResponse(nearbyHotelResponse));
+			if (nearbyHotelResponse.size() > 0) {
+				wasHotelsDownloadEmpty = false;
+				Events.post(new Events.LaunchHotelSearchResponse(nearbyHotelResponse));
+			}
+			else {
+				wasHotelsDownloadEmpty = true;
+				Events.post(new Events.LaunchLocationFetchError());
+			}
 		}
 	};
 
@@ -340,7 +350,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		if (!ExpediaBookingApp.sIsAutomation) {
 			Events.post(new Events.LaunchShowLoadingAnimation());
 		}
-
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
