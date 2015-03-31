@@ -92,6 +92,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_travelocity</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_travelocity</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
