@@ -2,9 +2,12 @@ package com.expedia.bookings.services;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.CookieStore;
@@ -13,6 +16,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -126,12 +130,14 @@ public class PersistentCookieManager extends CookieManager {
 	private static List<HttpCookie> parseV2Cookies(File oldCookieStorage) {
 		try {
 			TypeToken token = new TypeToken<List<HttpCookie>>() { };
-			BufferedReader reader = new BufferedReader(new FileReader(oldCookieStorage));
+			InputStream is = new GZIPInputStream(new FileInputStream(oldCookieStorage));
+			InputStreamReader reader = new InputStreamReader(is);
 			List<HttpCookie> cookies = new Gson().fromJson(reader, token.getType());
 			reader.close();
 			return cookies;
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
