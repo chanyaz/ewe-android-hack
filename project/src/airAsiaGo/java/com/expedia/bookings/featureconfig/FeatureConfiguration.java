@@ -231,7 +231,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "aag";
 	}
 
-	public boolean isHomeScreenEnabled() {
+	public boolean isLOBChooserScreenEnabled() {
 		return true;
 	}
 }

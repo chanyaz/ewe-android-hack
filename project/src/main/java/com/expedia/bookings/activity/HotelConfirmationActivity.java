@@ -133,7 +133,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_done:
-			if (!ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+			if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
 				Db.getHotelSearch().resetSearchParams();
 				NavUtils.goToVSC(this);
 			}

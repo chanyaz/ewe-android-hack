@@ -86,7 +86,7 @@ public class NavUtils {
 		else {
 			Intent intent = null;
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
 				intent = new Intent(context, PhoneLaunchActivity.class);
 
 				if (forceShowWaterfall) {
