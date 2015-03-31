@@ -124,6 +124,17 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// Recover data if it was flushed from memory
+
+		// Note: While TripBucketItemFlight is theoretically the only data necessary to exact a checkout
+		// FlightTripLeg references Db.getFlightSearch() to retrieves legs via HashMap.
+		if (Db.getFlightSearch().getSelectedFlightTrip() == null) {
+			boolean wasSuccess = Db.loadCachedFlightData(this);
+			if (!wasSuccess) {
+				finish();
+				mIsBailing = true;
+			}
+		}
+
 		if (Db.getTripBucket().isEmpty()) {
 			boolean wasSuccess = Db.loadTripBucket(this);
 			if (!wasSuccess || Db.getTripBucket().getFlight() == null) {
