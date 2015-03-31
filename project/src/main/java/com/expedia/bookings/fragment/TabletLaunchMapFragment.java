@@ -312,8 +312,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-			super.onBitmapLoaded(bitmap, from);
-			inflatePinAndAddMarker(mLaunchLocation, bitmap);
+			if (getActivity() != null) {
+				super.onBitmapLoaded(bitmap, from);
+				inflatePinAndAddMarker(mLaunchLocation, bitmap);
+			}
 		}
 
 		@Override
@@ -323,8 +325,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
-			super.onPrepareLoad(placeHolderDrawable);
-			inflatePinAndAddMarker(mLaunchLocation, ((BitmapDrawable)placeHolderDrawable).getBitmap());
+			if (getActivity() != null) {
+				super.onPrepareLoad(placeHolderDrawable);
+				inflatePinAndAddMarker(mLaunchLocation, ((BitmapDrawable) placeHolderDrawable).getBitmap());
+			}
 		}
 	}
 
