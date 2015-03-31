@@ -56,7 +56,7 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment {
 
 	@Subscribe
 	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked launchCollectionClicked) {
-		((TabletLaunchControllerFragment) getParentFragment()).switchListFragment();
+		((TabletLaunchControllerFragment) getParentFragment()).switchListFragment(true);
 	}
 
 	private void clearCollections() {

@@ -20,6 +20,7 @@
         android:layout_gravity="top"
         android:layout_marginTop="@dimen/extra_status_bar_padding"
         android:background="@drawable/bg_tablet_bottom_fade"
+        android:clickable="true"
         android:gravity="top|center_horizontal"
         android:paddingTop="?android:actionBarSize" />
 

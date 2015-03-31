@@ -246,18 +246,16 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		final int marginBottom = getContext().getResources().getDimensionPixelSize(
 			R.dimen.destination_tile_extra_bottom_padding);
 
-		imageUrl = new Akeakamai(imageUrl)
-			.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.x - marginBottom - marginTop))
-			.build();
+		imageUrl = new Akeakamai(imageUrl).downsize(Akeakamai.pixels(screenSize.x / 2),
+			Akeakamai.pixels((screenSize.x - marginBottom - marginTop) / 2)).quality(75).build();
 		Bitmap bitmap = bitmapCache.get(imageUrl);
 
 		ArrayList<String> urls = new ArrayList<String>();
 		urls.add(imageUrl);
 		if (isNearByDefaultImage()) {
 			String defaultImage = Images.getTabletLaunch(LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE);
-			final String defaultImageUrl = new Akeakamai(defaultImage)
-				.downsize(Akeakamai.pixels(screenSize.x), Akeakamai.pixels(screenSize.x - marginBottom - marginTop))
-				.build();
+			final String defaultImageUrl = new Akeakamai(defaultImage).downsize(Akeakamai.pixels(screenSize.x / 2),
+				Akeakamai.pixels((screenSize.x - marginBottom - marginTop) / 2)).quality(75).build();
 			urls.add(defaultImageUrl);
 			bitmap = bitmapCache.get(defaultImage);
 		}

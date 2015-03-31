@@ -36,6 +36,7 @@ public class LaunchCard extends FrameLayout {
 	private static final float ASPECT_HEIGHT = 685;
 
 	private static LaunchCard currentToggledCard = null;
+	private static AnimatorSet animatorSet;
 	@InjectView(R.id.launch_title_front_text_view)
 	TextView frontTextView;
 	@InjectView(R.id.launch_title_country_front_text_view)
@@ -54,7 +55,6 @@ public class LaunchCard extends FrameLayout {
 	TextView backTextDescription;
 	private LaunchLocation launchLocation;
 	private Point launchCardSize;
-	private AnimatorSet animatorSet;
 
 	public LaunchCard(Context context) {
 		super(context);
@@ -62,6 +62,14 @@ public class LaunchCard extends FrameLayout {
 
 	public LaunchCard(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
+	}
+
+	public static void clearHistory() {
+		currentToggledCard = null;
+	}
+
+	public LaunchLocation getLaunchLocation() {
+		return launchLocation;
 	}
 
 	@Override
@@ -111,6 +119,13 @@ public class LaunchCard extends FrameLayout {
 		if (launchLocation != null) {
 			this.launchLocation = launchLocation;
 
+			if (currentToggledCard != null
+				&& currentToggledCard.getLaunchLocation().location == launchLocation.location) {
+				frontContainer.setVisibility(GONE);
+				backContainer.setVisibility(VISIBLE);
+				currentToggledCard = this;
+			}
+
 			frontTextView.setText(launchLocation.title);
 			backTextView.setText(launchLocation.title);
 
@@ -130,6 +145,9 @@ public class LaunchCard extends FrameLayout {
 
 	@OnClick(R.id.launch_title_front_container)
 	public void onFrontContainerClicked() {
+		if (animatorSet != null && animatorSet.isRunning()) {
+			return;
+		}
 		if (null != currentToggledCard) {
 			currentToggledCard.flipCard(false);
 		}
@@ -139,6 +157,9 @@ public class LaunchCard extends FrameLayout {
 
 	@OnClick(R.id.launch_title_back_container)
 	public void onBackContainerClicked() {
+		if (animatorSet != null && animatorSet.isRunning()) {
+			return;
+		}
 		flipCard(true);
 		currentToggledCard = null;
 	}
