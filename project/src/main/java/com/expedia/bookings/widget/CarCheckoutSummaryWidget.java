@@ -151,8 +151,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		View row = LayoutInflater.from(context).inflate(R.layout.car_price_disclaimer, null);
 		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
 		String pos = PointOfSale.getPointOfSale().getThreeLetterCountryCode();
-		boolean isCountrySameAsPOS = Strings.equals(country, pos);
-		disclaimer.setText(isCountrySameAsPOS ? context.getResources()
+		boolean isCurrencySameAsPOS = Strings.equals(CurrencyUtils.currencyForLocale(country), CurrencyUtils.currencyForLocale(pos));
+		disclaimer.setText(isCurrencySameAsPOS ? context.getResources()
 			.getString(R.string.cars_checkout_breakdown_us_text, CurrencyUtils.currencyForLocale(pos))
 			: context.getResources().getString(R.string.cars_checkout_breakdown_non_us_text, CurrencyUtils.currencyForLocale(pos), CurrencyUtils.currencyForLocale(country)));
 		return row;
