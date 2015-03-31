@@ -51,7 +51,7 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 	public void onResume() {
 		super.onResume();
 		if (mStateManager.getState() == LaunchState.DESTINATION_LIST) {
-			switchListFragment();
+			switchListFragment(true);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 		@Override
 		public boolean handleBackPressed() {
 			if (getLaunchState() == LaunchState.DESTINATION_LIST) {
-				switchListFragment();
+				switchListFragment(false);
 				return true;
 			}
 			return false;
@@ -160,19 +160,19 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 		}
 	}
 
-	public void switchListFragment() {
-		if (mTilesFragment.getView().getVisibility() == View.VISIBLE) {
+	public void switchListFragment(boolean isDestinationList) {
+		if (isDestinationList) {
 			mListDetailContainer.setVisibility(View.VISIBLE);
 			mTilesFragment.getView().setVisibility(View.GONE);
-			switchActionbar(true);
 			setLaunchState(LaunchState.DESTINATION_LIST, false);
 		}
 		else {
 			mListDetailContainer.setVisibility(View.GONE);
 			mTilesFragment.getView().setVisibility(View.VISIBLE);
-			switchActionbar(false);
+			LaunchCard.clearHistory();
 			setLaunchState(LaunchState.OVERVIEW, false);
 		}
+		switchActionbar(isDestinationList);
 	}
 
 	private void switchActionbar(boolean isDestinationList) {
@@ -193,7 +193,7 @@ public class TabletLaunchControllerFragment extends AbsTabletLaunchControllerFra
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (android.R.id.home == item.getItemId()) {
-			((TabletLaunchControllerFragment) getParentFragment()).switchListFragment();
+			((TabletLaunchControllerFragment) getParentFragment()).switchListFragment(false);
 		}
 		return super.onOptionsItemSelected(item);
 	}

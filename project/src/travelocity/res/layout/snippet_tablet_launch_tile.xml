@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_margin="10dp"
-            android:background="@color/launch_card_explore_now_background_color"
+            android:background="@drawable/explore_now_background"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/explore_now"
