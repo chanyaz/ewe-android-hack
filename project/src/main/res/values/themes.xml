@@ -223,6 +223,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
