@@ -440,8 +440,19 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="TerminalMapTheme" parent="@style/LaunchTheme">
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@drawable/bg_launch_ab</item>
+    </style>
+
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
     </style>
 
     <style name="FlightTheme.Rules">
