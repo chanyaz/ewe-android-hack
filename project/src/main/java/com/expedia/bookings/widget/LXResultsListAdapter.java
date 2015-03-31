@@ -61,7 +61,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			String url = Images.getLXImageURL(activity.imageUrl);
 
 			new PicassoHelper.Builder(((ViewHolder) holder).activityImage)
-				.setPlaceholder(R.drawable.cars_placeholder)
+				.setPlaceholder(R.drawable.lx_placeholder)
 				.fade()
 				.setTag(ROW_PICASSO_TAG)
 				.build()
