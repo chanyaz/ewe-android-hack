@@ -18,4 +18,5 @@ public class LXFormatUtils {
 	public static String stripHTMLTags(String htmlContent) {
 		return htmlContent.replaceAll(HTML_TAGS_REGEX, "");
 	}
+
 }
