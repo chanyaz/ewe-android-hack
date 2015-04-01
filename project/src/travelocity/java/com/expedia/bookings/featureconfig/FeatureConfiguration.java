@@ -81,7 +81,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean shouldShowBrandLogoOnAccountButton() {
-		return false;
+		return true;
 	}
 
 	public int getLoginContainerBackgroundResId(Context context) {
