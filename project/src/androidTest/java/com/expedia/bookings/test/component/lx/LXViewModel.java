@@ -85,6 +85,18 @@ public class LXViewModel {
 		return onView(recyclerView(R.id.lx_search_results_list));
 	}
 
+	public static ViewInteraction sortAndFilterButton() {
+		return onView(withId(R.id.sort_filter_button));
+	}
+
+	public static ViewInteraction sortAndFilterWidget() {
+		return onView(withId(R.id.sort_filter_widget));
+	}
+
+	public static ViewInteraction closeFilter() {
+		return onView(withId(R.id.sort_filter_done_button));
+	}
+
 	public static Matcher<View> recyclerView(int viewId) {
 		return allOf(isAssignableFrom(RecyclerView.class), withId(viewId));
 	}

@@ -63,13 +63,12 @@ public class LXSearchResultsWidget extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
-	@Subscribe
-	public void onLXSearchAvailable(Events.LXSearchResultsAvailable event) {
+	public void bind(List<LXActivity> activities) {
 		adapter.cleanup();
 		recyclerView.setVisibility(View.VISIBLE);
 		errorScreen.setVisibility(View.GONE);
 		adapter.loadingState = false;
-		adapter.setActivities(event.lxSearchResponse.activities);
+		adapter.setActivities(activities);
 	}
 
 	@Subscribe

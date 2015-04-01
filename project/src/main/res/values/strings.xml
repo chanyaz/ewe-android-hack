@@ -381,6 +381,8 @@
     <string name="lx_traveler_details_text">Traveler details</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Enter traveler details</string>
+    <!-- Text for lx sort and filter-->
+    <string name="lx_sort_filter">Sort &amp; Filter</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

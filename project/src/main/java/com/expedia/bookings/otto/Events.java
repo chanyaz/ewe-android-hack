@@ -38,6 +38,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -687,6 +688,16 @@ public class Events {
 
 		public LXSearchResultsAvailable(LXSearchResponse lxSearchResponse) {
 			this.lxSearchResponse = lxSearchResponse;
+		}
+	}
+
+	public static class LXFilterCategoryCheckedChanged {
+		public LXCategoryMetadata lxCategoryMetadata;
+		public String categoryKey;
+
+		public LXFilterCategoryCheckedChanged(LXCategoryMetadata lxCategoryMetadata, String categoryKey) {
+			this.lxCategoryMetadata = lxCategoryMetadata;
+			this.categoryKey = categoryKey;
 		}
 	}
 

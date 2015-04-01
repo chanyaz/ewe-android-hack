@@ -18,6 +18,29 @@
             android:id="@+id/lx_search_results_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/sort_filter_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:alpha="0.8"
+            android:background="@color/lx_sort_filter_background_color"
+            android:text="@string/lx_sort_filter"
+            android:textColor="@color/lx_search_result_info_text_color"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/sort_filter_widget"
+            layout="@layout/widget_lx_sort_filter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="90dp"
+            android:visibility="gone" />
+
     </com.expedia.bookings.widget.LXSearchResultsWidget>
 
     <android.support.v7.widget.Toolbar

@@ -13,6 +13,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
@@ -22,11 +23,13 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
 
@@ -84,7 +87,7 @@ public class LXResultsPresenterTests {
 	@Test
 	public void testResultListAdapter() throws Throwable {
 		String title = "test";
-		String price = "$10";
+		Money price = new Money("10", "USD");
 		String category = "tour";
 		String duration = "2d";
 		LXTicketType code = LXTicketType.Adult;
@@ -96,7 +99,7 @@ public class LXResultsPresenterTests {
 		final List<LXActivity> activities = new ArrayList<>();
 		LXActivity a = new LXActivity();
 		a.title = title;
-		a.fromPrice = price;
+		a.price = price;
 		a.categories = categoriesList;
 		a.bestApplicableCategoryEN = "tour";
 		a.bestApplicableCategoryLocalized = "tour";
@@ -106,7 +109,7 @@ public class LXResultsPresenterTests {
 
 		onView(withId(R.id.lx_search_results_list)).perform(LXViewModel.setLXActivities(activities));
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
-			LXViewModel.performViewHolderComparison(title, price, duration, categoriesList)));
+			LXViewModel.performViewHolderComparison(title, price.getFormattedMoney(), duration, categoriesList)));
 
 	}
 
@@ -122,4 +125,22 @@ public class LXResultsPresenterTests {
 		LXViewModel.searchFailed().check(matches(hasDescendant(withText(R.string.error_car_search_message))));
 	}
 
+	@Test
+	public void testSortAndFilterWidgetOpenAndClose() {
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "New York";
+		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(14);
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+		ScreenActions.delay(2);
+
+		LXViewModel.searchResultsWidget().check(matches(isDisplayed()));
+		LXViewModel.searchList().check(matches(isDisplayed()));
+		LXViewModel.sortAndFilterButton().check(matches(isDisplayed()));
+		LXViewModel.sortAndFilterButton().perform(click());
+		LXViewModel.sortAndFilterWidget().check(matches(isDisplayed()));
+		LXViewModel.closeFilter().check(matches(isDisplayed()));
+		LXViewModel.closeFilter().perform(click());
+		LXViewModel.sortAndFilterWidget().check(matches(not(isDisplayed())));
+	}
 }

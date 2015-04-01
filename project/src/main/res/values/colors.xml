@@ -275,5 +275,6 @@
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>
+    <color name="lx_sort_filter_background_color">#E4E4E4</color>
 
 </resources>
