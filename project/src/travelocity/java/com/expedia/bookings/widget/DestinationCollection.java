@@ -232,30 +232,20 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 	}
 
 	private HeaderBitmapDrawable createHeaderBitmapDrawable(String imageUrl) {
-		Point screenSize = AndroidUtils.getDisplaySize(getContext());
-
-		//Swapping values in portrait orientation to get actual device screen width and height
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-			int x = screenSize.x;
-			int y = screenSize.y;
-			screenSize.x = y;
-			screenSize.y = x;
-		}
-
 		final int marginTop = LaunchScreenAnimationUtil.getActionBarNavBarSize(getContext());
 		final int marginBottom = getContext().getResources().getDimensionPixelSize(
 			R.dimen.destination_tile_extra_bottom_padding);
-
-		imageUrl = new Akeakamai(imageUrl).downsize(Akeakamai.pixels(screenSize.x / 2),
-			Akeakamai.pixels((screenSize.x - marginBottom - marginTop) / 2)).quality(75).build();
+		int screenWidth = getResources().getDimensionPixelSize(R.dimen.destination_tile_image_width);
+		imageUrl = new Akeakamai(imageUrl).downsize(Akeakamai.pixels(screenWidth / 2),
+			Akeakamai.pixels((screenWidth - marginBottom - marginTop) / 2)).quality(75).build();
 		Bitmap bitmap = bitmapCache.get(imageUrl);
 
 		ArrayList<String> urls = new ArrayList<String>();
 		urls.add(imageUrl);
 		if (isNearByDefaultImage()) {
 			String defaultImage = Images.getTabletLaunch(LaunchDb.NEAR_BY_TILE_DEFAULT_IMAGE_CODE);
-			final String defaultImageUrl = new Akeakamai(defaultImage).downsize(Akeakamai.pixels(screenSize.x / 2),
-				Akeakamai.pixels((screenSize.x - marginBottom - marginTop) / 2)).quality(75).build();
+			final String defaultImageUrl = new Akeakamai(defaultImage).downsize(Akeakamai.pixels(screenWidth / 2),
+				Akeakamai.pixels((screenWidth - marginBottom - marginTop) / 2)).quality(75).build();
 			urls.add(defaultImageUrl);
 			bitmap = bitmapCache.get(defaultImage);
 		}
@@ -263,13 +253,14 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		HeaderBitmapDrawable frontImageHeaderBitmapDrawable = new HeaderBitmapDrawable();
 		frontImageHeaderBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.CENTER_CROP);
 
-		picassoTargetCallback = new PicassoTargetCallback(frontImageHeaderBitmapDrawable, imageUrl);
 		if (bitmap == null) {
+			picassoTargetCallback = new PicassoTargetCallback(frontImageHeaderBitmapDrawable, imageUrl);
 			new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
 				R.attr.skin_collection_placeholder)).setTarget(picassoTargetCallback).build().load(urls);
 		}
 		else {
-			picassoTargetCallback.setBitmap(bitmap);
+			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
+			frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
 		}
 		return frontImageHeaderBitmapDrawable;
 	}
@@ -286,18 +277,9 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
-			setBitmap(bitmap);
 			bitmapCache.put(url, bitmap);
-		}
-
-		public void setBitmap(Bitmap bitmap) {
 			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
 			frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
-		}
-
-		@Override
-		public void onBitmapFailed(Drawable errorDrawable) {
-			super.onBitmapFailed(errorDrawable);
 		}
 
 		@Override

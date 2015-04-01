@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
@@ -168,11 +169,25 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 		lShapeAnimatorSet = new AnimatorSet();
 		lShapeAnimatorSet.setDuration(L_SHAPE_ANIMATION_TIME);
 		lShapeAnimatorSet.playTogether(titleAnimator, bgOverlayAnimator, destinationTitleBgOverlayAnimator);
+		lShapeAnimatorSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				super.onAnimationEnd(animation);
+				lShapeAnimatorSet = null;
+			}
+		});
 		lShapeAnimatorSet.start();
 
 		tilesPopInAnimatorSet.setDuration(POPIN_ANIMATION_TIME);
 		tilesPopInAnimatorSet.setStartDelay(POP_IN_AND_OVERLAY_ANIMATION_DELAY);
 		tilesPopInAnimatorSet.playTogether(tilesPopInAnimatorList);
+		tilesPopInAnimatorSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				super.onAnimationEnd(animation);
+				tilesPopInAnimatorSet = null;
+			}
+		});
 		tilesPopInAnimatorSet.start();
 	}
 
