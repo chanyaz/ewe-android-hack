@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,15 +15,18 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.util.LaunchScreenAnimationUtil;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -55,6 +59,7 @@ public class LaunchCard extends FrameLayout {
 	TextView backTextDescription;
 	private LaunchLocation launchLocation;
 	private Point launchCardSize;
+	private PicassoTargetCallback picassoTargetCallback;
 
 	public LaunchCard(Context context) {
 		super(context);
@@ -136,10 +141,13 @@ public class LaunchCard extends FrameLayout {
 
 			backTextDescription.setText(launchLocation.description);
 
-			final String imageUrl = TabletLaunchPinDetailFragment.getResizedImageUrl(getContext(), launchLocation);
-			new PicassoHelper.Builder(frontImageView).fit()
-				.setPlaceholder(R.drawable.bg_launch_card_placeholder_travelocity).build()
-				.load(imageUrl);
+			int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+			int height  = (int)(width * ASPECT_HEIGHT / ASPECT_WIDTH);
+			final String imageUrl = new Akeakamai(launchLocation.getImageUrl()).downsize(Akeakamai.pixels(width),
+				Akeakamai.pixels(height)).quality(75).build();
+			picassoTargetCallback = new PicassoTargetCallback();
+			new PicassoHelper.Builder(getContext()).setPlaceholder(R.drawable.bg_launch_card_placeholder_travelocity)
+				.setTarget(picassoTargetCallback).build().load(imageUrl);
 		}
 	}
 
@@ -237,5 +245,13 @@ public class LaunchCard extends FrameLayout {
 				frontView.setTranslationX(0);
 			}
 		});
+	}
+
+	private class PicassoTargetCallback extends PicassoTarget {
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			frontImageView.setImageBitmap(bitmap);
+		}
 	}
 }

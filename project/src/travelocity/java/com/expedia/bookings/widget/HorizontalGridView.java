@@ -25,6 +25,7 @@ public class HorizontalGridView extends ScrollView {
 			rootLinearLayout.removeAllViews();
 			childViews.clear();
 			lineProvider.addDummyExtraSpace();
+			lineProvider.reset();
 			for (int index = 0; index < adapter.getCount(); index++) {
 				View newView = adapter.getView(index, null, rootLinearLayout);
 				childViews.add(newView);
@@ -89,6 +90,10 @@ public class HorizontalGridView extends ScrollView {
 
 		protected LineProvider(ViewGroup parentViewGroup) {
 			this.parentViewGroup = parentViewGroup;
+		}
+
+		protected void reset() {
+			childCount = 0;
 		}
 
 		protected void addViewInLayout(View view) {
