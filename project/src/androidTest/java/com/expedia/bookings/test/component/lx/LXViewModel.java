@@ -36,7 +36,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -142,7 +141,7 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction detailsDate(String dateText) {
-		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(endsWith(dateText))));
+		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
 	}
 
 	public static ViewInteraction detailsDateContainer() {

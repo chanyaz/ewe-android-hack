@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.component.lx;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,7 +19,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -46,8 +46,8 @@ public class LXDetailsPresenterTests {
 		// To setup LXState
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "New York";
-		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
-		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
+		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(13);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 
@@ -73,7 +73,8 @@ public class LXDetailsPresenterTests {
 		ScreenActions.delay(2);
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
-		String expectedToolbarDateRange = "Mar 25 - Apr 08";
+		String expectedToolbarDateRange = String
+			.format("%1$s - %2$s", LocalDate.now().toString("MMM dd"), LocalDate.now().plusDays(13).toString("MMM dd"));
 		ViewInteraction toolbar = LXViewModel.toolbar();
 		toolbar.check(matches(isDisplayed()));
 		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
@@ -152,6 +153,7 @@ public class LXDetailsPresenterTests {
 		firstOfferTicketPicker.check(matches(isDisplayed()));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+		ScreenActions.delay(2);
 
 		ViewInteraction secondOfferSelectTicket = LXViewModel.selectTicketsButton("3-Day New York Pass");
 		secondOfferSelectTicket.perform(scrollTo(), click());
@@ -198,8 +200,15 @@ public class LXDetailsPresenterTests {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
 		ScreenActions.delay(2);
 
-		LXViewModel.detailsDate("25").check(matches(isEnabled()));
-		// TODO Update mocks for no offer scenario.
-		//LXViewModel.detailsDate("26").check(matches(not(isEnabled())));
+		LocalDate now = LocalDate.now();
+		LocalDate withoutOfferDate = LocalDate.now().plusDays(1);
+
+		LXViewModel.detailsDate(
+			now.dayOfWeek().getAsShortText() + "\n" + now.dayOfMonth().getAsText()).check(
+			matches(isEnabled()));
+
+		LXViewModel.detailsDate(
+			withoutOfferDate.dayOfWeek().getAsShortText() + "\n" + withoutOfferDate.dayOfMonth().getAsShortText()).check(
+			matches(not(isEnabled())));
 	}
 }

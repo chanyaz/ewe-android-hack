@@ -144,7 +144,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		cleanup();
-		setToolbarTitles();
+		setToolbarTitles(event.lxSearchParams);
 		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
 	}
@@ -179,8 +179,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private void setToolbarTitles() {
-		LXSearchParams searchParams = lxState.searchParams;
+	private void setToolbarTitles(LXSearchParams searchParams) {
 		toolbar.setTitle(searchParams.location);
 
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
