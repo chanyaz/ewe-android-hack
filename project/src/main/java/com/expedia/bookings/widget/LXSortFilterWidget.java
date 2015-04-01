@@ -20,6 +20,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.android.view.OnClickEvent;
 import rx.android.view.ViewObservable;
 import rx.functions.Func1;
@@ -70,7 +72,12 @@ public class LXSortFilterWidget extends LinearLayout {
 	}
 
 	public Observable<LXSortFilterMetadata> filterSortEventStream() {
-		return ViewObservable.clicks(doneButton, true).map(filterSortMetadata);
+		Scheduler scheduler = AndroidSchedulers.mainThread();
+
+		return ViewObservable.clicks(doneButton, true)
+			.map(filterSortMetadata)
+			.subscribeOn(scheduler)
+			.observeOn(scheduler);
 	}
 
 	private Func1<OnClickEvent, LXSortFilterMetadata> filterSortMetadata = new Func1<OnClickEvent, LXSortFilterMetadata>() {
