@@ -112,14 +112,9 @@ public class TravelerUtils {
 
 
 	public static boolean travelerFormRequiresEmail(int travelerNumber, LineOfBusiness lob, Context context) {
-		if (travelerNumber == 0) {
-			if (!User.isLoggedIn(context)) {
-				if (Db.getBillingInfo() == null || !Db.getBillingInfo().isUsingGoogleWallet()) {
-					return true;
-				}
-			}
-			else {
-				return Db.getWorkingTravelerManager().getWorkingTraveler().isNew();
+		if (travelerNumber == 0 && !User.isLoggedIn(context)) {
+			if (Db.getBillingInfo() == null || !Db.getBillingInfo().isUsingGoogleWallet()) {
+				return true;
 			}
 		}
 		return false;
