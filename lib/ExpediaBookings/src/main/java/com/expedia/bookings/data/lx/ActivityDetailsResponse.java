@@ -16,4 +16,8 @@ public class ActivityDetailsResponse {
 	public OffersDetail offersDetail;
 	public String currencyCode;
 	public String regionId;
+	public List<String> inclusions;
+	public List<String> exclusions;
+	public List<String> knowBeforeYouBook;
+	public String cancellationPolicyText;
 }

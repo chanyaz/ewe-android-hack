@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.LXDetailSectionDataWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="15dp">
@@ -16,9 +16,19 @@
 
     <TextView
         android:id="@+id/section_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/lx_details_text_color"
         android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/read_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="@string/lx_details_read_more"
+        android:textColor="@color/lx_primary_color"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
 </com.expedia.bookings.widget.LXDetailSectionDataWidget>

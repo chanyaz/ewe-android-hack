@@ -65,6 +65,11 @@ public class LXDetailsPresenterTests {
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.highlights))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.offers))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.offer_dates_container))));
+		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.inclusions))));
+		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.exclusions))));
+		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.know_before_you_book))));
+		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.cancellation))));
+
 	}
 
 	@Test
