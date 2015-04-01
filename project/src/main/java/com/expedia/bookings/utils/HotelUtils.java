@@ -180,14 +180,15 @@ public class HotelUtils {
 	 * @param context
 	 * @param property
 	 * @param rate
+	 * @param isTablet
 	 * @return
 	 */
-	public static String getSlideToPurchaseString(Context context, Property property, Rate rate) {
+	public static String getSlideToPurchaseString(Context context, Property property, Rate rate, boolean isTablet) {
 		int chargeTypeMessageId = 0;
 
 		// Determine price to be paid now
 		Money sliderCharge;
-		if (rate.isPayLater() && !AndroidUtils.isTablet(context) && property.isMerchant()) {
+		if (rate.isPayLater() && !isTablet && property.isMerchant()) {
 			sliderCharge = rate.getDepositAmount();
 		}
 		else {

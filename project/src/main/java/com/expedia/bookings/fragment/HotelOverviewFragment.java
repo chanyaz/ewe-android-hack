@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -643,7 +644,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCheckoutDisclaimerTextView.setVisibility(View.GONE);
 		}
 
-		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
+		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate,
+			ExpediaBookingApp.useTabletInterface(getActivity()));
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, hotel);
