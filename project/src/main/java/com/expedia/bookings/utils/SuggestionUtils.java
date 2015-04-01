@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +13,13 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.server.ExpediaServices;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.LocationServices;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -63,4 +70,35 @@ public class SuggestionUtils {
 		return airportSuggestions;
 	}
 
+	public static void saveSuggestionHistory(final Context context, final ArrayList<Suggestion> recentSuggestions, final String file) {
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Type type = new TypeToken<ArrayList<Suggestion>>() {
+				}.getType();
+				String suggestionJson = new Gson().toJson(recentSuggestions, type);
+				try {
+					IoUtils.writeStringToFile(file, suggestionJson, context);
+				}
+				catch (IOException e) {
+					Log.e("Save History Error: ", e);
+				}
+			}
+		})).start();
+	}
+
+	public static ArrayList<Suggestion> loadSuggestionHistory(final Context context, String file) {
+
+		ArrayList<Suggestion> recentSuggestions = new ArrayList<Suggestion>();
+		try {
+			String str = IoUtils.readStringFromFile(file, context);
+			Type type = new TypeToken<ArrayList<Suggestion>>() {
+			}.getType();
+			recentSuggestions = new Gson().fromJson(str, type);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return recentSuggestions;
+	}
 }

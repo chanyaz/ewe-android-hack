@@ -20,6 +20,10 @@ import rx.Subscription;
 
 public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
+	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer) {
+		return suggestionServices.getNearbyAirportSuggestions(locale, latLong, siteId, observer);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		CarSuggestionViewHolder holder;

@@ -1,7 +1,5 @@
 package com.expedia.bookings.presenter;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -40,15 +38,12 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.SuggestionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
-import com.mobiata.android.util.IoUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -366,35 +361,12 @@ public class CarSearchPresenter extends Presenter
 	}
 
 	public void saveHistory() {
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Type type = new TypeToken<ArrayList<Suggestion>>() {
-				}.getType();
-				String suggestionJson = new Gson().toJson(mRecentCarsLocationsSearches, type);
-				try {
-					IoUtils.writeStringToFile(RECENT_ROUTES_CARS_LOCATION_FILE, suggestionJson, getContext());
-				}
-				catch (IOException e) {
-					Log.e("Save History Error: ", e);
-				}
-			}
-		})).start();
+		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentCarsLocationsSearches, RECENT_ROUTES_CARS_LOCATION_FILE);
 	}
 
 	private void loadHistory() {
 
-		mRecentCarsLocationsSearches = new ArrayList<Suggestion>();
-		try {
-			String str = IoUtils.readStringFromFile(RECENT_ROUTES_CARS_LOCATION_FILE, getContext());
-			Type type = new TypeToken<ArrayList<Suggestion>>() {
-			}.getType();
-			mRecentCarsLocationsSearches = new Gson().fromJson(str, type);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		mRecentCarsLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(), RECENT_ROUTES_CARS_LOCATION_FILE);
 		suggestionAdapter.addNearbyAndRecents(mRecentCarsLocationsSearches, getContext());
 		postDelayed(new Runnable() {
 			public void run() {

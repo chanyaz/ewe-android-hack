@@ -22,7 +22,7 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
-            <AutoCompleteTextView
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                 android:id="@+id/search_location"
                 style="@style/LXAutocomplete"
                 android:layout_width="match_parent"
