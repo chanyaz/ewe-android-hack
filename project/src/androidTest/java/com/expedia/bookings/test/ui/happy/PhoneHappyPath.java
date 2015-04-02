@@ -152,8 +152,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsConfirmationScreen.clickDoneButton();
 	}
 
-	// FIXME: Disabling for now. Hangs after logging in
-	public void ignoreViewItineraries() throws Throwable {
+	public void testViewItineraries() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.tripsButton().perform(click());
 		screenshot("Itins");
