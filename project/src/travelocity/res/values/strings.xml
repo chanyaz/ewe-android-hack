@@ -94,4 +94,5 @@
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to Travelocity Today</string>
+    <string name="etp_pay_now_charges_text">Travelocity will process your payment details.</string>
 </resources>
