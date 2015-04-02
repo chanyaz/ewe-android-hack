@@ -22,6 +22,3 @@
 [submodule "lib/AndroidTime"]
 	path = lib/AndroidTime
 	url = git@github.com:/ExpediaInc/ewe-android-time.git
-[submodule "lib/mocke3"]
-	path = lib/mocke3
-	url = git@github.com:/ExpediaInc/ewe-mocke3
