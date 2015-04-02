@@ -172,4 +172,17 @@ public class StringsTests {
 		assertEquals("61", Strings.formatHexString("a"));
 		assertEquals("6162636465", Strings.formatHexString("abcde"));
 	}
+
+	@Test
+	public void cutAtWordBarrier() {
+		final String firstCutAtWord = "Ain't";
+		final String secondCutAtword = "Ain't no";
+		final String thirsCutAtWord = "Ain't no sunshine";
+		final String body = "Ain't no sunshine when she's gone";
+
+		assertEquals(firstCutAtWord.length(), Strings.cutAtWordBarrier(body, 5));
+		assertEquals(secondCutAtword.length(), Strings.cutAtWordBarrier(body, 7));
+		assertEquals(thirsCutAtWord.length(), Strings.cutAtWordBarrier(body, 14));
+	}
+
 }

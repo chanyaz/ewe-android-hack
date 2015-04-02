@@ -89,6 +89,22 @@
                 layout="@layout/widget_lx_detail_section_data" />
 
             <include
+                android:id="@+id/inclusions"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/exclusions"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/know_before_you_book"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/cancellation"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
                 android:id="@+id/location"
                 layout="@layout/widget_lx_detail_section_data" />
         </LinearLayout>

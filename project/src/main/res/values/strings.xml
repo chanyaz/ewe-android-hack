@@ -248,6 +248,14 @@
     <string name="description_activity_details">Description</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Location</string>
+    <!-- Activity details inclusions heading -->
+    <string name="inclusions_activity_details">Inclusions</string>
+    <!-- Activity details exclusions heading -->
+    <string name="exclusions_activity_details">Exclusions</string>
+    <!-- Activity details know before you book heading -->
+    <string name="know_before_you_book_activity_details">Know before you book</string>
+    <!-- Activity details cancellation heading -->
+    <string name="cancellation_activity_details">Cancellation</string>
     <!-- Free cancellation message for LX activity -->
     <string name="activity_free_cancellation">Free cancellation</string>
     <!-- Template for ticket details -->
@@ -258,6 +266,8 @@
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <!-- Cancellation policy template -->
+    <string name="cancellation_policy_TEMPLATE">You can cancel free of charge until %1$s before your reservation starts. After that time, no cancellations, changes or refunds will be made.</string>
 
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Traveler</string>
@@ -381,6 +391,8 @@
     <string name="lx_traveler_enter_details_text">Enter traveler details</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Sort &amp; Filter</string>
+    <!-- Read more of the review -->
+    <string name="lx_details_read_more">Read More</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

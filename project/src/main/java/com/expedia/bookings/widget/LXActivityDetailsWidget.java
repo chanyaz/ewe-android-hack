@@ -64,6 +64,18 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@InjectView(R.id.offer_dates_container)
 	RadioGroup offerDatesContainer;
 
+	@InjectView(R.id.inclusions)
+	LXDetailSectionDataWidget inclusions;
+
+	@InjectView(R.id.exclusions)
+	LXDetailSectionDataWidget exclusions;
+
+	@InjectView(R.id.know_before_you_book)
+	LXDetailSectionDataWidget knowBeforeYouBook;
+
+	@InjectView(R.id.cancellation)
+	LXDetailSectionDataWidget cancellation;
+
 	@Inject
 	LXState lxState;
 
@@ -83,6 +95,10 @@ public class LXActivityDetailsWidget extends ScrollView {
 		highlights.setVisibility(View.GONE);
 		description.setVisibility(View.GONE);
 		location.setVisibility(View.GONE);
+		inclusions.setVisibility(View.GONE);
+		exclusions.setVisibility(View.GONE);
+		knowBeforeYouBook.setVisibility(View.GONE);
+		cancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
 		offers.setVisibility(View.GONE);
 	}
@@ -93,6 +109,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 		OmnitureTracking.trackAppLXProductInformation(getContext(), event.activityDetails, lxState.searchParams);
 		activityDetails = event.activityDetails;
 
+		// Scroll to top.
+		scrollTo(0, 0);
 		buildGallery(activityDetails);
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
@@ -120,6 +138,10 @@ public class LXActivityDetailsWidget extends ScrollView {
 		}
 
 		activityGallery.setDataSource(mediaList);
+		activityGallery.scrollToPosition(0);
+		if (!activityGallery.isFlipping()) {
+			activityGallery.startFlipping();
+		}
 	}
 
 	private void buildInfo(ActivityDetailsResponse activityDetails) {
@@ -146,6 +168,27 @@ public class LXActivityDetailsWidget extends ScrollView {
 			highlights.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent);
 			highlights.setVisibility(View.VISIBLE);
 		}
+		if (CollectionUtils.isNotEmpty(activityDetailsResponse.inclusions)) {
+			String inclusionsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.inclusions);
+			inclusions.bindData(getResources().getString(R.string.inclusions_activity_details), inclusionsContent);
+			inclusions.setVisibility(View.VISIBLE);
+		}
+		if (CollectionUtils.isNotEmpty(activityDetailsResponse.exclusions)) {
+			String exclusionsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.exclusions);
+			exclusions.bindData(getResources().getString(R.string.exclusions_activity_details), exclusionsContent);
+			exclusions.setVisibility(View.VISIBLE);
+		}
+		if (CollectionUtils.isNotEmpty(activityDetailsResponse.knowBeforeYouBook)) {
+			String knowBeforeYouBookContent = LXFormatUtils.formatHighlights(activityDetailsResponse.knowBeforeYouBook);
+			knowBeforeYouBook.bindData(getResources().getString(R.string.know_before_you_book_activity_details), knowBeforeYouBookContent);
+			knowBeforeYouBook.setVisibility(View.VISIBLE);
+		}
+		if (Strings.isNotEmpty(activityDetailsResponse.cancellationPolicyText)) {
+			String cancellationPolicyText = String.format(getContext().getString(R.string.cancellation_policy_TEMPLATE), LXFormatUtils.stripHTMLTags(activityDetailsResponse.cancellationPolicyText));
+			cancellation.bindData(getResources().getString(R.string.cancellation_activity_details), cancellationPolicyText);
+			cancellation.setVisibility(View.VISIBLE);
+		}
+
 	}
 
 	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
