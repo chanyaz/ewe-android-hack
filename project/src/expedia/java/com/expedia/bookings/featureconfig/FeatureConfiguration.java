@@ -234,7 +234,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "expedia";
 	}
 
-	public boolean isHomeScreenEnabled() {
+	public boolean isLOBChooserScreenEnabled() {
 		return true;
 	}
 }

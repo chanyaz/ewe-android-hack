@@ -562,7 +562,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 		// For VSC app the hotelListing is the launch screen.
@@ -894,7 +894,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
-		if (!ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled()) {
+		if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
 			getMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
 			DebugMenu.onCreateOptionsMenu(this, menu);
 		}
@@ -963,7 +963,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
 
 		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
-		if (!ProductFlavorFeatureConfiguration.getInstance().isHomeScreenEnabled() && AndroidUtils.isRelease(this)) {
+		if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled() && AndroidUtils.isRelease(this)) {
 			MenuItem settingsBtn = menu.findItem(R.id.settings);
 			if (settingsBtn != null) {
 				settingsBtn.setVisible(false);

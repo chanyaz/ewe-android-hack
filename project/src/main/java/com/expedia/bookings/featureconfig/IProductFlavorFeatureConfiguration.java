@@ -109,6 +109,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getClientShortName();
 
-	boolean isHomeScreenEnabled();
+	boolean isLOBChooserScreenEnabled();
 
 }

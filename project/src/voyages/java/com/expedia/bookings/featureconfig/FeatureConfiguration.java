@@ -290,7 +290,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "vsc";
 	}
 
-	public boolean isHomeScreenEnabled() {
+	public boolean isLOBChooserScreenEnabled() {
 		return false;
 	}
 }
