@@ -3172,7 +3172,7 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 
 		s.setEvents("purchase");
-		s.setCurrencyCode(carCheckoutResponse.currencyCode);
+		s.setCurrencyCode(carCheckoutResponse.totalChargesPrice.currencyCode);
 		s.setPurchaseID("onum" + carCheckoutResponse.orderId);
 		addProducts(s, carCheckoutResponse.newCarProduct, carCheckoutResponse.trackingData);
 		setEvar30(s, carCheckoutResponse);
