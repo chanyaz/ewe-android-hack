@@ -32,6 +32,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -471,7 +472,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-		mAppComponent.abacus().downloadBucket(idfa, String.valueOf(PointOfSale.getPointOfSale().getTpid()), abacusSubscriber);
+		Db.setAbacusGuid(idfa);
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(idfa, PointOfSale.getPointOfSale().getTpid(), 0);
+		query.addExperiments(AbacusUtils.getActiveTests());
+		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
 	}
 
 	@Override
@@ -499,16 +503,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			Db.setAbacusResponse(abacusResponse);
 			// Modify the bucket values based on dev settings;
 			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAATest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_aa_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidETPTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_etp_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISBookAboveFoldTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_book_above_fold), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISFreeCancellationTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_free_cancellation), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISSwipablePhotosTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_photo_treatment), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_flight_free_cancellation), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_search_influence_messaging), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLaunchScreenTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_launch_screen), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppAddORToForm, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_checkout_or_messaging), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppSRPercentRecommend, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_result_rating), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				for (int key : AbacusUtils.getActiveTests()) {
+					abacusResponse.updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				}
 			}
 			Log.d("AbacusReponse - onNext");
 		}

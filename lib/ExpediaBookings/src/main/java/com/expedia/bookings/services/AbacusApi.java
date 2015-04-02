@@ -1,20 +1,28 @@
 package com.expedia.bookings.services;
 
+import java.util.List;
+
+import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 
+import retrofit.http.Body;
 import retrofit.http.GET;
-import retrofit.http.Headers;
+import retrofit.http.POST;
 import retrofit.http.Query;
 import rx.Observable;
 
 public interface AbacusApi {
 
-	// How long to cache the response in milliseconds (24 hours) 60*60*24
-	@Headers("Cache-Control: public, max-age=86400, max-stale=86400")
-	@GET("/AB/layout")
-	public Observable<AbacusResponse> downloadBucket(
+	@GET("/api/bucketing/v1/evaluateExperiments")
+	public Observable<AbacusResponse> evaluateExperiments(
 		@Query("guid") String guid,
-		@Query("site_id") String id
-	);
+		@Query("eapid") int eapid,
+		@Query("tpid") int tpid,
+		@Query("id") List<Integer> testID)
+	;
 
+	@POST("/api/bucketing/v1/logExperiments")
+	public Observable<Void> logExperiment(
+		@Body AbacusLogQuery body)
+	;
 }

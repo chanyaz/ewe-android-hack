@@ -258,7 +258,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 			int value = Integer.valueOf(newValue.toString());
-			Db.getAbacusResponse().updateABTestForDebug(preference.getKey(), value);
+			Db.getAbacusResponse().updateABTestForDebug(Integer.valueOf(preference.getKey()), value);
 			return true;
 		}
 	};

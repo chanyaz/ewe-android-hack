@@ -54,6 +54,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
@@ -248,9 +249,9 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 
 		// Send the tracking data
 		s.track();
@@ -276,7 +277,7 @@ public class OmnitureTracking {
 		addProducts(s, property);
 
 		// Abacus ETP Test
-		trackAbacusTest(s, AbacusUtils.EBAndroidETPTest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
@@ -367,13 +368,13 @@ public class OmnitureTracking {
 		s.setEvar(9, drrString);
 
 		// Abacus Hotel Book Now button placement
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
 
 		// Abacus Hotel Info site Free cancellation confidence placement test
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
 
 		// Abacus Hotel Info site swipeable photos test
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
 
 		// Send the tracking data
 		s.track();
@@ -463,7 +464,7 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelsRateDetails(Context context) {
 		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_RATE_DETAILS);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppAddORToForm);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
 		s.track();
 	}
 
@@ -1422,18 +1423,21 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
 
-	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
+	private static void trackAbacusTest(Context context, ADMS_Measurement s, int testKey) {
 		// Adds piping for multivariate AB Tests.
 		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
 		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
 		}
+		AbacusLogQuery query = new AbacusLogQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		query.addExperiment(Db.getAbacusResponse().testForKey(testKey));
+		Ui.getApplication(context).appComponent().abacus().logExperiment(query);
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
@@ -2381,7 +2385,7 @@ public class OmnitureTracking {
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		if (!ExpediaBookingApp.useTabletInterface(context)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
+			trackAbacusTest(context, s, AbacusUtils.EBAndroidAppLaunchScreenTest);
 		}
 		s.track();
 	}
@@ -2713,7 +2717,7 @@ public class OmnitureTracking {
 			s.setProp(9, priceChange);
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
 		return s;
 	}
 

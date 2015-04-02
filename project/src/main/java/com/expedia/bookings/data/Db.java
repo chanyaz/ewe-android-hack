@@ -132,8 +132,16 @@ public class Db {
 	// To store the fullscreen average color for the ui
 	private int mFullscreenAverageColor = 0x66000000;
 
+	private String mGUID;
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
+	public static void setAbacusGuid(String guid) {
+		sDb.mGUID = guid;
+	}
+
+	public static String getAbacusGuid() {
+		return sDb.mGUID;
+	}
 
 	public static void setAbacusResponse(AbacusResponse abacusResponse) {
 		sDb.mAbacusResponse = abacusResponse;

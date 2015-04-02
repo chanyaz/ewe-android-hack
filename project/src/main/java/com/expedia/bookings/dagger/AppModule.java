@@ -20,15 +20,15 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
-import com.squareup.okhttp.Cache;
 import com.mobiata.android.DebugUtils;
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import retrofit.RestAdapter;
 
 @Module
 public class AppModule {
@@ -162,8 +162,8 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	AbacusServices provideAbacus(OkHttpClient client, RestAdapter.LogLevel loglevel) {
-		String abacusEndpoint = BuildConfig.DEBUG ? AbacusServices.DEV : AbacusServices.PRODUCTION;
-		return new AbacusServices(client, abacusEndpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
+		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
+		return new AbacusServices(client, endpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 }
