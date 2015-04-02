@@ -38,7 +38,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testLXSearchResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -105,7 +105,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testDetailsResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -155,7 +155,7 @@ public class LXServicesTest {
 	// Checkout
 	@Test
 	public void testLXCheckoutResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -192,7 +192,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testCheckoutWithInvalidInput() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -219,7 +219,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testCheckoutPaymentFailure() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 

@@ -1,0 +1,25 @@
+{
+  tripId:"happypath_trip_id",
+  itineraryNumber:11528775160,
+  activityId:"0c0af1cb-f721-4cbf-8b99-e4f753cb6caa",
+  validFormsOfPayment:[
+      {
+        name:"AmericanExpress"
+      },
+      {
+        name:"Diner's Club International"
+      },
+      {
+        name:"Discover"
+      },
+      {
+        name:"JCB"
+      },
+      {
+        name:"MasterCard"
+      },
+      {
+        name:"Visa"
+      }
+  ]
+}

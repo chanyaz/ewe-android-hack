@@ -19,7 +19,7 @@ dependencies {
 
     testCompile 'com.squareup.okhttp:mockwebserver:2.2.0'
     testCompile 'junit:junit:4.11'
-    testCompile (project(':lib:mocke3:mocke3')) {
+    testCompile (project(':lib:mocked:mocke3')) {
         transitive = false
     }
 }

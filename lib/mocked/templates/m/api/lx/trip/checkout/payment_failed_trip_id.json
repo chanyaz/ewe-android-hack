@@ -1,0 +1,13 @@
+{
+  errors: [
+    {
+      errorCode: "PAYMENT_FAILED",
+      errorInfo: {
+        field: "other",
+        summary: "Error processing payment OMS-6200-Event-10873"
+      },
+      diagnosticId: -761330253
+    }
+  ],
+  activityId: "21bbb5c7-3a77-4e60-9e82-667736d9e5c5"
+}

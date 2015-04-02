@@ -1,0 +1,355 @@
+{
+    "airAttachedProductResponse": {},
+    "newHotelProductResponse": {
+        "accessibilityAmenities": [
+            {
+                "description": "Accessible bathroom",
+                "id": "2420"
+            },
+            {
+                "description": "Accessible path of travel",
+                "id": "2419"
+            },
+            {
+                "description": "Accessible parking",
+                "id": "2422"
+            },
+            {
+                "description": "In-room accessibility",
+                "id": "2423"
+            },
+            {
+                "description": "Roll-in shower",
+                "id": "2421"
+            }
+        ],
+        "adultCount": "1",
+        "checkInDate": "${checkInDate}",
+        "checkOutDate": "${checkOutDate}",
+        "hotelAddress": "2 New Montgomery St",
+        "hotelCity": "San Francisco",
+        "hotelCountry": "USA",
+        "hotelId": "27274",
+        "hotelName": "Hotel_2_night_stay",
+        "hotelRoomResponse": {
+            "bedTypes": [
+                {
+                    "description": "2 double",
+                    "id": "21"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+            "currentAllotment": "0",
+            "depositRequired": true,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isPayLater": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": false,
+            "productKey": "hotel_price_change",
+            "promoDescription": "",
+            "quotedOccupancy": "4",
+            "rateChange": false,
+            "rateDescription": "Junior Suite, 2 Double Beds",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "1229.00",
+                    "averageRate": "1229.00",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": 0,
+                    "formattedTotalPriceWithMandatoryFees": "$ 3,395.88",
+                    "maxNightlyRate": "1229.00",
+                    "nightlyRateTotal": "2058.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "1229.00",
+                            "promo": "false",
+                            "rate": "1229.00"
+                        },
+                        {
+                            "baseRate": "1229.00",
+                            "promo": "false",
+                            "rate": "1229.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "1229",
+                    "ratePlanCode": "202384972",
+                    "roomTypeCode": "200410806",
+                    "strikethroughPriceToShowUsers": "1229",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "3395",
+                    "surchargeTotal": "268.44",
+                    "surchargeTotalForEntireStay": "236.88",
+                    "surcharges": [
+                        {
+                            "amount": "247.38",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "247.38",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "31.06",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "31.06",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "394.76",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "394.76",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "52.12",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "52.12",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "3395.88",
+                    "totalMandatoryFees": "4000",
+                    "totalPriceWithMandatoryFees": "3395.88",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "7",
+            "ratePlanCode": "202384972",
+            "roomTypeCode": "200410806",
+            "roomTypeDescription": "Junior Suite, 2 Double Beds",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "description": "Accessible bathroom",
+                    "id": "2420"
+                },
+                {
+                    "description": "Accessible path of travel",
+                    "id": "2419"
+                },
+                {
+                    "description": "Accessible parking",
+                    "id": "2422"
+                },
+                {
+                    "description": "In-room accessibility",
+                    "id": "2423"
+                },
+                {
+                    "description": "Roll-in shower",
+                    "id": "2421"
+                }
+            ]
+        },
+        "hotelStarRating": "4.0",
+        "hotelStateProvince": "CA",
+        "isVipAccess": false,
+        "largeThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_170_d.jpg",
+        "localizedHotelName": "",
+        "nonLocalizedHotelName": "",
+        "numberOfNights": "2",
+        "numberOfRooms": "1",
+        "supplierType": "MERCHANT",
+        "thumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_170_n.jpg"
+    },
+    "originalHotelProductResponse": {
+        "accessibilityAmenities": [
+            {
+                "description": "Accessible bathroom",
+                "id": "2420"
+            },
+            {
+                "description": "Accessible path of travel",
+                "id": "2419"
+            },
+            {
+                "description": "Accessible parking",
+                "id": "2422"
+            },
+            {
+                "description": "In-room accessibility",
+                "id": "2423"
+            },
+            {
+                "description": "Roll-in shower",
+                "id": "2421"
+            }
+        ],
+        "adultCount": "1",
+        "checkInDate": "${checkInDate}",
+        "checkOutDate": "${checkOutDate}",
+        "hotelAddress": "2 New Montgomery St",
+        "hotelCity": "San Francisco",
+        "hotelCountry": "USA",
+        "hotelId": "27274",
+        "hotelName": "Hotel_2_night_stay",
+        "hotelRoomResponse": {
+            "bedTypes": [
+                {
+                    "description": "2 double",
+                    "id": "21"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+            "currentAllotment": "0",
+            "depositRequired": true,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isPayLater": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": false,
+            "productKey": "hotel_price_change",
+            "promoDescription": "",
+            "quotedOccupancy": "4",
+            "rateChange": false,
+            "rateDescription": "Junior Suite, 2 Double Beds",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "1029.00",
+                    "averageRate": "1029.00",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": 0,
+                    "formattedTotalPriceWithMandatoryFees": "$ 2,394.88",
+                    "maxNightlyRate": "1029.00",
+                    "nightlyRateTotal": "2058.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        },
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "1029",
+                    "ratePlanCode": "202384972",
+                    "roomTypeCode": "200410806",
+                    "strikethroughPriceToShowUsers": "1029",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "2395",
+                    "surchargeTotal": "168.44",
+                    "surchargeTotalForEntireStay": "336.88",
+                    "surcharges": [
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "2394.88",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "2394.88",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "7",
+            "ratePlanCode": "202384972",
+            "roomTypeCode": "200410806",
+            "roomTypeDescription": "Junior Suite, 2 Double Beds",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "description": "Accessible bathroom",
+                    "id": "2420"
+                },
+                {
+                    "description": "Accessible path of travel",
+                    "id": "2419"
+                },
+                {
+                    "description": "Accessible parking",
+                    "id": "2422"
+                },
+                {
+                    "description": "In-room accessibility",
+                    "id": "2423"
+                },
+                {
+                    "description": "Roll-in shower",
+                    "id": "2421"
+                }
+            ]
+        },
+        "hotelStarRating": "4.0",
+        "hotelStateProvince": "CA",
+        "isVipAccess": false,
+        "largeThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_170_d.jpg",
+        "localizedHotelName": "",
+        "nonLocalizedHotelName": "",
+        "numberOfNights": "2",
+        "numberOfRooms": "1",
+        "supplierType": "MERCHANT",
+        "thumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_170_n.jpg"
+    },
+    "tealeafTransactionId": "tealeafHotel:${productKey}",
+    "tripId": "${productKey}",
+    "userId": 570429434,
+    "validFormsOfPayment": [
+        {
+            "name": "Visa"
+        }
+    ]
+}

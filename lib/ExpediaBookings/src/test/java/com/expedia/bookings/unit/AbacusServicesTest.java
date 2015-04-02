@@ -65,7 +65,7 @@ public class AbacusServicesTest {
 
 	@Test
 	public void testMockDownloadWorks() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
