@@ -1,0 +1,94 @@
+{
+    "payload": {
+        "EBTestAlwaysShowHotelDestinationsKey": {
+            "Experiment ID": "3524",
+            "Resources": {},
+            "Treatment ID": "0",
+            "View Settings": {
+                "Value": 0
+            },
+            "experimentId": "3524",
+            "instanceId": "99990",
+            "isLive": true,
+            "locale": "en_US",
+            "treatmentId": "0"
+        },
+        "EBTestPreferDealsOverDiscountsKey": {
+            "Experiment ID": "3391",
+            "Resources": {},
+            "Treatment ID": "1",
+            "View Settings": {
+                "Value": 1
+            },
+            "experimentId": "3391",
+            "instanceId": "17886",
+            "isLive": true,
+            "locale": "en_US",
+            "treatmentId": "1"
+        },
+        "EBTestPreferPopularSortInBigCitiesKey": {
+            "Experiment ID": "3243",
+            "Resources": {},
+            "Treatment ID": "1",
+            "View Settings": {
+                "Value": 1
+            },
+            "experimentId": "3243",
+            "instanceId": "17887",
+            "isLive": true,
+            "locale": "en_US",
+            "treatmentId": "1"
+        },
+        "EBTestRequireTravelerInfoBeforePaymentKey": {
+            "Experiment ID": "3392",
+            "Resources": {},
+            "Treatment ID": "0",
+            "View Settings": {
+                "Value": 0
+            },
+            "experimentId": "3392",
+            "instanceId": "99990",
+            "isLive": true,
+            "locale": "en_US",
+            "treatmentId": "0"
+        },
+        "EBTestShouldShowTabletCalendarKey": {
+            "Experiment ID": "6591",
+            "Resources": {},
+            "Treatment ID": "1",
+            "View Settings": {
+                "Value": 1
+            },
+            "experimentId": "6591",
+            "isLive": true,
+            "treatmentId": "1"
+        },
+        "EBiOSAATestKey": {
+            "Experiment ID": "6716",
+            "Resources": {},
+            "Treatment ID": "1",
+            "View Settings": {
+                "Value": 1
+            },
+            "experimentId": "6716",
+            "instanceId": "26502",
+            "isLive": true,
+            "locale": "en_US",
+            "treatmentId": "1"
+        },
+        "ExpediaAndroidAppAATest": {
+            "Experiment ID": "6714",
+            "Resources": {},
+            "Treatment ID": "0",
+            "View Settings": {
+                "Value": 0
+            },
+            "experimentId": "6714",
+            "instanceId": "26499",
+            "isLive": true,
+            "locale": "en_US",
+            "treatmentId": "0"
+        }
+    },
+    "status": "ok"
+}

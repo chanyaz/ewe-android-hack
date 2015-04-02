@@ -1,0 +1,17 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.squareup.okhttp:mockwebserver:2.2.0'
+    compile 'joda-time:joda-time:2.7'
+}
+
+mainClassName = "com.mobiata.mocke3.RunMockWebServer"
+

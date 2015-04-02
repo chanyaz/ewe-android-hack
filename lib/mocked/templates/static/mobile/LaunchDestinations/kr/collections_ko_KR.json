@@ -1,0 +1,1452 @@
+{
+	"collections": [
+		{
+		   "title":"잠들지 않는 도시",
+		   "id":"global-nightlife",
+		   "imageCode":"global-nightlife",
+		   "locations":[
+				{
+					"title": "베를린",
+					"subtitle": "독일",
+					"id": "global-nightlife.berlin",
+					"description": "베를린 사람들은 밤을 기다리며 산다지요? 1920년대 스타일의 카바레나 복고풍의 세련된 바에서 즐기는 사람들도 있고, 쾌활한 분위기의 야외 테이블에서 시원한 맥주와 함께 밤을 즐기기도 한다고 해요. 시크한 분위기를 풍기는 베르크하인과 같은 대형 클럽에서는 유럽 최고의 DJ들을 만나실 수도 있어요. 여름이면 스프리 강 옆의 야외 바에서 온종일 파티가 이어집니다.",
+					"imageCode": "berlin",
+					"location": {
+						"s": "베를린(및 인근 지역), 독일",
+						"a": "BER",
+						"d": "베를린, 독일",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.513840",
+							"lng": "13.350080"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "부에노스아이레스",
+					"subtitle": "아르헨티나",
+					"id": "global-nightlife.buenos-aires",
+					"description": "부에노스아이레스에서 밤에 외출하려면 마음을 단단히 먹으셔야 해요. 탱고의 발상지인 이 도시에서는 자정이 훨씬 넘어야 파티가 본격적으로 시작된답니다.",
+					"imageCode": "buenos-aires",
+					"location": {
+						"s": "부에노스아이레스(및 인근 지역), 아르헨티나",
+						"a": "BUE",
+						"d": "부에노스아이레스, 아르헨티나",
+						"id": "178242",
+						"t": "CITY",
+						"ll": {
+							"lat": "-34.609500",
+							"lng": "-58.387200"
+						},
+						"amc": "178242"
+					}
+				},
+				{
+					"title": "홍콩",
+					"subtitle": "홍콩",
+					"id": "global-nightlife.hong-kong",
+					"description": "왁자지껄한 홍콩의 거리는 밤 10시가 되었다고 해서 잠잠해지지 않아요. 이 국제적인 도시에는 다양한 클럽과 바, 야시장 등이 있어 밤 늦도록 신나는 시간을 보내실 수 있답니다.",
+					"imageCode": "hong-kong",
+					"location": {
+						"s": "홍콩(전체), 홍콩",
+						"a": "HKG",
+						"d": "홍콩(전체), 홍콩",
+						"id": "178263",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.321194",
+							"lng": "114.109998"
+						},
+						"amc": "178263"
+					}
+				},
+				{
+					"title": "이비사",
+					"subtitle": "스페인",
+					"id": "global-nightlife.ibiza",
+					"description": "이비사는 나이트클럽의 메카라 할 수 있지요. 파티광이라면 반드시 한 번쯤 이곳에 가보셔야 해요. 이비사에서의 파티는 클럽이라기 보다는 그야말로 삶의 경험과 같은 것이랍니다.",
+					"imageCode": "ibiza",
+					"location": {
+						"s": "이비사 섬, 스페인",
+						"a": "IBZ",
+						"d": "이비사 섬, 스페인",
+						"id": "602653",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.020010",
+							"lng": "1.482148"
+						},
+						"amc": "602653"
+					}
+				},
+				{
+					"title": "방콕",
+					"subtitle": "태국",
+					"id": "global-nightlife.bangkok",
+					"description": "배낭 여행자들에게 안식처와도 같은 카오산 로드부터 라차테위 근처의 로큰롤 바, 그리고 통로 및 에카마이 지역의 세련된 펍까지... 방콕은 신나는 나이트라이프를 만끽할 수 있는 곳이 무궁무진한 곳이지요.",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "방콕(및 인근 지역), 태국",
+						"a": "BKK",
+						"d": "방콕, 태국",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.747500",
+							"lng": "100.536010"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "마이애미",
+					"subtitle": "플로리다",
+					"id": "global-nightlife.miami",
+					"description": "이곳의 나이트라이프는 언제나 활발한데요, 특히 사우스 비치 지역은 파티광들이 제일 먼저 찾는 곳이지요. 아르데코 스타일의 거리에는 고급스러운 라운지부터 귀가 멍멍할 정도로 음악이 크게 들리는 댄스 클럽까지 모든 것이 갖추어져 있답니다. 멋진 패션 감각으로 사람들의 시선을 끌어보세요.",
+					"imageCode": "miami",
+					"location": {
+						"s": "마이애미(및 인근 지역), 플로리다, 미국",
+						"a": "MIA",
+						"d": "마이애미, 플로리다, 미국",
+						"id": "178286",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.724688",
+							"lng": "-80.336897"
+						},
+						"amc": "178286"
+					}
+				},
+				{
+					"title": "라스베이거스",
+					"subtitle": "네바다",
+					"id": "global-nightlife.las-vegas",
+					"description": "라스베이거스는 누구나 즐거운 시간을 보장받을 수 있는 곳이죠. 더 스트립에는 도덕적으로 문제가 될만한 일들도 가능한 곳들이 있답니다. 대표적 명소는 더 스트립이지만, 요란하고 시끌벅적한 곳보다는 덜 화려한 곳을 찾는 분들은 프리몬트 스트리트가 정답이에요.",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "라스베이거스(및 인근 지역), 네바다, 미국",
+						"a": "LAS",
+						"d": "라스베이거스, 네바다, 미국",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.128174",
+							"lng": "-115.147728"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "리우데자네이루",
+					"subtitle": "브라질",
+					"id": "global-nightlife.rio-de-janeiro",
+					"description": "정열이 가득한 도시 리우데자네이루에서는 카니발이 끝났다고 해서 파티 시즌이 끝난 것은 절대 아니에요. 현지 주민과 관광객 모두 나이트클럽에서, 바에서, 거리에서, 해변 파티에서 연중 내내 마시고 춤추고 즐거운 대화를 나누며 파티 분위기로 살아간답니다.",
+					"imageCode": "rio-de-janeiro",
+					"location": {
+						"s": "리우데자네이루(및 인근 지역), 브라질",
+						"a": "RIO",
+						"d": "리우데자네이루, 브라질",
+						"id": "178301",
+						"t": "CITY",
+						"ll": {
+							"lat": "-22.906500",
+							"lng": "-43.178600"
+						},
+						"amc": "178301"
+					}
+				},
+				{
+					"title": "몬트리올",
+					"subtitle": "캐나다",
+					"id": "global-nightlife.montreal",
+					"description": "북미 지역에서 아직 많이 알려지지 않은 보석과 같은 이곳은 구세계 스타일의 카페, 쿨한 재즈 클럽, 화끈하고 요란한 디스코 클럽, 시끌벅적한 바 등에서 삶의 환희를 제대로 느껴보실 수 있는 곳이랍니다.",
+					"imageCode": "montreal",
+					"location": {
+						"s": "몬트리올(및 인근 지역), 퀘벡, 캐나다",
+						"a": "YMQ",
+						"d": "몬트리올, 퀘벡, 캐나다",
+						"id": "178288",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.498654",
+							"lng": "-73.725227"
+						},
+						"amc": "178288"
+					}
+				},
+				{
+					"title": "뉴욕",
+					"subtitle": "뉴욕",
+					"id": "global-nightlife.new-york",
+					"description": "이스트 빌리지에서 계속 여러 바를 옮겨 다니기, 트렌디한 소호 라운지에서 칵테일 마시기, 브루클린의 창고 파티에서 밤새 미치도록 춤추기... 잠들지 않는 도시 뉴욕에서는 상상만 하던 것들을 실제로 해보실 수 있어요!",
+					"imageCode": "new-york",
+					"location": {
+						"s": "뉴욕(및 인근 지역), 뉴욕, 미국",
+						"a": "NYC",
+						"d": "뉴욕, 뉴욕, 미국",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.689044",
+							"lng": "-73.942843"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "도쿄",
+					"subtitle": "일본",
+					"id": "global-nightlife.tokyo",
+					"description": "도쿄가 국제적 도시라는 느낌은 이곳의 나이트라이프에도 잘 반영되어 있지요. 라이브 음악과 바는 물론 일본의 전통 가부키 공연까지 다양한 문화를 접할 수 있거든요.",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "도쿄(및 인근 지역), 일본",
+						"a": "TYO",
+						"d": "도쿄, 일본",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				}
+			]
+		},
+		{
+            "title": "신나는 모험이 가득",
+            "id": "adventure-abounds",
+            "imageCode": "adventure-abounds",
+            "locations": [
+                {
+                    "title": "베이징",
+                    "subtitle": "중국",
+                    "id": "adventure-abounds.beijing-adventure",
+                    "description": "기원전 7세기에 지어졌다는 중국의 만리장성은 총 길이가 21,195km에 달하며 매년 수천만 명의 관광객이 찾고 있습니다. 만리장성을 따라 터보건을 타고 영원히 잊지 못할 환상적인 광경을 직접 감상해 보세요.",
+                    "image": "beijing-adventure",
+                    "imageCode": "beijing-adventure",
+                    "location": {
+                        "s": "베이징(및 인근 지역), 중국",
+                        "a": "BJS",
+                        "d": "<B>베이징</B>, <B>중국</B>",
+                        "id": "178237",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "39.906000",
+                            "lng": "116.385000"
+                        },
+                        "amc": "178237"
+                    }
+                },
+                {
+                    "title": "리마",
+                    "subtitle": "페루",
+                    "id": "adventure-abounds.lima-adventure",
+                    "description": "패러글라이딩으로 바다와 절벽 위로 솟아오르면서 마법 같은 페루 해안의 풍경을 온몸으로 느껴보세요. 리마는 맛있는 음식으로도 유명합니다. 최신 인기 레스토랑과 시장에도 꼭 들러보세요.",
+                    "image": "lima-adventure",
+                    "imageCode": "lima-adventure",
+                    "location": {
+                        "s": "리마(및 인근 지역), 페루",
+                        "a": "LIM",
+                        "d": "<B>리마</B>, <B>페루</B>",
+                        "id": "178277",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-12.040150",
+                            "lng": "-77.036160"
+                        },
+                        "amc": "178277"
+                    }
+                },
+                {
+                    "title": "뮌헨",
+                    "subtitle": "독일",
+                    "id": "adventure-abounds.munich-adventure",
+                    "description": "독일 맥주와 소시지로는 만족할 수 없다고요? 그렇다면 나무에 매달린 나무 텐트에서 밤을 보내보세요. 독특하게 나무 위에 누워 아름다운 일몰과 일출을 감상할 수 있답니다.",
+                    "image": "munich-adventure",
+                    "imageCode": "munich-adventure",
+                    "location": {
+                        "s": "뮌헨(및 인근 지역), 독일",
+                        "a": "MUC",
+                        "d": "<B>뮌헨</B>, <B>독일</B>",
+                        "id": "179896",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "48.139800",
+                            "lng": "11.560050"
+                        },
+                        "amc": "179896"
+                    }
+                },
+                {
+                    "title": "베니도름",
+                    "subtitle": "스페인",
+                    "id": "adventure-abounds.benidorm-adventure",
+                    "description": "겨울에 암벽 등반을 하지 말라는 법 있나요? 베니도름은 가을부터 봄까지 날씨가 화창해 등반의 최적기랍니다. 높은 곳은 별로라면, 물이 투명하고 깨끗한 레반테 비치에 가거나 끝없이 이어지는 화끈한 나이트라이프를 즐기셔도 좋지요.",
+                    "image": "benidorm-adventure",
+                    "imageCode": "benidorm-adventure",
+                    "location": {
+                        "s": "베니도름, 스페인",
+                        "a": "ALC",
+                        "d": "<B>베니도름</B>, <B>스페인</B>",
+                        "id": "6049283",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "38.549603",
+                            "lng": "-0.127095"
+                        },
+                        "amc": "6023825"
+                    }
+                },
+                {
+                    "title": "보라카이",
+                    "subtitle": "필리핀",
+                    "id": "adventure-abounds.boracay-adventure",
+                    "description": "이곳에서 카이트 서핑은 너무나 일상적이에요! 세계적으로 유명한 최적의 조건과 훌륭한 카이트 서핑 학교가 갖추어져 있어 초보와 전문가 모두 매우 만족스럽게 즐길 수 있답니다.",
+                    "image": "boracay-adventure",
+                    "imageCode": "boracay-adventure",
+                    "location": {
+                        "s": "보라카이, 필리핀",
+                        "a": "KLO",
+                        "d": "<B>보라카이</B>, <B>필리핀</B>",
+                        "id": "601371",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "11.959059",
+                            "lng": "121.926270"
+                        },
+                        "amc": "6184368"
+                    }
+                },
+                {
+                    "title": "포트 링컨",
+                    "subtitle": "호주",
+                    "id": "adventure-abounds.portlincoln-adventure",
+                    "description": "포트 링컨은 스쿠버 다이빙만 유명한 게 아니에요. 상어와 잠수하기 등 평소 꿈꾸었던 다양한 것들을 실제로 해보실 수 있습니다.",
+                    "image": "portlincoln-adventure",
+                    "imageCode": "portlincoln-adventure",
+                    "location": {
+                        "s": "포트 링컨(및 인근 지역), 남호주, 호주",
+                        "a": "PLO",
+                        "d": "<B>포트</B> <B>링컨</B>, 남호주, <B>호주</B>",
+                        "id": "6142927",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-34.734804",
+                            "lng": "135.852622"
+                        },
+                        "amc": "6142927"
+                    }
+                },
+                {
+                    "title": "두바이",
+                    "subtitle": "사우디아라비아",
+                    "id": "adventure-abounds.dubai-adventure",
+                    "description": "여름에는 스노우보드 대신 두바이의 모래 언덕을 따라 신나게 내려오는 샌드보드를 즐겨보세요. 이 완전히 새로운 경험으로 사막이 예전과는 전혀 다르게 보이실 거예요.",
+                    "image": "dubai-adventure",
+                    "imageCode": "dubai-adventure",
+                    "location": {
+                        "s": "포트 링컨(및 인근 지역), 남호주, 호주",
+                        "a": "PLO",
+                        "d": "<B>포트</B> <B>링컨</B>, 남호주, <B>호주</B>",
+                        "id": "6142927",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-34.734804",
+                            "lng": "135.852622"
+                        },
+                        "amc": "6142927"
+                    }
+                },
+                {
+                    "title": "리빙스톤",
+                    "subtitle": "잠비아",
+                    "id": "adventure-abounds.livingstone-adventure",
+                    "description": "감탄이 절로 나오는 절경의 빅토리아 폭포는 세계에서 가장 큰 폭포 중 하나로서, 잠비아와 짐바브웨 사이에 위치하며 양쪽을 잇는 다리가 놓여 있습니다. 좀 더 짜릿함을 느끼고 싶다면 122m 높이의 이 다리에서 번지점프를 해보세요.",
+                    "image": "livingstone-adventure",
+                    "imageCode": "livingstone-adventure",
+                    "location": {
+                        "s": "리빙스톤, 잠비아",
+                        "a": "LVI",
+                        "d": "<B>리빙스톤</B>, <B>잠비아</B>",
+                        "id": "2170",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-17.872034",
+                            "lng": "25.858815"
+                        },
+                        "amc": "2170"
+                    }
+                },
+                {
+                    "title": "아루샤",
+                    "subtitle": "탄자니아",
+                    "id": "adventure-abounds.arusha-adventure",
+                    "description": "지구 상에서 가장 오래된 생태계 중 하나로 유명한 이곳의 세렝게티 국립공원은 매년 90,000여 명의 관광객이 찾고 있죠. 10월과 11월에 오시면 영양과 얼룩말떼가 대이동 하는 장관을 보실 수 있습니다.",
+                    "image": "arusha-adventure",
+                    "imageCode": "arusha-adventure",
+                    "location": {
+                        "s": "아루샤, 탄자니아",
+                        "a": "ARK",
+                        "d": "<B>아루샤</B>, <B>탄자니아</B>",
+                        "id": "178011",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-3.369788",
+                            "lng": "36.840055"
+                        },
+                        "amc": "6128668"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "익스피디아 직원 추천",
+            "id": "staff-picks",
+            "imageCode": "staff-picks",
+            "locations": [
+                {
+                    "title": "교토",
+                    "subtitle": "일본",
+                    "id": "staff-picks.staff-kyoto",
+                    "description": "풍부한 문화유산과 아름다운 자연을 간직한 교토는 여행자를 절대 실망시키지 않는 곳이랍니다. 세계문화유산으로 등재된 절과 사원도 많은 도시에요. -Nao K.",
+                    "image": "staff-kyoto",
+                    "imageCode": "staff-kyoto",
+                    "location": {
+                        "s": "교토(및 인근 지역), 일본",
+                        "a": "OSA",
+                        "d": "교토, 일본",
+                        "id": "6131486",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "35.011229",
+                            "lng": "135.768125"
+                        },
+                        "amc": "179897"
+                    }
+                },
+                {
+                    "title": "펜서콜라",
+                    "subtitle": "플로리다",
+                    "id": "staff-picks.staff-pensacola",
+                    "description": "피켄스 요새는 펜서콜라에 위치한 국립공원으로, 오래된 요새를 구경하고 야생동식물을 관찰하며 캠핑이나 일광욕을 즐기기에도 좋은 곳이에요. 이곳의 여러 해변은 사람들로 북적이는 펜서콜라 비치에 비해 외진 편이지만, 멕시코만 연안의 눈부신 백사장이 있어 즐거운 시간을 보내기에 손색이 없죠. -Tarran V.",
+                    "image": "staff-pensacola",
+                    "imageCode": "staff-pensacola",
+                    "location": {
+                        "s": "펜서콜라(및 인근 지역), 플로리다, 미국",
+                        "a": "PNS",
+                        "d": "펜서콜라, 플로리다, 미국",
+                        "id": "6023331",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "30.410358",
+                            "lng": "-87.214783"
+                        },
+                        "amc": "6023392"
+                    }
+                },
+                {
+                    "title": "코르닐리아",
+                    "subtitle": "이탈리아",
+                    "id": "staff-picks.staff-corniglia",
+                    "description": "코르닐리아는 친퀘테레에서 가장 작은 도시지만, 아름다운 풍경은 그 어디에 비해도 빠지지 않아요. 바다에서 멀리 있어서 찾아오는 관광객이 적은 편이지만, 정말 숨겨진 보석과 같은 곳이에요! -Lacie T.",
+                    "image": "staff-corniglia",
+                    "imageCode": "staff-corniglia",
+                    "location": {
+                        "s": "이탈리아 Vernazza Corniglia",
+                        "a": "GOA",
+                        "d": "이탈리아 Vernazza <B>Corniglia</B>",
+                        "id": "179977",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.122589",
+                            "lng": "9.708674"
+                        },
+                        "amc": "6055038"
+                    }
+                },
+                {
+                    "title": "마라케시",
+                    "subtitle": "모로코",
+                    "id": "staff-picks.staff-marrakech",
+                    "description": "마라케시에 가면 감탄이 절로 나오는 아틀라스 산맥의 투브칼 산에 꼭 올라가 보세요. 사막에서 낙타도 타고, 독특한 현지 음식도 맛보고, 마라케시의 오랜 역사와 문화에 대해서도 배우실 수 있어요. -Steven V.",
+                    "image": "staff-marrakech",
+                    "imageCode": "staff-marrakech",
+                    "location": {
+                        "s": "마라케시(및 인근 지역), 모로코",
+                        "a": "RAK",
+                        "d": "마라케시, 모로코",
+                        "id": "6084756",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "31.631600",
+                            "lng": "-8.009210"
+                        },
+                        "amc": "6084756"
+                    }
+                },
+                {
+                    "title": "윌리엄스버그",
+                    "subtitle": "버지니아",
+                    "id": "staff-picks.staff-williamsburg",
+                    "description": "윌리엄스버그와 근처의 요크타운 및 제임스타운에서 현 체제 지지자와 반항 세력이 공존했던 미국 식민지 시절 역사를 경험해 보세요. 미국 초기 식민지 시절의 음식, 건축물, 선박 등을 통해 당시 시절을 실감나게 느낄 수 있어 흥미롭답니다. -Eric W.",
+                    "image": "staff-williamsburg",
+                    "imageCode": "staff-williamsburg",
+                    "location": {
+                        "s": "윌리엄스버그, 버지니아, 미국",
+                        "a": "PHF",
+                        "d": "윌리엄스버그, 버지니아, 미국",
+                        "id": "6296",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "37.297399",
+                            "lng": "-76.737958"
+                        },
+                        "amc": "6056964"
+                    }
+                },
+                {
+                    "title": "발트라",
+                    "subtitle": "에콰도르",
+                    "id": "staff-picks.staff-baltra",
+                    "description": "일단 갈라파고스 제도를 직접 보시면 다윈이 왜 그렇게 이곳에 집착했는지 이해하시게 될 거예요. 각 섬은 지리적으로 떨어져 있어 다양한 종이 각각 다르게 진화했답니다. 지구 상에서 가장 아름다운 곳 중의 하나인 발트라 섬은 생물학에 대해 재미있게 배울 수 있는 곳이라 할 수 있죠. -Eric G.",
+                    "image": "staff-baltra",
+                    "imageCode": "staff-baltra",
+                    "location": {
+                        "s": "발트라, 에콰도르",
+                        "a": "GPS",
+                        "d": "발트라, 에콰도르",
+                        "id": "6223000",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-0.454779",
+                            "lng": "-90.276524"
+                        },
+                        "amc": "6053670"
+                    }
+                },
+                {
+                    "title": "산페드로데아타카마",
+                    "subtitle": "칠레",
+                    "id": "staff-picks.staff-atacama",
+                    "description": "산페드로데아타카마는 이 세상에서 가장 건조한 사막에 위치한 오아시스와 같아요. 산악 자전거를 탈 수도 있고, 솔트 플랫에서 플라밍고를 관찰하거나 천연 온천에서 느긋한 시간을 만끽해도 좋답니다. 신나는 샌드보딩 또한 빼놓을 수 없는 묘미에요! -Eric G.",
+                    "image": "staff-atacama",
+                    "imageCode": "staff-atacama",
+                    "location": {
+                        "s": "산페드로데아타카마, 칠레",
+                        "a": "CJC",
+                        "d": "산페드로데아타카마, 칠레",
+                        "id": "500224",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-22.910600",
+                            "lng": "-68.200352"
+                        },
+                        "amc": "500224"
+                    }
+                },
+                {
+                    "title": "케이프타운",
+                    "subtitle": "남아프리카공화국",
+                    "id": "staff-picks.staff-capetown",
+                    "description": "케이프 와인랜즈의 아름다운 산속에 자리한 프란쉬후크는 남아프리카공화국 최고의 레스토랑과 와이너리가 모여 있는 곳이에요. 남아프리카공화국에서 가장 오래된 도시 중 하나인 이곳은 흥미로운 역사와 멋진 풍경만으로도 충분히 가볼 만한 곳이랍니다. -Susanna V.",
+                    "image": "staff-capetown",
+                    "imageCode": "staff-capetown",
+                    "location": {
+                        "s": "케이프타운(및 인근), 남아프리카 공화국",
+                        "a": "CPT",
+                        "d": "케이프타운(및 인근), 남아프리카 공화국",
+                        "id": "6046820",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-33.922012",
+                            "lng": "18.423134"
+                        },
+                        "amc": "6046820"
+                    }
+                },
+                {
+                    "title": "겐트",
+                    "subtitle": "벨기에",
+                    "id": "staff-picks.staff-ghent",
+                    "description": "겐트는 중세시대 건축물과 아름다운 운하, 그리고 맥주 공장과 예쁜 카페 등 오랜 역사와 현대적인 세련미가 공존하는 매력적인 도시에요. 벨기에의 진정한 매력을 경험하려는 분들께 숨은 보석과 같은 곳이죠. -Cristen D.",
+                    "image": "staff-ghent",
+                    "imageCode": "staff-ghent",
+                    "location": {
+                        "s": "겐트, 벨기에",
+                        "a": "BRU",
+                        "d": "겐트, 벨기에",
+                        "id": "6052141",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.073648",
+                            "lng": "3.724662"
+                        },
+                        "amc": "178241"
+                    }
+                },
+                {
+                    "title": "트래버스 시티",
+                    "subtitle": "미시간",
+                    "id": "staff-picks.staff-traversecity",
+                    "description": "아름다운 그랜드트래버스 만에 자리한 트래버스 시티는 맛있는 고급 요리, 영화제, 자전거, 골프, 와인, 체리 등으로 유명하답니다. 전반적으로 도시가 느긋한 분위기인데요, 아름다운 절경을 감상하며 맛있는 음식을 즐길 수 있어서 좋아요. -Shawn P.",
+                    "image": "staff-traversecity",
+                    "imageCode": "staff-traversecity",
+                    "location": {
+                        "s": "트래버스시티(및 인근 지역), 미시간, 미국",
+                        "a": "TVC",
+                        "d": "트래버스시티, 미시간, 미국",
+                        "id": "3577",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.763420",
+                            "lng": "-85.620972"
+                        },
+                        "amc": "3577"
+                    }
+                },
+                {
+                    "title": "라포르투나",
+                    "subtitle": "코스타리카",
+                    "id": "staff-picks.staff-lafortuna",
+                    "description": "라포르투나에서는 거대한 아레날 화산에서 하이킹을 하고 근처의 수많은 스파에서 온천욕을 즐기시면 좋아요. 그리고 차로 조금만 가면 나오는 몬테베르데 운무림 보존 지구에서는 이국적인 동식물들을 다양하게 만나실 수 있습니다. -Suzi F.",
+                    "image": "staff-lafortuna",
+                    "imageCode": "staff-lafortuna",
+                    "location": {
+                        "s": "포르투나(알라후엘라), 코스타리카",
+                        "a": "SJO",
+                        "d": "포르투나(알라후엘라), 코스타리카",
+                        "id": "6052925",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "10.471122",
+                            "lng": "-84.645862"
+                        },
+                        "amc": "603085"
+                    }
+                },
+                {
+                    "title": "씨엠립",
+                    "subtitle": "캄보디아",
+                    "id": "staff-picks.staff-siemreap",
+                    "description": "앙코르 왓을 비롯해 여러 유명한 고대 사원이 있는 씨엠립은 캄보디아가 번성했던 시절의 화려한 역사를 볼 수 있는 곳으로, 감탄이 절로 나오는 많은 문화유적을 간직하고 있어요. -David Y.",
+                    "image": "staff-siemreap",
+                    "imageCode": "staff-siemreap",
+                    "location": {
+                        "s": "씨엠립, 캄보디아",
+                        "a": "REP",
+                        "d": "씨엠립, 캄보디아",
+                        "id": "2975",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "13.354465",
+                            "lng": "103.854790"
+                        },
+                        "amc": "2975"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "윈터 원더랜드",
+            "id": "winter-wonderlands",
+            "imageCode": "winter-wonderlands",
+            "locations": [
+                {
+                    "title": "코펜하겐",
+                    "subtitle": "덴마크",
+                    "id": "winter-wonderlands.copenhagen-winter",
+                    "description": "세계에서 가장 유명한 놀이공원 중 하나인 티볼리 공원은 겨울이 되면 정성스레 조경된 꽃밭과 건축물을 따라 주문 제작된 111,000여 개의 조명이 켜지면서 완전히 새로운 모습으로 탈바꿈한답니다.",
+                    "image": "copenhagen-winter",
+                    "imageCode": "copenhagen-winter",
+                    "location": {
+                        "s": "코펜하겐(및 인근 지역), 덴마크",
+                        "a": "CPH",
+                        "d": "코펜하겐, 덴마크",
+                        "id": "178252",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "55.675981",
+                            "lng": "12.568926"
+                        },
+                        "amc": "178252"
+                    }
+                },
+                {
+                    "title": "뉴욕",
+                    "subtitle": "뉴욕",
+                    "id": "winter-wonderlands.nyc-winter",
+                    "description": "빅 애플(Big Apple)이란 애칭의 뉴욕은 즐길거리가 무궁무진한 곳이죠. 겨울이라고 예외는 아니랍니다. 라디오 시티 로케츠에 가보셔도 좋고, 록펠러 센터의 거대한 크리스마스 트리도 볼만 하죠. 눈 덮인 센트럴파크를 산책해도 좋고요.",
+                    "image": "nyc-winter",
+                    "imageCode": "nyc-winter",
+                    "location": {
+                        "s": "뉴욕(및 인근 지역), 뉴욕, 미국",
+                        "a": "NYC",
+                        "d": "뉴욕, 뉴욕, 미국",
+                        "id": "178293",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.756680",
+                            "lng": "-73.986470"
+                        },
+                        "amc": "178293"
+                    }
+                },
+                {
+                    "title": "레이캬비크",
+                    "subtitle": "아이슬란드",
+                    "id": "winter-wonderlands.reykjavik-winter",
+                    "description": "긴긴 밤은 하늘을 멋지게 수놓는 북극광을 감상하기에 더없이 좋죠. 따끈한 노천 온천에 몸을 담그고 밤하늘의 별을 감상할 수도 있고, 빙하를 오르며 짜릿함을 만끽하실 수도 있답니다.",
+                    "image": "reykjavik-winter",
+                    "imageCode": "reykjavik-winter",
+                    "location": {
+                        "s": "레이크자빅(및 인근 지역), 아이스랜드",
+                        "a": "REK",
+                        "d": "레이크자빅, 아이스랜드",
+                        "id": "6054688",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "64.148417",
+                            "lng": "-21.941398"
+                        },
+                        "amc": "6054688"
+                    }
+                },
+                {
+                    "title": "앵커리지",
+                    "subtitle": "알래스카",
+                    "id": "winter-wonderlands.anchorage-winter",
+                    "description": "이곳의 아름다운 겨울 풍경은 스노유슈를 신고 하이킹을 하거나 얼음 낚시를 즐기기에 안성맞춤이에요. 또한, 앵커리지 모피 랑데부 페스티벌에서는 눈 조각 대회, 카니발 놀이기구, 음악 공연 등 다양한 즐길거리가 마련됩니다.",
+                    "image": "anchorage-winter",
+                    "imageCode": "anchorage-winter",
+                    "location": {
+                        "s": "앵커리지(및 인근 지역), 알래스카, 미국",
+                        "a": "ANC",
+                        "d": "앵커리지, 알래스카, 미국",
+                        "id": "178230",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "61.217110",
+                            "lng": "-149.892410"
+                        },
+                        "amc": "178230"
+                    }
+                },
+                {
+                    "title": "런던",
+                    "subtitle": "영국",
+                    "id": "winter-wonderlands.london-winter",
+                    "description": "겨울이면 하이드 파크가 완전히 색다른 모습으로 변하는 이 얼음 왕국의 마법에 한 번 빠져보세요. 이 공원에서는 기막힌 서커스, 짜릿한 놀이기구, 축제 분위기로 흥겨운 휴일 시장 등을 즐기실 수 있습니다.",
+                    "image": "london-winter",
+                    "imageCode": "london-winter",
+                    "location": {
+                        "s": "런던(및 인근 지역), 잉글랜드, 영국",
+                        "a": "LON",
+                        "d": "런던, 잉글랜드, 영국",
+                        "id": "178279",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.507538",
+                            "lng": "-0.127804"
+                        },
+                        "amc": "178279"
+                    }
+                },
+                {
+                    "title": "에벤제",
+                    "subtitle": "오스트리아",
+                    "id": "winter-wonderlands.ebensee-winter",
+                    "description": "이글루를 짓는 방법이 궁금하셨다면 겨울에 오스트리아에 가보세요. 스노슈잉, 터보건, 스키 등도 여기에서 인기 있는 즐길거리에요.",
+                    "image": "ebensee-winter",
+                    "imageCode": "ebensee-winter",
+                    "location": {
+                        "s": "에벤제, 오스트리아",
+                        "a": "LNZ",
+                        "d": "에벤제, 오스트리아",
+                        "id": "6160078",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "47.782091",
+                            "lng": "13.772507"
+                        },
+                        "amc": "6055554"
+                    }
+                },
+                {
+                    "title": "하얼빈",
+                    "subtitle": "중국",
+                    "id": "winter-wonderlands.harbin-winter",
+                    "description": "하얼빈 국제 빙설 축제에서 놀라운 예술 작품을 감상해 보세요. 자오린 공원의 빙등 전시나 송화강에서 직접 가져온 5~8cm 두께의 얼음 덩어리로 만든 거대한 얼음 건물은 감탄이 절로 나올 정도랍니다.",
+                    "image": "harbin-winter",
+                    "imageCode": "harbin-winter",
+                    "location": {
+                        "s": "하얼빈, 중국",
+                        "a": "HRB",
+                        "d": "하얼빈, 중국",
+                        "id": "1510",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "45.658669",
+                            "lng": "127.948756"
+                        },
+                        "amc": "6140852"
+                    }
+                },
+                {
+                    "title": "아사히카와",
+                    "subtitle": "일본",
+                    "id": "winter-wonderlands.asahikawa-winter",
+                    "description": "실물보다 큰 얼음 조각과 음악 공연이 있는 아사히카와 겨울 축제는 홋카이도의 긴 겨울을 제대로 즐길 수 있게 해주죠. 이곳에 오시면 근처의 삿포로 눈 축제도 놓치지 마세요.",
+                    "image": "asahikawa-winter",
+                    "imageCode": "asahikawa-winter",
+                    "location": {
+                        "s": "아사히카와(및 인근 지역), 일본",
+                        "a": "AKJ",
+                        "d": "아사히카와, 일본",
+                        "id": "6143139",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "43.774547",
+                            "lng": "142.365571"
+                        },
+                        "amc": "6143139"
+                    }
+                },
+                {
+                    "title": "파크 시티",
+                    "subtitle": "유타",
+                    "id": "winter-wonderlands.parkcity-winter",
+                    "description": "파크 시티는 스키를 즐기기에 최상의 조건을 갖추고 있을 뿐만 아니라 권위 있는 독립 영화 행사인 선댄스 영화제가 매년 열리는 곳이랍니다.",
+                    "image": "parkcity-winter",
+                    "imageCode": "parkcity-winter",
+                    "location": {
+                        "s": "파크 시티(및 인근 지역), 유타, 미국",
+                        "a": "SLC",
+                        "d": "파크 시티, 유타, 미국",
+                        "id": "602285",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.644230",
+                            "lng": "-111.496071"
+                        },
+                        "amc": "178302"
+                    }
+                },
+                {
+                    "title": "사스페",
+                    "subtitle": "스위스",
+                    "id": "winter-wonderlands.saasfee-winter",
+                    "description": "반짝이는 얼음 조각들이 신비로운 빙하를 구경하러 온 방문객들을 맞이합니다. 세계에서 제일 높은 지하철을 타고 세계 최대 규모 중 하나인 얼음 전시관에 가보세요. 이곳에서 70m 길이의 터널을 지나면 수천 년 전에 생긴 얼음을 만나실 수 있답니다.",
+                    "image": "saasfee-winter",
+                    "imageCode": "saasfee-winter",
+                    "location": {
+                        "s": "사스페, 스위스",
+                        "a": "GVA",
+                        "d": "사스페, 스위스",
+                        "id": "4352",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "46.088787",
+                            "lng": "7.900798"
+                        },
+                        "amc": "180003"
+                    }
+                }
+            ]
+        },
+		{
+		   "title":"태양과 모래 사장",
+		   "id":"kr-beach",
+		   "imageCode":"kr-beach",
+		   "locations":[
+				{
+					"title": "크라비",
+					"subtitle": "태국",
+					"id": "kr-beach.krabi",
+					"description": "허니문으로도 손색이 없는, 자연의 신비를 그대로 보여주는 해변",
+					"imageCode": "krabi",
+					"location": {
+						"s": "크라비-뜨랑(주), 태국",
+						"a": "KBV",
+						"d": "크라비-뜨랑(주), 태국",
+						"id": "6050558",
+						"t": "CITY",
+						"ll": {
+							"lat": "7.748699",
+							"lng": "99.330331"
+						},
+						"amc": "6050558"
+					}
+				},
+				{
+					"title": "발리",
+					"subtitle": "인도네시아",
+					"id": "kr-beach.bali",
+					"description": "아름다운 해변, 완만한 경사를 이루는 산, 독특한 문화와 정신, 그리고 탁월한 예술 작품 등으로 전 세계가 다 아는 유명한 섬",
+					"imageCode": "bali",
+					"location": {
+						"s": "발리, 인도네시아",
+						"a": "DPS",
+						"d": "발리, 인도네시아",
+						"id": "602651",
+						"t": "CITY",
+						"ll": {
+							"lat": "-8.409518",
+							"lng": "115.188916"
+						},
+						"amc": "602651"
+					}
+				},
+				{
+					"title": "보라카이",
+					"subtitle": "필리핀",
+					"id": "kr-beach.boracay",
+					"description": "에메랄드 빛 바다를 즐길 수 있는 아시아의 마지막 남은 천국이라 불리우는 그곳",
+					"imageCode": "boracay",
+					"location": {
+						"s": "보라카이, 필리핀",
+						"a": "KLO",
+						"d": "보라카이, 필리핀",
+						"id": "601371",
+						"t": "CITY",
+						"ll": {
+							"lat": "11.959059",
+							"lng": "121.926270"
+						},
+						"amc": "6184368"
+					}
+				},
+				{
+					"title": "괌",
+					"subtitle": "미주리",
+					"id": "kr-beach.guam",
+					"description": "풍부한 문화 유산과 역사를 가지고 있는 태평양에 위치한 작은 섬",
+					"imageCode": "guam",
+					"location": {
+						"s": "마이크로네시아몰, 투몬, 괌",
+						"a": "GUM",
+						"d": "마이크로네시아몰, 투몬, 괌",
+						"id": "6105509",
+						"t": "ATTRACTION",
+						"ll": {
+							"lat": "13.520111",
+							"lng": "144.817671"
+						},
+						"amc": "6023599"
+					}
+				},
+				{
+					"title": "세부",
+					"subtitle": "필리핀",
+					"id": "kr-beach.cebu",
+					"description": "하이킹, 캠핑, 카약, 등산 및 래프팅 등을 즐길 수 있는 자연을 사랑하는 분들을 위한 섬",
+					"imageCode": "cebu",
+					"location": {
+						"s": "소고드 공설 시장, 소고드, 필리핀",
+						"a": "CEB",
+						"d": "소고드 공설 시장, 소고드, 필리핀",
+						"id": "6254314",
+						"t": "ATTRACTION",
+						"ll": {
+							"lat": "10.749636",
+							"lng": "124.005346"
+						},
+						"amc": "6049857"
+					}
+				},
+				{
+					"title": "푸켓",
+					"subtitle": "태국",
+					"id": "kr-beach.phuket",
+					"description": "가족 및 친구들과 함께 할 최고의 휴가지를 찾는 여행자들을 위한 “아시아의 진주”",
+					"imageCode": "phuket",
+					"location": {
+						"s": "푸켓(및 인근 지역), 태국",
+						"a": "HKT",
+						"d": "푸켓, 태국",
+						"id": "6046393",
+						"t": "CITY",
+						"ll": {
+							"lat": "7.883309",
+							"lng": "98.393840"
+						},
+						"amc": "6046393"
+					}
+				},
+				{
+					"title": "오키나와",
+					"subtitle": "일본",
+					"id": "kr-beach.okinawa",
+					"description": "수상 스포츠의 즐거움과 자연 풍광의 아름다움으로 가득한 일본 남쪽 열대의 섬",
+					"imageCode": "okinawa",
+					"location": {
+						"s": "후쿠오카, 일본",
+						"a": "FUK",
+						"d": "후쿠오카, 일본",
+						"id": "1265",
+						"t": "CITY",
+						"ll": {
+							"lat": "33.565541",
+							"lng": "130.373737"
+						},
+						"amc": "1265"
+					}
+				},
+				{
+					"title": "사이판",
+					"subtitle": "미국",
+					"id": "kr-beach.saipan",
+					"description": "푸른 하늘과 눈부신 에메랄드 빛 바다가 아름다운 섬",
+					"imageCode": "saipan",
+					"location": {
+						"s": "사이판, 북마리아나 제도",
+						"a": "SPN",
+						"d": "사이판, 북마리아나 제도",
+						"id": "3251",
+						"t": "CITY",
+						"ll": {
+							"lat": "15.177801",
+							"lng": "145.750967"
+						},
+						"amc": "3251"
+					}
+				},
+				{
+					"title": "호놀룰루",
+					"subtitle": "하와이",
+					"id": "kr-beach.honolulu",
+					"description": "넓고도 여유로운 해변에서 해질 저녁의 낭만을 누리기에 충분한 그곳",
+					"imageCode": "honolulu",
+					"location": {
+						"s": "호놀룰루, 하와이, 미국",
+						"a": "HNL",
+						"d": "호놀룰루, 하와이, 미국",
+						"id": "1488",
+						"t": "CITY",
+						"ll": {
+							"lat": "21.309540",
+							"lng": "-157.861600"
+						},
+						"amc": "180077"
+					}
+				},
+				{
+					"title": "몰디브",
+					"subtitle": "몰디브",
+					"id": "kr-beach.maldives",
+					"description": "1192여개의 산호섬으로 이루어진 지구상 가장 아름다운 산호섬",
+					"imageCode": "maldives",
+					"location": {
+						"s": "몰디브(전체)",
+						"a": "MLE",
+						"d": "몰디브(전체)",
+						"id": "6051084",
+						"t": "CITY",
+						"ll": {
+							"lat": "1.977247",
+							"lng": "73.536104"
+						},
+						"amc": "6051084"
+					}
+				}
+			]
+		},
+		{
+		   "title":"입도 즐거운 미식 여행",
+		   "id":"kr-foodie",
+		   "imageCode":"kr-foodie",
+		   "locations":[
+				{
+					"title": "베이징",
+					"subtitle": "중국",
+					"id": "kr-foodie.beijing",
+					"description": "광대한 역사와 더불어 먹을거리도, 볼거리도 수만가지인 도시",
+					"imageCode": "beijing",
+					"location": {
+						"s": "베이징(및 인근 지역), 중국",
+						"a": "BJS",
+						"d": "베이징, 중국",
+						"id": "178237",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.906000",
+							"lng": "116.385000"
+						},
+						"amc": "178237"
+					}
+				},
+				{
+					"title": "방콕",
+					"subtitle": "태국",
+					"id": "kr-foodie.bangkok",
+					"description": "다양한 매력을 가진 천사들의 도시",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "방콕(및 인근 지역), 태국",
+						"a": "BKK",
+						"d": "방콕, 태국",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.747500",
+							"lng": "100.536010"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "싱가포르",
+					"subtitle": "싱가포르",
+					"id": "kr-foodie.singapore",
+					"description": "다양한 문화가 혼합된 세련된 도시 여행지",
+					"imageCode": "singapore",
+					"location": {
+						"s": "싱가포르(전체), 싱가포르",
+						"a": "SIN",
+						"d": "싱가포르(전체), 싱가포르",
+						"id": "180027",
+						"t": "CITY",
+						"ll": {
+							"lat": "1.290270",
+							"lng": "103.852010"
+						},
+						"amc": "180027"
+					}
+				},
+				{
+					"title": "파리",
+					"subtitle": "프랑스",
+					"id": "kr-foodie.paris",
+					"description": "낭만, 미식가 및 문화 애호가들의 로망입니다. 하늘만큼 높은 에펠탑에서 고딕 양식의 노트르담까지 있는 빛들의 도시",
+					"imageCode": "paris",
+					"location": {
+						"s": "파리(및 인근 지역), 프랑스",
+						"a": "PAR",
+						"d": "파리, 프랑스",
+						"id": "179898",
+						"t": "CITY",
+						"ll": {
+							"lat": "48.862720",
+							"lng": "2.343750"
+						},
+						"amc": "179898"
+					}
+				},
+				{
+					"title": "홍콩",
+					"subtitle": "홍콩",
+					"id": "kr-foodie.hong-kong",
+					"description": "멋진 스카이라인, 활기찬 에너지, 다양한 문화적 영향이 특징인 역동적인 분위기가 물씬 느껴지는 동아시아의 도시!",
+					"imageCode": "hong-kong",
+					"location": {
+						"s": "홍콩(전체), 홍콩",
+						"a": "HKG",
+						"d": "홍콩(전체), 홍콩",
+						"id": "178263",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.321194",
+							"lng": "114.109998"
+						},
+						"amc": "178263"
+					}
+				},
+				{
+					"title": "도쿄",
+					"subtitle": "일본",
+					"id": "kr-foodie.tokyo",
+					"description": "일본의 꽃이라 할 수 있는 젊음의 도시",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "도쿄(및 인근 지역), 일본",
+						"a": "TYO",
+						"d": "도쿄, 일본",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				},
+				{
+					"title": "타이 페이",
+					"subtitle": "대만",
+					"id": "kr-foodie.taipei",
+					"description": "별미를 맛볼 수 있는 딘타이펑의 나라!",
+					"imageCode": "taipei",
+					"location": {
+						"s": "타이베이(및 인근 지역), 대만",
+						"a": "TPE",
+						"d": "타이베이, 대만",
+						"id": "180030",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.034838",
+							"lng": "121.608807"
+						},
+						"amc": "180030"
+					}
+				},
+				{
+					"title": "피렌체",
+					"subtitle": "이탈리아",
+					"id": "kr-foodie.florence",
+					"description": "로맨틱하면서도 설레이는 풍경을 사랑할 수 밖에 없는 도시",
+					"imageCode": "florence",
+					"location": {
+						"s": "피렌체(주), 이탈리아",
+						"a": "FLR",
+						"d": "피렌체(주), 이탈리아",
+						"id": "179893",
+						"t": "CITY",
+						"ll": {
+							"lat": "43.770970",
+							"lng": "11.255190"
+						},
+						"amc": "179893"
+					}
+				},
+				{
+					"title": "로스 앤젤레스",
+					"subtitle": "캘리포니아",
+					"id": "kr-foodie.los-angeles",
+					"description": "미국인들에게조차 꿈의 도시로 불리우는, 스타들이 사랑하는 매력적인 그곳",
+					"imageCode": "los-angeles",
+					"location": {
+						"s": "로스앤젤레스(및 인근 지역), 캘리포니아, 미국",
+						"a": "QLA",
+						"d": "로스앤젤레스, 캘리포니아, 미국",
+						"id": "178280",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.050720",
+							"lng": "-118.254770"
+						},
+						"amc": "178280"
+					}
+				},
+				{
+					"title": "뉴욕",
+					"subtitle": "뉴욕",
+					"id": "kr-foodie.new-york",
+					"description": "미국의 문화와 패션과 예술을 사랑한 최대의 항구 도시",
+					"imageCode": "new-york",
+					"location": {
+						"s": "뉴욕(및 인근 지역), 뉴욕, 미국",
+						"a": "NYC",
+						"d": "뉴욕, 뉴욕, 미국",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				}
+			]
+		},
+		{
+		   "title":"문화 도시",
+		   "id":"kr-sightseeing",
+		   "imageCode":"kr-sightseeing",
+		   "locations":[
+				{
+					"title": "로마",
+					"subtitle": "이탈리아",
+					"id": "kr-sightseeing.rome",
+					"description": "깊고도 유서깊은 문화와 화려한 예술의 발길을 찾을 수 있는 도시",
+					"imageCode": "rome",
+					"location": {
+						"s": "로마(및 인근 지역), 이탈리아",
+						"a": "ROM",
+						"d": "로마, 이탈리아",
+						"id": "179899",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.903755",
+							"lng": "12.479556"
+						},
+						"amc": "179899"
+					}
+				},
+				{
+					"title": "파리",
+					"subtitle": "프랑스",
+					"id": "kr-sightseeing.paris",
+					"description": "낭만, 미식가 및 문화 애호가들의 로망입니다. 하늘만큼 높은 에펠탑에서 고딕 양식의 노트르담까지 있는 빛들의 도시",
+					"imageCode": "paris",
+					"location": {
+						"s": "파리(및 인근 지역), 프랑스",
+						"a": "PAR",
+						"d": "파리, 프랑스",
+						"id": "179898",
+						"t": "CITY",
+						"ll": {
+							"lat": "48.862720",
+							"lng": "2.343750"
+						},
+						"amc": "179898"
+					}
+				},
+				{
+					"title": "바르셀로나",
+					"subtitle": "전나무",
+					"id": "kr-sightseeing.barcelona",
+					"description": "독특한 건축양식과 화려한 색채로 이색적인 도시, 피카소의 열정을 느낄 수 있는 나라",
+					"imageCode": "barcelona",
+					"location": {
+						"s": "바르셀로나(및 인근 지역), 스페인",
+						"a": "BCN",
+						"d": "바르셀로나, 스페인",
+						"id": "179992",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.472215",
+							"lng": "2.084102"
+						},
+						"amc": "179992"
+					}
+				},
+				{
+					"title": "런던",
+					"subtitle": "연합 왕국",
+					"id": "kr-sightseeing.london",
+					"description": "유럽 문화, 역사, 예술의 진수를 느낄 수 있는 여왕의 도시",
+					"imageCode": "london",
+					"location": {
+						"s": "런던(및 인근 지역), 잉글랜드, 영국",
+						"a": "LON",
+						"d": "런던, 잉글랜드, 영국",
+						"id": "178279",
+						"t": "CITY",
+						"ll": {
+							"lat": "51.507538",
+							"lng": "-0.127804"
+						},
+						"amc": "178279"
+					}
+				},
+				{
+					"title": "뉴욕",
+					"subtitle": "뉴욕",
+					"id": "kr-sightseeing.new-york",
+					"description": "미국의 문화와 패션과 예술을 사랑한 최대의 항구 도시",
+					"imageCode": "new-york",
+					"location": {
+						"s": "뉴욕(및 인근 지역), 뉴욕, 미국",
+						"a": "NYC",
+						"d": "뉴욕, 뉴욕, 미국",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.689044",
+							"lng": "-73.942843"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "프라하",
+					"subtitle": "체코",
+					"id": "kr-sightseeing.prague",
+					"description": "사랑하는 연인과 함께하고픈 낭만적인 도시 프라하, 동유럽에서 꼭 들러야 할 나라!",
+					"imageCode": "prague",
+					"location": {
+						"s": "프라하(및 인근 지역), 체코",
+						"a": "PRG",
+						"d": "프라하, 체코",
+						"id": "180014",
+						"t": "CITY",
+						"ll": {
+							"lat": "50.087180",
+							"lng": "14.425640"
+						},
+						"amc": "180014"
+					}
+				},
+				{
+					"title": "암스테르담",
+					"subtitle": "네덜란드",
+					"id": "kr-sightseeing.amsterdam",
+					"description": "아름답고 운치있는 운하로 이어진 도시, 빈센트 반고흐의 예술 세계를 느낄 수 있는 나라",
+					"imageCode": "amsterdam",
+					"location": {
+						"s": "암스테르담(및 인근 지역), 네덜란드",
+						"a": "AMS",
+						"d": "암스테르담, 네덜란드",
+						"id": "178229",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.373040",
+							"lng": "4.892370"
+						},
+						"amc": "178229"
+					}
+				},
+				{
+					"title": "베를린",
+					"subtitle": "독일",
+					"id": "kr-sightseeing.berlin",
+					"description": "따뜻하고도 느림의 미학이 있는, 신 문화 중심지로 떠오르는 도시",
+					"imageCode": "berlin",
+					"location": {
+						"s": "베를린(및 인근 지역), 독일",
+						"a": "BER",
+						"d": "베를린, 독일",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.513840",
+							"lng": "13.350080"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "이스탄불",
+					"subtitle": "터키",
+					"id": "kr-sightseeing.istanbul",
+					"description": "찬란한 역사와 더불어 동서양의 접점으로 빚어낸 황홀한 문화의 나라. 신비로움을 그대로 간직한 도시",
+					"imageCode": "istanbul",
+					"location": {
+						"s": "이스탄불(및 인근 지역), 터키",
+						"a": "IST",
+						"d": "이스탄불, 터키",
+						"id": "178267",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.013570",
+							"lng": "28.963520"
+						},
+						"amc": "178267"
+					}
+				},
+				{
+					"title": "시드니",
+					"subtitle": "호주",
+					"id": "kr-sightseeing.sydney",
+					"description": "1년 내내 천혜의 날씨를 즐길 수 있는 오페라 하우스의 도시",
+					"imageCode": "sydney",
+					"location": {
+						"s": "시드니(및 인근 지역), 뉴사우스웨일즈, 호주",
+						"a": "SYD",
+						"d": "시드니, 뉴사우스웨일즈, 호주",
+						"id": "178312",
+						"t": "CITY",
+						"ll": {
+							"lat": "-33.867570",
+							"lng": "151.208440"
+						},
+						"amc": "178312"
+					}
+				}
+			]
+		}
+	]
+}
