@@ -242,6 +242,7 @@ public class PaymentWidget extends ExpandableCardView {
 				Ui.showKeyboard(creditCardNumber, null);
 			}
 			bind();
+			paymentButton.bind();
 			OmnitureTracking.trackAppCarCheckoutPayment(getContext());
 		}
 		else {

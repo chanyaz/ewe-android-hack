@@ -57,6 +57,9 @@ public class PaymentButton extends LinearLayout {
 		inflater.inflate(R.layout.checkout_payment_button, this);
 		ButterKnife.inject(this);
 		Db.loadBillingInfo(getContext());
+	}
+
+	public void bind() {
 		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(), Db.getTripBucket().getCar(), false);
 	}
 
@@ -84,11 +87,13 @@ public class PaymentButton extends LinearLayout {
 					}
 					StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 					if (card != null && card.isSelectable()) {
-						Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
-						// Don't allow selection of invalid card types.
 
-						boolean isValidCard = true;
+						//TODO: Get TripBucket based on LOB
+						// Don't allow selection of invalid card types.
+						boolean isValidCard = Db.getTripBucket().getCar().isCardTypeSupported(card.getType());
+
 						if (isValidCard) {
+							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 							StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
 							if (currentCC != null) {
 								BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
