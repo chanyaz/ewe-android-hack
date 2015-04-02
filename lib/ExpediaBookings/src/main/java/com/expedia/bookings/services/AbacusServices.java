@@ -1,7 +1,6 @@
 package com.expedia.bookings.services;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.PayloadDeserializer;
@@ -35,14 +34,9 @@ public class AbacusServices {
 		mGson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
 
 		mClient = new OkHttpClient();
-		try {
-			if (directory != null) {
-				Cache cache = new Cache(directory, 10 * 1024 * 1024);
-				mClient.setCache(cache);
-			}
-		}
-		catch (IOException ex) {
-			ex.printStackTrace();
+		if (directory != null) {
+			Cache cache = new Cache(directory, 10 * 1024 * 1024);
+			mClient.setCache(cache);
 		}
 
 		RestAdapter adapter = new RestAdapter.Builder()

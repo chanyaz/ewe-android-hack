@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.squareup.okhttp:mockwebserver:2.2.0'
+    compile 'com.squareup.okhttp:mockwebserver:2.3.0'
     compile 'joda-time:joda-time:2.7'
 }
 
