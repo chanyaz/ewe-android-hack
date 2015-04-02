@@ -235,4 +235,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getClientShortName() {
 		return "tvly";
 	}
+
+	public String getAdXKey() {
+		return "65bcdbdb-8841-4d72-b792-4123773d5725";
+	}
 }
