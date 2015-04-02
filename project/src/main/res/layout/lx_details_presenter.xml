@@ -37,9 +37,11 @@
                 layout="@layout/widget_lx_detail_section_data" />
 
             <HorizontalScrollView
+                android:id="@+id/offer_dates_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                android:background="@drawable/lx_dates_container_background">
 
                 <RadioGroup
                     android:id="@+id/offer_dates_container"

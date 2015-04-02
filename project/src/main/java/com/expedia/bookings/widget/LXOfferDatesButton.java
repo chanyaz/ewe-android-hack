@@ -42,6 +42,7 @@ public class LXOfferDatesButton extends RadioButton implements OnClickListener {
 		if (!offersDetail.isAvailableOnDate(offerDate)) {
 			setEnabled(false);
 			setBackgroundColor(getResources().getColor(R.color.lx_date_disabled_background_color));
+			setTextColor(getResources().getColor(R.color.lx_dates_disabled_text_color));
 		}
 	}
 

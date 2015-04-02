@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.HorizontalScrollView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
@@ -75,6 +76,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	@InjectView(R.id.cancellation)
 	LXDetailSectionDataWidget cancellation;
+	@InjectView(R.id.offer_dates_scroll_view)
+	HorizontalScrollView offerDatesScrollView;
 
 	@Inject
 	LXState lxState;
@@ -193,6 +196,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
 		offerDatesContainer.removeAllViews();
+		offerDatesScrollView.scrollTo(0, 0);
 		offerDatesContainer.setVisibility(View.VISIBLE);
 		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 
