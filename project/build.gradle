@@ -89,7 +89,7 @@ dependencies {
     androidTestCompile('com.squareup.okhttp:mockwebserver:2.1.0') {
         exclude group: 'com.squareup.okhttp'
     }
-    androidTestCompile (project(':lib:mocke3:mocke3')) {
+    androidTestCompile (project(':lib:mocked:mocke3')) {
         transitive = false
     }
 }
@@ -214,7 +214,7 @@ android {
 
     sourceSets {
         androidTest {
-            assets.srcDirs = ['src/androidTest/assets', '../lib/mocke3/templates']
+            assets.srcDirs = ['src/androidTest/assets', '../lib/mocked/templates']
         }
     }
 

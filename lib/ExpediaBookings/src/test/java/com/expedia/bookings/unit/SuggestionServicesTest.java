@@ -28,7 +28,7 @@ public class SuggestionServicesTest {
 
 	@Test
 	public void testSublistOfAirportResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -53,7 +53,7 @@ public class SuggestionServicesTest {
 
 	@Test
 	public void testSublistOfCityResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -77,7 +77,7 @@ public class SuggestionServicesTest {
 
 	@Test
 	public void testNearbyAirportResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -93,7 +93,7 @@ public class SuggestionServicesTest {
 
 	@Test
 	public void testNearbyCityResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
