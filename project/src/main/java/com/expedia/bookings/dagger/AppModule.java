@@ -19,6 +19,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.mobiata.android.DebugUtils;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Module;
 import dagger.Provides;
@@ -42,7 +43,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	RestAdapter.LogLevel provideLogLevel() {
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG || DebugUtils.isLogEnablerInstalled(context)) {
 			return RestAdapter.LogLevel.FULL;
 		}
 		return RestAdapter.LogLevel.NONE;
