@@ -143,7 +143,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
-		return endpoint != EndPoint.PRODUCTION && endpoint != EndPoint.INTEGRATION;
+		return endpoint != EndPoint.PRODUCTION;
 	}
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
