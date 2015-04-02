@@ -131,9 +131,9 @@ public class CarCheckoutPresenter extends Presenter {
 				showErrorScreen(null);
 			}
 			else if (response.hasPriceChange()) {
-				Events.post(
-					new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct, response.newCarProduct,
-						response.tripId));
+				Events.post(new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct, /* originalOffer */
+					response.newCarProduct, /* newOffer */
+					response.tripId /* tripId */));
 				showErrorScreen(response.getFirstError());
 			}
 			else {
