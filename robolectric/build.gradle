@@ -39,6 +39,7 @@ dependencies {
 
     // add all of the jars and output from our 'app under test' variant to the test classpath
     def compileTask = null
+    def bootClasspath = androidModule.android.getBootClasspath()
     androidModule.android.applicationVariants.all() { variant ->
         if (variant.applicationId == "com.expedia.bookings.debug") {
             compileTask = variant.javaCompile
@@ -48,8 +49,8 @@ dependencies {
         testCompile compileTask.classpath
         testCompile compileTask.outputs.files
 
-        //add all of the android gradle plugin bootclasspath items to our test compile classpath
-        testCompile files(androidModule.plugins.findPlugin("com.android.application").getBootClasspath())
+        // Add all of the android gradle plugin bootclasspath items to our test compile classpath
+        testCompile files(bootClasspath)
     }
 }
 
