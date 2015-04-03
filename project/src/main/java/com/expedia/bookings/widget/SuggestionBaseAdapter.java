@@ -76,6 +76,9 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 	@Override
 	public Suggestion getItem(int position) {
+		if (suggestions == null || suggestions.size() == 0) {
+			return null;
+		}
 		return suggestions.get(position);
 	}
 
