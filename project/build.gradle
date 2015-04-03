@@ -198,6 +198,7 @@ android {
 
             minifyEnabled shouldRunProguard
             proguardFile file('proguard.cfg')
+            testProguardFile file('proguard.cfg')
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
