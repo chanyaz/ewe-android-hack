@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Component;
@@ -18,4 +19,5 @@ public interface AppComponent {
 	OkHttpClient okHttpClient();
 	RequestInterceptor requestInterceptor();
 	PersistentCookieManager persistentCookieManager();
+	AbacusServices abacus();
 }

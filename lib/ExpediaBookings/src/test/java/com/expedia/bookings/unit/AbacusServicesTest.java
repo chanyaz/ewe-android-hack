@@ -9,6 +9,7 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.services.AbacusServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
@@ -30,8 +31,7 @@ public class AbacusServicesTest {
 			.setBody("{garbage}"));
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
-		AbacusServices service = new AbacusServices("http://localhost:" + mServer.getPort(), null, Schedulers
-			.immediate(), Schedulers.immediate());
+		AbacusServices service = new AbacusServices(new OkHttpClient(), "http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
 
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
@@ -50,8 +50,7 @@ public class AbacusServicesTest {
 			.setBody("{\"payload\" = {}}"));
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
-		AbacusServices service = new AbacusServices("http://localhost:" + mServer.getPort(), null,
-			Schedulers.immediate(), Schedulers.immediate());
+		AbacusServices service = new AbacusServices(new OkHttpClient(), "http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
 
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
@@ -70,8 +69,7 @@ public class AbacusServicesTest {
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
-		AbacusServices service = new AbacusServices("http://localhost:" + mServer.getPort(), null,
-			Schedulers.immediate(), Schedulers.immediate());
+		AbacusServices service = new AbacusServices(new OkHttpClient(), "http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
 
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();

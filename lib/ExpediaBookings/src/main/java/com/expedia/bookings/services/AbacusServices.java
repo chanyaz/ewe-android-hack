@@ -1,12 +1,9 @@
 package com.expedia.bookings.services;
 
-import java.io.File;
-
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
@@ -22,28 +19,21 @@ public class AbacusServices {
 
 	private AbacusApi mApi;
 	private Gson mGson;
-	private OkHttpClient mClient;
 
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
-	public AbacusServices(String endpoint, File directory, Scheduler observeOn, Scheduler subscribeOn) {
+	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
 		mGson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
 
-		mClient = new OkHttpClient();
-		if (directory != null) {
-			Cache cache = new Cache(directory, 10 * 1024 * 1024);
-			mClient.setCache(cache);
-		}
-
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setLogLevel(RestAdapter.LogLevel.FULL)
 			.setConverter(new GsonConverter(mGson))
-			.setClient(new OkClient(mClient))
+			.setClient(new OkClient(client))
 			.build();
 
 		mApi = adapter.create(AbacusApi.class);

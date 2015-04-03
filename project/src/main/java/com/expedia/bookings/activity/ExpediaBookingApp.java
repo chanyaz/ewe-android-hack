@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
@@ -19,15 +18,15 @@ import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.AppComponent;
+import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.CarComponent;
 import com.expedia.bookings.dagger.Dagger_AppComponent;
 import com.expedia.bookings.dagger.Dagger_CarComponent;
-import com.expedia.bookings.dagger.Dagger_LaunchComponent;
 import com.expedia.bookings.dagger.Dagger_LXComponent;
-import com.expedia.bookings.dagger.LaunchComponent;
+import com.expedia.bookings.dagger.Dagger_LaunchComponent;
 import com.expedia.bookings.dagger.LXComponent;
+import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
@@ -42,7 +41,6 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -61,13 +59,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import io.fabric.sdk.android.Fabric;
+import net.danlew.android.joda.JodaTimeAndroid;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler,
 	AdvertisingIdUtils.OnIDFALoaded {
@@ -115,9 +109,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
 
-		PicassoHelper.init(this);
-		Boolean isLoggingEnabled = SettingUtils.get(this, getString(R.string.preference_enable_picasso_logging), false);
-		new PicassoHelper.Builder(this).build().setLoggingEnabled(isLoggingEnabled);
+		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
 
 		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this,
@@ -494,11 +486,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-		new AbacusServices(AndroidUtils.isRelease(this) ? AbacusServices.PRODUCTION : AbacusServices.DEV,
-			new File(getCacheDir(), "abacus"), AndroidSchedulers.mainThread(),
-			Schedulers
-				.io())
-			.downloadBucket(idfa, String.valueOf(PointOfSale.getPointOfSale().getTpid()), abacusSubscriber);
+		mAppComponent.abacus().downloadBucket(idfa, String.valueOf(PointOfSale.getPointOfSale().getTpid()), abacusSubscriber);
 	}
 
 	@Override
