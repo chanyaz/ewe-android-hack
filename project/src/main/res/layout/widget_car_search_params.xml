@@ -21,7 +21,7 @@
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/car_search_dropdown_padding"
+            android:paddingBottom="@dimen/search_dropdown_padding"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:focusable="true"
@@ -52,8 +52,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:hint="@string/same_as_pick_up"
-                android:textColor="@color/cars_dropdown_disabled_stroke"
-                android:textColorHint="@color/cars_dropdown_disabled_stroke"
+                android:textColor="@color/search_dropdown_disabled_stroke"
+                android:textColorHint="@color/search_dropdown_disabled_stroke"
                 app:textStyle="normal" />
         </LinearLayout>
 
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_below="@id/location_container"
-            android:layout_marginTop="@dimen/car_search_toggle_button_padding"
+            android:layout_marginTop="@dimen/search_toggle_button_padding"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/cars_button_background_selector"
