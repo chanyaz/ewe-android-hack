@@ -44,7 +44,7 @@ public class LXBaseActivity extends ActionBarActivity {
 			params.location = intent.getStringExtra("location");
 			String startDateStr = intent.getStringExtra("startDateStr");
 			params.startDate = getStartDate(startDateStr);
-			params.endDate = params.startDate.plusDays(R.integer.lx_default_search_range);
+			params.endDate = params.startDate.plusDays(getResources().getInteger(R.integer.lx_default_search_range));
 			Events.LXNewSearchParamsAvailable event = new Events.LXNewSearchParamsAvailable(params);
 			Events.post(event);
 		}
