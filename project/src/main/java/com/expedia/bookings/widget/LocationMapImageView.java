@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Location;
 import com.mobiata.android.Log;
@@ -81,7 +82,10 @@ public class LocationMapImageView extends ImageView {
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			Picasso.with(getContext()).load(mStaticMapUri).into(callback);
+			new PicassoHelper.Builder(this)
+				.setTarget(callback)
+				.build()
+				.load(mStaticMapUri);
 		}
 	}
 
