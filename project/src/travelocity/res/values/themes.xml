@@ -142,6 +142,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card_tvly</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_tvly</item>
@@ -177,6 +178,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card_tvly</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card_tvly</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_travelocity</item>
