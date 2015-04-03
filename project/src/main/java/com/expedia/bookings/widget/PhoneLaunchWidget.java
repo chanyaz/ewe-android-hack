@@ -330,7 +330,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 			NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
 				String.valueOf(loc.getLongitude()), "1",
-				today, tomorrow, HOTEL_SORT);
+				today, tomorrow, HOTEL_SORT, "true");
 			searchParams = new HotelSearchParams();
 			searchParams.setCheckInDate(currentDate);
 			searchParams.setCheckOutDate(currentDate.plusDays(1));
