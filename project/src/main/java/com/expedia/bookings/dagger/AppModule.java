@@ -15,14 +15,18 @@ import android.content.Context;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @Module
 public class AppModule {
@@ -36,6 +40,19 @@ public class AppModule {
 	@Singleton
 	Context provideContext() {
 		return context;
+	}
+
+	@Provides
+	@Singleton
+	Cache provideOkHttpDiskCache(Context context) {
+		final File directory = new File(context.getCacheDir(), "okhttp");
+		if (!directory.exists()) {
+			directory.mkdirs();
+		}
+
+		final long size = 50 * 1024 * 1024; // 50MB
+
+		return new Cache(directory, size);
 	}
 
 	@Provides
@@ -86,8 +103,9 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext) {
+	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache) {
 		OkHttpClient client = new OkHttpClient();
+		client.setCache(cache);
 
 		client.setFollowSslRedirects(true);
 		client.setCookieHandler(cookieManager);
@@ -134,5 +152,12 @@ public class AppModule {
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Provides
+	@Singleton
+	AbacusServices provideAbacus(OkHttpClient client) {
+		String abacusEndpoint = BuildConfig.DEBUG ? AbacusServices.DEV : AbacusServices.PRODUCTION;
+		return new AbacusServices(client, abacusEndpoint, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

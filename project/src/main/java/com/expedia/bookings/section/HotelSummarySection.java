@@ -392,7 +392,6 @@ public class HotelSummarySection extends RelativeLayout {
 			int placeholderResId = Ui
 				.obtainThemeResID(context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				//Picasso.with(context).load(property.getThumbnail().getBestUrls(250).get(0)).placeholder(placeholderResId).fit().centerCrop().into(mThumbnailView);
 				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId, null, PICASSO_TAG);
 			}
 			else {
