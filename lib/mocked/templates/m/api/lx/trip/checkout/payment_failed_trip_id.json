@@ -1,13 +1,14 @@
 {
-  errors: [
-    {
-      errorCode: "PAYMENT_FAILED",
-      errorInfo: {
-        field: "other",
-        summary: "Error processing payment OMS-6200-Event-10873"
-      },
-      diagnosticId: -761330253
-    }
-  ],
-  activityId: "21bbb5c7-3a77-4e60-9e82-667736d9e5c5"
+    "activityId": "a8583d65-f07d-4ef2-a76e-087c73d5ca6a",
+    "errors": [
+        {
+            "diagnosticId": 0,
+            "errorCode": "PAYMENT_FAILED",
+            "errorInfo": {
+                "cause": "must match \"^[0-9]*(\\.[0-9]{2}){0,1}$\"",
+                "field": "expectedTotalFare",
+                "summary": "Invalid input error"
+            }
+        }
+    ]
 }

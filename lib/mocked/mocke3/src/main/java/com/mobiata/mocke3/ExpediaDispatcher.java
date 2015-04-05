@@ -293,7 +293,16 @@ public class ExpediaDispatcher extends Dispatcher {
 			String tripId = params.get("tripId");
 
 			if (firstName != null) {
-				if (firstName.equals("InvalidInput")) {
+				switch (firstName) {
+				case "AlreadyBooked":
+					return makeResponse("m/api/lx/trip/checkout/trip_already_booked.json");
+				case "PaymentFailed":
+					return makeResponse("m/api/lx/trip/checkout/payment_failed_trip_id.json");
+				case "UnknownError":
+					return makeResponse("m/api/lx/trip/checkout/unknown_error.json");
+				case "SessionTimeout":
+					return makeResponse("m/api/lx/trip/checkout/session_timeout.json");
+				case "InvalidInput":
 					return makeResponse("m/api/lx/trip/checkout/invalid_input.json");
 				}
 			}
