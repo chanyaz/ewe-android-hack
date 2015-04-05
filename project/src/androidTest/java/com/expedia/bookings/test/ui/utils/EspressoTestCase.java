@@ -81,11 +81,10 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			StackTraceElement testClass = findTestClassTraceElement(t);
 			if (testClass != null) {
 				String failedTestMethodName = testClass.getMethodName().replaceAll("[^A-Za-z0-9._-]", "_");
-				String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
 				String tag = failedTestMethodName + "--FAILURE";
 
 				//takes a screenshot on test failure
-				SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), className, failedTestMethodName);
+				SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), testClass);
 			}
 			throw t;
 		}
@@ -105,7 +104,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		return null;
 	}
 
-	public void screenshot(final String tag) throws Throwable {
+	public void screenshot(String tag) throws Throwable {
+		final String cleanTag = tag.replace(" ", "_");
 		try {
 			// Wait just a little for frames to settle
 			Thread.sleep(200);
@@ -113,7 +113,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		catch (Exception e) {
 			// ignore
 		}
-		SpoonScreenshotUtils.screenshot(tag, getInstrumentation());
+		SpoonScreenshotUtils.screenshot(cleanTag, getInstrumentation());
 	}
 
 	public void rotateScreenTwice() throws Throwable {

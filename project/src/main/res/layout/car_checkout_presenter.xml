@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.CarCheckoutPresenter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
+    <com.expedia.bookings.widget.CarCheckoutWidget
         android:id="@+id/checkout"
-        layout="@layout/widget_car_checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
-        android:id="@+id/confirmation"
-        layout="@layout/widget_car_confirmation"
+    <com.expedia.bookings.widget.CVVEntryWidget
+        android:id="@+id/cvv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#3A424C" />
 
-</com.expedia.bookings.presenter.CarCheckoutPresenter>
+    <com.expedia.bookings.widget.ErrorWidget
+        android:id="@+id/checkout_error_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"/>
+
+</merge>

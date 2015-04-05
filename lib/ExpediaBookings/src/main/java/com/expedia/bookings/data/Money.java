@@ -43,6 +43,11 @@ public class Money {
 		currencyCode = currency;
 	}
 
+	public Money(BigDecimal amount, String currency) {
+		setAmount(amount);
+		currencyCode = currency;
+	}
+
 	public Money copy() {
 		return new Money(this);
 	}

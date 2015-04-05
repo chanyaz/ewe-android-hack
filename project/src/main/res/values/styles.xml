@@ -452,7 +452,7 @@
     </style>
 
     <style name="Widget.ActionBar.ActionButton.Overflow.White">
-        <item name="android:src">@drawable/ic_action_overflow_white</item>
+        <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
     <!-- Expedia Flights styles -->
@@ -613,14 +613,14 @@
 
     <!-- Styles for our custom Switch -->
     <style name="Widget.CompoundButton.Switch" parent="android:Widget.CompoundButton">
-        <item name="track">@drawable/btn_tablet_filter_normal</item>
+        <item name="thumbTrack">@drawable/btn_tablet_filter_normal</item>
         <item name="thumb">@drawable/btn_tablet_filter_switch</item>
-        <item name="switchTextAppearance">@style/TextAppearance.Widget.Switch</item>
+        <item name="thumbTextAppearance">@style/TextAppearance.Widget.Switch</item>
         <item name="textOn">@string/switch_on</item>
         <item name="textOff">@string/switch_off</item>
-        <item name="thumbTextPadding">13dip</item>
-        <item name="switchMinWidth">100dip</item>
-        <item name="switchPadding">15dip</item>
+        <item name="textPadding">13dip</item>
+        <item name="thumbMinWidth">100dip</item>
+        <item name="thumbPadding">15dip</item>
     </style>
     <style name="TextAppearance.Widget.Switch" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/sliding_group_text_bright</item>
@@ -1077,7 +1077,7 @@
 
     <style name="CarAutocomplete">
         <item name="android:background">@drawable/cars_autocomplete_background_selector</item>
-        <item name="android:layout_height">43dp</item>
+        <item name="android:layout_height">46dp</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">5dp</item>
@@ -1086,6 +1086,14 @@
         <item name="android:textColor">@color/cars_primary_color</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="LXOfferDayTextView">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="LXOfferDateTextView">
+        <item name="android:textSize">14dp</item>
     </style>
 
 </resources>

@@ -400,7 +400,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				// Let's reset the selectable/clickable state (in the stored card picker, checkout overview screen) of the currentCC
 				StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
 				if (currentCC != null) {
-					BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+					BookingInfoUtils.resetPreviousCreditCardSelectState(getParentFragment().getActivity(), currentCC);
 				}
 				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 				Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());

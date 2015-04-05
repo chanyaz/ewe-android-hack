@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.widget.LXCheckoutWidget
+        android:id="@+id/checkout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.LXConfirmationWidget
+        android:id="@+id/confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lx_confirmation_background"
+        android:visibility="gone"/>
+
+    <com.expedia.bookings.widget.CVVEntryWidget
+        android:id="@+id/cvv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3A424C"
+        android:visibility="gone" />
+
+</merge>

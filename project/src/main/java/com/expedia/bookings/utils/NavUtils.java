@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
+import com.expedia.bookings.activity.CarActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
@@ -197,6 +198,10 @@ public class NavUtils {
 		goToFlights(context, false, animOptions);
 	}
 
+	public static void goToFlightsUsingSearchParams(Context context) {
+		goToFlights(context, true, null);
+	}
+
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions) {
 		goToFlights(context, usePresetSearchParams, animOptions, 0);
 	}
@@ -218,6 +223,12 @@ public class NavUtils {
 			}
 			startActivity(context, intent, animOptions);
 		}
+	}
+
+	public static void goToCars(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		startActivity(context, intent, animOptions);
 	}
 
 	// Assumes we are already searching in flights, but are not on the flight

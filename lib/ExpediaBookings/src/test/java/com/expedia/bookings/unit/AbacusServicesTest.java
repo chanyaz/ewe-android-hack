@@ -12,6 +12,7 @@ import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
@@ -31,7 +32,7 @@ public class AbacusServicesTest {
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
 		AbacusServices service = new AbacusServices("http://localhost:" + mServer.getPort(), null, Schedulers
-			.immediate(), Schedulers.immediate());
+			.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
@@ -51,7 +52,7 @@ public class AbacusServicesTest {
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
 		AbacusServices service = new AbacusServices("http://localhost:" + mServer.getPort(), null,
-			Schedulers.immediate(), Schedulers.immediate());
+			Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
@@ -71,7 +72,7 @@ public class AbacusServicesTest {
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
 		AbacusServices service = new AbacusServices("http://localhost:" + mServer.getPort(), null,
-			Schedulers.immediate(), Schedulers.immediate());
+			Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();

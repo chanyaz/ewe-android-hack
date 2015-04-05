@@ -21,4 +21,16 @@ public class CarLocation {
 	public String locationDescription;
 	public String airportInstructions;
 	public String locationCode;
+	public Double latitude;
+	public Double longitude;
+	public String addressLine1;
+	public String cityName;
+	public String provinceStateName;
+	public String countryCode;
+	public String regionId;
+
+	public String toAddress() {
+		return addressLine1 + " " + cityName + " " + provinceStateName + " " + countryCode;
+	}
+
 }

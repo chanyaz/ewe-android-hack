@@ -18,6 +18,7 @@ import android.os.Process;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -59,6 +60,8 @@ public class Db {
 	// Stored data
 
 	// Launch hotel data - extracted from a HotelSearchResponse but cached as its own entity to keep data separate
+	private List<Hotel> mLaunchListHotelData;
+
 	private LaunchHotelData mLaunchHotelData;
 
 	private LaunchHotelFallbackData mLaunchHotelFallbackData;
@@ -138,6 +141,14 @@ public class Db {
 
 	public static AbacusResponse getAbacusResponse() {
 		return sDb.mAbacusResponse;
+	}
+
+	public static void setLaunchListHotelData(List<Hotel> launchHotelData) {
+		sDb.mLaunchListHotelData = launchHotelData;
+	}
+
+	public static List<Hotel> getLaunchListHotelData() {
+		return sDb.mLaunchListHotelData;
 	}
 
 	public static void setLaunchHotelData(LaunchHotelData launchHotelData) {

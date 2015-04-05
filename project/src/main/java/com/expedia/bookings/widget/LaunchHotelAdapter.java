@@ -13,7 +13,7 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.LaunchHotelFallbackData;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.FontCache;
@@ -27,7 +27,7 @@ import com.mobiata.android.util.Ui;
  */
 public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 
-	private static final Media.Size THUMBNAIL_SIZE = Media.Size.BIG;
+	private static final HotelMedia.Size THUMBNAIL_SIZE = HotelMedia.Size.BIG;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
@@ -173,7 +173,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 			}
 
 			// Background image
-			Media thumbnail = property.getThumbnail();
+			HotelMedia thumbnail = property.getThumbnail();
 			if (thumbnail != null) {
 				String url = thumbnail.getUrl(THUMBNAIL_SIZE);
 				loadImageForLaunchStream(url, vh.mContainer, vh.mBackgroundView);

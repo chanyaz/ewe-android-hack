@@ -168,7 +168,7 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 		}
 		HotelsDetailsScreen.clickSelectButton();
 		screenshot("Hotel_rooms_rates");
-		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsRoomsRatesScreen.selectETPRoomItem(1);
 		screenshot("Hotel_checkout");
 		try {
 			SettingsScreen.clickOkString();

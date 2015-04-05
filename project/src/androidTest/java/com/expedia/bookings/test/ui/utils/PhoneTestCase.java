@@ -23,7 +23,7 @@ public class PhoneTestCase extends EspressoTestCase {
 	public void tearDown() throws Exception {
 		super.tearDown();
 		if (Common.isPhone(getInstrumentation())) {
-			Common.pressBackOutOfApp();
+			Common.pressBackOutOfApp(getInstrumentation());
 		}
 	}
 }
