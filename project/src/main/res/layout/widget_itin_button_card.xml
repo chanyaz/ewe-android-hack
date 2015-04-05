@@ -27,7 +27,7 @@
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:background="?attr/skin_itinDismissListSelectorDrawable"
-            android:src="@drawable/ic_action_overflow_white"
+            android:src="@drawable/ic_itin_action_overflow_white"
             android:scaleType="centerInside"/>
 
     </LinearLayout>

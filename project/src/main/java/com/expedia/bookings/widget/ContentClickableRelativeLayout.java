@@ -54,7 +54,7 @@ public class ContentClickableRelativeLayout extends RelativeLayout {
 	private void init(Context context, AttributeSet attr) {
 		if (attr != null) {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.ContentClickableRelativeLayout, 0, 0);
-			mContentPadding = ta.getDimensionPixelSize(R.styleable.ContentClickableRelativeLayout_contentPadding, 0);
+			mContentPadding = ta.getDimensionPixelSize(R.styleable.ContentClickableRelativeLayout_layoutContentPadding, 0);
 			ta.recycle();
 		}
 

@@ -123,6 +123,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	private boolean mDoingHotelsAddToBucket = false;
 
 	boolean mIsBailing = false;
+	boolean showHotels = false;
 
 	/**
 	 * Create intent to open this activity in a standard way.
@@ -193,7 +194,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		manager.executePendingTransactions();//These must be finished before we continue..
 
 		// Deep linking
-		boolean showHotels = false;
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			if (extras.getBoolean(INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, false)) {
@@ -246,8 +246,10 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		Sp.getBus().register(this);
 		Events.register(this);
 		mTripBucketFrag.bindToDb();
-		OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
-		OmnitureTracking.onResume(this);
+		if (!showHotels) {
+			OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
+			OmnitureTracking.onResume(this);
+		}
 	}
 
 	@Override

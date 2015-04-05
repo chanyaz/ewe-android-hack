@@ -72,7 +72,7 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 
 		// Rooms and rates
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
-		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsRoomsRatesScreen.selectETPRoomItem(1);
 		try {
 			SettingsScreen.clickOkString();
 		}
@@ -123,4 +123,6 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 		CVVEntryScreen.clickBookButton();
 		EspressoUtils.assertViewWithTextIsDisplayed("Booking Complete");
 	}
+
+
 }

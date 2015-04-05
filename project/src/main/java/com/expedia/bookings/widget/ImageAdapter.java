@@ -11,27 +11,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.utils.Ui;
 
 public class ImageAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<Media> mMedia;
+	private List<HotelMedia> mHotelMedia;
 
 	public ImageAdapter(Context context) {
 		mContext = context;
 	}
 
-	public void setMedia(List<Media> media) {
-		mMedia = media;
+	public void setMedia(List<HotelMedia> hotelMedia) {
+		mHotelMedia = hotelMedia;
 		notifyDataSetChanged();
 	}
 
-	public int getPositionOfMedia(Media media) {
-		for (int i = 0; i < mMedia.size(); i++) {
-			if (mMedia.get(i).equals(media)) {
+	public int getPositionOfMedia(HotelMedia hotelMedia) {
+		for (int i = 0; i < mHotelMedia.size(); i++) {
+			if (mHotelMedia.get(i).equals(hotelMedia)) {
 				return i;
 			}
 		}
@@ -40,12 +40,12 @@ public class ImageAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mMedia.size();
+		return mHotelMedia.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mMedia.get(position);
+		return mHotelMedia.get(position);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class ImageAdapter extends BaseAdapter {
 		}
 
 		int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
-		mMedia.get(position).fillImageView(imageView, placeholderResId);
+		mHotelMedia.get(position).fillImageView(imageView, placeholderResId);
 
 		return convertView;
 	}

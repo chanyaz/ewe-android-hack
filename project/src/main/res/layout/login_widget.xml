@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <com.expedia.bookings.widget.ScrollView
+        android:id="@+id/login_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/outer_container"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="12dp" >
+
+            <!-- Header message -->
+
+            <TextView
+                android:id="@+id/login_status_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:bufferType="spannable"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/expedia_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/expedia_login" />
+
+            <!-- The fields for expedia login -->
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                layout="@layout/include_log_in_fields_vertical_cars" />
+
+            <!-- Log in with Expedia -or- Log in with Facebook -->
+
+            <FrameLayout
+                android:id="@+id/signin_button_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/or_facebook_container"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/or_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="9dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="1dp"
+                            android:background="#979797" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="or"
+                            android:textColor="#676767" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="9dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="1dp"
+                            android:background="#979797" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/log_in_with_facebook_btn"
+                        style="@style/CarsLoginFormButton"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/btn_facebook_signin_cars"
+                        android:contentDescription="@string/cd_log_in_with_facebook"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:text="@string/Log_in_with_Facebook" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/log_in_with_expedia_button_container"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/log_in_with_expedia_btn"
+                        style="@style/CarsLoginFormButton"
+                        android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
+                        android:gravity="center"
+                        android:background="@drawable/btn_signin_cars"
+                        android:textColor="#836B11"
+                        android:textAllCaps="false"
+                        android:text="?attr/skin_loginWithExpediaButtonText"
+                      />
+
+                    <TextView
+                        android:id="@+id/forgot_your_password_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="8dp"
+                        android:text="@string/forgot_your_password"
+                        android:textColor="@color/cars_actionbar_text_color"
+                        android:textColorLink="@color/cars_actionbar_text_color"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Facebook sigin in fields -->
+
+            <LinearLayout
+                android:id="@+id/facebook_signin_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/link_password_edit_text"
+                    style="@style/CarsLoginFormEditText"
+                    android:layout_marginBottom="@dimen/login_bottom_room_spacing"
+                    android:layout_marginLeft="@dimen/login_side_margin_medium"
+                    android:layout_marginRight="@dimen/login_side_margin_medium"
+                    android:hint="?attr/skin_passwordHint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
+            <!-- Facebook sigin in fields -->
+
+            <!-- Facebook email permission denied message/buttons -->
+
+            <LinearLayout
+                android:id="@+id/facebook_email_denied_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="0"
+                    android:text="@string/user_denied_permission_email_message"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    app:textStyle="light" />
+
+                <Button
+                    android:id="@+id/try_facebook_again"
+                    style="@style/CarsLoginFormButton"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/btn_facebook_signin"
+                    android:contentDescription="@string/cd_log_in_with_facebook"
+                    android:gravity="center"
+                    android:text="@string/authorize_email_facebook_button" />
+
+                <Button
+                    android:id="@+id/try_facebook_again_cancel"
+                    style="@style/CarsLoginFormButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_cancel"
+                    android:gravity="center"
+                    android:text="@string/cancel" />
+            </LinearLayout>
+
+            <!-- Facebook connect buttons -->
+
+            <LinearLayout
+                android:id="@+id/facebook_button_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_fb_buttons_top_spacing"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/link_accounts_button"
+                    style="@style/CarsLoginFormButton"
+                    android:layout_marginBottom="@dimen/login_button_spacing"
+                    android:background="@drawable/btn_link"
+                    android:gravity="center"
+                    android:text="@string/link_accounts" />
+
+                <Button
+                    android:id="@+id/cancel_link_accounts_button"
+                    style="@style/CarsLoginFormButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_cancel"
+                    android:gravity="center"
+                    android:text="@string/cancel" />
+            </LinearLayout>
+
+            <!-- Login extender container -->
+
+            <LinearLayout
+                android:id="@+id/login_extension_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/login_side_margin_small"
+                android:layout_marginRight="@dimen/login_side_margin_small"
+                android:layout_marginTop="@dimen/login_fb_buttons_top_spacing"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </com.expedia.bookings.widget.ScrollView>
+
+    <!-- If we are already logged in we show the logout button -->
+    <include
+        layout="@layout/include_accountv2_button"
+        android:id="@+id/account_button_root"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:id="@+id/login_text"
+        android:drawableLeft="@drawable/expedia"
+        android:gravity="center|left"
+        android:drawablePadding="16dp"
+        android:text="@string/cars_login_text" />
+</merge>

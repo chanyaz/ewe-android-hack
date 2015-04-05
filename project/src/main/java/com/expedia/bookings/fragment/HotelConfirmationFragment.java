@@ -26,7 +26,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -76,11 +76,11 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		hotelImageView.setImageDrawable(headerBitmapDrawable);
 
-		Media media = HotelUtils.getRoomMedia(Db.getTripBucket().getHotel());
+		HotelMedia hotelMedia = HotelUtils.getRoomMedia(Db.getTripBucket().getHotel());
 		int placeholderId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelConfirmationPlaceholderDrawable);
-		if (media != null) {
+		if (hotelMedia != null) {
 			new PicassoHelper.Builder(getActivity()).setPlaceholder(placeholderId)
-				.setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
+				.setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderId));

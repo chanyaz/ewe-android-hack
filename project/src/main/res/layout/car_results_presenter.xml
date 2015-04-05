@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.presenter.CarResultsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.expedia.bookings.widget.CarCategoryDetailsWidget
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eaeaea"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@+id/background_header"
+            android:layout_gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.expedia.bookings.widget.OptimizedImageView
+                android:id="@+id/header_image"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/cars_details_gradient_top" />
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/offer_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.expedia.bookings.widget.CarCategoryDetailsWidget>
+
+    <com.expedia.bookings.widget.CarCategoryListWidget
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.expedia.bookings.widget.ErrorWidget
+            android:id="@+id/search_error_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.expedia.bookings.widget.CarCategoryListWidget>
+
+
+    <View
+        android:id="@+id/toolbar_background"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cars_primary_color" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
+
+</com.expedia.bookings.presenter.CarResultsPresenter>

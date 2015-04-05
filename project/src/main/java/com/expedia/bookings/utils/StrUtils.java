@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -367,6 +368,16 @@ public class StrUtils {
 			}
 		}
 		return city;
+	}
+
+	public static String formatAirport(Suggestion suggestion) {
+		String airportName = formatAirportName(suggestion.fullName);
+		if (!airportName.equals(suggestion.airportCode)) {
+			return airportName;
+		}
+		else {
+			return formatCityName(suggestion.fullName);
+		}
 	}
 
 	public static String formatAirportName(String suggestion) {

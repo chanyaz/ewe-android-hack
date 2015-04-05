@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.RecyclerGallery xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/images_gallery"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/gallery_size"
-    android:background="?attr/skin_hotelDetailPlaceHolderDrawable"
-    android:fadingEdge="none"
-    android:spacing="20dp"
-    android:unselectedAlpha="1.0"
-    mobiata:placeholder="@null" />
+    android:layout_height="wrap_content">
+
+    <com.expedia.bookings.widget.RecyclerGallery
+        android:id="@+id/images_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gallery_size"
+        android:background="?attr/skin_hotelDetailPlaceHolderDrawable"
+        android:fadingEdge="none"
+        android:spacing="20dp"
+        android:unselectedAlpha="1.0"
+        mobiata:placeholder="@null" />
+
+    <ImageButton
+        android:id="@+id/left_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/left_arrow" />
+
+    <ImageButton
+        android:id="@+id/right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/right_arrow" />
+
+</FrameLayout>

@@ -170,6 +170,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
 			listener.onChange();
@@ -585,8 +589,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -630,8 +634,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -675,8 +679,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -715,8 +719,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.EMAIL);
 		}
 
 		@Override
@@ -1040,6 +1044,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (lob == LineOfBusiness.FLIGHTS) {
 			return Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.CARS) {
+			return Db.getTripBucket().getCar() != null
+				&& Db.getTripBucket().getCar().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.LX) {
+			return Db.getTripBucket().getLX() != null
+				&& Db.getTripBucket().getLX().isCardTypeSupported(info.getCardType());
 		}
 
 		throw new RuntimeException("Line of business required");

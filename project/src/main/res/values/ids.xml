@@ -28,6 +28,8 @@
     <!-- QA Automation ids -->
     <item name="preference_suppress_hotel_booking_checkbox" type="id"/>
     <item name="preference_suppress_flight_booking_checkbox" type="id"/>
+    <item name="preference_suppress_car_booking_checkbox" type="id"/>
+    <item name="preference_suppress_lx_booking_checkbox" type="id"/>
 
     <item name="plane_window_view" type="id"/>
 

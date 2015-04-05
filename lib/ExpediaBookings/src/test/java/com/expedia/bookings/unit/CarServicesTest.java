@@ -15,6 +15,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
@@ -83,13 +84,13 @@ public class CarServicesTest {
 		assertEquals(1, observer.getItems().size());
 
 		for (CarSearch search : observer.getItems()) {
-			assertEquals(9, search.categories.size());
+			assertEquals(3, search.categories.size());
 		}
 	}
 
 	private CarServices getTestCarServices() throws Throwable {
 		return new CarServices("http://localhost:" + mServer.getPort(), new OkHttpClient(),
-			sEmptyInterceptor, Schedulers.immediate(), Schedulers.immediate());
+			sEmptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 	}
 
 	private static final RequestInterceptor sEmptyInterceptor = new RequestInterceptor() {

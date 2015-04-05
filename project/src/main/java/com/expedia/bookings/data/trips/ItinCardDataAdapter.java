@@ -492,7 +492,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 
 			// Ignore fallback cards
-			if (data.getTripComponentType() == Type.FALLBACK) {
+			if (data instanceof ItinCardDataFallback) {
 				continue;
 			}
 
@@ -537,6 +537,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				// Always add an attach button for one-way flights with no hotel
 				if (legCount == 1 && !(nextType == Type.HOTEL)) {
 					insertButtonCard = true;
+				}
+
+				// Ignore fallback cards
+				if (nextData instanceof ItinCardDataFallback) {
+					continue;
 				}
 
 				// If the next itin is a flight

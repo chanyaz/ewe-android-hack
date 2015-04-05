@@ -8,8 +8,8 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
 
 public class AdImpressionTracking {
 	public static final String CONVERSION_URL = "ads/hooklogic";
@@ -28,8 +28,8 @@ public class AdImpressionTracking {
 	public static void trackAdConversion(final Context context, final String tripId) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			query.add(new BasicNameValuePair("tripId", tripId));
-			String baseUrl = EndPoint.getE3EndpointUrl(context, false) + CONVERSION_URL;
+			String endpoint = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl(false /*isSecure*/);
+			String baseUrl = endpoint + CONVERSION_URL;
 			trackAdClickOrImpression(context, baseUrl, query);
-
 	}
 }

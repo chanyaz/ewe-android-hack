@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class ValidPayment {
 
+	public String name;
 	protected CreditCardType mCreditCardType;
 	protected Money mFee;
 

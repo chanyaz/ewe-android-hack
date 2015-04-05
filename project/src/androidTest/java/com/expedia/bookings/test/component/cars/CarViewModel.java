@@ -8,23 +8,30 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
-import com.expedia.bookings.test.ui.espresso.ViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public final class CarViewModel {
 
 	// Search
+
+	public static void didNotGoToResults() {
+		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
+	}
 
 	public static ViewInteraction calendar() {
 		return onView(withId(R.id.calendar));
@@ -40,6 +47,12 @@ public final class CarViewModel {
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
 			.perform(click());
+	}
+
+	public static void selectAirport(Instrumentation instrumentation, String airportCode,
+		String displayName) throws Throwable {
+		pickupLocation().perform(typeText(airportCode));
+		selectPickupLocation(instrumentation, displayName);
 	}
 
 	public static ViewInteraction dropOffLocation() {
@@ -63,11 +76,15 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction alertDialog() {
-		return onView(withChild(withId(android.R.id.button3)));
+		return onView(withChild(withId(android.R.id.button1)));
 	}
 
 	public static ViewInteraction alertDialogMessage() {
 		return onView(withId(android.R.id.message));
+	}
+
+	public static ViewInteraction alertDialogPositiveButton() {
+		return onView(withId(android.R.id.button1));
 	}
 
 	public static ViewInteraction alertDialogNeutralButton() {
@@ -75,14 +92,10 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(withId(R.id.search_btn));
+		return onView(withId(R.id.menu_check));
 	}
 
 	// Results
-
-	public static ViewInteraction resultsLoadingView() {
-		return onView(withId(R.id.loading));
-	}
 
 	public static ViewInteraction carCategoryList() {
 		return onView(withId(R.id.category_list));
@@ -92,68 +105,77 @@ public final class CarViewModel {
 		carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
+	public static void selectCarCategory(String name) {
+		carCategoryList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
+	}
+
 	// Details
 
 	public static ViewInteraction carOfferList() {
 		return onView(withId(R.id.offer_list));
 	}
 
-	public static void selectCarOffer(int position) {
+	public static void expandCarOffer(int position) {
 		carOfferList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
+	}
+
+	public static void selectCarOffer(int carOfferNum) throws Throwable {
+		//Selecting an already expanded offer opens google maps
+		if (carOfferNum != 0) {
+			CarViewModel.expandCarOffer(carOfferNum);
+		}
+		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve")))
+			.perform(click());
+		ScreenActions.delay(1);
 	}
 
 	// Checkout
 
-	public static ViewInteraction firstName() {
-		return onView(withId(R.id.edit_first_name));
+	public static ViewInteraction travelerWidget() {
+		return onView(withId(R.id.main_contact_info_card_view));
 	}
 
-	public static void enterFirstName(String name) {
-		firstName().perform(typeText(name));
+	public static ViewInteraction firstName() {
+		return onView(withId(R.id.edit_first_name));
 	}
 
 	public static ViewInteraction lastName() {
 		return onView(withId(R.id.edit_last_name));
 	}
 
-	public static void enterLastName(String name) {
-		lastName().perform(typeText(name));
-	}
-
 	public static ViewInteraction email() {
 		return onView(withId(R.id.edit_email_address));
 	}
 
-	public static void enterEmail(String email) {
-		email().perform(typeText(email));
-	}
-
-	public static ViewInteraction phone() {
+	public static ViewInteraction phoneNumber() {
 		return onView(withId(R.id.edit_phone_number));
 	}
 
-	public static void enterPhoneNumber(String number) {
-		phone().perform(typeText(number));
+	public static ViewInteraction checkoutToolbarNext() {
+		return onView(withId(R.id.menu_next));
 	}
 
-	public static ViewInteraction paymentContainer() {
-		return onView(withId(R.id.payment_info));
+	public static ViewInteraction checkoutToolbarDone() {
+		return onView(withId(R.id.menu_done));
 	}
 
-	public static ViewInteraction checkoutDataEnterDone() {
-		return onView(withId(R.id.edit_done));
+	public static ViewInteraction checkoutTotalPrice() {
+		return onView(withId(R.id.price_text));
 	}
 
-	public static void pressDone() {
-		checkoutDataEnterDone().perform(click());
+	public static ViewInteraction checkoutErrorScreen() {
+		return onView(withId(R.id.checkout_error_widget));
 	}
 
-	public static ViewInteraction performSlideToPurchase() {
-		return onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+	public static ViewInteraction checkoutErrorText() {
+		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_text)));
+	}
+
+	public static ViewInteraction checkoutErrorButton() {
+		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_action_button)));
 	}
 
 	// Confirmation
-
 	public static ViewInteraction confirmationNumber() {
 		return onView(withId(R.id.confirmation_text));
 	}

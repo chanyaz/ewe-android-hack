@@ -2,6 +2,96 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">下一步：選擇還車日期</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">拖曳以修改</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">取車時間</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">還車時間</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">每小時</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">每日</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">每週</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">每月</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">合共 %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">推廣代碼</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">排序和篩選</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">滑動以預訂</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">付款</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">重複的旅行</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">逾時退出</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">價格變更</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">付款失敗</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">資料無效</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">錯誤</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">預訂</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">查看詳情</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">駕駛者資料</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">付款資料</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">輸入駕駛者資料</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">選擇已儲存的聯絡人</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">輸入付款資料</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">到期日 %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s 或類似車款</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">門</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">行李件數</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">自動變速</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">手動變速</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">以 Expedia 帳戶登入</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">完成此預訂，即表示本人同意已閱讀並接受%1$s、%2$s及%3$s。</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">取車地點 %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia 行程編號：%s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Expedia 客戶支援：%1$s 及 %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">本地電話號碼：%s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">免費電話號碼：%s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">取車時間</string>
     <!-- Car search label for drop-off time-->
@@ -11,7 +101,7 @@
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
     <string name="same_as_pick_up">與取車時相同</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">日期及地點</string>
+    <string name="dates_and_location">日期與地點</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">選擇取車及還車日期</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -21,7 +111,7 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">還車</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">還車地點必須與取車地點相同</string>
+    <string name="drop_off_same_as_pick_up">即將推出！我們正加緊努力，以於新版本中加入單程航班預訂。</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">未輸入出發地</string>
     <!-- Error messge for missing Start date in search form -->
@@ -30,15 +120,89 @@
     <string name="error_missing_end_date_param">未輸入結束日期</string>
     <!-- Temporary String for general error message -->
     <string name="error_car">發生錯誤。檢查搜尋參數。</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">搜尋沒有結果。請以其他條件再次搜尋。</string>
     <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s 或類似車款</string>
+    <string name="car_model_unknown_template">無確切車型</string>
+
+    <string name="preparing_checkout_message">正在準備付款…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">客運大樓櫃台和車輛</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">今天支付</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">取車時支付</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">完成</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">租車</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">預計稅項及服務費</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">保險</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">還車費用</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">無限里數</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">已預訂成功！行程編號：%1$s</string>
+    <string name="successful_checkout_TEMPLATE">行程編號 %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">缺少付款參數。</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">%1$s酒店</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">%1$s機票</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">取車地點</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s 至</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">行程已寄發至</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">前往 %1$s 的路線</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">致電客戶支援</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">請確認取車日期。</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">請修改取車或還車時間。</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">請確認還車日期。</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">此日期太久遠，請選擇一個更近的日期。</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">此日期太久遠，請選擇一個更近的日期。</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">請增加預訂時限。</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">您還在嗎？您已逾時登出。請重新搜尋。</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">但是，您似乎已預訂此行程。請查看您的行程或電郵。</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">您的車輛價格已變更。請確認新的價格以繼續。</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">姓名不可含有數字或特殊字元。</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">電話號碼長度必須在 1 - 20 之間。</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">但是，您尚未成功付款。請再次檢查您的付款資料並重試。</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">付款失敗。</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">檢視價格變動</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">我的行程</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">編輯付款資料</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">修改資料</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">請輸入目的地</string>
@@ -68,6 +232,149 @@
     <string name="trip_end_optional">選填</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">選擇機場</string>
+
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">搜尋活動</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">請輸入地點</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">未輸入地點</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">未輸入日期</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">請選擇日期</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">特色</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">說明</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">地點</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">免費取消</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">立即預訂%1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">旅客</string>
+    <string name="ticket_type_adult">成人</string>
+    <string name="ticket_type_child">小童</string>
+    <string name="ticket_type_infant">幼童</string>
+    <string name="ticket_type_youth">青年</string>
+    <string name="ticket_type_senior">老人</string>
+    <string name="ticket_type_group">團體</string>
+    <string name="ticket_type_couple">夫妻/情侶</string>
+    <string name="ticket_type_two_adults">2 位成人</string>
+    <string name="ticket_type_military">軍人</string>
+    <string name="ticket_type_student">學生</string>
+    <string name="ticket_type_sedan">轎車</string>
+    <string name="ticket_type_minivan">小型客貨車</string>
+    <string name="ticket_type_water_taxi">水上的士</string>
+    <string name="ticket_type_suv">運動型多用途車</string>
+    <string name="ticket_type_executive_car">主管房車</string>
+    <string name="ticket_type_luxury_car">豪華車</string>
+    <string name="ticket_type_limousine">豪華轎車</string>
+    <string name="ticket_type_towncar">大型豪華轎車</string>
+    <string name="ticket_type_vehicle_parking_spot">泊車位</string>
+    <string name="ticket_type_book">書籍</string>
+    <string name="ticket_type_guide">指南</string>
+    <string name="ticket_type_travel_card">旅遊卡</string>
+    <string name="ticket_type_boat">船</string>
+    <string name="ticket_type_motorcycle">電單車</string>
+    <string name="ticket_type_ceremony">典禮</string>
+    <string name="ticket_type_calling_card">電話卡</string>
+    <string name="ticket_type_pass">通行證</string>
+    <string name="ticket_type_minibus">小巴</string>
+    <string name="ticket_type_helicopter">直升機</string>
+    <string name="ticket_type_device">裝置</string>
+    <string name="ticket_type_room">房間</string>
+    <string name="ticket_type_carriage">馬車</string>
+    <string name="ticket_type_buggy">嬰兒車</string>
+    <string name="ticket_type_atv">全地形車</string>
+    <string name="ticket_type_jet_ski">水上電單車</string>
+    <string name="ticket_type_scooter">綿羊仔</string>
+    <string name="ticket_type_scooter_car">速克達車</string>
+    <string name="ticket_type_snowmobile">雪上電單車</string>
+    <string name="ticket_type_day">日</string>
+    <string name="ticket_type_bike">單車</string>
+    <string name="ticket_type_week">週</string>
+    <string name="ticket_type_subscription">訂閱</string>
+    <string name="ticket_type_electric_bike">電動單車</string>
+    <string name="ticket_type_segway">攝位車</string>
+    <string name="ticket_type_vehicle">車</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">每位旅客</string>
+    <string name="per_ticket_type_adult">每位成人</string>
+    <string name="per_ticket_type_child">每位小童</string>
+    <string name="per_ticket_type_infant">每位幼童</string>
+    <string name="per_ticket_type_youth">每位青年</string>
+    <string name="per_ticket_type_senior">每位老人</string>
+    <string name="per_ticket_type_group">每個團體</string>
+    <string name="per_ticket_type_couple">每對夫妻/情侶</string>
+    <string name="per_ticket_type_two_adults">每 2 位成人</string>
+    <string name="per_ticket_type_military">每位軍人</string>
+    <string name="per_ticket_type_student">每位學生</string>
+    <string name="per_ticket_type_sedan">每輛轎車</string>
+    <string name="per_ticket_type_minivan">每輛小巴</string>
+    <string name="per_ticket_type_water_taxi">每輛水上的士</string>
+    <string name="per_ticket_type_suv">每輛運動型多用途車</string>
+    <string name="per_ticket_type_executive_car">每輛主管房車</string>
+    <string name="per_ticket_type_luxury_car">每輛豪華車</string>
+    <string name="per_ticket_type_limousine">每輛豪華轎車</string>
+    <string name="per_ticket_type_towncar">每輛大型豪華轎車</string>
+    <string name="per_ticket_type_vehicle_parking_spot">每個泊車位</string>
+    <string name="per_ticket_type_book">每本書</string>
+    <string name="per_ticket_type_guide">每本指南</string>
+    <string name="per_ticket_type_travel_card">每張旅遊卡</string>
+    <string name="per_ticket_type_boat">每艘船</string>
+    <string name="per_ticket_type_motorcycle">每輛電單車</string>
+    <string name="per_ticket_type_ceremony">每個典禮</string>
+    <string name="per_ticket_type_calling_card">每張電話卡</string>
+    <string name="per_ticket_type_pass">每張通行證</string>
+    <string name="per_ticket_type_minibus">每輛小巴</string>
+    <string name="per_ticket_type_helicopter">每部直升機</string>
+    <string name="per_ticket_type_device">每個裝置</string>
+    <string name="per_ticket_type_room">每間客房</string>
+    <string name="per_ticket_type_carriage">每輛馬車</string>
+    <string name="per_ticket_type_buggy">每輛嬰兒車</string>
+    <string name="per_ticket_type_atv">每輛全地形車</string>
+    <string name="per_ticket_type_jet_ski">每輛水上電單車</string>
+    <string name="per_ticket_type_scooter">每輛綿羊仔</string>
+    <string name="per_ticket_type_scooter_car">每輛速克達車</string>
+    <string name="per_ticket_type_snowmobile">每輛雪上電單車</string>
+    <string name="per_ticket_type_day">每日</string>
+    <string name="per_ticket_type_bike">每輛單車</string>
+    <string name="per_ticket_type_week">每週</string>
+    <string name="per_ticket_type_subscription">每次訂閱</string>
+    <string name="per_ticket_type_electric_bike">每輛電動單車</string>
+    <string name="per_ticket_type_segway">每輛攝位車</string>
+    <string name="per_ticket_type_vehicle">每輛車</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">滑動以預訂</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">付款</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">免費取消</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">總金額 (連稅)</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">聯絡資料</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">輸入聯絡資料</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">搜尋沒有結果。請以其他條件再次搜尋。</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">顯示更多</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">旅客資料</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">輸入旅客資料</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -297,7 +604,7 @@
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
-    <string name="Checkout">結帳</string>
+    <string name="Checkout">付款</string>
     <!-- Actionbar Title for default search results state -->
     <string name="Create_a_Trip">建立行程</string>
     <!-- Your Trip -->
@@ -325,7 +632,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">登入失敗如電郵和密碼均正確無誤，請確認應用程式的「國家/地區」設定是否正確。</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">你必須建立一個適用於所有 Expedia 網站的新國際登入帳戶。\n請使用下方「忘記密碼？」連結以重設你的密碼。</string>
+    <string name="login_reset_password">你必須建立一個適用於所有 Expedia 網站的新國際登入帳戶。&lt;br&gt;請使用下方「忘記密碼？」連結以重設你的密碼。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 密碼</string>
     <!-- Link accounts -->
@@ -358,6 +665,27 @@
     <string name="nav_flights">機票</string>
     <!-- Hotels -->
     <string name="nav_hotels">酒店</string>
+    <!-- Cars -->
+    <string name="nav_cars">租車</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">搜尋行程</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">今晚熱門酒店</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">查看更多</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">載入中…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">(共 5 分) - 旅客評級</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">僅限流動裝置預訂！</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">只限今晚！</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -427,6 +755,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">您可於明天起兌換 %s 門票。</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">行程已經預訂完成</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -703,6 +1032,44 @@
     <string name="car_category_special">專用車</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">特大型車</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">迷你</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">經濟</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">小型</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">中型</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">標準</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">大型</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">高級</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">豪華</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">迷你房車</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">經濟房車</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">小型房車</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">中型房車</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">標準房車</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">大型房車</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">高級房車</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">豪華房車</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">特殊</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">超大</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">雙門車</string>
@@ -1154,7 +1521,7 @@
         <item quantity="other">%1$d 位旅客</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">結帳</string>
+    <string name="checkout_btn">付款</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">正在檢查價格變動…</string>
     <!-- Price changed from -->
@@ -1176,7 +1543,7 @@
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
-    <string name="checkout_information">結帳資料</string>
+    <string name="checkout_information">付款資料</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">您接受上述所有條件嗎？</string>
     <!-- I Accept button label -->
@@ -1189,6 +1556,8 @@
     <string name="slide_to_book_flight">滑動來預訂機票</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">我們將透過您的信用卡收取 %1$s</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">今天須付金額：%1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">現須付金額：%1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1196,7 +1565,7 @@
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成預訂</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">結帳</string>
+    <string name="menu_checkout">付款</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">至抵價保證</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1241,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">24 小時內免費取消</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1432,7 +1803,7 @@
     <string name="add_redress_num">新增申訴號碼</string>
 
     <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">您輸入的年齡與您搜尋時使用的旅客年齡不符。請更改您的資料，然後重新結帳。</string>
+    <string name="invalid_birthdate_message">您輸入的年齡與您搜尋時使用的旅客年齡不符。請更改您的資料，然後重新付款。</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1527,6 +1898,8 @@
     <string name="air_attach_expires">優惠尚餘</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d 日</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">優惠今日到期</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">加訂酒店</string>
     <!-- Air attach add hotel button subtitle -->
@@ -1819,6 +2192,12 @@
     <string name="progress_finding_location">正在尋找您目前的所在地點…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">正在搜尋酒店…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">搜尋中！</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">正加緊努力為您尋找至抵酒店優惠。</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">正為您搜尋數百間酒店！</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">正在搜尋此酒店…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -3099,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">發送電郵…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

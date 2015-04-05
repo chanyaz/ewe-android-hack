@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.widget.Spinner;
 
 public class TelephoneSpinner extends Spinner {
@@ -57,5 +58,17 @@ public class TelephoneSpinner extends Spinner {
 			return null;
 		}
 		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryName(position);
+	}
+
+	public void selectPOSCountry() {
+		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) getAdapter();
+		String targetCountry = getContext().getString(PointOfSale.getPointOfSale()
+			.getCountryNameResId());
+		for (int i = 0; i < adapter.getCount(); i++) {
+			if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
+				setSelection(i);
+				break;
+			}
+		}
 	}
 }
