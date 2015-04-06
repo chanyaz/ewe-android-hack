@@ -9,11 +9,15 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -511,6 +515,23 @@ public class Ui extends com.mobiata.android.util.Ui {
 		int statusBarHeight = getStatusBarHeight(context);
 
 		return toolbarSize + statusBarHeight;
+	}
+
+	public static void setTextStyleBoldText(Spannable stringToSpan, int color, int startSpan, int endSpan) {
+		setTextStyle(stringToSpan, color, startSpan, endSpan, true);
+	}
+
+	public static void setTextStyleNormalText(Spannable stringToSpan, int color, int startSpan, int endSpan) {
+		setTextStyle(stringToSpan, color, startSpan, endSpan, false);
+	}
+
+	private static void setTextStyle(Spannable stringToSpan, int color, int startSpan, int endSpan, boolean isBold) {
+		stringToSpan.setSpan(new ForegroundColorSpan(color),
+			startSpan, endSpan,
+			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		if (isBold) {
+			stringToSpan.setSpan(new StyleSpan(Typeface.BOLD), startSpan, endSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
 	}
 
 }

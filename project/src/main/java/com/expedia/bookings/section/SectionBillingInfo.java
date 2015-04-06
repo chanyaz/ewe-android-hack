@@ -16,6 +16,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -991,12 +993,16 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected void onHasFieldAndData(TextView field, BillingInfo data) {
 
 			String btnTxt = "";
+			Spannable stringToSpan = null;
 			if (data.getExpirationDate() != null) {
 				String formatStr = mContext.getString(R.string.expires_colored_TEMPLATE);
 				String bdayStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
 				btnTxt = String.format(formatStr, bdayStr);
+				stringToSpan = new SpannableString(btnTxt);
+				int color = mContext.getResources().getColor(R.color.checkout_traveler_birth_color);
+				Ui.setTextStyleNormalText(stringToSpan, color, 0, btnTxt.indexOf(bdayStr));
 			}
-			field.setText(Html.fromHtml(btnTxt));
+			field.setText(stringToSpan != null ? stringToSpan : btnTxt);
 		}
 
 		Validator<TextView> mValidator = new Validator<TextView>() {
