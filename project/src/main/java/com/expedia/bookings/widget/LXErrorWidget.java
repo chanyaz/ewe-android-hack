@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -100,6 +101,48 @@ public class LXErrorWidget extends FrameLayout {
 		case LX_SEARCH_NO_RESULTS:
 			showNoProductSearchError();
 			break;
+
+		case SESSION_TIMEOUT:
+			bindText(R.drawable.error_timeout,
+				R.string.reservation_time_out,
+				R.string.lx_session_timeout_text,
+				R.string.edit_search);
+			errorButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.LXSessionTimeout());
+				}
+			});
+			break;
+
+		case TRIP_ALREADY_BOOKED:
+			bindText(R.drawable.error_trip_booked,
+				R.string.reservation_already_exists,
+				R.string.lx_duplicate_trip_text,
+				R.string.my_trips);
+			errorButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					NavUtils.goToItin(getContext());
+				}
+			});
+			break;
+
+		case PAYMENT_FAILED:
+			bindText(R.drawable.error_payment,
+				R.string.reservation_payment_failed,
+				R.string.lx_payment_failed_text,
+				R.string.edit_payment);
+			errorButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.LXPaymentFailed());
+				}
+			});
+			break;
+
+		case UNKNOWN_ERROR:
+		case OMS_ERROR:
 
 		default:
 			showDefaultError();

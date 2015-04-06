@@ -802,6 +802,14 @@ public class Events {
 			this.field = field;
 		}
 	}
+
+	public static class LXSessionTimeout {
+		// ignore
+	}
+
+	public static class LXPaymentFailed {
+		// ignore
+	}
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {

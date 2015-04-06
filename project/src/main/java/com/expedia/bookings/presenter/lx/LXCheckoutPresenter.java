@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBarActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -209,6 +210,19 @@ public class LXCheckoutPresenter extends Presenter {
 		checkout.slideWidget.resetSlider();
 		checkout.mainContactInfoCardView.setExpanded(true, true);
 		checkout.mainContactInfoCardView.setInvalid(event.field);
+	}
+
+	@Subscribe
+	public void showSessionTimeout(Events.LXSessionTimeout event) {
+		clearBackStack();
+		((ActionBarActivity) getContext()).onBackPressed();
+	}
+
+	@Subscribe
+	public void showPaymentFailed(Events.LXPaymentFailed event) {
+		show(checkout, FLAG_CLEAR_TOP);
+		checkout.slideWidget.resetSlider();
+		checkout.paymentInfoCardView.setExpanded(true, true);
 	}
 
 	private void showCheckoutErrorDialog(@StringRes int message) {

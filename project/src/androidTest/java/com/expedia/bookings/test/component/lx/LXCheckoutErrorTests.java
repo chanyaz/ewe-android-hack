@@ -48,6 +48,60 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
+	public void testUnknownError() throws Throwable {
+		performLXCheckout("UnknownError");
+
+		// Generic dialog
+		screenshot("Oops Error Dialog");
+		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		LXViewModel.checkoutErrorText().check(matches(withText(R.string.oops)));
+		LXViewModel.checkoutErrorButton().perform(click());
+		EspressoUtils.assertViewWithTextIsDisplayed("Security code for card ending in 1111");
+		screenshot("Oops Error Dialog close");
+	}
+
+	public void testTripAlreadyBooked() throws Throwable {
+		performLXCheckout("AlreadyBooked");
+
+		// Payment failed dialog
+		screenshot("Trip Already Booked Dialog");
+		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_already_exists)));
+		LXViewModel.checkoutErrorButton().perform(click());
+
+		screenshot("LX itins");
+	}
+
+	public void testSessionTimeout() throws Throwable {
+		performLXCheckout("SessionTimeout");
+
+		// Payment failed dialog
+		screenshot("Session Timeout");
+		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_time_out)));
+		LXViewModel.checkoutErrorButton().perform(click());
+
+		screenshot("LX Details");
+		EspressoUtils.assertViewIsDisplayed(R.id.activity_gallery);
+	}
+
+	public void testPaymentFailed() throws Throwable {
+		performLXCheckout("PaymentFailed");
+
+		// Payment failed dialog
+		screenshot("Payment Failed Dialog");
+		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_payment_failed)));
+		LXViewModel.checkoutErrorButton().perform(click());
+
+		screenshot("Payment Failed Messaging");
+		// Should take you back to payment entry
+		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
+		CheckoutViewModel.pressClose();
+
+		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
+	}
+
 	private void performLXCheckout(String firstName) throws Throwable {
 		final String ticketName = "2-Day";
 

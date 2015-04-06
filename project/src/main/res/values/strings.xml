@@ -383,6 +383,12 @@
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
     <string name="lx_invalid_input_text">Invalid Info</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_duplicate_trip_text">Duplicate Trip</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_session_timeout_text">Session Timeout</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_payment_failed_text">Payment Failed</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Show More</string>
     <!-- Text for traveler details toolbar-->
