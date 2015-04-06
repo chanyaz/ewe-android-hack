@@ -131,7 +131,7 @@ android {
         versionName "undefined"
 
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
