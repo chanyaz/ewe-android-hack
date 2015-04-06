@@ -140,7 +140,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
 				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
 			new PicassoHelper.Builder(itemView.getContext())
-				.setPlaceholder(R.drawable.cars_placeholder)
+				.setPlaceholder(R.drawable.results_list_placeholder)
 				.setError(R.drawable.cars_fallback)
 				.fade()
 				.setTag(ROW_PICASSO_TAG)
