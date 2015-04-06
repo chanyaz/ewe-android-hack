@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -252,6 +253,12 @@ public class LaunchCard extends FrameLayout {
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
 			frontImageView.setImageBitmap(bitmap);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			frontImageView.setImageDrawable(placeHolderDrawable);
 		}
 	}
 }
