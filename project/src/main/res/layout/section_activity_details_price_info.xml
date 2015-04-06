@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_info_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/price_info_container_height"
@@ -16,7 +17,7 @@
         android:layout_marginRight="60dp"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="14dp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/price"
@@ -25,15 +26,15 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="right"
         android:textColor="@android:color/white"
-        android:textSize="14dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:textColor="@android:color/white"
-        android:textSize="12dp" />
+        android:textColor="@color/lx_info_secondary_text_color"
+        android:textSize="11sp" />
 
     <TextView
         android:id="@+id/per_ticket_type"
@@ -41,6 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/price"
         android:layout_below="@id/price"
-        android:textColor="@android:color/white"
-        android:textSize="12dp" />
+        android:textColor="@color/lx_info_secondary_text_color"
+        android:textSize="11sp" />
 </RelativeLayout>

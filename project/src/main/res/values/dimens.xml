@@ -263,7 +263,7 @@
     <!-- LX Dimens -->
     <dimen name="search_widget_calendar_height">220dp</dimen>
     <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
-    <dimen name="gallery_height">270dp</dimen>
+    <dimen name="gallery_height">240dp</dimen>
     <dimen name="price_info_container_height">60dp</dimen>
     <dimen name="price_info_container_top_margin">-60dp</dimen>
     <dimen name="lx_search_list_image_container_height">144dp</dimen>
