@@ -93,7 +93,7 @@ public class LXCheckoutPresenterTests {
 		LXViewModel.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));
 		LXViewModel.checkoutGroupText().check(matches(withText("3 Adult, 1 Child")));
 		LXViewModel.checkoutOfferLocation().check(matches(withText("New York, United States")));
-		LXViewModel.checkoutOfferDate().check(matches(withText("2015-02-24 07:30:00")));
+		LXViewModel.checkoutOfferDate().check(matches(withText("Tue, Feb 24")));
 		LXViewModel.checkoutGrandTotalText().check(matches(withText("Total with Tax")));
 		LXViewModel.checkoutPriceText().check(matches(withText("$500")));
 		LXViewModel.checkoutFreeCancellationText().check(matches(withText("Free Cancellation")));

@@ -3,10 +3,7 @@ package com.expedia.bookings.widget;
 import javax.inject.Inject;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
@@ -17,7 +14,7 @@ import com.expedia.bookings.utils.Ui;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LXCheckoutSummaryWidget extends RelativeLayout {
+public class LXCheckoutSummaryWidget extends android.widget.LinearLayout {
 
 	public LXCheckoutSummaryWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -54,14 +51,12 @@ public class LXCheckoutSummaryWidget extends RelativeLayout {
 	public void bind() {
 		lxOfferTitleText.setText(lxState.offer.title);
 		lxGroupText.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
-		lxOfferDate.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		lxOfferDate.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.displayDate);
 		lxOfferLocation.setText(lxState.activity.location);
 
 		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
 		tripTotalText.setText(totalMoney);
 
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.ic_action_bar_checkmark_white);
-		drawableEnabled.setColorFilter(getResources().getColor(R.color.lx_checkmark_color), PorterDuff.Mode.SRC_IN);
-		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
+		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
 	}
 }

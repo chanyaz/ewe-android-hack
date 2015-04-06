@@ -266,6 +266,7 @@
     <color name="lx_confirmation_background">#1A1D20</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>
     <color name="lx_sort_filter_background_color">#E4E4E4</color>
+    <color name="lx_checkout_text_color">#676767</color>
     <color name="lx_info_secondary_text_color">#CDCDCD</color>
     <color name="lx_dates_disabled_text_color">#D7D7D7</color>
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
