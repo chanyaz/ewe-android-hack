@@ -2,44 +2,41 @@ package com.expedia.bookings.utils;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 
 public class LXUtils {
-	public static Money getTotalAmount(Map<Ticket, Integer> selectedTickets) {
+	public static Money getTotalAmount(List<Ticket> selectedTickets) {
 		Money totalMoney = new Money();
 
-		if (selectedTickets == null || selectedTickets.entrySet().size() == 0) {
+		if (selectedTickets == null || selectedTickets.size() == 0) {
 			//Should be invoked with at least 1 selected ticket!
 			return totalMoney;
 		}
 
-		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
-			int ticketCount = ticketAndCount.getValue();
-			Ticket ticket = ticketAndCount.getKey();
-			BigDecimal amountDueForTickets = ticket.money.getAmount().multiply(BigDecimal.valueOf(ticketCount));
+		for (Ticket ticket : selectedTickets) {
+			BigDecimal amountDueForTickets = ticket.money.getAmount().multiply(BigDecimal.valueOf(ticket.count));
 			totalMoney.setAmount(totalMoney.getAmount().add(amountDueForTickets));
 		}
 
 		//Currency code for all tickets is the same!
-		String currencyCode = selectedTickets.keySet().iterator().next().money.getCurrency();
+		String currencyCode = selectedTickets.get(0).money.getCurrency();
 		totalMoney.setCurrency(currencyCode);
 
 		return totalMoney;
 	}
 
-	public static int getTotalTicketCount(Map<Ticket, Integer> selectedTickets) {
+	public static int getTotalTicketCount(List<Ticket> selectedTickets) {
 		int ticketCount = 0;
 
-		if (selectedTickets == null || selectedTickets.entrySet().size() == 0) {
+		if (selectedTickets == null || selectedTickets.size() == 0) {
 			//Should be invoked with at least 1 selected ticket!
 			return ticketCount;
 		}
 
-		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
-			ticketCount += ticketAndCount.getValue();
+		for (Ticket ticket : selectedTickets) {
+			ticketCount += ticket.count;
 		}
 
 		return ticketCount;

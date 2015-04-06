@@ -2,7 +2,6 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -17,7 +16,7 @@ public class LXState {
 	public LXSearchParams searchParams;
 	public LXActivity activity;
 	public Offer offer;
-	public Map<Ticket, Integer> selectedTickets;
+	public List<Ticket> selectedTickets;
 
 	public LXState() {
 		Events.register(this);
