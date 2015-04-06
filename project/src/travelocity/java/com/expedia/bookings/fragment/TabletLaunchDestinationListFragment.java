@@ -10,6 +10,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.otto.TvlyEvents;
 import com.expedia.bookings.util.LaunchScreenAnimationUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
@@ -127,15 +130,27 @@ public class TabletLaunchDestinationListFragment extends Fragment {
 		startTilesPopinAnimation();
 	}
 
+	@Subscribe
+	public void onDestinationCollectionDrawableAvailable(
+		TvlyEvents.DestinationCollectionDrawableAvailable drawableAvailable) {
+		if (drawableAvailable.launchCollection == LaunchDb.getSelectedCollection()) {
+			updateImageDrawable(drawableAvailable.launchCollection.imageDrawable);
+		}
+	}
+
 	private void updateDestinationListView(LaunchCollection launchCollection) {
 		if (launchCollection != null) {
 			replaceAllPins(launchCollection.locations);
 			LaunchScreenAnimationUtil
 				.applyColorToOverlay(getParentFragment().getActivity(), Ui.findView(rootC, R.id.bg_overlay));
-			launchLocationsBackgroundImageView.setImageDrawable(launchCollection.imageDrawable);
-			launchLocationsBackgroundImageViewReflection.setImageDrawable(launchCollection.imageDrawable);
+			updateImageDrawable(launchCollection.imageDrawable);
 			launchDestinationTitle.setText(launchCollection.title);
 		}
+	}
+
+	private void updateImageDrawable(Drawable drawable) {
+		launchLocationsBackgroundImageView.setImageDrawable(drawable);
+		launchLocationsBackgroundImageViewReflection.setImageDrawable(drawable);
 	}
 
 	private void replaceAllPins(List<LaunchLocation> locations) {

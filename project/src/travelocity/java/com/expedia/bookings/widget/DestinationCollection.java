@@ -32,6 +32,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.dialog.NoLocationServicesDialog;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.otto.TvlyEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.util.LaunchScreenAnimationUtil;
 import com.expedia.bookings.utils.Akeakamai;
@@ -208,7 +209,6 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 				@Override
 				public void onAnimationEnd(Animator animation) {
 					//Reset all the view properties, so that when user come back all view are in place
-					collectionToAdd.imageDrawable = frontImageView.getDrawable();
 					Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
 
 					horizontalScrollView.setEnabled(true);
@@ -280,6 +280,8 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			bitmapCache.put(url, bitmap);
 			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
 			frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
+			((LaunchCollection) getTag()).imageDrawable = frontImageHeaderBitmapDrawable;
+			Events.post(new TvlyEvents.DestinationCollectionDrawableAvailable(((LaunchCollection) getTag())));
 		}
 
 		@Override
@@ -287,6 +289,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			super.onPrepareLoad(placeHolderDrawable);
 			frontImageHeaderBitmapDrawable.setPlaceholderDrawable(placeHolderDrawable);
 			frontImageViewReflection.setImageDrawable(placeHolderDrawable);
+			((LaunchCollection) getTag()).imageDrawable = placeHolderDrawable;
 		}
 	}
 
