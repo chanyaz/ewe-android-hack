@@ -939,6 +939,9 @@ public class Db {
 
 		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
 		if (!file.exists()) {
+			List<Traveler> travelers = new ArrayList<Traveler>();
+			travelers.add(new Traveler());
+			Db.setTravelers(travelers);
 			return false;
 		}
 
