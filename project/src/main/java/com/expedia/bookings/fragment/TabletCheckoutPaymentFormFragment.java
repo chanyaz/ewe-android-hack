@@ -133,8 +133,19 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		}
 	};
 
+	private void resetValidation() {
+		if (mSectionBillingInfo != null) {
+			mSectionBillingInfo.resetValidation();
+		}
+		if (mSectionLocation != null) {
+			mSectionLocation.resetValidation();
+		}
+	}
+
+
 	private void commitAndLeave() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		resetValidation();
 		mListener.onCheckoutDataUpdated();
 		Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
 		closeForm(true);
@@ -243,6 +254,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
 			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());
+			resetValidation();
 			mListener.onCheckoutDataUpdated();
 		}
 		mFormOpen = false;
