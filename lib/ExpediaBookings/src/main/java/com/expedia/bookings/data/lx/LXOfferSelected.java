@@ -2,7 +2,6 @@ package com.expedia.bookings.data.lx;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -17,17 +16,15 @@ public class LXOfferSelected {
 	private boolean allDayActivity;
 	private String amount;
 
-	public LXOfferSelected(String activityId, Offer offer, Map<Ticket, Integer> selectedTickets) {
+	public LXOfferSelected(String activityId, Offer offer, List<Ticket> selectedTickets) {
 		DateTime activityDate = DateUtils
 			.yyyyMMddHHmmssToDateTime(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
-		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
-			int ticketCount = ticketAndCount.getValue();
-			Ticket ticket = ticketAndCount.getKey();
-			if (ticketCount > 0) {
+		for (Ticket ticket : selectedTickets) {
+			if (ticket.count > 0) {
 				LXTicketSelected ticketSelected = new LXTicketSelected();
 				ticketSelected.ticketId = ticket.ticketId;
-				ticketSelected.count = ticketCount;
+				ticketSelected.count = ticket.count;
 				ticketSelected.code = ticket.code;
 				this.tickets.add(ticketSelected);
 			}

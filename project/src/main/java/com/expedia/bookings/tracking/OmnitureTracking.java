@@ -8,8 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -1282,7 +1282,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_CONFIRMATION);
 		String activityId = checkoutResponse.activityId;
-		Map<Ticket, Integer> selectedTickets = lxState.selectedTickets;
+		List<Ticket> selectedTickets = lxState.selectedTickets;
 		String orderId = checkoutResponse.orderId;
 		String currencyCode = checkoutResponse.currencyCode;
 		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;

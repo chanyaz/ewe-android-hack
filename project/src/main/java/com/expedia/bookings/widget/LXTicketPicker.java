@@ -30,7 +30,6 @@ public class LXTicketPicker extends LinearLayout {
 	Button ticketRemove;
 
 	private Ticket ticket;
-	private int count;
 	private String offerId;
 
 	private static final int MIN_TICKET_COUNT = 0;
@@ -39,14 +38,14 @@ public class LXTicketPicker extends LinearLayout {
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
 		trackAddOrRemove("Add.");
-		count++;
+		ticket.count++;
 		setTicketCount();
 	}
 
 	@OnClick(R.id.ticket_remove)
 	public void onRemoveTicket() {
 		trackAddOrRemove("Remove.");
-		count--;
+		ticket.count--;
 		setTicketCount();
 	}
 
@@ -79,18 +78,18 @@ public class LXTicketPicker extends LinearLayout {
 	}
 
 	private void setTicketCount() {
-		ticketCount.setText(String.valueOf(count));
+		ticketCount.setText(String.valueOf(ticket.count));
 		// Enable or disable add and remove option for ticket
-		if (count == MIN_TICKET_COUNT) {
+		if (ticket.count == MIN_TICKET_COUNT) {
 			ticketRemove.setEnabled(false);
 		}
-		else if (count == MAX_TICKET_COUNT) {
+		else if (ticket.count == MAX_TICKET_COUNT) {
 			ticketAdd.setEnabled(false);
 		}
 		else {
 			ticketAdd.setEnabled(true);
 			ticketRemove.setEnabled(true);
 		}
-		Events.post(new Events.LXTicketCountChanged(ticket, count, offerId));
+		Events.post(new Events.LXTicketCountChanged(ticket, offerId));
 	}
 }

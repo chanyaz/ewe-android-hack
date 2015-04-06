@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXDataUtils;
@@ -43,7 +45,7 @@ public class LXTicketSelectionWidget extends CardView {
 	@InjectView(R.id.offer_title)
 	TextView title;
 
-	private Map<Ticket, Integer> tickets = new LinkedHashMap<>();
+	private Map<LXTicketType, Ticket> ticketsMap = new LinkedHashMap<>();
 
 	private String offerId;
 	private String offerTitle;
@@ -55,17 +57,13 @@ public class LXTicketSelectionWidget extends CardView {
 		Events.register(this);
 	}
 
-	public Map<Ticket, Integer> getSelectedTickets() {
-		Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
-		for (Map.Entry<Ticket, Integer> ticketAndCount : tickets.entrySet()) {
-			int ticketCount = ticketAndCount.getValue();
-			Ticket ticket = ticketAndCount.getKey();
-
-			if (ticketCount > 0) {
-				selectedTickets.put(ticket, ticketCount);
+	public List<Ticket> getSelectedTickets() {
+		List<Ticket> selectedTickets = new LinkedList<>();
+		for (Ticket ticket : ticketsMap.values()) {
+			if (ticket.count > 0) {
+				selectedTickets.add(ticket);
 			}
 		}
-
 		return selectedTickets;
 	}
 
@@ -88,7 +86,7 @@ public class LXTicketSelectionWidget extends CardView {
 			ticketPicker.bind(ticket, offerId);
 
 			// Initialize all ticket types with 0 count.
-			tickets.put(ticket, 0);
+			ticketsMap.put(ticket.code, ticket);
 		}
 	}
 
@@ -96,10 +94,11 @@ public class LXTicketSelectionWidget extends CardView {
 	public void onTicketCountChanged(Events.LXTicketCountChanged event) {
 		// Update only if the event was done by TicketPicker of belonging to this widget.
 		if (Strings.isNotEmpty(offerId) && offerId.equals(event.offerId)) {
-			tickets.put(event.ticket, event.count);
+			ticketsMap.put(event.ticket.code, event.ticket);
 
 			ticketSummary.setText(Strings.joinWithoutEmpties(", ", getTicketSummaries()));
-			bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE), LXUtils.getTotalAmount(tickets).getFormattedMoney()));
+			bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE),
+				LXUtils.getTotalAmount(new ArrayList<>(ticketsMap.values())).getFormattedMoney()));
 		}
 	}
 
@@ -107,10 +106,8 @@ public class LXTicketSelectionWidget extends CardView {
 		List<String> ticketsSummaries = new ArrayList<>();
 		String ticketSummaryTemplate = getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
 
-		for (Map.Entry<Ticket, Integer> ticketAndCount : tickets.entrySet()) {
-			int ticketCount = ticketAndCount.getValue();
-			Ticket ticket = ticketAndCount.getKey();
-			ticketsSummaries.add(String.format(ticketSummaryTemplate, ticketCount,
+		for (Ticket ticket : ticketsMap.values()) {
+			ticketsSummaries.add(String.format(ticketSummaryTemplate, ticket.count,
 				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
 		}
 

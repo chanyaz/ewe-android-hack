@@ -213,7 +213,7 @@ public class LXTicketSelectionWidgetTest {
 		tickets.add(adultTicket);
 
 		Ticket childTicket = new Ticket();
-		childTicket.code = LXTicketType.Adult;
+		childTicket.code = LXTicketType.Child;
 		childTicket.money = new Money("30", "USD");
 		childTicket.restrictionText = "4-12 years";
 		tickets.add(childTicket);

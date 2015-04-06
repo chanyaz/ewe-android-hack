@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.component.lx;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.junit.Before;
@@ -66,15 +66,15 @@ public class LXCheckoutPresenterTests {
 
 		//Select Offer
 		Offer lxOffer = gson.fromJson("{\"id\": \"183619\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", Offer.class);
-		Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
-		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
-		Ticket childTicket = gson.fromJson("{\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }", Ticket.class);
+		List<Ticket> selectedTickets = new ArrayList<>();
+		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\",\"count\": \"3\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
+		Ticket childTicket = gson.fromJson("{\"code\": \"Child\",\"count\": \"1\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }", Ticket.class);
 
 		adultTicket.money = new Money(adultTicket.amount, "USD");
 		childTicket.money = new Money(childTicket.amount, "USD");
 
-		selectedTickets.put(adultTicket, 3);
-		selectedTickets.put(childTicket, 1);
+		selectedTickets.add(adultTicket);
+		selectedTickets.add(childTicket);
 		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 
 		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));

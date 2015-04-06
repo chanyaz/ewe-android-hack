@@ -1,7 +1,6 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.LocalDate;
 
@@ -735,12 +734,10 @@ public class Events {
 
 	public static class LXTicketCountChanged {
 		public Ticket ticket;
-		public int count;
 		public String offerId;
 
-		public LXTicketCountChanged(Ticket ticket, int count, String offerId) {
+		public LXTicketCountChanged(Ticket ticket, String offerId) {
 			this.ticket = ticket;
-			this.count = count;
 			this.offerId = offerId;
 		}
 	}
@@ -755,9 +752,9 @@ public class Events {
 
 	public static class LXOfferBooked {
 		public Offer offer;
-		public Map<Ticket, Integer> selectedTickets;
+		public List<Ticket> selectedTickets;
 
-		public LXOfferBooked(Offer offer, Map<Ticket, Integer> selectedTickets) {
+		public LXOfferBooked(Offer offer, List<Ticket> selectedTickets) {
 			this.offer = offer;
 			this.selectedTickets = selectedTickets;
 		}
