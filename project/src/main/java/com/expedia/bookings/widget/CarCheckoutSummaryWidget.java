@@ -14,7 +14,9 @@ import android.widget.RelativeLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -122,6 +124,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 			offer.detailedFare.totalDueToday.formattedPrice));
 		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
 			offer.detailedFare.totalDueAtPickup.formattedPrice));
+		ll.addView(addDisclaimerRow(context, offer.pickUpLocation.countryCode));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
@@ -141,6 +144,17 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		TextView priceValue = Ui.findView(row, R.id.price_text_view);
 		priceDescription.setText(leftSideText);
 		priceValue.setText(rightSideText);
+		return row;
+	}
+
+	public static View addDisclaimerRow(Context context, String country) {
+		View row = LayoutInflater.from(context).inflate(R.layout.car_price_disclaimer, null);
+		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
+		String pos = PointOfSale.getPointOfSale().getThreeLetterCountryCode();
+		boolean isCurrencySameAsPOS = Strings.equals(CurrencyUtils.currencyForLocale(country), CurrencyUtils.currencyForLocale(pos));
+		disclaimer.setText(isCurrencySameAsPOS ? context.getResources()
+			.getString(R.string.cars_checkout_breakdown_us_text, CurrencyUtils.currencyForLocale(pos))
+			: context.getResources().getString(R.string.cars_checkout_breakdown_non_us_text, CurrencyUtils.currencyForLocale(pos), CurrencyUtils.currencyForLocale(country)));
 		return row;
 	}
 }

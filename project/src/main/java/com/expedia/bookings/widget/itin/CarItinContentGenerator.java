@@ -89,12 +89,15 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		Car car = getItinCardData().getCar();
 
-		final String url = new Akeakamai(Images.getCarRental(car)) //
+		final String url = new Akeakamai(Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width))) //
 			.resizeExactly(width, height) //
 			.build();
 
-		new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId())
-			.setTarget(target.getCallBack()).build().load(url);
+		new PicassoHelper.Builder(getContext())
+			.setPlaceholder(getHeaderImagePlaceholderResId())
+			.setError(R.drawable.cars_fallback)
+			.setTarget(target.getCallBack())
+			.build().load(url);
 		setSharableImageURL(url);
 	}
 
@@ -349,7 +352,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 
-		final String carUrl = Images.getCarRental(car);
+		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
 		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
@@ -387,7 +390,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 
-		final String carUrl = Images.getCarRental(car);
+		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
 		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);

@@ -949,14 +949,18 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		mFacebookExpectingClose = true;
 		User.signOut(getContext());
 		// Let's clear expedia username and password on logout.
-		mExpediaUserName.removeTextChangedListener(usernameWatcher);
-		mExpediaUserName.setText("");
-		mExpediaPassword.setText("");
-		mExpediaUserName.addTextChangedListener(usernameWatcher);
+		clearLoginFields();
 		if (mLogInStatusListener != null) {
 			mLogInStatusListener.onLogout();
 		}
 		setVisibilityState(VisibilityState.SIGN_IN, true);
+	}
+
+	private void clearLoginFields() {
+		mExpediaUserName.removeTextChangedListener(usernameWatcher);
+		mExpediaUserName.setText("");
+		mExpediaPassword.setText("");
+		mExpediaUserName.addTextChangedListener(usernameWatcher);
 	}
 
 	//////////////////////////////////
@@ -1020,7 +1024,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				user.save(getContext());
 				loginWorkComplete();
 				setVisibilityState(VisibilityState.LOGGED_IN, true);
-				OmnitureTracking.trackLoginSuccess(getContext(), mLob, loginWithFacebook, user.isRewardsUser());
 				AdTracker.trackLogin();
 			}
 		}
@@ -1197,6 +1200,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		}
 		else {
 			errorMessage = response.gatherErrorMessage(getContext());
+			if (errorMessage == null) {
+				errorMessage = "Unknown error";
+			}
 		}
 		OmnitureTracking.trackAppCarCheckoutLoginError(getContext(), errorMessage);
 	}
@@ -1222,7 +1228,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				setVisibilityState(VisibilityState.LOGGED_IN, true);
 				Log.d("User saved!");
 
-				OmnitureTracking.trackLoginSuccess(getContext(), mLob, loginWithFacebook, user.isRewardsUser());
 				AdTracker.trackLogin();
 			}
 
@@ -1401,6 +1406,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			return;
 		}
 		else {
+			clearLoginFields();
 			mExpediaUserName.requestFocus();
 			Ui.showKeyboard(mExpediaUserName, null);
 			OmnitureTracking.trackAppCarLoginPage(getContext());

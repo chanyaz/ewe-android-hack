@@ -54,7 +54,7 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		// Generic dialog
 		screenshot("Oops Error Dialog");
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
-		LXViewModel.checkoutErrorText().check(matches(withText(R.string.oops)));
+		LXViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
 		LXViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Security code for card ending in 1111");
 		screenshot("Oops Error Dialog close");

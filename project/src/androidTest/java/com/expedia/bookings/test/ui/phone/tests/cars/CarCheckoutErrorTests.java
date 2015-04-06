@@ -30,7 +30,7 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		// Generic dialog
 		screenshot("Oops Error Dialog");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
-		CarViewModel.checkoutErrorText().check(matches(withText(R.string.oops)));
+		CarViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
 		CarViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 		// TODO add test to support the retry behavior

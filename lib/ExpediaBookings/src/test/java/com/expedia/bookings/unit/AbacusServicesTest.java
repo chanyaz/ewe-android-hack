@@ -2,6 +2,7 @@ package com.expedia.bookings.unit;
 
 import java.io.File;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
@@ -25,14 +27,23 @@ public class AbacusServicesTest {
 	@Rule
 	public MockWebServerRule mServer = new MockWebServerRule();
 
+	public AbacusServices service;
+
+	@Before
+	public void before() {
+		service = new AbacusServices(new OkHttpClient(),
+				"http://localhost:" + mServer.getPort(),
+				Schedulers.immediate(),
+				Schedulers.immediate(),
+				RestAdapter.LogLevel.FULL);
+	}
+
 	@Test(expected = RetrofitError.class)
 	public void testMockDownloadBlowsUp() throws Throwable {
 		mServer.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
-		AbacusServices service = new AbacusServices(new OkHttpClient(), "http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
-
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
 		sub.unsubscribe();
@@ -50,8 +61,6 @@ public class AbacusServicesTest {
 			.setBody("{\"payload\" = {}}"));
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
-		AbacusServices service = new AbacusServices(new OkHttpClient(), "http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
-
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
 		sub.unsubscribe();
@@ -69,8 +78,6 @@ public class AbacusServicesTest {
 		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
-		AbacusServices service = new AbacusServices(new OkHttpClient(), "http://localhost:" + mServer.getPort(), Schedulers.immediate(), Schedulers.immediate());
-
 		Subscription sub = service.downloadBucket("TEST-TEST-TEST-TEST", "1", observer);
 		observer.await();
 		sub.unsubscribe();

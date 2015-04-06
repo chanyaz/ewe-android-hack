@@ -35,7 +35,7 @@ public class SuggestionServices {
 		}
 	};
 
-	public SuggestionServices(String endpoint, OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn) {
+	public SuggestionServices(String endpoint, OkHttpClient okHttpClient, Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 		mClient = okHttpClient;
@@ -46,7 +46,7 @@ public class SuggestionServices {
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
-			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setLogLevel(logLevel)
 			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(mClient))
 			.setRequestInterceptor(REQUEST_INTERCEPTOR)

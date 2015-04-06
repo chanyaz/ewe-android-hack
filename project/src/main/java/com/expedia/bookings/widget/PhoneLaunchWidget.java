@@ -73,6 +73,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	private float squashedHeaderHeight;
 	private boolean isAirAttachDismissed;
+	private boolean wasHotelsDownloadEmpty;
 
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
@@ -130,7 +131,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
 		@Override
 		public void onCompleted() {
-			cleanup();
+			if (!wasHotelsDownloadEmpty) {
+				cleanup();
+			}
 			Log.d(TAG, "Hotel download completed.");
 		}
 
@@ -149,8 +152,14 @@ public class PhoneLaunchWidget extends FrameLayout {
 				p.updateFrom(offer);
 				response.addProperty(p);
 			}
-			Db.getHotelSearch().setSearchResponse(response);
-			Events.post(new Events.LaunchHotelSearchResponse(nearbyHotelResponse));
+			if (nearbyHotelResponse.size() > 0) {
+				wasHotelsDownloadEmpty = false;
+				Events.post(new Events.LaunchHotelSearchResponse(nearbyHotelResponse));
+			}
+			else {
+				wasHotelsDownloadEmpty = true;
+				Events.post(new Events.LaunchLocationFetchError());
+			}
 		}
 	};
 
@@ -257,7 +266,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onSeeAllButtonPressed(Events.LaunchSeeAllButtonPressed event) {
-		goToHotels(event.animOptions);
+		NavUtils.goToHotels(getContext(), searchParams, event.animOptions, 0);
 	}
 
 	@Subscribe
@@ -265,8 +274,17 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Hotel offer = event.offer;
 		Property property = new Property();
 		property.updateFrom(offer);
+
+		// Set search response to contain only the hotel that has been selected
+		HotelSearchResponse response = new HotelSearchResponse();
+		response.addProperty(property);
+		Db.getHotelSearch().setSearchResponse(response);
+
+		// Set search params to what we used for the launch list search
 		Db.getHotelSearch().resetSearchParams();
-		Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+		Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(),
+			searchParams.getSearchLongitude());
+		// Set selected property
 		Db.getHotelSearch().setSelectedProperty(property);
 
 		Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
@@ -312,11 +330,12 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 			NearbyHotelParams params = new NearbyHotelParams(String.valueOf(loc.getLatitude()),
 				String.valueOf(loc.getLongitude()), "1",
-				today, tomorrow, HOTEL_SORT);
+				today, tomorrow, HOTEL_SORT, "true");
 			searchParams = new HotelSearchParams();
 			searchParams.setCheckInDate(currentDate);
 			searchParams.setCheckOutDate(currentDate.plusDays(1));
 			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+			searchParams.setFromLaunchScreen(true);
 
 			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
 			launchDataTimeStamp = DateTime.now();
@@ -331,7 +350,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		if (!ExpediaBookingApp.sIsAutomation) {
 			Events.post(new Events.LaunchShowLoadingAnimation());
 		}
-
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
@@ -341,6 +359,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
 		Log.i(TAG, "Launch page is offline");
+		launchListWidget.scrollToPosition(0);
 		launchListWidget.setVisibility(GONE);
 		launchError.setVisibility(View.VISIBLE);
 	}

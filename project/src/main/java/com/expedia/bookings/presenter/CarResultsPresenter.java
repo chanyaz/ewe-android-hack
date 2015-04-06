@@ -31,9 +31,9 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
@@ -180,7 +180,7 @@ public class CarResultsPresenter extends Presenter {
 
 		switch (apiError.errorDetailCode) {
 		case DROP_OFF_DATE_TOO_LATE:
-			showInvalidInputErrorDialog(R.string.drop_off_date_error);
+			showInvalidInputErrorDialog(R.string.drop_off_too_far_error);
 			break;
 		case SEARCH_DURATION_TOO_SMALL:
 			showInvalidInputErrorDialog(R.string.reservation_time_too_short);
@@ -189,16 +189,16 @@ public class CarResultsPresenter extends Presenter {
 			showInvalidInputErrorDialog(R.string.date_out_of_range);
 			break;
 		case PICKUP_DATE_TOO_EARLY:
-			showInvalidInputErrorDialog(R.string.pick_up_date_error);
+			showInvalidInputErrorDialog(R.string.pick_up_time_error);
 			break;
 		case PICKUP_DATE_IN_THE_PAST:
-			showInvalidInputErrorDialog(R.string.pick_up_date_error);
+			showInvalidInputErrorDialog(R.string.pick_up_time_error);
 			break;
 		case PICKUP_DATE_AND_DROP_OFF_DATE_ARE_THE_SAME:
-			showInvalidInputErrorDialog(R.string.pick_up_date_error);
+			showInvalidInputErrorDialog(R.string.pick_up_time_error);
 			break;
 		default:
-			showInvalidInputErrorDialog(R.string.oops);
+			showInvalidInputErrorDialog(R.string.error_server);
 			break;
 		}
 	}
@@ -300,8 +300,7 @@ public class CarResultsPresenter extends Presenter {
 
 	private void setToolBarDetailsText() {
 		if (mOffer != null) {
-			toolbar.setTitle(CarDataUtils.getCategoryStringForResults(getContext(),
-				mOffer.category));
+			toolbar.setTitle(mOffer.carCategoryDisplayLabel);
 		}
 	}
 
@@ -356,7 +355,7 @@ public class CarResultsPresenter extends Presenter {
 	private void showCreateTripErrorDialog() {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.oops))
+			.setMessage(getResources().getString(R.string.error_server))
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -450,6 +449,8 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
 		toolbar.setTranslationY(forward ? 50 : 0);
 		toolbar.setVisibility(forward ? GONE : VISIBLE);
+		toolbarBackground.setAlpha(
+			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
 	}
 
 	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {

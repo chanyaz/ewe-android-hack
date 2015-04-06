@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
@@ -180,7 +182,41 @@ public class CarDataUtils {
 			return ctx.getString(R.string.car_model_unknown_template);
 		}
 		else {
-			return ctx.getString(R.string.car_model_name_template, makes.get(0));
+			//TODO : This is a temporary ugly hack to fix the bad data coming from inventory #4226
+			String makeName = makes.get(0);
+			String makeNameLower = makeName.toLowerCase(Locale.US);
+			if (makeNameLower.contains("or similar") ||
+				makeNameLower.contains("we pick the car") ||
+				makeNameLower.contains("exact model n/a")) {
+				return makeName;
+			}
+			return ctx.getString(R.string.car_model_name_template, makeName);
 		}
+	}
+
+	public static String getDoorCount(CategorizedCarOffers cco) {
+		return getInfoCount(cco.doorSet);
+	}
+
+	public static String getPassengerCount(CategorizedCarOffers cco) {
+		return getInfoCount(cco.passengerSet);
+	}
+
+	public static String getBagCount(CategorizedCarOffers cco) {
+		return getInfoCount(cco.luggageSet);
+	}
+
+	public static String getInfoCount(Interval interval) {
+		String s = null;
+		int minVal = interval.getMin();
+		int maxVal = interval.getMax();
+
+		if (interval.different() && interval.bounded()) {
+			s = minVal + "-" + maxVal;
+		}
+		else if (!interval.different()) {
+			s = String.valueOf(maxVal);
+		}
+		return s;
 	}
 }

@@ -24,6 +24,7 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -194,7 +195,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			mainContainer.setForeground(isChecked ? null : selectedItemDrawable);
 			reserveNow.setChecked(isChecked);
 
-			root.setBackground(isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
+			Ui.setViewBackground(root, isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
 
 			ratePrice.setTextColor(isChecked ? mContext.getResources().getColor(R.color.cars_primary_color)
 				: mContext.getResources().getColor(R.color.cars_checkout_text_color));
@@ -270,9 +271,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	public void setCarOffers(List<SearchCarOffer> offers) {
 		mLastExpanded = 0;
 		this.offers = offers;
-		if (offers.size() >= 1) {
-			SearchCarOffer offer = offers.get(0);
-			offer.isToggled = true;
+		for (int i = 0; i < offers.size(); i++) {
+			SearchCarOffer offer = offers.get(i);
+			offer.isToggled = i == 0;
 		}
 	}
 

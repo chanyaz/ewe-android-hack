@@ -23,7 +23,7 @@ public class AbacusServices {
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
-	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn) {
+	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
@@ -31,7 +31,7 @@ public class AbacusServices {
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
-			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setLogLevel(logLevel)
 			.setConverter(new GsonConverter(mGson))
 			.setClient(new OkClient(client))
 			.build();

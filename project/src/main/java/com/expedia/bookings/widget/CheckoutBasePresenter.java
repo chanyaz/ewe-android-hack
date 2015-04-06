@@ -11,8 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Space;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -67,6 +69,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.purchase_total_text_view)
 	TextView sliderTotalText;
 
+	@InjectView(R.id.spacer)
+	Space space;
+
 	MenuItem menuNext;
 	MenuItem menuDone;
 
@@ -88,6 +93,13 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
 		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
+		slideToContainer.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// Consume touches so they don't pass behind
+				return true;
+			}
+		});
 	}
 
 	public void setupToolbar() {
@@ -167,6 +179,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	void isCheckoutComplete() {
 		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
 			animateInSlideTo(true);
+			scrollView.post(new Runnable() {
+				@Override
+				public void run() {
+					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+				}
+			});
 			OmnitureTracking.trackAppCarCheckoutSlideToPurchase(getContext(), paymentInfoCardView.getCardType());
 		}
 		else {
@@ -214,6 +232,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				legalInformationText.setVisibility(VISIBLE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 			}
+
+			ViewGroup.LayoutParams params = space.getLayoutParams();
+			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(R.dimen.car_unexpanded_space_height);
+			space.setLayoutParams(params);
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));

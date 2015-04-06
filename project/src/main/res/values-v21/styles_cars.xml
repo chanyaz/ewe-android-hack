@@ -5,6 +5,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="V2.Theme.Cars" parent="AppTheme.Base">
+        <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
     </style>
 
     <style name="CarButton" parent="android:Widget.Material.Button">
@@ -17,6 +18,12 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@drawable/tab_text_selector</item>
+    </style>
+
+    <style name="Theme.AlertDialog" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorPrimary">@color/cars_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/cars_primary_color</item>
+        <item name="android:colorAccent">@color/cars_primary_color</item>
     </style>
 
 </resources>

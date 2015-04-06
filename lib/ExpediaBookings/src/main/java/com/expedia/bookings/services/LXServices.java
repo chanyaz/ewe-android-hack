@@ -51,7 +51,7 @@ public class LXServices {
 	private Scheduler observeOn;
 	private Scheduler subscribeOn;
 
-	public LXServices(String endPoint, OkHttpClient client, RequestInterceptor requestInterceptor, Scheduler observeOn, Scheduler subscribeOn) {
+	public LXServices(String endPoint, OkHttpClient client, RequestInterceptor requestInterceptor, Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		this.client = client;
 		this.observeOn = observeOn;
 		this.subscribeOn = subscribeOn;
@@ -59,7 +59,7 @@ public class LXServices {
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endPoint)
 			.setRequestInterceptor(requestInterceptor)
-			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setLogLevel(logLevel)
 			.setClient(new OkClient(this.client))
 			.build();
 

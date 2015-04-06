@@ -58,8 +58,9 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -78,6 +79,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -2410,19 +2412,18 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "App Landing", null, null);
 		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
 		s.setEvar(28, link);
 		s.setProp(16, link);
 
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackNewLaunchScreenSeeAllClick(Context context) {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addCommonLaunchScreenFields(context, s, LAUNCH_MESSAGING, "SeeAll");
 
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackNewLaunchScreenTileClick(Context context, boolean isLaunchCollection) {
@@ -2436,7 +2437,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addCommonLaunchScreenFields(context, s, launchMessage, "DealTile");
 
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackNewLaunchScreenShopClick(Context context) {
@@ -2452,17 +2453,15 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "App Landing", null, null);
 		s.setEvar(28, LAUNCH_GLOBAL + "." + type);
 		s.setProp(16, LAUNCH_GLOBAL + "." + type);
-
-		s.track();
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
-	private static void addCommonLaunchScreenFields(Context context, ADMS_Measurement s, String launchMessage, String tileType) {
+	private static void addCommonLaunchScreenFields(Context context, ADMS_Measurement s, String launchMessage,
+		String tileType) {
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "App Landing", null, null);
 		s.setEvar(28, LAUNCH_DEALS_TILE + "." + tileType);
 		s.setProp(16, LAUNCH_DEALS_TILE + "." + tileType);
 		s.setEvar(12, launchMessage);
@@ -3112,12 +3111,15 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarRateDetails(Context context, CategorizedCarOffers mOffer) {
+	public static void trackAppCarRateDetails(Context context, SearchCarOffer mOffer) {
 		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(context, CAR_RATE_DETAIL);
 
 		s.setEvents("event4");
-		s.setEvar(38, mOffer.carCategoryDisplayLabel);
+		String evar38String = Strings.capitalizeFirstLetter(mOffer.vehicleInfo.category.toString()) + ":" + Strings
+			.capitalizeFirstLetter(mOffer.vehicleInfo.type.toString().replaceAll("_"," "));
+
+		s.setEvar(38, evar38String);
 
 		s.track();
 	}
@@ -3129,8 +3131,6 @@ public class OmnitureTracking {
 		s.setEvar(28, CAR_VIEW_DETAILS);
 		s.setProp(16, CAR_VIEW_DETAILS);
 		s.trackLink(null, "o", "Car Details", null, null);
-
-		s.track();
 	}
 
 	public static void trackAppCarMapClick(Context context) {
@@ -3140,8 +3140,6 @@ public class OmnitureTracking {
 		s.setEvar(28, CAR_VIEW_MAP);
 		s.setProp(16, CAR_VIEW_MAP);
 		s.trackLink(null, "o", "Car Details", null, null);
-
-		s.track();
 	}
 
 	public static void trackAppCarCheckoutPage(Context context, CreateTripCarOffer carOffer) {
@@ -3150,7 +3148,6 @@ public class OmnitureTracking {
 
 		s.setEvents("event73");
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
-		addProducts(s, carOffer);
 		s.track();
 	}
 
@@ -3167,13 +3164,12 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "User Login", null, null);
 
 		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
 		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
 		s.setEvents("event26");
 
-		s.track();
+		s.trackLink(null, "o", "User Login", null, null);
 
 	}
 
@@ -3182,20 +3178,19 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "User Login", null, null);
 
 		s.setEvar(28, CAR_CHECKOUT_LOGIN_ERROR);
 		s.setProp(16, CAR_CHECKOUT_LOGIN_ERROR);
 		s.setProp(36, "error");
 
-		s.track();
+		s.trackLink(null, "o", "User Login", null, null);
 
 	}
 
 	public static void trackAppCarCheckoutTraveler(Context context) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-
+		addStandardFields(context, s);
 		s.setAppState(CAR_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
@@ -3214,11 +3209,12 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-
+		addStandardFields(context, s);
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, creditCardType != CreditCardType.UNKNOWN ? creditCardType.toString()
-			: context.getString(R.string.car_omniture_checkout_no_credit_card));
+		s.setEvar(37,
+			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
+				: context.getString(R.string.car_omniture_checkout_no_credit_card));
 		s.track();
 
 	}
@@ -3240,9 +3236,9 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 
 		s.setEvents("purchase");
-		s.setCurrencyCode(carCheckoutResponse.currencyCode);
+		s.setCurrencyCode(carCheckoutResponse.totalChargesPrice.currencyCode);
 		s.setPurchaseID("onum" + carCheckoutResponse.orderId);
-		addProducts(s, carCheckoutResponse.newCarProduct);
+		addProducts(s, carCheckoutResponse.newCarProduct, carCheckoutResponse.trackingData);
 		setEvar30(s, carCheckoutResponse);
 
 		s.setProp(71, carCheckoutResponse.newTrip.travelRecordLocator);
@@ -3255,18 +3251,19 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 
-		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 		s.setEvar(12,
 			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
-		s.track();
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
-	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer) {
+	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {
+		String duration = Integer
+			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
 		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + carOffer.vehicleInfo.category + ";1;"
-				+ carOffer.detailedFare.grandTotal.formattedPrice);
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
+				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
 	private static String getEvar47String(CarSearchParams params) {

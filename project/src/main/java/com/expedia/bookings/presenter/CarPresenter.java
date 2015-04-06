@@ -7,6 +7,7 @@ import android.view.animation.DecelerateInterpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -28,6 +29,9 @@ public class CarPresenter extends Presenter {
 	@InjectView(R.id.car_checkout_presenter)
 	CarCheckoutPresenter carCheckoutPresenter;
 
+	@InjectView(R.id.confirmation)
+	CarConfirmationWidget confirmation;
+
 	private static class ParamsOverlayState {
 	}
 
@@ -38,10 +42,12 @@ public class CarPresenter extends Presenter {
 		addTransition(resultsToCheckout);
 		addTransition(checkoutToSearch);
 		addTransition(showParamsOverlay);
+		addTransition(checkoutToConfirmation);
 		show(carSearchPresenter);
 		carSearchPresenter.setVisibility(VISIBLE);
 	}
 
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(), CarConfirmationWidget.class.getName());
 	private Transition resultsToCheckout = new VisibilityTransition(this, CarResultsPresenter.class,
 		CarCheckoutPresenter.class);
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class,
@@ -123,7 +129,7 @@ public class CarPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowConfirmation(Events.CarsShowConfirmation event) {
-		show(carCheckoutPresenter, FLAG_CLEAR_BACKSTACK);
+		show(confirmation, FLAG_CLEAR_BACKSTACK);
 	}
 
 	@Subscribe

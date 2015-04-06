@@ -8,13 +8,15 @@ public class NearbyHotelParams {
 	public final String checkInDate;
 	public final String checkOutDate;
 	public final String sortOrder;
+	public final String filterUnavailable;
 
-	public NearbyHotelParams(String latitude, String longitude, String guestCount, String checkInDate, String checkOutDate, String sortOrder) {
+	public NearbyHotelParams(String latitude, String longitude, String guestCount, String checkInDate, String checkOutDate, String sortOrder, String filterUnavailable) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.guestCount = guestCount;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.sortOrder = sortOrder;
+		this.filterUnavailable = filterUnavailable;
 	}
 }

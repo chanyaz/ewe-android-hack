@@ -76,7 +76,7 @@ public class LXErrorWidget extends FrameLayout {
 		switch (error.errorCode) {
 
 		case INVALID_INPUT:
-			int resID = R.string.oops;
+			int resID = R.string.error_server;
 			if (error.errorInfo.field.equals("lastName")) {
 				resID = R.string.reservation_invalid_name;
 			}
@@ -152,7 +152,7 @@ public class LXErrorWidget extends FrameLayout {
 
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
-			R.string.oops,
+			R.string.error_server,
 			R.string.lx_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {

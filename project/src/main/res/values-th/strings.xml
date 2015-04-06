@@ -12,7 +12,13 @@
     <!-- SeekBar tooltip description for drop off time-->
     <string name="cars_time_slider_drop_off_label">เวลาส่งคืนรถ</string>
     <!-- Cars price templates-->
-    <string name="cars_daily_template">ราคาต่อวัน %s</string>
+    <string name="cars_hourly_text">ราคาต่อชั่วโมง</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">ราคาต่อวัน</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">ราคาต่อสัปดาห์</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">ราคารายเดือน</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">ยอดรวม %s</string>
     <!-- Text for cars promo codes-->
@@ -23,6 +29,18 @@
     <string name="cars_slider_text">เลื่อนเพื่อจอง</string>
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">ชำระเงิน</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">ทริปซ้ำกัน</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">เซสชั่นหมดเวลา</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">ราคาเปลี่ยนแปลง</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">การชำระเงินล้มเหลว</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">ข้อมูลผิดพลาด</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">เกิดข้อผิดพลาด</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">จอง</string>
     <!-- Text for viewing details-->
@@ -49,12 +67,16 @@
     <string name="car_auto_tran_text">เกียร์อัตโนมัติ</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">เกียร์ธรรมดา</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">เข้าสู่ระบบเอ็กซ์พีเดีย</string>
 
     <!-- car result -->
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">ในการดำเนินการจองนี้ให้เสร็จสมบูรณ์ ฉันได้อ่านและยอมรับใน%1$s %2$s และ%3$sแล้ว</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -89,7 +111,7 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">ส่งคืนรถ</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">สถานที่ส่งคืนรถต้องเหมือนกับสถานที่รับรถ</string>
+    <string name="drop_off_same_as_pick_up">เร็วๆ นี้! เรากำลังทำงานอย่างเต็มที่เพื่อเพิ่มการจองรถเช่าที่ให้คุณรับและส่งคืนรถคนละสถานที่ได้ในแอพเวอร์ชั่นถัดไป</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">ไม่มีต้นทาง</string>
     <!-- Error messge for missing Start date in search form -->
@@ -103,21 +125,22 @@
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s หรือใกล้เคียง</string>
+    <string name="car_model_unknown_template">ไม่ระบุรุ่นรถชัดเจน</string>
 
     <string name="preparing_checkout_message">กำลังเตรียมการชำระเงิน…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">เคาน์เตอร์และรถอยู่ที่อาคารผู้โดยสาร</string>
     <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">ยอดที่ต้องชำระวันนี้</string>
+    <string name="car_cost_breakdown_due_today">ยอดที่ต้องจ่ายวันนี้</string>
     <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">ยอดที่ต้องชำระขณะรับรถ</string>
+    <string name="car_cost_breakdown_total_due">ยอดที่ต้องจ่ายวันรับรถ</string>
     <!-- Car checkout cost breakdown for alert button -->
     <string name="car_cost_breakdown_button_text">เสร็จ</string>
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">รถเช่า</string>
     <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">ภาษีและค่าธรรมเนียมโดนประมาณ</string>
+    <string name="car_rental_breakdown_taxes_and_fees">ภาษีและค่าธรรมเนียมโดยประมาณ</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">ประกันภัย</string>
     <!--Cost breakdown type drop off charge -->
@@ -142,7 +165,44 @@
     <string name="car_confirmation_directions">วิธีการเดินทางไป %1$s</string>
     <!-- Button label for calling customer support -->
     <string name="call_customer_support">โทรติดต่อฝ่ายบริการลูกค้า</string>
-    <!-- Error message for some missing checkout params -->
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">โปรดตรวจสอบวันที่รับรถของคุณ</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">โปรดปรับเวลารับหรือส่งคืนรถของคุณ</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">โปรดตรวจสอบวันที่ส่งคืนรถของคุณ</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">วันที่คุณเลือกอยู่ห่างเกินไป โปรดเลือกวันที่ใกล้ขึ้น</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">วันที่คุณเลือกอยู่ห่างเกินไป โปรดเลือกวันที่ใกล้ขึ้น</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">โปรดเพิ่มระยะเวลาการจองของคุณ</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">คุณยังอยู่ไหม? เซสชั่นของคุณหมดอายุแล้ว โปรดลองค้นหาใหม่อีกครั้ง</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">เดี๋ยวก่อน ดูเหมือนว่าคุณได้จองการเดินทางนี้ไปแล้ว โปรดตรวจสอบการเดินทางหรืออีเมลของคุณ</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">ราคารถเช่าของคุณมีการเปลี่ยนแปลง โปรดยืนยันราคาใหม่เพื่อดำเนินการต่อ</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">ชื่อต้องไม่มีตัวเลขหรืออักขระพิเศษ</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">หมายเลขโทรศัพท์ต้องอยู่ระหว่าง 1-20 หลัก</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">การชำระเงินของคุณดำเนินการไม่ผ่าน โปรดตรวจสอบรายละเอียดการชำระเงินของคุณและลองอีกครั้ง</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">การชำระเงินล้มเหลว</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">ดูการเปลี่ยนแปลงราคา</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">การเดินทางของฉัน</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">แก้ไขรายละเอียดการชำระเงิน</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">แก้ไขข้อมูล</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">ป้อนปลายทางของคุณ</string>
@@ -174,6 +234,8 @@
     <string name="missing_flight_info_button_prompt">เลือกสนามบิน</string>
 
     <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
     <string name="search_widget_heading">ค้นหากิจกรรม</string>
     <!-- Search widget location hint -->
@@ -195,7 +257,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">จองเลย %1$s%2$s</string>
+    <string name="offer_book_now_TEMPLATE">จองเลย %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- LX Ticket type names -->
@@ -298,8 +360,6 @@
     <string name="lx_slider_text">เลื่อนเพื่อจอง</string>
     <!-- Text for checkout toolbar-->
     <string name="lx_checkout_text">ชำระเงิน</string>
-    <!-- Total Price with currency -->
-    <string name="lx_total_price_with_currency_TEMPLATE">%1$s%2$s</string>
     <!-- Free cancellation -->
     <string name="lx_free_cancellation">ยกเลิกฟรี</string>
     <!-- Total with tax -->
@@ -308,6 +368,13 @@
     <string name="lx_contact_details">รายละเอียดการติดต่อ</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">ป้อนรายละเอียดการติดต่อ</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">แสดงเพิ่มเติม</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">รายละเอียดผู้เดินทาง</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">ป้อนรายละเอียดผู้เดินทาง</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -607,11 +674,19 @@
     <!-- Shop travel label -->
     <string name="shop_travel">จองการเดินทาง</string>
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">ดีลเด่นประจำคืนนี้</string>
+    <string name="nearby_deals_title">โรงแรมยอดฮิตประจำคืนนี้</string>
     <!-- See all nearby deals -->
-    <string name="nearby_deals_expand">ดูทั้งหมด</string>
+    <string name="nearby_deals_expand">ดูเพิ่มเติม</string>
     <!-- Percent off template, e.g. 50% off -->
-    <string name="percent_off_TEMPLATE">ลด %2.0f%%</string>
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">กำลังโหลด…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">จาก 5 - คะแนนจากผู้เข้าพัก</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">พิเศษเฉพาะมือถือ!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">คืนนี้เท่านั้น!</string>
 
 
     <!-- Launch screen -->
@@ -1483,6 +1558,8 @@
     <string name="slide_to_book_flight">เลื่อนเพื่อจองเที่ยวบิน</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">จะมีการตัดยอดบัตรเป็นจำนวน %1$s บาท</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">ยอดที่ต้องจ่ายวันนี้: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">ยอดที่ต้องชำระตอนนี้: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1535,6 +1612,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">ราคารวมสำหรับการเดินทางของคุณ ซึ่งรวมค่าธรรมเนียมรีสอร์ท &lt;b&gt;%1$s&lt;/b&gt; แล้ว จะเป็น &lt;b&gt;%2$s&lt;/b&gt; คุณจะชำระเงินทั้งหมดที่โรงแรม (ในสุกลเงินท้องถิ่นของโรงแรม) เมื่อคุณเข้าพัก</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ราคารวมสำหรับการเดินทางของคุณ ซึ่งรวมค่าธรรมเนียมรีสอร์ท &lt;b&gt;%1$s&lt;/b&gt; แล้ว จะเป็น &lt;b&gt;%2$s&lt;/b&gt; คุณจะชำระยอดเงินที่เหลือที่โรงแรม (ในสุกลเงินท้องถิ่นของโรงแรม) เมื่อคุณเข้าพัก</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">ยกเลิกฟรีภายใน 24 ชั่วโมงหลังการจอง</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -2115,6 +2194,12 @@
     <string name="progress_finding_location">กำลังระบุตำแหน่งปัจจุบัน…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">กำลังค้นหาโรงแรม…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">กำลังค้นหา</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">เรากำลังหาดีลโรงแรมที่ดีที่สุดให้คุณ</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">กำลังค้นหาโรงแรมให้คุณ!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">กำลังค้นหาโรงแรม…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -3395,5 +3480,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">ส่งอีเมล…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

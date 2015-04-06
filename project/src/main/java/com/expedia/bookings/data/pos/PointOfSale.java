@@ -157,6 +157,9 @@ public class PointOfSale {
 	// EAPID value and is used
 	private int mEAPID;
 
+	// Should we show strikethrough prices on half-width launch tiles for this POS?
+	private boolean mShowHalfTileStrikethroughPrice;
+
 	/**
 	 * There can be multiple different locales for a given POS.
 	 * <p/>
@@ -339,6 +342,9 @@ public class PointOfSale {
 		return mSupportsCars;
 	}
 
+	public boolean supportsStrikethroughPrice() {
+		return mShowHalfTileStrikethroughPrice;
+	}
 	/**
 	 * Helper method to determine if flights are enabled and if we need to even
 	 * kick off a flight search - TABLETS ONLY.
@@ -820,6 +826,7 @@ public class PointOfSale {
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
+		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

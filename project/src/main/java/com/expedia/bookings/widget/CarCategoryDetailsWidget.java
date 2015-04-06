@@ -85,8 +85,9 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
 
-		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type);
+		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type, getResources().getDimension(R.dimen.car_image_width));
 		new PicassoHelper.Builder(headerImage)
+			.setError(R.drawable.cars_fallback)
 			.fade()
 			.build()
 			.load(url);

@@ -8,6 +8,7 @@ import com.squareup.okhttp.OkHttpClient;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -15,16 +16,16 @@ import rx.schedulers.Schedulers;
 public final class LaunchModule {
 	@Provides
 	@LaunchScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor) {
+	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
-		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@LaunchScope
-	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor) {
+	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
-		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 }

@@ -22,8 +22,6 @@ import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
-import butterknife.ButterKnife;
-
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
 	// Invisible Fragment that handles FusedLocationProvider
@@ -62,13 +60,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Events.unregister(this);
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		ButterKnife.reset(this);
-	}
-
-
 	private void onReactToUserActive() {
 		if (!checkConnection()) {
 			return;
@@ -94,12 +85,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			}
 			if (isOffline) {
 				cleanUp();
-			}
-			else {
-				// Only react to user being active if we are active
-				if (isAdded()) {
-					onReactToUserActive();
-				}
 			}
 		}
 	};

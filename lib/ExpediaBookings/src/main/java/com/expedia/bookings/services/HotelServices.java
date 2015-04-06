@@ -27,7 +27,7 @@ public class HotelServices {
 	HotelApi mHotelApi;
 
 	public HotelServices(String endpoint, OkHttpClient okHttpClient, RequestInterceptor requestInterceptor,
-		Scheduler observeOn, Scheduler subscribeOn) {
+		Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
@@ -38,7 +38,7 @@ public class HotelServices {
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setRequestInterceptor(requestInterceptor)
-			.setLogLevel(RestAdapter.LogLevel.FULL)
+			.setLogLevel(logLevel)
 			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(okHttpClient))
 			.build();
@@ -48,7 +48,7 @@ public class HotelServices {
 
 	public Subscription hotelSearch(NearbyHotelParams params, rx.Observer<List<Hotel>> observer) {
 		return mHotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
-			params.checkOutDate, params.sortOrder)
+			params.checkOutDate, params.sortOrder, params.filterUnavailable)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.flatMap(NEARBY_RESPONSE_TO_OFFERS)

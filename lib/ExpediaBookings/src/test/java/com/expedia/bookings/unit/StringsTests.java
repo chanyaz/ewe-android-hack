@@ -185,4 +185,12 @@ public class StringsTests {
 		assertEquals(thirsCutAtWord.length(), Strings.cutAtWordBarrier(body, 14));
 	}
 
+	@Test
+	public void testStringsCapitalizeFirstLetter() {
+		assertEquals("", Strings.capitalizeFirstLetter(""));
+		assertEquals(null, Strings.capitalizeFirstLetter(null));
+		assertEquals("Abcd", Strings.capitalizeFirstLetter("aBCD"));
+		assertEquals("Bcde", Strings.capitalizeFirstLetter("BCDE"));
+		assertEquals("Bcde", Strings.capitalizeFirstLetter("bcde"));
+	}
 }

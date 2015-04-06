@@ -230,7 +230,7 @@ public class LXDetailsPresenter extends Presenter {
 	private void showCreateTripErrorDialog() {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.oops))
+			.setMessage(getResources().getString(R.string.error_server))
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {

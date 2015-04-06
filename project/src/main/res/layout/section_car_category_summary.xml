@@ -21,6 +21,7 @@
             android:layout_height="?attr/card_list_image_container_height" />
 
         <View
+            android:id="@+id/gradient_mask"
             android:layout_width="match_parent"
             android:layout_height="67dp"
             android:layout_gravity="bottom"

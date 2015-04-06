@@ -20,8 +20,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -29,6 +31,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
 import butterknife.ButterKnife;
@@ -322,13 +325,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
 				fullTilePriceContainer.setVisibility(View.VISIBLE);
 				halfTilePriceContainer.setVisibility(View.GONE);
-				fullTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, FULL_TILE_TEXT_SIZE);
 			}
 			else {
 				title.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
 				fullTilePriceContainer.setVisibility(View.GONE);
 				halfTilePriceContainer.setVisibility(View.VISIBLE);
-				halfTilePrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, HALF_TILE_TEXT_SIZE);
 			}
 
 			// Bind nearby hotel data
@@ -354,28 +355,28 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					fullTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					fullTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-							hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)),
+								StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.lowRateInfo.currencyCode))),
 						null,
 						new StrikethroughTagHandler()));
 				}
 				else {
 					fullTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				fullTilePrice.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+				fullTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				ratingText.setVisibility(View.VISIBLE);
 			}
 			else {
-				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
+				if (PointOfSale.getPointOfSale().supportsStrikethroughPrice() && HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					halfTileStrikethroughPrice.setVisibility(View.VISIBLE);
 					halfTileStrikethroughPrice.setText(Html.fromHtml(context.getString(R.string.strike_template,
-							hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)),
+						StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers)), hotel.rateCurrencyCode))),
 						null,
 						new StrikethroughTagHandler()));
 				}
 				else {
 					halfTileStrikethroughPrice.setVisibility(View.GONE);
 				}
-				halfTilePrice.setText(hotel.lowRateInfo.currencySymbol + Math.round(hotel.lowRateInfo.priceToShowUsers));
+				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				ratingText.setVisibility(View.GONE);
 			}
 			setHotelDiscountBanner(hotel, context, fullWidth);
@@ -431,6 +432,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			title.setText(location.title);
 			FontCache.setTypeface(title, FontCache.Font.ROBOTO_MEDIUM);
 			subtitle.setText(location.subtitle);
+			subtitle.setVisibility(View.VISIBLE);
 			ratingInfo.setVisibility(View.GONE);
 			fullTilePriceContainer.setVisibility(View.GONE);
 			halfTilePriceContainer.setVisibility(View.GONE);

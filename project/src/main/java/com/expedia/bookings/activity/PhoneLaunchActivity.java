@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -43,6 +42,7 @@ import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -138,17 +138,22 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			}
 		});
 
-		// Tabs
-		ActionBar.Tab shopTab = getSupportActionBar().newTab().setText(R.string.shop_travel)
-			.setTabListener(mShopTabListener);
-		ActionBar.Tab itineraryTab = getSupportActionBar().newTab().setText(R.string.Your_Trips)
-			.setTabListener(mItineraryTabListener);
-
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.getThemedContext();
 		enableEmbeddedTabs(actionBar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setDisplayShowTitleEnabled(false);
+
+		// Tabs
+		ActionBar.Tab shopTab = getSupportActionBar().newTab().setTabListener(mShopTabListener);
+		shopTab.setCustomView(R.layout.actionbar_tab_bg);
+		((TextView)shopTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.shop);
+
+		ActionBar.Tab itineraryTab = getSupportActionBar().newTab().setTabListener(mItineraryTabListener);
+		itineraryTab.setCustomView(R.layout.actionbar_tab_bg);
+		((TextView)itineraryTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.Your_Trips);
+
 		actionBar.addTab(shopTab);
 		actionBar.addTab(itineraryTab);
 
@@ -181,6 +186,10 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		supportInvalidateOptionsMenu();
 
 		OmnitureTracking.onResume(this);
+
+		if (getSupportActionBar().getSelectedTab().getPosition() == 0) {
+			OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
+		}
 		AdTracker.trackViewHomepage();
 	}
 
@@ -193,6 +202,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		}
 
 		OmnitureTracking.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Db.setLaunchListHotelData(null);
 	}
 
 	@Override
@@ -427,7 +442,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 				supportInvalidateOptionsMenu();
 			}
 		}
-		OmnitureTracking.trackPageLoadLaunchScreen(this);
 	}
 
 	private synchronized void gotoItineraries() {
@@ -499,12 +513,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		@Override
 		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 			gotoWaterfall();
-			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
 		}
 
 		@Override
 		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			// ignore
+			//will be called if user click on trips tab
+			OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
 		}
 
 		@Override
@@ -517,12 +531,13 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		@Override
 		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 			gotoItineraries();
-			OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
 		}
 
 		@Override
 		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			// ignore
+			// will be called when user click on shop tab
+			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
+			mItinListFragment.disableLoadItins();
 		}
 
 		@Override

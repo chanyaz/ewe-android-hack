@@ -64,6 +64,8 @@ public class CarCategoryListWidget extends FrameLayout {
 
 		adapter = new CarCategoriesListAdapter();
 		recyclerView.setAdapter(adapter);
+
+		errorScreen.setToolbarVisibility(GONE);
 	}
 
 	@Override

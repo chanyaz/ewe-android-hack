@@ -15,5 +15,6 @@ public interface HotelApi {
 		@Query("room1") String count,
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
-		@Query("sortOrder") String sortOrder);
+		@Query("sortOrder") String sortOrder,
+		@Query("filterUnavailable") String filterUnavailable);
 }

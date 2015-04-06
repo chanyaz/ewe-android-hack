@@ -183,10 +183,10 @@ public class PicassoHelper implements Target, Callback {
 			return;
 		}
 
-		// All urls have failed. Load the placeholder if it
+		// All urls have failed. Load the placeholder or error if it
 		// hasn't been set before.
-		if (mDefaultResId != 0 && !mHasLoadedPlaceholder) {
-			mResId = mDefaultResId;
+		if ((mErrorResId != 0 || mDefaultResId != 0) && !mHasLoadedPlaceholder) {
+			mResId = mErrorResId != 0 ? mErrorResId : mDefaultResId;
 			mDefaultResId = 0;
 			mBlur = false;
 			retrieveImage(true);

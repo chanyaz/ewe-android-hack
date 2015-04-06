@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -13,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
@@ -88,6 +90,13 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		lastName.setOnFocusChangeListener(this);
 		emailAddress.setOnFocusChangeListener(this);
 		phoneNumber.setOnFocusChangeListener(this);
+		sectionTravelerInfo.addInvalidCharacterListener(new InvalidCharacterHelper.InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text, InvalidCharacterHelper.Mode mode) {
+				ActionBarActivity activity = (ActionBarActivity) getContext();
+				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
+			}
+		});
 		bind();
 	}
 

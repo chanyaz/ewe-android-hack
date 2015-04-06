@@ -21,12 +21,14 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.Cache;
+import com.mobiata.android.DebugUtils;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import retrofit.RestAdapter;
 
 @Module
 public class AppModule {
@@ -53,6 +55,15 @@ public class AppModule {
 		final long size = 50 * 1024 * 1024; // 50MB
 
 		return new Cache(directory, size);
+	}
+
+	@Provides
+	@Singleton
+	RestAdapter.LogLevel provideLogLevel() {
+		if (BuildConfig.DEBUG || DebugUtils.isLogEnablerInstalled(context)) {
+			return RestAdapter.LogLevel.FULL;
+		}
+		return RestAdapter.LogLevel.NONE;
 	}
 
 	@Provides
@@ -156,8 +167,8 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	AbacusServices provideAbacus(OkHttpClient client) {
+	AbacusServices provideAbacus(OkHttpClient client, RestAdapter.LogLevel loglevel) {
 		String abacusEndpoint = BuildConfig.DEBUG ? AbacusServices.DEV : AbacusServices.PRODUCTION;
-		return new AbacusServices(client, abacusEndpoint, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new AbacusServices(client, abacusEndpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 }
