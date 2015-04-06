@@ -259,10 +259,16 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 				R.attr.skin_collection_placeholder)).setTarget(picassoTargetCallback).build().load(urls);
 		}
 		else {
-			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
-			frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
+			updateFrontDestinationImage(frontImageHeaderBitmapDrawable, bitmap);
 		}
 		return frontImageHeaderBitmapDrawable;
+	}
+
+	private void updateFrontDestinationImage(HeaderBitmapDrawable frontImageHeaderBitmapDrawable, Bitmap bitmap) {
+		frontImageHeaderBitmapDrawable.setBitmap(bitmap);
+		frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
+		((LaunchCollection) getTag()).imageDrawable = frontImageHeaderBitmapDrawable;
+		Events.post(new TvlyEvents.DestinationCollectionDrawableAvailable(((LaunchCollection) getTag())));
 	}
 
 	private class PicassoTargetCallback extends PicassoTarget {
@@ -278,10 +284,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
 			bitmapCache.put(url, bitmap);
-			frontImageHeaderBitmapDrawable.setBitmap(bitmap);
-			frontImageViewReflection.setImageDrawable(frontImageHeaderBitmapDrawable);
-			((LaunchCollection) getTag()).imageDrawable = frontImageHeaderBitmapDrawable;
-			Events.post(new TvlyEvents.DestinationCollectionDrawableAvailable(((LaunchCollection) getTag())));
+			updateFrontDestinationImage(frontImageHeaderBitmapDrawable, bitmap);
 		}
 
 		@Override
