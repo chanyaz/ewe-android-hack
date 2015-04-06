@@ -11,4 +11,5 @@ fi
 echo "APPLICATION_ID_SUFFIX=${APPLICATION_ID_SUFFIX}"
 
 TERM=dumb
+./gradlew --no-daemon "clean" "--continue"
 ./gradlew --no-daemon "-Pid=${APPLICATION_ID_SUFFIX}" "clean" "assemble${TARGET}Debug" "assemble${TARGET}DebugAndroidTest"
