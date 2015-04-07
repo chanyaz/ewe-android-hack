@@ -273,7 +273,8 @@ public class ExpediaDispatcher extends Dispatcher {
 			final DateTime endDateTime = startDateTime.plusDays(5);
 			// supply the dates to the response
 			params.put("startDate",startDateTime.toString(DATE_TIME_PATTERN));
-			for (int iPlusDays = 1; iPlusDays < 14; iPlusDays++) {
+			// Add availability dates for 13 days which should make the last date selector disabled.
+			for (int iPlusDays = 1; iPlusDays < 13; iPlusDays++) {
 				params.put("startDatePlus" + iPlusDays, startDateTime.plusDays(iPlusDays).toString(DATE_TIME_PATTERN));
 			}
 			return makeResponse("lx/api/activity/happy.json", params);
