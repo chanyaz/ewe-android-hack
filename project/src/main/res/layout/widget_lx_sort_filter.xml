@@ -52,8 +52,9 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:textAllCaps="false"
             android:background="@drawable/lx_sort_button_selector"
-            android:text="Price"
+            android:text="@string/lx_price_sort_button"
             android:textColor="@drawable/lx_sort_button_text_selector" />
 
         <Button
@@ -61,8 +62,9 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:textAllCaps="false"
             android:background="@drawable/lx_sort_button_selector"
-            android:text="Popularity"
+            android:text="@string/lx_popularity_sort_button"
             android:textColor="@drawable/lx_sort_button_text_selector" />
     </LinearLayout>
 

@@ -19,19 +19,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/sort_filter_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:alpha="0.8"
+            android:gravity="center"
             android:background="@color/lx_sort_filter_background_color"
-            android:text="@string/lx_sort_filter"
-            android:textColor="@color/lx_search_result_info_text_color"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lx_sort_filter_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lx_sort_filter"
+                android:textAllCaps="false"
+                android:textColor="@color/lx_sort_filter_text_color"
+                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                app:textStyle="medium" />
+        </LinearLayout>
 
         <include
             android:id="@+id/sort_filter_widget"
