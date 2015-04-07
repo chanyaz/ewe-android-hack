@@ -6,7 +6,7 @@
     and overrides for 10" tablet specific dimensions should go in values-sw800dp -->
 
     <dimen name="match_parent">-1px</dimen>
-    <dimen name="wrap_content">-2px</dimen>
+    <!--<dimen name="wrap_content">-2px</dimen>-->
 
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">65%</fraction>
@@ -33,7 +33,6 @@
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>
     <dimen name="launch_tile_hotel_sale_right_margin">12dp</dimen>
-    <dimen name="launch_lob_width">110dp</dimen>
     <dimen name="launch_lob_height">103dp</dimen>
     <dimen name="launch_lob_container_height">140dp</dimen>
     <dimen name="launch_lob_squashed_height">80dp</dimen>
@@ -257,15 +256,11 @@
     <!-- CVV Screen -->
     <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
     <dimen name="cvv_text_view_right_margin_other">0dp</dimen>
-    <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
-    <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
 
     <!-- LX Dimens -->
-    <dimen name="search_widget_calendar_height">220dp</dimen>
     <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="gallery_height">240dp</dimen>
     <dimen name="price_info_container_height">60dp</dimen>
-    <dimen name="price_info_container_top_margin">-60dp</dimen>
     <dimen name="lx_search_list_image_container_height">144dp</dimen>
     <dimen name="lx_search_details_container_height">35dp</dimen>
 
@@ -277,7 +272,6 @@
     <dimen name="car_time_slider_corner_radius">15dp</dimen>
     <dimen name="car_time_slider_text_size">12dp</dimen>
     <dimen name="car_time_slider_text_container">110dp</dimen>
-    <dimen name="car_checkout_scrollview_padding">200dp</dimen>
     <dimen name="car_search_list_image_container_height">134dp</dimen>
     <dimen name="car_search_details_container_height">35dp</dimen>
     <dimen name="search_dropdown_padding">0dp</dimen>
