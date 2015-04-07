@@ -587,47 +587,6 @@
           },
           {
             "availabilities": {
-              "displayDate": "Tue, Apr 7",
-              "valueDate": "${startDatePlus13}",
-              "allDayActivity": false
-            },
-            "tickets": [
-              {
-                "code": "Adult",
-                "ticketId": "90042",
-                "name": "Adult",
-                "restrictionText": "13+ years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 255,
-                  "min": 13
-                },
-                "price": "$130",
-                "originalPrice": "",
-                "amount": "130",
-                "displayName": null,
-                "defaultTicketCount": 2
-              },
-              {
-                "code": "Child",
-                "ticketId": "90043",
-                "name": "Child",
-                "restrictionText": "4-12 years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 12,
-                  "min": 4
-                },
-                "price": "$110",
-                "originalPrice": "",
-                "amount": "110",
-                "displayName": null,
-                "defaultTicketCount": 0
-              }
-            ]
-          },
-          {
-            "availabilities": {
               "displayDate": "Wed, Apr 8",
               "valueDate": "2015-04-08 07:30:00",
               "allDayActivity": false
@@ -1137,47 +1096,6 @@
             "availabilities": {
               "displayDate": "Mon, Apr 6",
               "valueDate": "${startDatePlus12}",
-              "allDayActivity": false
-            },
-            "tickets": [
-              {
-                "code": "Adult",
-                "ticketId": "90046",
-                "name": "Adult",
-                "restrictionText": "13+ years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 255,
-                  "min": 13
-                },
-                "price": "$180",
-                "originalPrice": "",
-                "amount": "180",
-                "displayName": null,
-                "defaultTicketCount": 2
-              },
-              {
-                "code": "Child",
-                "ticketId": "90047",
-                "name": "Child",
-                "restrictionText": "4-12 years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 12,
-                  "min": 4
-                },
-                "price": "$140",
-                "originalPrice": "",
-                "amount": "140",
-                "displayName": null,
-                "defaultTicketCount": 0
-              }
-            ]
-          },
-          {
-            "availabilities": {
-              "displayDate": "Tue, Apr 7",
-              "valueDate": "${startDatePlus13}",
               "allDayActivity": false
             },
             "tickets": [
@@ -1765,47 +1683,6 @@
           },
           {
             "availabilities": {
-              "displayDate": "Tue, Apr 7",
-              "valueDate": "${startDatePlus13}",
-              "allDayActivity": false
-            },
-            "tickets": [
-              {
-                "code": "Adult",
-                "ticketId": "90054",
-                "name": "Adult",
-                "restrictionText": "13+ years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 255,
-                  "min": 13
-                },
-                "price": "$210",
-                "originalPrice": "",
-                "amount": "210",
-                "displayName": null,
-                "defaultTicketCount": 2
-              },
-              {
-                "code": "Child",
-                "ticketId": "90055",
-                "name": "Child",
-                "restrictionText": "4-12 years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 12,
-                  "min": 4
-                },
-                "price": "$155",
-                "originalPrice": "",
-                "amount": "155",
-                "displayName": null,
-                "defaultTicketCount": 0
-              }
-            ]
-          },
-          {
-            "availabilities": {
               "displayDate": "Wed, Apr 8",
               "valueDate": "2015-04-08 07:30:00",
               "allDayActivity": false
@@ -2315,47 +2192,6 @@
             "availabilities": {
               "displayDate": "Mon, Apr 6",
               "valueDate": "${startDatePlus12}",
-              "allDayActivity": false
-            },
-            "tickets": [
-              {
-                "code": "Adult",
-                "ticketId": "90062",
-                "name": "Adult",
-                "restrictionText": "13+ years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 255,
-                  "min": 13
-                },
-                "price": "$210",
-                "originalPrice": "$230",
-                "amount": "210",
-                "displayName": null,
-                "defaultTicketCount": 2
-              },
-              {
-                "code": "Child",
-                "ticketId": "90063",
-                "name": "Child",
-                "restrictionText": "4-12 years",
-                "restriction": {
-                  "type": "Age - Years",
-                  "max": 12,
-                  "min": 4
-                },
-                "price": "$155",
-                "originalPrice": "$165",
-                "amount": "155",
-                "displayName": null,
-                "defaultTicketCount": 0
-              }
-            ]
-          },
-          {
-            "availabilities": {
-              "displayDate": "Tue, Apr 7",
-              "valueDate": "${startDatePlus13}",
               "allDayActivity": false
             },
             "tickets": [

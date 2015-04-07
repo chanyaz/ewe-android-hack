@@ -206,7 +206,7 @@ public class LXDetailsPresenterTests {
 		ScreenActions.delay(2);
 
 		LocalDate now = LocalDate.now();
-		LocalDate withoutOfferDate = LocalDate.now().plusDays(1);
+		LocalDate withoutOfferDate = LocalDate.now().plusDays(14);
 
 		LXViewModel.detailsDate(
 			now.dayOfWeek().getAsShortText() + "\n" + now.dayOfMonth().getAsText()).check(
