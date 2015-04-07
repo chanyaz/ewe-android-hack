@@ -1526,6 +1526,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotel does not accept %1$s</string>
+    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s does not accept %2$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">No debit cards are accepted.</string>
 

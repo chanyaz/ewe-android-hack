@@ -79,6 +79,13 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Convenience method to remove all Cars from this TripBucket.
+	 */
+	public void clearCars() {
+		clear(LineOfBusiness.CARS);
+	}
+
+	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
 	 * @return
 	 */

@@ -59,7 +59,7 @@
         android:id="@+id/section_billing_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:paddingTop="16dp"
         android:orientation="vertical">
 
         <com.expedia.bookings.widget.PaymentButton
@@ -67,13 +67,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:layout_marginBottom="16dp"/>
 
         <com.expedia.bookings.widget.LinearLayout
             android:id="@+id/stored_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <com.expedia.bookings.widget.RoundImageView
                 android:id="@+id/display_credit_card_brand_icon_tablet"
@@ -109,7 +114,10 @@
             android:id="@+id/section_billing_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -195,6 +203,32 @@
                 android:singleLine="true" />
 
         </com.expedia.bookings.section.SectionBillingInfo>
+
+        <LinearLayout
+            android:id="@+id/invalid_payment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#D96565"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#D5D5D5" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/invalid_payment_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="8dp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:textStyle="light" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </merge>

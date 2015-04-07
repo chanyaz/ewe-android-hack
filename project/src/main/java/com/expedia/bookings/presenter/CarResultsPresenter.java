@@ -387,6 +387,7 @@ public class CarResultsPresenter extends Presenter {
 	}
 
 	private void showCheckout(CarCreateTripResponse response) {
+		Db.getTripBucket().clearCars();
 		Db.getTripBucket().add(new TripBucketItemCar(response));
 		Events.post(new Events.CarsShowCheckout(response));
 	}
