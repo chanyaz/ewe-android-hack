@@ -27,7 +27,9 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
 import com.expedia.bookings.widget.LXSortFilterWidget;
 import com.mobiata.android.Log;
@@ -59,6 +61,10 @@ public class LXResultsPresenter extends Presenter {
 
 	@InjectView(R.id.sort_filter_button)
 	Button sortFilterButton;
+
+	// This is here just for an animation
+	@InjectView(R.id.toolbar_background)
+	View toolbarBackground;
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
@@ -96,6 +102,7 @@ public class LXResultsPresenter extends Presenter {
 		addTransition(searchResultsToSortFilter);
 		addDefaultTransition(setUpLoading);
 		setupToolbar();
+		searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
 	}
 
 	@Override
@@ -201,10 +208,8 @@ public class LXResultsPresenter extends Presenter {
 		});
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
-			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, searchResultsWidget, toolbarColor));
-		}
+		toolbarBackground.getLayoutParams().height += statusBarHeight;
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
 	private void setToolbarTitles(LXSearchParams searchParams) {
@@ -213,5 +218,25 @@ public class LXResultsPresenter extends Presenter {
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
 			DateUtils.localDateToMMMdd(searchParams.startDate), DateUtils.localDateToMMMdd(searchParams.endDate));
 		toolbar.setSubtitle(dateRange);
+	}
+
+	public void animationStart(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
+		toolbar.setTranslationY(forward ? 0 : 50);
+		toolbar.setVisibility(VISIBLE);
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		toolbarBackground
+			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
+		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+	}
+
+	public void animationFinalize(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
+		toolbar.setTranslationY(forward ? 50 : 0);
+		toolbar.setVisibility(forward ? GONE : VISIBLE);
+		toolbarBackground.setAlpha(
+			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
 	}
 }

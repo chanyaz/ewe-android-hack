@@ -385,4 +385,20 @@ public class LXSearchParamsPresenter extends Presenter
 			searchButton.setAlpha(.7f);
 		}
 	}
+
+	public void animationStart(boolean forward) {
+		searchParamContainer.setTranslationY(forward ? searchParamContainer.getHeight() : 0);
+		toolbar.setTranslationY(forward ? -toolbar.getHeight() : 0);
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		float translation = forward ? searchParamContainer.getHeight() * (1 - f) : searchParamContainer.getHeight() * f;
+		searchParamContainer.setTranslationY(translation);
+		toolbar.setTranslationY(forward ? -toolbar.getHeight() * (1 - f) : -toolbar.getHeight() * f);
+	}
+
+	public void animationFinalize(boolean forward) {
+		searchParamContainer.setTranslationY(0);
+		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+	}
 }
