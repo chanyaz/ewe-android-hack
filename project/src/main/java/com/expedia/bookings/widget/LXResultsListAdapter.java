@@ -32,7 +32,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 	private static final String ROW_PICASSO_TAG = "lx_row";
 	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
 	private List<LXActivity> activities = new ArrayList<>();
-	public static boolean loadingState = false;
+	private boolean isLoading = false;
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,7 +49,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 	@Override
 	public int getItemViewType(int position) {
-		return loadingState ? LOADING_VIEW : DATA_VIEW;
+		return isLoading ? LOADING_VIEW : DATA_VIEW;
 	}
 
 	@Override
@@ -87,7 +87,16 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		return activities.size();
 	}
 
+	public void setDummyActivities(List<LXActivity> activities) {
+		setActivities(activities, true);
+	}
+
 	public void setActivities(List<LXActivity> activities) {
+		setActivities(activities, false);
+	}
+
+	private void setActivities(List<LXActivity> activities, boolean areDummyActivities) {
+		this.isLoading = areDummyActivities;
 		this.activities = activities;
 		notifyDataSetChanged();
 	}

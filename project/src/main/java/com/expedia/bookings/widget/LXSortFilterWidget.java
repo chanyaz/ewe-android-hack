@@ -93,14 +93,17 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
 		this.filterCategories = filterCategories;
 		filterCategoriesContainer.removeAllViews();
-		for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
+		if (filterCategories != null) {
+			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
 
-			LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
-			String categoryKey = filterCategory.getKey();
+				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
+				String categoryKey = filterCategory.getKey();
 
-			LXFilterCategoryWidget categoryView = Ui.inflate(R.layout.section_lx_filter_row, filterCategoriesContainer, false);
-			categoryView.bind(lxCategoryMetadata, categoryKey);
-			filterCategoriesContainer.addView(categoryView);
+				LXFilterCategoryWidget categoryView = Ui
+					.inflate(R.layout.section_lx_filter_row, filterCategoriesContainer, false);
+				categoryView.bind(lxCategoryMetadata, categoryKey);
+				filterCategoriesContainer.addView(categoryView);
+			}
 		}
 	}
 

@@ -67,7 +67,6 @@ public class LXSearchResultsWidget extends FrameLayout {
 		adapter.cleanup();
 		recyclerView.setVisibility(View.VISIBLE);
 		errorScreen.setVisibility(View.GONE);
-		adapter.loadingState = false;
 		adapter.setActivities(activities);
 	}
 
@@ -83,8 +82,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.setVisibility(View.VISIBLE);
 		errorScreen.setVisibility(View.GONE);
 		List<LXActivity> elements = createDummyListForAnimation();
-		adapter.loadingState = true;
-		adapter.setActivities(elements);
+		adapter.setDummyActivities(elements);
 	}
 
 	// Create list to show cards for loading animation
