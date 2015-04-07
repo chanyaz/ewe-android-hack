@@ -17,9 +17,11 @@ import android.widget.Button;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -134,10 +136,14 @@ public class LXResultsPresenter extends Presenter {
 			}
 			else if (e instanceof ApiException) {
 				ApiException apiException = (ApiException) e;
-				Events.post(new Events.LXShowSearchError(apiException.apiError));
+				Events.post(new Events.LXShowSearchError(apiException.apiError, SearchType.EXPLICIT_SEARCH));
 				return;
 			}
 
+			//Bucket all other errors as Unknown to give some feedback to the user
+			ApiError apiError = new ApiError();
+			apiError.errorCode = ApiError.Code.UNKNOWN_ERROR;
+			Events.post(new Events.LXShowSearchError(apiError, SearchType.EXPLICIT_SEARCH));
 			sortFilterButton.setVisibility(View.GONE);
 		}
 

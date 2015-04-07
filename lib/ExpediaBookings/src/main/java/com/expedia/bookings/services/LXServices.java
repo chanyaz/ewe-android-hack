@@ -76,7 +76,7 @@ public class LXServices {
 			.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
-			.map(HANDLE_SEARCH_ERROR)
+			.doOnNext(HANDLE_SEARCH_ERROR)
 			.map(PUT_MONEY_IN_ACTIVITIES)
 			.map(PUT_BEST_APPLICABLE_CATEGORY);
 	}
@@ -92,15 +92,14 @@ public class LXServices {
 		}
 	};
 
-	private static final Func1<LXSearchResponse, LXSearchResponse> HANDLE_SEARCH_ERROR = new Func1<LXSearchResponse, LXSearchResponse>() {
+	private static final Action1<LXSearchResponse> HANDLE_SEARCH_ERROR = new Action1<LXSearchResponse>() {
 		@Override
-		public LXSearchResponse call(LXSearchResponse lxSearchResponse) {
+		public void call(LXSearchResponse lxSearchResponse) {
 			if (lxSearchResponse.searchFailure) {
 				ApiError apiError = new ApiError();
 				apiError.errorCode = ApiError.Code.LX_SEARCH_NO_RESULTS;
 				throw new ApiException(apiError);
 			}
-			return lxSearchResponse;
 		}
 	};
 

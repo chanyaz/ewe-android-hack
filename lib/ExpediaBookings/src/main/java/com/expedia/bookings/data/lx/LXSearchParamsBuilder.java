@@ -8,6 +8,7 @@ public class LXSearchParamsBuilder {
 	public String location;
 	public LocalDate startDate;
 	public LocalDate endDate;
+	public SearchType searchType = SearchType.EXPLICIT_SEARCH;
 
 	public LXSearchParamsBuilder location(String location) {
 		this.location = location;
@@ -24,6 +25,11 @@ public class LXSearchParamsBuilder {
 		return this;
 	}
 
+	public LXSearchParamsBuilder searchType(SearchType searchType) {
+		this.searchType = searchType;
+		return this;
+	}
+
 	public LXSearchParams build() {
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = location;
@@ -33,6 +39,7 @@ public class LXSearchParamsBuilder {
 		if (endDate != null) {
 			searchParams.endDate = endDate;
 		}
+		searchParams.searchType = searchType;
 		return searchParams;
 	}
 

@@ -9,6 +9,7 @@ public class LXSearchParams {
 	public String location;
 	public LocalDate startDate;
 	public LocalDate endDate;
+	public SearchType searchType;
 
 	public String toServerStartDate() {
 		return DateUtils.convertToLXDate(startDate);

@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LXScope;
+import com.expedia.bookings.location.CurrentLocationSuggestionProvider;
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter;
 import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
 import com.expedia.bookings.presenter.lx.LXResultsPresenter;
@@ -23,4 +24,6 @@ public interface LXComponent {
 	void inject(LXCheckoutWidget lxCheckoutWidget);
 	void inject(LXCheckoutSummaryWidget lxCheckoutSummaryWidget);
 	void inject(LXConfirmationWidget lxConfirmationWidget);
+
+	CurrentLocationSuggestionProvider currentLocationSuggestionProvider();
 }

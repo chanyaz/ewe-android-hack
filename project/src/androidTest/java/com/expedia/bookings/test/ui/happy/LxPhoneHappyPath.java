@@ -31,16 +31,8 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		super(LXBaseActivity.class);
 	}
 
-	public void testLxPhoneHappyPath() throws Throwable {
+	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
 		final String ticketName = "2-Day";
-
-		screenshot("LX Search");
-		LXViewModel.location().perform(typeText("San"));
-		LXViewModel.selectLocation(getInstrumentation(), "San Francisco, CA");
-		LXViewModel.selectDateButton().perform(click());
-		LXViewModel.selectDates(LocalDate.now(), null);
-		screenshot("LX Search Params Entered");
-		LXViewModel.searchButton().perform(click());
 
 		screenshot("LX Search Results");
 
@@ -68,5 +60,19 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 
 		screenshot("LX Checkout Started");
 		LXViewModel.itinNumberOnConfirmationScreen().check(matches(withText("7672544862")));
+	}
+
+	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
+		LXViewModel.searchButtonInSRPToolbar().perform(click());
+		screenshot("LX Search");
+
+		LXViewModel.location().perform(typeText("San"));
+		LXViewModel.selectLocation(getInstrumentation(), "San Francisco, CA");
+		LXViewModel.selectDateButton().perform(click());
+		LXViewModel.selectDates(LocalDate.now(), null);
+		screenshot("LX Search Params Entered");
+		LXViewModel.searchButton().perform(click());
+
+		testLxPhoneHappyPathViaDefaultSearch();
 	}
 }

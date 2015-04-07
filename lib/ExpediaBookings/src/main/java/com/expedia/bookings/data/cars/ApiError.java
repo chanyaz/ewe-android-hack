@@ -8,6 +8,10 @@ public class ApiError {
 		INVALID_INPUT,
 		PRICE_CHANGE,
 
+		//Suggestion Service Errors
+		LOCATION_SERVICES_DISABLED,
+		SUGGESTIONS_NO_RESULTS,
+
 		// Airport search errors
 		CAR_PRODUCT_NOT_AVAILABLE, // No cars available at this location
 		CAR_SERVICE_ERROR,

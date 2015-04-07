@@ -2,6 +2,8 @@ package com.expedia.bookings.dagger;
 
 import javax.inject.Singleton;
 
+import android.content.Context;
+
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
@@ -16,6 +18,7 @@ import retrofit.RestAdapter;
 public interface AppComponent {
 	void inject(ExpediaServices services);
 
+	Context appContext();
 	EndpointProvider endpointProvider();
 	OkHttpClient okHttpClient();
 	RequestInterceptor requestInterceptor();

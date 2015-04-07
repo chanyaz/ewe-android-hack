@@ -47,8 +47,8 @@ public class LXPresenter extends Presenter {
 		addTransition(searchOverlayOnDetails);
 		addTransition(detailsToCheckout);
 		addTransition(detailsToSearch);
-		show(searchParamsWidget);
-		searchParamsWidget.setVisibility(View.VISIBLE);
+		show(resultsPresenter);
+		resultsPresenter.setVisibility(VISIBLE);
 	}
 
 	private Transition searchParamsToResults = new Transition(LXSearchParamsPresenter.class,

@@ -152,6 +152,10 @@ public class LXViewModel {
 		return onView(withId(R.id.menu_search));
 	}
 
+	public static ViewInteraction searchButtonInSRPToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.menu_open_search)));
+	}
+
 	public static ViewInteraction detailsDate(String dateText) {
 		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
 	}
