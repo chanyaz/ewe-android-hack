@@ -3,6 +3,8 @@ package com.expedia.bookings.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXTicketType;
 
@@ -109,4 +111,11 @@ public class LXDataUtils {
 			put(LXTicketType.Vehicle, R.string.ticket_type_vehicle);
 		}
 	};
+
+	public static String getTicketCountSummary(Context context, LXTicketType ticketType, int ticketCount) {
+		String ticketSummaryTemplate = context.getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
+
+		return String.format(ticketSummaryTemplate, ticketCount,
+			context.getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticketType)));
+	}
 }
