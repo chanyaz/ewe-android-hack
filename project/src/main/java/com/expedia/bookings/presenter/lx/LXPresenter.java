@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.lx;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
@@ -13,6 +14,8 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 
 public class LXPresenter extends Presenter {
+
+	private static final int ANIMATION_DURATION = 400;
 
 	public LXPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -48,18 +51,32 @@ public class LXPresenter extends Presenter {
 		searchParamsWidget.setVisibility(View.VISIBLE);
 	}
 
-	private Transition searchParamsToResults = new VisibilityTransition(this, LXSearchParamsPresenter.class.getName(),
-		LXResultsPresenter.class.getName()) {
+	private Transition searchParamsToResults = new Transition(LXSearchParamsPresenter.class,
+		LXResultsPresenter.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		@Override
+		public void startTransition(boolean forward) {
+			resultsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(VISIBLE);
+			resultsPresenter.animationStart(!forward);
+			searchParamsWidget.animationStart(!forward);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			resultsPresenter.animationUpdate(f, !forward);
+			searchParamsWidget.animationUpdate(f, !forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
 		@Override
 		public void finalizeTransition(boolean forward) {
-			if (forward) {
-				searchParamsWidget.setVisibility(View.GONE);
-				resultsPresenter.setVisibility(View.VISIBLE);
-			}
-			else {
-				searchParamsWidget.setVisibility(View.VISIBLE);
-				resultsPresenter.setVisibility(View.GONE);
-			}
+			resultsPresenter.setVisibility(forward ? VISIBLE : GONE);
+			searchParamsWidget.setVisibility(forward ? GONE : VISIBLE);
+			resultsPresenter.animationFinalize(!forward);
+			searchParamsWidget.animationFinalize(!forward);
 		}
 	};
 
