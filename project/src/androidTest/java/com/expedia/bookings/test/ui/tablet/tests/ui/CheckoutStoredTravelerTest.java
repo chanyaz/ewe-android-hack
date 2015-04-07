@@ -124,12 +124,11 @@ public class CheckoutStoredTravelerTest extends TabletTestCase {
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
-		Checkout.enterEmailAddress("aaa@aaa.com");
 	}
 
 	private void enterNewTravelerDetailsHotel() throws Throwable {
 		enterNewTravelerCommonFields();
-		Common.closeSoftKeyboard(Checkout.emailAddress());
+		Common.closeSoftKeyboard(Checkout.phoneNumber());
 		screenshot("Hotel_Checkout_Traveler_Details_Entered");
 		Checkout.clickOnDone();
 
@@ -139,7 +138,7 @@ public class CheckoutStoredTravelerTest extends TabletTestCase {
 
 	private void enterNewTravelerDetailsFlight() throws Throwable {
 		enterNewTravelerCommonFields();
-		Common.closeSoftKeyboard(Checkout.emailAddress());
+		Common.closeSoftKeyboard(Checkout.phoneNumber());
 		Checkout.enterDateOfBirth(1970, 1, 1);
 		screenshot("CheckoutForm_Traveler_Entered");
 		Checkout.clickOnDone();
