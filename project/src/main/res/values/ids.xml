@@ -48,8 +48,6 @@
     <!-- AirAsiaGo itin label text -->
     <item name="aag_itinerary" type="string"/>
 
-    <item name="ic_stat_aag" type="drawable"/>
-
     <!-- adding aag crossSell text and link to avoid errors in Expedia app compilation -->
     <item name="share_template_long_ad_aag" type="string"/>
     <!-- App Support URL for AAG -->
@@ -59,7 +57,5 @@
     <!-- adding vsc crossSell text and link to avoid errors in Expedia app compilation -->
     <item name="share_template_long_ad_vsc" type="string"/>
     <item name="share_template_long_ad_tvly" type="string"/>
-    <!-- Adding VSC Notification icon to avoid errors in Expedia app compilation -->
-    <item name="ic_stat_vsc" type="drawable"/>
 
 </resources>
