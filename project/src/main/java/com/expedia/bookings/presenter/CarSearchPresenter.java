@@ -152,7 +152,7 @@ public class CarSearchPresenter extends Presenter
 
 		Drawable drawableDisabled = getResources().getDrawable(R.drawable.location).mutate();
 		drawableDisabled
-			.setColorFilter(getResources().getColor(R.color.cars_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
+			.setColorFilter(getResources().getColor(R.color.search_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
 		dropOffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
 
 		loadHistory();

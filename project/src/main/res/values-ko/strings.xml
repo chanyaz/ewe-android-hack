@@ -237,9 +237,9 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="search_widget_heading">즐길거리 검색</string>
+    <string name="lx_search_widget_heading">즐길거리 검색</string>
     <!-- Search widget location hint -->
-    <string name="search_location_hint">위치 입력</string>
+    <string name="lx_search_location_hint">위치 입력</string>
     <!-- Error messge for missing Location in LX search form -->
     <string name="lx_error_missing_location">위치 정보가 누락되었습니다.</string>
     <!-- Error messge for missing start date in LX search form -->

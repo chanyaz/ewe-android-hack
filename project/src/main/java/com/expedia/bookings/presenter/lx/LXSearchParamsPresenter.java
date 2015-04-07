@@ -112,7 +112,7 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
 		Drawable locationDrawable = getResources().getDrawable(R.drawable.location);
-		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_secondary_color), PorterDuff.Mode.SRC_IN);
+		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
 		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
@@ -286,7 +286,7 @@ public class LXSearchParamsPresenter extends Presenter
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolbar.setTitle(getResources().getString(R.string.search_widget_heading));
+		toolbar.setTitle(getResources().getString(R.string.lx_search_widget_heading));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

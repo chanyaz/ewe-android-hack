@@ -237,9 +237,9 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="search_widget_heading">Søk på aktiviteter</string>
+    <string name="lx_search_widget_heading">Søk på aktiviteter</string>
     <!-- Search widget location hint -->
-    <string name="search_location_hint">Oppgi sted</string>
+    <string name="lx_search_location_hint">Oppgi sted</string>
     <!-- Error messge for missing Location in LX search form -->
     <string name="lx_error_missing_location">Sted mangler</string>
     <!-- Error messge for missing start date in LX search form -->
