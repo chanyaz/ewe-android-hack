@@ -11,6 +11,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 
 /**
  */
@@ -122,6 +123,10 @@ public class DateFormatUtils {
 
 		String dateRange = DateUtils.formatDateRange(context, params.startDateTime.getMillis(), params.startDateTime.getMillis(), flags);
 		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
+	}
+
+	public static String formatLXDateRange(Context context, LXSearchParams params, int flags) {
+		return formatDateRange(context, params.startDate, params.endDate, flags);
 	}
 
 	/**

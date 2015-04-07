@@ -1,8 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.net.HttpCookie;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -30,6 +28,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -319,7 +318,7 @@ public class WebViewFragment extends DialogFragment {
 		// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
 		// default user-agent string contains "Android" which tips off the redirect to mobile.
 		if (!mAllowUseableNetRedirects) {
-			String userAgentString = ExpediaServices.getUserAgentString(getActivity());
+			String userAgentString = ServicesUtil.generateUserAgentString(getActivity());
 			mWebView.getSettings().setUserAgentString(userAgentString);
 		}
 
@@ -449,47 +448,11 @@ public class WebViewFragment extends DialogFragment {
 		List<HttpCookie> cookies = ExpediaServices.getCookies(getActivity());
 		cookieManager.setAcceptCookie(true);
 		cookieManager.removeSessionCookie();
-		Collections.sort(cookies, new Comparator<HttpCookie>() {
-			@Override
-			public int compare(HttpCookie lhs, HttpCookie rhs) {
-				int nameCompare = lhs.getName().compareTo(rhs.getName());
-				if (nameCompare == 0) {
-					long lage = lhs.getMaxAge();
-					long rage = rhs.getMaxAge();
-
-					// -1 is a special case and means it never expires
-					if (lage == -1 && rage == -1) {
-						return 0;
-					}
-					if (lage == -1) {
-						return 1;
-					}
-					if (rage == -1) {
-						return -1;
-					}
-					if (lage > rage) {
-						return 1;
-					}
-					else {
-						return -1;
-					}
-
-				}
-				else {
-					return nameCompare;
-				}
-			}
-		});
 
 		for (HttpCookie cookie : cookies) {
-			String cookieString = cookie.toString();
-
-			// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
-			//       works with ICS, using the url works with 2.1
-
-			cookieManager.setCookie(mUrl, cookieString);
-			cookieManager.setCookie(cookie.getDomain(), cookieString);
+			cookieManager.setCookie(cookie.getDomain(), cookie.toString());
 		}
+
 		cookieSyncManager.sync();
 	}
 

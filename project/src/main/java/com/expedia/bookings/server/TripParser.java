@@ -478,7 +478,6 @@ public class TripParser {
 
 			activity.setId(obj.optString("uniqueID", null));
 			activity.setTitle(obj.optString("activityTitle", null));
-			activity.setDetailsUrl(obj.optString("activityDetailsURL", null));
 			activity.setGuestCount(obj.optInt("travelerCount"));
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
@@ -490,7 +489,7 @@ public class TripParser {
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
-			if (travelersArr != null && travelersArr.length() > 0) {
+			if (travelersArr != null) {
 				for (int i = 0; i < travelersArr.length(); i++) {
 					activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
 				}

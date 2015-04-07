@@ -1423,6 +1423,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
+				if (mHotelsDeepLink) {
+					mHotelsDeepLink = false;
+					OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+				}
 				break;
 			case HOTEL_LIST_UP:
 				mBgHotelMapC.setAlpha(1f);
@@ -1696,7 +1700,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		if (mHotelsStateManager.getState() == ResultsHotelsState.LOADING_HOTEL_LIST_UP) {
 			showDetails &= mHotelsDeepLink;
-			mHotelsDeepLink = false;
 			mHotelsStateManager.setDefaultState(getBaseState());
 			ResultsHotelsState state = showDetails ?
 				ResultsHotelsState.ROOMS_AND_RATES : ResultsHotelsState.HOTEL_LIST_UP;

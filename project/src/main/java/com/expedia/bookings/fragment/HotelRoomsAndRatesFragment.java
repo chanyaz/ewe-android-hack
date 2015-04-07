@@ -129,9 +129,11 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 
 		mListener.onRateSelected(getItem(position));
 
-		// Track room clicked with the type of payment i.e. pay now/later.
-		Rate rate = getItem(position);
-		OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+		// Track room clicked with the type of payment i.e. pay now/later. and fire only if user have the option
+		if (mPayGroup.getVisibility() == View.VISIBLE) {
+			Rate rate = getItem(position);
+			OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+		}
 
 		mAdapter.setSelectedPosition(position);
 		mAdapter.notifyDataSetChanged();
@@ -256,7 +258,6 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			@Override
 			public void onGlobalLayout() {
 				Ui.removeOnGlobalLayoutListener(mNoticeContainer, this);
-				mNoticeContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeaderPlaceholder.getLayoutParams();
 				params.height = mNoticeContainer.getHeight() + mStickyHeader.getHeight();
 				mHeaderPlaceholder.setLayoutParams(params);

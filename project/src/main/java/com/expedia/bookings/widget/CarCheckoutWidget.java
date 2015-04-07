@@ -1,152 +1,103 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
-public class CarCheckoutWidget extends LinearLayout implements SlideToWidgetJB.ISlideToListener {
+public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
 	public CarCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 
-	CarCreateTripResponse createTripResponse;
+	CreateTripCarOffer carProduct;
+	String tripId;
 
-	@InjectView(R.id.edit_first_name)
-	EditText firstName;
+	CarCheckoutSummaryWidget summaryWidget;
 
-	@InjectView(R.id.edit_last_name)
-	EditText lastName;
-
-	@InjectView(R.id.edit_email_address)
-	EditText emailAddress;
-
-	@InjectView(R.id.category_title_text)
-	TextView categoryTitleText;
-
-	@InjectView(R.id.car_model_text)
-	TextView carModelText;
-
-	@InjectView(R.id.location_description_text)
-	TextView locationDescriptionText;
-
-	@InjectView(R.id.airport_text)
-	TextView airportText;
-
-	@InjectView(R.id.date_time_text)
-	TextView dateTimeText;
-
-	@InjectView(R.id.edit_done)
-	Button editDone;
-
-	@InjectView(R.id.price_text)
-	TextView tripTotalText;
-
-	@InjectView(R.id.purchase_total_text_view)
-	TextView sliderTotalText;
-
-	@InjectView(R.id.slide_to_purchase_layout)
-	ViewGroup slideToContainer;
-
-	@InjectView(R.id.slide_to_purchase_widget)
-	SlideToWidgetJB slideWidget;
-
-	@InjectView(R.id.payment_info)
-	ViewGroup paymentInfoBlock;
-
-	@InjectView(R.id.phone_country_code_spinner)
-	TelephoneSpinner phoneSpinner;
-
-	@InjectView(R.id.edit_phone_number)
-	EditText phoneNumber;
+	protected LineOfBusiness getLineOfBusiness() {
+		return LineOfBusiness.CARS;
+	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		slideToContainer.setVisibility(View.GONE);
-		slideWidget.addSlideToListener(this);
-
-		// TODO - encapsulate data fields better, so that this isn't here.
-		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) phoneSpinner.getAdapter();
-		String targetCountry = getContext().getString(PointOfSale.getPointOfSale()
-			.getCountryNameResId());
-		for (int i = 0; i < adapter.getCount(); i++) {
-			if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
-				phoneSpinner.setSelection(i);
-				break;
-			}
-		}
-	}
-
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		Events.register(this);
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		Events.unregister(this);
-		super.onDetachedFromWindow();
+		summaryWidget = Ui.inflate(R.layout.car_checkout_summary_widget, summaryContainer, false);
+		summaryContainer.addView(summaryWidget);
+		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
+		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.CARS);
 	}
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		bind(event.createTripResponse);
+		String ogPriceForPriceChange = event.createTripResponse.searchCarOffer == null ?
+			"" : event.createTripResponse.searchCarOffer.fare.total.formattedPrice;
+		bind(event.createTripResponse.carProduct, ogPriceForPriceChange, event.createTripResponse.tripId);
+		OmnitureTracking.trackAppCarCheckoutPage(getContext(), event.createTripResponse.carProduct);
 	}
 
-	private void bind(CarCreateTripResponse createTrip) {
-		createTripResponse = createTrip;
-		CreateTripCarOffer offer = createTripResponse.carProduct;
+	@Subscribe
+	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
+		bind(event.newCreateTripOffer, /* createTripOffer */
+			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice, /* originalPriceString */
+			event.tripId /* tripId */);
+		slideWidget.resetSlider();
+	}
 
-		if (offer.checkoutRequiresCard) {
-			paymentInfoBlock.setVisibility(View.VISIBLE);
-		}
-		else {
-			paymentInfoBlock.setVisibility(View.GONE);
-		}
+	private void bind(CreateTripCarOffer createTripOffer, String originalOfferFormattedPrice, String tripId) {
+		this.tripId = tripId;
+		this.carProduct = createTripOffer;
+		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
+		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
 
-		locationDescriptionText.setText(createTrip.itineraryNumber);
+		slideWidget.resetSlider();
 
-		categoryTitleText.setText(offer.vehicleInfo.category + " " + offer.vehicleInfo.type);
-		carModelText.setText(offer.vehicleInfo.makes.get(0));
-		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(offer.fare.grandTotal.getFormattedMoney());
-		sliderTotalText.setText(offer.fare.grandTotal.getFormattedMoney());
+		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
+			: R.string.amount_due_today_TEMPLATE;
+		sliderTotalText.setText(getResources()
+			.getString(sliderMessage, carProduct.detailedFare.totalDueToday.formattedPrice));
 
-		dateTimeText.setText(DateFormatUtils
-			.formatDateTimeRange(getContext(), offer.pickupTime, offer.dropOffTime,
-				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
+		mainContactInfoCardView.setExpanded(false);
+		paymentInfoCardView.setExpanded(false);
+		slideToContainer.setVisibility(INVISIBLE);
+
+		generateLegalClickableLink(legalInformationText);
+		isCheckoutComplete();
+		loginWidget.updateView();
+		show(new CheckoutDefault());
 	}
 
 	@Subscribe
 	public void onShowConfirmation(Events.CarsShowConfirmation event) {
 		slideWidget.resetSlider();
-	}
-
-	@OnClick(R.id.edit_done)
-	public void onEditDoneClicked() {
-		Ui.hideKeyboard(this);
-		editDone.setVisibility(View.GONE);
-		slideToContainer.setVisibility(View.VISIBLE);
 	}
 
 	//  SlideToWidget.ISlideToListener
@@ -161,19 +112,84 @@ public class CarCheckoutWidget extends LinearLayout implements SlideToWidgetJB.I
 
 	@Override
 	public void onSlideAllTheWay() {
-		CarCheckoutParamsBuilder builder =
-			new CarCheckoutParamsBuilder()
-				.firstName(firstName.getText().toString())
-				.lastName(lastName.getText().toString())
-				.emailAddress(emailAddress.getText().toString())
-				.grandTotal(createTripResponse.carProduct.fare.grandTotal)
-				.phoneCountryCode(Integer.toString(phoneSpinner.getSelectedTelephoneCountryCode()))
-				.phoneNumber(phoneNumber.getText().toString())
-				.tripId(createTripResponse.tripId);
-		Events.post(new Events.CarsKickOffCheckoutCall(builder));
+		if (carProduct.checkoutRequiresCard) {
+			BillingInfo billingInfo = Db.getBillingInfo();
+			Events.post(new Events.ShowCVV(billingInfo));
+			slideWidget.resetSlider();
+		}
+		else {
+			onBook(null);
+		}
+
+	}
+
+	public void generateLegalClickableLink(TextView tv) {
+		SpannableStringBuilder sb = new SpannableStringBuilder();
+
+		String spannedRules = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			carProduct.rulesAndRestrictionsURL, getResources().getString(R.string.rules_and_restrictions));
+		String spannedTerms = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), getResources().getString(R.string.privacy_policy));
+		String statement = getResources()
+			.getString(R.string.car_legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
+
+		sb.append(Html.fromHtml(statement));
+		URLSpan[] spans = sb.getSpans(0, statement.length(), URLSpan.class);
+
+		for (final URLSpan o : spans) {
+			int start = sb.getSpanStart(o);
+			int end = sb.getSpanEnd(o);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			sb.removeSpan(o);
+			sb.setSpan(new LegalClickableSpan(getContext(), o.getURL(), sb.subSequence(start, end).toString()), start,
+				end, 0);
+			sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			sb.setSpan(new UnderlineSpan(), start, end, 0);
+			sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), start, end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		tv.setText(sb);
+		tv.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override
 	public void onSlideAbort() {
 	}
+
+	@Override
+	public void onBook(String cvv) {
+		final boolean suppressFinalBooking =
+			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_car_bookings, true);
+		CarCheckoutParamsBuilder builder =
+			new CarCheckoutParamsBuilder()
+				.firstName(mainContactInfoCardView.firstName.getText().toString())
+				.lastName(mainContactInfoCardView.lastName.getText().toString())
+				.emailAddress(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
+					: mainContactInfoCardView.emailAddress.getText().toString())
+				.grandTotal(carProduct.detailedFare.grandTotal)
+				.phoneCountryCode(
+					Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
+				.phoneNumber(mainContactInfoCardView.phoneNumber.getText().toString())
+				.tripId(tripId)
+				.suppressFinalBooking(suppressFinalBooking);
+
+		if (carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
+			builder.storedCCID(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
+		}
+		else if (carProduct.checkoutRequiresCard) {
+			BillingInfo info = Db.getBillingInfo();
+			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
+			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
+
+			builder.ccNumber(info.getNumber()).expirationYear(expirationYear)
+				.expirationMonth(expirationMonth).ccPostalCode(info.getLocation().getPostalCode())
+				.ccName(info.getNameOnCard()).cvv(cvv);
+		}
+		Events.post(new Events.CarsKickOffCheckoutCall(builder));
+	}
 }
+

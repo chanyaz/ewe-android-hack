@@ -1,11 +1,13 @@
 package com.expedia.bookings.test.ui.espresso;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.CoordinatesProvider;
@@ -16,12 +18,17 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.util.HumanReadables;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -231,6 +238,30 @@ public final class ViewActions {
 		};
 	}
 
+	//View Action to get the Up botton in the support v7 toolbar
+
+	public static ViewAction getChildViewButton(final int index) {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View childView = ((Toolbar) view).getChildAt(index);
+				childView.performClick();
+				uiController.loopMainThreadUntilIdle();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Click on child view";
+			}
+		};
+	}
+
 	// View action for accessing text nested inside two linear layouts
 
 	public final static class NestedTextView implements ViewAction {
@@ -243,23 +274,23 @@ public final class ViewActions {
 			mLowerLayoutIndex = lowerIndex;
 			mValue = value;
 		}
-			@SuppressWarnings("unchecked")
-			@Override
-			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
-			}
+		@SuppressWarnings("unchecked")
+		@Override
+		public Matcher<View> getConstraints() {
+			return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+		}
 
-			@Override
-			public void perform(UiController uiController, View view) {
-				View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
-				View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
-				mValue.set(((TextView) textView).getText().toString());
-			}
+		@Override
+		public void perform(UiController uiController, View view) {
+			View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
+			View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
+			mValue.set(((TextView) textView).getText().toString());
+		}
 
-			@Override
-			public String getDescription() {
-				return "Get the empty travelers container text on checkout";
-			}
+		@Override
+		public String getDescription() {
+			return "Get the empty travelers container text on checkout";
+		}
 	}
 
 	// View action to get the name match warning's sibling text view
@@ -305,12 +336,19 @@ public final class ViewActions {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+				return Matchers.anyOf(isAssignableFrom(AdapterView.class), isAssignableFrom(RecyclerView.class));
 			}
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				count.set(((AdapterView) view).getCount());
+				int children = 0;
+				if (view instanceof AdapterView) {
+					children = ((AdapterView) view).getCount();
+				}
+				else if (view instanceof RecyclerView) {
+					children = ((RecyclerView) view).getChildCount();
+				}
+				count.set(children);
 			}
 
 			@Override
@@ -384,6 +422,72 @@ public final class ViewActions {
 			}
 		};
 	}
+
+
+	public static ViewAction waitFor(final long howLong, final TimeUnit timeUnit) {
+		return new ViewAction() {
+			private static final int SLEEP_UI_MS = 100;
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(View.class));
+			}
+
+			@Override
+			public String getDescription() {
+				return String.format("Waiting for view to appear, max wait time is: %d seconds",
+						TimeUnit.SECONDS.convert(howLong, TimeUnit.SECONDS));
+			}
+
+			@Override
+			public void perform(final UiController uiController, final View view) {
+				uiController.loopMainThreadUntilIdle();
+
+				final long endTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
+				do {
+					if (view.getVisibility() == View.GONE || view.getVisibility() == View.INVISIBLE) {
+						return;
+					}
+
+					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
+				}
+				while (System.currentTimeMillis() <= endTime);
+
+				throw new PerformException.Builder()
+					.withActionDescription(this.getDescription())
+					.withViewDescription(HumanReadables.describe(view))
+					.build();
+			}
+		};
+
+	}
+
+	public static ViewAction clickOnFirstEnabled() {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return isAssignableFrom(RadioGroup.class);
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+					RadioButton button = (RadioButton) (((ViewGroup) view).getChildAt(i));
+					if (button.isEnabled()) {
+						button.setChecked(true);
+						button.performClick();
+						uiController.loopMainThreadUntilIdle();
+						break;
+					}
+				}
+				return;
+			}
+		};
+	}
+
 }
-
-

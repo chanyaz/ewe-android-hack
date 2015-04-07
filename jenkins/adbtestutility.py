@@ -10,7 +10,7 @@ def getPathToScreenshotDir():
 
 
 def sendTestCommand(testPackage, apk, testApk):
-    spoon = '../jars/spoon-runner-1.1.1-jar-with-dependencies.jar'
+    spoon = '../jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar'
     adbTestCommand = \
         'java -jar %(spoon)s --apk %(apk)s --test-apk %(testApk)s --class-name %(testPackage)s --no-animations' \
         % locals()

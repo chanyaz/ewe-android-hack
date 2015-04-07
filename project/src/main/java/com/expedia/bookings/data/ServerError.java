@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -374,7 +375,7 @@ public class ServerError implements JSONable {
 			// This is a special case for E3
 			message = context.getString(R.string.error_unable_to_send_email);
 		}
-		else if (message.equals("TravelNow.com cannot service this request.") && mVerboseMessage != null) {
+		else if (Strings.equals(message, "TravelNow.com cannot service this request.") && mVerboseMessage != null) {
 			message = mVerboseMessage.replace("Data in this request could not be validated: ", "");
 		}
 		else if (ERRORS.containsKey(message)) {

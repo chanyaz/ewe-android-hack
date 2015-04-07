@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.json.JSONException;
@@ -13,10 +14,12 @@ import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -71,6 +74,8 @@ public class HotelSearchParams implements JSONable {
 	// This will get set if the HotelSearchParams object was created from the widget
 	private boolean mIsFromWidget;
 
+	private boolean mFromLaunchScreen;
+
 	/**
 	 *  The variables below are just for analytics
 	 *  mUserFreeformLocation is what the user entered for a freeform location.  We may disambiguate or
@@ -121,6 +126,14 @@ public class HotelSearchParams implements JSONable {
 
 	public HotelSearchParams copy() {
 		return new HotelSearchParams(toJson());
+	}
+
+	public boolean fromLaunchScreen() {
+		return mFromLaunchScreen;
+	}
+
+	public void setFromLaunchScreen(boolean fromLaunchScreen) {
+		mFromLaunchScreen = fromLaunchScreen;
 	}
 
 	public SearchType getSearchType() {
@@ -453,17 +466,8 @@ public class HotelSearchParams implements JSONable {
 			// Round-trip flight
 			LocalDate checkOutDate = LocalDate.fromCalendarFields(secondLeg.getFirstWaypoint()
 					.getMostRelevantDateTime());
-
-			// Make sure the stay is no longer than 28 days
-			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
-			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
-			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
-			if (stayDuration == 0) {
-				hotelParams.setCheckOutDate(checkOutDate.plusDays(1));
-			}
-			else {
-				hotelParams.setCheckOutDate(checkOutDate);
-			}
+			hotelParams.setCheckOutDate(checkOutDate);
+			ensureMaxStayTwentyEightDays(hotelParams);
 		}
 
 		// Who //
@@ -473,6 +477,47 @@ public class HotelSearchParams implements JSONable {
 		hotelParams.setNumAdults(numHotelAdults);
 
 		return hotelParams;
+	}
+
+	public static HotelSearchParams fromCarParams(CreateTripCarOffer offer) {
+		HotelSearchParams hotelParams = new HotelSearchParams();
+
+		// Where //
+		hotelParams.setSearchType(SearchType.CITY);
+
+		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		String cityStr = offer.pickUpLocation.cityName;
+		hotelParams.setUserQuery(cityStr);
+		hotelParams.setQuery(cityStr);
+
+		if (Strings.isNotEmpty(offer.pickUpLocation.regionId)) {
+			hotelParams.setRegionId(offer.pickUpLocation.regionId);
+		}
+
+		double latitude = offer.pickUpLocation.latitude;
+		double longitude = offer.pickUpLocation.longitude;
+		hotelParams.setSearchLatLon(latitude, longitude);
+
+		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.getPickupTime().toCalendar(Locale.US)));
+		hotelParams.setCheckOutDate(LocalDate.fromCalendarFields(offer.getDropOffTime().toCalendar(Locale.US)));
+		ensureMaxStayTwentyEightDays(hotelParams);
+
+		return hotelParams;
+	}
+
+	private static void ensureMaxStayTwentyEightDays(HotelSearchParams params) {
+		// Make sure the stay is no longer than 28 days
+		LocalDate checkInDate = params.getCheckInDate();
+		LocalDate checkOutDate = params.getCheckOutDate();
+		LocalDate maxCheckOutDate = checkInDate.plusDays(28);
+		checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
+		int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
+		if (stayDuration == 0) {
+			params.setCheckOutDate(checkOutDate.plusDays(1));
+		}
+		else {
+			params.setCheckOutDate(checkOutDate);
+		}
 	}
 
 	public boolean fromJson(JSONObject obj) {

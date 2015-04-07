@@ -1,9 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.Cars" parent="@android:style/Theme.Holo.Light">
+    <style name="V2.Theme.Cars" parent="AppTheme.Base"/>
+
+    <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>
+        <item name="android:colorPrimaryDark">#532C45</item>
+        <item name="android:colorButtonNormal">@color/cars_primary_color</item>
+        <item name="colorControlNormal">#C3C3C3</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorAccent">@color/cars_primary_color</item>
+
+        <!-- Required white label attr for login widget -->
+        <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
+        <item name="skin_loginButtonColor">@android:color/black</item>
+        <item name="skin_passwordHint">@string/expedia_password_hint</item>
+        <item name="skin_loadingAccount">@string/loading_expedia_account</item>
+        <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
+        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
+
+        <item name="primary_color">@color/cars_primary_color</item>
+        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="checkout_slider_text">@string/cars_slider_text</item>
+        <item name="toolbar_title_style">@style/CarsToolbarTitleTextAppearance</item>
+
+        <item name="traveler_toolbar_text">@string/cars_driver_details_text</item>
+        <item name="traveler_details_text">@string/enter_driver_details</item>
+        <!-- CVV attrs -->
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
+    </style>
+
+    <style name="CarsActionBarTitle" parent="V2.Theme.Cars">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="CarsBookingButton" parent="V2.Theme.Cars">   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:textColor">@color/cars_confirmation_action_text_color</item>     
+        <item name="android:textSize">15sp</item>     
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>     
+        <item name="android:drawablePadding">12dp</item>
+    </style>
+
+    <style name="CarsLoginFormButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="CarsLoginFormEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:textColor">#c6c8c9</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CarsToolbarTitleTextAppearance" parent="V2.Theme.Cars">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="CarsToolbarSubtitleTextAppearance" parent="V2.Theme.Cars">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="CarButton" parent="android:Widget.Button" >
+        <item name="android:background">@color/cars_primary_color</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+
+    <style name="CarFakeSpinner.Light" parent="V2.Theme.Cars">
+        <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
+        <item name="android:textColor">@color/cars_actionbar_text_color</item>
+    </style>
+
+    <style name="CarsCardView" parent="V2.Theme.Cars">
+        <item name="android:background">#FFF</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:textColor">@color/cars_actionbar_text_color</item>
+        <item name="cardCornerRadius">3dp</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
+    <style name="CVVPromptBase">
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:shadowColor">#2D000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">.1</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CarToggleButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textOff">@string/cars_view_details_text</item>
+        <item name="android:textOn">@string/cars_reserve_text</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/cars_toogle_background_selector</item>
+    </style>
+
+    <style name="CarOfferText">
+        <item name="android:textColor">@color/cars_checkout_text_color</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="CarsLoginEditText" parent="V2.Theme.Cars">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#212121</item>
+        <item name="android:textColorHint">#9A9A9A</item>
+    </style>
+
+    <style name="CarRobotoFont">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 </resources>

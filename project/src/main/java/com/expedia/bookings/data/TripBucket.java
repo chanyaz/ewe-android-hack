@@ -72,6 +72,13 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Convenience method to remove all LX Activities from this TripBucket.
+	 */
+	public void clearLX() {
+		clear(LineOfBusiness.LX);
+	}
+
+	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
 	 * @return
 	 */
@@ -124,6 +131,21 @@ public class TripBucket implements JSONable {
 		checkForMismatchedItems();
 	}
 
+	public void add(TripBucketItemCar car) {
+		mLastLOBAdded = LineOfBusiness.CARS;
+		mRefreshCount++;
+		mItems.add(car);
+
+		checkForMismatchedItems();
+	}
+
+	public void add(TripBucketItemLX lx) {
+		mLastLOBAdded = LineOfBusiness.LX;
+		mRefreshCount++;
+		mItems.add(lx);
+
+		checkForMismatchedItems();
+	}
 	/**
 	 * Adds a Flight to the trip bucket.
 	 */
@@ -147,6 +169,27 @@ public class TripBucket implements JSONable {
 	public boolean isEmpty() {
 		return mItems.size() < 1;
 	}
+
+	/**
+	 * Returns the first car found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemCar getCar() {
+		int index = getIndexOf(LineOfBusiness.CARS);
+		return index == -1 ? null : (TripBucketItemCar) mItems.get(index);
+	}
+
+	/**
+	 * Returns the first LX found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemLX getLX() {
+		int index = getIndexOf(LineOfBusiness.LX);
+		return index == -1 ? null : (TripBucketItemLX) mItems.get(index);
+	}
+
 
 	/**
 	 * Returns the first hotel found in the bucket, or null if not found.

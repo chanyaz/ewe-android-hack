@@ -36,6 +36,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
@@ -117,6 +118,9 @@ public class PointOfSale {
 	// Flag for whether GDE is enabled
 	private boolean mSupportsGDE;
 
+	// Whether to show cars on this POS
+	private boolean mSupportsCars;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -152,6 +156,9 @@ public class PointOfSale {
 
 	// EAPID value and is used
 	private int mEAPID;
+
+	// Should we show strikethrough prices on half-width launch tiles for this POS?
+	private boolean mShowHalfTileStrikethroughPrice;
 
 	/**
 	 * There can be multiple different locales for a given POS.
@@ -331,6 +338,13 @@ public class PointOfSale {
 		return mSupportsGDE;
 	}
 
+	public boolean supportsCars() {
+		return mSupportsCars;
+	}
+
+	public boolean supportsStrikethroughPrice() {
+		return mShowHalfTileStrikethroughPrice;
+	}
 	/**
 	 * Helper method to determine if flights are enabled and if we need to even
 	 * kick off a flight search - TABLETS ONLY.
@@ -595,7 +609,7 @@ public class PointOfSale {
 			String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
 			String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
-			EndPoint endPoint = EndPoint.getEndPoint(context);
+			EndPoint endPoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
 			for (PointOfSale posInfo : sPointOfSale.values()) {
 				//Skip Non-Prod POS, if we are in PROD Environment
 				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
@@ -801,6 +815,7 @@ public class PointOfSale {
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
+		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
@@ -810,6 +825,7 @@ public class PointOfSale {
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
+		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

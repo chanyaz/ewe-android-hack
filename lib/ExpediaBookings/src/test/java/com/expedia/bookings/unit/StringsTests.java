@@ -172,4 +172,14 @@ public class StringsTests {
 		assertEquals("61", Strings.formatHexString("a"));
 		assertEquals("6162636465", Strings.formatHexString("abcde"));
 	}
+
+	@Test
+	public void testStringsCapitalizeFirstLetter() {
+		assertEquals("", Strings.capitalizeFirstLetter(""));
+		assertEquals(null, Strings.capitalizeFirstLetter(null));
+		assertEquals("Abcd", Strings.capitalizeFirstLetter("aBCD"));
+		assertEquals("Bcde", Strings.capitalizeFirstLetter("BCDE"));
+		assertEquals("Bcde", Strings.capitalizeFirstLetter("bcde"));
+	}
+
 }

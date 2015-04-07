@@ -27,9 +27,11 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
@@ -84,6 +86,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private TouchableFrameLayout mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
 	private ImageView mBgImageView;
+	private TextView mFreeCancellation;
 
 	private ScrollViewListener mScrollViewListener;
 	private ScrollView mContentScrollView;
@@ -153,6 +156,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
 		mBelowOverviewSpacer = Ui.findView(this, R.id.below_overview_spacer);
 		mCheckoutBlocker = Ui.findView(this, R.id.checkout_event_blocker);
+		mFreeCancellation = Ui.findView(this, R.id.free_cancellation_text);
 
 		if (savedInstanceState != null) {
 			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false) && Db.hasBillingInfo();
@@ -165,6 +169,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		}
 
 		addOverviewFragment();
+		setUpFreeCancellationAbTest();
 
 		mScrollViewListener = new ScrollViewListener();
 		mContentScrollView.addOnScrollListener(mScrollViewListener);
@@ -338,6 +343,14 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			transaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
 			transaction.commit();
 		}
+	}
+
+	private void setUpFreeCancellationAbTest() {
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
+			AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
+		FlightLeg leg =  Db.getTripBucket().getFlight().getFlightTrip().getLeg(0);
+		boolean showFreeCancellation = !leg.isSpirit() || leg.isLCC() || leg.isCharter();
+		mFreeCancellation.setVisibility(isUserBucketedForTest && showFreeCancellation ? View.VISIBLE : View.GONE);
 	}
 
 	private void addSlideToCheckoutFragment() {
@@ -573,7 +586,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			if (mOverviewFragment != null) {
 				mOverviewFragment.setExpandedPercentage(1f - percentage);
 			}
-
+			mFreeCancellation.setAlpha(1f - percentage);
 			mCheckoutContainer
 				.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
 					.getHeight()) * (1f - percentage));

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.widget.OptimizedImageView
+            android:id="@+id/confirmation_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="215dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="215dp"
+            android:layout_gravity="center"
+            android:background="@color/lx_confirmation_gradient" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tickets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:minHeight="?attr/actionBarSize" />
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/call_action_button"
+        style="@style/LXConfirmationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:drawableLeft="@drawable/call_action"
+        android:text="@string/call_customer_support"
+        android:textColor="@color/lx_confirmation_action_text_color" />
+
+    <TextView
+        android:id="@+id/itinerary_text_view"
+        style="@style/LXConfirmationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/lx_confirmation_action_text_color"
+        android:textSize="15sp" />
+    </LinearLayout>
+</merge>

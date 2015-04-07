@@ -28,7 +28,7 @@ public class AbacusTest {
 
 	/**
 	 * This method copies all AbacusTest properties but defaults the bucket to IGNORE
-	 * It also sets the analytics key to 0.0.0 for omniture purposes.
+	 * Retains the analytics key to report to Omniture dev instance.
 	 */
 	public AbacusTest copyForDebug() {
 		AbacusTest test = new AbacusTest();
@@ -36,9 +36,9 @@ public class AbacusTest {
 		test.isLive = isLive;
 		test.locale = locale;
 		test.setting = setting.copyForDebug();
-		test.experimentId = "0";
-		test.instanceId = "0";
-		test.treatmentId = "0";
+		test.experimentId = experimentId;
+		test.instanceId = instanceId;
+		test.treatmentId = treatmentId;
 		return test;
 	}
 
