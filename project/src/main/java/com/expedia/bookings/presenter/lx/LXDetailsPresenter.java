@@ -56,6 +56,9 @@ public class LXDetailsPresenter extends Presenter {
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
+	@InjectView(R.id.toolbar_background)
+	View toolbarBackground;
+
 	@Inject
 	LXState lxState;
 
@@ -68,7 +71,13 @@ public class LXDetailsPresenter extends Presenter {
 	LXServices lxServices;
 
 	// Transitions
-	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName());
+	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			toolbarBackground.setAlpha(0f);
+		}
+	};
 	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
@@ -88,8 +97,8 @@ public class LXDetailsPresenter extends Presenter {
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
 		createTripDialog.setIndeterminate(true);
-
 		setupToolbar();
+		details.detailsScrollView.addOnScrollListener(parallaxScrollListener);
 	}
 
 	@Override
@@ -158,10 +167,8 @@ public class LXDetailsPresenter extends Presenter {
 		});
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
-			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, details, toolbarColor));
-		}
+		toolbarBackground.getLayoutParams().height += statusBarHeight;
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
 	private void setToolbarTitles() {
@@ -241,4 +248,12 @@ public class LXDetailsPresenter extends Presenter {
 			.show();
 	}
 
+	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
+		@Override
+		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			float ratio = details.parallaxScrollHeader(y);
+			toolbarBackground.setAlpha(ratio);
+		}
+	};
 }
+

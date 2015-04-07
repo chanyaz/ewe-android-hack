@@ -10,6 +10,9 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -32,7 +35,13 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LXActivityDetailsWidget extends ScrollView {
+public class LXActivityDetailsWidget extends FrameLayout {
+
+	@InjectView(R.id.activity_details_container)
+	LinearLayout activityContainer;
+
+	@InjectView(R.id.gallery_container)
+	FrameLayout galleryContainer;
 
 	@InjectView(R.id.activity_gallery)
 	RecyclerGallery activityGallery;
@@ -76,10 +85,17 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@InjectView(R.id.cancellation)
 	LXDetailSectionDataWidget cancellation;
 
+	@InjectView(R.id.offer_dates_scroll_view)
+	HorizontalScrollView offerDatesScrollView;
+
+	@InjectView(R.id.scroll_view)
+	public ScrollView detailsScrollView;
+
 	@Inject
 	LXState lxState;
 
 	private ActivityDetailsResponse activityDetails;
+	private float offset;
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -101,6 +117,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 		cancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
 		offers.setVisibility(View.GONE);
+
+		offset = Ui.toolbarSizeWithStatusBar(getContext());
 	}
 
 	@Subscribe
@@ -109,8 +127,6 @@ public class LXActivityDetailsWidget extends ScrollView {
 		OmnitureTracking.trackAppLXProductInformation(getContext(), event.activityDetails, lxState.searchParams);
 		activityDetails = event.activityDetails;
 
-		// Scroll to top.
-		scrollTo(0, 0);
 		buildGallery(activityDetails);
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
@@ -193,6 +209,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
 		offerDatesContainer.removeAllViews();
+		offerDatesScrollView.scrollTo(0, 0);
 		offerDatesContainer.setVisibility(View.VISIBLE);
 		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 
@@ -210,6 +227,12 @@ public class LXActivityDetailsWidget extends ScrollView {
 				break;
 			}
 		}
+	}
+
+	public float parallaxScrollHeader(int scrollY) {
+		float ratio = (float) (scrollY) / (activityContainer.getTop() - offset);
+		galleryContainer.setTranslationY(scrollY * 0.5f);
+		return ratio;
 	}
 }
 

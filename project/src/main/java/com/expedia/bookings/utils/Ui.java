@@ -493,13 +493,24 @@ public class Ui extends com.mobiata.android.util.Ui {
 		v.setBackgroundColor(color);
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 
+		int toolbarSize = getToolbarSize(ctx);
+		viewGroup.setPadding(0, (int) toolbarSize + statusBarHeight, 0, 0);
+
+		return v;
+	}
+
+	public static int getToolbarSize(Context ctx) {
 		TypedValue typedValue = new TypedValue();
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = ctx.obtainStyledAttributes(typedValue.data, textSizeAttr);
-		int toolbarSize = (int) a.getDimension(0, 44);
-		viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
+		return (int) a.getDimension(0, 44);
+	}
 
-		return v;
+	public static int toolbarSizeWithStatusBar(Context context) {
+		int toolbarSize = getToolbarSize(context);
+		int statusBarHeight = getStatusBarHeight(context);
+
+		return toolbarSize + statusBarHeight;
 	}
 
 }
