@@ -1,8 +1,5 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import android.app.Activity;
@@ -21,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.cars.ApiException;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.otto.Events;
@@ -43,8 +39,6 @@ import rx.Observer;
 import rx.Subscription;
 
 public class LXResultsPresenter extends Presenter {
-
-	private List<LXActivity> unfilteredActivities = new ArrayList<>();
 
 	@Inject
 	LXServices lxServices;
@@ -137,6 +131,7 @@ public class LXResultsPresenter extends Presenter {
 				Events.post(new Events.LXShowSearchError(apiException.apiError));
 				return;
 			}
+
 			sortFilterButton.setVisibility(View.GONE);
 		}
 
@@ -178,6 +173,7 @@ public class LXResultsPresenter extends Presenter {
 		cleanup();
 		setToolbarTitles(event.lxSearchParams);
 		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
+		sortFilterWidget.bind(null);
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams, sortFilterWidget.filterSortEventStream(), searchResultObserver);
 	}
 
