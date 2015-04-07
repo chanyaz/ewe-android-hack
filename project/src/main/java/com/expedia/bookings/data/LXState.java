@@ -35,6 +35,7 @@ public class LXState {
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
 		activity.location = event.activityDetails.location;
+		activity.regionId = event.activityDetails.regionId;
 	}
 
 	@Subscribe
@@ -44,7 +45,7 @@ public class LXState {
 	}
 
 	public LXCreateTripParams createTripParams() {
-		LXOfferSelected offerSelected = new LXOfferSelected(activity.id, this.offer, this.selectedTickets);
+		LXOfferSelected offerSelected = new LXOfferSelected(activity.id, this.offer, this.selectedTickets, activity.regionId);
 
 		// TODO : Need to check if regionID & allDayActivity is required.
 		List<LXOfferSelected> offersSelected = new ArrayList<>();

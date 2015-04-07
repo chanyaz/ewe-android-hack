@@ -15,10 +15,11 @@ public class LXActivity {
 	public String duration;
 	// True if the offers have different durations.
 	public boolean isMultiDuration;
-	// Location does not come from the search response and taken from the activity details.
+
+	//Utility Members
 	public String location;
+	public String regionId;
 	public Money price;
 	public String bestApplicableCategoryEN;
 	public String bestApplicableCategoryLocalized;
-
 }
