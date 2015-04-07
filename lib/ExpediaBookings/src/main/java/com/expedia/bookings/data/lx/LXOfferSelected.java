@@ -15,8 +15,9 @@ public class LXOfferSelected {
 	private List<LXTicketSelected> tickets = new ArrayList<>();
 	private boolean allDayActivity;
 	private String amount;
+	private String regionId;
 
-	public LXOfferSelected(String activityId, Offer offer, List<Ticket> selectedTickets) {
+	public LXOfferSelected(String activityId, Offer offer, List<Ticket> selectedTickets, String regionId) {
 		DateTime activityDate = DateUtils
 			.yyyyMMddHHmmssToDateTime(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
@@ -35,5 +36,6 @@ public class LXOfferSelected {
 		this.activityDate = DateUtils.toYYYYMMTddhhmmss(activityDate);
 		this.activityItemId = offer.id;
 		this.allDayActivity = offer.availabilityInfoOfSelectedDate.availabilities.allDayActivity;
+		this.regionId = regionId;
 	}
 }
