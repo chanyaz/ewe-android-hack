@@ -1273,6 +1273,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		if (event.suggestion != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
 			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
 			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
+			Db.resetFilter();
 			if (usingOrigin) {
 				mLocalParams.setOrigin(event.suggestion);
 			}
