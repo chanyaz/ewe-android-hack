@@ -47,7 +47,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -992,14 +991,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
-
-		// Push actions into the overflow in landscape mode
-		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		final boolean shouldShowMenuItems = orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180;
-		final int menuFlags = shouldShowMenuItems ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER;
-		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -2296,10 +2287,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			final int numChildren = searchParams.getNumChildren();
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
-			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
-				: View.INVISIBLE;
-			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 				numChildren));
 
