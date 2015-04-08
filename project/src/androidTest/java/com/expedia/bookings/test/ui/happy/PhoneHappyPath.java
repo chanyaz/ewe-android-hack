@@ -153,7 +153,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 	}
 
 	// FIXME: Disabling for now. Hangs after logging in
-	public void ignoreViewItineraries() throws Throwable {
+	public void testViewItineraries() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.tripsButton().perform(click());
 		screenshot("Itins");
@@ -163,7 +163,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		LogInScreen.typeTextPasswordEditText("password");
 		LogInScreen.clickOnLoginButton();
 		screenshot("Trips");
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			TripsScreen.clickListItem(i);
 			ScreenActions.delay(2);
 			screenshot("Trips_item_" + i + "_press");
