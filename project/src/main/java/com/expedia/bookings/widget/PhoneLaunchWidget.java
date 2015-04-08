@@ -51,7 +51,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Subscriber;
+import rx.Observer;
 import rx.Subscription;
 
 public class PhoneLaunchWidget extends FrameLayout {
@@ -128,7 +128,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	}
 
-	private Subscriber<List<Hotel>> downloadListener = new Subscriber<List<Hotel>>() {
+	private Observer<List<Hotel>> downloadListener = new Observer<List<Hotel>>() {
 		@Override
 		public void onCompleted() {
 			if (!wasHotelsDownloadEmpty) {
@@ -163,7 +163,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	};
 
-	private Subscriber<Collection> collectionDownloadListener = new Subscriber<Collection>() {
+	private Observer<Collection> collectionDownloadListener = new Observer<Collection>() {
 		@Override
 		public void onCompleted() {
 			cleanup();
@@ -184,7 +184,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	};
 
-	private Subscriber<Collection> defaultCollectionListener = new Subscriber<Collection>() {
+	private Observer<Collection> defaultCollectionListener = new Observer<Collection>() {
 		@Override
 		public void onCompleted() {
 			cleanup();
