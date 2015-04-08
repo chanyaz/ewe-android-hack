@@ -16,6 +16,7 @@ public class AbacusUtils {
 	public static final String EBAndroidAppHISSwipablePhotosTest = "ExpediaAndroidAppSwipablePhotos";
 	public static final String EBAndroidAppFlightCKOFreeCancelationTest = "ExpediaAndroidAppFlightCKOFreeCancelation";
 	public static final String EBAndroidAppHSearchInfluenceMessagingTest = "ExpediaAndroidAppHSRLoadMessaging";
+	public static final String EBAndroidAppLaunchScreenTest = "ExpediaAndroidAppLaunchPageDefaultToCollections";
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -64,6 +65,9 @@ public class AbacusUtils {
 		}
 		else if (key.equals(EBAndroidAppHSearchInfluenceMessagingTest)) {
 			return "7017";
+		}
+		else if (key.equals(EBAndroidAppLaunchScreenTest)) {
+			return "7369";
 		}
 		else {
 			return "0";

@@ -208,6 +208,14 @@
             android:summary="Select a test group"
             android:title="Hotel Search Influence Messaging" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_launch_screen"
+            android:summary="Select a test group"
+            android:title="Launch Screen NearBy Deals vs Collections" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

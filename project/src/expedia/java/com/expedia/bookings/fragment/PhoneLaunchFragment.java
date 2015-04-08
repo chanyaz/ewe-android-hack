@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.otto.Events;
@@ -111,7 +112,15 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 			@Override
 			public void onFound(Location currentLocation) {
-				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
+				boolean isUserBucketedForTest = Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
+				if (isUserBucketedForTest) {
+					// show collection data to users irrespective of location Abacus A/B test
+					Events.post(new Events.LaunchLocationFetchError());
+				}
+				else {
+					Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
+				}
 			}
 
 			@Override
