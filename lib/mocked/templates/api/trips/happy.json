@@ -15,10 +15,10 @@
             },
             "description": "",
             "endTime": {
-                "epochSeconds": 1427843040,
-                "localized": "Mar 31, 2015 4:04:00 PM",
-                "localizedShortDate": "Tue, 31 Mar",
-                "raw": "2015-03-31T16:04:00-07:00",
+                "epochSeconds": 1459465440,
+                "localized": "Mar 31, 2016 4:04:00 PM",
+                "localizedShortDate": "Thu, 31 Mar",
+                "raw": "2016-03-31T16:04:00-07:00",
                 "timeZoneOffsetSeconds": -25200
             },
             "flights": [
@@ -111,10 +111,10 @@
                                         "name": "Long Beach Municipal"
                                     },
                                     "arrivalTime": {
-                                        "epochSeconds": 1427837220,
-                                        "localized": "Mar 31, 2015 2:27:00 PM",
-                                        "localizedShortDate": "Tue, 31 Mar",
-                                        "raw": "2015-03-31T14:27:00-07:00",
+                                        "epochSeconds": 1459459620,
+                                        "localized": "Mar 31, 2016 2:27:00 PM",
+                                        "localizedShortDate": "Thu, 31 Mar",
+                                        "raw": "2016-03-31T14:27:00-07:00",
                                         "timeZoneOffsetSeconds": -25200
                                     },
                                     "arrivalType": "FLIGHT_ARRIVAL",
@@ -134,10 +134,10 @@
                                         "name": "San Francisco Intl."
                                     },
                                     "departureTime": {
-                                        "epochSeconds": 1427832300,
-                                        "localized": "Mar 31, 2015 1:05:00 PM",
-                                        "localizedShortDate": "Tue, 31 Mar",
-                                        "raw": "2015-03-31T13:05:00-07:00",
+                                        "epochSeconds": 1459454700,
+                                        "localized": "Mar 31, 2016 1:05:00 PM",
+                                        "localizedShortDate": "Thu, 31 Mar",
+                                        "raw": "2016-03-31T13:05:00-07:00",
                                         "timeZoneOffsetSeconds": -25200
                                     },
                                     "departureType": "FLIGHT_DEPARTURE",
@@ -173,10 +173,10 @@
                                         "name": "McCarran Intl."
                                     },
                                     "arrivalTime": {
-                                        "epochSeconds": 1427843040,
-                                        "localized": "Mar 31, 2015 4:04:00 PM",
-                                        "localizedShortDate": "Tue, 31 Mar",
-                                        "raw": "2015-03-31T16:04:00-07:00",
+                                        "epochSeconds": 1459465440,
+                                        "localized": "Mar 31, 2016 4:04:00 PM",
+                                        "localizedShortDate": "Thu, 31 Mar",
+                                        "raw": "2016-03-31T16:04:00-07:00",
                                         "timeZoneOffsetSeconds": -25200
                                     },
                                     "arrivalType": "FLIGHT_ARRIVAL",
@@ -196,10 +196,10 @@
                                         "name": "Long Beach Municipal"
                                     },
                                     "departureTime": {
-                                        "epochSeconds": 1427839200,
-                                        "localized": "Mar 31, 2015 3:00:00 PM",
-                                        "localizedShortDate": "Tue, 31 Mar",
-                                        "raw": "2015-03-31T15:00:00-07:00",
+                                        "epochSeconds": 1459461600,
+                                        "localized": "Mar 31, 2016 3:00:00 PM",
+                                        "localizedShortDate": "Thu, 31 Mar",
+                                        "raw": "2016-03-31T15:00:00-07:00",
                                         "timeZoneOffsetSeconds": -25200
                                     },
                                     "departureType": "FLIGHT_DEPARTURE",
@@ -314,10 +314,10 @@
             "readTripError": false,
             "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oQeGhKxVh4nzWQGQizCVFk0",
             "startTime": {
-                "epochSeconds": 1427832300,
-                "localized": "Mar 31, 2015 1:05:00 PM",
-                "localizedShortDate": "Tue, 31 Mar",
-                "raw": "2015-03-31T13:05:00-07:00",
+                "epochSeconds": 1459454700,
+                "localized": "Mar 31, 2016 1:05:00 PM",
+                "localizedShortDate": "Thu, 31 Mar",
+                "raw": "2016-03-31T13:05:00-07:00",
                 "timeZoneOffsetSeconds": -25200
             },
             "title": "Mobile Itinerary",
@@ -361,10 +361,10 @@
             },
             "description": "",
             "endTime": {
-                "epochSeconds": 1430785500,
-                "localized": "May 4, 2015 8:25:00 PM",
-                "localizedShortDate": "Mon, 4 May",
-                "raw": "2015-05-04T20:25:00-04:00",
+                "epochSeconds": 1462407900,
+                "localized": "May 4, 2016 8:25:00 PM",
+                "localizedShortDate": "Wed, 4 May",
+                "raw": "2016-05-04T20:25:00-04:00",
                 "timeZoneOffsetSeconds": -14400
             },
             "flights": [
@@ -502,10 +502,10 @@
                                     },
                                     "arrivalTerminal": "1",
                                     "arrivalTime": {
-                                        "epochSeconds": 1430760060,
-                                        "localized": "May 4, 2015 12:21:00 PM",
-                                        "localizedShortDate": "Mon, 4 May",
-                                        "raw": "2015-05-04T12:21:00-05:00",
+                                        "epochSeconds": 1462382460,
+                                        "localized": "May 4, 2016 12:21:00 PM",
+                                        "localizedShortDate": "Wed, 4 May",
+                                        "raw": "2016-05-04T12:21:00-05:00",
                                         "timeZoneOffsetSeconds": -18000
                                     },
                                     "arrivalType": "FLIGHT_ARRIVAL",
@@ -526,10 +526,10 @@
                                     },
                                     "departureTerminal": "2",
                                     "departureTime": {
-                                        "epochSeconds": 1430754600,
-                                        "localized": "May 4, 2015 10:50:00 AM",
-                                        "localizedShortDate": "Mon, 4 May",
-                                        "raw": "2015-05-04T10:50:00-05:00",
+                                        "epochSeconds": 1462377000,
+                                        "localized": "May 4, 2016 10:50:00 AM",
+                                        "localizedShortDate": "Wed, 4 May",
+                                        "raw": "2016-05-04T10:50:00-05:00",
                                         "timeZoneOffsetSeconds": -18000
                                     },
                                     "departureType": "FLIGHT_DEPARTURE",
@@ -564,10 +564,10 @@
                                         "name": "Port Columbus Intl."
                                     },
                                     "arrivalTime": {
-                                        "epochSeconds": 1430772780,
-                                        "localized": "May 4, 2015 4:53:00 PM",
-                                        "localizedShortDate": "Mon, 4 May",
-                                        "raw": "2015-05-04T16:53:00-04:00",
+                                        "epochSeconds": 1462395180,
+                                        "localized": "May 4, 2016 4:53:00 PM",
+                                        "localizedShortDate": "Wed, 4 May",
+                                        "raw": "2016-05-04T16:53:00-04:00",
                                         "timeZoneOffsetSeconds": -14400
                                     },
                                     "arrivalType": "FLIGHT_ARRIVAL",
@@ -588,10 +588,10 @@
                                     },
                                     "departureTerminal": "1",
                                     "departureTime": {
-                                        "epochSeconds": 1430765700,
-                                        "localized": "May 4, 2015 1:55:00 PM",
-                                        "localizedShortDate": "Mon, 4 May",
-                                        "raw": "2015-05-04T13:55:00-05:00",
+                                        "epochSeconds": 1462388100,
+                                        "localized": "May 4, 2016 1:55:00 PM",
+                                        "localizedShortDate": "Wed, 4 May",
+                                        "raw": "2016-05-04T13:55:00-05:00",
                                         "timeZoneOffsetSeconds": -18000
                                     },
                                     "departureType": "FLIGHT_DEPARTURE",
@@ -627,10 +627,10 @@
                                     },
                                     "arrivalTerminal": "S",
                                     "arrivalTime": {
-                                        "epochSeconds": 1430785500,
-                                        "localized": "May 4, 2015 8:25:00 PM",
-                                        "localizedShortDate": "Mon, 4 May",
-                                        "raw": "2015-05-04T20:25:00-04:00",
+                                        "epochSeconds": 1462407900,
+                                        "localized": "May 4, 2016 8:25:00 PM",
+                                        "localizedShortDate": "Wed, 4 May",
+                                        "raw": "2016-05-04T20:25:00-04:00",
                                         "timeZoneOffsetSeconds": -14400
                                     },
                                     "arrivalType": "FLIGHT_ARRIVAL",
@@ -650,10 +650,10 @@
                                         "name": "Port Columbus Intl."
                                     },
                                     "departureTime": {
-                                        "epochSeconds": 1430779500,
-                                        "localized": "May 4, 2015 6:45:00 PM",
-                                        "localizedShortDate": "Mon, 4 May",
-                                        "raw": "2015-05-04T18:45:00-04:00",
+                                        "epochSeconds": 1462401900,
+                                        "localized": "May 4, 2016 6:45:00 PM",
+                                        "localizedShortDate": "Wed, 4 May",
+                                        "raw": "2016-05-04T18:45:00-04:00",
                                         "timeZoneOffsetSeconds": -14400
                                     },
                                     "departureType": "FLIGHT_DEPARTURE",
@@ -850,10 +850,10 @@
             "readTripError": false,
             "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oTsOMahOzzWJHDe6lwAJbm0",
             "startTime": {
-                "epochSeconds": 1430754600,
-                "localized": "May 4, 2015 10:50:00 AM",
-                "localizedShortDate": "Mon, 4 May",
-                "raw": "2015-05-04T10:50:00-05:00",
+                "epochSeconds": 1462377000,
+                "localized": "May 4, 2016 10:50:00 AM",
+                "localizedShortDate": "Wed, 4 May",
+                "raw": "2016-05-04T10:50:00-05:00",
                 "timeZoneOffsetSeconds": -18000
             },
             "title": "Mobile Itinerary",
