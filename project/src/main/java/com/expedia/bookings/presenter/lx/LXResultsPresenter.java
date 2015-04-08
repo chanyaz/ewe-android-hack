@@ -29,7 +29,6 @@ import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
 import com.expedia.bookings.widget.LXSortFilterWidget;
 import com.mobiata.android.Log;
@@ -237,6 +236,6 @@ public class LXResultsPresenter extends Presenter {
 		toolbar.setTranslationY(forward ? 50 : 0);
 		toolbar.setVisibility(forward ? GONE : VISIBLE);
 		toolbarBackground.setAlpha(
-			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
+			Strings.equals(getCurrentState(), LXSearchResultsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
 	}
 }

@@ -28,6 +28,7 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.mobiata.android.Log;
@@ -255,5 +256,26 @@ public class LXDetailsPresenter extends Presenter {
 			toolbarBackground.setAlpha(ratio);
 		}
 	};
+
+	public void animationStart(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
+		toolbar.setTranslationY(forward ? 0 : 50);
+		toolbar.setVisibility(VISIBLE);
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		toolbarBackground
+			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
+		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+	}
+
+	public void animationFinalize(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
+		toolbar.setTranslationY(forward ? 50 : 0);
+		toolbar.setVisibility(forward ? GONE : VISIBLE);
+		toolbarBackground.setAlpha(
+			Strings.equals(getCurrentState(), LXActivityDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
+	}
+
 }
 

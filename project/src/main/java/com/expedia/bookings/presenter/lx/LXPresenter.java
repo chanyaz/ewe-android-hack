@@ -111,35 +111,63 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition searchOverlayOnResults = new VisibilityTransition(this, LXResultsPresenter.class.getName(),
-		LXParamsOverlay.class.getName()) {
+	private Transition searchOverlayOnResults = new Transition(LXResultsPresenter.class,
+	LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		@Override
+		public void startTransition(boolean forward) {
+			resultsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(VISIBLE);
+			detailsPresenter.setVisibility(View.GONE);
+			resultsPresenter.animationStart(forward);
+			searchParamsWidget.animationStart(forward);
+		}
+	
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			resultsPresenter.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
+		}
+	
+		@Override
+		public void endTransition(boolean forward) {
+		}
+	
 		@Override
 		public void finalizeTransition(boolean forward) {
-			if (forward) {
-				resultsPresenter.setVisibility(View.VISIBLE);
-				searchParamsWidget.setVisibility(View.VISIBLE);
-				detailsPresenter.setVisibility(View.GONE);
-			}
-			else {
-				resultsPresenter.setVisibility(View.VISIBLE);
-				searchParamsWidget.setVisibility(View.GONE);
-				detailsPresenter.setVisibility(View.GONE);
-			}
+			resultsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
+			detailsPresenter.setVisibility(View.GONE);
+			resultsPresenter.animationFinalize(forward);
+			searchParamsWidget.animationFinalize(forward);
 		}
 	};
 
-	private Transition searchOverlayOnDetails = new VisibilityTransition(this, LXDetailsPresenter.class.getName(),
-		LXParamsOverlay.class.getName()) {
+	private Transition searchOverlayOnDetails = new Transition(LXDetailsPresenter.class,
+		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		@Override
+		public void startTransition(boolean forward) {
+			detailsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(VISIBLE);
+			detailsPresenter.animationStart(forward);
+			searchParamsWidget.animationStart(forward);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			detailsPresenter.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
 		@Override
 		public void finalizeTransition(boolean forward) {
-			if (forward) {
-				detailsPresenter.setVisibility(View.VISIBLE);
-				searchParamsWidget.setVisibility(View.VISIBLE);
-			}
-			else {
-				detailsPresenter.setVisibility(View.VISIBLE);
-				searchParamsWidget.setVisibility(View.GONE);
-			}
+			detailsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
+			detailsPresenter.animationFinalize(forward);
+			searchParamsWidget.animationFinalize(forward);
 		}
 	};
 
