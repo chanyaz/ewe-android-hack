@@ -1,8 +1,9 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -114,8 +115,8 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 
 		// Add each card, with layovers in between
 		final int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
-		Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+		DateTime minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+		DateTime maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 		int segmentCount = leg.getSegmentCount();
 		for (int a = 0; a < segmentCount; a++) {
 			Flight flight = leg.getSegment(a);

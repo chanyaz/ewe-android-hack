@@ -1,6 +1,6 @@
 package com.expedia.bookings.section;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -103,11 +103,11 @@ public class FlightInfoBarSection extends LinearLayout {
 
 	public void bindTripOverview(FlightTrip trip, int numTravelers) {
 		// Bind left label (trip dates)
-		Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+		DateTime retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
 
-		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
-		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+		long start = depDate == null ? 0 : DateTimeUtils.withConfiguredTimeZone(getContext(), depDate).getMillis();
+		long end = retDate == null ? 0 :  DateTimeUtils.withConfiguredTimeZone(getContext(), retDate).getMillis();
 
 		String dateRange = DateUtils.formatDateRange(getContext(), start, end,
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY

@@ -9,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +20,7 @@ import javax.net.ssl.SSLContext;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -616,11 +616,11 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			// get based on flight number
 			FlightCode flightCode = flight.getPrimaryFlightCode();
-			Calendar departure = flight.getOriginWaypoint().getBestSearchDateTime();
+			DateTime departure = flight.getOriginWaypoint().getBestSearchDateTime();
 			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/"
 				+ flightCode.mNumber.trim()
-				+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/"
-				+ departure.get(Calendar.DAY_OF_MONTH) + "?";
+				+ "/dep/" + departure.getYear() + "/" + (departure.getMonthOfYear() + 1) + "/"
+				+ departure.getDayOfMonth() + "?";
 
 			parameters.add(new BasicNameValuePair("utc", "false"));
 			parameters.add(new BasicNameValuePair("airport", flight.getOriginWaypoint().mAirportCode));

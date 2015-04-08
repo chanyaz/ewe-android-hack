@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -237,16 +236,16 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			staticMapImageView.setFlights(data.getFlightLeg().getSegments());
 
 			//Arrival / Departure times
-			Calendar departureTimeCal = leg.getFirstWaypoint().getBestSearchDateTime();
-			Calendar arrivalTimeCal = leg.getLastWaypoint().getBestSearchDateTime();
+			DateTime departureTimeCal = leg.getFirstWaypoint().getBestSearchDateTime();
+			DateTime arrivalTimeCal = leg.getLastWaypoint().getBestSearchDateTime();
 
 			String departureTime = formatTime(departureTimeCal);
 			String departureTz = res.getString(R.string.depart_tz_TEMPLATE,
-					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal.getTime(),
+					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal,
 							MAX_TIMEZONE_LENGTH));
 			String arrivalTime = formatTime(arrivalTimeCal);
 			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE,
-					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal.getTime(),
+					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal,
 							MAX_TIMEZONE_LENGTH));
 
 			departureTimeTv.setText(departureTime);
@@ -823,7 +822,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return v;
 	}
 
-	private View getFlightView(Flight flight, Calendar minTime, Calendar maxTime) {
+	private View getFlightView(Flight flight, DateTime minTime, DateTime maxTime) {
 		FlightLegSummarySection v = (FlightLegSummarySection) getLayoutInflater().inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
@@ -934,9 +933,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return "";
 	}
 
-	private String formatTime(Calendar cal) {
-		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
-		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
+	private String formatTime(DateTime cal) {
+		String format = DateTimeUtils.getDeviceTimeFormat(getContext());
+		return JodaUtils.format(DateTimeUtils.withConfiguredTimeZone(getContext(), cal), format);
 	}
 
 	private Animation getGlowAnimation() {

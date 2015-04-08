@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -222,8 +220,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		// Flight Leg container
 
 		//Arrival / Departure times
-		Calendar depTime = flightLeg.getFirstWaypoint().getBestSearchDateTime();
-		Calendar arrTime = flightLeg.getLastWaypoint().getBestSearchDateTime();
+		DateTime depTime = flightLeg.getFirstWaypoint().getBestSearchDateTime();
+		DateTime arrTime = flightLeg.getLastWaypoint().getBestSearchDateTime();
 
 		FlightSegmentSection flightSegmentSection;
 
@@ -281,10 +279,9 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		startActivity(intent);
 	}
 
-	private String formatTime(Calendar cal) {
-		DateTime datetime = new DateTime(cal);
+	private String formatTime(DateTime cal) {
 		DateTimeFormatter format = DateTimeFormat.forPattern("MMM dd, h:mm a");
-		return format.print(datetime);
+		return format.print(cal);
 	}
 
 	/*

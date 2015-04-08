@@ -1,6 +1,6 @@
 package com.expedia.bookings.activity;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -634,11 +634,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
-		Date depDate = DateTimeUtils
-			.getTimeInLocalTimeZone(trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
-		Date retDate = DateTimeUtils.getTimeInLocalTimeZone(trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
-			.getMostRelevantDateTime());
-		String dateRange = DateUtils.formatDateRange(this, depDate.getTime(), retDate.getTime(),
+		DateTime depDate = DateTimeUtils.withConfiguredTimeZone(this, trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
+		DateTime retDate = DateTimeUtils.withConfiguredTimeZone(this,
+			trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
+				.getMostRelevantDateTime());
+		String dateRange = DateUtils.formatDateRange(this, depDate.getMillis(), retDate.getMillis(),
 			DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_MONTH
 		);
