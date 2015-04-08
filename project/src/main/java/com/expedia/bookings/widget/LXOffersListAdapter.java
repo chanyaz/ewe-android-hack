@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
@@ -113,9 +113,13 @@ public class LXOffersListAdapter extends BaseAdapter {
 		public void bind(final Offer offer) {
 			this.offer = offer;
 
+			FontCache.setTypeface(selectTickets, FontCache.Font.ROBOTO_REGULAR);
+			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
+
 			List<String> priceSummaries = new ArrayList<String>();
 			ticketSelectionWidget.setOfferId(offer.id);
 			ticketSelectionWidget.setOfferTitle(offer.title);
+			ticketSelectionWidget.setFreeCancellation(offer.freeCancellation);
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				priceSummaries.add(String.format("%s %s", ticket.money.getFormattedMoney(), itemView.getResources().getString(

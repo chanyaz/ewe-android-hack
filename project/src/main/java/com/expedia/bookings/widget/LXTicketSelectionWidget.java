@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,7 +26,8 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LXTicketSelectionWidget extends CardView {
+public class LXTicketSelectionWidget extends LinearLayout {
+
 
 	public LXTicketSelectionWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -43,12 +43,19 @@ public class LXTicketSelectionWidget extends CardView {
 	Button bookNow;
 
 	@InjectView(R.id.offer_title)
-	TextView title;
+	com.expedia.bookings.widget.TextView title;
+
+	@InjectView(R.id.free_cancellation)
+	TextView freeCancellationText;
+
+	@InjectView(R.id.ticket_summary_container)
+	LinearLayout ticketSummaryContainer;
 
 	private Map<LXTicketType, Ticket> ticketsMap = new LinkedHashMap<>();
 
 	private String offerId;
 	private String offerTitle;
+	private boolean freeCancellation;
 
 	@Override
 	protected void onFinishInflate() {
@@ -67,6 +74,10 @@ public class LXTicketSelectionWidget extends CardView {
 		return selectedTickets;
 	}
 
+	public void setFreeCancellation(boolean freeCancellation) {
+		this.freeCancellation = freeCancellation;
+	}
+
 	public void setOfferId(String offerId) {
 		this.offerId = offerId;
 	}
@@ -79,6 +90,7 @@ public class LXTicketSelectionWidget extends CardView {
 
 		title.setText(offerTitle);
 
+		freeCancellationText.setVisibility(freeCancellation ? VISIBLE : GONE);
 		for (Ticket ticket : availabilityInfo.tickets) {
 			LXTicketPicker ticketPicker = Ui.inflate(R.layout.lx_ticket_picker, ticketSelectorContainer, false);
 			ticketSelectorContainer.addView(ticketPicker);
@@ -96,6 +108,7 @@ public class LXTicketSelectionWidget extends CardView {
 		if (Strings.isNotEmpty(offerId) && offerId.equals(event.offerId)) {
 			ticketsMap.put(event.ticket.code, event.ticket);
 
+			ticketSummaryContainer.setVisibility(LXUtils.getTotalTicketCount(new ArrayList<>(ticketsMap.values())) > 0 ? VISIBLE : GONE);
 			ticketSummary.setText(Strings.joinWithoutEmpties(", ", getTicketSummaries()));
 			bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE),
 				LXUtils.getTotalAmount(new ArrayList<>(ticketsMap.values())).getFormattedMoney()));
@@ -106,7 +119,9 @@ public class LXTicketSelectionWidget extends CardView {
 		List<String> ticketsSummaries = new ArrayList<>();
 
 		for (Ticket ticket : ticketsMap.values()) {
-			ticketsSummaries.add(LXDataUtils.getTicketCountSummary(getContext(), ticket.code, ticket.count));
+			if (ticket.count > 0) {
+				ticketsSummaries.add(LXDataUtils.getTicketCountSummary(getContext(), ticket.code, ticket.count));
+			}
 		}
 
 		return ticketsSummaries;
