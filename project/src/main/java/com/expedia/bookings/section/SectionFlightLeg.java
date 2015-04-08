@@ -1,7 +1,8 @@
 package com.expedia.bookings.section;
 
 import java.text.DateFormat;
-import java.util.Calendar;
+
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -63,8 +64,8 @@ public class SectionFlightLeg extends LinearLayout {
 	}
 
 	public void setInfoText(FlightLeg leg) {
-		Calendar cal = leg.getFirstWaypoint().getMostRelevantDateTime();//We always label with the day the flight (leg) departs
-		long time = DateTimeUtils.getTimeInLocalTimeZone(cal).getTime();
+		DateTime cal = leg.getFirstWaypoint().getMostRelevantDateTime();//We always label with the day the flight (leg) departs
+		long time = cal == null ? 0 : DateTimeUtils.withConfiguredTimeZone(getContext(), cal).getMillis();
 		String formattedDate = DateUtils.formatDateTime(getContext(), time, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_SHOW_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_ALL);
@@ -80,7 +81,7 @@ public class SectionFlightLeg extends LinearLayout {
 	public String getFormatedRelevantWaypointTime(Waypoint wp) {
 		Context context = getContext();
 		DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);
-		return timeFormat.format(DateTimeUtils.getTimeInConfiguredTimeZone(context, wp.getMostRelevantDateTime()));
+		return timeFormat.format(DateTimeUtils.withConfiguredTimeZone(context, wp.getMostRelevantDateTime()));
 	}
 
 	private int getLegPosition() {

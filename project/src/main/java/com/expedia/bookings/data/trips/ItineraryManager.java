@@ -1262,8 +1262,8 @@ public class ItineraryManager implements JSONable {
 						FlightLeg fl = flightTrip.getLeg(i);
 
 						for (Flight segment : fl.getSegments()) {
-							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getTimeInMillis();
-							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis();
+							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getMillis();
+							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getMillis();
 							long timeToTakeOff = takeOff - now;
 							long timeSinceLastUpdate = now - segment.mLastUpdated;
 							if (segment.mFlightHistoryId == -1) {
@@ -1889,7 +1889,7 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
-			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, siteId, userTuid,
+			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
 					getItinFlights(false), getItinFlights(true));
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());

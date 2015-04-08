@@ -3,12 +3,10 @@ package com.expedia.bookings.notification;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,6 +26,7 @@ import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.BackgroundDownloader;
@@ -328,7 +327,7 @@ public class PushNotificationUtils {
 	 * @return
 	 */
 	@SuppressLint("SimpleDateFormat")
-	public static JSONObject buildPushRegistrationPayload(String token, int siteId, long tuid, List<Flight> normalFlightList,
+	public static JSONObject buildPushRegistrationPayload(Context context, String token, int siteId, long tuid, List<Flight> normalFlightList,
 			List<Flight> sharedFlightList) {
 		JSONObject retObj = new JSONObject();
 		JSONObject courier = new JSONObject();
@@ -348,7 +347,7 @@ public class PushNotificationUtils {
 
 			if (normalFlightList != null) {
 				for (Flight f : normalFlightList) {
-					JSONObject flightJson = buildFlightJSON(f, false);
+					JSONObject flightJson = buildFlightJSON(context, f, false);
 					if (flightJson != null) {
 						flights.put(flightJson);
 					}
@@ -357,7 +356,7 @@ public class PushNotificationUtils {
 
 			if (sharedFlightList != null) {
 				for (Flight f : sharedFlightList) {
-					JSONObject flightJson = buildFlightJSON(f, true);
+					JSONObject flightJson = buildFlightJSON(context, f, true);
 					if (flightJson != null) {
 						flights.put(flightJson);
 					}
@@ -375,17 +374,17 @@ public class PushNotificationUtils {
 		return retObj;
 	}
 
-	private static SimpleDateFormat sFlightDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-
-	private static JSONObject buildFlightJSON(Flight flight, boolean shared) {
+	private static JSONObject buildFlightJSON(Context context, Flight flight, boolean shared) {
 		try {
-			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(flight.getOriginWaypoint().getBestSearchDateTime());
-			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(flight.getDestinationWaypoint().getBestSearchDateTime());
+			DateTime departureDate = DateTimeUtils.withConfiguredTimeZone(context,
+				flight.getOriginWaypoint().getBestSearchDateTime());
+			DateTime arrivalDate = DateTimeUtils.withConfiguredTimeZone(context,
+				flight.getDestinationWaypoint().getBestSearchDateTime());
 
 			JSONObject flightJson = new JSONObject();
 			flightJson.put("__type__", "Flight");
-			flightJson.put("departure_date", sFlightDateFormat.format(departureDate));
-			flightJson.put("arrival_date", sFlightDateFormat.format(arrivalDate));
+			flightJson.put("departure_date", JodaUtils.format(departureDate, "yyyy-MM-dd HH:mm:ss"));
+			flightJson.put("arrival_date", JodaUtils.format(arrivalDate, "yyyy-MM-dd HH:mm:ss"));
 			flightJson.put("destination", flight.getDestinationWaypoint().mAirportCode);
 			flightJson.put("origin", flight.getOriginWaypoint().mAirportCode);
 			flightJson.put("airline", flight.getPrimaryFlightCode().mAirlineCode);
@@ -1106,7 +1105,7 @@ public class PushNotificationUtils {
 				}
 				ExpediaServices services = new ExpediaServices(context);
 				return services.registerForPushNotifications(serverUrl, new PushRegistrationResponseHandler(context),
-						buildPushRegistrationPayload(regId, siteId, userTuid, null, null), regId);
+						buildPushRegistrationPayload(context, regId, siteId, userTuid, null, null), regId);
 			}
 		}, unregistrationCompleteHandler);
 	}

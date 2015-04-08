@@ -455,7 +455,7 @@ public class HotelSearchParams implements JSONable {
 		}
 
 		// When //
-		LocalDate checkInDate = LocalDate.fromCalendarFields(firstLeg.getLastWaypoint().getBestSearchDateTime());
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
 		hotelParams.setCheckInDate(checkInDate);
 
 		if (secondLeg == null) {
@@ -464,7 +464,7 @@ public class HotelSearchParams implements JSONable {
 		}
 		else {
 			// Round-trip flight
-			LocalDate checkOutDate = LocalDate.fromCalendarFields(secondLeg.getFirstWaypoint()
+			LocalDate checkOutDate = new LocalDate(secondLeg.getFirstWaypoint()
 					.getMostRelevantDateTime());
 			hotelParams.setCheckOutDate(checkOutDate);
 			ensureMaxStayTwentyEightDays(hotelParams);
