@@ -65,6 +65,7 @@
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">#FFFFFF</color>
     <color name="spinner_airport_details">#777777</color>
+    <color name="flight_departure_date_color">#343434</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
@@ -161,6 +162,7 @@
     <color name="hotel_list_progress_text_color">#555555</color>
     <color name="hotel_map_progress_text_color">@color/actionbar_text</color>
     <color name="map_dimmer">#c0495359</color>
+    <color name="hotel_map_text_color">#3c7cf2</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
@@ -239,6 +241,7 @@
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
     <color name="bg_login_facebook_normal">#3B5998</color>
     <color name="bg_login_facebook_pressed">#233A6A</color>
+    <color name="checkout_traveler_birth_color">#919191</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">#DB6F0D</color>

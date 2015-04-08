@@ -17,8 +17,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -975,15 +976,24 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (mSearchParams.getReturnDate() != null) {
 			end = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getReturnDate(), DATE_FORMAT_FLAGS);
 		}
-
+		int color = getResources().getColor(R.color.flight_departure_date_color);
 		if (start == null && end == null) {
 			mDatesTextView.setText(null);
 		}
 		else if (end == null) {
-			mDatesTextView.setText(Html.fromHtml(getString(R.string.one_way_TEMPLATE, start)));
+			Spannable stringToSpan = new SpannableString(getString(R.string.one_way_TEMPLATE, start));
+			int endSpan = start.length();
+			Ui.setTextStyleBoldText(stringToSpan, color, 0, endSpan);
+			mDatesTextView.setText(stringToSpan);
 		}
 		else {
-			mDatesTextView.setText(Html.fromHtml(getString(R.string.round_trip_TEMPLATE, start, end)));
+			Spannable stringToSpan = new SpannableString(getString(R.string.round_trip_TEMPLATE, start, end));
+			int endSpan = start.length();
+			Ui.setTextStyleBoldText(stringToSpan, color, 0, endSpan);
+			endSpan = stringToSpan.length();
+			int startSpan = endSpan - end.length();
+			Ui.setTextStyleBoldText(stringToSpan, color, startSpan, endSpan);
+			mDatesTextView.setText(stringToSpan);
 		}
 	}
 

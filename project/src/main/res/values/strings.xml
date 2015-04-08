@@ -537,9 +537,9 @@
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/night</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">Hotel fees for this stay (included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Hotel fees for this stay (included): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">Hotel fees for this stay (not included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hotel fees for this stay (not included): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Add To Trip</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -1337,9 +1337,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Select a departure date</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One Way)</string>
+    <string name="one_way_TEMPLATE">%1$s (One Way)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s to %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sort Flights</string>
     <!-- Edit search title -->
@@ -1668,7 +1668,7 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Born&lt;/font&gt; %1$s</string>
+    <string name="born_on_colored_TEMPLATE">Born %1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; expiring %2$s</string>
 
@@ -1684,7 +1684,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">Your confirmation email will be sent here</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expires&lt;/font&gt; %1$s</string>
+    <string name="expires_colored_TEMPLATE">Expires %1$s</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1793,7 +1793,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers&lt;/font&gt; %1$s Seat</string>
+    <string name="prefers_seat_colored_TEMPLATE">Prefers %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveler information…</string>
     <!-- Passport -->
@@ -2205,7 +2205,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">From %s</string>
-    <string name="From_x_per_night_template">From &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/night</string>
+    <string name="From_x_per_night_template">From %s/night</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
