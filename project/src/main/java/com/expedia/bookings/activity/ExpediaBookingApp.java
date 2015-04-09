@@ -47,7 +47,6 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
-import com.expedia.bookings.utils.SocketActivityHierarchyServer;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -113,19 +112,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
-
-		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this,
-			getString(R.string.preference_should_start_hierarchy_server), false)) {
-			SocketActivityHierarchyServer activityHierarchyServer = new SocketActivityHierarchyServer();
-			try {
-				activityHierarchyServer.start();
-				registerActivityLifecycleCallbacks(activityHierarchyServer);
-			}
-			catch (Exception e) {
-				Log.e("Failed to start HierarchyServer", e);
-			}
-			startupTimer.addSplit("SocketActivityHierarchyServer Init");
-		}
 
 		ActiveAndroid.initialize(this);
 
