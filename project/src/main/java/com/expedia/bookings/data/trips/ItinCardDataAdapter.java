@@ -17,7 +17,6 @@ import android.widget.BaseAdapter;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
@@ -461,6 +460,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 */
 
 	private void addAttachData(List<ItinCardData> itinCardDatas) {
+		// Don't add attach cards if POS does not support hotel x-sell
+		if (!PointOfSale.getPointOfSale().showHotelCrossSell()) {
+			return;
+		}
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
@@ -473,7 +476,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
 		dismissedTripIds.addAll(dismissedAirAttach);
 
-		boolean isHotelAttachEnabled = PointOfSale.getPointOfSale().getPointOfSaleId() != PointOfSaleId.NORWAY;
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
 
@@ -526,6 +528,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
 
+				// Ignore fallback cards
 				if (nextData instanceof ItinCardDataFallback) {
 					continue;
 				}
@@ -533,11 +536,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				// Always add an attach button for one-way flights with no hotel
 				if (legCount == 1 && !(nextType == Type.HOTEL)) {
 					insertButtonCard = true;
-				}
-
-				// Ignore fallback cards
-				if (nextData instanceof ItinCardDataFallback) {
-					continue;
 				}
 
 				// If the next itin is a flight
@@ -585,8 +583,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 					len ++;
 					i ++;
 				}
-				// Make sure hotel attach is enabled
-				else if (isHotelAttachEnabled) {
+				// Show default hotel cross-sell button
+				else {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;
