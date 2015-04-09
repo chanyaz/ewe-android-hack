@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.animation.ValueAnimator;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +16,14 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,15 +61,6 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		if (holder.getItemViewType() != LOADING_VIEW) {
 			LXActivity activity = activities.get(position);
 			((ViewHolder) holder).bind(activity);
-
-			String url = Images.getLXImageURL(activity.imageUrl);
-
-			new PicassoHelper.Builder(((ViewHolder) holder).activityImage)
-				.setPlaceholder(R.drawable.results_list_placeholder)
-				.fade()
-				.setTag(ROW_PICASSO_TAG)
-				.build()
-				.load(url);
 		}
 		else {
 			ValueAnimator animation = AnimUtils
@@ -130,6 +125,9 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		@InjectView(R.id.activity_duration)
 		TextView duration;
 
+		@InjectView(R.id.gradient_mask)
+		public View gradientMask;
+
 		@Override
 		public void onClick(View v) {
 			LXActivity activity = (LXActivity) v.getTag();
@@ -157,6 +155,41 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 				}
 				duration.setVisibility(View.VISIBLE);
 			}
+
+			String url = Images.getLXImageURL(activity.imageUrl);
+			new PicassoHelper.Builder(itemView.getContext())
+				.setPlaceholder(R.drawable.results_list_placeholder)
+				.setError(R.drawable.itin_header_placeholder_activities)
+				.fade()
+				.setTag(ROW_PICASSO_TAG)
+				.setTarget(target)
+				.build()
+				.load(url);
+
 		}
+
+		private PicassoTarget target = new PicassoTarget() {
+			@Override
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+				super.onBitmapLoaded(bitmap, from);
+				activityImage.setImageBitmap(bitmap);
+				gradientMask.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onBitmapFailed(Drawable errorDrawable) {
+				super.onBitmapFailed(errorDrawable);
+				activityImage.setImageDrawable(errorDrawable);
+				gradientMask.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+				super.onPrepareLoad(placeHolderDrawable);
+				activityImage.setImageDrawable(placeHolderDrawable);
+				gradientMask.setVisibility(View.GONE);
+			}
+		};
+
 	}
 }

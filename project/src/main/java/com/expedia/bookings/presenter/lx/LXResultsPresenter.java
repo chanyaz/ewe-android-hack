@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -24,7 +24,6 @@ import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
@@ -61,7 +60,7 @@ public class LXResultsPresenter extends Presenter {
 	LXSortFilterWidget sortFilterWidget;
 
 	@InjectView(R.id.sort_filter_button)
-	Button sortFilterButton;
+	LinearLayout sortFilterButton;
 
 	// This is here just for an animation
 	@InjectView(R.id.toolbar_background)
@@ -77,9 +76,32 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	// Transitions
-	private Transition searchResultsToSortFilter = new VisibilityTransition(this, LXSearchResultsWidget.class.getName(), LXSortFilterWidget.class.getName()) {
+	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class) {
+		private int sortFilterWidgetHeight;
+
+		@Override
+		public void startTransition(boolean forward) {
+			int parentHeight = getHeight();
+			sortFilterWidgetHeight = sortFilterWidget.getHeight();
+			float pos = forward ? parentHeight + sortFilterWidgetHeight : sortFilterWidgetHeight;
+			sortFilterWidget.setTranslationY(pos);
+			sortFilterWidget.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float pos = forward ? sortFilterWidgetHeight + (-f * sortFilterWidgetHeight) : (f * sortFilterWidgetHeight);
+			sortFilterWidget.setTranslationY(pos);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidgetHeight);
+		}
+
 		@Override
 		public void finalizeTransition(boolean forward) {
+			sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidgetHeight);
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
 		}
 	};

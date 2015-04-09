@@ -11,10 +11,12 @@
         <item name="checkout_slider_text">@string/lx_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
-        <item name="android:colorPrimaryDark">#532C45</item>
+        <item name="android:colorPrimaryDark">@color/lx_secondary_color</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
         <item name="colorControlNormal">#C3C3C3</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="colorAccent">@color/lx_primary_color</item>
+
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
@@ -75,12 +77,15 @@
 
     <style name="LXToolbarTitleTextAppearance" parent="V2.Theme.LX">
         <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <style name="LXToolbarSubtitleTextAppearance" parent="V2.Theme.LX">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="LXSearchToolbarTitleTextAppearance" parent="V2.Theme.LX">
@@ -114,4 +119,5 @@
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>
     </style>
+
 </resources>

@@ -373,6 +373,10 @@
     <string name="lx_sort_filter">Sort &amp; Filter</string>
     <!-- Read more of the review -->
     <string name="lx_details_read_more">Read More</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">Price</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">Popularity</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
