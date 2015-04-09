@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
@@ -154,6 +155,7 @@ public class LXSearchParamsPresenter extends Presenter
 
 		selectDates.setChecked(true);
 		show(new LXParamsCalendar());
+
 		Suggestion suggest = suggestion.clone();
 		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
 		// Remove duplicates
@@ -181,12 +183,6 @@ public class LXSearchParamsPresenter extends Presenter
 	private void loadHistory() {
 		mRecentLXLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(), RECENT_ROUTES_LX_LOCATION_FILE);
 		suggestionAdapter.addNearbyAndRecents(mRecentLXLocationsSearches, getContext());
-		postDelayed(new Runnable() {
-			public void run() {
-				location.requestFocus();
-				Ui.showKeyboard(location, null);
-			}
-		}, 300);
 	}
 
 	@Override
@@ -207,7 +203,6 @@ public class LXSearchParamsPresenter extends Presenter
 			return;
 		}
 		show(new LXParamsCalendar());
-		//calendarContainer.setVisibility(View.VISIBLE);
 	}
 
 	private boolean validateSearchInput() {
@@ -252,6 +247,7 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	private void searchParamsChanged() {
+		searchParamsBuilder.searchType(SearchType.EXPLICIT_SEARCH);
 		searchParams = searchParamsBuilder.build();
 		if (searchParamsBuilder.startDate != null) {
 			String dateText = DateUtils.localDateToMMMdd(searchParamsBuilder.startDate);
@@ -340,8 +336,7 @@ public class LXSearchParamsPresenter extends Presenter
 	public static class LXParamsCalendar {
 	}
 
-	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class,
-		LXParamsCalendar.class) {
+	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class, LXParamsCalendar.class) {
 		private int calendarHeight;
 
 		@Override

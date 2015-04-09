@@ -111,11 +111,15 @@ public class SuggestionServices {
 	}
 
 	public Subscription getNearbyLxSuggestions(String locale, String latlong, int siteId, Observer<List<Suggestion>> observer) {
+		return getNearbyLxSuggestions(locale, latlong, siteId)
+			.subscribe(observer);
+	}
+
+	public Observable<List<Suggestion>> getNearbyLxSuggestions(String locale, String latlong, int siteId) {
 		return mSuggestApi.suggestNearbyV1(locale, latlong, siteId,
 			SuggestionResultType.CITY | SuggestionResultType.MULTI_CITY | SuggestionResultType.NEIGHBORHOOD, "d")
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.map(sToListNearby)
-			.subscribe(observer);
+			.map(sToListNearby);
 	}
 }

@@ -1,7 +1,12 @@
 package com.expedia.bookings.dagger;
 
+
+import android.content.Context;
+
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.dagger.tags.LXScope;
+import com.expedia.bookings.location.CurrentLocationProvider;
+import com.expedia.bookings.location.CurrentLocationSuggestionProvider;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.services.SuggestionServices;
@@ -34,5 +39,11 @@ public class LXModule {
 	@LXScope
 	LXState provideLXState() {
 		return new LXState();
+	}
+
+	@Provides
+	@LXScope
+	CurrentLocationSuggestionProvider provideCurrentLocationSuggestionProvider(SuggestionServices suggestionServices, Context context) {
+		return new CurrentLocationSuggestionProvider(suggestionServices, CurrentLocationProvider.currentLocation(context));
 	}
 }

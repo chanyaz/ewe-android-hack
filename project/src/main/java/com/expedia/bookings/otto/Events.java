@@ -44,6 +44,7 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
@@ -702,9 +703,11 @@ public class Events {
 
 	public static class LXShowSearchError {
 		public ApiError error;
+		public SearchType searchType;
 
-		public LXShowSearchError(ApiError error) {
+		public LXShowSearchError(ApiError error, SearchType searchType) {
 			this.error = error;
+			this.searchType = searchType;
 		}
 	}
 

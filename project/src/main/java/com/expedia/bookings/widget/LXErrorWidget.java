@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -68,6 +69,10 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	public void bind(final ApiError error) {
+		bind(error, SearchType.EXPLICIT_SEARCH);
+	}
+
+	public void bind(final ApiError error, final SearchType searchType) {
 		if (error == null) {
 			showDefaultError();
 			return;
@@ -99,7 +104,14 @@ public class LXErrorWidget extends FrameLayout {
 			break;
 
 		case LX_SEARCH_NO_RESULTS:
-			showNoProductSearchError();
+			switch (searchType) {
+			case DEFAULT_SEARCH:
+				showSearchError(R.string.error_lx_current_location_search_message);
+				break;
+			case EXPLICIT_SEARCH:
+				showSearchError(R.string.error_lx_search_message);
+				break;
+			}
 			break;
 
 		case SESSION_TIMEOUT:
@@ -163,9 +175,9 @@ public class LXErrorWidget extends FrameLayout {
 		});
 	}
 
-	public void showNoProductSearchError() {
+	public void showSearchError(int errorMessageResId) {
 		bindText(R.drawable.error_lx,
-			R.string.error_lx_search_message,
+			errorMessageResId,
 			R.string.lx_error_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -186,5 +198,4 @@ public class LXErrorWidget extends FrameLayout {
 	public void setToolbarVisibility(int visibility) {
 		toolbar.setVisibility(visibility);
 	}
-
 }

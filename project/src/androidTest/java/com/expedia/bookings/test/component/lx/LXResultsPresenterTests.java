@@ -14,6 +14,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
@@ -119,6 +120,7 @@ public class LXResultsPresenterTests {
 		searchParams.location = "search_failure";
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(14);
+		searchParams.searchType = SearchType.EXPLICIT_SEARCH;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 		ScreenActions.delay(2);
 		LXViewModel.searchFailed().check(matches(isDisplayed()));
