@@ -298,7 +298,7 @@ public class TripParser {
 		return hotel;
 	}
 
-	private TripFlight parseTripFlight(JSONObject obj) {
+	public TripFlight parseTripFlight(JSONObject obj) {
 		TripFlight flight = new TripFlight();
 
 		parseTripCommon(obj, flight);
