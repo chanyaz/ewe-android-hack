@@ -52,12 +52,6 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_should_start_hierarchy_server"
-            android:summary="Needs app restart to take effect. Then you can use hierarchy viewing on a non-root device."
-            android:title="Start the hierarchy server on app launch" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/preference_enable_picasso_logging"
             android:summary="Show detailed logging of Picasso activity."
             android:title="Enable Picasso Logging" />

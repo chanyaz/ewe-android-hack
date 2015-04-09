@@ -93,7 +93,6 @@
     <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
     <string name="preference_force_google_wallet_error">preference_force_google_wallet_error</string>
     <string name="preference_force_custom_server_http_only">preference_force_custom_server_http_only</string>
-    <string name="preference_should_start_hierarchy_server">preference_should_start_hierarchy_server</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_aa_test">ExpediaAndroidAppAATest</string>
