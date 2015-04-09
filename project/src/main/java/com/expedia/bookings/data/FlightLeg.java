@@ -13,6 +13,7 @@ import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
@@ -155,11 +156,20 @@ public class FlightLeg implements JSONable, ItinSharable {
 	//
 	// F1060: Returned as a LinkedHashSet, in order of flights
 	public LinkedHashSet<String> getPrimaryAirlines() {
-		LinkedHashSet<String> airlines = new LinkedHashSet<String>();
+		LinkedHashSet<String> airlines = new LinkedHashSet<>();
 
-		if (mSegments != null) {
-			for (Flight flight : mSegments) {
-				airlines.add(flight.getPrimaryFlightCode().mAirlineCode);
+		if (mSegments == null) {
+			Log.w("FlightLeg", "Attempting to retrieve primaryAirlines with null mSegments");
+			return airlines;
+		}
+
+		for (Flight flight : mSegments) {
+			FlightCode code = flight.getPrimaryFlightCode();
+			if (code == null) {
+				Log.w("FlightLeg", "Attempting to retrieve primaryAirlines with null code");
+			}
+			else {
+				airlines.add(code.mAirlineCode);
 			}
 		}
 
