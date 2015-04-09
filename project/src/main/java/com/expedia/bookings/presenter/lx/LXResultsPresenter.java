@@ -204,10 +204,14 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
+		if (!ExpediaBookingApp.sIsAutomation) {
+			Events.post(new Events.LXShowLoadingAnimation());
+		}
 		cleanup();
 		setToolbarTitles(event.lxSearchParams);
 		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		sortFilterWidget.bind(null);
+		sortFilterButton.setVisibility(View.GONE);
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams, sortFilterWidget.filterSortEventStream(), searchResultObserver);
 	}
 
