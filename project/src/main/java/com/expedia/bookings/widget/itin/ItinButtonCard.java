@@ -14,7 +14,6 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.SettingUtils;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
 		PopupMenu.OnMenuItemClickListener {
@@ -148,12 +147,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	}
 
 	private void hideForever() {
-		switch (mItinButtonType) {
-		case HOTEL_ATTACH: {
-			SettingUtils.save(getContext(), R.string.setting_hide_hotel_attach, true);
-			break;
-		}
-		}
 
 		if (mOnHideListener != null) {
 			mOnHideListener.onHideAll(mItinButtonType);

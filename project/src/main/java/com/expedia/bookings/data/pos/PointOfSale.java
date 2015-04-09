@@ -142,9 +142,6 @@ public class PointOfSale {
 	// Does this POS have the VIP Access program?
 	private boolean mSupportsVipAccess;
 
-	// Does this POS support AirAttach pricing?
-	private boolean mShouldShowAirAttach;
-
 	// Does this POS support loyalty rewards?
 	private boolean mShouldShowRewards;
 
@@ -446,11 +443,6 @@ public class PointOfSale {
 
 	public boolean supportsVipAccess() {
 		return mSupportsVipAccess;
-	}
-
-	public boolean shouldShowAirAttach() {
-		// Show Air Attach on all POS that allow hotel cross-sell
-		return mShowHotelCrossSell;
 	}
 
 	public boolean shouldShowRewards() {
@@ -822,7 +814,6 @@ public class PointOfSale {
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
-		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);

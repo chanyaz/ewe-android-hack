@@ -14,11 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
@@ -28,7 +26,6 @@ import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
@@ -463,6 +460,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 */
 
 	private void addAttachData(List<ItinCardData> itinCardDatas) {
+		// Don't add attach cards if POS does not support hotel x-sell
+		if (!PointOfSale.getPointOfSale().showHotelCrossSell()) {
+			return;
+		}
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
@@ -475,9 +476,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
 		dismissedTripIds.addAll(dismissedAirAttach);
 
-		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)
-			&& PointOfSale.getPointOfSale().getPointOfSaleId() != PointOfSaleId.NORWAY;
-		boolean isAirAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_air_attach, false);
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
 
@@ -530,6 +528,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
 
+				// Ignore fallback cards
 				if (nextData instanceof ItinCardDataFallback) {
 					continue;
 				}
@@ -537,11 +536,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				// Always add an attach button for one-way flights with no hotel
 				if (legCount == 1 && !(nextType == Type.HOTEL)) {
 					insertButtonCard = true;
-				}
-
-				// Ignore fallback cards
-				if (nextData instanceof ItinCardDataFallback) {
-					continue;
 				}
 
 				// If the next itin is a flight
@@ -583,14 +577,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			if (insertButtonCard) {
 				// Check if user qualifies for air attach
-				if (isUserAirAttachQualified && isAirAttachEnabled) {
+				if (isUserAirAttachQualified) {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataAirAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;
 					i ++;
 				}
-				// Make sure hotel attach is enabled
-				else if (isHotelAttachEnabled && isAirAttachEnabled) {
+				// Show default hotel cross-sell button
+				else {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;
@@ -623,6 +617,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	@Override
 	public void onHideAll(ItinButtonType itinButtonType) {
+		for (ItinCardData itinCardData : mItinCardDatas) {
+			if (itinCardData instanceof ItinCardDataHotelAttach && itinButtonType == ItinButtonType.HOTEL_ATTACH) {
+				DismissedItinButton.dismiss(itinCardData.getTripId(), itinButtonType);
+			}
+			else if (itinCardData instanceof ItinCardDataAirAttach && itinButtonType == ItinButtonType.AIR_ATTACH) {
+				DismissedItinButton.dismiss(itinCardData.getTripId(), itinButtonType);
+			}
+		}
 		syncWithManager();
 	}
 }
