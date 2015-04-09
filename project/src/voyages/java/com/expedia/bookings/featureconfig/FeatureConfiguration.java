@@ -283,7 +283,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isETPEnabled() {
-		return false;
+		return true;
 	}
 
 	public String getClientShortName() {
