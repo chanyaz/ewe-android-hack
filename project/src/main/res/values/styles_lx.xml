@@ -123,4 +123,15 @@
         <item name="android:paddingRight">20dp</item>
     </style>
 
+    <style name="LXBookingButton" parent="V2.Theme.LX">   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:textColor">@color/lx_confirmation_action_text_color</item>     
+        <item name="android:textSize">15sp</item>     
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>     
+        <item name="android:drawablePadding">12dp</item>
+    </style>
 </resources>

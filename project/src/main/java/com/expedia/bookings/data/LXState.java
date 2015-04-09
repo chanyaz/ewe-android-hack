@@ -47,7 +47,6 @@ public class LXState {
 	public LXCreateTripParams createTripParams() {
 		LXOfferSelected offerSelected = new LXOfferSelected(activity.id, this.offer, this.selectedTickets, activity.regionId);
 
-		// TODO : Need to check if regionID & allDayActivity is required.
 		List<LXOfferSelected> offersSelected = new ArrayList<>();
 		offersSelected.add(offerSelected);
 
