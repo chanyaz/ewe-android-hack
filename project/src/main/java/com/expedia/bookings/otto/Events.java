@@ -681,6 +681,14 @@ public class Events {
 		public LXNewSearchParamsAvailable(LXSearchParams params) {
 			lxSearchParams = params;
 		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, SearchType searchType) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate).searchType(searchType);
+		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
+			this(locationName, startDate, endDate, SearchType.EXPLICIT_SEARCH);
+		}
 	}
 
 	public static class LXSearchResultsAvailable {
