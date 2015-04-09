@@ -219,5 +219,7 @@
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors_vsc">Votre hôtel a bien été réservé ! Veuillez contacter le service clients de L’Agence Voyages-sncf.com si vous avez besoin d\&apos;un voyage immédiatement.</string>
     <string name="total_due_to_our_brand_today">Dû à L’Agence Voyages-sncf aujourd\&apos;hui:</string>
+    <string name="total_due_today">Dû à L’Agence Voyages-sncf.com aujourd\&apos;hui</string>
+    <string name="etp_pay_now_charges_text">L’Agence Voyages-sncf.com traitera vos détails de paiement.</string>
 
 </resources>
