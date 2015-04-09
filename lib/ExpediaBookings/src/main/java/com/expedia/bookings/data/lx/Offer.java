@@ -15,7 +15,6 @@ public class Offer {
 	// Utility for available info on selected date - not coming from the API
 	public AvailabilityInfo availabilityInfoOfSelectedDate;
 
-
 	public AvailabilityInfo updateAvailabilityInfoOfSelectedDate(LocalDate dateSelected) {
 		for (AvailabilityInfo activityAvailabilityInfo : availabilityInfo) {
 			LocalDate availabilityDate = DateUtils
@@ -27,17 +26,5 @@ public class Offer {
 		}
 
 		return null;
-	}
-
-	public boolean isAvailableOnDate(LocalDate dateSelected) {
-		for (AvailabilityInfo activityAvailabilityInfo : availabilityInfo) {
-			LocalDate availabilityDate = DateUtils
-				.yyyyMMddHHmmssToLocalDate(activityAvailabilityInfo.availabilities.valueDate);
-			if (availabilityDate.equals(dateSelected)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

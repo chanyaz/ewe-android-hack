@@ -104,11 +104,9 @@ public class LXTicketSelectionWidget extends CardView {
 
 	private List<String> getTicketSummaries() {
 		List<String> ticketsSummaries = new ArrayList<>();
-		String ticketSummaryTemplate = getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
 
 		for (Ticket ticket : ticketsMap.values()) {
-			ticketsSummaries.add(String.format(ticketSummaryTemplate, ticket.count,
-				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
+			ticketsSummaries.add(LXDataUtils.getTicketCountSummary(getContext(), ticket.code, ticket.count));
 		}
 
 		return ticketsSummaries;
