@@ -10,6 +10,7 @@ public class Offer {
 	public String id;
 	public String title;
 	public List<AvailabilityInfo> availabilityInfo;
+	public boolean freeCancellation;
 
 	// Utility for available info on selected date - not coming from the API
 	public AvailabilityInfo availabilityInfoOfSelectedDate;
