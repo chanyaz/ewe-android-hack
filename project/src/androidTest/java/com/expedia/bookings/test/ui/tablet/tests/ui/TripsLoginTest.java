@@ -108,7 +108,7 @@ public class TripsLoginTest extends TabletTestCase {
 		catch (Exception e) {
 			SettingsScreen.clickacceptString();
 		}
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dialog_message_logged_out_and_cleared_private_data));
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dialog_message_signed_out_and_cleared_private_data));
 		try {
 			SettingsScreen.clickOkString();
 		}

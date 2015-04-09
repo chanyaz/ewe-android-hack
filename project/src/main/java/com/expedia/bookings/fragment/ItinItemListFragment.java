@@ -134,7 +134,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
 		mLoginButton = Ui.findView(view, R.id.login_button);
-		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
+		mLoginButton.setText(Html.fromHtml(getString(R.string.sign_in_for_your_trips)));
 		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
 		mNoTripsTryAgainButton = Ui.findView(view, R.id.no_trips_try_again_button);
 		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
@@ -343,7 +343,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Db.loadUser(getActivity());
 		}
 		String email = Db.getUser().getPrimaryTraveler().getEmail();
-		String logoutMessage = getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE, email);
+		String logoutMessage = getResources().getString(R.string.itin_sign_out_confirmation_message_TEMPLATE, email);
 		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);
 		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}

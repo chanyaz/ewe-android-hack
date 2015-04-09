@@ -204,7 +204,7 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 		mTitle = title;
 		ActionBar actionBar = getActionBar();
 		if (mTitle == null) {
-			actionBar.setTitle(R.string.Log_In);
+			actionBar.setTitle(R.string.Sign_In);
 		}
 		else {
 			actionBar.setTitle(mTitle);
