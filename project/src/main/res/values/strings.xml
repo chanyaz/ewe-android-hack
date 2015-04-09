@@ -65,8 +65,8 @@
     <string name="car_auto_tran_text">Automatic Transmission</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Manual Transmission</string>
-    <!-- Log in Text-->
-    <string name="cars_login_text">Log in with Expedia</string>
+    <!-- Sign in Text-->
+    <string name="cars_sign_in_text">Sign in with Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -620,20 +620,20 @@
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hey &lt;b&gt;%1$s&lt;/b&gt;, we\'ve loaded your facebook information!</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">Log in with Facebook</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">Sign in with Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Fetching information from facebook…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Attempting to log you in with facebook credentials…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">Attempting to sign you in with Facebook credentials…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">We have encountered an unspecified error. Please try again later.</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Unable to log in to Facebook.</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Login failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Unable to sign in to Facebook.</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">Sign in failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br>Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
+    <string name="sign_in_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br>Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
     <!-- Link accounts -->
@@ -645,21 +645,21 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Email Permission</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">To login with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant Expedia permission to verify your email address. Thank you!</string>
+    <string name="user_denied_permission_email_message">To sign in with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant Expedia permission to verify your email address. Thank you!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts…</string>
-    <!-- Log In -->
-    <string name="Log_In">Log In</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">Log in with Expedia</string>
+    <!-- Sign In -->
+    <string name="Sign_In">Sign In</string>
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_Expedia">Sign in with Expedia</string>
     <!-- or -->
     <string name="or">or</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">Already logged in</string>
+    <!-- Already signed in -->
+    <string name="already_signed_in">Already signed in</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">To log in to Expedia, you must use an unrestricted user profile on your device.</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message">To sign in to Expedia, you must use an unrestricted user profile on your device.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -781,8 +781,8 @@
     <string name="fetching_your_itinerary">Fetching your itineraries…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Error fetching itineraries</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">&lt;b&gt;Sign in&lt;/b&gt; for your trips</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Tomorrow</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -900,8 +900,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">Signing out of %1$s will remove any itinerary items associated with this account. Are you sure you want to sign out?</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
     <!-- Terminal Map -->
@@ -1569,11 +1569,11 @@
     <string name="best_price_guarantee">Best Price Guarantee</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Log out -->
-    <string name="log_out">Log Out</string>
+    <!-- Sign out -->
+    <string name="sign_out">Sign Out</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this booking!</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
+    <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">You\'ll earn %1$s points for this trip!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Calculating Taxes and Fees…</string>
@@ -2460,7 +2460,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">This removes all saved billing and contact information.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">This will log you out and remove all saved billing and contact information.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove all saved billing and contact information.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Private data cleared</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2510,18 +2510,18 @@
     <string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes, and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\'s listed occupancy may be subject to additional charges at the property\'s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\'s discretion.</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">Log In</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">Sign In</string>
+    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Earn points and book fast.</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Password</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">Logging in…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Please log in again</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">Signing in…</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">Please sign in again</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation">Are you sure you want to sign out of your Expedia account?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2623,9 +2623,9 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">Logged out and data cleared</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">Signed out and data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">You are logged out of your Expedia account, and all saved billing and contact information has been removed.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data">You are signed out of your Expedia account, and all saved billing and contact information has been removed.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3252,17 +3252,17 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Press to begin checkout</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">Press to log in to your Expedia account</string>
+    <!-- Content description for action: Press to sign in with your Expedia account -->
+    <string name="cd_checkout_sign_in_with_expedia">Press to sign in to your Expedia account</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Press to add a traveler to this booking</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Press to select payment for this booking</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">Press to log into Expedia with your Facebook account</string>
+    <!-- Sign in screen -->
+    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
+    <string name="cd_sign_in_with_facebook">Press to sign into Expedia with your Facebook account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>

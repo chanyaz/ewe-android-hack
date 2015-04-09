@@ -150,7 +150,7 @@
                     android:layout_marginTop="0dp"
                     android:background="@drawable/btn_cancel"
                     android:bufferType="spannable"
-                    android:contentDescription="@string/log_in_for_your_trips"
+                    android:contentDescription="@string/sign_in_for_your_trips"
                     android:gravity="center"
                     android:paddingLeft="32dp"
                     android:paddingRight="32dp"

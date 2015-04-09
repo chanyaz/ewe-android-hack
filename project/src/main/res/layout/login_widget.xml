@@ -106,10 +106,10 @@
                         style="@style/CarsLoginFormButton"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/btn_facebook_signin_cars"
-                        android:contentDescription="@string/cd_log_in_with_facebook"
+                        android:contentDescription="@string/cd_sign_in_with_facebook"
                         android:gravity="center"
                         android:textAllCaps="false"
-                        android:text="@string/Log_in_with_Facebook" />
+                        android:text="@string/Sign_in_with_Facebook" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -194,7 +194,7 @@
                     style="@style/CarsLoginFormButton"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/btn_facebook_signin"
-                    android:contentDescription="@string/cd_log_in_with_facebook"
+                    android:contentDescription="@string/cd_sign_in_with_facebook"
                     android:gravity="center"
                     android:text="@string/authorize_email_facebook_button" />
 
@@ -266,5 +266,5 @@
         android:drawableLeft="@drawable/expedia"
         android:gravity="center|left"
         android:drawablePadding="16dp"
-        android:text="@string/cars_login_text" />
+        android:text="@string/cars_sign_in_text" />
 </merge>
