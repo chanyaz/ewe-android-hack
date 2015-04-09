@@ -73,6 +73,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isLeanPlumEnabled();
 
+	boolean isKahunaEnabled();
+
 	boolean isWeAreHiringInAboutEnabled();
 
 	boolean isClearPrivateDataInAboutEnabled();

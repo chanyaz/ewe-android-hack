@@ -160,6 +160,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	public boolean isKahunaEnabled() {
+		return true;
+	}
+
 	public boolean isWeAreHiringInAboutEnabled() {
 		return true;
 	}

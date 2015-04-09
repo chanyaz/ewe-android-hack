@@ -27,9 +27,9 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -121,7 +121,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 				PointOfSale.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				configurePointOfSalePreferenceSummary();
 
-				LeanPlumUtils.updatePOS();
+				AdTracker.updatePOS();
 				setResult(RESULT_CHANGED_PREFS);
 
 				// IMPORTANT: DomainPreference purposefully breaks the contract a bit.  Changing

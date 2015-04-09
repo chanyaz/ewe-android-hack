@@ -48,6 +48,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
@@ -202,6 +203,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			LeanPlumUtils.init(this);
 			startupTimer.addSplit("LeanPlum started.");
+		}
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+			KahunaUtils.init(this);
+			registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
+			startupTimer.addSplit("Kahuna started.");
 		}
 
 		// 2249: We were not sending push registrations to the prod push server

@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.mobiata.android.Log;
 
@@ -37,6 +38,12 @@ public class AdTracker {
 		// Other
 		AdX.trackLogin();
 		LeanPlumUtils.tracking("Login");
+		KahunaUtils.tracking("Login");
+	}
+
+	public static void trackLogout() {
+		LeanPlumUtils.updateLoggedInStatus();
+		KahunaUtils.tracking("Logout");
 	}
 
 	public static void trackViewHomepage() {
@@ -118,5 +125,10 @@ public class AdTracker {
 			AdX.trackFlightSearch(Db.getFlightSearch());
 			LeanPlumUtils.trackFlightSearch();
 		}
+	}
+
+	public static void updatePOS() {
+		LeanPlumUtils.updatePOS();
+		KahunaUtils.updatePOS();
 	}
 }
