@@ -33,7 +33,7 @@ add_test "com.expedia.bookings.test.component.lx.LXSearchParamsTest"
 add_test "com.expedia.bookings.test.component.lx.LXDetailsPresenterTests"
 add_test "com.expedia.bookings.test.component.lx.LXResultsPresenterTests"
 add_test "com.expedia.bookings.test.component.lx.LXCheckoutPresenterTests"
-add_test "com.expedia.bookings.test.component.lx.LXCheckoutErrorTests"
+#add_test "com.expedia.bookings.test.component.lx.LXCheckoutErrorTests"
 #add_test "com.expedia.bookings.test.component.lx.LXCreateTripErrorTests"
 
 java \
