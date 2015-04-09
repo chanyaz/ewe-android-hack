@@ -51,6 +51,8 @@ public class RouterActivity extends Activity {
 		//Hi Facebook!
 		facebookInstallTracking();
 
+		cleanupOldCookies();
+
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
