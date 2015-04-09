@@ -80,18 +80,13 @@ public class AppModule {
 		}
 	}
 
-	private static final String COOKIE_FILE_V2 = "cookies-2.dat";
-	private static final String COOKIE_FILE_V3 = "cookies-3.dat";
+	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
+	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V4;
 	@Provides
 	@Singleton
 	PersistentCookieManager provideCookieManager(Context context) {
-		File storageV3 = context.getFileStreamPath(COOKIE_FILE_V3);
-		PersistentCookieManager manager = new PersistentCookieManager(storageV3);
-
-		// REMOVE THIS once people upgrade
-		File storageV2 = context.getFileStreamPath(COOKIE_FILE_V2);
-		PersistentCookieManager.fillWithOldCookies(manager, storageV2);
-
+		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
+		PersistentCookieManager manager = new PersistentCookieManager(storage);
 		return manager;
 	}
 
