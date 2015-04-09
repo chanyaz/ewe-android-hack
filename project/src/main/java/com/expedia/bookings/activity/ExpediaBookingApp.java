@@ -215,9 +215,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
-		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
-		ItineraryManager.getInstance().startSync(false);
-
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
 			SettingUtils.save(this, PREF_FIRST_LAUNCH_OCCURED, true);
 			AdTracker.trackFirstLaunch();
