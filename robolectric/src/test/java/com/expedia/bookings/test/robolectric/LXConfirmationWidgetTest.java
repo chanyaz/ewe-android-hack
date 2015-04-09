@@ -45,14 +45,16 @@ public class LXConfirmationWidgetTest {
 		TextView location = (TextView) confirmationWidget.findViewById(R.id.location);
 		TextView tickets = (TextView) confirmationWidget.findViewById(R.id.tickets);
 		TextView date = (TextView) confirmationWidget.findViewById(R.id.date);
-		TextView itinNumber = (TextView) confirmationWidget.findViewById(R.id.itinerary_text_view);
+		TextView email = (TextView) confirmationWidget.findViewById(R.id.email_text);
+		TextView confirmation = (TextView) confirmationWidget.findViewById(R.id.confirmation_text);
 
 		assertNotNull(confirmationImage);
 		assertEquals("2-Day New York Pass", title.getText());
 		assertEquals("New York, United States", location.getText());
 		assertEquals("3 Adult, 1 Child", tickets.getText());
-		assertEquals("2015-02-24 07:30:00", date.getText());
-		assertEquals("7666328719", itinNumber.getText());
+		assertEquals("Tue, Feb 24", date.getText());
+		assertEquals("coolguy@expedia.com", email.getText());
+		assertEquals("Itinerary #7666328719 sent to", confirmation.getText());
 	}
 
 	private void mockConfirmationLXState() {

@@ -2,29 +2,40 @@ package com.expedia.bookings.widget;
 
 import javax.inject.Inject;
 
+
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatter;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.SocialUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class LXConfirmationWidget extends android.widget.LinearLayout {
+
+	LXCheckoutParams lxCheckoutParams;
 
 	public LXConfirmationWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -33,6 +44,12 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@InjectView(R.id.confirmation_image_view)
 	ImageView confirmationImageView;
+
+	@InjectView(R.id.confirmation_text)
+	TextView confirmationText;
+
+	@InjectView(R.id.email_text)
+	TextView emailText;
 
 	@InjectView(R.id.title)
 	android.widget.TextView title;
@@ -49,8 +66,11 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	@InjectView(R.id.toolbar)
 	android.support.v7.widget.Toolbar toolbar;
 
-	@InjectView(R.id.itinerary_text_view)
-	android.widget.TextView itineraryNumber;
+	@InjectView(R.id.support_action_textView)
+	TextView supportTextView;
+
+	@InjectView(R.id.text_container)
+	ViewGroup textContainer;
 
 	@Inject
 	LXState lxState;
@@ -73,15 +93,31 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		});
 	}
 
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
+	}
+
+	@Subscribe
+	public void onDoCheckoutCall(Events.LXKickOffCheckoutCall event) {
+		lxCheckoutParams = event.checkoutParamsBuilder.build();
+	}
+
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
-
 		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState);
 
+		final Resources res = getResources();
 		String url = Images.getLXImageURL(lxState.activity.imageUrl);
 		new PicassoHelper.Builder(confirmationImageView)
 			.fade()
-			.setTag("LX Confirmation")
 			.fit()
 			.centerCrop()
 			.build()
@@ -89,8 +125,22 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		title.setText(lxState.offer.title);
 		tickets.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
 		location.setText(lxState.activity.location);
-		date.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-		itineraryNumber.setText(event.checkoutResponse.newTrip.itineraryNumber);
+		date.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.displayDate);
+		emailText.setText(lxCheckoutParams.email);
+		confirmationText.setText(res.getString(R.string.itinerary_confirmation_TEMPLATE,
+			event.checkoutResponse.newTrip.itineraryNumber));
+
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		textContainer.setPadding(0, statusBarHeight, 0, 0);
+
+		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
 	}
 
+	@OnClick(R.id.support_action_textView)
+	public void callCustomerSupport() {
+		String phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
+		SocialUtils.call(getContext(), phoneNumber);
+	}
 }
