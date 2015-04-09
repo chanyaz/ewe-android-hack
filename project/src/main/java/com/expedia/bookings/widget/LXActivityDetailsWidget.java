@@ -131,6 +131,7 @@ public class LXActivityDetailsWidget extends FrameLayout {
 		buildInfo(activityDetails);
 		buildSections(activityDetails);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
+		detailsScrollView.smoothScrollTo(0, 0);
 	}
 
 	@Subscribe
