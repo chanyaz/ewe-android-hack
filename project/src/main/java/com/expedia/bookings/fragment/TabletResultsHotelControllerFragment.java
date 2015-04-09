@@ -25,6 +25,7 @@ import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterList
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IResultsFilterDoneClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryBackClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
@@ -66,7 +67,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
 	IAddToBucketListener,
 	IResultsHotelReviewsClickedListener, IAcceptingListenersListener, IResultsHotelReviewsBackClickedListener,
-	IResultsHotelGalleryClickedListener, IResultsHotelGalleryBackClickedListener {
+	IResultsHotelGalleryClickedListener, IResultsHotelGalleryBackClickedListener, IResultsFilterDoneClickedListener {
 
 	// State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -1767,4 +1768,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 		}
 	};
+
+	/**
+	 * IResultsFilterDoneClickedListener
+	 */
+	@Override
+	public void onFilterDoneClicked() {
+		mMapFragment.reset();
+		mMapFragment.notifyFilterChanged();
+	}
 }
