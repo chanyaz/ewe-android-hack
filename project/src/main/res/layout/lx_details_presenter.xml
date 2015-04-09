@@ -91,6 +91,7 @@
 
                     <LinearLayout
                         android:id="@+id/offer_show_more_container"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:divider="?android:dividerHorizontal"
@@ -104,8 +105,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="?android:attr/selectableItemBackground" />
+                            android:layout_marginTop="8dp" />
 
                     </LinearLayout>
                 </com.expedia.bookings.widget.LXOffersListWidget>
