@@ -219,7 +219,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	private boolean isExpired() {
-		return JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || Db.getLaunchListHotelData() == null;
+		return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO)
+			|| Db.getLaunchListHotelData() == null;
 	}
 
 	/*
@@ -350,6 +351,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		if (!ExpediaBookingApp.sIsAutomation) {
 			Events.post(new Events.LaunchShowLoadingAnimation());
 		}
+		launchDataTimeStamp = null;
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices

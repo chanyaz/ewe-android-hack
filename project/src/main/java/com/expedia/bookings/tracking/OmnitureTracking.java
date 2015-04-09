@@ -2376,6 +2376,9 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, LAUNCH_SCREEN);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
+		if (!ExpediaBookingApp.useTabletInterface(context)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
+		}
 		s.track();
 	}
 
