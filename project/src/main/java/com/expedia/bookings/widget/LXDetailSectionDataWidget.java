@@ -1,14 +1,15 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.text.Html;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -16,11 +17,6 @@ import butterknife.OnClick;
 
 
 public class LXDetailSectionDataWidget extends LinearLayout {
-
-	private static final int SHOW_MORE_CUTOFF = 120;
-	private boolean isSectionExpanded;
-	private String content;
-	private CharSequence untruncated;
 
 	public LXDetailSectionDataWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -37,16 +33,8 @@ public class LXDetailSectionDataWidget extends LinearLayout {
 
 	@OnClick(R.id.read_more)
 	public void readMore() {
-		if (!isSectionExpanded) {
-			sectionContent.setText(untruncated);
-			readMoreView.setVisibility(View.GONE);
-			isSectionExpanded = true;
-		}
-		else {
-			sectionContent.setText(content);
-			readMoreView.setVisibility(View.VISIBLE);
-			isSectionExpanded = false;
-		}
+		sectionContent.setMaxLines(sectionContent.getLineCount());
+		readMoreView.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -55,19 +43,21 @@ public class LXDetailSectionDataWidget extends LinearLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bindData(String title, String content) {
-
-		isSectionExpanded = false;
-		this.content = Html.fromHtml(content).toString();
-		// Add "read more" button if the content is too long.
-		if (content.length() > SHOW_MORE_CUTOFF) {
-			untruncated = Html.fromHtml(content);
-			readMoreView.setVisibility(View.VISIBLE);
-			content = String.format(getContext().getString(R.string.ellipsize_text_template),
-				content.subSequence(0, Strings.cutAtWordBarrier(Html.fromHtml(content), SHOW_MORE_CUTOFF)));
-		}
+	public void bindData(String title, CharSequence content) {
+		sectionContent.setMaxLines(3);
 		sectionTitle.setText(title);
-		sectionContent.setText(Html.fromHtml(content));
+		sectionContent.setText(content);
+		sectionContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				Ui.removeOnGlobalLayoutListener(sectionContent, this);
+				Layout textLayout = sectionContent.getLayout();
+				if (textLayout != null) {
+					int lines = textLayout.getLineCount();
+					readMoreView.setVisibility(lines > 3 ? View.VISIBLE : View.GONE);
+				}
+			}
+		});
 
 	}
 }
