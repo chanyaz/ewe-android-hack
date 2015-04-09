@@ -112,7 +112,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			mKillReceiver.onDestroy();
 		}
 
-		if (isFinishing()) {
+		if (isFinishing() && ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
 			Db.getHotelSearch().resetSearchData();
 		}
 	}
