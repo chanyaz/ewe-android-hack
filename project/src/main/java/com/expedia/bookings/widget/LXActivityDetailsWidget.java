@@ -27,7 +27,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.LXFormatUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -171,37 +171,38 @@ public class LXActivityDetailsWidget extends FrameLayout {
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {
 
 		if (Strings.isNotEmpty(activityDetailsResponse.description)) {
-			String descriptionContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.description);
+			String descriptionContent = StrUtils.stripHTMLTags(activityDetailsResponse.description);
 			description.bindData(getResources().getString(R.string.description_activity_details), descriptionContent);
 			description.setVisibility(View.VISIBLE);
 		}
 		if (Strings.isNotEmpty(activityDetailsResponse.location)) {
-			String locationContent = LXFormatUtils.stripHTMLTags(activityDetailsResponse.location);
+			String locationContent = StrUtils.stripHTMLTags(activityDetailsResponse.location);
 			location.bindData(getResources().getString(R.string.location_activity_details), locationContent);
 			location.setVisibility(View.VISIBLE);
 		}
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.highlights)) {
-			String highlightsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.highlights);
+			CharSequence highlightsContent = StrUtils.generateBulletedList(activityDetailsResponse.highlights);
 			highlights.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent);
 			highlights.setVisibility(View.VISIBLE);
 		}
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.inclusions)) {
-			String inclusionsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.inclusions);
+			CharSequence inclusionsContent = StrUtils.generateBulletedList(activityDetailsResponse.inclusions);
 			inclusions.bindData(getResources().getString(R.string.inclusions_activity_details), inclusionsContent);
 			inclusions.setVisibility(View.VISIBLE);
 		}
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.exclusions)) {
-			String exclusionsContent = LXFormatUtils.formatHighlights(activityDetailsResponse.exclusions);
+			CharSequence exclusionsContent = StrUtils.generateBulletedList(activityDetailsResponse.exclusions);
 			exclusions.bindData(getResources().getString(R.string.exclusions_activity_details), exclusionsContent);
 			exclusions.setVisibility(View.VISIBLE);
 		}
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.knowBeforeYouBook)) {
-			String knowBeforeYouBookContent = LXFormatUtils.formatHighlights(activityDetailsResponse.knowBeforeYouBook);
+			CharSequence knowBeforeYouBookContent = StrUtils.generateBulletedList(
+				activityDetailsResponse.knowBeforeYouBook);
 			knowBeforeYouBook.bindData(getResources().getString(R.string.know_before_you_book_activity_details), knowBeforeYouBookContent);
 			knowBeforeYouBook.setVisibility(View.VISIBLE);
 		}
 		if (Strings.isNotEmpty(activityDetailsResponse.cancellationPolicyText)) {
-			String cancellationPolicyText = String.format(getContext().getString(R.string.cancellation_policy_TEMPLATE), LXFormatUtils.stripHTMLTags(activityDetailsResponse.cancellationPolicyText));
+			String cancellationPolicyText = String.format(getContext().getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(activityDetailsResponse.cancellationPolicyText));
 			cancellation.bindData(getResources().getString(R.string.cancellation_activity_details), cancellationPolicyText);
 			cancellation.setVisibility(View.VISIBLE);
 		}

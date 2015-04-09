@@ -20,8 +20,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -48,6 +51,7 @@ public class StrUtils {
 	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
+	public static final String HTML_TAGS_REGEX = "<[^>]*>";
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -446,4 +450,23 @@ public class StrUtils {
 		return legalTextSpan;
 	}
 
+	public static SpannableStringBuilder generateBulletedList(List<String> contentList) {
+		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+		for (int i = 0; i < contentList.size(); i++) {
+			String content = stripHTMLTags(contentList.get(i));
+			if (i < contentList.size() - 1) {
+				content = content + "\n";
+			}
+			Spannable spannable = new SpannableString(content);
+			spannable.setSpan(new BulletSpan(20), 0, spannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+			spannableStringBuilder.append(spannable);
+		}
+		return spannableStringBuilder;
+
+	}
+
+	public static String stripHTMLTags(String htmlContent) {
+		return Html.fromHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, "")).toString();
+	}
 }
