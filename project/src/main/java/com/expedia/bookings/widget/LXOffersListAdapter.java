@@ -122,8 +122,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 			ticketSelectionWidget.setFreeCancellation(offer.freeCancellation);
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
-				priceSummaries.add(String.format("%s %s", ticket.money.getFormattedMoney(), itemView.getResources().getString(
-					LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
+				priceSummaries.add(String.format("%s %s",
+					ticket.money.getFormattedMoney(),
+					LXDataUtils.ticketDisplayName(itemView.getContext(), ticket.code)));
 			}
 			String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
 			priceSummary.setText(priceSummaryText);
