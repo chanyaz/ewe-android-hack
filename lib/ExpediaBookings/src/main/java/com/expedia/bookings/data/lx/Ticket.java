@@ -8,6 +8,7 @@ public class Ticket {
 	public String restrictionText;
 	public String amount;
 	public Money money;
+	public int defaultTicketCount;
 	// Count is manipulated from the ticket picker. But this is send back in create trip/ checkout api response.
 	public int count;
 }

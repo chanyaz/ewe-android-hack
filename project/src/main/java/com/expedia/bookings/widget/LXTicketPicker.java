@@ -2,7 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -24,10 +24,10 @@ public class LXTicketPicker extends LinearLayout {
 	TextView ticketCount;
 
 	@InjectView(R.id.ticket_add)
-	Button ticketAdd;
+	ImageButton ticketAdd;
 
 	@InjectView(R.id.ticket_remove)
-	Button ticketRemove;
+	ImageButton ticketRemove;
 
 	private Ticket ticket;
 	private String offerId;
@@ -74,6 +74,8 @@ public class LXTicketPicker extends LinearLayout {
 			.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
 				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code)), ticket.restrictionText);
 		ticketDetails.setText(ticketDetailsText);
+		ticket.count = ticket.defaultTicketCount;
+
 		setTicketCount();
 	}
 

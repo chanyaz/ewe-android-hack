@@ -16,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -63,8 +64,8 @@ public class LXTicketSelectionWidgetTest {
 
 		TextView ticketDetails = (TextView) ticketSelector.findViewById(R.id.ticket_details);
 		TextView ticketCount = (TextView) ticketSelector.findViewById(R.id.ticket_count);
-		Button addTicketView = (Button) ticketSelector.findViewById(R.id.ticket_add);
-		Button removeTicketView = (Button) ticketSelector.findViewById(R.id.ticket_remove);
+		ImageButton addTicketView = (ImageButton) ticketSelector.findViewById(R.id.ticket_add);
+		ImageButton removeTicketView = (ImageButton) ticketSelector.findViewById(R.id.ticket_remove);
 
 		assertNotNull(ticketDetails);
 		assertNotNull(ticketCount);
@@ -89,8 +90,8 @@ public class LXTicketSelectionWidgetTest {
 
 		TextView ticketDetails = (TextView) widget.findViewById(R.id.ticket_details);
 		TextView ticketCount = (TextView) widget.findViewById(R.id.ticket_count);
-		Button addTicketView = (Button) widget.findViewById(R.id.ticket_add);
-		Button removeTicketView = (Button) widget.findViewById(R.id.ticket_remove);
+		ImageButton addTicketView = (ImageButton) widget.findViewById(R.id.ticket_add);
+		ImageButton removeTicketView = (ImageButton) widget.findViewById(R.id.ticket_remove);
 		TextView ticketsSummary = (TextView) widget.findViewById(R.id.selected_ticket_summary);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
@@ -99,7 +100,8 @@ public class LXTicketSelectionWidgetTest {
 		String expectedDetails = String
 			.format(activity.getResources().getString(R.string.ticket_details_template), testTicket.money.getFormattedMoney(),
 				testTicket.code, testTicket.restrictionText);
-		String expectedSummary = expectedCount + " " + testTicket.code;
+
+		String expectedSummary = "";
 		String expectedCurrencyCode = "USD";
 		String expectedTitleText = "One Day Tour";
 		String bookButtonTemplate = activity.getResources().getString(R.string.offer_book_now_TEMPLATE);
@@ -126,7 +128,7 @@ public class LXTicketSelectionWidgetTest {
 
 		removeTicketView.performClick();
 		expectedCount--;
-		expectedSummary = expectedCount + " " + testTicket.code;
+		expectedSummary = "";
 		expectedAmountWithCurrency = new Money(BigDecimal.ZERO, expectedCurrencyCode).getFormattedMoney();
 		expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
 
@@ -164,7 +166,7 @@ public class LXTicketSelectionWidgetTest {
 
 				TextView ticketDetails = (TextView) child.findViewById(R.id.ticket_details);
 				TextView ticketCount = (TextView) child.findViewById(R.id.ticket_count);
-				Button addTicketView = (Button) child.findViewById(R.id.ticket_add);
+				ImageButton addTicketView = (ImageButton) child.findViewById(R.id.ticket_add);
 
 				assertEquals(String.valueOf(0), ticketCount.getText());
 				assertEquals(expectedDetails, ticketDetails.getText());
