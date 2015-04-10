@@ -260,11 +260,9 @@
     <color name="lx_ticket_title_color">#3C3C3C</color>
     <color name="lx_select_ticket_button_color">#7C7C7C</color>
     <color name="lx_date_disabled_background_color">@android:color/white</color>
-    <color name="lx_checkmark_color">#29a653</color>
     <color name="lx_actionbar_text_color">#5C5C5C</color>
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
-    <color name="lx_confirmation_icon_color">#D1D3D6</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>
     <color name="lx_confirmation_email_text_color">#C8C8C8</color>
     <color name="lx_sort_filter_background_color">#E4E4E4</color>
