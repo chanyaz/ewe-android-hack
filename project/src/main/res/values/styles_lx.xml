@@ -14,6 +14,7 @@
         <item name="android:colorPrimaryDark">@color/lx_secondary_color</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
         <item name="colorControlNormal">#C3C3C3</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
         <item name="colorAccent">@color/lx_primary_color</item>
 
