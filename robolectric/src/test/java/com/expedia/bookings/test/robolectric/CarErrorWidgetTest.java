@@ -23,8 +23,7 @@ public class CarErrorWidgetTest {
 
 	@Before
 	public void before() {
-		apiError = new ApiError();
-		apiError.errorCode = ApiError.Code.INVALID_INPUT;
+		apiError = new ApiError(ApiError.Code.INVALID_INPUT);
 
 		ApiError.ErrorInfo info = new ApiError.ErrorInfo();
 		info.summary = "Invalid input error";
@@ -50,8 +49,7 @@ public class CarErrorWidgetTest {
 		assertEquals("Edit Info", errorButton.getText());
 
 		// testSessionTimeout
-		apiError = new ApiError();
-		apiError.errorCode = ApiError.Code.SESSION_TIMEOUT;
+		apiError = new ApiError(ApiError.Code.SESSION_TIMEOUT);
 
 		errorWidget.bind(apiError);
 

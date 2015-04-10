@@ -18,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.SearchType;
@@ -156,16 +155,14 @@ public class LXResultsPresenter extends Presenter {
 				showSearchErrorDialog(R.string.error_no_internet);
 				return;
 			}
-			else if (e instanceof ApiException) {
-				ApiException apiException = (ApiException) e;
-				Events.post(new Events.LXShowSearchError(apiException.apiError, SearchType.EXPLICIT_SEARCH));
+			else if (e instanceof ApiError) {
+				Events.post(new Events.LXShowSearchError((ApiError) e, SearchType.EXPLICIT_SEARCH));
 				return;
 			}
 
 			//Bucket all other errors as Unknown to give some feedback to the user
-			ApiError apiError = new ApiError();
-			apiError.errorCode = ApiError.Code.UNKNOWN_ERROR;
-			Events.post(new Events.LXShowSearchError(apiError, SearchType.EXPLICIT_SEARCH));
+			ApiError error = new ApiError(ApiError.Code.UNKNOWN_ERROR);
+			Events.post(new Events.LXShowSearchError(error, SearchType.EXPLICIT_SEARCH));
 			sortFilterButton.setVisibility(View.GONE);
 		}
 

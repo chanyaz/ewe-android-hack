@@ -15,7 +15,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -121,9 +120,8 @@ public class LXCheckoutPresenter extends Presenter {
 			if (RetrofitUtils.isNetworkError(e)) {
 				showCheckoutErrorDialog(R.string.error_no_internet);
 			}
-			else if (e instanceof ApiException) {
-				ApiException checkoutApiException = (ApiException) e;
-				showErrorScreen(checkoutApiException.apiError);
+			else if (e instanceof ApiError) {
+				showErrorScreen((ApiError) e);
 			}
 		}
 

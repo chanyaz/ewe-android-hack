@@ -7,7 +7,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
@@ -210,8 +209,7 @@ public class LXServicesTest {
 		assertEquals(1, blockingObserver.getErrors().size());
 		assertEquals(0, blockingObserver.getItems().size());
 
-		ApiException apiException = (ApiException) blockingObserver.getErrors().get(0);
-		ApiError apiError = apiException.apiError;
+		ApiError apiError = (ApiError) blockingObserver.getErrors().get(0);
 
 		assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode);
 		assertNotNull(apiError.errorInfo.field);
@@ -236,8 +234,7 @@ public class LXServicesTest {
 		assertEquals(1, blockingObserver.getErrors().size());
 		assertEquals(0, blockingObserver.getItems().size());
 
-		ApiException apiException = (ApiException) blockingObserver.getErrors().get(0);
-		ApiError apiError = apiException.apiError;
+		ApiError apiError = (ApiError) blockingObserver.getErrors().get(0);
 		assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode);
 		assertNotNull(apiError.errorInfo.field);
 		assertNotNull(apiError.errorInfo.summary);

@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.cars;
 
-public class ApiError {
+public class ApiError extends RuntimeException {
 
 	public enum Code {
 		// Common errors
@@ -51,8 +51,13 @@ public class ApiError {
 	}
 
 	public Code errorCode;
+
 	public DetailCode errorDetailCode;
 	public int diagnosticId;
-	public String diagnosticFullText;
 	public ErrorInfo errorInfo;
+
+	public ApiError(Code code) {
+		super(code.name());
+		errorCode = code;
+	}
 }

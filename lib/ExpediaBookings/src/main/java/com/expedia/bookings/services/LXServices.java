@@ -12,7 +12,6 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
@@ -96,9 +95,7 @@ public class LXServices {
 		@Override
 		public void call(LXSearchResponse lxSearchResponse) {
 			if (lxSearchResponse.searchFailure) {
-				ApiError apiError = new ApiError();
-				apiError.errorCode = ApiError.Code.LX_SEARCH_NO_RESULTS;
-				throw new ApiException(apiError);
+				throw new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
 			}
 		}
 	};
@@ -167,7 +164,7 @@ public class LXServices {
 		@Override
 		public void call(BaseApiResponse response) {
 			if (response.hasErrors() && !response.hasPriceChange()) {
-				throw new ApiException(response.getFirstError());
+				throw response.getFirstError();
 			}
 		}
 	};

@@ -25,8 +25,7 @@ public class LXErrorWidgetTest {
 		LXErrorWidget errorWidget = (LXErrorWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.lx_error_widget_test, null);
 
-		ApiError lxApiError = new ApiError();
-		lxApiError.errorCode = ApiError.Code.INVALID_INPUT;
+		ApiError lxApiError = new ApiError(ApiError.Code.INVALID_INPUT);
 
 		// Last name error
 		ApiError.ErrorInfo info = new ApiError.ErrorInfo();
@@ -69,8 +68,7 @@ public class LXErrorWidgetTest {
 		LXErrorWidget errorWidget = (LXErrorWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.lx_error_widget_test, null);
 
-		ApiError lxApiError = new ApiError();
-		lxApiError.errorCode = ApiError.Code.LX_SEARCH_NO_RESULTS;
+		ApiError lxApiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
 
 		errorWidget.bind(lxApiError);
 

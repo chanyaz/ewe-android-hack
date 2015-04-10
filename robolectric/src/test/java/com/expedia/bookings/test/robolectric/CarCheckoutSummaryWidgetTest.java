@@ -110,8 +110,7 @@ public class CarCheckoutSummaryWidgetTest {
 
 	@Test
 	public void testCheckoutSummaryWithPriceChange() {
-		ApiError error = new ApiError();
-		error.errorCode = ApiError.Code.PRICE_CHANGE;
+		ApiError error = new ApiError(ApiError.Code.PRICE_CHANGE);
 		carCreateTripResponse.errors = Arrays.asList(error);
 		SearchCarOffer searchCarOffer = new SearchCarOffer();
 		SearchCarFare searchFare = new SearchCarFare();

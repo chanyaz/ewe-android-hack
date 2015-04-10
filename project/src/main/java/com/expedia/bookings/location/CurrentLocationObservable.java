@@ -5,7 +5,6 @@ import android.location.Location;
 import android.os.Bundle;
 
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.mobiata.android.Log;
@@ -54,9 +53,8 @@ public class CurrentLocationObservable implements
 
 		Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 		if (location == null) {
-			ApiError apiError = new ApiError();
-			apiError.errorCode = ApiError.Code.LOCATION_SERVICES_DISABLED;
-			subscriber.onError(new ApiException(apiError));
+			ApiError error = new ApiError(ApiError.Code.LOCATION_SERVICES_DISABLED);
+			subscriber.onError(error);
 		}
 		else {
 			subscriber.onNext(location);

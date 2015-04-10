@@ -117,7 +117,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		locSubscription = CurrentLocationObservable.create(getActivity()).subscribe(new Observer<Location>() {
 			@Override
 			public void onCompleted() {
-
+				// ignore
 			}
 
 			@Override
@@ -128,7 +128,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			@Override
 			public void onNext(Location currentLocation) {
 				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
-
 			}
 		});
 	}
