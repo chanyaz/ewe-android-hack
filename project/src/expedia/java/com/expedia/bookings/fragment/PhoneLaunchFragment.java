@@ -19,7 +19,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
-import com.expedia.bookings.location.CurrentLocationProvider;
+import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
@@ -114,7 +114,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Location finder
 
 	private void findLocation() {
-		locSubscription = CurrentLocationProvider.currentLocation(getActivity()).subscribe(new Observer<Location>() {
+		locSubscription = CurrentLocationObservable.create(getActivity()).subscribe(new Observer<Location>() {
 			@Override
 			public void onCompleted() {
 
