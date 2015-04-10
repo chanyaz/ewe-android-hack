@@ -3,13 +3,14 @@ package com.expedia.bookings.data.lx;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.Strings;
 
 public class LXSearchParams {
 
 	public String location;
 	public LocalDate startDate;
 	public LocalDate endDate;
-	public SearchType searchType;
+	public SearchType searchType = SearchType.EXPLICIT_SEARCH;
 
 	public LXSearchParams location(String location) {
 		this.location = location;
@@ -29,6 +30,13 @@ public class LXSearchParams {
 	public LXSearchParams searchType(SearchType searchType) {
 		this.searchType = searchType;
 		return this;
+	}
+	public boolean hasLocation() {
+		return Strings.isNotEmpty(location);
+	}
+
+	public boolean hasStartDate() {
+		return startDate != null;
 	}
 
 	public String toServerStartDate() {
