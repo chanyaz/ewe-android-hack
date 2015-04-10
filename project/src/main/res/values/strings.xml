@@ -16,9 +16,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">Daily</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">Rates quoted in %s dollars.</string>
+    <string name="cars_checkout_breakdown_us_text">Rates quoted in %s.</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s dollars. All taxes or fees due at pick-up will be settled in the local currency (%2$s).</string>
+    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s. All taxes or fees due at pick-up will be settled in the local currency (%2$s).</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">Weekly</string>
     <!-- Cars weekly price templates-->
@@ -253,7 +253,7 @@
     <!-- LX checkout cost breakdown for alert button -->
     <string name="lx_cost_breakdown_button_text">Done</string>
     <!-- LX checkout price breakdown for POS same as pickup location templates-->
-    <string name="lx_checkout_breakdown_price_disclaimer_text">Rates quoted in %s dollars.</string>
+    <string name="lx_checkout_breakdown_price_disclaimer_text">Rates quoted in %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Total Price</string>
     <!-- LX Ticket type names -->
