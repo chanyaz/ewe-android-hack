@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.not;
 public class CheckoutViewModel {
 	// Checkout
 
-	public static ViewInteraction driverInfo() {
+	public static ViewInteraction mainContactInfo() {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}
 
-	public static void clickDriverInfo() {
-		driverInfo().perform(click());
+	public static void clickMainContactInfo() {
+		mainContactInfo().perform(click());
 	}
 
 	public static void clickPaymentInfo() {
@@ -138,7 +138,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void enterTravelerInfo() {
-		clickDriverInfo();
+		clickMainContactInfo();
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
 		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
