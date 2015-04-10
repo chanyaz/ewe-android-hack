@@ -15,16 +15,16 @@
     <string name="cars_hourly_text">每小时</string>
     <!-- Cars price templates-->
     <string name="cars_daily_text">每天</string>
+    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
+    <string name="cars_checkout_breakdown_us_text">报价使用的是 %s。</string>
+    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
+    <string name="cars_checkout_breakdown_non_us_text">报价使用的是 %1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">每周</string>
     <!-- Cars weekly price templates-->
     <string name="cars_monthly_text">每月</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">总额 %s</string>
-    <!-- Text for cars promo codes-->
-    <string name="cars_promo_code">促销代码</string>
-    <!-- Text for cars sort and filter-->
-    <string name="cars_sort_filter">筛选/排序</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">滑动屏幕，开始预订</string>
     <!-- Text for checkout toolbar-->
@@ -57,8 +57,6 @@
     <string name="enter_payment_details">输入付款信息</string>
     <!-- Template for selected credit card-->
     <string name="selected_card_template">到期日期为 %s</string>
-    <!-- Template for car offer detail-->
-    <string name="car_offer_template">%s 或相近车型</string>
     <!-- Car doors text-->
     <string name="car_doors_text">门</string>
     <!-- Car bags text-->
@@ -75,8 +73,6 @@
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
-    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="car_legal_TEMPLATE">完成此次预订即表示，您已经阅读并接受%1$s、%2$s和%3$s。</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -87,15 +83,7 @@
     <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia 行程编号：%s</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia 客服电话：%1$s 和 %2$s</string>
-    <!-- Showing local phone number in  car confirmation screen  -->
-    <string name="car_confirmation_local_support_TEMPLATE">本地号码：%s</string>
-    <!-- Showing toll free phone number in  car confirmation screen  -->
-    <string name="car_confirmation_toll_free_support_TEMPLATE">免费电话：%s</string>
 
-    <!-- Car search label for pick-up time -->
-    <string name="pick_up_time">取车时间</string>
-    <!-- Car search label for drop-off time-->
-    <string name="drop_off_time">还车时间</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">取车地点</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -118,8 +106,6 @@
     <string name="error_missing_start_date_param">缺少开始日期</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">缺少结束日期</string>
-    <!-- Temporary String for general error message -->
-    <string name="error_car">出现错误。请检查搜索参数。</string>
     <!-- Car search error -->
     <string name="error_car_search_message">您所做的搜索未返回任何结果。请选择其他标准，再搜索一次。</string>
     <!-- Checkout -->
@@ -167,12 +153,8 @@
     <string name="call_customer_support">致电客服</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that to verify pick-up date."  -->
-    <string name="pick_up_date_error">请检查您的取车日期。</string>
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">请调整您的取车或还车时间。</string>
-    <!-- Message for user that to verify drop-off date."  -->
-    <string name="drop_off_date_error">请检查您的还车日期。</string>
     <!-- Message for user  to choose a closer date.""  -->
     <string name="drop_off_too_far_error">日期距离太远了，请选择一个较近的日期。</string>
     <!-- Message for user that date is too far out."  -->
@@ -192,8 +174,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">嗯…您的付款没有成功。请仔细检查付款信息，然后再试一次。</string>
-    <!-- Payment failed button text that takes you back to checkout -->
-    <string name="payment_failed">付款失败。</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">查看价格变化</string>
     <!-- My Trips button that takes you to Itins -->
@@ -237,13 +217,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">搜索活动</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">输入位置</string>
-    <!-- Error messge for missing Location in LX search form -->
-    <string name="lx_error_missing_location">缺少位置信息</string>
-    <!-- Error messge for missing start date in LX search form -->
-    <string name="lx_error_missing_start_date">缺少日期</string>
+    <string name="lx_search_widget_heading">日期和地点</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">选择日期</string>
     <!-- Activity details highlights heading -->
@@ -252,14 +226,25 @@
     <string name="description_activity_details">介绍</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">位置</string>
-    <!-- Free cancellation message for LX activity -->
-    <string name="activity_free_cancellation">免费取消</string>
+    <!-- Activity details inclusions heading -->
+    <string name="inclusions_activity_details">包含的项目</string>
+    <!-- Activity details exclusions heading -->
+    <string name="exclusions_activity_details">不含的项目</string>
+    <!-- Activity details know before you book heading -->
+    <string name="know_before_you_book_activity_details">预订须知</string>
+    <!-- Activity details cancellation heading -->
+    <string name="cancellation_activity_details">取消</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%2$s (%3$s) %1$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">立即预订 %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- Template for multiple duration text on Search results Eg: 2d+ -->
+    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <!-- Cancellation policy template -->
+    <string name="cancellation_policy_TEMPLATE">如还没有开始使用，您可以在 %1$s 内免费取消。超出时限后，将无法取消、变更或退款。</string>
+
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">旅客</string>
     <string name="ticket_type_adult">成人</string>
@@ -302,7 +287,7 @@
     <string name="ticket_type_snowmobile">雪地摩托车</string>
     <string name="ticket_type_day">天</string>
     <string name="ticket_type_bike">自行车</string>
-    <string name="ticket_type_week">周</string>
+    <string name="ticket_type_week">星期</string>
     <string name="ticket_type_subscription">订阅</string>
     <string name="ticket_type_electric_bike">电动自行车</string>
     <string name="ticket_type_segway">思维车</string>
@@ -358,23 +343,32 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">滑动屏幕，开始预订</string>
-    <!-- Text for checkout toolbar-->
-    <string name="lx_checkout_text">付款</string>
-    <!-- Free cancellation -->
-    <string name="lx_free_cancellation">免费取消</string>
     <!-- Total with tax -->
     <string name="lx_total_with_tax">总计（含税）</string>
-    <!-- Contact Details Toolbar -->
-    <string name="lx_contact_details">联系信息</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">您所做的搜索未返回任何结果。请选择其他条件，再搜索一次。</string> 	<!-- Offers show more string -->
+    <string name="error_lx_search_message">您所做的搜索未返回任何结果。请选择其他条件，再搜索一次。</string> 
+    <!-- Text for generic error toolbar-->
+    <string name="lx_error_text">错误</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_invalid_input_text">信息无效</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_duplicate_trip_text">重复行程</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_session_timeout_text">会话超时</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_payment_failed_text">付款失败</string>
+    <!-- Offers show more string -->
     <string name="lx_show_more_offers">显示更多选择</string>
     <!-- Text for traveler details toolbar-->
     <string name="lx_traveler_details_text">旅客详细信息</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">输入旅客信息</string>
+    <!-- Text for lx sort and filter-->
+    <string name="lx_sort_filter">筛选/排序</string>
+    <!-- Read more of the review -->
+    <string name="lx_details_read_more">更多信息</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -487,14 +481,6 @@
     <string name="distance">距离</string>
     <!-- Short label for "sort by discounts" button -->
     <string name="discounts">折扣</string>
-    <!-- Content description for "sort by popular" button -->
-    <string name="cd_sort_by_popular">轻触按钮，显示最热门的酒店。</string>
-    <!-- Content description for "sort by price" button -->
-    <string name="cd_sort_by_price">轻触按钮，显示最便宜的酒店。</string>
-    <!-- Content description for "sort by rating" button -->
-    <string name="cd_sort_by_rating">轻触按钮，显示评分最高的酒店。</string>
-    <!-- Content description for "sort by distance" button -->
-    <string name="cd_sort_by_distance">轻触按钮，显示距离最近的酒店。</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">起价 %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -548,8 +534,6 @@
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">现在支付</string>
-    <!-- Rooms and rates pay later total -->
-    <string name="room_rate_pay_later_total_template">总额 %s</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -632,7 +616,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">登录失败。如果您的电子邮件和密码是正确的，请确认应用的国家/地区设置是否正确。</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">我们需要您为所有 Expedia 网站创建新的国际通用登录信息。&lt;br&gt;请使用下面的“忘记密码？”链接重置密码。</string>
+    <string name="login_reset_password">我们需要您为所有 Expedia 网站创建新的国际通用登录信息。&lt;br&gt;请使用下面的“忘记密码？”链接，重置密码。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 密码</string>
     <!-- Link accounts -->
@@ -669,8 +653,6 @@
     <string name="nav_cars">租车</string>
 
     <!-- New launch screen -->
-    <!-- Shop travel label -->
-    <string name="shop_travel">旅游预订</string>
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">今晚热卖酒店</string>
     <!-- See all nearby deals -->
@@ -1066,8 +1048,6 @@
     <string name="car_category_result_premium_elite">精英版高档车</string>
     <!-- Car category: luxury elite -->
     <string name="car_category_result_luxury_elite">精英版豪华车</string>
-    <!-- Car category: special -->
-    <string name="car_category_result_special">特殊车款</string>
     <!-- Car category: oversize -->
     <string name="car_category_result_oversize">特大型车</string>
 
@@ -1496,6 +1476,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">该航空公司不接受 %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">酒店不接受 %1$s</string>
+    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s 不接受 %2$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">不接受借记卡。</string>
 
@@ -1570,18 +1552,12 @@
     <string name="best_price_guarantee">安心价格保证</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;前&lt;b&gt;免费取消预订&lt;/b&gt;</string>
-    <!-- Resort fees -->
-    <string name="resort_fee">度假设施费:</string>
-    <!-- Pay now or later -->
-    <string name="pay_later">今天要付给 Expedia 的金额：</string>
     <!-- Log out -->
     <string name="log_out">退出</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次预订将累积 %1$s 分！</string>
     <!-- Blurb text displayed on account login button when already logged in -->
     <string name="x_points_for_this_trip_TEMPLATE">此次旅行将累积 %1$s 分！</string>
-    <!-- You'll earn bonus points for this booking -->
-    <string name="youll_earn_bonus_points_for_this_booking">此次预订可以累积奖励积分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">正在计算税费…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1719,8 +1695,6 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">信用卡号码</string>
-    <!-- Security code (CVV) hint -->
-    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">到期日期</string>
     <!-- Set expiration date button -->
@@ -1777,8 +1751,6 @@
     <string name="middle_name">中间名</string>
     <!-- Last name label -->
     <string name="last_name">姓</string>
-    <!-- First and Last Name label -->
-    <string name="first_and_last_name">名字和姓氏</string>
     <!-- date of birth label -->
     <string name="date_of_birth">出生日期</string>
     <!-- male -->
@@ -1882,8 +1854,6 @@
     <string name="add_to_flighttrack">使用 FlightTrack 跟踪航班</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">致电 Expedia 客户支持部门</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">联系我们</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">添加保险</string>
     <!-- Insurance -->
@@ -2271,8 +2241,6 @@
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <!-- Discount percent shown in hotel details fragment -->
-    <string name="x_percent_OFF_TEMPLATE">%2.0f%% 折扣</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% 的住客推荐该酒店。</string>
 
@@ -2442,8 +2410,6 @@
     <string name="Tonight">今晚</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免费取消预订</string>
-    <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">总价中不含这些费用</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">此次住宿的酒店费用</string>
     <!-- Included in the price -->
@@ -2539,16 +2505,12 @@
     <string name="login_failed">请再次登录</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">确实要退出 Expedia 帐户？</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">已加入 Expedia+ Rewards\u2122计划</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia+ 蓝标</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +银牌</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +金牌</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">登录身份</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia 帐户</string>
     <!-- Label for loading user profile from expedia.com -->
@@ -2588,7 +2550,7 @@
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">很抱歉，我们遇到了问题。请再试一次。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">预订费用已变更，因此我们未应用优惠券。请检查并重试。</string>
+    <string name="coupon_error_price_change">预订费用已变更，因此没有使用优惠券。请检查并重试。</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">很抱歉，该优惠券代码是用于其他国家或地区的。</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -2598,7 +2560,7 @@
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
     <string name="coupon_error_invalid_product">很抱歉，该酒店不接受优惠券。</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">很抱歉，这没有达到最低费用的要求。</string>
+    <string name="coupon_error_min_purchase_amount_not_met">很抱歉，预订没有达到最低费用的要求。</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">很抱歉，该酒店不接受优惠券。</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
@@ -2612,7 +2574,7 @@
     <!-- Error when applying coupon - Exceeded Earn Limit -->
     <string name="coupon_error_exceeded_earn_limit">很抱歉，该优惠券使用的次数太多了，不能再用了。</string>
     <!-- Error when applying coupon - Invalid Average Price -->
-    <string name="coupon_error_invalid_average_price">很抱歉，每晚均价未达到该优惠劵的最低要求。</string>
+    <string name="coupon_error_invalid_average_price">很抱歉，每晚均价未达到该优惠券的最低要求。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3065,14 +3027,10 @@
     <string name="wallet_buy_with_google_wallet">使用谷歌钱包付款</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用谷歌钱包，预订金额超 <b>$200</b> 即省 <b>$50</b>！</string>
-    <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">使用谷歌钱包为您省了 $50！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">每次预订只能使用一张优惠券。我们已经用谷歌钱包赠送的 $50 优惠券替换了之前的优惠券。</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">正在计算谷歌钱包折扣…</string>
-    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
-    <string name="error_wallet_promo_cannot_apply">很抱歉，谷歌钱包折扣不适用于此次预订。</string>
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">谷歌钱包使用条款和条件</string>
     <!-- Terms & conditions for Google Wallet promo -->
@@ -3200,26 +3158,12 @@
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">您的预订已经确认了！在应用中查看详细信息。</string>
 
-    <!-- VSC Info Screen -->
-    <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">其他 VSC 产品</string>
-    <!-- Name of VSC Train app -->
-    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
-    <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 应用程序</string>
-
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Content description for action: Press button to launch Hotels -->
     <string name="cd_launch_hotels">搜索酒店</string>
     <!-- Content description for action: Press button to launch Flights -->
     <string name="cd_launch_flights">搜索机票</string>
-    <!-- Content description for action: Press button to open menu list -->
-    <string name="cd_launch_open_menu_list">打开菜单列表</string>
-    <!-- Content description for action: Open Settings Menu -->
-    <string name="cd_launch_open_settings_menu">打开设置菜单</string>
-    <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">打开 Expedia 预订信息界面</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">按这里可以刷新行程列表</string>
@@ -3228,32 +3172,8 @@
     <string name="cd_hotel_search_edittext">请在酒店搜索栏中输入搜索内容</string>
     <!-- Content description for action: Open hotel booking dates calendar -->
     <string name="cd_hotel_search_open_calendar">打开酒店预订日历</string>
-    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
-    <string name="cd_hotel_search_press_search_from_calendar">按这里可以搜索酒店</string>
     <!-- Content description for action: Open hotel guest picker -->
     <string name="cd_hotel_search_open_guest_picker">打开酒店住客选择列表</string>
-    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
-    <string name="cd_hotel_search_press_search_from_guest_picker">按这里可以搜索酒店</string>
-    <!-- Content description for action: Press to open hotel sort options -->
-    <string name="cd_hotel_search_open_sort_options">打开酒店排序选项</string>
-    <!-- Content description for action: Switch to map view - hotels search -->
-    <string name="cd_hotel_search_switch_to_map_view">在地图上显示</string>
-    <!-- Content description for action: Switch to list view - hotels search -->
-    <string name="cd_hotel_search_switch_to_list_view">以列表形式显示</string>
-    <!-- Hotel sort options -->
-    <!-- Content description for action: Press to sort hotels by popularity -->
-    <string name="cd_sort_hotels_by_popularity">按喜爱程度排序</string>
-    <!-- Content description for action: Press to sort hotels by deals -->
-    <string name="cd_sort_hotels_by_deals">按优惠幅度排序</string>
-    <!-- Content description for action: Press to sort hotels by price -->
-    <string name="cd_sort_hotels_by_price">按价格排序</string>
-    <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">按评分排序</string>
-    <!-- Content description for action: Press to open hotel filter options -->
-    <string name="cd_filter_open_hotel_filter_options">打开酒店筛选选项</string>
-    <!-- Hotel filter options -->
-    <!-- Content description for action: Entering text into hotel filter text field -->
-    <string name="cd_filter_by_hotel_name">请在酒店筛选框中输入筛选条件</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">按这里可以筛选 3 星或 3 星以上的酒店</string>
@@ -3298,30 +3218,10 @@
     <!-- Content description for action: Press to display critical reviews -->
     <string name="cd_display_critical_reviews">按这里可显示负面的评价</string>
     <!-- Flight Search -->
-    <!-- Content description for action: Edit departure airport -->
-    <string name="cd_flights_search_departure_edit_text">编辑出发机场</string>
-    <!-- Content description for action: Edit arrival airport -->
-    <string name="cd_flights_search_arrival_edit_text">编辑到达机场</string>
-    <!-- Content description for action: Press to edit departure and arrival dates -->
-    <string name="cd_flights_search_dates_edit">按这里可编辑出发和到达日期</string>
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">按这里可清除选中的日期</string>
     <!-- Content description for action: Press to edit number of travelers -->
     <string name="cd_flights_search_number_of_travelers_edit">按这里可编辑旅客数量</string>
-    <!-- Flight Search Results -->
-    <!-- Content description for action: Press to return to flight search -->
-    <string name="cd_flights_search_search_button">按这里可返回航班搜索界面</string>
-    <!-- Content description for action: Press to open flight sort options -->
-    <string name="cd_flights_search_results_sort">按这里可打开航班排序选项</string>
-    <!-- Flight sort options -->
-    <!-- Content description for action: Press to sort flights by price -->
-    <string name="cd_sort_flights_by_price">按这里可根据价格排序</string>
-    <!-- Content description for action: Press to sort flights by when they depart -->
-    <string name="cd_sort_flights_by_departs">按这里可根据起飞时间排序</string>
-    <!-- Content description for action: Press to sort flights by when they arrive -->
-    <string name="cd_sort_flights_by_arrives">按这里可根据到达时间排序</string>
-    <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">按这里可根据飞行时间排序</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">取消选定的航班，返回航班搜索结果</string>
@@ -3337,23 +3237,13 @@
     <string name="cd_checkout">按这里，开始付款</string>
     <!-- Content description for action: Press to log in with your Expedia account -->
     <string name="cd_checkout_log_in_with_expedia">按这里，登录您的 Expedia 帐户</string>
-    <!-- Content description for action: Press to make this purchase with Google Wallet -->
-    <string name="cd_checkout_buy_with_google">按这里可使用谷歌钱包付款</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">按这里可为此次预订添加旅客</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">按这里可选择为此次预订付款</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">按这里可输入折扣券或促销代码</string>
-    <!-- Content description for action: Enter coupon or promotional code into text field -->
-    <string name="cd_checkout_coupon_code_entry_field">在文本框中输入折扣券或促销代码</string>
-    <!-- Content description for action: Press to apply coupon -->
-    <string name="cd_checkout_apply_coupon_button">按这里可使用折扣券</string>
     <!-- Log in screen -->
-    <!-- Content description for action: Enter Expedia account email address -->
-    <string name="cd_log_in_email_edit_text">输入 Expedia 帐户的电子邮件地址</string>
-    <!-- Content description for action: Enter Expedia account password -->
-    <string name="cd_log_in_password_edit_text">输入 Expedia 帐户密码</string>
     <!-- Content description for action: Press to log into Expedia with your Facebook account -->
     <string name="cd_log_in_with_facebook">按这里可使用 Facebook 帐户登录 Expedia</string>
     <!-- Traveler Information screen -->
@@ -3364,53 +3254,18 @@
     <!-- Content description for action: Press to edit traveler's passport country -->
     <string name="cd_traveler_edit_passport_country">编辑旅客护照上显示的国家</string>
     <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Enter first name -->
-    <string name="cd_traveler_first_name_edit_text">输入名字</string>
-    <!-- Content description for action: Enter middle name -->
-    <string name="cd_traveler_middle_name_edit_text">输入中间名</string>
-    <!-- Content description for action: Enter last name -->
-    <string name="cd_traveler_last_name_edit_text">输入姓氏</string>
-    <!-- Content description for action: Press to select country calling codes -->
-    <string name="cd_traveler_list_international_phone_codes">按这里可选择长途电话国家/地区代码</string>
-    <!-- Content description for action: Enter phone number -->
-    <string name="cd_traveler_phone_number">输入电话号码</string>
     <!-- Content description for action: Press to finish entering traveler information -->
     <string name="cd_traveler_information_done">按这里，完成输入旅客信息的操作</string>
     <!-- Extra traveler information - flights -->
-    <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">按这里可选择旅客出生日期</string>
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">按这里可选择旅客性别</string>
-    <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">如果有，请输入 Redress Number。</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">选择旅客所需特殊照顾的种类</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">选择旅客喜欢的座位类型</string>
     <!-- Credit Card Information -->
-    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
-    <string name="Stored_Cards">保存的卡</string>
-    <!-- Content description for action: Enter credit card number -->
-    <string name="cd_card_info_card_number_edit_text">输入信用卡号码</string>
-    <!-- Content description for action: Enter cardholder name -->
-    <string name="cd_card_info_cardholder_name">输入持卡人姓名</string>
-    <!-- Content description for action: Enter cardholder's email address -->
-    <string name="cd_card_info_email_address">输入持卡人电子邮件地址</string>
-    <!-- Content description for action: Enter billing address - line 1 -->
-    <string name="cd_card_info_billing_address_line_1">输入帐单地址 - 第 1 行</string>
-    <!-- Content description for action: Enter billing address - line 2 -->
-    <string name="cd_card_info_billing_address_line_2">输入帐单地址 - 第 2 行</string>
-    <!-- Content description for action: Enter billing address city -->
-    <string name="cd_card_info_billing_address_city">输入帐单地址所在城市</string>
-    <!-- Content description for action: Enter billing address state -->
-    <string name="cd_card_info_billing_address_state">输入帐单地址所在省/市/自治区</string>
-    <!-- Content description for action: Enter billing address postal code -->
-    <string name="cd_card_info_billing_address_postal_code">输入帐单地址的邮编</string>
     <!-- Content description for action: Select billing address country -->
     <string name="cd_card_info_billing_address_country">选择帐单地址所在国家/地区</string>
-    <!-- Common actionbar elements -->
-    <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">按这里返回上个界面</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">按住屏幕，查看行程分享选项。</string>
@@ -3476,10 +3331,9 @@
     <!-- Dialog negative button message -->
     <string name="no">否</string>
 
-    <!-- Mail intent chooser dialog title -->
-    <string name="mailto_title">发送电子邮件…</string>
-
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
+    <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="legal_TEMPLATE">完成此次预订即表示，您已经阅读并接受%1$s、%2$s和%3$s。</string>
 
 </resources>

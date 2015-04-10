@@ -15,16 +15,16 @@
     <string name="cars_hourly_text">Per time</string>
     <!-- Cars price templates-->
     <string name="cars_daily_text">Daglig</string>
+    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
+    <string name="cars_checkout_breakdown_us_text">Prisene vises i %s dollar.</string>
+    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
+    <string name="cars_checkout_breakdown_non_us_text">Prisene vises i %1$s dollar. Alle skatter og avgifter som belastes ved henting må betales i lokal valuta (%2$s).</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">Ukentlig</string>
     <!-- Cars weekly price templates-->
     <string name="cars_monthly_text">Månedlig</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">Totalt %s</string>
-    <!-- Text for cars promo codes-->
-    <string name="cars_promo_code">Kampanjekode</string>
-    <!-- Text for cars sort and filter-->
-    <string name="cars_sort_filter">Sorter og filtrer</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Sveip for å bestille</string>
     <!-- Text for checkout toolbar-->
@@ -57,8 +57,6 @@
     <string name="enter_payment_details">Oppgi betalingsinformasjon</string>
     <!-- Template for selected credit card-->
     <string name="selected_card_template">Utløper %s</string>
-    <!-- Template for car offer detail-->
-    <string name="car_offer_template">%s eller lignende</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Dører</string>
     <!-- Car bags text-->
@@ -75,8 +73,6 @@
     <string name="car_door_range_TEMPLATE">%1$d–%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
-    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="car_legal_TEMPLATE">Ved å fullføre denne bestillingen bekrefter jeg at jeg har lest og aksepterer gjeldende %1$s, %2$s og %3$s.</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -87,15 +83,7 @@
     <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia-reiserutenummer: %s</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia kundeservice: %1$s og %2$s</string>
-    <!-- Showing local phone number in  car confirmation screen  -->
-    <string name="car_confirmation_local_support_TEMPLATE">Lokalt nummer: %s</string>
-    <!-- Showing toll free phone number in  car confirmation screen  -->
-    <string name="car_confirmation_toll_free_support_TEMPLATE">Gratisnummer: %s</string>
 
-    <!-- Car search label for pick-up time -->
-    <string name="pick_up_time">Tidspunkt for henting</string>
-    <!-- Car search label for drop-off time-->
-    <string name="drop_off_time">Tidspunkt for avlevering</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Sted for henting</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -118,8 +106,6 @@
     <string name="error_missing_start_date_param">Startdato mangler</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">Sluttdato mangler</string>
-    <!-- Temporary String for general error message -->
-    <string name="error_car">Det oppstod en feil. Sjekk søkeparametre.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
     <!-- Checkout -->
@@ -167,12 +153,8 @@
     <string name="call_customer_support">Ring kundeservice</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that to verify pick-up date."  -->
-    <string name="pick_up_date_error">Kontroller hentedatoen din.</string>
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Juster hente- eller avleveringstidene.</string>
-    <!-- Message for user that to verify drop-off date."  -->
-    <string name="drop_off_date_error">Kontroller avleveringsdatoen din.</string>
     <!-- Message for user  to choose a closer date.""  -->
     <string name="drop_off_too_far_error">Denne datoen er for langt frem i tid. Velg en annen dato.</string>
     <!-- Message for user that date is too far out."  -->
@@ -192,8 +174,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hm… Betalingen din mislyktes. Kontroller at betalingsopplysningene er korrekte og prøv på nytt.</string>
-    <!-- Payment failed button text that takes you back to checkout -->
-    <string name="payment_failed">Betaling mislyktes.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Vis prisendring</string>
     <!-- My Trips button that takes you to Itins -->
@@ -237,13 +217,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Søk på aktiviteter</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Oppgi sted</string>
-    <!-- Error messge for missing Location in LX search form -->
-    <string name="lx_error_missing_location">Sted mangler</string>
-    <!-- Error messge for missing start date in LX search form -->
-    <string name="lx_error_missing_start_date">Dato mangler</string>
+    <string name="lx_search_widget_heading">Dato og sted</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Velg dato</string>
     <!-- Activity details highlights heading -->
@@ -252,14 +226,25 @@
     <string name="description_activity_details">Beskrivelse</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Sted</string>
-    <!-- Free cancellation message for LX activity -->
-    <string name="activity_free_cancellation">Gratis avbestilling</string>
+    <!-- Activity details inclusions heading -->
+    <string name="inclusions_activity_details">Inkludert</string>
+    <!-- Activity details exclusions heading -->
+    <string name="exclusions_activity_details">Ikke inkludert</string>
+    <!-- Activity details know before you book heading -->
+    <string name="know_before_you_book_activity_details">Viktig å vite før du bestiller</string>
+    <!-- Activity details cancellation heading -->
+    <string name="cancellation_activity_details">Avbestilling</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Bestill nå %1$s</string>
     <!-- Template for tickets type and count  summary -->
     <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- Template for multiple duration text on Search results Eg: 2d+ -->
+    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <!-- Cancellation policy template -->
+    <string name="cancellation_policy_TEMPLATE">Du kan avbestille uten ekstra kostnad frem til %1$s før starttidspunktet for bestillingen din. Etter dette vil det ikke være mulig å utføre avbestillinger, endringer eller refusjoner.</string>
+
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Reisende</string>
     <string name="ticket_type_adult">Voksen</string>
@@ -303,10 +288,10 @@
     <string name="ticket_type_day">Dag</string>
     <string name="ticket_type_bike">Sykkel</string>
     <string name="ticket_type_week">Uke</string>
-    <string name="ticket_type_subscription">abonnement</string>
-    <string name="ticket_type_electric_bike">elektrisk sykkel</string>
-    <string name="ticket_type_segway">segway</string>
-    <string name="ticket_type_vehicle">kjøretøy</string>
+    <string name="ticket_type_subscription">Abonnement</string>
+    <string name="ticket_type_electric_bike">Elektrisk sykkel</string>
+    <string name="ticket_type_segway">Segway</string>
+    <string name="ticket_type_vehicle">Kjøretøy</string>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per reisende</string>
     <string name="per_ticket_type_adult">per voksen</string>
@@ -333,7 +318,7 @@
     <string name="per_ticket_type_travel_card">per reisekort</string>
     <string name="per_ticket_type_boat">per båt</string>
     <string name="per_ticket_type_motorcycle">per motorsykkel</string>
-    <string name="per_ticket_type_ceremony">per seremony</string>
+    <string name="per_ticket_type_ceremony">per seremoni</string>
     <string name="per_ticket_type_calling_card">per ringekort</string>
     <string name="per_ticket_type_pass">per pass</string>
     <string name="per_ticket_type_minibus">per minibuss</string>
@@ -358,23 +343,32 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Sveip for å bestille</string>
-    <!-- Text for checkout toolbar-->
-    <string name="lx_checkout_text">Betaling</string>
-    <!-- Free cancellation -->
-    <string name="lx_free_cancellation">Gratis avbestilling</string>
     <!-- Total with tax -->
     <string name="lx_total_with_tax">Totalpris med skatt</string>
-    <!-- Contact Details Toolbar -->
-    <string name="lx_contact_details">Kontaktdetaljer</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Oppgi kontaktdetaljer</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string> 	<!-- Offers show more string -->
+    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string> 
+    <!-- Text for generic error toolbar-->
+    <string name="lx_error_text">Feil</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_invalid_input_text">Ugyldig informasjon</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_duplicate_trip_text">Duplisert reise</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_session_timeout_text">Utløpt sesjon</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_payment_failed_text">Betaling mislyktes</string>
+    <!-- Offers show more string -->
     <string name="lx_show_more_offers">Vis mer</string>
     <!-- Text for traveler details toolbar-->
     <string name="lx_traveler_details_text">Den reisendes detaljer</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Oppgi kontaktdetaljer</string>
+    <!-- Text for lx sort and filter-->
+    <string name="lx_sort_filter">Sorter og filtrer</string>
+    <!-- Read more of the review -->
+    <string name="lx_details_read_more">Les mer</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -487,14 +481,6 @@
     <string name="distance">Avstand</string>
     <!-- Short label for "sort by discounts" button -->
     <string name="discounts">Rabatter</string>
-    <!-- Content description for "sort by popular" button -->
-    <string name="cd_sort_by_popular">Klikk for å sortere etter de mest populære hotellene</string>
-    <!-- Content description for "sort by price" button -->
-    <string name="cd_sort_by_price">Klikk for å sortere etter de billigste hotellene.</string>
-    <!-- Content description for "sort by rating" button -->
-    <string name="cd_sort_by_rating">Klikk for å sortere etter de høyst rangerte hotellene.</string>
-    <!-- Content description for "sort by distance" button -->
-    <string name="cd_sort_by_distance">Klikk for å sortere etter hotellene som ligger nærmest.</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Fra %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -548,8 +534,6 @@
     <string name="room_rate_pay_now">Betal nå</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">Belastes nå</string>
-    <!-- Rooms and rates pay later total -->
-    <string name="room_rate_pay_later_total_template">Totalt %s</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s per natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -669,8 +653,6 @@
     <string name="nav_cars">Leiebil</string>
 
     <!-- New launch screen -->
-    <!-- Shop travel label -->
-    <string name="shop_travel">Se etter reise</string>
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Populære hoteller i kveld</string>
     <!-- See all nearby deals -->
@@ -1066,8 +1048,6 @@
     <string name="car_category_result_premium_elite">Premium Elite</string>
     <!-- Car category: luxury elite -->
     <string name="car_category_result_luxury_elite">Luksus Elite</string>
-    <!-- Car category: special -->
-    <string name="car_category_result_special">Spesiell</string>
     <!-- Car category: oversize -->
     <string name="car_category_result_oversize">Svært stor</string>
 
@@ -1496,6 +1476,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Flyselskapet godtar ikke %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotellet godtar ikke %1$s</string>
+    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s godtar ikke %2$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Debetkort godtas ikke.</string>
 
@@ -1570,18 +1552,12 @@
     <string name="best_price_guarantee">Prismatch</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis avbestilling&lt;/b&gt; innen &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Resort fees -->
-    <string name="resort_fee">Resortavgift:</string>
-    <!-- Pay now or later -->
-    <string name="pay_later">Totalbeløp som skal betales til Expedia i dag:</string>
     <!-- Log out -->
     <string name="log_out">Logg av</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
     <!-- Blurb text displayed on account login button when already logged in -->
     <string name="x_points_for_this_trip_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
-    <!-- You'll earn bonus points for this booking -->
-    <string name="youll_earn_bonus_points_for_this_booking">Du vil tjene opp bonuspoeng for denne bestillingen</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Regner ut skatter og avgifter…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1719,8 +1695,6 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Kredittkortnummer</string>
-    <!-- Security code (CVV) hint -->
-    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Utløpsdato</string>
     <!-- Set expiration date button -->
@@ -1777,8 +1751,6 @@
     <string name="middle_name">Mellomnavn</string>
     <!-- Last name label -->
     <string name="last_name">Etternavn</string>
-    <!-- First and Last Name label -->
-    <string name="first_and_last_name">Fornavn og Etternavn</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Fødselsdato</string>
     <!-- male -->
@@ -1882,8 +1854,6 @@
     <string name="add_to_flighttrack">Spor med FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Ring Expedias kundeservice</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">Ta kontakt med oss</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Legg til forsikring</string>
     <!-- Insurance -->
@@ -2271,8 +2241,6 @@
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <!-- Discount percent shown in hotel details fragment -->
-    <string name="x_percent_OFF_TEMPLATE">%2.0f%% RABATT</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% av gjestene anbefaler dette hotellet.</string>
 
@@ -2442,8 +2410,6 @@
     <string name="Tonight">I kveld</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Gratis avbestilling</string>
-    <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Disse avgiftene er ikke inkludert i totalprisen</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Hotellavgifter for dette oppholdet</string>
     <!-- Included in the price -->
@@ -2539,16 +2505,12 @@
     <string name="login_failed">Vennligst logg inn på nytt</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Er du sikker på at du vil logge av Expedia-kontoen din?</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Enrolled in Expedia+ Rewards\u2122</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">Logget på som</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia-konto</string>
     <!-- Label for loading user profile from expedia.com -->
@@ -2578,41 +2540,41 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Beklager, dette er ikke en gyldig kupongkode.</string>
+    <string name="coupon_error_unrecognized">Dette er ikke en gyldig kupongkode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Beklager, kupongen er utløpt.</string>
+    <string name="coupon_error_expired">Kupongen er utløpt.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Beklager, det har oppstått et problem. Prøv på nytt.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Beklager, denne kupongkoden har allerede blitt brukt.</string>
+    <string name="coupon_error_duplicate">Denne kupongkoden har allerede blitt brukt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Beklager, det har oppstått et problem. Prøv på nytt.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Prisen på bestillingen er endret, så vi har ikke lagt til kupongen. Anmeld på nytt og prøv igjen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Beklager, denne kupongkoden er kun gyldig i et annet land.</string>
+    <string name="coupon_error_invalid_region">Denne kupongkoden er kun gyldig i et annet land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
     <string name="coupon_error_min_stay_not_met">Du har valgt færre dager enn det som er minstekravet.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Beklager, denne kupongen er ikke gyldig for disse datoene.</string>
+    <string name="coupon_error_invalid_travel_dates">Denne kupongen er ikke gyldig for disse datoene.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Beklager, dette hotellet godtar ikke kuponger.</string>
+    <string name="coupon_error_invalid_product">Dette hotellet godtar ikke kuponger.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Beklager, du har ikke oppnådd minimumsbeløpet.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Du har ikke oppnådd minimumsbeløpet.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Beklager, dette hotellet godtar ikke kuponger.</string>
+    <string name="coupon_error_hotel_excluded">Dette hotellet godtar ikke kuponger.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Beklager, kupongen kan ikke brukes på dette hotellet.</string>
+    <string name="coupon_error_invalid_hotel">Kupongen kan ikke brukes på dette hotellet.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Beklager, det var ikke mulig å lese kupongkoden.  Prøv på nytt.</string>
+    <string name="coupon_error_service_down">Det er ikke mulig å behandle kupongkoden for øyeblikket.  Prøv på nytt.</string>
     <!-- Error when applying coupon - session timeout -->
-    <string name="coupon_error_service_timeout">Beklager, det tok for lang tid å legge til kupongkoden. Prøv på nytt.</string>
+    <string name="coupon_error_service_timeout">Det tok for lang tid å legge til kupongkoden. Prøv på nytt.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
-    <string name="coupon_error_invalid_stay_dates">Beklager, kupongen kan ikke brukes på disse reisedatoene.</string>
+    <string name="coupon_error_invalid_stay_dates">Kupongen kan ikke brukes på disse reisedatoene.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
-    <string name="coupon_error_exceeded_earn_limit">Beklager, denne kupongen er blitt brukt for mange ganger og kan ikke lenger brukes.</string>
+    <string name="coupon_error_exceeded_earn_limit">Denne kupongen er blitt brukt for mange ganger og kan ikke lenger brukes.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
-    <string name="coupon_error_invalid_average_price">Beklager, gjennomsnittsprisen per natt er ikke tilstrekkelig høy til at denne kupongen kan brukes.</string>
+    <string name="coupon_error_invalid_average_price">Gjennomsnittsprisen per natt er ikke tilstrekkelig høy til at denne kupongen kan brukes.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3065,14 +3027,10 @@
     <string name="wallet_buy_with_google_wallet">Kjøp med Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Spar <b>$50</b> på en reise på <b>$200 eller mer</b> med Google Wallet!</string>
-    <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Du sparte $50 ved å bruke Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med en rabatt på $50 fordi du brukte Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Løser inn din Google Wallet-rabatt…</string>
-    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
-    <string name="error_wallet_promo_cannot_apply">Beklager, din Google Wallet-rabatt kan ikke brukes på denne bestillingen.</string>
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Betingelsene og vilkårene for Google Wallet-kuponger</string>
     <!-- Terms & conditions for Google Wallet promo -->
@@ -3200,26 +3158,12 @@
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Bestillingen din er bekreftet! Vis den i appen.</string>
 
-    <!-- VSC Info Screen -->
-    <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">Også fra VSC</string>
-    <!-- Name of VSC Train app -->
-    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
-    <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">App fra Voyages-sncf.com</string>
-
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Content description for action: Press button to launch Hotels -->
     <string name="cd_launch_hotels">Søk på hoteller</string>
     <!-- Content description for action: Press button to launch Flights -->
     <string name="cd_launch_flights">Søk på flyvninger</string>
-    <!-- Content description for action: Press button to open menu list -->
-    <string name="cd_launch_open_menu_list">Åpne Meny</string>
-    <!-- Content description for action: Open Settings Menu -->
-    <string name="cd_launch_open_settings_menu">Åpne Innstillinger</string>
-    <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">Åpne siden for bestillingsopplysninger</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Trykk for å oppdatere reiselisten</string>
@@ -3228,32 +3172,8 @@
     <string name="cd_hotel_search_edittext">Oppgi tekst i søkefeltet</string>
     <!-- Content description for action: Open hotel booking dates calendar -->
     <string name="cd_hotel_search_open_calendar">Åpne bestillingskalenderen</string>
-    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
-    <string name="cd_hotel_search_press_search_from_calendar">Trykk for å søke etter hoteller</string>
     <!-- Content description for action: Open hotel guest picker -->
     <string name="cd_hotel_search_open_guest_picker">Åpne gjestevelger</string>
-    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
-    <string name="cd_hotel_search_press_search_from_guest_picker">Trykk for å søke etter hoteller</string>
-    <!-- Content description for action: Press to open hotel sort options -->
-    <string name="cd_hotel_search_open_sort_options">Åpne sorteringsvalg</string>
-    <!-- Content description for action: Switch to map view - hotels search -->
-    <string name="cd_hotel_search_switch_to_map_view">Bytt til kartvisning</string>
-    <!-- Content description for action: Switch to list view - hotels search -->
-    <string name="cd_hotel_search_switch_to_list_view">Bytt til listevisning</string>
-    <!-- Hotel sort options -->
-    <!-- Content description for action: Press to sort hotels by popularity -->
-    <string name="cd_sort_hotels_by_popularity">Sorter etter popularitet</string>
-    <!-- Content description for action: Press to sort hotels by deals -->
-    <string name="cd_sort_hotels_by_deals">Sorter etter tilbud</string>
-    <!-- Content description for action: Press to sort hotels by price -->
-    <string name="cd_sort_hotels_by_price">Sorter etter pris</string>
-    <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">Sorter etter rangering</string>
-    <!-- Content description for action: Press to open hotel filter options -->
-    <string name="cd_filter_open_hotel_filter_options">Åpne filtervalg</string>
-    <!-- Hotel filter options -->
-    <!-- Content description for action: Entering text into hotel filter text field -->
-    <string name="cd_filter_by_hotel_name">Oppgi tekst i filterfeltet</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">Trykk for å kun vise hoteller med 3 eller flere stjerner</string>
@@ -3298,30 +3218,10 @@
     <!-- Content description for action: Press to display critical reviews -->
     <string name="cd_display_critical_reviews">Trykk for å vise negative anmeldelser</string>
     <!-- Flight Search -->
-    <!-- Content description for action: Edit departure airport -->
-    <string name="cd_flights_search_departure_edit_text">Endre avreiseflyplass</string>
-    <!-- Content description for action: Edit arrival airport -->
-    <string name="cd_flights_search_arrival_edit_text">Endre ankomstflyplass</string>
-    <!-- Content description for action: Press to edit departure and arrival dates -->
-    <string name="cd_flights_search_dates_edit">Trykk for å endre avreise- og ankomstdatoer</string>
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Trykk for å slette valgte datoer</string>
     <!-- Content description for action: Press to edit number of travelers -->
     <string name="cd_flights_search_number_of_travelers_edit">Trykk for å endre antallet reisende</string>
-    <!-- Flight Search Results -->
-    <!-- Content description for action: Press to return to flight search -->
-    <string name="cd_flights_search_search_button">Trykk for å gå tilbake til flysøk</string>
-    <!-- Content description for action: Press to open flight sort options -->
-    <string name="cd_flights_search_results_sort">Trykk for å åpne sorteringsvalg</string>
-    <!-- Flight sort options -->
-    <!-- Content description for action: Press to sort flights by price -->
-    <string name="cd_sort_flights_by_price">Trykk for å sortere etter pris</string>
-    <!-- Content description for action: Press to sort flights by when they depart -->
-    <string name="cd_sort_flights_by_departs">Trykk for å sortere etter avreisetidspunkt</string>
-    <!-- Content description for action: Press to sort flights by when they arrive -->
-    <string name="cd_sort_flights_by_arrives">Trykk for å sortere etter ankomsttidspunkt</string>
-    <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">Trykk for å sortere etter flyturens lengde</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">Slett flyvalget ditt og gå tilbake til søkeresultatene</string>
@@ -3337,23 +3237,13 @@
     <string name="cd_checkout">Trykk for å bestille</string>
     <!-- Content description for action: Press to log in with your Expedia account -->
     <string name="cd_checkout_log_in_with_expedia">Trykk for å logge på din Expedia-konto</string>
-    <!-- Content description for action: Press to make this purchase with Google Wallet -->
-    <string name="cd_checkout_buy_with_google">Trykk for å utføre dette kjøpet med Google Wallet</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Trykk for å legge til en reisende til denne bestillingen</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Trykk for å velge betalingsmåten for denne bestillingen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Trykk for å oppgi en rabatt- eller tilbudskode</string>
-    <!-- Content description for action: Enter coupon or promotional code into text field -->
-    <string name="cd_checkout_coupon_code_entry_field">Oppgi rabatt- eller tilbudskoden i tekstfeltet</string>
-    <!-- Content description for action: Press to apply coupon -->
-    <string name="cd_checkout_apply_coupon_button">Trykk for å løse inn kupongen</string>
     <!-- Log in screen -->
-    <!-- Content description for action: Enter Expedia account email address -->
-    <string name="cd_log_in_email_edit_text">Oppgi e-postadressen for Expedia-kontoen</string>
-    <!-- Content description for action: Enter Expedia account password -->
-    <string name="cd_log_in_password_edit_text">Oppgi passordet for Expedia-kontoen</string>
     <!-- Content description for action: Press to log into Expedia with your Facebook account -->
     <string name="cd_log_in_with_facebook">Trykk for å logge på Expedia med din Facebook-konto</string>
     <!-- Traveler Information screen -->
@@ -3364,53 +3254,18 @@
     <!-- Content description for action: Press to edit traveler's passport country -->
     <string name="cd_traveler_edit_passport_country">Endre passland for reisende</string>
     <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Enter first name -->
-    <string name="cd_traveler_first_name_edit_text">Oppgi fornavn</string>
-    <!-- Content description for action: Enter middle name -->
-    <string name="cd_traveler_middle_name_edit_text">Oppgi mellomnavn</string>
-    <!-- Content description for action: Enter last name -->
-    <string name="cd_traveler_last_name_edit_text">Oppgi etternavn</string>
-    <!-- Content description for action: Press to select country calling codes -->
-    <string name="cd_traveler_list_international_phone_codes">Trykk for å velge retningsnumre</string>
-    <!-- Content description for action: Enter phone number -->
-    <string name="cd_traveler_phone_number">Oppgi telefonnummer</string>
     <!-- Content description for action: Press to finish entering traveler information -->
     <string name="cd_traveler_information_done">Trykk for å avslutte utfyllingen av opplysninger om reisende</string>
     <!-- Extra traveler information - flights -->
-    <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">Trykk for å velge reisendes fødselsdag</string>
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">Trykk for å velge reisendes kjønn</string>
-    <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">Oppgi kontrollnummer, hvis gjeldende</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Velg type nødvendig tilrettelagt assistanse</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Velg setetypen den reisende foretrekker</string>
     <!-- Credit Card Information -->
-    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
-    <string name="Stored_Cards">Lagrede kort</string>
-    <!-- Content description for action: Enter credit card number -->
-    <string name="cd_card_info_card_number_edit_text">Oppgi kredittkortnummer</string>
-    <!-- Content description for action: Enter cardholder name -->
-    <string name="cd_card_info_cardholder_name">Oppgi kortinnehaverens navn</string>
-    <!-- Content description for action: Enter cardholder's email address -->
-    <string name="cd_card_info_email_address">Oppgi kortinnehaverens e-postadresse</string>
-    <!-- Content description for action: Enter billing address - line 1 -->
-    <string name="cd_card_info_billing_address_line_1">Oppgi adresse (linje 1)</string>
-    <!-- Content description for action: Enter billing address - line 2 -->
-    <string name="cd_card_info_billing_address_line_2">Oppgi adresse (linje 2)</string>
-    <!-- Content description for action: Enter billing address city -->
-    <string name="cd_card_info_billing_address_city">Oppgi by</string>
-    <!-- Content description for action: Enter billing address state -->
-    <string name="cd_card_info_billing_address_state">Oppgi stat/region</string>
-    <!-- Content description for action: Enter billing address postal code -->
-    <string name="cd_card_info_billing_address_postal_code">Oppgi postnummer</string>
     <!-- Content description for action: Select billing address country -->
     <string name="cd_card_info_billing_address_country">Oppgi land</string>
-    <!-- Common actionbar elements -->
-    <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">Trykk for å gå tilbake til forrige side</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Klikk for å vise alternativer for å dele reiserute</string>
@@ -3476,10 +3331,9 @@
     <!-- Dialog negative button message -->
     <string name="no">Nei</string>
 
-    <!-- Mail intent chooser dialog title -->
-    <string name="mailto_title">Send e-post…</string>
-
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
+    <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="legal_TEMPLATE">Ved å fullføre denne bestillingen bekrefter jeg at jeg har lest og aksepterer gjeldende %1$s, %2$s og %3$s.</string>
 
 </resources>
