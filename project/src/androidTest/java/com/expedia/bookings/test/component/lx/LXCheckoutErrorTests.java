@@ -11,6 +11,7 @@ import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
@@ -41,9 +42,12 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_invalid_name)));
 		LXViewModel.checkoutErrorButton().perform(click());
+		ScreenActions.delay(1);
 
-		CheckoutViewModel.driverInfo().check(matches(isDisplayed()));
+		screenshot("Traveler Details Again");
+		CheckoutViewModel.mainContactInfo().check(matches(isDisplayed()));
 		CheckoutViewModel.pressClose();
+		ScreenActions.delay(1);
 
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
@@ -56,8 +60,10 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
 		LXViewModel.checkoutErrorButton().perform(click());
+		ScreenActions.delay(1);
+
 		EspressoUtils.assertViewWithTextIsDisplayed("Security code for card ending in 1111");
-		screenshot("Oops Error Dialog close");
+		screenshot("CVV Screen Again");
 	}
 
 	public void testTripAlreadyBooked() throws Throwable {
@@ -68,8 +74,9 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_already_exists)));
 		LXViewModel.checkoutErrorButton().perform(click());
+		ScreenActions.delay(1);
 
-		screenshot("LX itins");
+		screenshot("LX Itins");
 	}
 
 	public void testSessionTimeout() throws Throwable {
@@ -80,8 +87,9 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_time_out)));
 		LXViewModel.checkoutErrorButton().perform(click());
+		ScreenActions.delay(1);
 
-		screenshot("LX Details");
+		screenshot("LX Details Again");
 		EspressoUtils.assertViewIsDisplayed(R.id.activity_gallery);
 	}
 
@@ -93,11 +101,13 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_payment_failed)));
 		LXViewModel.checkoutErrorButton().perform(click());
+		ScreenActions.delay(1);
 
-		screenshot("Payment Failed Messaging");
+		screenshot("Payment Details Again");
 		// Should take you back to payment entry
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.pressClose();
+		ScreenActions.delay(1);
 
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
@@ -105,6 +115,7 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 	private void performLXCheckout(String firstName) throws Throwable {
 		final String ticketName = "2-Day";
 
+		LXViewModel.searchButtonInSRPToolbar().perform(click());
 		screenshot("LX Search");
 		LXViewModel.location().perform(typeText("San"));
 		LXViewModel.selectLocation(getInstrumentation(), "San Francisco, CA");
@@ -125,7 +136,7 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo(), click());
 
 		screenshot("LX Checkout Started");
-		CheckoutViewModel.driverInfo().perform(click());
+		CheckoutViewModel.clickMainContactInfo();
 		CheckoutViewModel.firstName().perform(typeText(firstName));
 		CheckoutViewModel.lastName().perform(typeText("Test"));
 		CheckoutViewModel.email().perform(typeText("test@expedia.com"));

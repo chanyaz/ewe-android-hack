@@ -132,7 +132,7 @@ public class CarPhoneHappyPath extends PhoneTestCase {
 		screenshot("Car Checkout");
 		doLogin();
 
-		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickMainContactInfo();
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler(getInstrumentation(), "Expedia Automation First");
 		CheckoutViewModel.pressClose();
