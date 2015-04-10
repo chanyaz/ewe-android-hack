@@ -8,7 +8,6 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
@@ -101,7 +100,7 @@ public class CarServices {
 		@Override
 		public void call(BaseApiResponse response) {
 			if (response.hasErrors() && !response.hasPriceChange()) {
-				throw new ApiException(response.getFirstError());
+				throw response.getFirstError();
 			}
 		}
 	};

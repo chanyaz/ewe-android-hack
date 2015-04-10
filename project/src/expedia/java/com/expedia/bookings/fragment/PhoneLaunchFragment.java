@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,22 +19,18 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
+import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
+import rx.Observer;
+import rx.Subscription;
+
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
-	// Invisible Fragment that handles FusedLocationProvider
-	private FusedLocationProviderFragment locationFragment;
-
+	private Subscription locSubscription;
 	private boolean wasOffline;
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		locationFragment = FusedLocationProviderFragment.getInstance(this);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +53,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (locSubscription != null) {
+			locSubscription.unsubscribe();
+		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
 	}
@@ -116,17 +114,20 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Location finder
 
 	private void findLocation() {
-
-		locationFragment.find(new FusedLocationProviderFragment.FusedLocationProviderListener() {
-
+		locSubscription = CurrentLocationObservable.create(getActivity()).subscribe(new Observer<Location>() {
 			@Override
-			public void onFound(Location currentLocation) {
-				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
+			public void onCompleted() {
+				// ignore
 			}
 
 			@Override
-			public void onError() {
+			public void onError(Throwable e) {
 				Events.post(new Events.LaunchLocationFetchError());
+			}
+
+			@Override
+			public void onNext(Location currentLocation) {
+				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
 			}
 		});
 	}

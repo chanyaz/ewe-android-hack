@@ -15,7 +15,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -113,9 +112,8 @@ public class CarCheckoutPresenter extends Presenter {
 			if (RetrofitUtils.isNetworkError(e)) {
 				showCheckoutErrorDialog(R.string.error_no_internet);
 			}
-			else if (e instanceof ApiException) {
-				ApiException carSearchException = (ApiException) e;
-				showErrorScreen(carSearchException.apiError);
+			else if (e instanceof ApiError) {
+				showErrorScreen((ApiError) e);
 			}
 			else {
 				showErrorScreen(null);

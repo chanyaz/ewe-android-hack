@@ -22,7 +22,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -154,9 +153,8 @@ public class CarResultsPresenter extends Presenter {
 				return;
 			}
 
-			if (e instanceof ApiException) {
-				ApiException carSearchException = (ApiException) e;
-				handleInputValidationErrors(carSearchException.apiError);
+			if (e instanceof ApiError) {
+				handleInputValidationErrors((ApiError) e);
 				return;
 			}
 		}

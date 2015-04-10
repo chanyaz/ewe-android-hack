@@ -36,8 +36,7 @@ public class LXCurrentLocationSuggestionObserver implements Observer<Suggestion>
 		}
 
 		//Default
-		ApiError apiError = new ApiError();
-		apiError.errorCode = ApiError.Code.LX_SEARCH_NO_RESULTS;
+		ApiError apiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
 		Events.post(new Events.LXShowSearchError(apiError, SearchType.DEFAULT_SEARCH));
 	}
 

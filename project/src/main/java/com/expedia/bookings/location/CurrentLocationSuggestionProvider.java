@@ -5,7 +5,6 @@ import java.util.List;
 import android.location.Location;
 
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.ApiException;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
@@ -45,9 +44,7 @@ public class CurrentLocationSuggestionProvider {
 		@Override
 		public void call(List<Suggestion> suggestions) {
 			if (suggestions == null || suggestions.size() < 1) {
-				ApiError apiError = new ApiError();
-				apiError.errorCode = ApiError.Code.SUGGESTIONS_NO_RESULTS;
-				throw new ApiException(apiError);
+				throw new ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS);
 			}
 		}
 	};
