@@ -97,6 +97,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference launchScreenPreference = (ListPreference) findPreference(
 				getString(R.string.preference_launch_screen));
 			launchScreenPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference checkoutORPreference = (ListPreference) findPreference(
+				getString(R.string.preference_checkout_or_messaging));
+			checkoutORPreference.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);

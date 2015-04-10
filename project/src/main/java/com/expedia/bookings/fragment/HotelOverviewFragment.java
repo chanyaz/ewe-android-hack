@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -45,6 +46,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
@@ -129,6 +131,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
+	private LinearLayout mHintContainer;
+	private ImageView mCheckoutDivider;
 	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -235,6 +239,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
 		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
+		mHintContainer = Ui.findView(view, R.id.hint_container);
+		mCheckoutDivider = Ui.findView(view, R.id.checkout_divider);
 		mTravelerSection = Ui.findView(view, R.id.traveler_section);
 		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_button);
@@ -338,7 +344,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
+
 		return view;
+	}
+
+	private void toggleOrMessaging(boolean isSignedIn) {
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAddORToForm);
+		mHintContainer.setVisibility(isUserBucketedForTest && !isSignedIn ? View.VISIBLE : View.GONE);
+		mCheckoutDivider.setVisibility(isUserBucketedForTest && !isSignedIn ? View.GONE : View.VISIBLE);
 	}
 
 	@Override
@@ -1025,6 +1039,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mAccountButton.setEnabled(true);
 			mWasLoggedIn = false;
 
+			toggleOrMessaging(User.isLoggedIn(getActivity()));
+
 			Events.post(new Events.CreateTripDownloadRetry());
 		}
 	}
@@ -1054,6 +1070,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			updateViews();
 			updateViewVisibilities();
 		}
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
