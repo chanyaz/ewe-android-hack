@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -92,7 +93,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private boolean checkConnection() {
 		Context context = getActivity();
-		if (context != null && !NetUtils.isOnline(context)) {
+		if (context != null && !NetUtils.isOnline(context) && !ExpediaBookingApp.sIsAutomation) {
 			wasOffline = true;
 			Events.post(new Events.LaunchOfflineState());
 			return false;
