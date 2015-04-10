@@ -107,7 +107,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@Subscribe
 	public void onDoCheckoutCall(Events.LXKickOffCheckoutCall event) {
-		lxCheckoutParams = event.checkoutParamsBuilder.build();
+		lxCheckoutParams = event.checkoutParams;
 	}
 
 	@Subscribe

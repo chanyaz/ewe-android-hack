@@ -15,7 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
@@ -57,10 +57,9 @@ public class LXCheckoutPresenter extends Presenter {
 	@InjectView(R.id.lx_checkout_error_widget)
 	LXErrorWidget errorScreen;
 
+	private LXCheckoutParams checkoutParams;
 	private ProgressDialog checkoutDialog;
 	private Subscription checkoutSubscription;
-
-	private LXCheckoutParamsBuilder checkoutParamsBuilder;
 
 	@Override
 	protected void onFinishInflate() {
@@ -190,9 +189,9 @@ public class LXCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void onDoCheckoutCall(Events.LXKickOffCheckoutCall event) {
-		checkoutParamsBuilder = event.checkoutParamsBuilder;
-		if (checkoutParamsBuilder.areRequiredParamsFilled()) {
-			checkoutSubscription = lxServices.lxCheckout(checkoutParamsBuilder.build(), checkoutObserver);
+		checkoutParams = event.checkoutParams;
+		if (checkoutParams.areRequiredParamsFilled()) {
+			checkoutSubscription = lxServices.lxCheckout(checkoutParams, checkoutObserver);
 			checkoutDialog.show();
 		}
 		else {
@@ -231,7 +230,7 @@ public class LXCheckoutPresenter extends Presenter {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
+					Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
 				}
 			})
 			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -251,7 +250,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private void refreshGuestTrip(LXCheckoutResponse checkoutResponse) {
 		if (!User.isLoggedIn(getContext())) {
-			String email = checkoutParamsBuilder.getEmailAddress();
+			String email = checkoutParams.getEmailAddress();
 			String itineraryNumber = checkoutResponse.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, itineraryNumber);
 		}
