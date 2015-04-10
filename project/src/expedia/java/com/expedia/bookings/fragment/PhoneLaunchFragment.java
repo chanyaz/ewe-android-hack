@@ -67,7 +67,15 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			return;
 		}
 		else {
-			findLocation();
+			boolean isUserBucketedForTest = Db.getAbacusResponse()
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
+			if (isUserBucketedForTest) {
+				// show collection data to users irrespective of location Abacus A/B test
+				Events.post(new Events.LaunchLocationFetchError());
+			}
+			else {
+				findLocation();
+			}
 			signalAirAttachState();
 		}
 	}
@@ -113,15 +121,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 			@Override
 			public void onFound(Location currentLocation) {
-				boolean isUserBucketedForTest = Db.getAbacusResponse()
-					.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
-				if (isUserBucketedForTest) {
-					// show collection data to users irrespective of location Abacus A/B test
-					Events.post(new Events.LaunchLocationFetchError());
-				}
-				else {
-					Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
-				}
+				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
 			}
 
 			@Override
