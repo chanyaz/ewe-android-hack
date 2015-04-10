@@ -16,7 +16,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.Offer;
-import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
@@ -47,7 +46,6 @@ public class LXCreateTripErrorTests {
 		searchParams.location = "New York";
 		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
 		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
-		searchParams.searchType = SearchType.EXPLICIT_SEARCH;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
 		//Select Activity
