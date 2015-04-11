@@ -210,6 +210,14 @@
             android:summary="Select a test group"
             android:title="Launch Screen NearBy Deals vs Collections" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_checkout_or_messaging"
+            android:summary="Select a test group"
+            android:title="Checkout OR Form Messaging" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

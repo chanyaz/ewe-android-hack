@@ -460,7 +460,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelsRateDetails(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_RATE_DETAILS);
+		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_RATE_DETAILS);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAddORToForm);
+		s.track();
 	}
 
 	public static void trackPageLoadHotelsDetailsReviews(Context context) {

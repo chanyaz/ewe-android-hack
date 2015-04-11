@@ -103,6 +103,7 @@
     <string name="preference_flight_free_cancellation">ExpediaAndroidAppFlightCKOFreeCancelation</string>
     <string name="preference_hotel_search_influence_messaging">ExpediaAndroidAppHSRLoadMessaging</string>
     <string name="preference_launch_screen">ExpediaAndroidAppLaunchPageDefaultToCollections</string>
+    <string name="preference_checkout_or_messaging">ExpediaAndroidAppAddORToForm</string>
 
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>

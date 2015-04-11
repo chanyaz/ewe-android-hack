@@ -49,7 +49,43 @@
                     android:layout_marginBottom="8dp"
                     layout="@layout/include_wallet_button" />
 
+                <com.expedia.bookings.widget.LinearLayout
+                    android:id="@+id/hint_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="14dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="1.5dp"
+                        android:layout_marginRight="9dp"
+                        android:layout_weight="1"
+                        android:background="#979797" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="or"
+                        android:textColor="#676767" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="1.5dp"
+                        android:layout_weight="1"
+                        android:background="#979797" />
+
+                </com.expedia.bookings.widget.LinearLayout>
+
                 <ImageView
+                    android:id="@+id/checkout_divider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -62,7 +98,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="1.5dp"
+                    android:layout_marginRight="1.5dp"
                     android:text="@string/checkout_information"
                     android:textColor="@android:color/white" />
 
@@ -170,8 +207,8 @@
                     android:id="@+id/coupon_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="1.5dp"
+                    android:layout_marginRight="1.5dp"
                     android:layout_marginTop="16dp"
                     android:contentDescription="@string/cd_checkout_enter_coupon"
                     android:text="@string/coupon_code"
@@ -236,8 +273,8 @@
                     android:id="@+id/legal_information_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="1.5dp"
+                    android:layout_marginRight="1.5dp"
                     android:layout_marginTop="16dp"
                     android:textColor="@android:color/white" />
 
@@ -245,8 +282,8 @@
                     android:id="@+id/checkout_disclaimer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="1.5dp"
+                    android:layout_marginRight="1.5dp"
                     android:layout_marginTop="16dp"
                     android:textColor="@android:color/white"
                     android:visibility="gone" />
