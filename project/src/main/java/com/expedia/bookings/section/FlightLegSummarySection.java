@@ -1,8 +1,6 @@
 package com.expedia.bookings.section;
 
 import java.text.DecimalFormat;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -27,7 +25,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
-import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -238,12 +235,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	private static String getCombinedAirlinesFormatted(FlightLeg leg, FlightLeg legTwo) {
 		if (legTwo != null) {
-			Set<String> union = new LinkedHashSet<String>(leg.getPrimaryAirlines());
-			union.addAll(legTwo.getPrimaryAirlines());
-			return FlightUtils.getFormattedAirlinesList(union);
+			String firstAirlines = leg.getPrimaryAirlineNamesFormatted();
+			String secondAirlines = legTwo.getPrimaryAirlineNamesFormatted();
+			return firstAirlines + ", " + secondAirlines;
 		}
 		else {
-			return leg.getAirlinesFormatted();
+			return leg.getPrimaryAirlineNamesFormatted();
 		}
 	}
 

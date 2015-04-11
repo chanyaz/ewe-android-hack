@@ -22,8 +22,15 @@ import static org.junit.Assert.assertNull;
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class FlightEdgeCasesTest {
 
+	/**
+	 * This test mimics the important logic exercised for the flight check-in notification:
+	 * (1) parsing of a trips API response (2) rendering a string for the notification. This
+	 * crash has been reported on Crashlytics.
+	 *
+	 * @throws Throwable
+	 */
 	@Test
-	public void flightCheckinNotification() throws Throwable {
+	public void flightCheckInNotification() throws Throwable {
 		final String filePath = "../lib/mocked/testdata/FlightEdgeCasesTestData_TripFlight.json";
 		String data = new String(Files.readAllBytes(Paths.get(filePath)), "UTF-8");
 		JSONObject json = new JSONObject(data);
@@ -43,9 +50,8 @@ public class FlightEdgeCasesTest {
 		String primaryAirline = primaryAirlines.iterator().next();
 		assertEquals("TB", primaryAirline);
 
-		// Ensure no crashy
-		String airlinesStr = flightLeg.getAirlinesFormatted();
-		assertEquals("", airlinesStr);
+		String airlinesStr = flightLeg.getPrimaryAirlineNamesFormatted();
+		assertEquals("Jetairfly", airlinesStr);
 	}
 
 	@Test
@@ -54,7 +60,8 @@ public class FlightEdgeCasesTest {
 		Airline delta = Db.getAirline("DL");
 		assertEquals("Delta Air Lines", delta.mAirlineName);
 
-		// Jetairfly, not present in FS.db
+		// Jetairfly is listed in FS.db as its ICAO code ("JAF"), Expedia
+		// API returns the code as it's IATA code ("TB")
 		Airline jetflyAirways = Db.getAirline("TB");
 		assertNull(jetflyAirways.mAirlineName);
 	}

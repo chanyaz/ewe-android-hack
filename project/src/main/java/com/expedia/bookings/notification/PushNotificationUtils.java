@@ -188,7 +188,7 @@ public class PushNotificationUtils {
 							destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
 						}
 
-						String airline = leg.getAirlinesFormatted();
+						String airline = leg.getPrimaryAirlineNamesFormatted();
 						String title;
 
 						if (!TextUtils.isEmpty(airline)) {
