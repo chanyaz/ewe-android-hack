@@ -28,38 +28,39 @@
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/itin_white_text"
-                    android:textSize="14dp" />
+                    android:textSize="20sp"
+                    app:textStyle="medium" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/itin_white_text"
-                    android:textSize="12dp" />
+                    android:textSize="13sp" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/tickets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/itin_white_text"
                     android:layout_marginTop="20dp"
-                    android:textSize="12dp" />
+                    android:textSize="13sp" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/itin_white_text"
-                    android:textSize="12dp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
@@ -85,11 +86,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:textColor="@color/lx_confirmation_action_text_color" />
+                android:textColor="@color/lx_confirmation_action_text_color"
+                app:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:background="#3A424C"
                 android:orientation="vertical"
                 android:padding="16dp">
