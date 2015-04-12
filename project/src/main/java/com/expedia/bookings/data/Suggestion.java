@@ -1,8 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +8,6 @@ import android.util.Pair;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Airport;
@@ -119,17 +115,9 @@ public class Suggestion implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
 
-	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^(.+)\\((.+)\\)$");
-
 	public Pair<String, String> splitDisplayNameForFlights() {
-		Matcher m = DISPLAY_NAME_PATTERN.matcher(mDisplayName);
-		if (m.matches()) {
-			return new Pair<String, String>(m.group(1), m.group(2));
-		}
-		else {
-			Log.e("Could not split display name for flight: " + mDisplayName);
-			return null;
-		}
+		return new Pair<String, String>(StrUtils.formatCityStateCountryName(mDisplayName),
+			StrUtils.formatAirportName(mDisplayName));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
