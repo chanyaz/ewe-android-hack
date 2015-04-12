@@ -22,7 +22,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
@@ -115,7 +114,7 @@ public class Results {
 
 	public static DataInteraction hotelAtIndex(int index) {
 		return onData(anything()) //
-			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withParent(withId(R.id.column_one_hotel_list)))), isDisplayed())) //
+			.inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.column_one_hotel_list)), isDisplayed())) //
 			.atPosition(index);
 	}
 
