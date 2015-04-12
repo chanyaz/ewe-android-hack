@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Options"
-        android:textColor="@color/lx_secondary_color" />
+        android:textColor="@color/lx_primary_color" />
 
 
     <LinearLayout
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Categories"
-        android:textColor="@color/lx_secondary_color" />
+        android:textColor="@color/lx_primary_color" />
 
     <ScrollView
         android:layout_width="match_parent"
