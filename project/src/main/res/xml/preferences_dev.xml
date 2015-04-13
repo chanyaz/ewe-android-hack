@@ -218,6 +218,14 @@
             android:summary="Select a test group"
             android:title="Checkout OR Form Messaging" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_result_rating"
+            android:summary="Select a test group"
+            android:title="Hotel Result Rating Test" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

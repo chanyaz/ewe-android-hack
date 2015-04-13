@@ -31,6 +31,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -82,6 +83,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private ViewGroup mAirAttachC;
 	private TextView mAirAttachTv;
 	private RatingBar mUserRatingBar;
+	private TextView mUserRating;
 	private TextView mNotRatedText;
 	private TextView mProximityText;
 	private TextView mSoldOutText;
@@ -90,6 +92,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private View mCardCornersBottom;
 	private View mBgImgOverlay;
 	private View mSelectedOverlay;
+	private ViewGroup ratingInfo;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
@@ -98,6 +101,9 @@ public class HotelSummarySection extends RelativeLayout {
 	private int mAirAttachPriceTextColor;
 	private int mPriceTextColor;
 	private boolean mIsSelected;
+
+	//Value for AB test
+	boolean isUserBucketedForTest;
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -138,6 +144,8 @@ public class HotelSummarySection extends RelativeLayout {
 		mSoldOutText = Ui.findView(this, R.id.sold_out_text_view);
 		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
 		mBgImgOverlay = Ui.findView(this, R.id.gradient_header_mask);
+		mUserRating = Ui.findView(this, R.id.rating);
+		ratingInfo = Ui.findView(this, R.id.rating_info);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
 		// and if it's from color_matched, then we know we'll need to do color matching later on.
@@ -148,6 +156,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		mSelectedOverlay = Ui.findView(this, R.id.selected_hotel_overlay);
+		isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
 	}
 
 	/**
@@ -357,14 +366,30 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText.setTextSize(priceTextSize);
 		mPriceText.setText(hotelPrice);
 
-		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
-		if (mUserRatingBar.getRating() == 0f) {
+		if (isUserBucketedForTest) {
 			mUserRatingBar.setVisibility(View.GONE);
-			mNotRatedText.setVisibility(View.VISIBLE);
+			double rating = property.getAverageExpediaRating();
+			if (rating == 0f) {
+				ratingInfo.setVisibility(GONE);
+				mNotRatedText.setVisibility(View.VISIBLE);
+			}
+			else {
+				mNotRatedText.setVisibility(View.GONE);
+				mUserRating.setText(Double.toString(rating));
+				ratingInfo.setVisibility(VISIBLE);
+			}
 		}
 		else {
-			mUserRatingBar.setVisibility(View.VISIBLE);
-			mNotRatedText.setVisibility(View.GONE);
+			ratingInfo.setVisibility(GONE);
+			mUserRatingBar.setRating((float) property.getAverageExpediaRating());
+			if (mUserRatingBar.getRating() == 0f) {
+				mUserRatingBar.setVisibility(View.GONE);
+				mNotRatedText.setVisibility(View.VISIBLE);
+			}
+			else {
+				mUserRatingBar.setVisibility(View.VISIBLE);
+				mNotRatedText.setVisibility(View.GONE);
+			}
 		}
 
 		if (showDistance && property.getDistanceFromUser() != null) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.HotelSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_clickable_row"
@@ -53,6 +54,41 @@
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize=".5" />
+
+        <LinearLayout
+            android:id="@+id/rating_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name_text_view"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="28dp"
+                android:layout_height="18dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/result_rating_bg">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="1dp"
+                    android:textColor="@color/itin_white_text"
+                    android:textSize="12sp"
+                    app:textStyle="bold" />
+            </FrameLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hotel_rating_text"
+                android:textColor="#696969"
+                android:textSize="14sp"
+                app:textStyle="normal" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/proximity_text_view"
