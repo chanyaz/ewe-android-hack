@@ -187,6 +187,12 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
+	public static void goToLocalExpert(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		startActivity(context, intent, animOptions);
+	}
+
 	public static void goToLocalExpert(Context context, String location, String startDateStr, Bundle animOptions,
 		int flags) {
 
