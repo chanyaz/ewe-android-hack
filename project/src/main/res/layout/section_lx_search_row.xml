@@ -16,8 +16,8 @@
         <com.expedia.bookings.widget.OptimizedImageView
             android:id="@+id/activity_image"
             android:layout_width="match_parent"
-            android:scaleType="centerCrop"
-            android:layout_height="?attr/card_list_image_container_height" />
+            android:layout_height="?attr/card_list_image_container_height"
+            android:scaleType="centerCrop" />
 
         <View
             android:id="@+id/gradient_mask"
@@ -37,53 +37,41 @@
             android:paddingRight="12dp"
             android:paddingTop="9dp">
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/activity_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_weight="7"
+                android:layout_weight="1"
                 android:gravity="left"
                 android:maxLines="2"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:textStyle="medium"/>
+                app:textStyle="medium" />
 
-            <LinearLayout
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/activity_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:orientation="vertical"
-                android:gravity="right">
-
-                <TextView
-                    android:id="@+id/activity_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    app:textStyle="medium"/>
-
-                <TextView
-                    android:id="@+id/activity_from_price_ticket_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    app:textStyle="medium"/>
-            </LinearLayout>
+                android:layout_gravity="bottom|right"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:textStyle="medium" />
 
         </LinearLayout>
+
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/activity_info_container"
         android:layout_width="match_parent"
         android:layout_height="?attr/card_details_container_height"
         android:layout_marginTop="?attr/card_list_image_container_height"
         android:background="@android:color/white"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="12dp">
 
@@ -91,12 +79,12 @@
             android:id="@+id/activity_category"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
             android:layout_marginRight="4dp"
-            android:paddingLeft="4dp"
             android:drawableLeft="@drawable/ticket"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:paddingLeft="4dp"
             android:textColor="@color/lx_search_result_info_text_color"
             android:textSize="10sp" />
 
@@ -104,14 +92,26 @@
             android:id="@+id/activity_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="4dp"
             android:drawableLeft="@drawable/time"
             android:drawablePadding="4dp"
-            android:paddingRight="4dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:paddingLeft="4dp"
+            android:textColor="@color/lx_search_result_info_text_color"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/activity_from_price_ticket_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
             android:gravity="right"
             android:textColor="@color/lx_search_result_info_text_color"
             android:textSize="10sp" />
 
-    </FrameLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
