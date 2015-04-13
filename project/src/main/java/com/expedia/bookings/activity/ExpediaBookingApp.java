@@ -547,5 +547,4 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			Log.d("AbacusReponse - onNext");
 		}
 	};
-
 }
