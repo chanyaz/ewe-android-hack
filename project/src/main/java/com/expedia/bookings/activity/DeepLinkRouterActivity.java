@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -326,10 +327,19 @@ public class DeepLinkRouterActivity extends Activity {
 				return false;
 			}
 			else {
-				SuggestionV2 destination = new SuggestionV2();
-				destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
-				mSearchParams.setDestination(destination);
-				NavUtils.goToTabletResults(this, mSearchParams, LineOfBusiness.HOTELS);
+				final android.location.Location location =
+					LocationServices.getLastBestLocation(this, 60 * 1000 /* one hour */);
+				if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
+					mIsCurrentLocationSearch = true;
+					bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
+						@Override
+						public SuggestionResponse doDownload() {
+							ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+							return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
+						}
+					}, mSuggestCallback);
+				}
+				return false;
 			}
 		}
 		else {
@@ -598,31 +608,6 @@ public class DeepLinkRouterActivity extends Activity {
 			Log.w(TAG, "Could not decode destination", e);
 			NavUtils.goToLaunchScreen(this);
 		}
-	}
-
-	private boolean kickoffLatLngSearch(BackgroundDownloader bgd, final Double lat, final Double lng) {
-		boolean finish = true;
-		try {
-			// Check that lat/lng are valid
-			if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-				Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
-				finish = false;
-				bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestionsCityNearby(lat, lng);
-					}
-				}, mSuggestCallback);
-			}
-			else {
-				Log.w(TAG, "Lat/lng out of valid range: (" + lat + ", " + lng + ")");
-			}
-		}
-		catch (NumberFormatException e) {
-			Log.w(TAG, "Could not parse latitude/longitude (" + lat + ", " + lng + ")", e);
-		}
-		return finish;
 	}
 
 	@Override
