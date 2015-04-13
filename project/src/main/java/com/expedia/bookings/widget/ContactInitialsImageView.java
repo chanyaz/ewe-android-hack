@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
+import com.expedia.bookings.utils.Ui;
 
 public class ContactInitialsImageView extends ImageView {
 
@@ -85,7 +86,7 @@ public class ContactInitialsImageView extends ImageView {
 			Drawable drawable = Strings.isEmpty(travelerName)
 				? res.getDrawable(R.drawable.driver_large)
 				: new BitmapDrawable(res, TravelerIconUtils.generateInitialIcon(context,
-					travelerName, getResources().getColor(R.color.cars_primary_color), true, false));
+					travelerName, Ui.obtainThemeColor(getContext(), R.attr.primary_color), true, false));
 			addState(STATE_COMPLETE, drawable );
 		}
 	}
