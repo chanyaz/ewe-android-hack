@@ -91,7 +91,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 			ll.addView(
 				CheckoutSummaryWidgetUtils.addRow(context,
-					LXDataUtils.getTicketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
+					LXDataUtils.ticketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
 					totalMoneyForTicketType.getFormattedMoney()));
 		}
 

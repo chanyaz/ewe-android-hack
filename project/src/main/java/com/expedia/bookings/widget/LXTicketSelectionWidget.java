@@ -120,7 +120,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 
 		for (Ticket ticket : ticketsMap.values()) {
 			if (ticket.count > 0) {
-				ticketsSummaries.add(LXDataUtils.getTicketCountSummary(getContext(), ticket.code, ticket.count));
+				ticketsSummaries.add(LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count));
 			}
 		}
 

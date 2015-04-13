@@ -91,7 +91,7 @@ public class LXCheckoutPresenterTests {
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		LXViewModel.checkoutWidget().check(matches(isDisplayed()));
 		LXViewModel.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));
-		LXViewModel.checkoutGroupText().check(matches(withText("3 Adult, 1 Child")));
+		LXViewModel.checkoutGroupText().check(matches(withText("3 Adults, 1 Child")));
 		LXViewModel.checkoutOfferLocation().check(matches(withText("New York, United States")));
 		LXViewModel.checkoutOfferDate().check(matches(withText("Tue, Feb 24")));
 		LXViewModel.checkoutGrandTotalText().check(matches(withText("Total with Tax")));

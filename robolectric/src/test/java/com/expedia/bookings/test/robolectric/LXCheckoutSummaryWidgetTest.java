@@ -35,7 +35,7 @@ public class LXCheckoutSummaryWidgetTest {
 
 		assertEquals("New York, United States", location.getText());
 		assertEquals("Tue, Feb 24", date.getText());
-		assertEquals("3 Adult, 1 Child", groupText.getText());
+		assertEquals("3 Adults, 1 Child", groupText.getText());
 		assertEquals("$500", tripTotal.getText());
 		assertEquals(View.VISIBLE, freeCancellation.getVisibility());
 	}
